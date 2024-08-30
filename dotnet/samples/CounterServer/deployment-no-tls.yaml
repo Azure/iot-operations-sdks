@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: counter-server-dotnet
-        image: k3d-registry.localhost:5500/counter-server-dotnet:latest
+        image: k3d-registry.localhost:5000/counter-server-dotnet:latest
         imagePullPolicy: Always
         volumeMounts:
         - name: mqtt-client-token

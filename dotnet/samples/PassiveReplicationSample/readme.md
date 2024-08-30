@@ -33,10 +33,10 @@ For more details, or to deploy this sample one step at time, follow the instruct
 
 ```bash
 # Create a local registry to hold the passive replication sample image that will be built next
-k3d registry create registry.localhost --port 5500
+k3d registry create registry.localhost --port 5000
 
 # Start the k8s cluster that will use the local registry
-k3d cluster create --registry-use k3d-registry.localhost:5500
+k3d cluster create --registry-use k3d-registry.localhost:5000
 
 # Deploy MQ 
 # Note that this sample requires MQ version 0.5.0 or greater.
@@ -55,8 +55,8 @@ Once the docker image is built, tag and push it to the local registry
 
 ```bash
 # Tag and push the passive replication sample docker image to the local registry
-docker tag passivereplicationsample:latest k3d-registry.localhost:5500/passivereplicationsample:latest
-docker push k3d-registry.localhost:5500/passivereplicationsample:latest
+docker tag passivereplicationsample:latest k3d-registry.localhost:5000/passivereplicationsample:latest
+docker push k3d-registry.localhost:5000/passivereplicationsample:latest
 ```
 
 If you changed the name of the docker image or are using a different container registry than was used in this document, update the supplied [deployment file](./deploy.yaml) file to use your container registry and your docker image for the `spec.containers.image` value. The default values in this deployment file will work otherwise.
@@ -64,7 +64,7 @@ If you changed the name of the docker image or are using a different container r
 ```yaml
 containers:
 - name: passive-replication-sample
-  image: k3d-registry.localhost:5500/passivereplicationsample:latest
+  image: k3d-registry.localhost:5000/passivereplicationsample:latest
 ```
 
 Additionally, you may need to change the authentication credentials and/or port that the MQTT client will connect to MQ over depending on your MQ instance's configuration. Be sure

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: aio-schema-registry
-        image: k3d-registry.localhost:5500/aio-schema-registry:latest
+        image: k3d-registry.localhost:5000/aio-schema-registry:latest
         imagePullPolicy: Always
         volumeMounts:
         - name: mqtt-client-token

@@ -29,7 +29,7 @@ spec:
       serviceAccountName: passive-replication-service-account
       containers:
       - name: passive-replication-sample
-        image: k3d-registry.localhost:5500/passivereplicationsample:latest
+        image: k3d-registry.localhost:5000/passivereplicationsample:latest
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: mqtt-client-token
