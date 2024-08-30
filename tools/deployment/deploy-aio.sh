@@ -42,8 +42,7 @@ rm -rf ~/.step
 helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n azure-iot-operations --set app.trust.namespace=azure-iot-operations --wait
 
 # install cert issuers and trust bundle
-dir
-kubectl apply -f ./yaml/certificates.yaml
+kubectl apply -f ../../.devcontainer/yaml/certificates.yaml
 
 # Wait for CA trust bundle to be generated for external connections to the MQTT Broker and then add to the local env
 while ! kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations; do
