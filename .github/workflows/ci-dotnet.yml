@@ -39,8 +39,8 @@ jobs:
 
     - name: Setup Cluster
       run: |
-        ../../initialize-cluster.sh
-        ../../deploy-aio.sh
+        tools/deployment/initialize-cluster.sh
+        tools/deployment/deploy-aio.sh
         
     - name: Create Kubernetes Token
       run: |
