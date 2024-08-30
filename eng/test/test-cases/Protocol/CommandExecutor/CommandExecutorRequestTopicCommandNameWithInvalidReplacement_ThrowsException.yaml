@@ -1,0 +1,23 @@
+---
+test-name: CommandExecutorRequestTopicCommandNameWithInvalidReplacement_ThrowsException
+aka:
+- RequestTopicCommandNameWithInvalidReplacementThrowsException
+description:
+  condition: >-
+    CommandExecutor request topic contains a '{commandName}' token but commandName is not a valid replacement.
+  expect: >-
+    CommandExecutor throws 'invalid configuration' exception.
+
+prologue:
+  executors:
+  - command-name: "invalid#name"
+    request-topic: "mock/{commandName}/test"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'requesttopicpattern'
+      property-value: "mock/{commandName}/test"
+...

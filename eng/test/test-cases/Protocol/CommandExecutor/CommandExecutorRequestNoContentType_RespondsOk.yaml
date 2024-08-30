@@ -1,0 +1,28 @@
+---
+test-name: CommandExecutorRequestNoContentType_RespondsOk
+aka:
+- ContentTypeMissing_AckOK
+description:
+  condition: >-
+    CommandExecutor receives request with no ContentType metadata.
+  expect: >-
+    CommandExecutor sends response with status OK.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  content-type:
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+...

@@ -1,0 +1,15 @@
+{
+  "yaml.schemas": {
+    "[YAML]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+    "schemas/ExecutorTestCase.schema.json": [
+        "Protocol/CommandExecutor/*.yaml"
+    ],
+    "schemas/InvokerTestCase.schema.json": [
+        "Protocol/CommandInvoker/*.yaml"
+    ]
+}
+}

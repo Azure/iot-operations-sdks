@@ -1,0 +1,32 @@
+---
+test-name: CommandInvokerResponseInvalidStatusProperty_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with invalid status property in header.
+  expect: >-
+    Invocation throws 'invalid header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "not a number"
+  payload: "Test_Response"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+    supplemental:
+      header-name: "__stat"
+      header-value: "not a number"
+...

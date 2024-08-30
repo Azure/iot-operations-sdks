@@ -1,0 +1,18 @@
+{
+    "title": "ActionSleep",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Sleep for a specified duration.",
+            "type": "string",
+            "const": "sleep"
+        },
+        "duration": {
+            "description": "Duration to sleep.",
+            "$ref": "Duration.schema.json",
+            "kind": "drive"
+        }
+    },
+    "required": [ "action", "duration" ]
+}

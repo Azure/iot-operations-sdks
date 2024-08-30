@@ -1,0 +1,18 @@
+{
+    "title": "ActionAwaitAck",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Wait for a received message to be acknowledged.",
+            "type": "string",
+            "const": "await acknowledgement"
+        },
+        "packet-index": {
+            "description": "An arbitrary numeric value used to identify the packet ID in the ACK message.",
+            "type": "integer",
+            "kind": "check"
+        }
+    },
+    "required": [ "action" ]
+}

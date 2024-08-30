@@ -1,0 +1,57 @@
+---
+test-name: CommandInvokerSuccessiveInvocations_Success
+aka:
+- TwoCallsWithExecutorId
+description:
+  condition: >-
+    CommandInvoker invokes command twice in succession and receives responses.
+  expect: >-
+    CommandInvoker completes commands and acknowledges responses.
+
+prologue:
+  invokers:
+  - request-topic: "mock/{executorId}/test"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  request-value: "Test_Request0"
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  topic: "response/mock/someExecutor/test"
+  correlation-index: 0
+  payload: "Test_Response0"
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response0"
+- action: await acknowledgement
+
+- action: invoke command
+  invocation-index: 1
+  request-value: "Test_Request1"
+- action: await publish
+  correlation-index: 1
+- action: receive response
+  topic: "response/mock/someExecutor/test"
+  correlation-index: 1
+  payload: "Test_Response1"
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 1
+  response-value: "Test_Response1"
+- action: await acknowledgement
+
+epilogue:
+  subscribed-topics:
+  - "response/mock/+/test"
+  acknowledgement-count: 2
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/someExecutor/test"
+    payload: "Test_Request0"
+  - correlation-index: 1
+    topic: "mock/someExecutor/test"
+    payload: "Test_Request1"
+...

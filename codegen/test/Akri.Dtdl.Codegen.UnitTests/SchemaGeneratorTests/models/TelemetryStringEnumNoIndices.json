@@ -1,0 +1,50 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "stuff",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "foo",
+            "enumValue": "oof"
+          },
+          {
+            "name": "bar",
+            "enumValue": "rab"
+          },
+          {
+            "name": "baz",
+            "enumValue": "zab"
+          },
+          {
+            "name": "wow",
+            "enumValue": "wow"
+          },
+          {
+            "name": "qux",
+            "enumValue": "xuq"
+          },
+          {
+            "name": "fit",
+            "enumValue": "tif"
+          },
+          {
+            "name": "fat",
+            "enumValue": "taf"
+          }
+        ]
+      }
+    }
+  ]
+}

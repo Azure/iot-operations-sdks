@@ -1,0 +1,37 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "setAzimuth",
+      "request": {
+        "name": "deviceAzimuth",
+        "schema": {
+          "@type": "Enum",
+          "valueSchema": "integer",
+          "enumValues": [
+            {
+              "name": "horizontal",
+              "enumValue": 0
+            },
+            {
+              "name": "inclined",
+              "enumValue": 1
+            },
+            {
+              "name": "vertical",
+              "enumValue": 2
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

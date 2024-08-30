@@ -1,0 +1,39 @@
+---
+test-name: CommandInvokerResponseIndicatesUnsupportedProtocolVersion_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating the executor does not support the requested protocol version.
+  expect: >-
+    Invocation throws 'request version not supported' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "505" # Not Supported Version
+  is-application-error: "false"
+  metadata:
+    "__supProtMajVer": "2 3 4"
+    "__requestProtVer": "1.0"
+    "__protVer": "1.0"
+    "__stMsg": "This is a not supported version exception"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: request version not supported
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 505
+    message: "This is a not supported version exception"
+    supplemental:
+      protocol-version: '1.0'
+      supported-protocols: "2 3 4"
+...

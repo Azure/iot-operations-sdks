@@ -1,0 +1,26 @@
+<#@ template language="C#" linePragmas="false" #>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework><#=this.targetFramework#></TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+<# if (this.packageVersions.Any()) { #>
+
+  <ItemGroup>
+<# foreach (var packageVersion in this.packageVersions) { #>
+    <PackageReference Include="<#=packageVersion.Item1#>" Version="<#=packageVersion.Item2#>" />
+<# } #>
+  </ItemGroup>
+<# } #>
+
+  <ItemGroup>
+<# if (this.sdkProjPath != null) { #>
+    <ProjectReference Include="<#=this.sdkProjPath#>" />
+<# } else { #>
+    <PackageReference Include="<#=SdkPackageName#>" <#=this.sdkVersion != null ? $"Version=\"{this.sdkVersion}\" " : ""#>/>
+<# } #>
+  </ItemGroup>
+
+</Project>

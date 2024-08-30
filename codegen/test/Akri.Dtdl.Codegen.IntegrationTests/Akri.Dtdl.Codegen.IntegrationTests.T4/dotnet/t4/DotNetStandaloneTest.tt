@@ -1,0 +1,48 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+namespace <#=this.testName#>.Standalone
+{
+    using System.IO;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Akri.Dtdl.Codegen.IntegrationTests.STK;
+    using <#=this.testName#>.Library;
+
+    [TestClass]
+    public class StandaloneTest
+    {
+        private const string ModelId = "<#=this.modelId#>";
+        private const string TestFolder = "../../../../../cases";
+
+        const string SomeAssetId = "f9e57487-616a-4725-aa9f-ee88b611228a";
+        const string SomeClientId = "7794d42c-edd5-4660-9e0c-8974b6cbc42e";
+
+        private MqttEmulator emulator;
+        private IClientShim clientShim;
+        private IServiceShim serviceShim;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            this.emulator = new();
+            this.clientShim = new <#=this.serviceName#>ClientShim(emulator.GetClient(SomeClientId), SomeAssetId);
+            this.serviceShim = new <#=this.serviceName#>ServiceShim(emulator.GetClient(SomeAssetId));
+
+            this.clientShim.StartAsync().Wait();
+            this.serviceShim.StartAsync().Wait();
+        }
+
+        [TestMethod]
+<# foreach (string testCaseName in this.testCaseNames) { #>
+        [DataRow("<#=testCaseName#>")]
+<# } #>
+        public void DoTest(string testName)
+        {
+            string filePath = Path.Combine(TestFolder, $"{testName}.json");
+            StreamReader testReader = new StreamReader(filePath);
+            string testText = testReader.ReadToEnd();
+
+            CommunicationTester.ExecuteTest(testText, this.clientShim, this.serviceShim, ModelId);
+        }
+    }
+}

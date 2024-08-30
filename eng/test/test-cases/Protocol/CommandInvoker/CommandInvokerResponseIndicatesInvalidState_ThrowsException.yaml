@@ -1,0 +1,30 @@
+---
+test-name: CommandInvokerResponseIndicatesInvalidState_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating an invalid state.
+  expect: >-
+    Invocation throws 'invalid state' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "503" # Service Unavailable
+  is-application-error: "false"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid state
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 503
+...

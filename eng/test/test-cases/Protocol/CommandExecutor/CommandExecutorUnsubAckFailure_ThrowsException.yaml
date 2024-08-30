@@ -1,0 +1,25 @@
+---
+test-name: CommandExecutorUnsubAckFailure_ThrowsException
+aka:
+- ExecutorStartAsync_UnsubAckFailedWithUnspecifiedError
+description:
+  condition: >-
+    During finalization, CommandExecutor unsubscribes but ACK fails.
+  expect: >-
+    CommandExecutor throws 'mqtt error' exception.
+
+prologue:
+  push-acks:
+    unsubscribe: [ fail ]
+  executors:
+  - { }
+
+epilogue:
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false 
+    supplemental:
+      command-name: "test"
+...

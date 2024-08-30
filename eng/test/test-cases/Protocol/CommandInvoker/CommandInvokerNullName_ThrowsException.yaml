@@ -1,0 +1,22 @@
+---
+test-name: CommandInvokerNullName_ThrowsException
+aka:
+- ConstructInvokerWithNullNameThrowsException
+description:
+  condition: >-
+    CommandInvoker initialized with null command name.
+  expect: >-
+    CommandInvoker throws 'invalid argument' exception.
+
+prologue:
+  invokers:
+  - command-name:
+    request-topic: "mock/test"
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'commandname'
+...

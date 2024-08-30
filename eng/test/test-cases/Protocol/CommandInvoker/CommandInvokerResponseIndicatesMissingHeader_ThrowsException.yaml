@@ -1,0 +1,35 @@
+---
+test-name: CommandInvokerResponseIndicatesMissingHeader_ThrowsException
+aka:
+- InvokerRequestBadPayload
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating Bad Request and invalid property name.
+  expect: >-
+    Invocation throws 'missing header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "400" # Bad Request
+  metadata:
+    "__propName": "__invId"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: missing header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 400
+    supplemental:
+      header-name: "__invId"
+...

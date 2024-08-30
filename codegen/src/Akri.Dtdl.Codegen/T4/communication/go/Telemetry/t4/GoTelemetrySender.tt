@@ -1,0 +1,53 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"context"
+
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+)
+
+type <#=this.schemaClassName#>Sender struct {
+	*protocol.TelemetrySender[<#=this.schemaClassName#>]
+}
+
+func New<#=this.schemaClassName#>Sender(
+	client mqtt.Client,
+	topic string,
+	opt ...protocol.TelemetrySenderOption,
+) (*<#=this.schemaClassName#>Sender, error) {
+	var err error
+	sender := &<#=this.schemaClassName#>Sender{}
+
+	var opts protocol.TelemetrySenderOptions
+	opts.Apply(
+		opt,
+<# if (this.telemetryName != null) { #>
+		protocol.WithTopicTokens{
+			"telemetryName":     "<#=this.telemetryName#>",
+		},
+<# } #>
+	)
+
+	sender.TelemetrySender, err = protocol.NewTelemetrySender(
+		client,
+		protocol.<#=this.serializerSubNamespace#>[<#=this.schemaClassName#>]{},
+		topic,
+		&opts,
+	)
+
+	return sender, err
+}
+
+func (sender <#=this.schemaClassName#>Sender) Send<#=this.AsUpper(this.schemaClassName)#>(
+	ctx context.Context,
+	telemetry <#=this.AsUpper(this.schemaClassName)#>,
+	opt ...protocol.SendOption,
+) error {
+	return sender.Send(ctx, telemetry, opt...)
+}
+<#+
+    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+#>

@@ -1,0 +1,13 @@
+{
+    "title": "ActionDisconnect",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Disconnect the MQTT client from the broker.",
+            "type": "string",
+            "const": "disconnect"
+        }
+    },
+    "required": [ "action" ]
+}

@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorRequestWrongContentType_RespondsError
+aka:
+- ContentTypeMismatch_RpcErrorUnsupportedMediaType
+description:
+  condition: >-
+    CommandExecutor receives request with mismatched ContentType metadata.
+  expect: >-
+    CommandExecutor sends response with status UnsupportedMediaType.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  content-type: "raw/0"
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 415 # UnsupportedMediaType
+    is-application-error: false
+    metadata:
+      "__propName": "Content Type"
+      "__propVal": "raw/0"
+...

@@ -1,0 +1,33 @@
+---
+test-name: CommandInvokerResponseIndicatesExecutionError_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating the execution function encountered an exceptional condition.
+  expect: >-
+    Invocation throws 'execution error' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "500" # Internal Server Error
+  is-application-error: "true"
+  metadata:
+    "__stMsg": "This is an execution error"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: execution error
+    in-application: !!bool true
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 500
+    message: "This is an execution error"
+...

@@ -1,0 +1,32 @@
+---
+test-name: CommandInvokerResponseMalformedPayload_ThrowsException
+aka:
+- InvokeLegalRequestInvokerDeserializationError
+description:
+  condition: >-
+    CommandInvoker receives response with payload that cannot deserialize.
+  expect: >-
+    Invocation throws 'invalid payload' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  payload: '{ "invalid" "json" }'
+  bypass-serialization: true
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid payload
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+...

@@ -1,0 +1,13 @@
+{
+    "title": "ActionUnfreezeTime",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Unfreeze time so the clock resumes normal advancement.",
+            "type": "string",
+            "const": "unfreeze time"
+        }
+    },
+    "required": [ "action" ]
+}

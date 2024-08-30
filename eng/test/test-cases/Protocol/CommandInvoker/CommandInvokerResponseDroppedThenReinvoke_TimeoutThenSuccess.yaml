@@ -1,0 +1,49 @@
+---
+test-name: CommandInvokerResponseDroppedThenReinvoke_TimeoutThenSuccess
+aka:
+- InvokerDisconnectsAfterPuback
+description:
+  condition: >-
+    CommandInvoker invokes command but response not received, then repeats invocation.
+  expect: >-
+    Invocation throws 'timeout' exception, then reinvocation succeeds.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  timeout: { seconds: 2 }
+- action: await publish
+  correlation-index: 0
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: timeout
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+
+- action: invoke command
+  invocation-index: 1
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  topic: "response/mock/test"
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 1
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "response/mock/test"
+  publication-count: 2
+...

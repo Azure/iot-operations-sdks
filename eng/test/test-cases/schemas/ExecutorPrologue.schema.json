@@ -1,0 +1,38 @@
+{
+    "title": "ExecutorPrologue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "mqtt-config": {
+            "description": "MQTT client configuration settings.",
+            "$ref": "MqttConfig.schema.json",
+            "kind": "drive"
+        },
+        "push-acks": {
+            "description": "Queues of ACKs that are used sequentially to respond to various asynchronous MQTT messages.",
+            "$ref": "PushAcks.schema.json",
+            "kind": "drive"
+        },
+        "executors": {
+            "description": "A list of CommandExecutor instances to initialize for use in the test.",
+            "type": "array",
+            "items": {
+                "$ref": "Executor.schema.json"
+            },
+            "kind": "drive"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during initialization.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        },
+        "countdown-events": {
+            "description": "Names and initial values of countdown events that can be signaled and awaited during the test.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "integer"
+            },
+            "kind": "drive"
+        }
+    }
+}

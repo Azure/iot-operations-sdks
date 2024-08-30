@@ -1,0 +1,37 @@
+---
+test-name: CommandExecutorReceivesEquivalentNonIdempotentRequest_CommandExecuted
+aka:
+- EquivalentRequest_NonIdempotent_NotRetrievedFromCache
+description:
+  condition: >-
+    CommandExecutor receives equivalent non-idempotent request.
+  expect: >-
+    CommandExecutor executes command and responds with value from execution not from cache.
+
+prologue:
+  executors:
+  - idempotent: !!bool false
+    request-responses-map:
+      "Test_Request": [ "Test_Response0", "Test_Response1" ]
+
+requires:
+- caching
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive request
+  correlation-index: 1
+- action: await publish
+  correlation-index: 1
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    payload: "Test_Response0"
+  - correlation-index: 1
+    payload: "Test_Response1"
+  execution-count: 2
+...

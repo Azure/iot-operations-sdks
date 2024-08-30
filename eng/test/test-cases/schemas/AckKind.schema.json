@@ -1,0 +1,18 @@
+{
+    "title": "AckKind",
+    "type": "string",
+    "anyOf": [
+        {
+            "const": "success",
+            "title": "Acknowledge publication, subscription, or unsubscription with success code."
+        },
+        {
+            "const": "fail",
+            "title": "Acknowledge publication, subscription, or unsubscription with unspecified error code."
+        },
+        {
+            "const": "drop",
+            "title": "Do not acknowledge publication, subscription, or unsubscription."
+        }
+    ]
+}

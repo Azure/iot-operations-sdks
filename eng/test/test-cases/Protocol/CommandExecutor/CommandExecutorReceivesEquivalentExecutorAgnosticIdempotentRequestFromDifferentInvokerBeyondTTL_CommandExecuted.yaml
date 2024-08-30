@@ -1,0 +1,42 @@
+---
+test-name: CommandExecutorReceivesEquivalentExecutorAgnosticIdempotentRequestFromDifferentInvokerBeyondTTL_CommandExecuted
+description:
+  condition: >-
+    CommandExecutor receives equivalent executor-agnostic idempotent request from different Invoker ID beyond cacheable TTL.
+  expect: >-
+    CommandExecutor executes command and responds with value from execution not from cache.
+
+prologue:
+  executors:
+  - idempotent: !!bool true
+    cacheable-duration: { seconds: 2 }
+    request-responses-map:
+      "Test_Request": [ "Test_Response0", "Test_Response1" ]
+
+requires:
+- caching
+
+actions:
+- action: freeze time
+- action: receive request
+  correlation-index: 0
+  invoker-index: 0
+- action: await publish
+  correlation-index: 0
+- action: unfreeze time
+- action: sleep
+  duration: { seconds: 3 }
+- action: receive request
+  correlation-index: 1
+  invoker-index: 1
+- action: await publish
+  correlation-index: 1
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    payload: "Test_Response0"
+  - correlation-index: 1
+    payload: "Test_Response1"
+  execution-count: 2
+...

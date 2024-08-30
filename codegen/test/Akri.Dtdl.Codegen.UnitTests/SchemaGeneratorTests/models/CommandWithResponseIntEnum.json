@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "getOrientation",
+      "response": {
+        "name": "deviceOrientation",
+        "schema": {
+          "@type": "Enum",
+          "valueSchema": "integer",
+          "enumValues": [
+            {
+              "name": "north",
+              "enumValue": 0
+            },
+            {
+              "name": "east",
+              "enumValue": 1
+            },
+            {
+              "name": "south",
+              "enumValue": 2
+            },
+            {
+              "name": "west",
+              "enumValue": 3
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

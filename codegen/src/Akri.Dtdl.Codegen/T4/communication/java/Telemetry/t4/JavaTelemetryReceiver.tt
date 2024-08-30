@@ -1,0 +1,19 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+package <#=this.genNamespace#>;
+
+import java.util.function.BiConsumer;
+import java.util.HashMap;
+
+import org.eclipse.paho.mqttv5.client.IMqttAsyncClient;
+
+import DtdlMqtt.Communication.InboundMessageDemux;
+import DtdlMqtt.Communication.Telemetry.TelemetryReceiver;
+import DtdlMqtt.Serialization.<#=this.serializerSubNamespace#>.<#=string.Format(this.serializerClassName, 1)#>;
+
+public class <#=this.schemaClassName#>Receiver extends TelemetryReceiver<<#=this.schemaClassName#>> {
+    <#=this.schemaClassName#>Receiver(IMqttAsyncClient mqttClient, InboundMessageDemux demux, String topic, String modelId, HashMap<String, String> customTopicTokenMap) throws Exception {
+        super(mqttClient, demux, <#=this.telemetryName != null ? $"\"{this.telemetryName}\"" : "null"#>, new <#=string.Format(this.serializerClassName, $"1<{this.schemaClassName}>")#>(<#=this.schemaClassName#>.class), <#=this.schemaClassName#>.class, modelId, topic, customTopicTokenMap);
+    }
+}

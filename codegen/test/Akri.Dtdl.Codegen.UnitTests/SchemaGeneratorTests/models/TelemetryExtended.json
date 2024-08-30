@@ -1,0 +1,81 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:akri:DTDL:SchemaGenerator:baseInterface;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "coordinates",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "latitude",
+              "schema": "double"
+            },
+            {
+              "name": "longitude",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "speed",
+        "schema": {
+          "@type": "Enum",
+          "valueSchema": "integer",
+          "enumValues": [
+            {
+              "name": "near",
+              "enumValue": 1
+            },
+            {
+              "name": "far",
+              "enumValue": 2
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "colors",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "distances",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "placeName",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "distance",
+            "schema": "double"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "<[FORMAT]>",
+    "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+    "extends": "dtmi:akri:DTDL:SchemaGenerator:baseInterface;1"
+  }
+]

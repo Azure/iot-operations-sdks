@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorUserCodeSetsInvalidMetadata_RespondsError
+aka:
+- ExecuteCommandThatSetsInvalidResponseMetadata_ApplicationErrorInternalServerError
+description:
+  condition: >-
+    CommandExecutor user code sets metadata header with reserved prefix
+  expect: >-
+    CommandExecutor sends error response
+
+prologue:
+  executors:
+  - response-metadata:
+      "__hasReservedPrefix": "responseValue"
+
+actions:
+- action: receive request
+  correlation-index: 0
+  metadata:
+    "requestHeader": "requestValue"
+- action: await acknowledgement
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 500 # InternalServerError
+    is-application-error: true
+    metadata:
+      "__propName": "Metadata"
+      "__propVal": "__hasReservedPrefix"
+...

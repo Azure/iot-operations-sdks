@@ -1,0 +1,42 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+)
+
+type <#=this.schemaClassName#>Receiver struct {
+	*protocol.TelemetryReceiver[<#=this.schemaClassName#>]
+}
+
+func New<#=this.schemaClassName#>Receiver(
+	client mqtt.Client,
+	topic string,
+	handler protocol.TelemetryHandler[<#=this.schemaClassName#>],
+	opt ...protocol.TelemetryReceiverOption,
+) (*<#=this.schemaClassName#>Receiver, error) {
+	var err error
+	receiver := &<#=this.schemaClassName#>Receiver{}
+
+	var opts protocol.TelemetryReceiverOptions
+	opts.Apply(
+		opt,
+<# if (this.telemetryName != null) { #>
+		protocol.WithTopicTokens{
+			"telemetryName":     "<#=this.telemetryName#>",
+		},
+<# } #>
+	)
+
+	receiver.TelemetryReceiver, err = protocol.NewTelemetryReceiver(
+		client,
+		protocol.<#=this.serializerSubNamespace#>[<#=this.schemaClassName#>]{},
+		topic,
+		handler,
+		&opts,
+	)
+
+	return receiver, err
+}

@@ -1,0 +1,22 @@
+<#@ template language="C#" linePragmas="false" #>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Apache.Avro" Version="1.11.1" />
+    <PackageReference Include="Dahomey.Cbor" Version="1.20.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.23.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\lib\dotnet\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+    <ProjectReference Include="..\..\..\..\Akri.Dtdl.Codegen.IntegrationTests.STK\dotnet\Akri.Dtdl.Codegen.IntegrationTests.STK.csproj" />
+  </ItemGroup>
+
+</Project>

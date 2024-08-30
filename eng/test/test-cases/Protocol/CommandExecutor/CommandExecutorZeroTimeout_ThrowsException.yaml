@@ -1,0 +1,25 @@
+---
+test-name: CommandExecutorZeroTimeout_ThrowsException
+aka:
+- ExecutorZeroTimeout_ThrowsException
+description:
+  condition: >-
+    CommandExecutor initialized with an execution timeout of zero
+  expect: >-
+    CommandExecutor throws 'invalid configuration' exception
+
+requires:
+- dispatch
+- explicit-default
+
+prologue:
+  executors:
+  - execution-timeout: { seconds: 0 }
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'executiontimeout'
+...

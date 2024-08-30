@@ -1,0 +1,53 @@
+{
+    "title": "Invoker",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "command-name": {
+            "description": "The name of the Command.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "request-topic": {
+            "description": "The MQTT topic pattern for the Command request.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "model-id": {
+            "description": "The identifier of the the service model, which is the full DTMI of the Interface.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "topic-namespace": {
+            "description": "A leading namespace for the Command request and response MQTT topic patterns.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "response-topic-prefix": {
+            "description": "A prefix to be prepended to the request topic pattern to produce a response topic pattern.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "response-topic-suffix": {
+            "description": "A suffix to be appended to the request topic pattern to produce a response topic pattern.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "custom-token-map": {
+            "description": "A map from custom topic tokens to replacement values.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
+        "response-topic-map": {
+            "description": "A map from request topic to response topic, as an alternative to using prefix/suffix.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        }
+    }
+}

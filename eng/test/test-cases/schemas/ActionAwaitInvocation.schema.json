@@ -1,0 +1,36 @@
+{
+    "title": "ActionAwaitInvocation",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Wait for a Command invocation to complete.",
+            "type": "string",
+            "const": "await invocation"
+        },
+        "invocation-index": {
+            "description": "An arbitrary numeric value used to identify the invocation.",
+            "type": "integer",
+            "kind": "match"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during Command invocation.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        },
+        "response-value": {
+            "description": "A UTF8 string (or null) value expected for the Command response.",
+            "type": [ "string", "null" ],
+            "kind": "check"
+        },
+        "metadata": {
+            "description": "Keys and values for response user metadata.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "check"
+        }
+    },
+    "required": [ "action", "invocation-index" ]
+}

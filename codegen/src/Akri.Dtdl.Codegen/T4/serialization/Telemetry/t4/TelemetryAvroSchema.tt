@@ -1,0 +1,18 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "namespace": "<#=this.projectName#>.<#=this.genNamespace#>",
+  "name": "<#=this.schema#>",
+  "type": "record",
+  "fields": [
+<# foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { #>
+    {
+      "name": "<#=nameDescSchemaIndex.Item1#>",
+<#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndex.Item3, this.dtmiToSchemaName, indent: 6, nullable: true, nestNamedType: true)#>
+    }<#=this.IsLast(nameDescSchemaIndex) ? "" : ","#>
+<# } #>
+  ]
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, int) nameDescSchemaIndex) => nameDescSchemaIndex.Item1 == this.nameDescSchemaIndices.Last().Item1;
+#>

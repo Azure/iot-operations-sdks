@@ -1,0 +1,31 @@
+---
+test-name: CommandInvokerPubAckFailure_ThrowsException
+aka:
+- InvokeOneRequestAndFailurePubAck
+- InvokeOneRequestAndPubAckNotAuthorized
+- InvokeOneRequestAndPubAckNoMatchingSubscribers
+description:
+  condition: >-
+    CommandInvoker invokes command but ACK fails when publishing request.
+  expect: >-
+    Invocation throws 'mqtt error' exception.
+
+prologue:
+  invokers:
+  - { }
+  push-acks:
+    publish: [ fail ]
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+...

@@ -1,0 +1,12 @@
+{
+    "title": "MqttConfig",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "client-id": {
+            "description": "The MQTT client ID.",
+            "type": "string",
+            "kind": "drive"
+        }
+    }
+}

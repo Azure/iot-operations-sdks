@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Api.CommonProtos" Version="2.10.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.23.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".\Azure.Iot.Operations.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>

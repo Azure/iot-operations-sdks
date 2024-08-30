@@ -1,0 +1,27 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+#nullable enable
+
+namespace <#=this.projectName#>.<#=this.genNamespace#>
+{
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
+<# if (this.enumType.Description != null) { #>
+    /// <summary>
+    /// <#=this.enumType.Description#>
+    /// </summary>
+<# } #>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    public enum <#=this.enumType.SchemaName#>
+    {
+<# int index = 0; foreach (var enumValue in this.enumType.EnumValues) { #>
+        [EnumMember(Value = @"<#=enumValue.StringValue#>")]
+        <#=Capitalize(enumValue.Name)#> = <#=enumValue.IntValue ?? index#>,
+<# ++index; } #>
+    }
+}
+<#+
+    public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
+#>

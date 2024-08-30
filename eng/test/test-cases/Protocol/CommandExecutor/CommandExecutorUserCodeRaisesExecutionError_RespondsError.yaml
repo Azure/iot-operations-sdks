@@ -1,0 +1,30 @@
+---
+test-name: CommandExecutorUserCodeRaisesExecutionError_RespondsError
+aka:
+- ExecuteCommandWithException_ApplicationErrorNotImplementedException
+description:
+  condition: >-
+    CommandExecutor user code raises error indicating problem with request execution
+  expect: >-
+    CommandExecutor sends error response
+
+prologue:
+  executors:
+  - raise-error:
+      kind: execution
+      message: "This is an execution error"
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: await acknowledgement
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 500 # InternalServerError
+    is-application-error: true
+    metadata:
+      "__stMsg": "This is an execution error"
+...

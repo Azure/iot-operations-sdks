@@ -1,0 +1,27 @@
+<#@ template language="C#" linePragmas="false" #>
+# This is an auto-generated file.  Do not modify.
+
+from communication.Command.CommandInvoker import CommandInvoker
+from serialization.<#=this.serializerSubNamespace#> import <#=this.serializerClassName#>
+
+<#if (this.reqSchema != "None" && this.reqSchema != "any") {#>
+from <#=this.reqSchema#>_pb2 import <#=this.reqSchema#>
+<#}#>
+<#if (this.respSchema != "None" && this.respSchema != "any") {#>
+from <#=this.respSchema#>_pb2 import <#=this.respSchema#>
+<#}#>
+
+class <#=this.capitalizedCommandName#>CommandInvoker(CommandInvoker):
+    """<#=this.commandName#> command client"""
+    def __init__(self, mqtt_client, request_topic, model_id = None, custom_topic_token_map = None):
+        super(<#=this.capitalizedCommandName#>CommandInvoker, self).__init__(<#=this.reqSchema#>, <#=this.respSchema#>, mqtt_client, "<#=this.commandName#>", <#=this.serializerClassName#>.get_serializer, model_id, request_topic, custom_topic_token_map)
+
+    async def invoke_command(self, executor_id,<#=this.ExtArg()#> timeout):
+        <#=this.OptRet()#>await self._invoke_command(executor_id, <#=this.IntArg()#>, timeout)
+<#+
+    private string ExtArg() => this.reqSchema != "None" ? " request," : "";
+
+    private string IntArg() => this.reqSchema != "None" ? "request" : "None";
+
+    private string OptRet() => this.respSchema != "None" ? "return " : "";
+#>

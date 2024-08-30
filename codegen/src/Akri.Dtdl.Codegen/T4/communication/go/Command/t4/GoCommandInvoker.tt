@@ -1,0 +1,91 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"context"
+
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+)
+
+type <#=this.capitalizedCommandName#>CommandInvoker struct {
+	*protocol.CommandInvoker[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>]
+}
+
+func New<#=this.capitalizedCommandName#>CommandInvoker(
+	client mqtt.Client,
+	requestTopic string,
+	opt ...protocol.CommandInvokerOption,
+) (*<#=this.capitalizedCommandName#>CommandInvoker, error) {
+	var err error
+	invoker := &<#=this.capitalizedCommandName#>CommandInvoker{}
+
+	var opts protocol.CommandInvokerOptions
+	opts.Apply(
+		opt,
+		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens{
+			"commandName":     "<#=this.commandName#>",
+			"invokerClientId": client.ClientID(),
+		},
+	)
+
+	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		client,
+<# if (this.reqSchema != null) { #>
+		protocol.<#=this.serializerSubNamespace#>[<#=this.reqSchema#>]{},
+<# } else { #>
+		protocol.Empty{},
+<# } #>
+<# if (this.respSchema != null) { #>
+		protocol.<#=this.serializerSubNamespace#>[<#=this.respSchema#>]{},
+<# } else { #>
+		protocol.Empty{},
+<# } #>
+		requestTopic,
+		&opts,
+	)
+
+	return invoker, err
+}
+
+func (invoker <#=this.capitalizedCommandName#>CommandInvoker) <#=this.capitalizedCommandName#>(
+	ctx context.Context,
+<# if (this.doesCommandTargetExecutor) { #>
+	executorId string,
+<# } #>
+<# if (this.reqSchema != null) { #>
+	request <#=this.AsSchema(this.reqSchema)#>,
+<# } #>
+	opt ...protocol.InvokeOption,
+<# if (this.respSchema != null) { #>
+) (*protocol.CommandResponse[<#=this.AsSchema(this.respSchema)#>], error) {
+<# } else { #>
+) error {
+<# } #>
+<# if (this.doesCommandTargetExecutor) { #>
+	var opts protocol.InvokeOptions
+	opts.Apply(
+		opt,
+		protocol.WithTopicTokens{
+			"executorId": executorId,
+		},
+	)
+
+<# } #>
+	<#=this.respSchema != null ? "response" : "_"#>, err := invoker.Invoke(
+		ctx,
+		<#=this.reqSchema != null ? "request" : "nil"#>,
+<# if (this.doesCommandTargetExecutor) { #>
+		&opts,
+<# } else { #>
+		opt...,
+<# } #>
+	)
+
+	return <#=this.respSchema != null ? "response, " : ""#>err
+}
+<#+
+    private string AsSchema(string schema) => schema == "" ? "[]byte" : schema;
+#>

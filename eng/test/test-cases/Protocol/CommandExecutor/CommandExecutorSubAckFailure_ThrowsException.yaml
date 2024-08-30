@@ -1,0 +1,23 @@
+---
+test-name: CommandExecutorSubAckFailure_ThrowsException
+aka:
+- ExecutorStartAsync_SubAckFailedWithUnspecifiedError
+description:
+  condition: >-
+    During initialization, CommandExecutor subscribes but ACK fails.
+  expect: >-
+    CommandExecutor throws 'mqtt error' exception.
+
+prologue:
+  push-acks:
+    subscribe: [ fail ]
+  executors:
+  - { }
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false 
+    supplemental:
+      command-name: "test"
+...

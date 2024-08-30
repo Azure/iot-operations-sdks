@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorUserCodeRaisesContentError_RespondsError
+aka:
+- ExecuteCommandWithException_ApplicationErrorInvocationException
+description:
+  condition: >-
+    CommandExecutor user code raises error indicating problem with request content
+  expect: >-
+    CommandExecutor sends error response
+
+prologue:
+  executors:
+  - raise-error:
+      kind: content
+      message: "This is a content error"
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: await acknowledgement
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 422 # UnprocessableContent
+    is-application-error: true
+    metadata:
+      "__stMsg": "This is a content error"
+      "__propName": # not present
+      "__propVal": # not present
+...

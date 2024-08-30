@@ -1,0 +1,33 @@
+---
+test-name: CommandInvokerResponseNoStatusProperty_ThrowsException
+aka:
+- InvokerRequestNoStatusProperty
+description:
+  condition: >-
+    CommandInvoker receives response message with no status property in header.
+  expect: >-
+    Invocation throws 'missing header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: # null omits header
+  payload: "Test_Response"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: missing header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+    supplemental:
+      header-name: "__stat"
+...

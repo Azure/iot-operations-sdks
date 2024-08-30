@@ -1,0 +1,37 @@
+---
+test-name: CommandExecutorReceivesDuplicateIdempotentRequest_ResponseFromCache
+aka:
+- DuplicateRequest_Idempotent_WithinCommandTimeout_RetrievedFromCache
+description:
+  condition: >-
+    CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure.
+  expect: >-
+    CommandExecutor does not execute command and responds with value from cache.
+
+requires:
+- caching
+
+prologue:
+  executors:
+  - idempotent: !!bool true
+    request-responses-map:
+      "Test_Request": [ "Test_Response0", "Test_Response1" ]
+
+actions:
+- action: freeze time
+- action: receive request
+  correlation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive request
+  correlation-index: 0
+- action: unfreeze time
+- action: await publish
+  correlation-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    payload: "Test_Response0"
+  execution-count: 1
+...

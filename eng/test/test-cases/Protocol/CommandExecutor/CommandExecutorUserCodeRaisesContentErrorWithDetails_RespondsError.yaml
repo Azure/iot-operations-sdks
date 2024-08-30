@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError
+description:
+  condition: >-
+    CommandExecutor user code raises error indicating problem with request content
+  expect: >-
+    CommandExecutor sends error response
+
+prologue:
+  executors:
+  - raise-error:
+      kind: content
+      message: "This is a content error with details"
+      property-name: "requestHeader"
+      property-value: "requestValue"
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: await acknowledgement
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 422 # UnprocessableContent
+    is-application-error: true
+    metadata:
+      "__stMsg": "This is a content error with details"
+      "__propName": "requestHeader"
+      "__propVal": "requestValue"
+...

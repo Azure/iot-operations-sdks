@@ -1,0 +1,30 @@
+---
+test-name: CommandExecutorRequestUnsupportedProtocolVersion_RespondsError
+description:
+  condition: >-
+    CommandExecutor receives request with a protocol version that it does not support
+  expect: >-
+    CommandExecutor sends response with status NotSupportedVersion.
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  packet-index: 0
+  metadata:
+    "__protVer": "123456.0"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 505 # Not Supported Version
+    is-application-error: false
+    metadata:
+      "__supProtMajVer": "1"
+      "__requestProtVer": "123456.0"
+      "__protVer": "1.0"
+...

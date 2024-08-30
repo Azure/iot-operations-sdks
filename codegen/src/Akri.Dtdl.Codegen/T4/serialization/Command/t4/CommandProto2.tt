@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+syntax = "proto2";
+
+package <#=this.genNamespace#>;
+
+option java_multiple_files = true;
+option java_package = "<#=this.genNamespace#>";
+
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+
+<# if (ProtobufSupport.TryGetImport(this.paramSchema, this.dtmiToSchemaName, out string importName) && this.importNames.Add(importName)) { #>
+import "<#=importName#>";
+<# } #>
+
+message <#=this.schema#> {
+    optional <#=ProtobufSupport.GetType(this.paramSchema, this.dtmiToSchemaName)#> <#=this.paramName#> = 1;
+}

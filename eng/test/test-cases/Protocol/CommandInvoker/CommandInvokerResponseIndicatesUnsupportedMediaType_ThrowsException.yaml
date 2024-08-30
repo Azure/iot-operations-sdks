@@ -1,0 +1,37 @@
+---
+test-name: CommandInvokerResponseIndicatesUnsupportedMediaType_ThrowsException
+aka:
+- InvokerRequestBadPayload
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating Unsupported Media Type
+  expect: >-
+    Invocation throws 'invalid header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "415" # Unsupported Media Type
+  metadata:
+    "__propName": "Content Type"
+    "__propVal": "raw/0"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 415
+    supplemental:
+      header-name: "Content Type"
+      header-value: "raw/0"
+...

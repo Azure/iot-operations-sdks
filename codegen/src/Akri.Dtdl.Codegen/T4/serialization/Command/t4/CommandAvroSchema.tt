@@ -1,0 +1,12 @@
+<#@ template language="C#" linePragmas="false" #>
+{
+  "namespace": "<#=this.projectName#>.<#=this.genNamespace#>",
+  "name": "<#=this.schema#>",
+  "type": "record",
+  "fields": [
+    {
+      "name": "<#=this.paramName#>",
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName, indent: 6, nullable: false, nestNamedType: true)#>
+    }
+  ]
+}

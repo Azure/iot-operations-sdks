@@ -1,0 +1,20 @@
+[prologue.executor]
+command-name = "test"
+request-topic = "mock/test"
+model-id = "dtmi:test:MyModel;1"
+executor-id = "someExecutor"
+idempotent = false
+cacheable-duration = { seconds = 0 }
+execution-timeout = { seconds = 10 }
+request-responses-map = { "Test_Request" = [ "Test_Response" ] }
+
+[actions.receive-request]
+topic = "mock/test"
+payload = "Test_Request"
+content-type = "application/json"
+format-indicator = 1
+correlation-index = 0
+qos = 1
+message-expiry = { seconds = 10 }
+response-topic = "response/mock/test"
+invoker-index = 0

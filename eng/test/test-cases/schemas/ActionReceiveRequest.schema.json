@@ -1,0 +1,84 @@
+{
+    "title": "ActionReceiveRequest",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Receive a request message.",
+            "type": "string",
+            "const": "receive request"
+        },
+        "topic": {
+            "description": "The MQTT topic on which the message is published.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "payload": {
+            "description": "A UTF8 string to encapsulate in the request payload; if null, omit payload from request message.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "bypass-serialization": {
+            "description": "Bypass serializing the payload and just embed raw bytes.",
+            "type": "boolean",
+            "kind": "drive"
+        },
+        "content-type": {
+            "description": "The value of the ContentType header in the message, or null if no such header.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "format-indicator": {
+            "description": "The value of the PayloadFormatIndicator header in the message, or null if no such header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "metadata": {
+            "description": "Keys and values for header fields in the message.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
+        "correlation-index": {
+            "description": "An arbitrary numeric value used to identify the correlation ID in the message; null omits correlation ID in header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "correlation-id": {
+            "description": "A specific value for the correlation ID in the message; should be omitted except when testing correlation ID validity.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "qos": {
+            "description": "MQTT QoS level.",
+            "type": "integer",
+            "kind": "drive"
+        },
+        "message-expiry": {
+            "description": "Maximum duration for which a response remains desired by the requester.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "response-topic": {
+            "description": "The MQTT topic pattern to which the Command response should be published.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "invoker-index": {
+            "description": "An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits invoker ID in header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "packet-index": {
+            "description": "An arbitrary numeric value used to identify the packet ID in the message.",
+            "type": "integer",
+            "kind": "match"
+        }
+    },
+    "required": [ "action" ]
+}

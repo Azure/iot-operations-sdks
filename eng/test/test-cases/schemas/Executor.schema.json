@@ -1,0 +1,90 @@
+{
+    "title": "Executor",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "command-name": {
+            "description": "The name of the Command.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "request-topic": {
+            "description": "The MQTT topic pattern for the Command request.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "model-id": {
+            "description": "The identifier of the the service model, which is the full DTMI of the Interface.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "executor-id": {
+            "description": "Identifier of the asset that is targeted to execute a Command.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "topic-namespace": {
+            "description": "A leading namespace for the Command request MQTT topic pattern.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "idempotent": {
+            "description": "Whether it is permissible to execute the Command multiple times for a single invocation of the Command.",
+            "type": "boolean",
+            "kind": "drive"
+        },
+        "cacheable-duration": {
+            "description": "Maximum duration for which a response to a Command instance may be reused as a response to other Command instances.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "execution-timeout": {
+            "description": "Maximum duration to permit a Command to execute before aborting the execution.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "request-responses-map": {
+            "description": "A map from received request value to an array of response values to be used sequentially.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "kind": "drive"
+        },
+        "response-metadata": {
+            "description": "Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request.",
+            "type": "object",
+            "additionalProperties": {
+                "type": [ "string", "null" ]
+            },
+            "kind": "drive"
+        },
+        "execution-concurrency": {
+            "description": "A limit on the count of concurrent executions to reqest from the command dispatcher.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "raise-error": {
+            "description": "Raise an error from the Command execution function.",
+            "$ref": "Error.schema.json",
+            "kind": "drive"
+        },
+        "sync": {
+            "description": "A sequence of synchronization operations to perform during execution of the Command.",
+            "type": "array",
+            "items": {
+                "$ref": "Sync.schema.json"
+            },
+            "kind": "drive"
+        }
+    }
+}

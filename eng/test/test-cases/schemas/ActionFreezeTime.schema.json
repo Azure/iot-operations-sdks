@@ -1,0 +1,13 @@
+{
+    "title": "ActionFreezeTime",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Freeze time so the clock does not advance.",
+            "type": "string",
+            "const": "freeze time"
+        }
+    },
+    "required": [ "action" ]
+}

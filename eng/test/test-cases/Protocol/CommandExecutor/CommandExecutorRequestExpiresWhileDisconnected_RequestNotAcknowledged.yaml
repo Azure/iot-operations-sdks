@@ -1,0 +1,77 @@
+---
+test-name: CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged
+aka:
+- ExecutorReconnect_CommandExpires_ShouldNotBeAcked
+description:
+  condition: >-
+    CommandExecutor receives a request whose expiry time elapses while the CommandExecutor is disconnected.
+  expect: >-
+    Request is not acknowledged after CommandExecutor reconnects.
+
+requires:
+- reconnection
+
+prologue:
+  countdown-events:
+    'pass': 1
+  executors:
+  - command-name: "waiter"
+    request-topic: "mock/waiter"
+    sync:
+    - wait-event: 'pass'
+  - command-name: "runner"
+    request-topic: "mock/runner"
+
+actions:
+- action: freeze time
+- action: receive request
+  topic: "mock/waiter"
+  correlation-index: 0
+  message-expiry: { seconds: 10 }
+  response-topic: "mock/waiter/response"
+  packet-index: 0
+- action: receive request
+  topic: "mock/runner"
+  correlation-index: 1
+  message-expiry: { seconds: 2 }
+  response-topic: "mock/runner/response"
+  packet-index: 1
+- action: await publish
+  correlation-index: 1
+- action: disconnect
+- action: unfreeze time
+- action: sleep
+  duration: { seconds: 3 }
+- action: sync
+  signal-event: 'pass'
+- action: await publish
+  correlation-index: 0
+- action: receive request
+  topic: "mock/waiter"
+  correlation-index: 0
+  message-expiry: { seconds: 10 }
+  response-topic: "mock/waiter/response"
+  packet-index: 3
+- action: receive request
+  topic: "mock/runner"
+  correlation-index: 2
+  response-topic: "mock/runner/response"
+  packet-index: 2
+- action: await acknowledgement
+  packet-index: 3
+- action: await acknowledgement
+  packet-index: 2
+
+epilogue:
+  subscribed-topics:
+  - "mock/waiter"
+  - "mock/runner"
+  acknowledgement-count: 2
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/waiter/response"
+    command-status: 200 # OK
+  - correlation-index: 2
+    topic: "mock/runner/response"
+    command-status: 200 # OK
+...

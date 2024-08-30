@@ -1,0 +1,22 @@
+---
+test-name: CommandExecutorEmptyName_ThrowsException
+aka:
+- ConstructExecutorWithEmptyNameThrowsException
+description:
+  condition: >-
+    CommandExecutor initialized with empty string as command name.
+  expect: >-
+    CommandExecutor throws 'invalid argument' exception.
+
+prologue:
+  executors:
+  - command-name: ""
+    request-topic: "mock/{commandName}/test"
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'commandname'
+...

@@ -1,0 +1,20 @@
+<#@ template language="C#" linePragmas="false" #>
+[package]
+name = "<#=this.projectName#>"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures = "0.3.28"
+paho-mqtt = { version = "0.12", default-features=false, features=["bundled"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_repr = "0.1"
+<# foreach (var packageVersion in this.packageVersions) { #>
+<#=packageVersion.Item1#> = "<#=packageVersion.Item2#>"
+<# } #>
+chrono = { version = "0.4.31", features = ["serde", "alloc"] }
+iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }
+lazy_static = "1.4.0"
+akri_mqtt = { path = "<#=this.sdkPath#>/rust/src/akri_mqtt" }
+akri_mqtt_attributes = { path = "<#=this.sdkPath#>/rust/src/akri_mqtt_attributes" }

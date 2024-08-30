@@ -1,0 +1,94 @@
+{
+    "title": "ActionReceiveResponse",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Receive a response message.",
+            "type": "string",
+            "const": "receive response"
+        },
+        "topic": {
+            "description": "The MQTT topic on which the message is published.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "payload": {
+            "description": "A UTF8 string for the request payload; if null, omit payload from request message.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "bypass-serialization": {
+            "description": "Bypass serializing the payload and just embed raw bytes.",
+            "type": "boolean",
+            "kind": "drive"
+        },
+        "content-type": {
+            "description": "The value of the ContentType header in the message, or null if no such header.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "format-indicator": {
+            "description": "The value of the PayloadFormatIndicator header in the message, or null if no such header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "metadata": {
+            "description": "Keys and values for header fields in the message.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
+        "correlation-index": {
+            "description": "An arbitrary numeric value used to identify the correlation ID in the message; null omits correlation ID in header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "qos": {
+            "description": "MQTT QoS level.",
+            "type": "integer",
+            "kind": "drive"
+        },
+        "message-expiry": {
+            "description": "Maximum duration for which a response remains desired by the requester.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "status": {
+            "description": "HTTP status code.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "status-message": {
+            "description": "Human-readable status message.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "is-application-error": {
+            "description": "Nominally boolean value indicating whether a non-200 status is an application-level error.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "invalid-property-name": {
+            "description": "The name of an MQTT property in a request header that is missing or has an invalid value.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "invalid-property-value": {
+            "description": "The value of an MQTT property in a request header that is invalid.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "packet-index": {
+            "description": "An arbitrary numeric value used to identify the packet ID in the message.",
+            "type": "integer",
+            "kind": "match"
+        }
+    },
+    "required": [ "action" ]
+}

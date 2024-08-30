@@ -1,0 +1,23 @@
+{
+    "title": "ActionSync",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Synchronize with a countdown event.",
+            "type": "string",
+            "const": "sync"
+        },
+        "signal-event": {
+            "description": "Name of a countdown event to signal.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "wait-event": {
+            "description": "Name of a countdown event to await.",
+            "type": "string",
+            "kind": "drive"
+        }
+    },
+    "required": [ "action" ]
+}

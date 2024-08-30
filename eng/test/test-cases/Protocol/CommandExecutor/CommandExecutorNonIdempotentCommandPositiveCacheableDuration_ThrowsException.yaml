@@ -1,0 +1,25 @@
+---
+test-name: CommandExecutorNonIdempotentCommandPositiveCacheableDuration_ThrowsException
+aka:
+- NonIdempotentCommandPositiveCacheableDurationThrowsException
+description:
+  condition: >-
+    CommandExecutor initialized with non-idempotent command that has a positive cacheable duration.
+  expect: >-
+    CommandExecutor throws 'invalid configuration' exception.
+
+requires:
+- caching
+
+prologue:
+  executors:
+  - idempotent: !!bool false
+    cacheable-duration: { seconds: 1 }
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'cacheableduration'
+...

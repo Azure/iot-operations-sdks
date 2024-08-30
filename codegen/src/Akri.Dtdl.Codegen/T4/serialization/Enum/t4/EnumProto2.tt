@@ -1,0 +1,25 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+syntax = "proto2";
+
+package <#=this.genNamespace#>;
+
+option java_multiple_files = true;
+option java_package = "<#=this.genNamespace#>";
+
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+
+<# if (this.valueSchema == "string") { #>
+import "dtdl/protobuf/dtdl_options.proto";
+<# } #>
+
+enum <#=this.schema#> {
+    <#=this.zeroNameValueIndex.Item1#> = <#=GetNumericValue(this.zeroNameValueIndex)#><#=GetOption(this.zeroNameValueIndex)#>;
+<# foreach (var nameValueIndex in this.nameValueIndices) { if (GetNumericValue(nameValueIndex) != "0") { #>
+    <#=nameValueIndex.Item1#> = <#=GetNumericValue(nameValueIndex)#><#=GetOption(nameValueIndex)#>;
+<# } } #>
+}
+<#+
+    private string GetNumericValue((string, string, int) nameValueIndex) => this.valueSchema == "string" ? nameValueIndex.Item3.ToString() : nameValueIndex.Item2;
+
+    private string GetOption((string, string, int) nameValueIndex) => this.valueSchema == "string" ? $" [(dtdl.dtdl_options).enum_string = \"{nameValueIndex.Item2}\"]" : "";
+#>

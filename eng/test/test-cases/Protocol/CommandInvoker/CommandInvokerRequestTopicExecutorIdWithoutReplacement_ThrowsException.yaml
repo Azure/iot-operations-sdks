@@ -1,0 +1,26 @@
+---
+test-name: CommandInvokerRequestTopicExecutorIdWithoutReplacement_ThrowsException
+description:
+  condition: >-
+    CommandInvoker invokes command with request topic that contains an '{executorId}' token but no executor ID is specified
+  expect: >-
+    Invocation throws 'invalid argument' exception.
+
+prologue:
+  invokers:
+  - request-topic: "mock/{executorId}/test"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  executor-id: ""
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'executorid'
+...

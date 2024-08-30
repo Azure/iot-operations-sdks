@@ -1,0 +1,62 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"encoding/json"
+	"errors"
+)
+
+type <#=this.enumType.SchemaName#> int32
+
+const (
+<# bool isFirst = true; foreach (var enumValue in this.enumType.EnumValues) { #>
+	<#=Capitalize(enumValue.Name)#> <#=isFirst ? this.enumType.SchemaName : ""#> = <#=enumValue.IntValue?.ToString() ?? "iota"#>
+<# isFirst = false; } #>
+)
+
+func (v <#=this.enumType.SchemaName#>) String() string {
+	switch v {
+<# foreach (var enumValue in this.enumType.EnumValues) { #>
+	case <#=Capitalize(enumValue.Name)#>:
+		return "<#=Capitalize(enumValue.Name)#>"
+<# } #>
+	default:
+		return ""
+	}
+}
+
+func (v <#=this.enumType.SchemaName#>) MarshalJSON() ([]byte, error) {
+	var s string
+	switch v {
+<# foreach (var enumValue in this.enumType.EnumValues) { #>
+	case <#=Capitalize(enumValue.Name)#>:
+		s = "<#=enumValue.StringValue#>"
+<# } #>
+	default:
+		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
+	}
+
+	return json.Marshal(s)
+}
+
+func (v *<#=this.enumType.SchemaName#>) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+
+	switch s {
+<# foreach (var enumValue in this.enumType.EnumValues) { #>
+	case "<#=enumValue.StringValue#>":
+		*v = <#=Capitalize(enumValue.Name)#>
+<# } #>
+	default:
+		return errors.New("unable to unmarshal unrecognized enum value from JSON")
+	}
+
+	return nil
+}
+<#+
+    public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
+#>

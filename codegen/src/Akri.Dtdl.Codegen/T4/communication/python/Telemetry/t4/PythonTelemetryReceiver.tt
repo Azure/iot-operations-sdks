@@ -1,0 +1,14 @@
+<#@ template language="C#" linePragmas="false" #>
+# This is an auto-generated file.  Do not modify.
+
+from communication.Telemetry.TelemetryReceiver import TelemetryReceiver
+from serialization.<#=this.serializerSubNamespace#> import <#=this.serializerClassName#>
+
+<#if (this.schemaClassName != "any") {#>
+from <#=this.schemaClassName#>_pb2 import <#=this.schemaClassName#>
+<#}#>
+
+class <#=this.schemaClassName#>Receiver(TelemetryReceiver):
+    """<#=this.schemaClassName#> receiver"""
+    def __init__(self, mqtt_client, topic, model_id = None, custom_topic_token_map = None):
+        super(<#=this.schemaClassName#>Receiver, self).__init__(<#=this.schemaClassName#>, mqtt_client, <#=this.telemetryName != null ? $"\"{this.telemetryName}\"" : "None"#>, <#=this.serializerClassName#>.get_serializer, model_id, topic, custom_topic_token_map)

@@ -1,0 +1,26 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.objBareId#>:_JSON<#=this.versionSuffix#>",
+  "title": "<#=this.schema#>",
+  "type": "<#=this.valueSchema#>",
+<# if (this.description != null) { #>
+  "description": "<#=this.description#>",
+<# } #>
+  "x-enumNames": [
+<# foreach (var nameValueIndex in this.nameValueIndices) { #>
+    "<#=nameValueIndex.Item1#>"<#=this.IsLast(nameValueIndex) ? "" : ","#>
+<# } #>
+  ],
+  "enum": [
+<# foreach (var nameValueIndex in this.nameValueIndices) { #>
+    <#=ConditionallyQuote(nameValueIndex.Item2)#><#=this.IsLast(nameValueIndex) ? "" : ","#>
+<# } #>
+  ]
+}
+<#+
+    private string ConditionallyQuote(string value) => this.valueSchema == "string" ? $"\"{value}\"" : value;
+
+    private bool IsLast((string, string, int) nameValueIndex) => nameValueIndex.Item1 == this.nameValueIndices.Last().Item1;
+#>

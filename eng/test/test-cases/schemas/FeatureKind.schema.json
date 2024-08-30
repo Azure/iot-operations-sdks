@@ -1,0 +1,30 @@
+{
+    "title": "FeatureKind",
+    "type": "string",
+    "anyOf": [
+        {
+            "const": "unobtanium",
+            "title": "The component under test will do the impossible. Require this feature to always skip a test."
+        },
+        {
+            "const": "ack-ordering",
+            "title": "The component under test will order ACKs in accordance with MQTT protocol requirements."
+        },
+        {
+            "const": "reconnection",
+            "title": "The component under test will automatically reconnect after a disconnection occurs."
+        },
+        {
+            "const": "caching",
+            "title": "The component under test will cache Command responses for deduplication and reuse."
+        },
+        {
+            "const": "dispatch",
+            "title": "The component under test will dispatch execution functions to a thread pool."
+        },
+        {
+            "const": "explicit-default",
+            "title": "The component under test uses an explicit indication (not a sentinel value) to imply a default value."
+        }
+    ]
+}

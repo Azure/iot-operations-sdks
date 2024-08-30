@@ -1,0 +1,34 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+#nullable enable
+
+namespace <#=this.projectName#>.<#=this.genNamespace#>
+{
+    using System;
+    using System.Collections.Generic;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.RPC;
+    using Azure.Iot.Operations.Protocol.Models;
+    using <#=this.projectName#>;
+
+    public static partial class <#=this.serviceName#>
+    {
+        /// <summary>
+        /// Specializes the <c>CommandInvoker</c> class for Command '<#=this.commandName#>'.
+        /// </summary>
+        public class <#=this.capitalizedCommandName#>CommandInvoker : CommandInvoker<#=this.TypeParams()#>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="<#=this.capitalizedCommandName#>CommandInvoker"/> class.
+            /// </summary>
+            internal <#=this.capitalizedCommandName#>CommandInvoker(IMqttPubSubClient mqttClient)
+                : base(mqttClient, "<#=this.commandName#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
+            {
+            }
+        }
+    }
+}
+<#+
+    private string TypeParams() => $"<{this.reqSchema ?? serialzerEmptyType}, {this.respSchema ?? serialzerEmptyType}>";
+#>

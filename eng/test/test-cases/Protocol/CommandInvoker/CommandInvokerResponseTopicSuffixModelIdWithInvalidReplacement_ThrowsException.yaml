@@ -1,0 +1,23 @@
+---
+test-name: CommandInvokerResponseTopicSuffixModelIdWithInvalidReplacement_ThrowsException
+aka:
+- ResponseTopicSuffixModelIdWithInvalidReplacementThrowsException
+description:
+  condition: >-
+    CommandInvoker response topic suffix contains a '{modelId}' token but model ID is not a valid replacement.
+  expect: >-
+    CommandInvoker throws 'invalid configuration' exception.
+
+prologue:
+  invokers:
+  - response-topic-suffix: "valid/{modelId}"
+    model-id: "Invalid#Model"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'responsetopicsuffix'
+      property-value: "valid/{modelId}"
+...

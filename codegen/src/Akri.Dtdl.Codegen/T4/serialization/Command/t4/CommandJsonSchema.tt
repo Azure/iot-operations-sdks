@@ -1,0 +1,18 @@
+<#@ template language="C#" linePragmas="false" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.interfaceIdAsNamespace#>_command_<#=this.subType#>__<#=this.commandName#><#=this.normalizedVersionSuffix#>",
+  "title": "<#=this.schema#>",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "<#=this.paramName#>": {
+      "description": "The Command <#=this.subType#> argument.",
+<# if (this.setIndex) { #>
+      "index": 1,
+<# } #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName)#>
+    }
+  },
+  "required": [ "<#=this.paramName#>" ]
+}

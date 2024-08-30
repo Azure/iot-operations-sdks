@@ -1,0 +1,124 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:jsonTest:TelemetryComplexSchemas;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "sample/{senderId}/telemetry",
+    "schemas": [
+      {
+        "@id": "dtmi:test:intEnumProx;1",
+        "@type": "Enum",
+        "valueSchema": "integer",
+        "description": "An enumerated value for expressing qualitative distance.",
+        "enumValues": [
+          {
+            "name": "near",
+            "enumValue": 1
+          },
+          {
+            "name": "far",
+            "enumValue": 2
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "doubleArray1D",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "double"
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "doubleArray2D",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": {
+            "@type": "Array",
+            "elementSchema": "double"
+          }
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "doubleMap",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "stringKey",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "doubleValue",
+            "schema": "double"
+          }
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "doubleMapArray",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "stringKey",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "arrayValue",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "double"
+            }
+          }
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "coordinates",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "latitude",
+              "schema": "double"
+            },
+            {
+              "name": "longitude",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "proximity",
+        "schema": "dtmi:test:intEnumProx;1"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "speed",
+        "schema": {
+          "@type": "Enum",
+          "valueSchema": "string",
+          "enumValues": [
+            {
+              "name": "slow",
+              "enumValue": "lente"
+            },
+            {
+              "name": "fast",
+              "enumValue": "rapide"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

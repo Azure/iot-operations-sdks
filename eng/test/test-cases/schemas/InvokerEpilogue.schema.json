@@ -1,0 +1,33 @@
+{
+    "title": "InvokerEpilogue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "subscribed-topics": {
+            "description": "A list of MQTT topics that have been subscribed.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "kind": "check"
+        },
+        "publication-count": {
+            "description": "The count of messages published.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "published-messages": {
+            "description": "A list of request messages published.",
+            "type": "array",
+            "items": {
+                "$ref": "PublishedRequest.schema.json"
+            },
+            "kind": "check"
+        },
+        "acknowledgement-count": {
+            "description": "The count of acknowledgements sent.",
+            "type": "integer",
+            "kind": "check"
+        }
+    }
+}

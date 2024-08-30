@@ -1,0 +1,15 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@type": "Interface",
+  "@id": "dtmi:akri:DTDL:ModelSelector:interfaceBase;1",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "foo",
+      "schema": "string"
+    }
+  ]
+}

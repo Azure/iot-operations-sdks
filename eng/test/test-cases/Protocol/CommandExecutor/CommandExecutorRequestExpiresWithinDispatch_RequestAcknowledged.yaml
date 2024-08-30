@@ -1,0 +1,31 @@
+---
+test-name: CommandExecutorRequestExpiresWithinDispatch_RequestAcknowledged
+aka:
+- ExecutorRequestExpiresDuringProcessing_NoResponseSentAcknowledgedOk
+description:
+  condition: >-
+    CommandExecutor receives request and stalls execution, causing expiry time to be reached.
+  expect: >-
+    CommandExecutor does not complete execution and acknowledges request.
+
+requires:
+- dispatch
+
+prologue:
+  countdown-events:
+    'stall': 1
+  executors:
+  - execution-timeout: { seconds: 20 }
+    sync:
+    - wait-event: 'stall'
+
+actions:
+- action: receive request
+  message-expiry: { seconds: 10 }
+- action: await acknowledgement
+
+epilogue:
+  publication-count: 0
+  acknowledgement-count: 1
+  execution-count: 1
+...

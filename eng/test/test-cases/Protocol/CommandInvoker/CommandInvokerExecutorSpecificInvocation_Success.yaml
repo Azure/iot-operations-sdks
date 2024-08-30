@@ -1,0 +1,40 @@
+---
+test-name: CommandInvokerExecutorSpecificInvocation_Success
+aka:
+- InvokeWithExecutorId
+description:
+  condition: >-
+    CommandInvoker with executor-specific topic pattern invokes command and receives response.
+  expect: >-
+    CommandInvoker completes command and acknowledges response.
+
+prologue:
+  invokers:
+  - request-topic: "mock/{executorId}/test"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  topic: "response/mock/someExecutor/test"
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "response/mock/+/test"
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/someExecutor/test"
+    payload: "Test_Request"
+...

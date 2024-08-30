@@ -1,0 +1,30 @@
+---
+test-name: CommandInvokerResponseUnrecognizedStatusCode_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with status code that is not recognized.
+  expect: >-
+    Invocation throws 'unknown error' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "418" # I'm a teapot
+  is-application-error: "false"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: unknown error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 418
+...

@@ -1,0 +1,31 @@
+---
+test-name: CommandExecutorReceivesUnexpectedHeader_RespondsOk
+description:
+  condition: >-
+    CommandExecutor receives request with unexpected system property in metadata.
+  expect: >-
+    CommandExecutor ignores unexpected header and sends response with status OK.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  metadata:
+    "__unexpected": "surprise"
+- action: await acknowledgement
+
+epilogue:
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    metadata:
+      "__unexpected": # not present
+    command-status: 200 # OK
+    payload: "Test_Response"
+...

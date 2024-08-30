@@ -1,0 +1,9 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+"type": [
+  "null",
+  {
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.schema, this.dtmiToSchemaName, 4, nullable: false, nestNamedType: false)#>
+  }
+]<# this.PopIndent(); #>

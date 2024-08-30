@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorRequestNoInvokerClientId_RespondsError
+aka:
+- CorrelationDataMissing_RpcErrorBadRequest
+description:
+  condition: >-
+    CommandExecutor receives request with no __invId header.
+  expect: >-
+    CommandExecutor sends response with status BadRequest.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  invoker-index: # null omits __invId header
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 400 # BadRequest
+    is-application-error: false
+    metadata:
+      "__propName": "__invId"
+      "__propVal": # not present
+...

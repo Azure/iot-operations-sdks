@@ -1,0 +1,22 @@
+---
+test-name: CommandInvokerInvalidRequestTopicPattern_ThrowsException
+aka:
+- InvalidRequestTopicPatternThrowsException
+description:
+  condition: >-
+    CommandInvoker initialized with an invalid request topic string.
+  expect: >-
+    CommandInvoker throws 'invalid configuration' exception.
+
+prologue:
+  invokers:
+  - request-topic: "mock/{unknown}/test"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'requesttopicpattern'
+      property-value: "mock/{unknown}/test"
+...

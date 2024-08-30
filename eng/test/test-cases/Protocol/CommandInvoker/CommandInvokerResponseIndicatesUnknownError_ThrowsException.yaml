@@ -1,0 +1,30 @@
+---
+test-name: CommandInvokerResponseIndicatesUnknownError_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating an unknown error condition.
+  expect: >-
+    Invocation throws 'unknown error' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "500" # Internal Server Error
+  is-application-error: "false"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: unknown error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 500
+...

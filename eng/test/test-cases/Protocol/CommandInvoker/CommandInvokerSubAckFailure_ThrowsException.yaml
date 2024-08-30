@@ -1,0 +1,21 @@
+---
+test-name: CommandInvokerSubAckFailure_ThrowsException
+aka:
+- InvokerSubscribeThrowException
+description:
+  condition: >-
+    CommandInvoker initialized but ACK fails when subscribing.
+  expect: >-
+    CommandInvoker throws 'mqtt error' exception.
+
+prologue:
+  push-acks:
+    subscribe: [ fail ]
+  invokers:
+  - { }
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false 
+...

@@ -1,0 +1,36 @@
+---
+test-name: CommandInvokerResponseWithUnparsableProtocolVersion_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with a malformed protocol version.
+  expect: >-
+    Invocation throws 'response version not supported' exception.
+
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+  metadata:
+      "__protVer": "this is not a valid protocol version"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: response version not supported
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+    supplemental:
+      protocol-version: 'this is not a valid protocol version'
+      supported-protocols: "1"
+...

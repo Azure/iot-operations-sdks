@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 {
     public class CommandExecutorTester
     {
-        private const string testCasesPath = "../../../../../../test-cases";
+        private const string testCasesPath = "../../../../../../eng/test/test-cases";
         private const string executorCasesPath = $"{testCasesPath}/Protocol/CommandExecutor";
         private const string defaultsFileName = "defaults.toml";
 

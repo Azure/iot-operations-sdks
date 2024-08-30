@@ -1,0 +1,34 @@
+---
+test-name: CommandInvokerResponseWithWrongContentType_ThrowsException
+aka:
+- InvokeLegalRequestWrongContentTypeInvokerSide
+description:
+  condition: >-
+    CommandInvoker receives response message with content type other than expected.
+  expect: >-
+    Invocation throws 'invalid header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "200" # OK
+  content-type: "application/protobuf"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+    supplemental:
+      header-name: "Content Type"
+      header-value: "application/protobuf"
+...

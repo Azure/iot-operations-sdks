@@ -1,0 +1,31 @@
+---
+test-name: CommandExecutorRequestNoCorrelationData_RespondsError
+aka:
+- CorrelationDataMissing_RpcErrorBadRequest
+description:
+  condition: >-
+    CommandExecutor receives request with no CorrelationData.
+  expect: >-
+    CommandExecutor sends response with status BadRequest.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: # null omits correlation data in header
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: # null matches singular absent header property
+    topic: "response/mock/test"
+    command-status: 400 # BadRequest
+    is-application-error: false
+    metadata:
+      "__propName": "Correlation Data"
+      "__propVal": # not present
+...

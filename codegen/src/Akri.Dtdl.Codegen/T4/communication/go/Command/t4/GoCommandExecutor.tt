@@ -1,0 +1,63 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+<# if (this.ttl != null) { #>
+	"github.com/sosodev/duration"
+<# } #>
+)
+
+type <#=this.capitalizedCommandName#>CommandExecutor struct {
+	*protocol.CommandExecutor[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>]
+}
+
+func New<#=this.capitalizedCommandName#>CommandExecutor(
+	client mqtt.Client,
+	requestTopic string,
+	handler protocol.CommandHandler[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>],
+	opt ...protocol.CommandExecutorOption,
+) (*<#=this.capitalizedCommandName#>CommandExecutor, error) {
+	var err error
+	executor := &<#=this.capitalizedCommandName#>CommandExecutor{}
+
+<# if (this.ttl != null) { #>
+	cacheTTL, err := duration.Parse("<#=this.ttl#>")
+	if err != nil {
+		return nil, err
+	}
+
+<# } #>
+	var opts protocol.CommandExecutorOptions
+	opts.Apply(
+		opt,
+		protocol.WithTopicTokens{
+			"commandName": "<#=this.commandName#>",
+		},
+		protocol.WithIdempotent(<#=this.isIdempotent ? "true" : "false"#>),
+<# if (this.ttl != null) { #>
+		protocol.WithCacheTTL(cacheTTL.ToTimeDuration()),
+<# } #>
+	)
+
+	executor.CommandExecutor, err = protocol.NewCommandExecutor(
+		client,
+<# if (this.reqSchema != null) { #>
+		protocol.<#=this.serializerSubNamespace#>[<#=this.reqSchema#>]{},
+<# } else { #>
+		protocol.Empty{},
+<# } #>
+<# if (this.respSchema != null) { #>
+		protocol.<#=this.serializerSubNamespace#>[<#=this.respSchema#>]{},
+<# } else { #>
+		protocol.Empty{},
+<# } #>
+		requestTopic,
+		handler,
+		&opts,
+	)
+
+	return executor, err
+}

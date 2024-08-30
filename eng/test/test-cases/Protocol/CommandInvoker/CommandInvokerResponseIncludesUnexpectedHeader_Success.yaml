@@ -1,0 +1,37 @@
+---
+test-name: CommandInvokerResponseIncludesUnexpectedHeader_Success
+description:
+  condition: >-
+    CommandInvoker receives response with unexpected system property in metadata.
+  expect: >-
+    CommandInvoker ignores unexpected header, completes command, and acknowledges response.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  payload: "Test_Response"
+  metadata:
+    "__unexpected": "surprise"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/test"
+    payload: "Test_Request"
+...

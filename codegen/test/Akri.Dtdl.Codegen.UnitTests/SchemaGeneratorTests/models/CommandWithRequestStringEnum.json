@@ -1,0 +1,37 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "setPower",
+      "request": {
+        "name": "powerState",
+        "schema": {
+          "@type": "Enum",
+          "valueSchema": "string",
+          "enumValues": [
+            {
+              "name": "sleep",
+              "enumValue": "dv_st00"
+            },
+            {
+              "name": "low",
+              "enumValue": "dv_st11"
+            },
+            {
+              "name": "normal",
+              "enumValue": "dv_st53"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

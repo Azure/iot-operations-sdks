@@ -1,0 +1,45 @@
+---
+test-name: CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors
+aka:
+- MaximumConcurrencyOne_ProcessMessagesSequentially
+description:
+  condition: >-
+    CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed.
+  expect: >-
+    CommandExecutor blocked when attempting to processes all requests concurrently and times out.
+
+requires:
+- dispatch
+
+prologue:
+  countdown-events:
+    'barrier': 3
+  executors:
+  - execution-timeout: { seconds: 5 }
+    execution-concurrency: 2
+    sync:
+    - signal-event: 'barrier'
+    - wait-event: 'barrier'
+
+actions:
+- action: receive request
+  message-expiry: { seconds: 20 }
+  correlation-index: 0
+- action: receive request
+  message-expiry: { seconds: 20 }
+  correlation-index: 1
+- action: receive request
+  message-expiry: { seconds: 20 }
+  correlation-index: 2
+- action: await acknowledgement
+- action: await acknowledgement
+- action: await acknowledgement
+
+epilogue:
+  acknowledgement-count: 3
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 408 # RequestTimeout
+    is-application-error: !!bool false
+...

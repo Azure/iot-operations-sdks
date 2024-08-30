@@ -1,0 +1,27 @@
+---
+test-name: CommandExecutorRequestUnspecifiedFormatIndicator_RespondsOk
+description:
+  condition: >-
+    CommandExecutor receives request with unspecified payload format indicator despite UTF8 content type.
+  expect: >-
+    CommandExecutor sends response with status OK.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  content-type: "application/json"
+  format-indicator: 0
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+...

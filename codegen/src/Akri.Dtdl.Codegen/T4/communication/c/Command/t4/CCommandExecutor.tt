@@ -1,0 +1,187 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+#ifndef <#=GetFullyQualifiedName().ToUpper()#>_EXECUTOR_H
+#define <#=GetFullyQualifiedName().ToUpper()#>_EXECUTOR_H
+
+#include <azure/az_core.h>
+#include <azure/core/az_mqtt5_rpc.h>
+#include <azure/core/az_mqtt5_rpc_client.h>
+#include <azure/core/az_mqtt5_rpc_server.h>
+
+<# if (this.reqSchema != null) { #>
+#include "<#=this.reqSchema#>.h"
+<# } #>
+<# if (this.respSchema != null) { #>
+#include "<#=this.respSchema#>.h"
+<# } #>
+
+#ifndef <#=GetFullyQualifiedServiceName().ToUpper()#>_MODEL_ID
+#define <#=GetFullyQualifiedServiceName().ToUpper()#>_MODEL_ID
+static const az_span <#=GetFullyQualifiedServiceName().ToLower()#>_model_id = AZ_SPAN_LITERAL_FROM_STR("<#=this.modelId#>");
+#endif // <#=GetFullyQualifiedServiceName().ToUpper()#>_MODEL_ID
+
+#ifndef <#=GetFullyQualifiedServiceName().ToUpper()#>_REQUEST_TOPIC_FORMAT
+#define <#=GetFullyQualifiedServiceName().ToUpper()#>_REQUEST_TOPIC_FORMAT
+static const az_span <#=GetFullyQualifiedServiceName().ToLower()#>_request_topic_format = AZ_SPAN_FROM_STR("<#=GetRequestTopicFormat()#>");
+#endif // <#=GetFullyQualifiedServiceName().ToUpper()#>_REQUEST_TOPIC_FORMAT
+
+#ifndef <#=GetFullyQualifiedServiceName().ToUpper()#>_RESPONSE_TOPIC_FORMAT
+#define <#=GetFullyQualifiedServiceName().ToUpper()#>_RESPONSE_TOPIC_FORMAT
+static const az_span <#=GetFullyQualifiedServiceName().ToLower()#>_response_topic_format = AZ_SPAN_FROM_STR("<#=GetResponseTopicFormat()#>");
+#endif // <#=GetFullyQualifiedServiceName().ToUpper()#>_RESPONSE_TOPIC_FORMAT
+
+#ifndef <#=GetFullyQualifiedName().ToUpper()#>_COMMAND_NAME
+#define <#=GetFullyQualifiedName().ToUpper()#>_COMMAND_NAME
+static const az_span <#=GetFullyQualifiedName().ToLower()#>_command_name = AZ_SPAN_LITERAL_FROM_STR("<#=this.commandName#>");
+#endif // <#=GetFullyQualifiedName().ToUpper()#>_COMMAND_NAME
+
+#ifndef <#=GetFullyQualifiedName().ToUpper()#>_PAYLOAD_CONTENT_TYPE
+#define <#=GetFullyQualifiedName().ToUpper()#>_PAYLOAD_CONTENT_TYPE
+static const az_span <#=GetFullyQualifiedName().ToLower()#>_payload_content_type = AZ_SPAN_FROM_STR("application/json");
+#endif // <#=GetFullyQualifiedName().ToUpper()#>_PAYLOAD_CONTENT_TYPE
+
+<# if (this.reqSchema != null) { #>
+/**
+ * @brief Parses the raw payload of an RPC request.
+ * @remark This function does allocate memory dynamically.
+ *         `command_request` must be freed with `<#=GetFullyQualifiedName().ToLower()#>_destroy_request`.
+ * @param[in] rpc_data Pointer to `az_mqtt5_rpc_server_execution_req_event_data` with the received RPC request data.
+ * @param[out] command_request Pointer where to store the parsed payload.
+ * @return An #az_result value indicating the result of the operation.
+ */
+AZ_INLINE az_result <#=GetFullyQualifiedName().ToLower()#>_parse_request(
+    az_mqtt5_rpc_server_execution_req_event_data* rpc_data,
+    <#=this.reqSchema#>** command_request)
+{
+  _az_PRECONDITION_NOT_NULL(rpc_data);
+  _az_PRECONDITION_NOT_NULL(command_request);
+
+  if (!az_span_is_content_equal(rpc_data->content_type, <#=GetFullyQualifiedName().ToLower()#>_payload_content_type))
+  {
+    return AZ_ERROR_UNEXPECTED_CHAR;
+  }
+  else
+  {
+    *command_request = cJSON_Parse<#=this.reqSchema#>(az_span_ptr(rpc_data->request_data));
+
+    if (*command_request == NULL)
+    {
+      return AZ_ERROR_UNEXPECTED_CHAR;
+    }
+    else
+    {
+      return AZ_OK;
+    }
+  }
+}
+<# } #>
+
+
+<# if (this.reqSchema != null) { #>
+/**
+ * @brief Frees the instance of `<#=this.reqSchema#>`.
+ * @param[in] command_request Instance to be destroyed/freed.
+ */
+AZ_INLINE void <#=GetFullyQualifiedName().ToLower()#>_destroy_request(
+  <#=this.reqSchema#>* command_request)
+{
+  _az_PRECONDITION_NOT_NULL(command_request);
+
+  cJSON_Delete<#=this.reqSchema#>(command_request);
+}
+<# } #>
+
+/**
+ * @brief Populates a RPC response to be submitted with `az_mqtt5_rpc_server_execution_finish`.
+ * @param[in] rpc_execution_request Raw RPC execution request.
+ * @param[in] rpc_execution_response RPC execution response to be populated.
+ * @param[in] status Success/failure status reported in the RPC command response.
+ * @param[in] error_message An user-defined error message to be sent in the RPC response.
+ *                          This can be an `AZ_SPAN_EMPTY` if no error message is to be provided.
+<# if (this.respSchema != null) { #>
+ * @param[in] command_response Pointer to the `<#=this.respSchema#>` to
+ *                             serialize into the response payload.
+ * @param[in] payload_buffer Buffer where to serialize the payload into.
+ * @param[in] payload_buffer_size Size (in bytes) of \p payload_buffer.
+ * @param[out] out_payload_buffer_length __[nullable]__ Contains the data length, in bytes, of
+ *                                                  \p payload_buffer. Can be `NULL`.
+<# } #>
+ * @return An #az_result value indicating the result of the operation.
+ */
+AZ_INLINE az_result <#=GetFullyQualifiedName().ToLower()#>_create_response(
+    az_mqtt5_rpc_server_execution_req_event_data* rpc_execution_request,
+    az_mqtt5_rpc_server_execution_rsp_event_data* rpc_execution_response,
+    az_mqtt5_rpc_status status,
+<# if (this.respSchema == null) { #>
+    az_span error_message)
+<# } else { #>
+    az_span error_message,
+    <#=this.respSchema#>* command_response,
+    char* payload_buffer,
+    size_t payload_buffer_size,
+    size_t* out_payload_buffer_length)
+<# } #>
+{
+  _az_PRECONDITION_NOT_NULL(rpc_execution_request);
+  _az_PRECONDITION_NOT_NULL(rpc_execution_response);
+
+<# if (this.respSchema != null) { #>
+  az_span payload;
+
+  if (command_response == NULL)
+  {
+    payload = AZ_SPAN_EMPTY;
+  }
+  else
+  {
+    _az_PRECONDITION_NOT_NULL(payload_buffer);
+
+    az_span remainder;
+    size_t serialized_payload_length;
+    char* serialized_payload = cJSON_Print<#=this.respSchema#>(command_response);
+
+    if (serialized_payload == NULL)
+    {
+      return AZ_ERROR_OUT_OF_MEMORY;
+    }
+
+    serialized_payload_length = strlen(serialized_payload);
+
+    if (payload_buffer_size < serialized_payload_length)
+    {
+      free(serialized_payload);
+      return AZ_ERROR_NOT_ENOUGH_SPACE;
+    }
+
+    payload = az_span_create((uint8_t*)payload_buffer, payload_buffer_size);
+
+    remainder = az_span_copy(
+      payload, az_span_create((uint8_t*)serialized_payload, serialized_payload_length));
+    payload = az_span_slice(payload, 0, az_span_size(payload) - az_span_size(remainder));
+
+    free(serialized_payload);
+
+    if (out_payload_buffer_length != NULL)
+    {
+      *out_payload_buffer_length = az_span_size(payload);
+    }
+  }
+<# } #>
+
+  rpc_execution_response->response_topic = rpc_execution_request->response_topic,
+  rpc_execution_response->request_topic = rpc_execution_request->request_topic,
+  rpc_execution_response->correlation_id = rpc_execution_request->correlation_id;
+  rpc_execution_response->status = status;
+  rpc_execution_response->error_message = error_message;
+  rpc_execution_response->content_type = <#=GetFullyQualifiedName().ToLower()#>_payload_content_type;
+<# if (this.respSchema != null) { #>
+  rpc_execution_response->response = payload;
+<# } else { #>
+  rpc_execution_response->response = AZ_SPAN_EMPTY;
+<# } #>
+
+  return AZ_OK;
+}
+
+#endif // <#=GetFullyQualifiedName().ToUpper()#>_EXECUTOR_H

@@ -1,0 +1,29 @@
+---
+test-name: CommandInvokerWithZeroTimeout_ThrowsException
+description:
+  condition: >-
+    CommandInvoker invokes command with command timeout of zero duration.
+  expect: >-
+    Invocation throws 'invalid configuration' exception.
+
+requires:
+- explicit-default
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  timeout: { seconds: 0 }
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'commandtimeout'
+...

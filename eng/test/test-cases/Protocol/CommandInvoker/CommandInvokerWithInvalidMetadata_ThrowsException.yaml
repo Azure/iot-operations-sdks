@@ -1,0 +1,29 @@
+---
+test-name: CommandInvokerWithInvalidMetadata_ThrowsException
+aka:
+- RequestWithInvalidMetadataThrowsException
+description:
+  condition: >-
+    CommandInvoker invokes command with metadata key that uses reserved prefix.
+  expect: >-
+    Invocation throws 'invalid argument' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  metadata:
+    "__hasReservePrefix": "userValue"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'metadata'
+...

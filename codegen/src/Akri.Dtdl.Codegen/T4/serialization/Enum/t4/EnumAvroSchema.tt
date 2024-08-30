@@ -1,0 +1,8 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (this.schema != null) { #>
+"name": "<#=this.schema#>",
+<# } #>
+"type": "enum",
+"symbols": [ <#= string.Join(", ", this.names.Select(n => $"\"{n}\"")) #> ]<# this.PopIndent(); #>

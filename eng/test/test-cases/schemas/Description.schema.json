@@ -1,0 +1,16 @@
+{
+    "title": "Description",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "condition": {
+            "description": "Description of the condition being tested.",
+            "type": "string"
+        },
+        "expect": {
+            "description": "The expected result of the condition.",
+            "type": "string"
+        }
+    },
+    "required": [ "condition", "expect" ]
+}

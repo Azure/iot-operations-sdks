@@ -1,0 +1,191 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+
+import (
+	"context"
+
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+)
+
+type <#=this.serviceName#>Service struct {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	*<#=this.AsUpper(telemSchema)#>Sender
+<# } #>
+}
+
+type <#=this.serviceName#>Client struct {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	*<#=this.AsUpper(telemSchema)#>Receiver
+<# } #>
+}
+
+const (
+<# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
+	ModelID = "<#=this.modelId#>"
+<# } #>
+<# if (this.commandTopic != null) { #>
+	CommandTopic = "<#=this.commandTopic#>"
+<# } #>
+<# if (this.telemetryTopic != null) { #>
+	TelemetryTopic = "<#=this.telemetryTopic#>"
+<# } #>
+)
+
+func New<#=this.serviceName#>Service(
+	client mqtt.Client,
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=cmdNameReqResp.Item2 ?? "any"#>, <#=cmdNameReqResp.Item3 ?? "any"#>],
+<# } #>
+	opts ...protocol.Option,
+) (*<#=this.serviceName#>Service, error) {
+	var err error
+
+	serverOpts := []protocol.Option{
+		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens{
+<# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
+			"modelId":    ModelID,
+<# } #>
+<# if (this.commandTopic != null) { #>
+			"executorId": client.ClientID(),
+<# } #>
+<# if (this.telemetryTopic != null) { #>
+			"senderId":   client.ClientID(),
+<# } #>
+		},
+	}
+
+<# if (this.cmdNameReqResps.Any()) { #>
+	var executorOpts protocol.CommandExecutorOptions
+	executorOpts.ApplyOptions(opts, serverOpts...)
+<# } #>
+
+<# if (this.telemSchemas.Any()) { #>
+	var senderOpts protocol.TelemetrySenderOptions
+	senderOpts.ApplyOptions(opts, serverOpts...)
+<# } #>
+
+	<#=this.AsLower(this.serviceName)#>Service := &<#=this.serviceName#>Service{}
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+	<#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor, err = New<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor(
+		client,
+		CommandTopic,
+		<#=this.AsLower(cmdNameReqResp.Item1)#>Handler,
+		&executorOpts,
+	);
+	if err != nil {
+		return nil, err
+	}
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+
+	<#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(telemSchema)#>Sender, err = New<#=this.AsUpper(telemSchema)#>Sender(
+		client,
+		TelemetryTopic,
+		&senderOpts,
+	);
+	if err != nil {
+		return nil, err
+	}
+<# } #>
+
+	return <#=this.AsLower(this.serviceName)#>Service, nil
+}
+
+func (service *<#=this.serviceName#>Service) Listen(
+	ctx context.Context,
+) (func(), error) {
+	return protocol.Listen(
+		ctx,
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+		service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor,
+<# } #>
+	)
+}
+
+func New<#=this.serviceName#>Client(
+	client mqtt.Client,
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	<#=this.AsLower(telemSchema)#>Handler protocol.TelemetryHandler[<#=telemSchema#>],
+<# } #>
+	opts ...protocol.Option,
+) (*<#=this.serviceName#>Client, error) {
+	var err error
+
+	clientOpts := []protocol.Option{
+		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens{
+<# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
+			"modelId":    ModelID,
+<# } #>
+<# if (this.commandTopic != null) { #>
+			"invokerClientId": client.ClientID(),
+<# } #>
+		},
+	}
+
+<# if (this.cmdNameReqResps.Any()) { #>
+	var invokerOpts protocol.CommandInvokerOptions
+	invokerOpts.ApplyOptions(opts, clientOpts...)
+<# } #>
+
+<# if (this.telemSchemas.Any()) { #>
+	var receiverOpts protocol.TelemetryReceiverOptions
+	receiverOpts.ApplyOptions(opts, clientOpts...)
+<# } #>
+
+	<#=this.AsLower(this.serviceName)#>Client := &<#=this.serviceName#>Client{}
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+	<#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker, err = New<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker(
+		client,
+		CommandTopic,
+		&invokerOpts,
+	);
+	if err != nil {
+		return nil, err
+	}
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+
+	<#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(telemSchema)#>Receiver, err = New<#=this.AsUpper(telemSchema)#>Receiver(
+		client,
+		TelemetryTopic,
+		<#=this.AsLower(telemSchema)#>Handler,
+		&receiverOpts,
+	);
+	if err != nil {
+		return nil, err
+	}
+<# } #>
+
+	return <#=this.AsLower(this.serviceName)#>Client, nil
+}
+
+func (client *<#=this.serviceName#>Client) Listen(
+	ctx context.Context,
+) (func(), error) {
+	return protocol.Listen(
+		ctx,
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+		client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker,
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+		client.<#=this.AsUpper(telemSchema)#>Receiver,
+<# } #>
+	)
+}
+<#+
+    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+
+    private string AsLower(string name) => char.ToLowerInvariant(name[0]) + name.Substring(1);
+#>

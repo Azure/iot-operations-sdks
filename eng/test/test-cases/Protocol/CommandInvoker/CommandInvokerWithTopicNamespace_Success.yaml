@@ -1,0 +1,40 @@
+---
+test-name: CommandInvokerWithTopicNamespace_Success
+aka:
+- InvokerWithCustomPrefix
+description:
+  condition: >-
+    CommandInvoker with topic namespace invokes command and receives response.
+  expect: >-
+    CommandInvoker completes command and acknowledges response.
+
+prologue:
+  invokers:
+  - topic-namespace: "this/is/a/namespace"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  topic: "this/is/a/namespace/response/mock/test"
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "this/is/a/namespace/response/mock/test"
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "this/is/a/namespace/mock/test"
+    payload: "Test_Request"
+...

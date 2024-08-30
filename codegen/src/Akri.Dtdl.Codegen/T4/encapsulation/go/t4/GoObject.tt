@@ -1,0 +1,20 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+package <#=this.genNamespace#>
+<# if (this.schemaImports.Any()) {#>
+
+import (
+<# foreach (var schemaImport in this.schemaImports) { #>
+	"<#=schemaImport#>"
+<# } #>
+)
+<# } #>
+
+type <#=this.objectType.SchemaName#> struct {
+<# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+	<#=Capitalize(fieldInfo.Key)#> <#=GoSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsRequired)#> `json:"<#=fieldInfo.Key#><#=fieldInfo.Value.IsRequired ? "" : ",omitempty"#>"`
+<# } #>
+}
+<#+
+    public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
+#>

@@ -1,0 +1,45 @@
+<#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
+
+#nullable enable
+
+namespace <#=this.projectName#>.<#=this.genNamespace#>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.RPC;
+    using Azure.Iot.Operations.Protocol.Models;
+    using <#=this.projectName#>;
+
+    public static partial class <#=this.serviceName#>
+    {
+        /// <summary>
+        /// Specializes a <c>CommandExecutor</c> class for Command '<#=this.commandName#>'.
+        /// </summary>
+<# if (this.isIdempotent) { #>
+<# if (this.ttl != null) { #>
+        [CommandBehavior(idempotent: true, cacheableDuration: "<#=this.ttl#>")]
+<# } else { #>
+        [CommandBehavior(idempotent: true)]
+<# } #>
+<# } else if (this.ttl != null) { #>
+        [CommandBehavior(idempotent = false, cacheableDuration: "<#=this.ttl#>")]
+<# } #>
+        public class <#=this.capitalizedCommandName#>CommandExecutor : CommandExecutor<#=this.TypeParams()#>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="<#=this.capitalizedCommandName#>CommandExecutor"/> class.
+            /// </summary>
+            internal <#=this.capitalizedCommandName#>CommandExecutor(IMqttPubSubClient mqttClient)
+                : base(mqttClient, "<#=this.commandName#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
+            {
+            }
+        }
+    }
+}
+<#+
+    private string TypeParams() => $"<{this.reqSchema ?? this.serialzerEmptyType}, {this.respSchema ?? this.serialzerEmptyType}>";
+#>

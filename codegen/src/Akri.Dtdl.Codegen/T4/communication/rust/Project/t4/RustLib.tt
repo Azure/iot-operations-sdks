@@ -1,0 +1,4 @@
+<#@ template language="C#" linePragmas="false" #>
+#![allow(non_snake_case)]
+pub mod <#=this.genNamespace#>;
+pub mod serialization;

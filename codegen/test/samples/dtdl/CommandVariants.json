@@ -1,0 +1,47 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:jsonTest:CommandVariants;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "commandTopic": "samples/command/{commandName}/{executorId}",
+    "contents": [
+      {
+        "@type": [ "Command", "Idempotent" ],
+        "name": "noop"
+      },
+      {
+        "@type": [ "Command", "Idempotent", "Cacheable" ],
+        "name": "peek",
+        "response": {
+          "name": "outVal",
+          "schema": "integer"
+        },
+        "ttl": "PT15S"
+      },
+      {
+        "@type": "Command",
+        "name": "poke",
+        "request": {
+          "name": "inVal",
+          "schema": "integer"
+        }
+      },
+      {
+        "@type": "Command",
+        "name": "setColor",
+        "request": {
+          "name": "newColor",
+          "schema": "string"
+        },
+        "response": {
+          "name": "oldColor",
+          "schema": "string"
+        }
+      }
+    ]
+  }
+]

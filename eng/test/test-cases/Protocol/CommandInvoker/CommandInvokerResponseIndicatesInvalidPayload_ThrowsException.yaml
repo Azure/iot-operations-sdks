@@ -1,0 +1,31 @@
+---
+test-name: CommandInvokerResponseIndicatesInvalidPayload_ThrowsException
+aka:
+- InvokerRequestBadPayload
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating Bad Request and no invalid property name.
+  expect: >-
+    Invocation throws 'invalid payload' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "400" # Bad Request
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid payload
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 400
+...

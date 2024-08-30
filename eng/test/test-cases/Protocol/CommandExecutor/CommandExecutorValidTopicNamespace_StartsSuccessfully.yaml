@@ -1,0 +1,12 @@
+---
+test-name: CommandExecutorValidTopicNamespace_StartsSuccessfully
+description:
+  condition: >-
+    CommandExecutor initialized with a topic namespace that is valid
+  expect: >-
+    CommandExecutor starts successfully
+
+prologue:
+  executors:
+  - topic-namespace: "valid/namespace"
+...

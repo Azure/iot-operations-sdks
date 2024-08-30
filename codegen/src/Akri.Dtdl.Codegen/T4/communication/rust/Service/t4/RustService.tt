@@ -1,0 +1,240 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="Akri.Dtdl.Codegen" #>
+/* This is an auto-generated file.  Do not modify. */
+#![allow(non_snake_case)]
+
+use akri_mqtt_attributes::model_id;
+<# if (this.commandTopic != null) { #>
+use akri_mqtt_attributes::command_topic;
+<# } #>
+<# if (this.telemetryTopic != null) { #>
+use akri_mqtt_attributes::telemetry_topic;
+<# } #>
+<# if (this.commandTopic != null && !this.doesCommandTargetExecutor) { #>
+use akri_mqtt_attributes::service_group_id;
+<# } #>
+
+#[model_id("<#=this.modelId#>")]
+<# if (this.commandTopic != null) { #>
+#[command_topic("<#=this.commandTopic#>")]
+<# } #>
+<# if (this.telemetryTopic != null) { #>
+#[telemetry_topic("<#=this.telemetryTopic#>")]
+<# } #>
+<# if (this.commandTopic != null && !this.doesCommandTargetExecutor) { #>
+#[service_group_id("<#=Defaults.ServiceGroupId#>")]
+<# } #>
+pub mod <#=this.serviceName#> {
+    use std::collections::HashMap;
+    use std::io::Error;
+    use std::sync::Arc;
+    use std::thread::Scope;
+
+    use futures::executor::block_on;
+    use futures::lock::Mutex;
+<# if (this.cmdNameReqResps.Any()) { #>
+    use tokio::sync::{mpsc, oneshot};
+    use paho_mqtt::token::DeliveryToken;
+<# } else { #>
+    use tokio::sync::mpsc;
+<# } #>
+
+    use akri_mqtt::PubSub;
+<# if (this.cmdNameReqResps.Any()) { #>
+    use akri_mqtt::rpc::error::CommandError;
+<# } #>
+    use akri_mqtt::communication_options::CommunicationOptions;
+    use akri_mqtt::demultiplexer::InboundMessageDemux;
+
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+<# if (cmdNameReqResp.Item2 != null && cmdNameReqResp.Item2 != string.Empty) { #>
+    use super::super::<#=NamingSupport.ToSnakeCase(cmdNameReqResp.Item2)#>::<#=cmdNameReqResp.Item2#>;
+<# } #>
+<# if (cmdNameReqResp.Item3 != null && cmdNameReqResp.Item3 != string.Empty) { #>
+    use super::super::<#=NamingSupport.ToSnakeCase(cmdNameReqResp.Item3)#>::<#=cmdNameReqResp.Item3#>;
+<# } #>
+    use super::super::<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>::<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor;
+    use super::super::<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>::<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker;
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+
+    use super::super::<#=NamingSupport.ToSnakeCase(telemSchema)#>::<#=telemSchema#>;
+    use super::super::<#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>::<#=this.AsUpper(telemSchema)#>Sender;
+    use super::super::<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>::<#=this.AsUpper(telemSchema)#>Receiver;
+<# } #>
+
+    pub struct Service<TPubSub: PubSub + Send + 'static> {
+        communication_options: CommunicationOptions,
+        inbound_message_demux: Arc<Mutex<InboundMessageDemux<TPubSub>>>,
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+        <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor<TPubSub>,
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+        <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender<TPubSub>,
+<# } #>
+    }
+
+    pub struct Client<TPubSub: PubSub + Send + 'static> {
+        communication_options: CommunicationOptions,
+        inbound_message_demux: Arc<Mutex<InboundMessageDemux<TPubSub>>>,
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+        <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker<TPubSub>,
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+        <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver<TPubSub>,
+<# } #>
+    }
+
+    impl<TPubSub: PubSub + Send + 'static> Service<TPubSub> {
+        pub fn new(pub_sub: Arc<Mutex<TPubSub>>) -> Self {
+            let inbound_message_demux = Arc::new(Mutex::new(InboundMessageDemux::new(pub_sub.clone())));
+            let<#=(this.commandTopic != null && !this.doesCommandTargetExecutor) ? " mut" : "" #> service = Self {
+                communication_options: CommunicationOptions::new(),
+                inbound_message_demux: inbound_message_demux.clone(),
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+                <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor::new(pub_sub.clone(), inbound_message_demux.clone(), <#=this.CmdModelIdProp()#>, super::get_command_topic(), Some(HashMap::new())),
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender::new(pub_sub.clone(), <#=this.TelemModelIdProp()#>, super::get_telemetry_topic(), Some(HashMap::new())),
+<# } #>
+            };
+<# if (this.commandTopic != null && !this.doesCommandTargetExecutor) { #>
+
+            let mut communication_options = CommunicationOptions::new();
+            communication_options.shared_subscription_id = Some(super::get_service_group_id());
+            service.set_communication_options(communication_options);
+<# } #>
+
+            service
+        }
+
+        pub fn add_custom_topic_token(&mut self, token: String, replacement: String) {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>.add_custom_topic_token(token.clone(), replacement.clone());
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>.add_custom_topic_token(token.clone(), replacement.clone());
+<# } #>
+        }
+
+        pub fn get_communication_options(&self) -> &CommunicationOptions { &self.communication_options }
+
+        pub fn set_communication_options(&mut self, communication_options: CommunicationOptions ) {
+            self.communication_options = communication_options;
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>.set_communication_options(communication_options);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>.set_communication_options(communication_options);
+<# } #>
+        }
+
+        pub fn set_topic_namespace(&mut self, topic_namespace: &'static str) {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>.set_topic_namespace(topic_namespace);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>.set_topic_namespace(topic_namespace);
+<# } #>
+        }
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+        pub async fn get_<#=NamingSupport.ToSnakeCase(cmdNameReqResp.Item1)#>_channel(&self) -> mpsc::Receiver<<#=this.RecvrType(cmdNameReqResp.Item2, $"Box<dyn FnOnce(Result<{this.RespType(cmdNameReqResp.Item3)}, CommandError>) -> DeliveryToken + Send>")#>> {
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>.get_channel().await
+        }
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+
+        pub async fn send_<#=NamingSupport.ToSnakeCase(telemSchema)#>(&self, telem: &<#=telemSchema#>) -> Result<(), Error> {
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>.send_telemetry(telem).await
+        }
+<# } #>
+
+        pub fn start<'scope, 'env>(&self, scope: &'scope Scope<'scope, 'env>) {
+            block_on(self.inbound_message_demux.lock()).start(scope);
+        }
+    }
+
+    impl<TPubSub: PubSub + Send + 'static> Client<TPubSub> {
+        pub fn new(pub_sub: Arc<Mutex<TPubSub>>) -> Self {
+            let inbound_message_demux = Arc::new(Mutex::new(InboundMessageDemux::new(pub_sub.clone())));
+            Self {
+                communication_options: CommunicationOptions::new(),
+                inbound_message_demux: inbound_message_demux.clone(),
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+                <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker::new(pub_sub.clone(), inbound_message_demux.clone(), Some(super::get_model_id()), super::get_command_topic(), Some(HashMap::new())),
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver::new(pub_sub.clone(), inbound_message_demux.clone(), Some(super::get_model_id()), super::get_telemetry_topic(), Some(HashMap::new())),
+<# } #>
+            }
+        }
+
+        pub fn add_custom_topic_token(&mut self, token: String, replacement: String) {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>.add_custom_topic_token(token.clone(), replacement.clone());
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>.add_custom_topic_token(token.clone(), replacement.clone());
+<# } #>
+        }
+
+        pub fn get_communication_options(&self) -> &CommunicationOptions { &self.communication_options }
+
+        pub fn set_communication_options(&mut self, communication_options: CommunicationOptions ) {
+            self.communication_options = communication_options;
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>.set_communication_options(communication_options);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>.set_communication_options(communication_options);
+<# } #>
+        }
+
+        pub fn set_topic_namespace(&mut self, topic_namespace: &'static str) {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>.set_topic_namespace(topic_namespace);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>.set_topic_namespace(topic_namespace);
+<# } #>
+        }
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+        pub async fn <#=NamingSupport.ToSnakeCase(cmdNameReqResp.Item1)#>(&self<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp.Item2)#>) -> Result<oneshot::Receiver<Result<<#=this.RespType(cmdNameReqResp.Item3)#>, Error>>, Error> {
+            self.<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>.invoke_command(<#=this.ExecArg()#><#=this.ReqArg(cmdNameReqResp.Item2)#>).await
+        }
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+
+        pub async fn get_<#=NamingSupport.ToSnakeCase(telemSchema)#>_channel(&self) -> mpsc::Receiver<(String, <#=telemSchema#>)> {
+            self.<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>.get_channel().await
+        }
+<# } #>
+
+        pub fn start<'scope, 'env>(&self, scope: &'scope Scope<'scope, 'env>) {
+            block_on(self.inbound_message_demux.lock()).start(scope);
+        }
+    }
+}
+<#+
+    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+
+    private string ReqParam(string reqSchema) => reqSchema != null ? $", request: &{this.AsSchema(reqSchema)}" : "";
+
+    private string ReqArg(string reqSchema) => reqSchema != null ? $", request" : "";
+
+    private string RespType(string respSchema) => respSchema != null ? this.AsSchema(respSchema) : "()";
+
+    private string RecvrType(string reqSchema, string funcSig) => reqSchema != null ? $"({this.AsSchema(reqSchema)}, {funcSig})" : funcSig;
+
+    private string ExecParam() => this.doesCommandTargetExecutor ? ", executor_id: &str" : "";
+
+    private string ExecArg() => this.doesCommandTargetExecutor ? "Some(executor_id)" : "None";
+
+    private string CmdModelIdProp() => this.doesCommandTargetService ? "Some(super::get_model_id())" : "None";
+
+    private string TelemModelIdProp() => this.doesTelemetryTargetService ? "Some(super::get_model_id())" : "None";
+
+    private string AsSchema(string schema) => schema == "" ? "String" : schema;
+#>

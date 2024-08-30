@@ -1,0 +1,37 @@
+---
+test-name: CommandInvokerResponseIndicatesRequestTimeout_ThrowsException
+aka:
+- InvokerRequestBadPayload
+description:
+  condition: >-
+    CommandInvoker receives response message with status indicating Request Timeout
+  expect: >-
+    Invocation throws 'timeout' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "408" # Request Timeout
+  metadata:
+    "__propName": "ExecutionTimeout"
+    "__propVal": "PT1S"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: timeout
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool true
+    status-code: 408
+    supplemental:
+      timeout-name: 'executiontimeout'
+      timeout-value: 'PT1S'
+...

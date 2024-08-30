@@ -1,0 +1,47 @@
+---
+test-name: CommandExecutorDispatchConcurrencySatisfiesNeed_CompleteSuccessfully
+aka:
+- MaximumConcurrencyGreaterThanOne_ProcessMessagesInParallel
+description:
+  condition: >-
+    CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed.
+  expect: >-
+    CommandExecutor processes requests concurrently and returns success.
+
+requires:
+- dispatch
+
+prologue:
+  countdown-events:
+    'barrier': 3
+  executors:
+  - execution-concurrency: 3
+    sync:
+    - signal-event: 'barrier'
+    - wait-event: 'barrier'
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: receive request
+  correlation-index: 1
+- action: receive request
+  correlation-index: 2
+- action: await acknowledgement
+- action: await acknowledgement
+- action: await acknowledgement
+
+epilogue:
+  acknowledgement-count: 3
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+  - correlation-index: 1
+    topic: "response/mock/test"
+    command-status: 200 # OK
+  - correlation-index: 2
+    topic: "response/mock/test"
+    command-status: 200 # OK
+...
+    

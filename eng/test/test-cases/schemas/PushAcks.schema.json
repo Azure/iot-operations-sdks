@@ -1,0 +1,25 @@
+{
+    "title": "PushAcks",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "publish": {
+            "description": "Queue of ACKs used sequentially to respond to MQTT PUBLISH messages.",
+            "type": "array",
+            "items": { "$ref": "AckKind.schema.json" },
+            "kind": "drive"
+        },
+        "subscribe": {
+            "description": "Queue of ACKs used sequentially to respond to MQTT SUBSCRIBE messages.",
+            "type": "array",
+            "items": { "$ref": "AckKind.schema.json" },
+            "kind": "drive"
+        },
+        "unsubscribe": {
+            "description": "Queue of ACKs used sequentially to respond to MQTT UNSUBSCRIBE messages.",
+            "type": "array",
+            "items": { "$ref": "AckKind.schema.json" },
+            "kind": "drive"
+        }
+    }
+}

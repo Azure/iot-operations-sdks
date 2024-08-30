@@ -1,0 +1,29 @@
+{
+    "title": "Error",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "kind": {
+            "description": "The kind of error to raise.",
+            "$ref": "ErrorKind.schema.json",
+            "kind": "drive",
+            "empty": "none"
+        },
+        "message": {
+            "description": "The error message.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "property-name": {
+            "description": "The name of the property that is invalid; only used for content errors.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "property-value": {
+            "description": "The value of the property that is invalid; only used for content errors.",
+            "type": "string",
+            "kind": "drive"
+        }
+    },
+    "required": [ "kind" ]
+}

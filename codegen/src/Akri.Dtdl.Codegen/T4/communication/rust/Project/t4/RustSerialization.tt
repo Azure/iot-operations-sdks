@@ -1,0 +1,5 @@
+<#@ template language="C#" linePragmas="false" #>
+pub mod <#=this.serializerSubNamespace#>;
+<# if (this.isSchematized) { #>
+pub mod schemata;
+<# } #>

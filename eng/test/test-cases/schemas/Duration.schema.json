@@ -1,0 +1,27 @@
+{
+    "title": "Duration",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "hours": {
+            "description": "The hours component of the duration.",
+            "type": "integer"
+        },
+        "minutes": {
+            "description": "The minutes component of the duration.",
+            "type": "integer"
+        },
+        "seconds": {
+            "description": "The seconds component of the duration.",
+            "type": "integer"
+        },
+        "milliseconds": {
+            "description": "The milliseconds component of the duration.",
+            "type": "integer"
+        },
+        "microseconds": {
+            "description": "The microseconds component of the duration.",
+            "type": "integer"
+        }
+    }
+}

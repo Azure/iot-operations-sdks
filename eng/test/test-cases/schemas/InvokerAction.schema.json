@@ -1,0 +1,16 @@
+{
+    "title": "InvokerAction",
+    "type": "object",
+    "anyOf": [
+        { "$ref": "ActionInvokeCommand.schema.json" },
+        { "$ref": "ActionAwaitInvocation.schema.json" },
+        { "$ref": "ActionAwaitPublishRequest.schema.json" },
+        { "$ref": "ActionReceiveResponse.schema.json" },
+        { "$ref": "ActionAwaitAck.schema.json" },
+        { "$ref": "ActionDisconnect.schema.json" },
+        { "$ref": "ActionSleep.schema.json" },
+        { "$ref": "ActionFreezeTime.schema.json" },
+        { "$ref": "ActionUnfreezeTime.schema.json" }
+    ],
+    "required": [ "action" ]
+}

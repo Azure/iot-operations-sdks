@@ -1,0 +1,20 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "<[ID]>",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Avro/1.11.0",
+  "commandTopic": "<[TOPIC]>",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "<[NAME1]>"
+    },
+    {
+      "@type": "Command",
+      "name": "<[NAME2]>"
+    }
+  ]
+}

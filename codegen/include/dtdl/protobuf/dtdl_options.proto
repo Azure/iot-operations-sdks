@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package dtdl;
+
+import "google/protobuf/descriptor.proto";
+
+message DtdlEnumOptions {
+    optional string enum_string = 1;
+}
+
+extend google.protobuf.EnumValueOptions {
+    optional DtdlEnumOptions dtdl_options = 1183;
+}

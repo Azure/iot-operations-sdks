@@ -1,0 +1,29 @@
+---
+test-name: CommandExecutorRequestNoMessageExpiry_RespondsError
+description:
+  condition: >-
+    CommandExecutor receives request with no MessageExpiry metadata.
+  expect: >-
+    CommandExecutor sends response with status BadRequest.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  message-expiry:
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 400 # BadRequest
+    is-application-error: false
+    metadata:
+      "__propName": "Message Expiry"
+...

@@ -1,0 +1,61 @@
+{
+    "title": "Catch",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "error-kind": {
+            "description": "The kind of error expected to be caught.",
+            "type": "string",
+            "enum": [
+                "missing header",
+                "invalid header",
+                "invalid payload",
+                "timeout",
+                "cancellation",
+                "invalid configuration",
+                "invalid argument",
+                "invalid state",
+                "internal logic error",
+                "unknown error",
+                "invocation error",
+                "execution error",
+                "mqtt error"
+            ],
+            "kind": "check"
+        },
+        "in-application": {
+            "description": "Whether the error occurs in user-supplied code rather than the SDK or its dependent components.",
+            "type": "boolean",
+            "kind": "check"
+        },
+        "is-shallow": {
+            "description": "Whether the error is identified immediately after the API was called, prior to any attempted network communication.",
+            "type": "boolean",
+            "kind": "check"
+        },
+        "is-remote": {
+            "description": "Whether the error is detected by a remote component.",
+            "type": "boolean",
+            "kind": "check"
+        },
+        "status-code": {
+            "description": "An HTTP status code from a remote service that initally caught the error.",
+            "type": [ "integer", "null" ],
+            "kind": "check"
+        },
+        "message": {
+            "description": "The error message; should be checked only when explicitly set in a test case.",
+            "type": "string",
+            "kind": "check"
+        },
+        "supplemental": {
+            "description": "Additional properties that may be set for some error kinds.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "check"
+        }
+    },
+    "required": [ "error-kind" ]
+}

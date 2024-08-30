@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+syntax = "proto3";
+
+package <#=this.genNamespace#>;
+
+option java_multiple_files = true;
+option java_package = "<#=this.genNamespace#>";
+
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+
+<# if (ProtobufSupport.TryGetImport(this.mapValueSchema, this.dtmiToSchemaName, out string importName) && this.importNames.Add(importName)) { #>
+import "<#=importName#>";
+<# } #>
+
+message <#=this.schema#> {
+    map<string, <#=ProtobufSupport.GetType(this.mapValueSchema, this.dtmiToSchemaName)#>> Value = 1;
+}

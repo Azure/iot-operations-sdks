@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "setTargets",
+      "request": {
+        "name": "targets",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "name",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "angle",
+            "schema": "double"
+          }
+        }
+      }
+    }
+  ]
+}

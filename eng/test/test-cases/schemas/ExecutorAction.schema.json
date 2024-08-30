@@ -1,0 +1,15 @@
+{
+    "title": "ExecutorAction",
+    "type": "object",
+    "anyOf": [
+        { "$ref": "ActionReceiveRequest.schema.json" },
+        { "$ref": "ActionAwaitPublishResponse.schema.json" },
+        { "$ref": "ActionSync.schema.json" },
+        { "$ref": "ActionAwaitAck.schema.json" },
+        { "$ref": "ActionDisconnect.schema.json" },
+        { "$ref": "ActionSleep.schema.json" },
+        { "$ref": "ActionFreezeTime.schema.json" },
+        { "$ref": "ActionUnfreezeTime.schema.json" }
+    ],
+    "required": [ "action" ]
+}

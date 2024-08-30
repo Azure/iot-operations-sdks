@@ -1,0 +1,26 @@
+---
+test-name: CommandExecutorRequestNoResponseTopic_NoResponse
+aka:
+- ResponseTopicMissing_MessageNotProcessedButAcknowledged
+description:
+  condition: >-
+    CommandExecutor receives request with no ResponseTopic metadata.
+  expect: >-
+    CommandExecutor discards request and acknowledges.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  response-topic:
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  publication-count: 0
+  acknowledgement-count: 1
+  execution-count: 0
+...

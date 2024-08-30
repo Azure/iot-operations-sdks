@@ -1,0 +1,52 @@
+{
+    "title": "ExecutorEpilogue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "subscribed-topics": {
+            "description": "A list of MQTT topics that have been subscribed.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "kind": "check"
+        },
+        "publication-count": {
+            "description": "The count of messages published.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "published-messages": {
+            "description": "A list of response messages published.",
+            "type": "array",
+            "items": {
+                "$ref": "PublishedResponse.schema.json"
+            },
+            "kind": "check"
+        },
+        "acknowledgement-count": {
+            "description": "The count of acknowledgements sent.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "execution-count": {
+            "description": "For a single executor, the number of times the execution function has run.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "execution-counts": {
+            "description": "For multiple executors, a map from the executor's index to the number of times its execution function has run.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\d+$": { "type": "integer" }
+            },
+            "kind": "check"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during finalization.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        }
+    }
+}

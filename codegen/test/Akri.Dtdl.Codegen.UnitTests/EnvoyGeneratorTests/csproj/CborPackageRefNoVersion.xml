@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dahomey.Cbor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".\Azure.Iot.Operations.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>

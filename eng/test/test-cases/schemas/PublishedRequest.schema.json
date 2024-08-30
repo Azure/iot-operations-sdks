@@ -1,0 +1,36 @@
+{
+    "title": "PublishedRequest",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "correlation-index": {
+            "description": "An arbitrary numeric value used to identify the correlation ID used in request and response messages.",
+            "type": "integer",
+            "kind": "match"
+        },
+        "topic": {
+            "description": "The MQTT topic to which the message is published.",
+            "type": "string",
+            "kind": "check"
+        },
+        "payload": {
+            "description": "The response payload UTF8 string, or null if no payload.",
+            "type": [ "string", "null" ],
+            "kind": "check"
+        },
+        "metadata": {
+            "description": "Keys and values of header fields in the message; a null value indicates field should not be present.",
+            "type": "object",
+            "additionalProperties": {
+                "type": [ "string", "null" ]
+            },
+            "kind": "check"
+        },
+        "invoker-id": {
+            "description": "The invoker ID header property in the message.",
+            "type": "string",
+            "kind": "check"
+        }
+    },
+    "required": [ "correlation-index" ]
+}

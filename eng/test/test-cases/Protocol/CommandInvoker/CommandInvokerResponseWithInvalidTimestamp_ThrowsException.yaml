@@ -1,0 +1,33 @@
+---
+test-name: CommandInvokerResponseWithInvalidTimestamp_ThrowsException
+description:
+  condition: >-
+    CommandInvoker receives response message with invalid __ts header.
+  expect: >-
+    Invocation throws 'invalid header' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  status: "200" # OK
+  metadata:
+    "__ts": "NotValid"
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid header
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+    supplemental:
+      header-name: "__ts"
+      header-value: "NotValid"
+...

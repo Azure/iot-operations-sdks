@@ -1,0 +1,54 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="Akri.Dtdl.Codegen" #>
+/* This is an auto-generated file.  Do not modify. */
+
+use std::collections::HashMap;
+use std::ops::{Deref, DerefMut};
+use std::sync::Arc;
+
+use futures::lock::Mutex;
+
+use akri_mqtt::PubSub;
+use akri_mqtt::demultiplexer::InboundMessageDemux;
+use akri_mqtt::rpc::executor::<#=this.BaseClassName("CommandExecutor")#>;
+use super::super::serialization::<#=this.serializerSubNamespace.ToLowerInvariant()#>::<#=this.serializerClassName#>;
+
+<# if (this.reqSchema != null && this.reqSchema != string.Empty) { #>
+use super::<#=NamingSupport.ToSnakeCase(this.AsSchema(this.reqSchema))#>::<#=this.AsSchema(this.reqSchema)#>;
+<# } #>
+<# if (this.respSchema != null && this.respSchema != string.Empty) { #>
+use super::<#=NamingSupport.ToSnakeCase(this.AsSchema(this.respSchema))#>::<#=this.AsSchema(this.respSchema)#>;
+<# } #>
+
+pub struct <#=this.capitalizedCommandName#>CommandExecutor<TPubSub: PubSub + Send + 'static>(<#=this.BaseClassName("CommandExecutor")#><<#=this.TypeParams()#><#=this.serializerClassName#>, TPubSub>);
+
+impl<TPubSub: PubSub + Send + 'static> <#=this.capitalizedCommandName#>CommandExecutor<TPubSub> {
+    pub fn new(pub_sub: Arc<Mutex<TPubSub>>, demux: Arc<Mutex<InboundMessageDemux<TPubSub>>>, model_id: Option<&'static str>, request_topic: &'static str, custom_topic_token_map: Option<HashMap<String, String>>) -> Self {
+        Self(<#=this.BaseClassName("CommandExecutor")#>::new(pub_sub, demux, "<#=this.commandName#>", model_id, request_topic, custom_topic_token_map))
+    }
+}
+
+impl<TPubSub: PubSub + Send + 'static> Deref for <#=this.capitalizedCommandName#>CommandExecutor<TPubSub> {
+    type Target = <#=this.BaseClassName("CommandExecutor")#><<#=this.TypeParams()#><#=this.serializerClassName#>, TPubSub>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<TPubSub: PubSub + Send + 'static> DerefMut for <#=this.capitalizedCommandName#>CommandExecutor<TPubSub> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+<#+
+    private string BaseClassName(string suffix) => this.respSchema != null ?
+        (this.reqSchema != null ? $"Func{suffix}" : $"Supp{suffix}") :
+        (this.reqSchema != null ? $"Cons{suffix}" : $"Bare{suffix}");
+
+    private string TypeParams() => this.respSchema != null ?
+        (this.reqSchema != null ? $"{this.AsSchema(this.reqSchema)}, {this.AsSchema(this.respSchema)}, " : $"{this.AsSchema(this.respSchema)}, ") :
+        (this.reqSchema != null ? $"{this.AsSchema(this.reqSchema)}, " : "");
+
+    private string AsSchema(string schema) => schema == "" ? "String" : schema;
+#>

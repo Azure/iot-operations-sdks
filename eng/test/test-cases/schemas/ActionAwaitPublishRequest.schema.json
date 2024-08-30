@@ -1,0 +1,18 @@
+{
+    "title": "ActionAwaitPublishRequest",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Wait for the publication of a request message.",
+            "type": "string",
+            "const": "await publish"
+        },
+        "correlation-index": {
+            "description": "An arbitrary numeric value used to identify the correlation ID in the message.",
+            "type": "integer",
+            "kind": "match"
+        }
+    },
+    "required": [ "action" ]
+}

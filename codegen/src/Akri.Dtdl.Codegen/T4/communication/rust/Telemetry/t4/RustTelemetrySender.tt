@@ -1,0 +1,36 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="Akri.Dtdl.Codegen" #>
+/* This is an auto-generated file.  Do not modify. */
+use std::collections::HashMap;
+use std::ops::{Deref, DerefMut};
+use std::sync::Arc;
+
+use futures::lock::Mutex;
+
+use akri_mqtt::PubSub;
+use akri_mqtt::telemetry::sender::TelemetrySender;
+use super::super::serialization::<#=this.serializerSubNamespace.ToLowerInvariant()#>::<#=this.serializerClassName#>;
+
+use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
+
+pub struct <#=this.schemaClassName#>Sender<TPubSub: PubSub>(TelemetrySender<<#=this.schemaClassName#>, <#=this.serializerClassName#>, TPubSub>);
+
+impl<TPubSub: PubSub> <#=this.schemaClassName#>Sender<TPubSub> {
+    pub fn new(pub_sub: Arc<Mutex<TPubSub>>, model_id: Option<&'static str>, topic: &'static str, custom_topic_token_map: Option<HashMap<String, String>>) -> Self {
+        Self(TelemetrySender::new(pub_sub, <#=this.telemetryName != null ? $"Some(\"{this.telemetryName}\")" : "None"#>, model_id, topic, custom_topic_token_map))
+    }
+}
+
+impl<TPubSub: PubSub> Deref for <#=this.schemaClassName#>Sender<TPubSub> {
+    type Target = TelemetrySender<<#=this.schemaClassName#>, <#=this.serializerClassName#>, TPubSub>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<TPubSub: PubSub> DerefMut for <#=this.schemaClassName#>Sender<TPubSub> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}

@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+syntax = "proto2";
+
+package <#=this.genNamespace#>;
+
+option java_multiple_files = true;
+option java_package = "<#=this.genNamespace#>";
+
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+
+<# foreach (var uniqueSchema in this.uniqueSchemas) { if (ProtobufSupport.TryGetImport(uniqueSchema, this.dtmiToSchemaName, out string importName) && this.importNames.Add(importName)) { #>
+import "<#=importName#>";
+<# } } #>
+
+message <#=this.schema#> {
+<# foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { #>
+    optional <#=ProtobufSupport.GetType(nameDescSchemaIndex.Item3, this.dtmiToSchemaName)#> <#=nameDescSchemaIndex.Item1#> = <#=nameDescSchemaIndex.Item4#>; // <#=nameDescSchemaIndex.Item2#>
+<# } #>
+}

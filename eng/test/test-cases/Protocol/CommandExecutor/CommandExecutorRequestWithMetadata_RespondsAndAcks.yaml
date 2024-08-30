@@ -1,0 +1,32 @@
+---
+test-name: CommandExecutorRequestWithMetadata_RespondsAndAcks
+aka:
+- ExecuteCommandWithMetadataOk_SendsAck
+description:
+  condition: >-
+    CommandExecutor receives valid request containing metadata.
+  expect: >-
+    CommandExecutor sends response and acknowledges request.
+
+prologue:
+  executors:
+  - response-metadata:
+      "responseHeader": "responseValue"
+      "requestHeader": # copy from metadata in request
+
+actions:
+- action: receive request
+  correlation-index: 0
+  metadata:
+    "requestHeader": "requestValue"
+- action: await acknowledgement
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    metadata:
+      "responseHeader": "responseValue"
+      "requestHeader": "requestValue"
+    command-status: 200 # OK
+...

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor\Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor.csproj" />
+    <ProjectReference Include="..\Akri.Dtdl.Codegen.IntegrationTests.T4\Akri.Dtdl.Codegen.IntegrationTests.T4.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Akri.Dtdl.Codegen\SchemaGenerator\MqttTopicTokens.cs" />
+    <Compile Include="..\..\..\src\Akri.Dtdl.Codegen\T4\PayloadFormat.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\input\templates\*.tt" />
+  </ItemGroup>
+
+</Project>

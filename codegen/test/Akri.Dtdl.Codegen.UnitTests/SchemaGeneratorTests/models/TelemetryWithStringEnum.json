@@ -1,0 +1,30 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "speed",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "slow",
+            "enumValue": "lente"
+          },
+          {
+            "name": "fast",
+            "enumValue": "rapide"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+    "title": "InvokerPrologue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "mqtt-config": {
+            "description": "MQTT client configuration settings.",
+            "$ref": "MqttConfig.schema.json",
+            "kind": "drive"
+        },
+        "push-acks": {
+            "description": "Queues of ACKs that are used sequentially to respond to various asynchronous MQTT messages.",
+            "$ref": "PushAcks.schema.json",
+            "kind": "drive"
+        },
+        "invokers": {
+            "description": "A list of CommandInvoker instances to initialize for use in the test.",
+            "type": "array",
+            "items": {
+                "$ref": "Invoker.schema.json"
+            },
+            "kind": "drive"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during initialization.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        }
+    }
+}

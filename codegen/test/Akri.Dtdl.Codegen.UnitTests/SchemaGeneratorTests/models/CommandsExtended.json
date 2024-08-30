@@ -1,0 +1,85 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:akri:DTDL:SchemaGenerator:baseInterface;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Command",
+        "name": "updateLocation",
+        "request": {
+          "name": "newLocation",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "latitude",
+                "schema": "double"
+              },
+              {
+                "name": "longitude",
+                "schema": "double"
+              }
+            ]
+          }
+        },
+        "response": {
+          "name": "region",
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "integer",
+            "enumValues": [
+              {
+                "name": "near",
+                "enumValue": 1
+              },
+              {
+                "name": "far",
+                "enumValue": 2
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": "Command",
+        "name": "queryDistances",
+        "request": {
+          "name": "places",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        "response": {
+          "name": "distances",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "placeName",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "distance",
+              "schema": "double"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "<[FORMAT]>",
+    "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+    "extends": "dtmi:akri:DTDL:SchemaGenerator:baseInterface;1"
+  }
+]

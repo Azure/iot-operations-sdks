@@ -1,0 +1,26 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.objBareId#>:_JSON<#=this.versionSuffix#>",
+  "title": "<#=this.schema#>",
+<# if (this.description != null) { #>
+  "description": "<#=this.description#>",
+<# } #>
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+<# foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { #>
+    "<#=nameDescSchemaIndex.Item1#>": {
+      "description": "<#=nameDescSchemaIndex.Item2#>",
+<# if (this.setIndex && nameDescSchemaIndex.Item4 > 0) { #>
+      "index": <#=nameDescSchemaIndex.Item4#>,
+<# } #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndex.Item3, this.dtmiToSchemaName)#>
+    }<#=this.IsLast(nameDescSchemaIndex) ? "" : ","#>
+<# } #>
+  }
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, int) nameDescSchemaIndex) => nameDescSchemaIndex.Item1 == this.nameDescSchemaIndices.Last().Item1;
+#>

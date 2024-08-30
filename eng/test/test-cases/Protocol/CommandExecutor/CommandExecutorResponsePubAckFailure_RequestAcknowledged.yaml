@@ -1,0 +1,30 @@
+---
+test-name: CommandExecutorResponsePubAckFailure_RequestAcknowledged
+aka:
+- ExecutorResponsePubAckFailure_NoExceptionThrownRequestAcknowledged
+description:
+  condition: >-
+    CommandExecutor receives valid request but ACK fails when publishing response.
+  expect: >-
+    CommandExecutor does not throw exception.
+
+prologue:
+  push-acks:
+    publish: [ fail ]
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+...

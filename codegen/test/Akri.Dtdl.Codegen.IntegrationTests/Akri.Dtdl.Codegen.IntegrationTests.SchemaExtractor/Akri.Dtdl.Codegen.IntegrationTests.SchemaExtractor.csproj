@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\..\..\src\Akri.Dtdl.Codegen\SchemaGenerator\AnnexFileProperties.cs" />
+		<Compile Include="..\..\..\src\Akri.Dtdl.Codegen\SchemaGenerator\NameFormatter.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DTDLParser" Version="1.1.3-preview-g727f672633" />
+	</ItemGroup>
+</Project>

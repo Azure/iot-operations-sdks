@@ -1,0 +1,39 @@
+---
+test-name: CommandExecutorReceivesPseudoDuplicateNonIdempotentRequest_CommandExecuted
+description:
+  condition: >-
+    CommandExecutor receives non-idempotent request that is duplicate except for different Invoker ID.
+  expect: >-
+    CommandExecutor executes command and responds with value from execution not from cache.
+
+prologue:
+  executors:
+  - idempotent: !!bool false
+    request-responses-map:
+      "Test_Request": [ "Test_Response0", "Test_Response1" ]
+
+requires:
+- caching
+
+actions:
+- action: freeze time
+- action: receive request
+  correlation-index: 0
+  invoker-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive request
+  correlation-index: 0
+  invoker-index: 1
+- action: unfreeze time
+- action: await publish
+  correlation-index: 0
+
+epilogue:
+  publication-count: 2
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+  execution-count: 2
+...

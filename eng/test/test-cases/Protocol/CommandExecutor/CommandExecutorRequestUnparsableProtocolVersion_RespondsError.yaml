@@ -1,0 +1,30 @@
+---
+test-name: CommandExecutorRequestUnparsableProtocolVersion_RespondsError
+description:
+  condition: >-
+    CommandExecutor receives request with a protocol version that it cannot parse
+  expect: >-
+    CommandExecutor sends response with status NotSupportedVersion.
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  packet-index: 0
+  metadata:
+    "__protVer": "this is not a valid protocol version"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 505 # Not Supported Version
+    is-application-error: false
+    metadata:
+      "__supProtMajVer": "1"
+      "__requestProtVer": "this is not a valid protocol version"
+      "__protVer": "1.0"
+...

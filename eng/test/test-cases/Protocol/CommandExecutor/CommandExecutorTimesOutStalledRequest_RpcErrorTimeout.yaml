@@ -1,0 +1,38 @@
+---
+test-name: CommandExecutorTimesOutStalledRequest_RpcErrorTimeout
+aka:
+- ExecutorRequestExpiresDuringProcessingExecutionTimeout_RpcErrorTimeout
+description:
+  condition: >-
+    CommandExecutor receives request that stalls during processing until execution timeout reached.
+  expect: >-
+    CommandExecutor responds with RequestTimeout.
+
+requires:
+- dispatch
+
+prologue:
+  countdown-events:
+    'stall': 1
+  executors:
+  - execution-timeout: { seconds: 1 }
+    sync:
+    - wait-event: 'stall'
+
+actions:
+- action: receive request
+  correlation-index: 0
+  message-expiry: { seconds: 10 }
+- action: await acknowledgement
+
+epilogue:
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 408 # RequestTimeout
+    is-application-error: !!bool false
+    metadata:
+      "__propName": "ExecutionTimeout"
+      "__propVal": "PT1S"
+...

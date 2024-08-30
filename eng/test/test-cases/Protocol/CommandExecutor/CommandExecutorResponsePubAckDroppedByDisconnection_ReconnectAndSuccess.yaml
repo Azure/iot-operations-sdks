@@ -1,0 +1,40 @@
+---
+test-name: CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess
+description:
+  condition: >-
+    CommandExecutor receives valid request but ACK dropped when publishing response.
+  expect: >-
+    Connection automatically re-established, publication retried, success.
+
+requires:
+- reconnection
+
+prologue:
+  push-acks:
+    publish: [ drop ]
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await publish
+  correlation-index: 0
+- action: disconnect
+- action: await publish
+  correlation-index: 0
+- action: receive request
+  correlation-index: 0
+  packet-index: 1
+- action: await acknowledgement
+  packet-index: 1
+
+epilogue:
+  acknowledgement-count: 1
+  publication-count: 3
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+...

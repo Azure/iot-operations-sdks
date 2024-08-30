@@ -1,0 +1,18 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@type": [ "Interface", "Mqtt" ],
+  "@id": "dtmi:akri:DTDL:ModelSelector:extendsDI;1",
+  "payloadFormat": "Cbor/rfc/8949",
+  "telemetryTopic": "vehicles/{modelId}/{senderId}/telemetry/{telemetryName}",
+  "extends": "dtmi:azure:DeviceManagement:DeviceInformation;1",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "bar",
+      "schema": "string"
+    }
+  ]
+}

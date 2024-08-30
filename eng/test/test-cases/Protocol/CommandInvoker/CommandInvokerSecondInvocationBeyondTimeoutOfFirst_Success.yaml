@@ -1,0 +1,58 @@
+---
+test-name: CommandInvokerSecondInvocationWithinTimeoutOfFirst_Success
+aka:
+- InvokeDifferentCallsOutsideTimeoutWithoutExecutorId
+description:
+  condition: >-
+    CommandInvoker invokes and completes Command, then invokes the same Command after the timeout period of the first Command instance.
+  expect: >-
+    Both commands complete successfully.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: freeze time
+
+- action: invoke command
+  invocation-index: 0
+  timeout: { seconds: 2 }
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  topic: "response/mock/test"
+  correlation-index: 0
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 0
+- action: await acknowledgement
+
+- action: unfreeze time
+- action: sleep
+  duration: { seconds: 3 }
+
+- action: invoke command
+  invocation-index: 1
+- action: await publish
+  correlation-index: 1
+- action: receive response
+  topic: "response/mock/test"
+  correlation-index: 1
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 1
+- action: await acknowledgement
+
+epilogue:
+  subscribed-topics:
+  - "response/mock/test"
+  acknowledgement-count: 2
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/test"
+    payload: "Test_Request"
+  - correlation-index: 1
+    topic: "mock/test"
+    payload: "Test_Request"
+...
