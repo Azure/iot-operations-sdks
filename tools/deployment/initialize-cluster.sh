@@ -3,6 +3,10 @@
 set -o errexit
 set -o pipefail
 
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb
+sudo dpkg -i step-cli_amd64.deb
+
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
 k3d cluster delete
 k3d cluster create \
