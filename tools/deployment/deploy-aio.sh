@@ -6,6 +6,7 @@ set -o errexit # fail if any command fails
 if [[ -z "$1" ]] || ! [[ "$1" =~ ^(nightly|release)$ ]]; then
     echo "Error: Missing argument"
     echo "  Options are 'nightly' or 'release'"
+    echo "  Example: './deploy-aio.sh nightly'"
     exit 1
 fi
 
