@@ -45,7 +45,7 @@ jobs:
         k3d cluster delete
         k3d registry create registry.localhost --port 5500
         k3d cluster create -p '1883:1883@loadbalancer' -p '8883:8883@loadbalancer' --registry-use k3d-registry.localhost:5500
-        helm install mq --atomic oci://mqbuilds.azurecr.io/helm/mq --version 0.6.0-nightly
+        helm install mq --atomic oci://mqbuilds.azurecr.io/helm/mq --version 0.6.0-nightly --namespace azure-iot-operations
 
     - name: Setup cert-manager
       run: |
