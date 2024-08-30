@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "dtmi:akri:samples:oven:_TelemetryCollection;1",
+    "title": "TelemetryCollection",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "externalTemperature": {
+        "description": "The 'externalTemperature' Telemetry.",
+        "type": "number", "format": "double"
+      },
+      "internalTemperature": {
+        "description": "The 'internalTemperature' Telemetry.",
+        "type": "number", "format": "double"
+      },
+      "operationSummary": {
+        "description": "The 'operationSummary' Telemetry.",
+        "properties": {
+          "startingTime": {
+            "description": "The 'startingTime' field of the 'operationSummary' Telemetry.",
+            "type": "string", "format": "date-time"
+          },
+          "totalDuration": {
+            "description": "The 'totalDuration' field of the 'operationSummary' Telemetry.",
+            "type": "string", "format": "duration"
+          },
+          "numberOfCakes": {
+            "description": "The 'numberOfCakes' field of the 'operationSummary' Telemetry.",
+            "type": "integer", "format": "int64"
+          }
+        }
+      }
+    }
+  }
+  

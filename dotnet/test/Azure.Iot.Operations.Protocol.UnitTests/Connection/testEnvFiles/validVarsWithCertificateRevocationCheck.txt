@@ -1,0 +1,16 @@
+MQTT_HOST_NAME = localhost
+MQTT_TCP_PORT = 8883
+MQTT_USE_TLS = true
+MQTT_CA_FILE = Connection/ca.txt
+MQTT_CA_REQUIRE_REVOCATION_CHECK = true
+MQTT_CLEAN_START = true
+MQTT_KEEP_ALIVE = PT45S
+MQTT_CLIENT_ID = clientId
+MQTT_SESSION_EXPIRY = PT1M
+MQTT_CONNECTION_TIMEOUT = PT3M
+MQTT_USERNAME = username
+MQTT_PASSWORD = password
+MQTT_PASSWORD_FILE = Connection/TestSdkLiteCertPwd.txt
+MQTT_CERT_FILE = Connection/TestSdkLiteCertPwdPem.txt
+MQTT_KEY_FILE = Connection/TestSdkLiteCertPwdKey.txt
+MQTT_KEY_FILE_PASSWORD = sdklite

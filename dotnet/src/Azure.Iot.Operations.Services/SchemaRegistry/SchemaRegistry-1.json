@@ -1,0 +1,170 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:ms:adr:SchemaRegistry;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "adr/{modelId}/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "MessageSchema",
+          "enumValue": "MessageSchema"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:Format;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "JsonSchemaDraft07",
+          "enumValue": "JsonSchema/draft-07"
+        },
+        {
+          "name": "Delta1",
+          "enumValue": "Delta/1.0"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:Tags;1",
+      "@type": "Map",
+      "mapKey": {
+        "name": "key",
+        "schema": "string"
+      },
+      "mapValue": {
+        "name": "value",
+        "schema": "string"
+      }
+    },
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "name",
+          "schema": "string"
+        },
+        {
+          "name": "format",
+          "schema": "dtmi:ms:adr:SchemaRegistry:Format;1"
+        },
+        {
+          "name": "schemaType",
+          "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1"
+        },
+        {
+          "name": "version",
+          "schema": "string"
+        },
+        {
+          "name": "schemaContent",
+          "schema": "string"
+        },
+        {
+          "name": "description",
+          "schema": "string"
+        },
+        {
+          "name": "displayName",
+          "schema": "string"
+        },
+        {
+          "name": "tags",
+          "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1"
+        },
+        {
+          "name": "hash",
+          "schema": "string"
+        },
+        {
+          "name": "namespace",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "put",
+      "request": {
+        "name": "putSchemaRequest",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "format",
+              "schema": "dtmi:ms:adr:SchemaRegistry:Format;1"
+            },
+            {
+              "name": "schemaType",
+              "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1"
+            },
+            {
+              "name": "schemaContent",
+              "schema": "string"
+            },
+            {
+              "name": "version",
+              "schema": "string"
+            },
+            {
+              "name": "description",
+              "schema": "string"
+            },
+            {
+              "name": "displayName",
+              "schema": "string"
+            },
+            {
+              "name": "tags",
+              "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "schema",
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+      }
+    },
+    {
+      "@type": [ "Command", "Idempotent", "Cacheable" ],
+      "ttl": "P1D",
+      "name": "get",
+      "request": {
+        "name": "getSchemaRequest",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "name",
+              "schema": "string"
+            },
+            {
+              "name": "version",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "schema",
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+      }
+    }
+  ]
+}

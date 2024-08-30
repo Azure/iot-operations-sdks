@@ -1,0 +1,6 @@
+MQTT_HOST_NAME = localhost
+MQTT_TCP_PORT = false
+MQTT_USE_TLS = 8883
+MQTT_CA_FILE = Connection/ca.txt
+MQTT_KEY_FILE = TestSdkLiteCertPwdKey.txt
+MQTT_KEY_FILE_PW = sdklite

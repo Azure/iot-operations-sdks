@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Azure.Iot.Operations.Protocol.UnitTests" />
+    <InternalsVisibleTo Include="Azure.Iot.Operations.Protocol.MetlTests" />
+  </ItemGroup>
+  
+	<ItemGroup>
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
+	</ItemGroup>
+</Project>

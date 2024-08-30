@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: passive-replication-secrets
+stringData:
+  PassiveReplicationNode: HostName=aio-mq-dmqtt-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: passive-replication-service-account
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: passive-replication-deployment
+  labels:
+    app: passive-replication
+spec:
+  replicas: 2 # The number of passive replication pods to deploy
+  selector:
+    matchLabels:
+      app: passive-replication
+  template:
+    metadata:
+      labels:
+        app: passive-replication
+    spec:
+      serviceAccountName: passive-replication-service-account
+      containers:
+      - name: passive-replication-sample
+        image: k3d-registry.localhost:5500/passivereplicationsample:latest
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: mqtt-client-token
+          mountPath: /var/run/secrets/tokens
+        env:
+        - name: ConnectionStrings__PassiveReplicationNode
+          valueFrom:
+            secretKeyRef:
+              name: passive-replication-secrets
+              key: PassiveReplicationNode
+      volumes:
+      - name: mqtt-client-token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: mqtt-client-token
+              audience: passive-replication-sample

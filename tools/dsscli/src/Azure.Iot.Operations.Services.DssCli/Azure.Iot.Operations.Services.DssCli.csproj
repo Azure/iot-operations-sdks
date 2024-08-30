@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PackAsTool>True</PackAsTool>
+		<IsPackable>true</IsPackable>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<NoWarn>1701;1702;CA1848</NoWarn>
+		<ToolCommandName>dsscli</ToolCommandName>
+		<Title>IoTMqttBroker DSS CLI</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+	  <ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+</Project>

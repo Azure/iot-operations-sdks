@@ -1,0 +1,20 @@
+namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+{
+    public class TestCaseDuration
+    {
+        public int Hours { get; set; }
+
+        public int Minutes { get; set; }
+
+        public int Seconds { get; set; }
+
+        public int Milliseconds { get; set; }
+
+        public int Microseconds { get; set; }
+
+        public TimeSpan ToTimeSpan()
+        {
+            return new TimeSpan(0, Hours, Minutes, Seconds, Milliseconds, Microseconds);
+        }
+    }
+}

@@ -1,0 +1,5 @@
+MQTT_TCP_PORT = 8883
+MQTT_USE_TLS = true
+MQTT_CA_FILE = Connection/ca.txt
+MQTT_KEY_FILE = TestSdkLiteCertPwdKey.txt
+MQTT_KEY_FILE_PW = sdklite

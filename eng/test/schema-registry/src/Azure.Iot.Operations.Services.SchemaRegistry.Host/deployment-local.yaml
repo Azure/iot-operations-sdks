@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aio-schema-registry
+spec:
+  serviceName: schema-registry
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aio-schema-registry
+  template:
+    metadata:
+      labels:
+        app: aio-schema-registry
+    spec:
+      containers:
+      - name: aio-schema-registry
+        image: k3d-registry.localhost:5500/aio-schema-registry:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: mqtt-client-token
+          mountPath: /var/run/secrets/tokens
+        env:
+        - name: ConnectionStrings__Mq
+          value: "HostName=aio-mq-dmqtt-frontend;UseTls=false;TcpPort=1883;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;KeepAlive=PT10M"
+        - name: mqttDiag
+          value: "true"
+      volumes:
+      - name: mqtt-client-token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: mqtt-client-token
+              audience: aio-mq

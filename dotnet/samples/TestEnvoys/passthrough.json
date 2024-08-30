@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:com:example:Passthrough;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "rpc/command-samples/{executorId}/{commandName}",
+  "payloadFormat": "raw/0",
+  "displayName": "Passthrough",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "pass",
+      "request": {
+        "name": "In",
+        "schema": "string"
+      },
+      "response": {
+        "name": "Out",
+        "schema": "string"
+      }
+    }
+  ]
+}

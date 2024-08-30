@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samplecloudevents
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: samplecloudevents
+  template:
+    metadata:
+      labels:
+        app: samplecloudevents
+    spec:
+      containers:
+      - name: samplecloudevents
+        image: <local-registry>/samplecloudevents:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: ca
+          mountPath: /certs/ca.crt
+          subPath: ca.crt
+        - name: mqtt-client-token
+          mountPath: /var/run/secrets/tokens
+        env:
+        - name: ConnectionStrings__Mq
+          value: "HostName=aio-mq-dmqtt-frontend;ClientId=SampleCloudEvents;CaFile=/certs/ca.crt;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S"
+        - name: mqttDiag
+          value: "false"
+      volumes:
+      - name: ca
+        configMap:
+          name: aio-ca-trust-bundle-test-only
+          items:
+            - key: ca.crt 
+              path: ca.crt
+      - name: mqtt-client-token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: mqtt-client-token
+              audience: aio-mq
