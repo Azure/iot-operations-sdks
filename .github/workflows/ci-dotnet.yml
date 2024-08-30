@@ -52,7 +52,6 @@ jobs:
         helm repo add jetstack https://charts.jetstack.io
         helm repo update
         helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} 
-        kubectl apply -f .devcontainer/yaml/aio-nightly.yaml
         kubectl apply -f .devcontainer/yaml/certificates.yaml
 
     - name: Create Kubernetes Token
@@ -76,9 +75,7 @@ jobs:
 
     - name: Setup Brokers
       run: |
-        kubectl apply -f .devcontainer/mq/
-        kubectl apply -f .devcontainer/tls-listener.yaml
-        kubectl apply -f .devcontainer/x509-auth.yml
+        kubectl apply -f .devcontainer/yaml/aio-nightly.yaml
 
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
