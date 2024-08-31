@@ -77,7 +77,7 @@ kubectl create configmap client-ca-trust-bundle \
 
 # setup new Broker
 if [ "$1" = "nightly" ]; then
-    kubectl apply -f ./yaml/aio-nightly.yaml
+    kubectl apply -f ../../.devcontainer/yaml/aio-nightly.yaml
 else
-    kubectl apply -f ./yaml/aio-release.yaml
+    kubectl apply -f ../../.devcontainer/yaml/aio-release.yaml
 fi
