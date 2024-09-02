@@ -9,7 +9,7 @@ When deployed, 2 or more pods running this hosted service will automatically cam
 leader on start-up. Once one of the pods is elected leader, that pod will periodically update some 
 shared resource in the MQ state store. The other pod(s) will passively remain idle and wait for their opportunity to be elected leader.
 
-For more details on how leader election works, please see [here](../../../lib/dotnet/src/Azure.Iot.Operations.Services/LeaderElection/README.md).
+For more details on how leader election works, please see [here](../../../dotnet/src/Azure.Iot.Operations.Services/LeaderElection/README.md).
 
 ## Pre-requisites
 
