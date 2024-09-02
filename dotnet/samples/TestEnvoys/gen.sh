@@ -1,5 +1,3 @@
-set -e
-
 gen=../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen 
 sdkPath=../../src/Azure.Iot.Operations.Protocol
 
