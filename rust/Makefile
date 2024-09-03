@@ -11,15 +11,15 @@ REPOSITORY_ROOT := $(shell git rev-parse --show-toplevel)
 default:
 
 check:
-	exec $(REPOSITORY_ROOT)/lib/rust/ci/check.sh
+	exec $(REPOSITORY_ROOT)/rust/ci/check.sh
 
 test:
 	$(eval export FEATURES INSTRUMENTED MANIFEST)
-	exec $(REPOSITORY_ROOT)/lib/rust/ci/test.sh "$${MANIFEST}"
+	exec $(REPOSITORY_ROOT)/rust/ci/test.sh "$${MANIFEST}"
 
 # NOTE: `export ${VAR} := ..` is an option, but `$(eval export ..)` is
 # used to make target arguments clearer.
 coverage: INSTRUMENTED := 1
 coverage: $(if $(value SKIP_TEST),,test)
 	$(eval export BAD GOOD MANIFEST SUMMARY_ONLY TARGET_KEY)
-	exec $(REPOSITORY_ROOT)/lib/rust/ci/coverage.sh "$${MANIFEST}"
+	exec $(REPOSITORY_ROOT)/rust/ci/coverage.sh "$${MANIFEST}"
