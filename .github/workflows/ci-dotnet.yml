@@ -86,11 +86,37 @@ jobs:
     - name: Deploy SchemaRegistry Host
       run: kubectl apply -f eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/deployment-local.yaml
       
-    #- name: Test SDK (TLS + SAT)
-    #  run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+    - name: Create Test Service Account Token
+      run: |
+        kubectl create token default --duration=86400s --audience=aio-internal > ./token.txt
+        echo "TOKEN_FILE_PATH=./token.txt" >> $GITHUB_ENV
 
-    #- name: Test SDK (TLS + x509)
-    #  run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+    - name: Load CA certificate into environment
+      run: |
+        kubectl get secret test-ca-cert -o json | jq -r '.data["tls.crt"]' | base64 -d > .devcontainer/ca.crt
+        echo "CA_FILE_PATH=$(pwd)/.devcontainer/ca.crt" >> $GITHUB_ENV
+
+    # These files are created by deploy-aio.sh
+    - name: Load client certificates for x509 into environment
+      run: |
+        if [ -f "./client.key" ]; then
+          echo "Missing 'client.key' file"
+          exit -1
+        fi
+
+        if [ -f "./client.crt" ]; then
+          echo "Missing 'client.crt' file"
+          exit -1
+        fi
+
+        echo "CLIENT_KEY=./client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=./client.crt" >> $GITHUB_ENV   
+      
+    - name: Test SDK (TLS + SAT)
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+
+    - name: Test SDK (TLS + x509)
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
     
     - uses: dorny/test-reporter@v1
       id: test-reporter
