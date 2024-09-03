@@ -3,7 +3,7 @@ kind: Secret
 metadata:
   name: passive-replication-secrets
 stringData:
-  PassiveReplicationNode: HostName=aio-broker-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+  PassiveReplicationNode: HostName=aio-broker;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ---
 apiVersion: v1
 kind: ServiceAccount

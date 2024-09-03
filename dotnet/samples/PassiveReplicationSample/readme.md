@@ -72,7 +72,7 @@ to edit the relevant connection details in [deploy.yaml](./deploy.yaml) before b
 
 ```yaml
 stringData:
-  passive-replication-connection-string: HostName=aio-broker-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+  passive-replication-connection-string: HostName=aio-broker;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ```
 
 (Optional) Choose the number of replicas to deploy by changing the value in [deploy.yaml](./deploy.yaml). By default, there are 2 replicas deployed.
