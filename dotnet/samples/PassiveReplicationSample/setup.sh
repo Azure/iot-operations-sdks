@@ -11,7 +11,7 @@ k3d cluster create --registry-use k3d-registry.localhost:5000
 
 # Deploy MQ 
 # Note that this sample requires MQ version 0.5.0 or greater.
-helm install mq oci://mqbuilds.azurecr.io/helm/mq --version 0.7.0-nightly  --set global.quickstart=true
+helm install broker oci://mqbuilds.azurecr.io/helm/aio-broker --version 0.7.0-nightly  --set global.quickstart=true
 
 # Build the passive replication sample docker image
 dotnet publish /t:PublishContainer

@@ -40,7 +40,7 @@ k3d cluster create --registry-use k3d-registry.localhost:5000
 
 # Deploy MQ 
 # Note that this sample requires MQ version 0.5.0 or greater.
-helm install mq oci://edgebuilds.azurecr.io/helm/mq --version 0.7.0-nightly  --set global.quickstart=true
+helm install broker oci://edgebuilds.azurecr.io/helm/mq --version 0.7.0-nightly  --set global.quickstart=true
 ```
 
 ### Build and push the Docker image to local container registry
