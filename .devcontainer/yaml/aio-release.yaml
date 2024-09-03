@@ -62,6 +62,20 @@ spec:
               - localhost
             ip:
               - 127.0.0.1
+    - port: 38884
+      authenticationRef: sat-auth
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: Issuer
+            name: aio-broker-external      
+          san:
+            dns:
+              - aio-broker-frontend
+              - localhost
+            ip:
+              - 127.0.0.1
 
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1

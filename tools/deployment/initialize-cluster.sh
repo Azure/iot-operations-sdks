@@ -18,6 +18,7 @@ k3d cluster delete
 k3d cluster create \
     -p '1883:31883@loadbalancer' \
     -p '8883:38883@loadbalancer' \
+    -p '8884:38884@loadbalancer' \
     --registry-create registry:0.0.0.0:5000 \
     --wait
 
