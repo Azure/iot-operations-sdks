@@ -27,7 +27,7 @@ if [ "$1" = "nightly" ]; then
     helm upgrade cert-manager jetstack/cert-manager --install --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} --wait
 
     # install MQTT Broker
-    helm install mq --atomic oci://mqbuilds.azurecr.io/helm/mq --version 0.6.0-nightly --create-namespace -n azure-iot-operations
+    helm install broker --atomic oci://mqbuilds.azurecr.io/helm/aio-broker --version 0.7.0-nightly --create-namespace -n azure-iot-operations
 fi
 
 # clean up any existing pieces we dont want

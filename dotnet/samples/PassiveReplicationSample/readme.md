@@ -40,7 +40,7 @@ k3d cluster create --registry-use k3d-registry.localhost:5000
 
 # Deploy MQ 
 # Note that this sample requires MQ version 0.5.0 or greater.
-helm install mq oci://edgebuilds.azurecr.io/helm/mq --version 0.6.0-nightly  --set global.quickstart=true
+helm install mq oci://edgebuilds.azurecr.io/helm/mq --version 0.7.0-nightly  --set global.quickstart=true
 ```
 
 ### Build and push the Docker image to local container registry
@@ -72,7 +72,7 @@ to edit the relevant connection details in [deploy.yaml](./deploy.yaml) before b
 
 ```yaml
 stringData:
-  passive-replication-connection-string: HostName=aio-mq-dmqtt-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+  passive-replication-connection-string: HostName=aio-broker-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ```
 
 (Optional) Choose the number of replicas to deploy by changing the value in [deploy.yaml](./deploy.yaml). By default, there are 2 replicas deployed.
