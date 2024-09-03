@@ -1,0 +1,73 @@
+name: CI-Rust
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Triggers the workflow on PR events
+  pull_request:
+    paths:
+      - 'rust/**'
+      - 'eng/test/test-cases/Protocol/**'
+      - 'tools/dsscli'
+  # Triggers the workflow on push events for the "main" branch
+  push:
+    branches:
+      - "main"
+  # Triggers the workflow on a schedule
+  schedule:
+    - cron: '0 11 * * *'  # Nightly at 4am PST
+
+
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  build:
+    name: Build, Test, Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Run Checks
+      run: |
+        set -e
+        make check
+
+    - name: Run Tests
+      run: |
+        set -e
+        make test
+
+    - name: Run Coverage Report
+      run: |
+        set -e
+        make coverage
+
+    - uses: "actions/upload-artifact@v3"
+      with:
+        name: "report-azure-iot-operations"
+        path: "${{ runner.temp }}/report"
+        if-no-files-found: "error"
+        retention-days: 10
+    
+    # TODO: Enable and configure these once the codegen is ready
+    # - name: CodeGen Rust TestEnvoys
+    #   run: |
+    #     cd samples/rust/test_envoys
+    #     sh ./gen.sh
+    # - name: Build with CodeGen TestEnvoys
+    #   run: cargo build --verbose
+
+    # - name: Run clippy with CodeGen TestEnvoys
+    #   run: |
+    #     cargo clippy --all-targets --all-features
+    #     # If this test fails, some fixes may be able to be automatically performed with `cargo clippy --fix`
+    # - name: Run format check
+    #   run: |
+    #     cargo fmt --check || echo "::error::Code formatting issues detected in generated code"
+    #   continue-on-error: true
