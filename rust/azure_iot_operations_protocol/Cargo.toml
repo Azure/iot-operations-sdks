@@ -1,0 +1,30 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "azure_iot_operations_protocol"
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+description = "Azure IoT Operations Protocol"
+repository = "https://github.com/microsoft/mqtt-patterns"
+readme = "README.md"
+publish = false
+
+[dependencies]
+azure_iot_operations_mqtt = { path = "../azure_iot_operations_mqtt" }   # TODO: Need to have more specific dependency for release
+bytes = "1.5.0"
+derive_builder = "0.20"
+log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
+tokio = { version = "1.36", features = ["full"] }                       # TODO: Remove full
+tokio-util = "0.7.11"
+uuid = { version = "1.8.0", features = ["v4"] }
+
+[dev-dependencies]
+env_logger = "0.11.3"
+mockall = "0.12.1"
+test-case = "3.3.1"
+tokio-test = "0.4.4"
+
+[lints]
+workspace = true
