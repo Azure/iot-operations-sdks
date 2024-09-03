@@ -93,7 +93,7 @@ jobs:
 
     - name: Load CA certificate into environment
       run: |
-        if [ ! -f "$./.devcontainer/mqtt-broker-ca.crt" ]; then
+        if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
           echo "Missing 'mqtt-broker-ca.crt' file"
           exit 1
         fi
