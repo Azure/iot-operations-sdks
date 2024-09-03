@@ -18,6 +18,11 @@ on:
   schedule:
     - cron: '0 11 * * *'  # Nightly at 4am PST
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 defaults:
   run:
     working-directory: ./rust
