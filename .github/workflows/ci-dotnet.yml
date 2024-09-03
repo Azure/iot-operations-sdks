@@ -88,8 +88,8 @@ jobs:
       
     - name: Create Test Service Account Token
       run: |
-        kubectl create token default --duration=86400s --audience=aio-internal > ./token.txt
-        echo "TOKEN_FILE_PATH=./token.txt" >> $GITHUB_ENV
+        kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
+        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
     - name: Load CA certificate into environment
       run: |
@@ -99,18 +99,18 @@ jobs:
     # These files are created by deploy-aio.sh
     - name: Load client certificates for x509 into environment
       run: |
-        if [ -f "./client.key" ]; then
+        if [ -f "$(pwd)/.devcontainer/client.key" ]; then
           echo "Missing 'client.key' file"
           exit 1
         fi
 
-        if [ -f "./client.crt" ]; then
+        if [ -f "$(pwd)/.devcontainer/client.crt" ]; then
           echo "Missing 'client.crt' file"
           exit 1
         fi
 
-        echo "CLIENT_KEY=./client.key" >> $GITHUB_ENV
-        echo "CLIENT_CERT=./client.crt" >> $GITHUB_ENV   
+        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
       
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true

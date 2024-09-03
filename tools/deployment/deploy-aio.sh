@@ -62,7 +62,7 @@ step ca init \
     --provisioner=notapplicable
 
 # create client certificate
-step certificate create client ../client.crt ../client.key \
+step certificate create client $(pwd)/.devcontainer/client.crt $(pwd)/.devcontainer/client.key \
     --not-after 8760h \
     --no-password \
     --insecure \
