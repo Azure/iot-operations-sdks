@@ -49,7 +49,7 @@ while ! kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations; do
     echo "Waiting for ca."
     sleep 5
 done
-kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d >../mqtt-broker-ca.crt
+kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d >../../.devcontainer/mqtt-broker-ca.crt
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable
 echo "my-ca-password" > /tmp/password.txt

@@ -93,8 +93,12 @@ jobs:
 
     - name: Load CA certificate into environment
       run: |
-        kubectl get secret test-ca-cert -o json | jq -r '.data["tls.crt"]' | base64 -d > .devcontainer/ca.crt
-        echo "CA_FILE_PATH=$(pwd)/.devcontainer/ca.crt" >> $GITHUB_ENV
+        if [ -f "$(pwd)/.devcontainer/mqtt-broker-ca.crt" ]; then
+          echo "Missing 'mqtt-broker-ca.crt' file"
+          exit 1
+        fi
+
+        echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
 
     # These files are created by deploy-aio.sh
     - name: Load client certificates for x509 into environment
