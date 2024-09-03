@@ -44,7 +44,7 @@ jobs:
         
     - name: Create Kubernetes Token
       run: |
-        kubectl create token default --duration=86400s --audience=aio-mq > .devcontainer/token.txt
+        kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
         echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
     - name: Install Protoc
@@ -91,6 +91,7 @@ jobs:
         kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
         echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
+    # These files are created by deploy-aio.sh
     - name: Load CA certificate into environment
       run: |
         if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
