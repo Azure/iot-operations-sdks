@@ -93,7 +93,7 @@ jobs:
 
     - name: Load CA certificate into environment
       run: |
-        if [ -f "$(pwd)/.devcontainer/mqtt-broker-ca.crt" ]; then
+        if [ -f "$./.devcontainer/mqtt-broker-ca.crt" ]; then
           echo "Missing 'mqtt-broker-ca.crt' file"
           exit 1
         fi
@@ -103,12 +103,12 @@ jobs:
     # These files are created by deploy-aio.sh
     - name: Load client certificates for x509 into environment
       run: |
-        if [ -f "$(pwd)/.devcontainer/client.key" ]; then
+        if [ -f "./.devcontainer/client.key" ]; then
           echo "Missing 'client.key' file"
           exit 1
         fi
 
-        if [ -f "$(pwd)/.devcontainer/client.crt" ]; then
+        if [ -f "./.devcontainer/client.crt" ]; then
           echo "Missing 'client.crt' file"
           exit 1
         fi
