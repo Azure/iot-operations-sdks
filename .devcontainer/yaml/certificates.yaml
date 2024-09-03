@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: aio-mq-broker-external-ca
+  name: aio-broker-external-ca
 spec:
   selfSigned: {}
 ---
@@ -10,15 +10,15 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: aio-mq-broker-external-ca
+  name: aio-broker-external-ca
   namespace: azure-iot-operations
 spec:
   isCA: true
-  secretName: aio-mq-broker-external-ca
-  commonName: aio-mq-broker-external-ca
+  secretName: aio-broker-external-ca
+  commonName: aio-broker-external-ca
   issuerRef:
     kind: ClusterIssuer
-    name: aio-mq-broker-external-ca
+    name: aio-broker-external-ca
     group: cert-manager.io
   privateKey:
     rotationPolicy: Never
@@ -29,11 +29,11 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: aio-mq-broker-external
+  name: aio-broker-external
   namespace: azure-iot-operations
 spec:
   ca:
-    secretName: aio-mq-broker-external-ca
+    secretName: aio-broker-external-ca
 ---
 # Generate trust bundle for internal connections
 apiVersion: trust.cert-manager.io/v1alpha1
@@ -43,7 +43,7 @@ metadata:
 spec:
   sources:
     - secret:
-        name: aio-mq-broker-internal-ca
+        name: aio-broker-internal-ca
         key: ca.crt
   target:
     configMap:

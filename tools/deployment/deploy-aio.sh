@@ -45,11 +45,11 @@ helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -
 kubectl apply -f ../../.devcontainer/yaml/certificates.yaml
 
 # Wait for CA trust bundle to be generated for external connections to the MQTT Broker and then add to the local env
-while ! kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations; do
+while ! kubectl get secret aio-broker-external-ca -n azure-iot-operations; do
     echo "Waiting for ca."
     sleep 5
 done
-kubectl get secret aio-mq-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d >../../.devcontainer/mqtt-broker-ca.crt
+kubectl get secret aio-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d >../../.devcontainer/mqtt-broker-ca.crt
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable
 echo "my-ca-password" > /tmp/password.txt
