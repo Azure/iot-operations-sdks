@@ -101,12 +101,12 @@ jobs:
       run: |
         if [ -f "./client.key" ]; then
           echo "Missing 'client.key' file"
-          exit -1
+          exit 1
         fi
 
         if [ -f "./client.crt" ]; then
           echo "Missing 'client.crt' file"
-          exit -1
+          exit 1
         fi
 
         echo "CLIENT_KEY=./client.key" >> $GITHUB_ENV
