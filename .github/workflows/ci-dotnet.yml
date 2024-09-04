@@ -118,12 +118,6 @@ jobs:
         echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
         echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
       
-    - name: Temp
-      run: |
-        k3d registry list
-        sleep 10 
-        kubectl get pods
-  
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
