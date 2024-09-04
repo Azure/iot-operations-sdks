@@ -21,4 +21,4 @@ require (
 	golang.org/x/sys v0.22.0 // indirect
 )
 
-replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../../lib/go/protocol
+replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../go/protocol
