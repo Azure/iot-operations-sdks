@@ -3,9 +3,10 @@ module github.com/Azure/iot-operations-sdks/go/mqtt
 go 1.21
 
 require (
-	github.com/eclipse/paho.golang v0.21.0
-	github.com/gorilla/websocket v1.5.3
 	github.com/Azure/iot-operations-sdks/go/protocol v0.0.0
+	github.com/eclipse/paho.golang v0.21.0
+	github.com/google/uuid v1.6.0
+	github.com/gorilla/websocket v1.5.3
 	github.com/mochi-mqtt/server/v2 v2.6.4
 	github.com/princjef/mageutil v1.0.0
 	github.com/sosodev/duration v1.3.1
@@ -28,3 +29,5 @@ require (
 	golang.org/x/sys v0.23.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/Azure/iot-operations-sdks/go/protocol => ../protocol
