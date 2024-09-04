@@ -3,7 +3,7 @@ module TelemetryAndCommandAsJson
 go 1.21
 
 require (
-	github.com/microsoft/mqtt-patterns/lib/go/protocol v0.0.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.0.0
 	github.com/sosodev/duration v1.3.1
 )
 
@@ -21,4 +21,4 @@ require (
 	golang.org/x/sys v0.22.0 // indirect
 )
 
-replace github.com/microsoft/mqtt-patterns/lib/go/protocol => ../../../../../lib/go/protocol
+replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../go/protocol
