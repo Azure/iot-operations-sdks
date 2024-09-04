@@ -33,4 +33,4 @@ The following Azure IoT Operations crates are available:
     azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>" }
     ```
     > We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull.
-    >To get the latest/nightly build, just pass the `git` argument by itself, with no other parameters.
+    > To get the latest/nightly build, just pass the `git` argument by itself, with no other parameters.
