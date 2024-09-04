@@ -21,7 +21,7 @@ metadata:
   namespace: azure-iot-operations
 spec:
   brokerRef: broker
-  serviceName: aio-mq-dmqtt-frontend
+  serviceName: aio-broker
   serviceType: clusterIp
   ports:
     - port: 8883
@@ -31,10 +31,10 @@ spec:
         automatic:
           issuerRef:
             kind: Issuer
-            name: aio-mq-broker-internal-issuer
+            name: aio-broker-internal-issuer
           san:
             dns:
-              - aio-mq-dmqtt-frontend
+              - aio-broker
 ---
 # A listener for off-cluster applications to connect with x509 auth
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
@@ -44,7 +44,7 @@ metadata:
   namespace: azure-iot-operations
 spec:
   brokerRef: broker
-  serviceName: aio-mq-dmqtt-frontend-external
+  serviceName: aio-broker-external
   serviceType: loadBalancer
   ports:
     - port: 31883
@@ -55,10 +55,24 @@ spec:
         automatic:
           issuerRef:
             kind: Issuer
-            name: aio-mq-broker-external
+            name: aio-broker-external
           san:
             dns:
-              - aio-mq-dmqtt-frontend
+              - aio-broker
+              - localhost
+            ip:
+              - 127.0.0.1
+    - port: 38884
+      authenticationRef: sat-auth
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: Issuer
+            name: aio-broker-external      
+          san:
+            dns:
+              - aio-broker
               - localhost
             ip:
               - 127.0.0.1
@@ -73,7 +87,7 @@ spec:
   authenticationMethods:
     - method: serviceAccountToken
       serviceAccountToken:
-        audiences: [aio-mq]
+        audiences: [aio-internal]
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerAuthentication

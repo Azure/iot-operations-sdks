@@ -9,7 +9,7 @@ When deployed, 2 or more pods running this hosted service will automatically cam
 leader on start-up. Once one of the pods is elected leader, that pod will periodically update some 
 shared resource in the MQ state store. The other pod(s) will passively remain idle and wait for their opportunity to be elected leader.
 
-For more details on how leader election works, please see [here](../../../lib/dotnet/src/Azure.Iot.Operations.Services/LeaderElection/README.md).
+For more details on how leader election works, please see [here](../../../dotnet/src/Azure.Iot.Operations.Services/LeaderElection/README.md).
 
 ## Pre-requisites
 
@@ -33,14 +33,14 @@ For more details, or to deploy this sample one step at time, follow the instruct
 
 ```bash
 # Create a local registry to hold the passive replication sample image that will be built next
-k3d registry create registry.localhost --port 5500
+k3d registry create registry.localhost --port 5000
 
 # Start the k8s cluster that will use the local registry
-k3d cluster create --registry-use k3d-registry.localhost:5500
+k3d cluster create --registry-use k3d-registry.localhost:5000
 
 # Deploy MQ 
 # Note that this sample requires MQ version 0.5.0 or greater.
-helm install mq oci://edgebuilds.azurecr.io/helm/mq --version 0.6.0-nightly  --set global.quickstart=true
+helm install broker oci://edgebuilds.azurecr.io/helm/mq --version 0.7.0-nightly  --set global.quickstart=true
 ```
 
 ### Build and push the Docker image to local container registry
@@ -55,8 +55,8 @@ Once the docker image is built, tag and push it to the local registry
 
 ```bash
 # Tag and push the passive replication sample docker image to the local registry
-docker tag passivereplicationsample:latest k3d-registry.localhost:5500/passivereplicationsample:latest
-docker push k3d-registry.localhost:5500/passivereplicationsample:latest
+docker tag passivereplicationsample:latest k3d-registry.localhost:5000/passivereplicationsample:latest
+docker push k3d-registry.localhost:5000/passivereplicationsample:latest
 ```
 
 If you changed the name of the docker image or are using a different container registry than was used in this document, update the supplied [deployment file](./deploy.yaml) file to use your container registry and your docker image for the `spec.containers.image` value. The default values in this deployment file will work otherwise.
@@ -64,7 +64,7 @@ If you changed the name of the docker image or are using a different container r
 ```yaml
 containers:
 - name: passive-replication-sample
-  image: k3d-registry.localhost:5500/passivereplicationsample:latest
+  image: k3d-registry.localhost:5000/passivereplicationsample:latest
 ```
 
 Additionally, you may need to change the authentication credentials and/or port that the MQTT client will connect to MQ over depending on your MQ instance's configuration. Be sure
@@ -72,7 +72,7 @@ to edit the relevant connection details in [deploy.yaml](./deploy.yaml) before b
 
 ```yaml
 stringData:
-  passive-replication-connection-string: HostName=aio-mq-dmqtt-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+  passive-replication-connection-string: HostName=aio-broker;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ```
 
 (Optional) Choose the number of replicas to deploy by changing the value in [deploy.yaml](./deploy.yaml). By default, there are 2 replicas deployed.

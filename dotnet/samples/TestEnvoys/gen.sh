@@ -1,10 +1,4 @@
-set -e
-
-gen=../../../tools/codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen 
-sdkPath=../../../lib/dotnet/src/Azure.Iot.Operations.Protocol
-
-$gen --modelFile counter.json --outDir . --sdkPath $sdkPath
-$gen --modelFile math.json --outDir . --sdkPath $sdkPath
-$gen --modelFile memmon.json --outDir . --sdkPath $sdkPath
-$gen --modelFile passthrough.json --outDir . --sdkPath $sdkPath
-
+../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile counter.json --outDir . --sdkPath ../../src/Azure.Iot.Operations.Protocol
+../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile math.json --outDir . --sdkPath ../../src/Azure.Iot.Operations.Protocol
+../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile memmon.json --outDir . --sdkPath ../../src/Azure.Iot.Operations.Protocol
+../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile passthrough.json --outDir . --sdkPath ../../src/Azure.Iot.Operations.Protocol
