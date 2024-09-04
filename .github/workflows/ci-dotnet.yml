@@ -80,11 +80,8 @@ jobs:
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
-    - name: Build SchemaRegistry Image
-      run: dotnet publish /t:PublishContainer eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj /p:ContainerRegistry=localhost:5000
-
-    - name: Deploy SchemaRegistry Host
-      run: kubectl apply -f eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/deployment-local.yaml
+    - name: Setup SchemaRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
       
     - name: Create Test Service Account Token
       run: |
