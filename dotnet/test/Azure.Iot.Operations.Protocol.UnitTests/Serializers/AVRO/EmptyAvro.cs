@@ -1,4 +1,6 @@
-﻿namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
+﻿/* This file will be copied into the folder for generated code. */
+
+namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 {
     using Avro;
     using Avro.Specific;
