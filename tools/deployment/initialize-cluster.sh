@@ -19,7 +19,7 @@ k3d cluster create \
     -p '1883:31883@loadbalancer' \
     -p '8883:38883@loadbalancer' \
     -p '8884:38884@loadbalancer' \
-    --registry-create registry.localhost:127.0.0.1:5000 \
+    --registry-create k3d-registry.localhost:127.0.0.1:5000 \
     --wait
 
 # Set the default context / namespace
