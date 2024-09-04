@@ -119,6 +119,7 @@ jobs:
       
     - name: Temp
       run: |
+        k3d registry list
         sleep 10 
         kubectl get pods
   
