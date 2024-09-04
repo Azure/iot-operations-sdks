@@ -4,7 +4,6 @@
 use std::env;
 use std::time::Duration;
 
-// TODO: from env
 #[derive(Builder, Clone)]
 #[builder(pattern = "owned", setter(into), build_fn(validate = "Self::validate"))]
 pub struct MqttConnectionSettings {
