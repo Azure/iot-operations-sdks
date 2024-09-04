@@ -13,7 +13,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 
 
 <a name="Timer"></a>
-## type [Timer](<https://github.com/microsoft/mqtt-patterns/blob/main/lib/go/protocol/wallclock/wall_clock.go#L23-L27>)
+## type [Timer](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/wallclock/wall_clock.go#L23-L27>)
 
 Timer abstracts the functionality of time.Timer.
 
@@ -26,7 +26,7 @@ type Timer interface {
 ```
 
 <a name="WallClock"></a>
-## type [WallClock](<https://github.com/microsoft/mqtt-patterns/blob/main/lib/go/protocol/wallclock/wall_clock.go#L11-L20>)
+## type [WallClock](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/wallclock/wall_clock.go#L11-L20>)
 
 WallClock abstracts a subset of functionality from packages context and time.
 

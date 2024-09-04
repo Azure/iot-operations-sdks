@@ -1,5 +1,5 @@
 output: '{{.Dir}}/README.md'
 repository:
-    url: https://github.com/microsoft/mqtt-patterns
+    url: https://github.com/Azure/iot-operations-sdks
     defaultBranch: main
-    path: /lib/go/mqtt
+    path: /go/mqtt
