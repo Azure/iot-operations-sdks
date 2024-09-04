@@ -85,7 +85,11 @@ jobs:
       
     - name: Create Test Service Account Token
       run: |
-        kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
+        if [ ! -f "./.devcontainer/token.txt" ]; then
+          echo "Missing 'token.txt' file"
+          exit 1
+        fi
+
         echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
     # These files are created by deploy-aio.sh
