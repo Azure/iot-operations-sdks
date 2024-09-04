@@ -26,7 +26,7 @@ The following Azure IoT Operations crates are available:
     $ git config --global user.email myemail@example.com
     ```
 
-2. Take a dependency on the crate(s) you need to use in your `Cargo.toml` file for your application.
+2. Take a dependency on the crate(s) you need by updating the `Cargo.toml` file for your application.
     ```toml
     [dependencies]
     azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>"}
