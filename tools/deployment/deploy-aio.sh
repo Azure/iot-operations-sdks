@@ -76,7 +76,7 @@ kubectl create configmap client-ca-trust-bundle \
     --from-literal=client_ca.pem="$(cat ~/.step/certs/intermediate_ca.crt ~/.step/certs/root_ca.crt)"
 
 # Create a SAT auth file
-kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
+kubectl create token default --duration=86400s --audience=aio-internal > ../../.devcontainer/token.txt
 
 # setup new Broker
 if [ "$1" = "nightly" ]; then
