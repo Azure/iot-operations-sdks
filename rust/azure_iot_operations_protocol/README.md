@@ -14,7 +14,8 @@ The following Azure IoT Operations crates are available:
 ## Installing crates
 
 > [!NOTE]
-> These crates are currently in preview and are subject to change until version 1.0
+> These crates are currently in preview and are subject to change until version 1.0.
+> Pinning a specific release will protect you from any breaking changes, which are subject to occur until we release 1.0.
 
 1. Ensure your git credentials are set in your environment, as you will need them to access this repository and take a dependency on the crates within it.
 
@@ -33,5 +34,5 @@ The following Azure IoT Operations crates are available:
     ```
 
     > [!NOTE]
-    > We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull. Pinning a specific version will protect you from any breaking changes, which are subject to occur until we release 1.0.
+    > We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull.
     >To get the latest/nightly build, just pass the `git` argument by itself, with no other parameters.
