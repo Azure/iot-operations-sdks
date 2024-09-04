@@ -243,4 +243,80 @@ public class GreeterEnvoyTests
         // verify only one executor handled the command
         Assert.Equal(1, count1 + count2);
     }
+
+    [Fact(Skip = "Waiting for $partition to be ready")]
+    public async Task TestMultipleExecutorsWithPartitionId()
+    {
+        /// connects 2 command executors on one shared subscription
+        /// asserts that command invoked on shared topic is handled by one and only one executor
+        string executorId1 = "executor-1-" + Guid.NewGuid();
+        string executorId2 = "executor-2-" + Guid.NewGuid();
+
+        // create executors
+        await using MqttSessionClient mqttExecutor1 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId1);
+        await using GreeterService greeterService1 = new GreeterService(mqttExecutor1);
+
+        await using MqttSessionClient mqttExecutor2 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId2);
+        await using GreeterService greeterService2 = new GreeterService(mqttExecutor2);
+
+        // add count for each executor's commands handled
+        int count1 = 0;
+        greeterService1.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        {
+            count1++;
+            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            {
+                Response = new GreeterEnvoy.HelloResponse
+                {
+                    Message = "Hello " + req.Request.Name
+                }
+            };
+        };
+
+        int count2 = 0;
+        greeterService2.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        {
+            count2++;
+            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            {
+                Response = new GreeterEnvoy.HelloResponse
+                {
+                    Message = "Hello " + req.Request.Name
+                }
+            };
+        };
+
+        // create invoker
+        await using MqttSessionClient mqttInvokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvokerClient);
+
+        // start greeter services
+        await greeterService1.StartAsync();
+        await greeterService2.StartAsync();
+
+        // invoke to singular executor
+        var resp1 = await greeterClient.SayHello(new ExtendedRequest<GreeterEnvoy.HelloRequest>
+        {
+            Request = new GreeterEnvoy.HelloRequest
+            {
+                Name = "Invoker 1"
+            },
+        }, timeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        var resp2 = await greeterClient.SayHello(new ExtendedRequest<GreeterEnvoy.HelloRequest>
+        {
+            Request = new GreeterEnvoy.HelloRequest
+            {
+                Name = "Invoker 2"
+            },
+        }, timeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        // check received
+        Assert.Equal("Hello Invoker 1", resp1.Response.Message);
+        Assert.Equal("Hello Invoker 2", resp2.Response.Message);
+
+        // verify that both invocations were handled by the same executor
+        Assert.Equal(2, count1 + count2);
+        Assert.True(count1 == 0 || count2 == 0);
+    }
 }

@@ -42,6 +42,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
+        /// The partition attached to the request.
+        /// When CommandRequestMetadata is constructed by user code that will invoke a command, the partition is initialized to null, and it can be set by user code.
+        /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the partition is set from the request message; this will be null if the message contains no partition header.
+        /// </summary>
+        public string? Partition { get; }
+
+        /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>
         /// <remarks>
@@ -96,6 +103,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         case AkriSystemProperties.CommandInvokerId:
                             InvokerClientId = property.Value;
                             break;
+                        case "$partition":
+                            Partition = property.Value;
+                            break;
                         default:
                             if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
                             {
@@ -117,6 +127,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (FencingToken != default)
             {
                 message.AddUserProperty(AkriSystemProperties.FencingToken, FencingToken.EncodeToString());
+            }
+
+            if (Partition != null)
+            {
+                message.AddUserProperty("$partition", Partition);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

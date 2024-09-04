@@ -3,7 +3,7 @@ kind: Secret
 metadata:
   name: passive-replication-secrets
 stringData:
-  PassiveReplicationNode: HostName=aio-mq-dmqtt-frontend;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
+  PassiveReplicationNode: HostName=aio-broker;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -29,7 +29,7 @@ spec:
       serviceAccountName: passive-replication-service-account
       containers:
       - name: passive-replication-sample
-        image: k3d-registry.localhost:5500/passivereplicationsample:latest
+        image: k3d-registry.localhost:5000/passivereplicationsample:latest
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: mqtt-client-token

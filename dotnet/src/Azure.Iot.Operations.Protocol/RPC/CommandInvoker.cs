@@ -53,6 +53,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public Dictionary<string, string>? CustomTopicTokenMap { get; init; }
 
+        public string? Partition { get; private init; }
+
         public string? TopicNamespace
         {
             get => topicNamespace;
@@ -124,6 +126,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             this.mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
             this.commandName = commandName;
             this.serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
+
+            // default Partition property to the client id
+            this.Partition = mqttClient.ClientId;
 
             subscribedTopics = new();
             requestIdMap = new();
@@ -541,6 +546,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, mqttClient.ClientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+
+                if (Partition != null)
+                {
+                    requestMessage.AddUserProperty("$partition", Partition);
+                }
 
                 byte[]? payload = serializer.ToBytes(request);
                 if (payload != null)

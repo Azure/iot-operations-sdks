@@ -39,46 +39,9 @@ jobs:
 
     - name: Setup Cluster
       run: |
-        wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-        wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb
-        sudo dpkg -i step-cli_amd64.deb
-        k3d cluster delete
-        k3d registry create registry.localhost --port 5500
-        k3d cluster create -p '1883:1883@loadbalancer' -p '8883:8883@loadbalancer' --registry-use k3d-registry.localhost:5500
-        helm install mq --atomic oci://mqbuilds.azurecr.io/helm/mq --version 0.6.0-nightly
-
-    - name: Setup cert-manager
-      run: |
-        helm repo add jetstack https://charts.jetstack.io
-        helm repo update
-        helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} 
-        kubectl apply -f .devcontainer/yaml/aio-nightly.yaml
-
-    - name: Create Kubernetes Token
-      run: |
-        kubectl create token default --duration=86400s --audience=aio-mq > .devcontainer/token.txt
-        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
-    
-    - name: Create CA certificate
-      run: |
-        kubectl get secret test-ca-cert -o json | jq -r '.data["tls.crt"]' | base64 -d > .devcontainer/ca.crt
-        echo "CA_FILE_PATH=$(pwd)/.devcontainer/ca.crt" >> $GITHUB_ENV
-
-    - name: Create client certificates for x509
-      run: |
-        echo "iotmq" > .password.txt
-        step ca init --deployment-type=standalone --name=aio-test --dns=localhost --address=:443 --provisioner=aio-root-ca --password-file=.password.txt --provisioner-password-file=.password.txt
-        step certificate create client .devcontainer/client.crt .devcontainer/client.key --not-after 8760h --no-password --insecure --ca ~/.step/certs/intermediate_ca.crt --ca-key ~/.step/secrets/intermediate_ca_key --ca-password-file=.password.txt
-        kubectl create configmap client-ca --from-literal=client_ca.pem="`cat ~/.step/certs/intermediate_ca.crt ~/.step/certs/root_ca.crt`"
-        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
-        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV    
-
-    - name: Setup Brokers
-      run: |
-        kubectl apply -f .devcontainer/mq/
-        kubectl apply -f .devcontainer/tls-listener.yaml
-        kubectl apply -f .devcontainer/x509-auth.yml
-
+        tools/deployment/initialize-cluster.sh
+        tools/deployment/deploy-aio.sh nightly
+        
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
 
@@ -112,14 +75,47 @@ jobs:
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
-    - name: Build SchemaRegistry Image
-      run: dotnet publish /t:PublishContainer eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj /p:ContainerRegistry=localhost:5500
+    - name: Setup SchemaRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
+      
+    # This file is created by deploy-aio.sh
+    - name: Load test service account token into environment
+      run: |
+        if [ ! -f "./.devcontainer/token.txt" ]; then
+          echo "Missing 'token.txt' file"
+          exit 1
+        fi
 
-    - name: Deploy SchemaRegistry Host
-      run: kubectl apply -f eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/deployment-local.yaml
+        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
+
+    # This file is created by deploy-aio.sh
+    - name: Load CA certificate into environment
+      run: |
+        if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
+          echo "Missing 'mqtt-broker-ca.crt' file"
+          exit 1
+        fi
+
+        echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
+
+    # These files are created by deploy-aio.sh
+    - name: Load client certificates into environment
+      run: |
+        if [ ! -f "./.devcontainer/client.key" ]; then
+          echo "Missing 'client.key' file"
+          exit 1
+        fi
+
+        if [ ! -f "./.devcontainer/client.crt" ]; then
+          echo "Missing 'client.crt' file"
+          exit 1
+        fi
+
+        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
       
     - name: Test SDK (TLS + SAT)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    

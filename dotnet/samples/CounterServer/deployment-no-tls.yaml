@@ -14,14 +14,14 @@ spec:
     spec:
       containers:
       - name: counter-server-dotnet
-        image: k3d-registry.localhost:5500/counter-server-dotnet:latest
+        image: k3d-registry.localhost:5000/counter-server-dotnet:latest
         imagePullPolicy: Always
         volumeMounts:
         - name: mqtt-client-token
           mountPath: /var/run/secrets/tokens
         env:
         - name: ConnectionStrings__Default
-          value: "HostName=aio-mq-dmqtt-frontend;UseTls=false;TcpPort=1883;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;ClientId=CounterServer"
+          value: "HostName=aio-broker;UseTls=false;TcpPort=1883;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;ClientId=CounterServer"
         - name: mqttDiag
           value: "false"
       volumes:
@@ -30,5 +30,5 @@ spec:
           sources:
           - serviceAccountToken:
               path: mqtt-client-token
-              audience: aio-mq
+              audience: aio-internal
               expirationSeconds: 1200

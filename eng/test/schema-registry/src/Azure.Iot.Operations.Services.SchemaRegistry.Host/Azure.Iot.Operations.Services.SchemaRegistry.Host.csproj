@@ -6,14 +6,14 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<ContainerRepository>aio-schema-registry</ContainerRepository>
-		<ContainerRegistry>localhost:5500</ContainerRegistry>
+		<ContainerRegistry>localhost:5000</ContainerRegistry>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="JsonSchema.Net" Version="7.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
-		<ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
+		<ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+		<ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
 	</ItemGroup>
 </Project>

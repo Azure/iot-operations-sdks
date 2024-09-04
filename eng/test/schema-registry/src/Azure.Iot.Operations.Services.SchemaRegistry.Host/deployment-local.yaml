@@ -15,14 +15,14 @@ spec:
     spec:
       containers:
       - name: aio-schema-registry
-        image: k3d-registry.localhost:5500/aio-schema-registry:latest
+        image: k3d-registry.localhost:5000/aio-schema-registry:latest
         imagePullPolicy: Always
         volumeMounts:
         - name: mqtt-client-token
           mountPath: /var/run/secrets/tokens
         env:
         - name: ConnectionStrings__Mq
-          value: "HostName=aio-mq-dmqtt-frontend;UseTls=false;TcpPort=1883;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;KeepAlive=PT10M"
+          value: "HostName=aio-broker;UseTls=false;TcpPort=8884;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;KeepAlive=PT10M"
         - name: mqttDiag
           value: "true"
       volumes:
@@ -31,4 +31,4 @@ spec:
           sources:
           - serviceAccountToken:
               path: mqtt-client-token
-              audience: aio-mq
+              audience: aio-internal

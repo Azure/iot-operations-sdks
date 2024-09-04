@@ -63,5 +63,5 @@
     "waitFor": "postCreateCommand",
     "onCreateCommand": "tools/deployment/initialize-cluster.sh",
     "postCreateCommand": "git pull",
-    "postStartCommand": "sudo sh -c 'echo 127.0.0.1 aio-mq-dmqtt-frontend >> /etc/hosts'"
+    "postStartCommand": "sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'"
 }

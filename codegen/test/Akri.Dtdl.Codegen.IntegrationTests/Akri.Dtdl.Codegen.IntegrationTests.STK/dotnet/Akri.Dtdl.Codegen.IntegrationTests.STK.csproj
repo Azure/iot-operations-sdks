@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\lib\dotnet\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+    <ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
   </ItemGroup>
 
 </Project>
