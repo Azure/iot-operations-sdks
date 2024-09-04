@@ -83,7 +83,8 @@ jobs:
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
       
-    - name: Create Test Service Account Token
+    # This file is created by deploy-aio.sh
+    - name: Load test service account token into environment
       run: |
         if [ ! -f "./.devcontainer/token.txt" ]; then
           echo "Missing 'token.txt' file"
@@ -92,7 +93,7 @@ jobs:
 
         echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
-    # These files are created by deploy-aio.sh
+    # This file is created by deploy-aio.sh
     - name: Load CA certificate into environment
       run: |
         if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
@@ -103,7 +104,7 @@ jobs:
         echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
 
     # These files are created by deploy-aio.sh
-    - name: Load client certificates for x509 into environment
+    - name: Load client certificates into environment
       run: |
         if [ ! -f "./.devcontainer/client.key" ]; then
           echo "Missing 'client.key' file"
