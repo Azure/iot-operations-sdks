@@ -42,11 +42,6 @@ jobs:
         tools/deployment/initialize-cluster.sh
         tools/deployment/deploy-aio.sh nightly
         
-    - name: Create Kubernetes Token
-      run: |
-        kubectl create token default --duration=86400s --audience=aio-internal > .devcontainer/token.txt
-        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
-
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
 
