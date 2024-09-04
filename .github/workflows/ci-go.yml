@@ -29,44 +29,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup IoTMQ
-        run: |
-          wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-          k3d cluster delete
-          k3d registry create registry.localhost --port 5500
-          k3d cluster create -p '1883:1883@loadbalancer' -p '8883:8883@loadbalancer' --registry-use k3d-registry.localhost:5500
-          helm install mq --atomic oci://mqbuilds.azurecr.io/helm/mq --version 0.6.0-nightly
-
-      - name: Setup cert-manager
-        run: |
-          helm repo add jetstack https://charts.jetstack.io
-          helm repo update
-          helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} 
-          kubectl apply -f .devcontainer/ca.yaml
-
-      - name: Create Kubernetes Token
-        run: |
-          kubectl create token default --duration=86400s --audience=aio-mq > .devcontainer/token.txt
-          echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
-      
-      - name: Create CA certificate
-        run: |
-          kubectl get secret test-ca-cert -o json | jq -r '.data["tls.crt"]' | base64 -d > .devcontainer/ca.crt
-          echo "CA_FILE_PATH=$(pwd)/.devcontainer/ca.crt" >> $GITHUB_ENV    
-
-      - name: Setup Brokers
-        run: |
-          kubectl apply -f .devcontainer/mq/
-          kubectl apply -f .devcontainer/tls-listener.yaml
-
       - uses: actions/setup-go@v5
         with:
           go-version: 1.22.4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.301
 
       - name: CIVerify Go protocol module
         uses: magefile/mage-action@v3
@@ -89,12 +54,22 @@ jobs:
           args: civerify
           workdir: ./go/test/protocol
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.301
+
       - name: Build codegen
         run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
 
       - name: Codegen Counter for Go
         working-directory: ./go/samples/counter/envoy
         run: ./gen.sh
+
+      - name: Setup Cluster
+        run: |
+          tools/deployment/initialize-cluster.sh
+          tools/deployment/deploy-aio.sh nightly
 
       - name: Run counter server
         working-directory: ./go/samples/counter/server
