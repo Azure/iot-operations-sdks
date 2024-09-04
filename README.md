@@ -8,19 +8,20 @@ See [the Azure IoT Operations Learn](https://learn.microsoft.com/azure/iot-opera
 
 ## Why use an SDK?
 
-The *Azure IoT Operations SDKs* are a suite of SDKs across multiple languages designed to assist in the development of applications for Azure IoT Operations.
+The *Azure IoT Operations SDKs* are a suite of libraries across many languages designed to assist in the development of applications for Azure IoT Operations.
 
 The focus of the SDKs it to assist customers in developing applications by providing the following features:
 
 | Feature | Description |
 |-|-|
-| Highly available | Provides infrastructure and guidance to build HA into your applications |
-| Any language | The SDKs target multiple languages to support any development environment |
-| Secure | Uses the latest crypto libraries and protocols |
-| Zero data loss | Builds on MQTT broker to remove data loss due to application failure |
-| Low latency | Optimised layering and tight MQTT client coupling minimized overheads |
-| Integration with IoT Operations services | Libraries provide access to services such as state store |
-| Simplify complex messaging | Provide support for communication between applications via MQTT5 using an RPC implementation |
+| **Highly available** | Provides infrastructure and guidance to build HA into your applications |
+| **Any language** | The SDKs target multiple languages to support any development environment |
+| **Secure** | Uses the latest crypto libraries and protocols |
+| **Zero data loss** | Builds on MQTT broker to remove data loss due to application failure |
+| **Low latency** | Optimized layering and tight MQTT client coupling minimized overheads |
+| **Integration with IoT Operations services** | Libraries provide access to services such as state store |
+| **Simplify complex messaging** | Provide support for communication between applications via MQTT5 using an RPC implementation |
+| **Support** | The SDKs are maintained and supported by a dedicated team at Microsoft |
 
 ## Getting started
 
@@ -84,11 +85,11 @@ Other tools available for use during development of IoT Operation applications.
 
 ## Using the SDK
 
-Each langauge provides instructions and samples for using the SDK:
+Each language provides getting started and samples for using the SDK:
 
-* [.NET](./dotnet/samples)
-* [Go](./go/samples)
-* [Rust](./rust/samples)
+* [.NET](./dotnet)
+* [Go](./go)
+* [Rust](./rust)
 
 ## Contributing
 
