@@ -1,0 +1,5 @@
+output: '{{.Dir}}/README.md'
+repository:
+    url: https://github.com/microsoft/mqtt-patterns
+    defaultBranch: main
+    path: /lib/go/protocol
