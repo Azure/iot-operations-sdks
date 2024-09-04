@@ -24,7 +24,7 @@ namespace Akri.Dtdl.Codegen
         {
             this.Write("/* This is an auto-generated file.  Do not modify. */\r\npackage ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace));
-            this.Write("\r\n\r\nimport (\r\n\t\"github.com/microsoft/mqtt-patterns/lib/go/protocol\"\r\n\t\"github.com" +
+            this.Write("\r\n\r\nimport (\r\n\t\"github.com/Azure/iot-operations-sdks/go/protocol\"\r\n\t\"github.com" +
                     "/microsoft/mqtt-patterns/lib/go/protocol/mqtt\"\r\n");
  if (this.ttl != null) { 
             this.Write("\t\"github.com/sosodev/duration\"\r\n");

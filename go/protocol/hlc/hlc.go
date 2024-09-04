@@ -8,9 +8,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/google/uuid"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
 )
 
 // HybridLogicalClock provides a combination of physical and logical clocks used

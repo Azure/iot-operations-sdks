@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"runtime"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 // Logger is a wrapper around an slog.Logger with additional helpers and nil

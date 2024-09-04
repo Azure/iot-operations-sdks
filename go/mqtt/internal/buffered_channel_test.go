@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt/internal"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/stretchr/testify/require"
 )
 

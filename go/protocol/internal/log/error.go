@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 // Err logs a protocol error with structured logging.

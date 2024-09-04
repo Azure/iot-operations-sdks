@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
 )
 
 // WithReauthData sets the auth data for reauthentication.

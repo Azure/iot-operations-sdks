@@ -3,7 +3,7 @@
 # wallclock
 
 ```go
-import "github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
+import "github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 ```
 
 ## Index

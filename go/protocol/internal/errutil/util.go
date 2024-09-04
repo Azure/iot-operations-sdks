@@ -3,7 +3,7 @@ package errutil
 import (
 	"github.com/google/uuid"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 type noReturn struct{ error }

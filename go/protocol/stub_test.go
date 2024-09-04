@@ -6,8 +6,8 @@ import (
 	"net"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"

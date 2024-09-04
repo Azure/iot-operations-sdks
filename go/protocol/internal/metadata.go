@@ -3,8 +3,8 @@ package internal
 import (
 	"strings"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 )
 
 func MetadataToProp(data map[string]string) (map[string]string, error) {

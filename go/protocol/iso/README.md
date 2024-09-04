@@ -3,7 +3,7 @@
 # iso
 
 ```go
-import "github.com/microsoft/mqtt-patterns/lib/go/protocol/iso"
+import "github.com/Azure/iot-operations-sdks/go/protocol/iso"
 ```
 
 ## Index

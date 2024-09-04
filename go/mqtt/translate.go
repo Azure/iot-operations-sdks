@@ -3,10 +3,10 @@ package mqtt
 import (
 	"context"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt/internal"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
 )
 
 var (

@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt"
-	protocol "github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"

@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal/constants"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/stretchr/testify/require"
 )
 

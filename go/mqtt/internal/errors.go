@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 // Translation from MQTT errors to SDK errors.

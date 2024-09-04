@@ -3,7 +3,7 @@
 # retrypolicy
 
 ```go
-import "github.com/microsoft/mqtt-patterns/lib/go/mqtt/retrypolicy"
+import "github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 ```
 
 ## Index

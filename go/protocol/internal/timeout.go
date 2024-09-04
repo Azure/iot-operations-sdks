@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal/errutil"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 // Function to apply an optional timeout.

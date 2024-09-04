@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 const (

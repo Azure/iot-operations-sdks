@@ -35,7 +35,7 @@ namespace Akri.Dtdl.Codegen
                 case TimeType:
                 case DateTimeType:
                 case DurationType:
-                    schemaImport = "github.com/microsoft/mqtt-patterns/lib/go/protocol/iso";
+                    schemaImport = "github.com/Azure/iot-operations-sdks/go/protocol/iso";
                     return true;
                 default:
                     schemaImport = string.Empty;

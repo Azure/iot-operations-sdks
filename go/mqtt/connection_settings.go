@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/sosodev/duration"
 )
 

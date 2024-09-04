@@ -3,7 +3,7 @@ package protocol
 import (
 	"encoding/json"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 type (

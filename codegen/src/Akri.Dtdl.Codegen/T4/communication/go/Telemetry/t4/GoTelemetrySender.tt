@@ -5,8 +5,8 @@ package <#=this.genNamespace#>
 import (
 	"context"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type <#=this.schemaClassName#>Sender struct {

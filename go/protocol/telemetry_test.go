@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/stretchr/testify/require"
 )
 

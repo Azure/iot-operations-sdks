@@ -4,10 +4,10 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal/constants"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/internal/errutil"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (

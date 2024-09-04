@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"sync/atomic"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
 )
 
 func (c *SessionClient) Subscribe(

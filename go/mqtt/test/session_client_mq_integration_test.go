@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt"
-	protocol "github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
 	"github.com/stretchr/testify/require"
 )
 

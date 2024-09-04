@@ -15,8 +15,8 @@ import (
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/sha3"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/eclipse/paho.golang/paho"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/wallclock"
 )
 
 // randomClientID generates a random ClientID of the specified length

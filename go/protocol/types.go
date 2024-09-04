@@ -1,6 +1,6 @@
 package protocol
 
-import "github.com/microsoft/mqtt-patterns/lib/go/protocol/hlc"
+import "github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 
 type (
 	// Message contains common message data that is exposed to message handlers.

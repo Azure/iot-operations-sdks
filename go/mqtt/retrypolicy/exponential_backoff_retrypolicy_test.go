@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt/retrypolicy"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 )
 
 type Mock struct {

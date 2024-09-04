@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 // Structure to apply tokens to a named topic pattern.

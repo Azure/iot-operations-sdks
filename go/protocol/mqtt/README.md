@@ -3,7 +3,7 @@
 # mqtt
 
 ```go
-import "github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
+import "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 ```
 
 ## Index

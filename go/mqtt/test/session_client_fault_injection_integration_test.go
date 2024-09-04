@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
-	"github.com/microsoft/mqtt-patterns/lib/go/mqtt"
-	protocol "github.com/microsoft/mqtt-patterns/lib/go/protocol/mqtt"
 	"github.com/stretchr/testify/require"
 )
 

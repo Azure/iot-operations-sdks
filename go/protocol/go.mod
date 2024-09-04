@@ -1,4 +1,4 @@
-module github.com/microsoft/mqtt-patterns/lib/go/protocol
+module github.com/Azure/iot-operations-sdks/go/protocol
 
 go 1.21
 

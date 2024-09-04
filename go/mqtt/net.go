@@ -6,9 +6,9 @@ import (
 	"net"
 	"net/url"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/packets"
 	"github.com/gorilla/websocket"
-	"github.com/microsoft/mqtt-patterns/lib/go/protocol/errors"
 )
 
 // buildNetConn establishes the network connection
