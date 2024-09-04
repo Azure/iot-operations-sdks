@@ -19,57 +19,55 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-go@v5
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
           go-version: 1.22.4
-
-      - name: CIVerify Go protocol module
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/protocol
-
-      - name: CIVerify Go mqtt module
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/mqtt
-
-      - name: CIVerify Go protocol tests
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/test/protocol
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.301
 
-      - name: Build codegen
-        run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
-
-      - name: Codegen Counter for Go
-        working-directory: ./go/samples/counter/envoy
-        run: ./gen.sh
-
-      - name: Setup Cluster
+      - name: Setup cluster
         run: |
           tools/deployment/initialize-cluster.sh
           tools/deployment/deploy-aio.sh nightly
+
+      - name: Verify Go protocol module
+        uses: magefile/mage-action@v3
+        with:
+          version: latest
+          args: civerify
+          workdir: ./go/protocol
+
+      - name: Verify Go mqtt module
+        uses: magefile/mage-action@v3
+        with:
+          version: latest
+          args: civerify
+          workdir: ./go/mqtt
+
+      - name: Verify Go protocol tests
+        uses: magefile/mage-action@v3
+        with:
+          version: latest
+          args: civerify
+          workdir: ./go/test/protocol
+
+      - name: Build codegen
+        run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
+
+      - name: Codegen counter for Go
+        working-directory: ./go/samples/counter/envoy
+        run: ./gen.sh
 
       - name: Run counter server
         working-directory: ./go/samples/counter/server
