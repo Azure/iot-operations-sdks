@@ -739,7 +739,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="..\..\..\..\lib\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
+		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
 			<Link>Serializers\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Include="..\..\..\..\lib\rust\src\akri_mqtt\tests\serialization\**\*.rs">

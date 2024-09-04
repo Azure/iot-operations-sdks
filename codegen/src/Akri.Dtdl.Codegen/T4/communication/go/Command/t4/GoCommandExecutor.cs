@@ -24,8 +24,8 @@ namespace Akri.Dtdl.Codegen
         {
             this.Write("/* This is an auto-generated file.  Do not modify. */\r\npackage ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace));
-            this.Write("\r\n\r\nimport (\r\n\t\"github.com/Azure/iot-operations-sdks/go/protocol\"\r\n\t\"github.com" +
-                    "/microsoft/mqtt-patterns/lib/go/protocol/mqtt\"\r\n");
+            this.Write("\r\n\r\nimport (\r\n\t\"github.com/Azure/iot-operations-sdks/go/protocol\"\r\n\t\"github.com/A" +
+                    "zure/iot-operations-sdks/go/protocol/mqtt\"\r\n");
  if (this.ttl != null) { 
             this.Write("\t\"github.com/sosodev/duration\"\r\n");
  } 
@@ -37,8 +37,8 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema ?? "any"));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandExecutor(\r\n\tclient mqtt.Client,\r\n\trequestTopic string,\r\n\thandler pr" +
-                    "otocol.CommandHandler[");
+            this.Write("CommandExecutor(\r\n\tclient mqtt.Client,\r\n\trequestTopic string,\r\n\thandler protocol." +
+                    "CommandHandler[");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema ?? "any"));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema ?? "any"));

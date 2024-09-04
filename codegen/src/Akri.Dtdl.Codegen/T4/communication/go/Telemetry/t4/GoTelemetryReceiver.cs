@@ -24,15 +24,15 @@ namespace Akri.Dtdl.Codegen
         {
             this.Write("/* This is an auto-generated file.  Do not modify. */\r\npackage ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace));
-            this.Write("\r\n\r\nimport (\r\n\t\"github.com/Azure/iot-operations-sdks/go/protocol\"\r\n\t\"github.com" +
-                    "/microsoft/mqtt-patterns/lib/go/protocol/mqtt\"\r\n)\r\n\r\ntype ");
+            this.Write("\r\n\r\nimport (\r\n\t\"github.com/Azure/iot-operations-sdks/go/protocol\"\r\n\t\"github.com/A" +
+                    "zure/iot-operations-sdks/go/protocol/mqtt\"\r\n)\r\n\r\ntype ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("Receiver struct {\r\n\t*protocol.TelemetryReceiver[");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write("Receiver(\r\n\tclient mqtt.Client,\r\n\ttopic string,\r\n\thandler protocol.Telemet" +
-                    "ryHandler[");
+            this.Write("Receiver(\r\n\tclient mqtt.Client,\r\n\ttopic string,\r\n\thandler protocol.TelemetryHandl" +
+                    "er[");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("],\r\n\topt ...protocol.TelemetryReceiverOption,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
