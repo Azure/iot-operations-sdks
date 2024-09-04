@@ -2,10 +2,31 @@
 
 This folder contains the source code, tests, and sample code for the Azure IoT Operations .NET SDK.
 
-Within the source code, there are 3 packages:
+## Getting started
 
-|Type|Name|Description|
+## Packaging
+
+The following Azure IoT Operations packages are available:
+
+| Name | Package | Description |
 |-|-|-|
-|Package|Azure.Iot.Operations.Protocol|MQTT fundamentals such as telemetry, RPC, connection settings.|
-|Package|Azure.Iot.Operations.Services|AIO MQ scenarios such as state store clients, leased lock clients, leader election clients, and schema registry clients.|
-|Package|Azure.Iot.Operations.MQTT|MQTTnet specific implementation of MQTT to provide to the other packages.|
+| [**Protocol**](../doc#protocol) | `Azure.Iot.Operations.Protocol` | MQTT fundamentals such as telemetry, RPC, connection settings |
+| [**Services**](../doc#services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
+| [**Mqtt**](../doc#mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT fundamentals such as telemetry, RPC, connection settings |
+
+## Installing packages
+
+> [!NOTE]
+> The packages are currently marked `prerelease` as part of the SDK preview.
+
+1. Add the [NuGet package feed](https://dev.azure.com/e4k-sdk/SdkLite/_artifacts/feed/sdklite-previews):
+
+    ```bash
+    dotnet nuget add source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json -n AzureIoTOperations
+    ```
+
+1. Install the package into your project:
+
+    ```bash
+    dotnet add package <PACKAGE_NAME> --prerelease
+    ```
