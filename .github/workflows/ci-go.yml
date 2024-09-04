@@ -41,6 +41,9 @@ jobs:
           tools/deployment/initialize-cluster.sh
           tools/deployment/deploy-aio.sh nightly
 
+      - name: Setup faultable MQTT broker
+        run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
+
       - name: Verify Go protocol module
         uses: magefile/mage-action@v3
         with:

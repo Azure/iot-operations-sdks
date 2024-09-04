@@ -18,6 +18,6 @@ spec:
         imagePullPolicy: Always
         env:
         - name: MQTT_HOST_NAME
-          value: "aio-mq-dmqtt-frontend"
+          value: "aio-broker"
         - name: MQTT_CLIENT_ID
           value: "CounterServer-go"
