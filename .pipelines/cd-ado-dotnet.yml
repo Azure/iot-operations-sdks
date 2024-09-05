@@ -83,5 +83,5 @@ extends:
               command: 'push'
               packagesToPush: './_nupkgs/*.nupkg'
               nugetFeedType: 'external'
-              publishFeedCredentials: 'sdklite-previews-feed'
+              publishFeedCredentials: 'iot-operations-sdk-preview'
               feedsToUse: 'select'
