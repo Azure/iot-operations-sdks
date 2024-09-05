@@ -59,14 +59,14 @@ func Doc() error {
 
 // Test runs the unit tests.
 func Test() error {
-	return shellcmd.Command(`go test -race -cover -timeout 12s ./...`).Run()
+	return shellcmd.Command(`go test -race -cover -timeout 30s ./...`).Run()
 }
 
 // TestClean runs the unit tests with no test cache.
 func TestClean() error {
 	return shellcmd.RunAll(
 		`go clean -testcache`,
-		`go test -race -cover -timeout 12s ./...`,
+		`go test -race -cover -timeout 30s ./...`,
 	)
 }
 

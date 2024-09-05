@@ -54,11 +54,12 @@ func (c *SessionClient) Subscribe(
 
 	// Execute the subscribe.
 	c.logSubscribe(sub)
+	s.register(ctx)
 	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
+		s.done()
 		return nil, err
 	}
 
-	s.register(ctx)
 	c.subscriptions[topic] = s
 
 	return s, nil

@@ -320,11 +320,6 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 		c.info("no pending packets in the queue")
 	}
 
-	// Re-register existing subscription callbacks with the new client instance.
-	for _, s := range c.subscriptions {
-		s.register(ctx)
-	}
-
 	for !c.pendingPackets.IsEmpty() {
 		c.info(
 			fmt.Sprintf("%d packet(s) in the queue", c.pendingPackets.Size()),
@@ -337,18 +332,20 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 				qp.handleError(pahoPub(ctx, c.pahoClient, p))
 			case *paho.Subscribe:
 				c.logPacket(p)
-				err := pahoSub(ctx, c.pahoClient, p)
 
+				qp.subscription.register(ctx)
+				err := pahoSub(ctx, c.pahoClient, p)
 				if err == nil {
-					qp.subscription.register(ctx)
 					c.subscriptions[qp.subscription.topic] = qp.subscription
+				} else {
+					qp.subscription.done()
 				}
 
 				qp.handleError(err)
 			case *paho.Unsubscribe:
 				c.logPacket(p)
-				err := pahoUnsub(ctx, c.pahoClient, p)
 
+				err := pahoUnsub(ctx, c.pahoClient, p)
 				if err == nil {
 					// Remove subscribed topic and subscription callback.
 					delete(c.subscriptions, qp.subscription.topic)
@@ -425,6 +422,12 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 	}
 
 	c.pahoClient = c.pahoClientFactory(config)
+
+	// Re-register existing subscription callbacks with the new client instance.
+	for _, s := range c.subscriptions {
+		s.register(ctx)
+	}
+
 	return nil
 }
 
