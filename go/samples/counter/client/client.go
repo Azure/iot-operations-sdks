@@ -18,7 +18,7 @@ func main() {
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
 	clientID := fmt.Sprintf("sampleCounterClient-%d", time.Now().UnixMilli())
-	fmt.Printf("Starting counter client with clientId%s\n", clientID)
+	fmt.Printf("Starting counter client with clientId %s\n", clientID)
 	mqttClient := must(mqtt.NewSessionClientFromEnv())
 
 	check(mqttClient.Connect(ctx))
