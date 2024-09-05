@@ -320,6 +320,11 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 		c.info("no pending packets in the queue")
 	}
 
+	// Re-register existing subscription callbacks with the new client instance.
+	for _, s := range c.subscriptions {
+		s.register(ctx)
+	}
+
 	for !c.pendingPackets.IsEmpty() {
 		c.info(
 			fmt.Sprintf("%d packet(s) in the queue", c.pendingPackets.Size()),
@@ -332,37 +337,11 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 				qp.handleError(pahoPub(ctx, c.pahoClient, p))
 			case *paho.Subscribe:
 				c.logPacket(p)
-				s := qp.subscription
-				// Re-add the OnPublishReceived callback.
-				done := c.pahoClient.AddOnPublishReceived(
-					func(pb paho.PublishReceived) (bool, error) {
-						if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
-							if err := s.handler(
-								ctx,
-								c.buildMessage(pb.Packet),
-							); err != nil {
-								c.error(fmt.Sprintf(
-									"failed to execute the handler on message:"+
-										" %s",
-									err.Error(),
-								))
-								return false, err
-							}
-							return true, nil
-						}
-						return false, nil
-					},
-				)
-				// Add callback.
-				s.done = done
-
 				err := pahoSub(ctx, c.pahoClient, p)
-				if err != nil {
-					// Something wrong, remove subscription callback.
-					qp.subscription.done()
-				} else {
-					// Add subscribed topic. (only one topic)
-					c.subscribedTopics.Add(p.Subscriptions[0].Topic)
+
+				if err == nil {
+					qp.subscription.register(ctx)
+					c.subscriptions[qp.subscription.topic] = qp.subscription
 				}
 
 				qp.handleError(err)
@@ -372,7 +351,7 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 
 				if err == nil {
 					// Remove subscribed topic and subscription callback.
-					c.subscribedTopics.Remove(p.Topics[0])
+					delete(c.subscriptions, qp.subscription.topic)
 					qp.subscription.done()
 				}
 
