@@ -19,63 +19,101 @@ permissions:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: 1.22.4
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.22.4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.301
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.301
 
-      - name: Setup cluster
-        run: |
-          tools/deployment/initialize-cluster.sh
-          tools/deployment/deploy-aio.sh nightly
+    - name: Setup cluster
+      run: |
+        tools/deployment/initialize-cluster.sh
+        tools/deployment/deploy-aio.sh nightly
 
-      - name: Setup faultable MQTT broker
-        run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
+    # This file is created by deploy-aio.sh
+    - name: Load test service account token into environment
+      run: |
+        if [ ! -f "./.devcontainer/token.txt" ]; then
+          echo "Missing 'token.txt' file"
+          exit 1
+        fi
 
-      - name: Verify Go protocol module
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/protocol
+        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
 
-      - name: Verify Go mqtt module
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/mqtt
+    # This file is created by deploy-aio.sh
+    - name: Load CA certificate into environment
+      run: |
+        if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
+          echo "Missing 'mqtt-broker-ca.crt' file"
+          exit 1
+        fi
 
-      - name: Verify Go protocol tests
-        uses: magefile/mage-action@v3
-        with:
-          version: latest
-          args: civerify
-          workdir: ./go/test/protocol
+        echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
 
-      - name: Build codegen
-        run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
+    # These files are created by deploy-aio.sh
+    - name: Load client certificates into environment
+      run: |
+        if [ ! -f "./.devcontainer/client.key" ]; then
+          echo "Missing 'client.key' file"
+          exit 1
+        fi
 
-      - name: Codegen counter for Go
-        working-directory: ./go/samples/counter/envoy
-        run: ./gen.sh
+        if [ ! -f "./.devcontainer/client.crt" ]; then
+          echo "Missing 'client.crt' file"
+          exit 1
+        fi
 
-      - name: Run counter server
-        working-directory: ./go/samples/counter/server
-        run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8883 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} MQTT_CLIENT_ID=CounterServer-go go run server.go &
+        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
 
-      - name: Run counter client
-        working-directory: ./go/samples/counter/client
-        run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8883 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} COUNTER_SERVER_ID=CounterServer-go go run client.go go run client.go
+    - name: Setup faultable MQTT broker
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
+
+    - name: Verify Go protocol module
+      uses: magefile/mage-action@v3
+      with:
+        version: latest
+        args: civerify
+        workdir: ./go/protocol
+
+    - name: Verify Go mqtt module
+      uses: magefile/mage-action@v3
+      with:
+        version: latest
+        args: civerify
+        workdir: ./go/mqtt
+
+    - name: Verify Go protocol tests
+      uses: magefile/mage-action@v3
+      with:
+        version: latest
+        args: civerify
+        workdir: ./go/test/protocol
+
+    - name: Build codegen
+      run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
+
+    - name: Codegen counter for Go
+      working-directory: ./go/samples/counter/envoy
+      run: ./gen.sh
+
+    - name: Run counter server
+      working-directory: ./go/samples/counter/server
+      run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8883 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} MQTT_CLIENT_ID=CounterServer-go go run server.go &
+
+    - name: Run counter client
+      working-directory: ./go/samples/counter/client
+      run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8883 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} COUNTER_SERVER_ID=CounterServer-go go run client.go go run client.go
