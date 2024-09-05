@@ -40,6 +40,8 @@ This repository supports [GitHub Codespaces](https://github.com/features/codespa
    ```
 
 1. Run one of the quickstarts:
+    
+    1. [go](./go)
 
 ## SDK Components
 
