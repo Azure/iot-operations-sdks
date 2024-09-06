@@ -3,8 +3,8 @@ module github.com/Azure/iot-operations-sdks/go/samples/greeter/server
 go 1.21
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.0.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.0.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.1.0
 	github.com/Azure/iot-operations-sdks/go/samples/greeter/envoy v0.0.0
 	github.com/lmittmann/tint v1.0.5
 )
@@ -27,8 +27,4 @@ require (
 	golang.org/x/sys v0.23.0 // indirect
 )
 
-replace (
-	github.com/Azure/iot-operations-sdks/go/mqtt => ../../../mqtt
-	github.com/Azure/iot-operations-sdks/go/protocol => ../../../protocol
-	github.com/Azure/iot-operations-sdks/go/samples/greeter/envoy => ../envoy
-)
+replace github.com/Azure/iot-operations-sdks/go/samples/greeter/envoy => ../envoy

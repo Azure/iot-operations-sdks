@@ -2,7 +2,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/greeter/envoy
 
 go 1.21
 
-require github.com/Azure/iot-operations-sdks/go/protocol v0.0.0
+require github.com/Azure/iot-operations-sdks/go/protocol v0.1.0
 
 require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
@@ -18,5 +18,3 @@ require (
 	github.com/sosodev/duration v1.3.1 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 )
-
-replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../protocol
