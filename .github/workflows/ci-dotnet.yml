@@ -6,7 +6,8 @@ on:
     paths:
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
-      - 'tools/dsscli'
+      - 'tools/dsscli/**'
+      - 'codegen/**'
   push:
     branches:
     - main  
