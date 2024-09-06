@@ -499,4 +499,13 @@ public class OrderedAckMqttClientTests
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () => await mqttNetClient.PublishAsync(message));
     }
+
+    [Fact]
+    public async Task OrderedAckMqttClient_GetClientIdWithoutAnAssignedClientIdReturnsNull()
+    {
+        using MockMqttClient mockMqttClient = new MockMqttClient();
+        await using OrderedAckMqttClient orderedAckMqttClient = new(mockMqttClient);
+
+        Assert.Null(orderedAckMqttClient.ClientId);
+    }
 }

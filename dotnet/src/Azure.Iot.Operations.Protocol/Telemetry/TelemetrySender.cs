@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry;
 
@@ -102,7 +103,9 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
 
         try
         {
-            telemTopic.Append(MqttTopicProcessor.GetTelemetryTopic(TopicPattern, _telemetryName, _mqttClient.ClientId, ModelId, CustomTopicTokenMap));
+            string? clientId = _mqttClient.ClientId;
+            Debug.Assert(!string.IsNullOrEmpty(clientId));
+            telemTopic.Append(MqttTopicProcessor.GetTelemetryTopic(TopicPattern, _telemetryName, clientId, ModelId, CustomTopicTokenMap));
 
             if (metadata?.CloudEvent is not null)
             {

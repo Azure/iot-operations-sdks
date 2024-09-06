@@ -158,7 +158,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         "The provided MQTT client is not configured for MQTT version 5");
                 }
 
-                dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(mqttClient.ClientId, PreferredDispatchConcurrency);
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, PreferredDispatchConcurrency);
 
                 string telemTopicFilter;
                 try
@@ -203,7 +205,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         {
             if (dispatcher == null)
             {
-                dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(mqttClient.ClientId);
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId);
             }
 
             return dispatcher;
