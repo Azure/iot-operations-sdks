@@ -87,6 +87,7 @@
                         "date-time" => new DateTimeType(),
                         "time" => new TimeType(),
                         "duration" => new DurationType(),
+                        "uuid" => new UuidType(),
                         _ => throw new Exception("unrecognized schema"),
                     };
             }

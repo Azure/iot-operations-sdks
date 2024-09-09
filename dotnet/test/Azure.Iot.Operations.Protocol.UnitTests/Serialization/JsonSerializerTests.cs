@@ -3,17 +3,19 @@ using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 {
-
     public class MyJsonType
     {
         public int MyIntProperty { get; set; }
         public string MyStringProperty { get; set; } = string.Empty;
         public DateTime MyDateTimeProperty { get; set; }
         public TimeSpan MyTimeSpanProperty { get; set; }
+        public Guid MyGuidProperty { get; set; }
     }
 
     public class JsonSerializerTests
     {
+        static readonly Guid SomeGuidValue = Guid.Parse("A3EEA49F-81DC-4374-8F73-2E2125B4A1A2");
+
         Utf8JsonSerializer ser;
         public JsonSerializerTests()
         {
@@ -56,6 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
+            Assert.Equal(default, fromBytes.MyGuidProperty);
         }
 
         [Fact]
@@ -66,7 +69,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                 MyDateTimeProperty = new DateTime(2001, 02, 03),
                 MyStringProperty = "my string",
                 MyIntProperty = 13,
-                MyTimeSpanProperty = TimeSpan.FromDays(2)
+                MyTimeSpanProperty = TimeSpan.FromDays(2),
+                MyGuidProperty = SomeGuidValue,
             };
             var bytes = ser.ToBytes(myType);
             MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes);
@@ -74,6 +78,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal("my string", fromBytes.MyStringProperty);
             Assert.Equal(new DateTime(2001,02,03), fromBytes.MyDateTimeProperty);
             Assert.Equal(TimeSpan.FromDays(2), fromBytes.MyTimeSpanProperty);
+            Assert.Equal(SomeGuidValue, fromBytes.MyGuidProperty);
         }
 
 
@@ -85,7 +90,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                             "MyIntProperty":0,
                             "MyStringProperty":"",
                             "MyDateTimeProperty":"0001-01-01T00:00:00",
-                            "MyTimeSpanProperty":"PT0S"
+                            "MyTimeSpanProperty":"PT0S",
+                            "MyGuidProperty": "00000000-0000-0000-0000-000000000000"
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
@@ -94,6 +100,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
+            Assert.Equal(default, fromBytes.MyGuidProperty);
         }
 
         [Fact]
@@ -109,6 +116,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
+            Assert.Equal(default, fromBytes.MyGuidProperty);
         }
     }
 }

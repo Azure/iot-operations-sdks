@@ -23,6 +23,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeSpan), new DurationCborConverter());
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(DateOnly), new DateCborConverter());
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeOnly), new TimeCborConverter());
+            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(Guid), new UuidCborConverter());
         }
 
         public string ContentType => "application/cbor";
