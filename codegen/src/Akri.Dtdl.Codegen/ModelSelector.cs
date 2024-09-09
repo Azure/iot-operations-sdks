@@ -101,9 +101,9 @@
                     acceptHelpMessage($"{modelDtmi} is not an Interface");
                     return contextualizedInterface;
                 }
-                else if (!dtEntity.SupplementalTypes.Contains(DtdlMqttExtensionValues.MqttAdjunctType))
+                else if (!dtEntity.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri)))
                 {
-                    acceptHelpMessage($"{modelDtmi} does not have a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctType.AbsoluteUri)}");
+                    acceptHelpMessage($"{modelDtmi} does not have a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctTypePattern)}");
                     return contextualizedInterface;
                 }
                 else
@@ -113,17 +113,17 @@
             }
             else
             {
-                IEnumerable<DTInterfaceInfo> mqttInterfaces = contextualizedInterface.ModelDict.Values.Where(e => e.EntityKind == DTEntityKind.Interface && e.SupplementalTypes.Contains(DtdlMqttExtensionValues.MqttAdjunctType)).Select(e => (DTInterfaceInfo)e);
+                IEnumerable<DTInterfaceInfo> mqttInterfaces = contextualizedInterface.ModelDict.Values.Where(e => e.EntityKind == DTEntityKind.Interface && e.SupplementalTypes.Any(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri))).Select(e => (DTInterfaceInfo)e);
                 switch (mqttInterfaces.Count())
                 {
                     case 0:
-                        acceptHelpMessage($"No Interface in model has a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctType.AbsoluteUri)}");
+                        acceptHelpMessage($"No Interface in model has a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctTypePattern)}");
                         break;
                     case 1:
                         contextualizedInterface.InterfaceId = mqttInterfaces.First().Id;
                         break;
                     default:
-                        acceptHelpMessage($"More than one Interface has a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctType.AbsoluteUri)}");
+                        acceptHelpMessage($"More than one Interface has a co-type of {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.MqttAdjunctTypePattern)}");
                         acceptHelpMessage($"Resubmit command with one of the following options:");
                         foreach (DTInterfaceInfo mqttInterface in mqttInterfaces)
                         {
@@ -131,6 +131,12 @@
                         }
                         break;
                 }
+            }
+
+            if (contextualizedInterface.InterfaceId != null)
+            {
+                Dtmi mqttTypeId = contextualizedInterface.ModelDict[contextualizedInterface.InterfaceId].SupplementalTypes.First(t => DtdlMqttExtensionValues.MqttAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+                contextualizedInterface.MqttVersion = int.Parse(DtdlMqttExtensionValues.MqttAdjunctTypeRegex.Match(mqttTypeId.AbsoluteUri).Groups[1].Captures[0].Value);
             }
 
             return contextualizedInterface;
@@ -173,6 +179,7 @@
         {
             public IReadOnlyDictionary<Dtmi, DTEntityInfo>? ModelDict = null;
             public Dtmi? InterfaceId = null;
+            public int MqttVersion = 0;
         }
     }
 }

@@ -212,7 +212,7 @@ namespace Akri.Dtdl.Codegen
 
         private static Exception GetFormatNotRecognizedException(string payloadFormat)
         {
-            return new Exception($"{DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PayloadFormatProperty)} '{payloadFormat}' not recognized; must be {PayloadFormat.Itemize(" or ", "'")}");
+            return new Exception($"{DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PayloadFormatPropertyFormat)} '{payloadFormat}' not recognized; must be {PayloadFormat.Itemize(" or ", "'")}");
         }
     }
 }

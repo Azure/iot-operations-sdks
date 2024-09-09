@@ -6,20 +6,20 @@
     public class TopicCollisionDetector
     {
         private string topicType;
-        private string topicProperty;
+        private string topicPropertyPattern;
         private string nameToken;
         private bool combineWhenNoName;
 
         private Dictionary<string, Dictionary<string, Dtmi>> namedTopicInterfaceIds;
         private Dictionary<string, Dtmi> namelessTopicInterfaceIds;
 
-        public static TopicCollisionDetector GetTelemetryTopicCollisionDetector() => new TopicCollisionDetector("Telemetry", DtdlMqttExtensionValues.TelemTopicProperty, MqttTopicTokens.TelemetryName, combineWhenNoName: true);
-        public static TopicCollisionDetector GetCommandTopicCollisionDetector() => new TopicCollisionDetector("Command", DtdlMqttExtensionValues.CmdReqTopicProperty, MqttTopicTokens.CommandName, combineWhenNoName: false);
+        public static TopicCollisionDetector GetTelemetryTopicCollisionDetector() => new TopicCollisionDetector("Telemetry", DtdlMqttExtensionValues.TelemTopicPropertyFormat, MqttTopicTokens.TelemetryName, combineWhenNoName: true);
+        public static TopicCollisionDetector GetCommandTopicCollisionDetector() => new TopicCollisionDetector("Command", DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, MqttTopicTokens.CommandName, combineWhenNoName: false);
 
-        public TopicCollisionDetector(string topicType, string topicProperty, string nameToken, bool combineWhenNoName)
+        public TopicCollisionDetector(string topicType, string topicPropertyPattern, string nameToken, bool combineWhenNoName)
         {
             this.topicType = topicType;
-            this.topicProperty = topicProperty;
+            this.topicPropertyPattern = topicPropertyPattern;
             this.nameToken = nameToken;
             this.combineWhenNoName = combineWhenNoName;
 
@@ -27,9 +27,9 @@
             namelessTopicInterfaceIds = new();
         }
 
-        public void Check(DTInterfaceInfo dtInterface, IEnumerable<string> names)
+        public void Check(DTInterfaceInfo dtInterface, IEnumerable<string> names, int mqttVersion)
         {
-            if (dtInterface.SupplementalProperties.TryGetValue(topicProperty, out object? topicObj) && topicObj is string topic)
+            if (dtInterface.SupplementalProperties.TryGetValue(string.Format(topicPropertyPattern, mqttVersion), out object? topicObj) && topicObj is string topic)
             {
                 if (!combineWhenNoName && !topic.Contains(nameToken) && names.Count() > 1)
                 {
