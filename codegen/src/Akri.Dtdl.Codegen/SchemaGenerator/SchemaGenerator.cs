@@ -110,7 +110,7 @@
                     reqSchema = GetRequestSchema(dtCommand.Value);
 
                     foreach (ITemplateTransform reqSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema!, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
+                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema!, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, dtCommand.Value.Request.Nullable, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
                     {
                         acceptor(reqSchemaTransform.TransformText(), reqSchemaTransform.FileName, reqSchemaTransform.FolderPath);
                     }
@@ -122,7 +122,7 @@
                     respSchema = GetResponseSchema(dtCommand.Value);
 
                     foreach (ITemplateTransform respSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                        payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema!, dtCommand.Key, "response", dtCommand.Value.Response.Name, dtCommand.Value.Response.Schema, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
+                        payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema!, dtCommand.Key, "response", dtCommand.Value.Response.Name, dtCommand.Value.Response.Schema, dtCommand.Value.Response.Nullable, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
                     {
                         acceptor(respSchemaTransform.TransformText(), respSchemaTransform.FileName, respSchemaTransform.FolderPath);
                     }
