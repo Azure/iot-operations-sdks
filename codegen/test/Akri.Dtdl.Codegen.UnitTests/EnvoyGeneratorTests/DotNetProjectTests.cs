@@ -1,6 +1,7 @@
 ﻿namespace Akri.Dtdl.Codegen.UnitTests.EnvoyGeneratorTests
 {
     using System.IO;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Xml;
     using NuGet.Versioning;
@@ -18,7 +19,7 @@
         public DotNetProjectTests()
         {
             Regex MajorMinorRegex = new("^(\\d+\\.\\d+).", RegexOptions.Compiled);
-            Match? majorMinorMatch = MajorMinorRegex.Match(ThisAssembly.AssemblyVersion);
+            Match? majorMinorMatch = MajorMinorRegex.Match(typeof(DotNetProject).Assembly.GetName().Version!.ToString());
 
             Assert.True(majorMinorMatch.Success);
 
