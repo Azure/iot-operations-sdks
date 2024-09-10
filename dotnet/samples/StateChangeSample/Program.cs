@@ -23,15 +23,20 @@ try
     string stateStoreValue = "someValue";
     string newValue = "someNewValue";
 
-    // define callback for when the key changes
-    async Task stateCallback(object? sender, KeyChangeMessageReceivedEventArgs args)
+    KeyChangeMessageReceivedEventArgs? mostRecentChange = null;
+    TaskCompletionSource onKeyChange = new TaskCompletionSource();
+    Task OnKeyChange(object? arg1, KeyChangeMessageReceivedEventArgs args)
     {
         Console.WriteLine($"Key {args.ChangedKey} changed to {args.NewValue}");
-        await Task.CompletedTask;
+        mostRecentChange = args;
+        onKeyChange.TrySetResult();
+        return Task.CompletedTask;
     }
 
+    stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChange;
+
     // subscribe to notifications when the key changes values
-    await stateStoreClient.ObserveAsync(stateStoreKey, stateCallback);
+    await stateStoreClient.ObserveAsync(stateStoreKey);
 
     // change the key value
     Console.WriteLine("Setting the key...");

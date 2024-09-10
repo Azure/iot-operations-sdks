@@ -240,7 +240,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task ObserveAsync(StateStoreKey key, Func<object?, KeyChangeMessageReceivedEventArgs, Task>? callback = null, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task ObserveAsync(StateStoreKey key, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -276,11 +276,6 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _isSubscribedToNotifications = true;
-            }
-
-            if (callback != null)
-            {
-                KeyChangeMessageReceivedAsync += callback;
             }
 
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);

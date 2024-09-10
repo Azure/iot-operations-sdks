@@ -501,7 +501,6 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             Debug.Assert(_lockKey != null);
             await _stateStoreClient.ObserveAsync(
                 _lockKey,
-                null, // No callback needed because the client will handle the notifications 
                 new StateStoreObserveRequestOptions()
                 {
                     GetNewValue = options.GetNewValue,
