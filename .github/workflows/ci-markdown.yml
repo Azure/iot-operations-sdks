@@ -22,7 +22,7 @@ jobs:
         with:
           strict: false
           config: '.vscode/cspell.json'
-          check_dot_files: false
+          check_dot_files: "false"
           verbose: true
           #incremental_files_only: true
 
