@@ -1,12 +1,18 @@
 {
     "version": "0.2",
+    "language": "en", 
+    "languageSettings": [
+        {
+            "languageId": "csharp,go,rust",
+            "dictionaries": ["csharp", "go", "rust"]
+        }
+    ],   
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
         "codespace",
         "Codespaces",
-        "connectedk",
         "DTDL",
         "metaverse",
         "Protobuf",
