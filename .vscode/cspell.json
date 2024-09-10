@@ -1,0 +1,17 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "codespace",
+        "Codespaces",
+        "connectedk",
+        "DTDL",
+        "metaverse",
+        "Protobuf",
+        "quickstarts"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
