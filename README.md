@@ -5,6 +5,9 @@
 [![CI-Rust](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml)
 [![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml)
 
+> [!CAUTION]
+> The assets in this repository are currently in Private Preview and have been made available for early access and feedback purposes.
+
 ## What is Azure IoT Operations?
 
 *Azure IoT Operations* is a unified data plane for the edge. It's composed of a set of modular, scalable, and highly available data services that run on Azure Arc-enabled edge Kubernetes clusters. It enables data capture from various different systems and integrates with data modeling applications such as Microsoft Fabric to help organizations deploy the industrial metaverse.
@@ -13,13 +16,13 @@ See [the Azure IoT Operations Learn](https://learn.microsoft.com/azure/iot-opera
 
 ## Why use an SDK?
 
-The *Azure IoT Operations SDKs* are a suite of libraries across many languages designed to assist in the development of applications for Azure IoT Operations.
+The *Azure IoT Operations SDKs* are a suite of tools and libraries across many languages designed to aid the development of applications for Azure IoT Operations.
 
 The focus of the SDKs it to assist customers in developing applications by providing the following features:
 
 | Feature | Description |
 |-|-|
-| **Highly available** | Provides infrastructure and guidance to build HA into your applications |
+| <code>**Highly available** | Provides infrastructure and guidance to build HA into your applications |
 | **Any language** | The SDKs target multiple languages to support any development environment |
 | **Secure** | Uses the latest crypto libraries and protocols |
 | **Zero data loss** | Builds on MQTT broker to remove data loss due to application failure |
@@ -30,47 +33,52 @@ The focus of the SDKs it to assist customers in developing applications by provi
 
 ## Getting started
 
-This repository supports [GitHub Codespaces](https://github.com/features/codespaces). It provides a quick wayto get started with evaluationing the SDKs by creating a test K3d cluster to install IoT Operations in.
+Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine.
 
-1. Create a Codespace with this repository:
+1. Create a codespace, and enter your Azure details to store them as environment variables:
 
-   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks)
+   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
-1. Following the remaining [Quickstart](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy) to get IoT Operations up and running.
+1. :warning:<code style="color:orange">**IMPORTANT**</code> Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**). This is required to login to Azure in the next step.
 
-1. Reconfigure IoT Operations ready for running samples and quickstarts:
+1. Connect the cluster to Azure Arc:
+
+    ```bash
+    az login
+    az account set -s $SUBSCRIPTION_ID
+    az connectedk8s connect -n $CLUSTER_NAME -g $RESOURCE_GROUP -l $LOCATION
+    az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --features cluster-connect custom-locations
+    ```
+
+1. Follow [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy#deploy-azure-iot-operations-preview) to complete the deployment.
+
+1. Configure the MQTT Broker for developing with the SDKs:
 
    ```bash
-   tools/deployment/deploy-aio.sh release
+   ./tools/deployment/deploy-aio.sh release
    ```
 
-1. Run one of the quickstarts:
+1. Review each components documentation for available quickstarts:
     
-    * [Go](./go/quickstart)
-    * [.NET](./dotnet/quickstart)
-    * [Rust](./rust/quickstart)
+   * [Go SDK](./go)
+   * [.NET SDK](./dotnet)
+   * [Rust SDK](./rust)
+   * [Protocol Compiler](./codegen)
 
-## SDK Components
+## SDK Features
 
-Code, samples and usage documentation for each SDK is available repository subdirectories:
+| State | Support | Location |
+|-|-|-|
+| :green_circle:&nbsp;Complete | Feature is actively supported by the team. | `release tag`, `release package` |
+| :yellow_circle:&nbsp;In&nbsp;progress | Under development, no support provided. | `feature branch`, `nightly package` |
+| :orange_circle:&nbsp;Planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on planned features. | - |
+| :red_circle:&nbsp;Not&nbsp;planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for detail on unplanned features. | - |
 
-* [Go SDK](./go)
-* [.NET SDK](./dotnet)
-* [Rust SDK](./rust)
-* [Protocol Compiler](./codegen)
+### Feature status
 
-### Component status
+The following features are available or planned, along with the current language support:
 
-:green_circle: Supported  
-:yellow_circle: In progress  
-:orange_circle: Planned  
-:red_circle: No plans
-
-### Language libraries
-
-The repository contains the following libraries with the associated language support:
-
-| Component | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
+| Feature | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :orange_circle: | :orange_circle: |
@@ -99,9 +107,16 @@ Other tools available for use during development of IoT Operation applications.
 |-|-|-|
 | **State store CLI** | Interact with the state store via a CLI. Get, set and delete keys. | :yellow_circle: |
 
+## Need help?
+
+* Read through the [SDK documentation](./doc)
+* Check for an answer in the [troubleshooting](./doc/troubleshooting.md)
+* File an issue via [Github Issues](https://github.com/Azure/iot-operations-sdks/issues/new/choose)
+* Check the [discussions](https://github.com/Azure/iot-operations-sdks/discussions) or start a new one
+
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 

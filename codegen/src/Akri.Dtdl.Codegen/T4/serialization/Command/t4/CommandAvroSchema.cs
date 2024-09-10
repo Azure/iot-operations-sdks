@@ -31,7 +31,7 @@ namespace Akri.Dtdl.Codegen
             this.Write("\",\r\n  \"type\": \"record\",\r\n  \"fields\": [\r\n    {\r\n      \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.paramName));
             this.Write("\",\r\n");
-            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName, indent: 6, nullable: false, nestNamedType: true)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName, indent: 6, this.isNullable, nestNamedType: true)));
             this.Write("\r\n    }\r\n  ]\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }

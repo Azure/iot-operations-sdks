@@ -83,7 +83,7 @@
 
                 string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
 
-                SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
+                SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
                 HashSet<string> sourceFilePaths = new();
 

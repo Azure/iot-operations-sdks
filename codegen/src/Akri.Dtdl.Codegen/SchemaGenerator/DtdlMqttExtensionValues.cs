@@ -1,26 +1,29 @@
 ﻿namespace Akri.Dtdl.Codegen
 {
+    using System.Text.RegularExpressions;
     using DTDLParser;
 
     public static class DtdlMqttExtensionValues
     {
-        public static readonly Dtmi MqttAdjunctType = new Dtmi("dtmi:dtdl:extension:mqtt:v1:Mqtt");
+        public static string MqttAdjunctTypePattern = @"dtmi:dtdl:extension:mqtt:v(\d+):Mqtt";
 
-        public static readonly Dtmi IdempotentAdjunctType = new Dtmi("dtmi:dtdl:extension:mqtt:v1:Idempotent");
+        public static Regex MqttAdjunctTypeRegex = new Regex(MqttAdjunctTypePattern, RegexOptions.Compiled);
 
-        public static readonly Dtmi CacheableAdjunctType = new Dtmi("dtmi:dtdl:extension:mqtt:v1:Cacheable");
+        public static readonly string IdempotentAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Idempotent";
 
-        public static readonly Dtmi IndexedAdjunctType = new Dtmi("dtmi:dtdl:extension:mqtt:v1:Indexed");
+        public static readonly string CacheableAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable";
 
-        public static readonly string TelemTopicProperty = "dtmi:dtdl:extension:mqtt:v1:Mqtt:telemetryTopic";
+        public static readonly string IndexedAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed";
 
-        public static readonly string CmdReqTopicProperty = "dtmi:dtdl:extension:mqtt:v1:Mqtt:commandTopic";
+        public static readonly string TelemTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemetryTopic";
 
-        public static readonly string IndexProperty = "dtmi:dtdl:extension:mqtt:v1:Indexed:index";
+        public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";
 
-        public static readonly string PayloadFormatProperty = "dtmi:dtdl:extension:mqtt:v1:Mqtt:payloadFormat";
+        public static readonly string IndexPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed:index";
 
-        public static readonly string TtlProperty = "dtmi:dtdl:extension:mqtt:v1:Cacheable:ttl";
+        public static readonly string PayloadFormatPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:payloadFormat";
+
+        public static readonly string TtlPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable:ttl";
 
         public static string GetStandardTerm(string dtmi) => dtmi.Substring(dtmi.LastIndexOf(':') + 1);
     }

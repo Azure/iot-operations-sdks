@@ -1,7 +1,7 @@
 {
   "@context": [
-    "dtmi:dtdl:context;3",
-    "dtmi:dtdl:extension:mqtt;1"
+    "dtmi:dtdl:context;<[DVER]>",
+    "dtmi:dtdl:extension:mqtt;<[MVER]>"
   ],
   "@id": "<[ID]>",
   "@type": [ "Interface", "Mqtt" ],

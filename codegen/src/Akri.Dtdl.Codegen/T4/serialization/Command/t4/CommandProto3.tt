@@ -13,5 +13,5 @@ import "<#=importName#>";
 <# } #>
 
 message <#=this.schema#> {
-    <#=ProtobufSupport.GetType(this.paramSchema, this.dtmiToSchemaName)#> <#=this.paramName#> = 1;
+    <#=this.isNullable ? "optional " : "" #><#=ProtobufSupport.GetType(this.paramSchema, this.dtmiToSchemaName)#> <#=this.paramName#> = 1;
 }
