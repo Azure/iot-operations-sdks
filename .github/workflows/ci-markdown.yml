@@ -20,9 +20,10 @@ jobs:
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6      
         with:
-          strict: false
+          files: '**/*'
           config: '.vscode/cspell.json'
-          check_dot_files: "false"
+#          check_dot_files: false
+          strict: false
           verbose: true
           #incremental_files_only: true
 
