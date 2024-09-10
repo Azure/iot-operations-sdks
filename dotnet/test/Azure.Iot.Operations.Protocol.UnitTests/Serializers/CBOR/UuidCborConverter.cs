@@ -3,7 +3,6 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 {
     using System;
-    using System.Globalization;
     using Dahomey.Cbor.Serialization;
     using Dahomey.Cbor.Serialization.Converters;
 

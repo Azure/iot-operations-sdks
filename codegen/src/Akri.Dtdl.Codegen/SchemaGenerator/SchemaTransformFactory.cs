@@ -16,7 +16,7 @@ namespace Akri.Dtdl.Codegen
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
-                    yield break;
+                    throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' is not supported for Interfaces whose contents include Telemetry");
                 case PayloadFormat.Avro:
                     yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
                     yield break;
@@ -42,6 +42,11 @@ namespace Akri.Dtdl.Codegen
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
+                    if (paramSchema.GetType() != typeof(DTBytesInfo))
+                    {
+                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' does not support any Command {subType} schema other than 'bytes'");
+                    }
+
                     yield break;
                 case PayloadFormat.Avro:
                     yield return new CommandAvroSchema(projectName, genNamespace, schema, commandName, subType, paramName, paramSchema, isNullable, GetDtmiToUniqueSchemaNameDelegate(interfaceId));

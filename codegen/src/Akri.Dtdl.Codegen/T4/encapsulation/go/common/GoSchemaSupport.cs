@@ -21,8 +21,9 @@ namespace Akri.Dtdl.Codegen
                 DateTimeType _ => $"{optRef}iso.Time",
                 TimeType _ => $"{optRef}iso.Time",
                 DurationType _ => $"{optRef}iso.Duration",
-                UuidType => $"{optRef}uuid.UUID",
+                UuidType _ => $"{optRef}uuid.UUID",
                 StringType _ => $"{optRef}string",
+                BytesType _ => "placeholder for proper Go bytes type",
                 ReferenceType referenceType => $"{optRef}{referenceType.SchemaName}",
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
