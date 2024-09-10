@@ -939,7 +939,7 @@ where
             async move { unsubscribe(mqtt_pub_sub, unsubscribe_filter, is_subscribed_mutex).await }
         });
 
-        // Cancel the receiver loop to prevent the lagging receiver problem and keep it from looping indefinitely
+        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
         self.recv_cancellation_token.cancel();
     }
 }
@@ -949,8 +949,8 @@ async fn unsubscribe<PS: MqttPubSub + Clone + Send + Sync + 'static>(
     response_topic_pattern: String,
     is_subscribed_mutex: Arc<Mutex<bool>>,
 ) {
+    // If we didn't call subscribe, we shouldn't unsubscribe
     if *is_subscribed_mutex.lock().await {
-        // We have subscribed, so we should unsubscribe
         // We don't care about waiting for the unsuback because we can't action on it if it fails and we don't want this task to run for longer than necessary
         match mqtt_pub_sub
             .unsubscribe(response_topic_pattern.clone())
