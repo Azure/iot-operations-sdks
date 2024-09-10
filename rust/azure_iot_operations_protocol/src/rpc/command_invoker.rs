@@ -190,7 +190,7 @@ pub struct CommandInvoker<TReq, TResp, PS>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
     // static properties of the invoker
     mqtt_pub_sub: PS,
@@ -212,7 +212,7 @@ impl<TReq, TResp, PS> CommandInvoker<TReq, TResp, PS>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
     /// Creates a new [`CommandInvoker`].
     ///
@@ -936,9 +936,40 @@ impl<TReq, TResp, PS> Drop for CommandInvoker<TReq, TResp, PS>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // drop can't be async, but we can spawn a task to unsubscribe
+        tokio::spawn({
+            let is_subscribed_mutex = self.is_subscribed_mutex.clone();
+            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let mqtt_pub_sub = self.mqtt_pub_sub.clone();
+            async move { unsubscribe(mqtt_pub_sub, unsubscribe_filter, is_subscribed_mutex).await }
+        });
+
+        // Cancel the receiver loop to prevent the lagging receiver problem and keep it from looping indefinitely
+        self.recv_cancellation_token.cancel();
+    }
+}
+
+async fn unsubscribe<PS: MqttPubSub + Clone + Send + Sync + 'static>(
+    mqtt_pub_sub: PS,
+    response_topic_pattern: String,
+    is_subscribed_mutex: Arc<Mutex<bool>>,
+) {
+    if *is_subscribed_mutex.lock().await {
+        // We have subscribed, so we should unsubscribe
+        // We don't care about waiting for the unsuback because we can't action on it if it fails and we don't want this task to run for longer than necessary
+        match mqtt_pub_sub
+            .unsubscribe(response_topic_pattern.clone())
+            .await
+        {
+            Ok(_) => {}
+            Err(e) => {
+                log::error!("Unsubscribe error on topic {response_topic_pattern}: {e}");
+            }
+        }
+    }
 }
 
 #[cfg(test)]
