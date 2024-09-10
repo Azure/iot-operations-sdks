@@ -185,7 +185,6 @@ pub struct CommandInvokerOptions {
 /// //let response: CommandResponse<SamplePayload> = result.await.unwrap();
 /// # })
 /// ```
-#[allow(unused)] // TODO: remove once drop is implemented
 pub struct CommandInvoker<TReq, TResp, PS>
 where
     TReq: PayloadSerialize,
