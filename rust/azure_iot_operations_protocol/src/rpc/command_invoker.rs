@@ -291,7 +291,7 @@ where
         // Get the pub sub and receiver from the session
         let mqtt_pub_sub = mqtt_provider.pub_sub();
         let mqtt_receiver = match mqtt_provider
-            .filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
+            .filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), true)
         {
             Ok(receiver) => receiver,
             Err(e) => {
@@ -649,13 +649,6 @@ where
                             Ok(_) => { },
                             Err(e) => {
                                 log::debug!("[{command_name}] Message ignored, no pending commands: {e}, {:?}", m.topic);
-                            }
-                        }
-                        // Manually ack
-                        match mqtt_receiver.ack(&m).await {
-                            Ok(()) => { },
-                            Err(e) => {
-                                log::error!("[{command_name}] Error acking message: {e}");
                             }
                         }
                     } else {
