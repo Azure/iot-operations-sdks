@@ -17,7 +17,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Link checking
+      - name: Link check
         run: |
           npm install -g @umbrelladocs/linkspector
           linkspector check -c ./.github/.linkspector.yml
+
+      - name: Spell check
+        uses: streetsidesoftware/cspell-action@v6      
+        with:
+          strict: false
