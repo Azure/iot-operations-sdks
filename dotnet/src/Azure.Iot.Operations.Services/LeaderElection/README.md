@@ -148,7 +148,7 @@ updating or deleting the shared resource negates any race condition protection t
 provides. For more on this, see [this section](#what-arent-leaders-protected-from).
 
 For additional details about fencing tokens and how the service uses them to provide race condition
-protections, see [this document](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#locking-and-fencing-tokens).
+protections, see [this document](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#locking-and-fencing-tokens).
 
 #### Scaling considerations
 
