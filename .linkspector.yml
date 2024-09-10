@@ -1,6 +1,0 @@
-dirs:
-  - .
-useGitIgnore: true
-ignorePatterns:
-  # Ignore links to GitHub components for now as the repository is private. We can remove this once we go public
-  - pattern: "^https://github.com/Azure/iot-operations-sdks/[actions/|discussions|issues/|releases/].*$"

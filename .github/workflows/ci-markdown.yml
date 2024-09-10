@@ -20,4 +20,4 @@ jobs:
       - name: Link checking
         run: |
           npm install -g @umbrelladocs/linkspector
-          linkspector check
+          linkspector check -c ./.github/.linkspector.yml

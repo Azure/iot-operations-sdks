@@ -165,7 +165,7 @@ resources that live within the distributed state store and only if the latest gr
 is provided when editing that shared resource. 
 
 If you are interested in using this client to get race condition protections on data that lives
-outside of the state store, you should reference [this document](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#locking-and-fencing-tokens) which explains how MQ's state store uses fencing tokens to provide this protection.
+outside of the state store, you should reference [this document](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#locking-and-fencing-tokens) which explains how MQ's state store uses fencing tokens to provide this protection.
 
 An example of the correct usage of this leader election client in conjunction with the state 
 store client looks like the below snippet:
