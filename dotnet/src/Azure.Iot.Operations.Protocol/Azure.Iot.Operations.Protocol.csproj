@@ -2,8 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-    <Version>0.5.0</Version>
-		<Nullable>enable</Nullable>
+    <VersionPrefix>0.5.0</VersionPrefix>
+    <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
