@@ -97,7 +97,7 @@ The Protocol compiler is a command line tool distributed as a NuGet package. It 
 | **Protocol compiler CLI** | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :yellow_circle:  | :yellow_circle:  |
 | [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :yellow_circle:  | :yellow_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
-| [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialzation support| :orange_circle: | :orange_circle: | :orange_circle: |
+| [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
 
 ### Additional tooling
 
