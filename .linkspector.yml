@@ -1,7 +1,5 @@
 dirs:
   - .
-excludedDirs:
-  - ./go
 useGitIgnore: true
 ignorePatterns:
   # Ignore links to GitHub components for now as the repository is private. We can remove this once we go public
