@@ -116,7 +116,7 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
             this.Write("CommandExecutor(\r\n\t\tclient,\r\n\t\tCommandTopic,\r\n\t\t");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(cmdNameReqResp.Item1)));
-            this.Write("Handler,\r\n\t\t&executorOpts,\r\n\t);\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n");
+            this.Write("Handler,\r\n\t\t&executorOpts,\r\n\t)\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("\r\n\t");
@@ -125,7 +125,7 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
             this.Write("Sender, err = New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
-            this.Write("Sender(\r\n\t\tclient,\r\n\t\tTelemetryTopic,\r\n\t\t&senderOpts,\r\n\t);\r\n\tif err != nil {\r\n\t\tr" +
+            this.Write("Sender(\r\n\t\tclient,\r\n\t\tTelemetryTopic,\r\n\t\t&senderOpts,\r\n\t)\r\n\tif err != nil {\r\n\t\tr" +
                     "eturn nil, err\r\n\t}\r\n");
  } 
             this.Write("\r\n\treturn ");
@@ -181,7 +181,7 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
             this.Write("CommandInvoker, err = New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
-            this.Write("CommandInvoker(\r\n\t\tclient,\r\n\t\tCommandTopic,\r\n\t\t&invokerOpts,\r\n\t);\r\n\tif err != nil" +
+            this.Write("CommandInvoker(\r\n\t\tclient,\r\n\t\tCommandTopic,\r\n\t\t&invokerOpts,\r\n\t)\r\n\tif err != nil" +
                     " {\r\n\t\treturn nil, err\r\n\t}\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
@@ -193,7 +193,7 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
             this.Write("Receiver(\r\n\t\tclient,\r\n\t\tTelemetryTopic,\r\n\t\t");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(telemSchema)));
-            this.Write("Handler,\r\n\t\t&receiverOpts,\r\n\t);\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n");
+            this.Write("Handler,\r\n\t\t&receiverOpts,\r\n\t)\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n");
  } 
             this.Write("\r\n\treturn ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(this.serviceName)));

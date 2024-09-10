@@ -22,10 +22,10 @@ func (c *SessionClient) Subscribe(
 
 	// Subscribe, unsubscribe, and update subscription options
 	// cannot be run simultaneously.
-	c.subscribeMu.Lock()
-	defer c.subscribeMu.Unlock()
+	c.subscriptionsMu.Lock()
+	defer c.subscriptionsMu.Unlock()
 
-	if c.subscribedTopics.Contains(topic) {
+	if _, ok := c.subscriptions[topic]; ok {
 		return nil, &errors.Error{
 			Kind:          errors.ConfigurationInvalid,
 			Message:       "cannot subscribe to existing topic",
@@ -54,18 +54,28 @@ func (c *SessionClient) Subscribe(
 
 	// Execute the subscribe.
 	c.logSubscribe(sub)
+	s.register(ctx)
 	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
+		s.done()
 		return nil, err
 	}
 
-	// Register the handler to process messages received on the target topic.
-	// AddOnPublishReceived returns a callback for removing message handler
-	// so we assign it to 'done' for unregistering handler afterwards.
-	done := c.pahoClient.AddOnPublishReceived(
+	c.subscriptions[topic] = s
+
+	return s, nil
+}
+
+// Register the handler to process messages received on the target topic.
+// AddOnPublishReceived returns a callback for removing message handler
+// so we assign it to 'done' for unregistering handler afterwards.
+func (s *subscription) register(ctx context.Context) {
+	s.info(fmt.Sprintf("registering callback for %s", s.topic))
+	s.done = s.pahoClient.AddOnPublishReceived(
 		func(pb paho.PublishReceived) (bool, error) {
-			if isTopicFilterMatch(topic, pb.Packet.Topic) {
-				if err := handler(ctx, c.buildMessage(pb.Packet)); err != nil {
-					c.error(fmt.Sprintf(
+			if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
+				msg := s.buildMessage(pb.Packet)
+				if err := s.handler(ctx, msg); err != nil {
+					s.error(fmt.Sprintf(
 						"failed to execute the handler on message: %s",
 						err.Error(),
 					))
@@ -76,12 +86,6 @@ func (c *SessionClient) Subscribe(
 			return false, nil
 		},
 	)
-
-	s.done = done
-	// Add subscribed topic.
-	c.subscribedTopics.Add(topic)
-
-	return s, nil
 }
 
 // Helper function for user to update subscribe options.
@@ -97,10 +101,10 @@ func (s *subscription) Update(
 
 	// Subscribe, unsubscribe, and update subscription options
 	// cannot be run simultaneously.
-	c.subscribeMu.Lock()
-	defer c.subscribeMu.Unlock()
+	c.subscriptionsMu.Lock()
+	defer c.subscriptionsMu.Unlock()
 
-	if !s.subscribedTopics.Contains(s.topic) {
+	if _, ok := s.subscriptions[s.topic]; !ok {
 		return &errors.Error{
 			Kind:          errors.StateInvalid,
 			Message:       "cannot update unsubscribed topic",
@@ -139,8 +143,8 @@ func (s *subscription) Unsubscribe(
 
 	// Subscribe, unsubscribe, and update subscription options
 	// cannot be run simultaneously.
-	c.subscribeMu.Lock()
-	defer c.subscribeMu.Unlock()
+	c.subscriptionsMu.Lock()
+	defer c.subscriptionsMu.Unlock()
 
 	unsub, err := buildUnsubscribe(s.topic, opts...)
 	if err != nil {
@@ -161,7 +165,7 @@ func (s *subscription) Unsubscribe(
 	}
 
 	// Remove subscribed topic and callback.
-	s.subscribedTopics.Remove(s.topic)
+	delete(s.subscriptions, s.topic)
 	s.done()
 
 	return nil

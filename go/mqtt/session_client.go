@@ -44,9 +44,9 @@ type (
 		session session.SessionManager
 
 		// **Management**
-		// Subscribed topic filters.
-		subscribedTopics *internal.Set[string]
-		subscribeMu      sync.Mutex
+		// Subscriptions by topic filter.
+		subscriptions   map[string]*subscription
+		subscriptionsMu sync.Mutex
 
 		// Queue for storing pending packets when the connection fails.
 		pendingPackets *internal.Queue[queuedPacket]
@@ -251,7 +251,7 @@ func (c *SessionClient) initialize() {
 
 	c.session = state.NewInMemory()
 
-	c.subscribedTopics = internal.NewSet[string]()
+	c.subscriptions = map[string]*subscription{}
 	c.pendingPackets = internal.NewQueue[queuedPacket](maxPacketQueueSize)
 	c.packetQueueCond = *sync.NewCond(&c.packetQueueMu)
 

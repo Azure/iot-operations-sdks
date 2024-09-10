@@ -11,9 +11,10 @@ namespace Akri.Dtdl.Codegen
         private readonly string subType;
         private readonly string paramName;
         private readonly DTSchemaInfo paramSchema;
+        private readonly bool isNullable;
         private readonly DtmiToSchemaName dtmiToSchemaName;
 
-        public CommandAvroSchema(string projectName, string genNamespace, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, DtmiToSchemaName dtmiToSchemaName)
+        public CommandAvroSchema(string projectName, string genNamespace, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, bool isNullable, DtmiToSchemaName dtmiToSchemaName)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -22,6 +23,7 @@ namespace Akri.Dtdl.Codegen
             this.subType = subType;
             this.paramName = paramName;
             this.paramSchema = paramSchema;
+            this.isNullable = isNullable;
             this.dtmiToSchemaName = dtmiToSchemaName;
         }
 

@@ -81,7 +81,7 @@ func New<#=this.serviceName#>Service(
 		CommandTopic,
 		<#=this.AsLower(cmdNameReqResp.Item1)#>Handler,
 		&executorOpts,
-	);
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func New<#=this.serviceName#>Service(
 		client,
 		TelemetryTopic,
 		&senderOpts,
-	);
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func New<#=this.serviceName#>Client(
 		client,
 		CommandTopic,
 		&invokerOpts,
-	);
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +162,7 @@ func New<#=this.serviceName#>Client(
 		TelemetryTopic,
 		<#=this.AsLower(telemSchema)#>Handler,
 		&receiverOpts,
-	);
+	)
 	if err != nil {
 		return nil, err
 	}

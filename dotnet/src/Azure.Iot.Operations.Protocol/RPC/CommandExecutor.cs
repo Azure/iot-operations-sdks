@@ -147,7 +147,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(args.ApplicationMessage.ResponseTopic != null);
                 Debug.Assert(args.ApplicationMessage.CorrelationData != null);
 
-                string executorId = ExecutorId ?? this.mqttClient.ClientId;
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
                 string invokerId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.CommandInvokerId)?.Value ?? string.Empty;
 
@@ -290,7 +292,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         commandName: commandName);
                 }
 
-                dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(mqttClient.ClientId, preferredDispatchConcurrency);
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+
+                dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, preferredDispatchConcurrency);
 
                 CheckProperties();
 
@@ -586,7 +591,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (dispatcher == null)
             {
-                dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(mqttClient.ClientId);
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId);
             }
 
             return dispatcher;
@@ -602,7 +609,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.GetCommandTopic(RequestTopicPattern, commandName: commandName, executorId: ExecutorId ?? mqttClient.ClientId, modelId: ModelId, customTokenMap: CustomTopicTokenMap));
+            string? clientId = this.mqttClient.ClientId;
+            Debug.Assert(!string.IsNullOrEmpty(clientId));
+
+            commandTopic.Append(MqttTopicProcessor.GetCommandTopic(RequestTopicPattern, commandName: commandName, executorId: ExecutorId ?? clientId, modelId: ModelId, customTokenMap: CustomTopicTokenMap));
 
             return commandTopic.ToString();
         }

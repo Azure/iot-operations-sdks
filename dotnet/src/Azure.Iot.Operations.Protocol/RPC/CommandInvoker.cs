@@ -53,8 +53,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public Dictionary<string, string>? CustomTopicTokenMap { get; init; }
 
-        public string? Partition { get; private init; }
-
         public string? TopicNamespace
         {
             get => topicNamespace;
@@ -127,9 +125,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             this.commandName = commandName;
             this.serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
 
-            // default Partition property to the client id
-            this.Partition = mqttClient.ClientId;
-
             subscribedTopics = new();
             requestIdMap = new();
 
@@ -183,7 +178,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.GetCommandTopic(pattern, commandName, executorId, mqttClient.ClientId, ModelId, CustomTopicTokenMap));
+            string? clientId = this.mqttClient.ClientId;
+            Debug.Assert(!string.IsNullOrEmpty(clientId));
+
+            commandTopic.Append(MqttTopicProcessor.GetCommandTopic(pattern, commandName, executorId, clientId, ModelId, CustomTopicTokenMap));
 
             return commandTopic.ToString();
         }
@@ -544,13 +542,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
                 };
 
-                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, mqttClient.ClientId);
-                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                string? clientId = this.mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
 
-                if (Partition != null)
-                {
-                    requestMessage.AddUserProperty("$partition", Partition);
-                }
+                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
+                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                requestMessage.AddUserProperty("$partition", clientId);
 
                 byte[]? payload = serializer.ToBytes(request);
                 if (payload != null)

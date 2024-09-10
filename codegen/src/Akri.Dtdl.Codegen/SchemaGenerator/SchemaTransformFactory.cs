@@ -37,26 +37,26 @@ namespace Akri.Dtdl.Codegen
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetCommandSchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, string interfaceIdAsNamespace, string normalizedVersionSuffix)
+        public static IEnumerable<ITemplateTransform> GetCommandSchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, bool isNullable, string interfaceIdAsNamespace, string normalizedVersionSuffix)
         {
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
                     yield break;
                 case PayloadFormat.Avro:
-                    yield return new CommandAvroSchema(projectName, genNamespace, schema, commandName, subType, paramName, paramSchema, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
+                    yield return new CommandAvroSchema(projectName, genNamespace, schema, commandName, subType, paramName, paramSchema, isNullable, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new CommandJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, commandName, subType, paramName, paramSchema, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true, interfaceIdAsNamespace, normalizedVersionSuffix);
+                    yield return new CommandJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, commandName, subType, paramName, paramSchema, isNullable, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true, interfaceIdAsNamespace, normalizedVersionSuffix);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new CommandJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, commandName, subType, paramName, paramSchema, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false, interfaceIdAsNamespace, normalizedVersionSuffix);
+                    yield return new CommandJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, commandName, subType, paramName, paramSchema, isNullable, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false, interfaceIdAsNamespace, normalizedVersionSuffix);
                     yield break;
                 case PayloadFormat.Proto2:
-                    yield return new CommandProto2(projectName, genNamespace, schema, paramName, paramSchema, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new CommandProto2(projectName, genNamespace, schema, paramName, paramSchema, isNullable, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 case PayloadFormat.Proto3:
-                    yield return new CommandProto3(projectName, genNamespace, schema, paramName, paramSchema, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new CommandProto3(projectName, genNamespace, schema, paramName, paramSchema, isNullable, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 default:
                     throw GetFormatNotRecognizedException(payloadFormat);
@@ -212,7 +212,7 @@ namespace Akri.Dtdl.Codegen
 
         private static Exception GetFormatNotRecognizedException(string payloadFormat)
         {
-            return new Exception($"{DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PayloadFormatProperty)} '{payloadFormat}' not recognized; must be {PayloadFormat.Itemize(" or ", "'")}");
+            return new Exception($"{DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PayloadFormatPropertyFormat)} '{payloadFormat}' not recognized; must be {PayloadFormat.Itemize(" or ", "'")}");
         }
     }
 }

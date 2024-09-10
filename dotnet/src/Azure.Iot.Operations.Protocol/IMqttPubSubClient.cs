@@ -66,7 +66,10 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// Returns the client Id used by this client.
         /// </summary>
-        string ClientId { get; }
+        /// <remarks>
+        /// If a client Id has not been assigned yet by the user or by the broker, this value is null.
+        /// </remarks>
+        string? ClientId { get; }
 
         /// <summary>
         /// The version of the MQTT protocol that this client is using.

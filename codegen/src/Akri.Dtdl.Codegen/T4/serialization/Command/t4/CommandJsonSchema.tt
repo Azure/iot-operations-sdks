@@ -5,6 +5,9 @@
   "title": "<#=this.schema#>",
   "type": "object",
   "additionalProperties": false,
+<# if (!this.isNullable) { #>
+  "required": [ "<#=this.paramName#>" ],
+<# } #>
   "properties": {
     "<#=this.paramName#>": {
       "description": "The Command <#=this.subType#> argument.",
@@ -13,6 +16,5 @@
 <# } #>
       <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName)#>
     }
-  },
-  "required": [ "<#=this.paramName#>" ]
+  }
 }

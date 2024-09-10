@@ -1,0 +1,33 @@
+{
+    "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:dtdl:extension:mqtt;1"
+      ],
+    "@id": "dtmi:com:example:Counter;1",
+    "@type": ["Interface", "Mqtt"],
+    "commandTopic": "rpc/command-samples/{executorId}/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "displayName": "Counter",
+    "contents": [
+        {
+            "@type": "Command",
+            "name": "readCounter",
+            "response": {
+              "name": "CounterResponse",
+              "schema": "integer"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "increment",
+            "response": {
+                "name": "CounterResponse",
+                "schema": "integer"
+              }
+        },
+        {
+            "@type": "Command",
+            "name": "reset"
+        }
+    ]
+}

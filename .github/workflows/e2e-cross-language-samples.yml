@@ -1,0 +1,99 @@
+name: e2e-cross-language-samples
+
+on:
+  workflow_dispatch:
+  pull_request:  
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 11 * * *" # Nightly at 4am PST
+
+jobs:
+  interop-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        broker_port: [1883]
+        counter_server:
+          [counter-server-dotnet, counter-server-rust, counter-server-go]
+        counter_client:
+          [counter-client-dotnet, counter-client-rust, counter-client-go]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Cluster
+        run: |
+          tools/deployment/initialize-cluster.sh
+          tools/deployment/deploy-aio.sh nightly
+
+      - name: Setup .NET
+        if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.301
+
+      - name: Setup GO
+        if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22.4
+
+      # - name: Install Codegen tool from dev feed
+      #   run: (pushd /; dotnet tool install -g Akri.Dtdl.CodeGen --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
+      - name: CodeGen all Counter samples
+        run: |
+          dotnet build -c Release codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
+          codegen=$(realpath codegen/src/Akri.Dtdl.Codegen/bin/Release/net8.0/Akri.Dtdl.Codegen)
+          (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
+          (pushd go/samples/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
+        #  (pushd samples/rust/counter/counter_envoy; $codegen --modelFile ../../../counter.json --sdkPath ../../../../lib --lang rust; cargo fmt; popd)
+
+      - name: Build dotnet
+        if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
+        run: |
+          cd dotnet
+          dotnet build -c Release
+
+      - name: Build go
+        if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
+        run: |
+          cd go
+          go build samples/counter/server/server.go
+          go build samples/counter/client/client.go
+
+      - name: Build rust
+        if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
+        run: |
+          cd rust
+          cargo build --release --examples --config profile.release.panic=\'abort\'
+
+      - name: Run Counter Server dotnet
+        if: matrix.counter_server == 'counter-server-dotnet'
+        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ matrix.broker_port}};UseTls=false;ClientId=${{ matrix.counter_server }}" &
+
+      - name: Run Counter Server go
+        if: matrix.counter_server == 'counter-server-go'
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=${{ matrix.counter_server }} go/server &
+
+      - name: Run Counter Server rust
+        if: matrix.counter_server == 'counter-server-rust'
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_USE_TLS=false MQTT_CLIENT_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_server &
+
+      - name: Run Counter Client dotnet
+        if: matrix.counter_client == 'counter-client-dotnet'
+        run: dotnet/samples/CounterClient/bin/Release/net8.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ matrix.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.counter_server }}
+
+      - name: Run Counter Client go
+        if: matrix.counter_client == 'counter-client-go'
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=counter-client-go COUNTER_SERVER_ID=${{ matrix.counter_server }} go/client
+
+      - name: Run Counter Client rust
+        if: matrix.counter_client == 'counter-client-rust'
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_USE_TLS=false MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_client

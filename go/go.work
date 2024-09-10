@@ -1,0 +1,18 @@
+go 1.21
+
+use (
+	./mqtt
+	./protocol
+	./samples/counter/client
+	./samples/counter/envoy
+	./samples/counter/server
+	./samples/greeter/client
+	./samples/greeter/envoy
+	./samples/greeter/server
+	./test/protocol
+)
+
+replace (
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.0 => ./mqtt
+	github.com/Azure/iot-operations-sdks/go/protocol v0.1.0 => ./protocol
+)

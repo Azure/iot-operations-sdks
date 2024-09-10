@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// The name this client uses when trying to acquire the leased lock.
         /// </summary>
-        public string LockHolderName { get; }
+        public string LockHolderName { get; private set; }
 
         /// <summary>
         /// The options for automatically re-acquiring a lock before the previous lease expires. By default, 
@@ -107,7 +107,20 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             _stateStoreClient = new StateStoreClient(mqttClient);
             _lockKey = lockName;
-            LockHolderName = string.IsNullOrEmpty(lockHolderName) ? mqttClient.ClientId : lockHolderName;
+
+            if (lockHolderName != null)
+            {
+                LockHolderName = lockHolderName;
+            }
+            else if (mqttClient.ClientId != null)
+            { 
+                LockHolderName = mqttClient.ClientId;
+            }
+            else
+            {
+                throw new ArgumentNullException("Must provide either a non-null MQTT client Id or a non-null lock holder name");
+            }
+
             _automaticRenewalOptions = new LeasedLockAutomaticRenewalOptions();
             _stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChangeNotification;
         }

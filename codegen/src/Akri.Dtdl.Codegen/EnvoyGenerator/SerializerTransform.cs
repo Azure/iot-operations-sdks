@@ -4,6 +4,9 @@ namespace Akri.Dtdl.Codegen
 
     internal class SerializerTransform : ITemplateTransform
     {
+        private const string SourceComment = "This file will be copied into the folder for generated code.";
+        private const string DestComment = "This is an auto-generated file.  Do not modify.";
+
         private readonly string serializerCode;
 
         private static readonly Dictionary<string, LanguageDirective> languageDirectives = new()
@@ -22,8 +25,10 @@ namespace Akri.Dtdl.Codegen
             this.FileName = $"{serializationComponent ?? serializationFormat}.{extension}";
 
             this.serializerCode =
-                languageDirective.NamespaceReplacementRegex == null ? serializerCode :
-                new Regex(string.Format(languageDirective.NamespaceReplacementRegex, serializationFormat)).Replace(serializerCode, projectName);
+                (languageDirective.NamespaceReplacementRegex == null ?
+                    serializerCode :
+                    new Regex(string.Format(languageDirective.NamespaceReplacementRegex, serializationFormat)).Replace(serializerCode, projectName))
+                .Replace(SourceComment, DestComment);
         }
 
         public string FileName { get; }
