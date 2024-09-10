@@ -15,13 +15,13 @@ func TestTypes(t *testing.T) {
 	require.NoError(t, err)
 
 	var str string
-	err = json.Unmarshal(b, &str)
+	err := json.Unmarshal(b, &str)
 	require.NoError(t, err)
 
 	require.Equal(t, "SGVsbG8sIEknbSBhIFVURi04IHN0cmluZy4=", str)
 
 	var ba b64.ByteArray
-	err = json.Unmarshal(b, &ba)
+	err := json.Unmarshal(b, &ba)
 	require.NoError(t, err)
 
 	require.Equal(t, someBytes, ba)
