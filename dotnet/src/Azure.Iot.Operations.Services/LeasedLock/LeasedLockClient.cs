@@ -289,7 +289,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 if (!_isObservingLock)
                 {
                     Debug.Assert(_lockKey != null);
-                    // The user may already be observing the lock seperately from this single attempt to acquire the lock, so don't 
+                    // The user may already be observing the lock separately from this single attempt to acquire the lock, so don't 
                     // observe it if the user is already observing it.
                     await _stateStoreClient.ObserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
@@ -487,7 +487,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             options ??= new ObserveLockRequestOptions();
             Debug.Assert(_lockKey != null);
             await _stateStoreClient.ObserveAsync(
-                _lockKey, 
+                _lockKey,
+                null, // No callback needed because the client will handle the notifications 
                 new StateStoreObserveRequestOptions()
                 {
                     GetNewValue = options.GetNewValue,

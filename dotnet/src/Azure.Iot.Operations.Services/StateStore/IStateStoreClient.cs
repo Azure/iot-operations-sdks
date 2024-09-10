@@ -56,8 +56,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// This method does not support using wildcard characters to subscribe to multiple keys at once. In order to subscribe to 
         /// a set of keys that match a pattern, use <see cref="ObserveAsync(StateStoreKeyPattern)"/>.
         /// </remarks>
-        public Task ObserveAsync(StateStoreKey key, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
-
+        public Task ObserveAsync(StateStoreKey key, Func<object?, KeyChangeMessageReceivedEventArgs, Task>? callback = null, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
+        
         /// <summary>
         /// Stop receiving events each time the provided key is updated, created, or deleted.
         /// </summary>
