@@ -43,7 +43,7 @@ namespace Akri.Dtdl.Codegen
             this.projectName = projectName;
             this.sdkProjPath = sdkPath != null ? $"{sdkPath}\\{SdkProjectName}" : null;
 
-            Match? majorMinorMatch = MajorMinorRegex.Match(ThisAssembly.AssemblyVersion);
+            Match? majorMinorMatch = MajorMinorRegex.Match(Assembly.GetExecutingAssembly().GetName().Version!.ToString());
             sdkVersion = majorMinorMatch.Success ? $"{majorMinorMatch.Groups[1].Captures[0].Value}.*-*" : null;
 
             Version frameworkVersion = new FrameworkName(Assembly.GetExecutingAssembly().GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName!).Version;
