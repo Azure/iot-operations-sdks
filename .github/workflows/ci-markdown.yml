@@ -22,10 +22,8 @@ jobs:
         with:
           files: '**/*'
           config: '.vscode/cspell.json'
-#          check_dot_files: false
           strict: false
-          verbose: true
-          #incremental_files_only: true
+          incremental_files_only: false
 
       - name: Link check
         run: |
