@@ -41,11 +41,11 @@ func (byteArray *ByteArray) UnmarshalText(b []byte) error {
 // UnmarshalJSON unmarshals the byte array from a quoted Base64 string.
 func (byteArray *ByteArray) UnmarshalJSON(b []byte) error {
 	var s string
-	var err error
-	if err = json.Unmarshal(b, &s); err != nil {
+	if err := json.Unmarshal(b, &s); err != nil {
 		return err
 	}
 
+	var err error
 	*byteArray, err = base64.StdEncoding.DecodeString(s)
 	if err != nil {
 		return err
