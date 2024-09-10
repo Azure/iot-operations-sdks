@@ -21,7 +21,7 @@ jobs:
         uses: streetsidesoftware/cspell-action@v6      
         with:
           strict: false
-          config: './.vscode'
+          config: '.vscode/cspell.json'
           #incremental_files_only: true
 
       - name: Link check
