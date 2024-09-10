@@ -270,7 +270,7 @@ namespace Akri.Dtdl.Codegen
 
             foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
-                Regex rx = new($"^{ThisAssembly.AssemblyName}\\.{ResourceNames.SerializerFolder}\\.({serializerSubNamespace})(?:\\.(\\w+))?\\.{ext}$", RegexOptions.IgnoreCase);
+                Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceNames.SerializerFolder}\\.({serializerSubNamespace})(?:\\.(\\w+))?\\.{ext}$", RegexOptions.IgnoreCase);
                 Match? match = rx.Match(resourceName);
                 if (match.Success)
                 {
