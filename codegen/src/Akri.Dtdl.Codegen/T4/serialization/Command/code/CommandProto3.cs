@@ -9,16 +9,18 @@ namespace Akri.Dtdl.Codegen
         private readonly string schema;
         private readonly string paramName;
         private readonly DTSchemaInfo paramSchema;
+        private readonly bool isNullable;
         private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly HashSet<string> importNames;
 
-        public CommandProto3(string projectName, string genNamespace, string schema, string paramName, DTSchemaInfo paramSchema, DtmiToSchemaName dtmiToSchemaName)
+        public CommandProto3(string projectName, string genNamespace, string schema, string paramName, DTSchemaInfo paramSchema, bool isNullable, DtmiToSchemaName dtmiToSchemaName)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
             this.paramName = paramName;
             this.paramSchema = paramSchema;
+            this.isNullable = isNullable;
             this.dtmiToSchemaName = dtmiToSchemaName;
             this.importNames = new HashSet<string>();
         }

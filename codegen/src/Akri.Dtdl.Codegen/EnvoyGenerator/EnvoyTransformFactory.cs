@@ -43,7 +43,7 @@ namespace Akri.Dtdl.Codegen
             {
                 if (telemetryTopic == null)
                 {
-                    throw new Exception($"Model {modelId} has at least one Telemetry content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.TelemTopicProperty)} property");
+                    throw new Exception($"Model {modelId} has at least one Telemetry content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.TelemTopicPropertyFormat)} property");
                 }
 
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
@@ -59,7 +59,7 @@ namespace Akri.Dtdl.Codegen
             {
                 if (commandTopic == null)
                 {
-                    throw new Exception($"Model {modelId} has at least one Command content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.CmdReqTopicProperty)} property");
+                    throw new Exception($"Model {modelId} has at least one Command content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat)} property");
                 }
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
@@ -270,7 +270,7 @@ namespace Akri.Dtdl.Codegen
 
             foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
-                Regex rx = new($"^{ThisAssembly.AssemblyName}\\.{ResourceNames.SerializerFolder}\\.({serializerSubNamespace})(?:\\.(\\w+))?\\.{ext}$", RegexOptions.IgnoreCase);
+                Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceNames.SerializerFolder}\\.({serializerSubNamespace})(?:\\.(\\w+))?\\.{ext}$", RegexOptions.IgnoreCase);
                 Match? match = rx.Match(resourceName);
                 if (match.Success)
                 {

@@ -1,8 +1,8 @@
 ﻿[
   {
     "@context": [
-      "dtmi:dtdl:context;3",
-      "dtmi:dtdl:extension:mqtt;1"
+      "dtmi:dtdl:context;<[DVER]>",
+      "dtmi:dtdl:extension:mqtt;<[MVER]>"
     ],
     "@id": "dtmi:akri:DTDL:SchemaGenerator:baseInterface;1",
     "@type": "Interface",
@@ -73,8 +73,8 @@
   },
   {
     "@context": [
-      "dtmi:dtdl:context;3",
-      "dtmi:dtdl:extension:mqtt;1"
+      "dtmi:dtdl:context;<[DVER]>",
+      "dtmi:dtdl:extension:mqtt;<[MVER]>"
     ],
     "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
     "@type": [ "Interface", "Mqtt" ],
