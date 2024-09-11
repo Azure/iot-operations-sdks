@@ -22,11 +22,6 @@
         {
         }
 
-        public override string ToString()
-        {
-            return GetString();
-        }
-
         public StateStoreValue(IEnumerable<byte> value) : base (value)
         {
         }

@@ -42,11 +42,6 @@ namespace Azure.Iot.Operations.Services.StateStore
         {
         }
 
-        public override string ToString()
-        {
-            return GetString();
-        }
-
         public static implicit operator StateStoreKey(string value)
         {
             if (value == null || value.Length == 0)
