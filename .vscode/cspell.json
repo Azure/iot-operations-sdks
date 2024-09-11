@@ -90,10 +90,11 @@
             "dictionaries": ["k8s"]
         },
         {
-            // markdown is case sensative
+            // markdown is case sensative, ignore code blocks
             "languageId": "markdown",
             "dictionaries": ["softwareTerms"],
-            "caseSensitive": true
+            "caseSensitive": true,
+            "ignoreRegExpList": [ "/^\\s*```[\\s\\S]*?^\\s*```/gm" ]
         },        
         {
             // shell scripts use k8s commands
