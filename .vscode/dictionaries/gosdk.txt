@@ -1,0 +1,8 @@
+bintool
+Failf
+golangci
+gomarkdoc
+mageutil
+mochi
+nosec
+golines
