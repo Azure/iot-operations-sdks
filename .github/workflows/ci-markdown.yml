@@ -7,7 +7,7 @@ on:
     - cron: '0 8 * * *' # Nightly at 1am PST
 
 jobs:
-  check-links:
+  check:
     runs-on: ubuntu-latest
 
     steps:
