@@ -90,12 +90,18 @@
             "dictionaries": ["k8s"]
         },
         {
-            // markdown is case sensative, ignore code blocks
+            // markdown is case sensative
             "languageId": "markdown",
             "dictionaries": ["softwareTerms"],
-            "caseSensitive": true,
-            "ignoreRegExpList": [ "/^\\s*```[\\s\\S]*?^\\s*```/gm" ]
-        },        
+            "caseSensitive": true
+        },
+        {
+            // markdown code blocks not case sensative and include additional dicts
+            "languageId": "markdown",
+            "includeRegExpList": [ "/^```[\\s\\S]*?```/m" ],
+            "caseSensitive": false,
+            "dictionaries": ["bash"]
+        },
         {
             // go specific words
             "languageId": "go",
