@@ -15,9 +15,9 @@ type (
 	entry struct {
 		req *mqtt.Message
 		*result
-		start   time.Time // Time the cache entry was requested.
-		expiry  time.Time // Time the initial request expires.
-		timeout time.Time // Time the cache entry fully times out.
+		start    time.Time // Time the cache entry was requested.
+		reqTTL   time.Time // Time the initial request expires.
+		cacheTTL time.Time // Time the cache entry fully expires.
 	}
 
 	result struct {
@@ -98,7 +98,7 @@ func (c *Cache) get(req *mqtt.Message, cb Callback) *entry {
 	now := c.clock.Now().UTC()
 
 	if cached, ok := c.timeStore.Get(id); ok {
-		if cached.end.IsZero() || now.After(cached.expiry) {
+		if cached.end.IsZero() || now.After(cached.reqTTL) {
 			return nil
 		}
 		// TODO: Check equivalency?
@@ -108,13 +108,13 @@ func (c *Cache) get(req *mqtt.Message, cb Callback) *entry {
 	e := &entry{
 		req:    req,
 		start:  now,
-		expiry: now.Add(time.Duration(req.MessageExpiry) * time.Second),
+		reqTTL: now.Add(time.Duration(req.MessageExpiry) * time.Second),
 	}
 
-	// The cache entry has a timeout equal to its expiry until after processing,
+	// The cache entry has a TTL equal to its request until after processing,
 	// after which it may be updated to reflect equivalent-request caching.
-	e.timeout = e.expiry
-	c.timeStore.Set(id, e, e.timeout.UnixNano())
+	e.cacheTTL = e.reqTTL
+	c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
 
 	// Attempt to find an equivalent request to use its existing result.
 	if equiv, ok := c.costStore.Find(func(cached *entry) bool {
@@ -150,17 +150,17 @@ func (c *Cache) set(
 
 	// Don't perform equivalent-request caching for errors.
 	if c.ttl > 0 && res != nil {
-		// Update the timeout if it is longer than the expiry.
-		if e.end.Add(c.ttl).After(e.timeout) {
-			e.timeout = e.end.Add(c.ttl)
-			c.timeStore.Set(id, e, e.timeout.UnixNano())
+		// Update the TTL if it is longer than the request TTL.
+		if e.end.Add(c.ttl).After(e.cacheTTL) {
+			e.cacheTTL = e.end.Add(c.ttl)
+			c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
 		}
 
 		// Add the entry to the cost store.
 		c.costStore.Set(id, e, costWeightedBenefit(res, e.end.Sub(e.start)))
 	} else {
 		// If the request has already expired, don't bother sending a response.
-		if e.end.After(e.timeout) {
+		if e.end.After(e.cacheTTL) {
 			c.timeStore.Delete(id)
 			return nil, nil
 		}
@@ -181,10 +181,10 @@ func (c *Cache) set(
 
 // Trim the entries in the cache based on expiry and cost-weighted benefit.
 func (c *Cache) trim(now time.Time) {
-	// First, remove all entries that have timed out.
+	// First, remove all entries that have expired.
 	for {
 		id, e, ok := c.timeStore.Next()
-		if !ok || now.Before(e.timeout) {
+		if !ok || now.Before(e.cacheTTL) {
 			break
 		}
 		c.remove(id, e)
@@ -197,14 +197,14 @@ func (c *Cache) trim(now time.Time) {
 		}
 
 		// If the request has expired, fully remove it. Otherwise, remove it
-		// from the cost store and update its timeout to be only its expiry,
+		// from the cost store and update its TTL to be only its request expiry,
 		// since we're no longer equivalent-request caching it.
-		if now.After(e.expiry) {
+		if now.After(e.reqTTL) {
 			c.remove(id, e)
 		} else {
 			e.req = nil
-			e.timeout = e.expiry
-			c.timeStore.Set(id, e, e.timeout.UnixNano())
+			e.cacheTTL = e.reqTTL
+			c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
 			c.costStore.Delete(id)
 		}
 	}
