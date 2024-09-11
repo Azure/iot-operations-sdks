@@ -179,7 +179,7 @@ namespace Akri.Dtdl.Codegen
 
             foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
-                Regex rx = new($"^{ThisAssembly.AssemblyName}\\.{ResourceNames.SchemaFolder}(?:\\.(\\w+))+\\.(\\w+)\\.{ext}$");
+                Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceNames.SchemaFolder}(?:\\.(\\w+))+\\.(\\w+)\\.{ext}$");
                 Match? match = rx.Match(resourceName);
                 if (match.Success)
                 {

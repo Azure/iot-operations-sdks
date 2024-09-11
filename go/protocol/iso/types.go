@@ -7,6 +7,8 @@ import (
 
 	"github.com/relvacode/iso8601"
 	"github.com/sosodev/duration"
+
+	"encoding/base64"
 )
 
 // Wrappers for the native Go time types that will serialize to ISO 8601.
@@ -23,6 +25,9 @@ type (
 	// Time is a time in ISO 8601 format, per RFC 3339.
 	Time time.Time
 )
+
+// Wrapper for the native Go byte slice that will serialize to Base64.
+type ByteSlice []byte
 
 // full-date (0) and full-time (1) schemas, as defined by RFC3339 section 5.6.
 var (
@@ -114,4 +119,16 @@ func (t *Time) UnmarshalText(b []byte) error {
 	}
 	*t = Time(parsed)
 	return nil
+}
+
+// MarshalText marshals the byte slice to a Base64 string.
+func (byteSlice ByteSlice) MarshalText() ([]byte, error) {
+	return []byte(base64.StdEncoding.EncodeToString(byteSlice)), nil
+}
+
+// UnmarshalText unmarshals the byte slice from a Base64 string.
+func (byteSlice *ByteSlice) UnmarshalText(b []byte) error {
+	var err error
+	*byteSlice, err = base64.StdEncoding.DecodeString(string(b))
+	return err
 }
