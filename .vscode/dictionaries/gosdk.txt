@@ -1,8 +1,9 @@
 bintool
 Failf
 golangci
+golines
 gomarkdoc
 mageutil
 mochi
+nolint
 nosec
-golines
