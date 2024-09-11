@@ -1,7 +1,10 @@
 {
     "version": "0.2",
+    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
     "language": "en",
     "allowCompoundWords": true,
+    "useGitignore": true,
+    "files": ["**/*"],
     "ignorePaths": [
         "*.csproj",
         "*.jq",
@@ -89,18 +92,18 @@
             "languageId": "yaml",
             "dictionaries": ["k8s"]
         },
-        {
-            // markdown is case sensative
-            "languageId": "markdown",
-            "dictionaries": ["softwareTerms"],
-            "caseSensitive": true
-        },
+        // {
+        //     // markdown is case sensative
+        //     "languageId": "markdown",
+        //     "dictionaries": ["softwareTerms"],
+        //     "caseSensitive": true
+        // },
         {
             // markdown code blocks not case sensative and include additional dicts
             "languageId": "markdown",
-            "includeRegExpList": [ "/^```[\\s\\S]*?```/m" ],
-            "caseSensitive": false,
-            "dictionaries": ["bash"]
+            "includeRegExpList": [ "/^```[\\s\\S]*?```/gm" ],
+            "dictionaries": ["bash"],
+            "caseSensitive": false
         },
         {
             // go specific words

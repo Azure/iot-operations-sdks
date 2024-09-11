@@ -25,6 +25,7 @@ jobs:
           files: '**/*'
           config: '.vscode/cspell.json'
           strict: false
+          suggestions: true
           incremental_files_only: true
 
       - name: Link check
