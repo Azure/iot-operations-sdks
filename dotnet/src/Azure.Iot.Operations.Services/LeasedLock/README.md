@@ -120,7 +120,7 @@ the shared resource again.
 In applications with a large number of clients vying to acquire the lock at any given moment, it is 
 possible to encounter a herding effect once the lock becomes available. To avoid
 cases like this where a sudden flurry of requests to acquire the lock overwhelm the MQ broker,
-it is generally recommended to add a short exponentional backoff time with jitter before attempting
+it is generally recommended to add a short exponential backoff time with jitter before attempting
 to acquire the lock. A simplified version of this logic can be seen below:
 
 ```csharp

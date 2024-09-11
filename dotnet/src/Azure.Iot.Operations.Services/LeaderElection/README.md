@@ -121,7 +121,7 @@ the shared resource again.
 In applications with a large number of clients vying to be a leader at any given moment, it is 
 possible to encounter a herding effect once the leadership position becomes available. To avoid
 cases like this where a sudden flurry of requests to become leader overwhelm the MQ broker,
-it is generally recommended to add a short exponentional backoff time with jitter before attempting
+it is generally recommended to add a short exponential backoff time with jitter before attempting
 to campaign to be the leader. A simplified version of this logic can be seen below:
 
 ```csharp
