@@ -27,5 +27,6 @@ jobs:
 
       - name: Link check
         run: |
+          npm install -g npm@22
           npm install -g @umbrelladocs/linkspector
           linkspector check -c ./.github/.linkspector.yml
