@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
                 new DateJsonConverter(),
                 new TimeJsonConverter(),
                 new UuidJsonConverter(),
+                new BytesJsonConverter(),
             }
         };
 

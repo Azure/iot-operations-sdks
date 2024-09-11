@@ -72,24 +72,33 @@
                 case "boolean":
                     return new BooleanType();
                 default:
-                    if (!schemaElt.TryGetProperty("format", out JsonElement formatElt))
+                    if (schemaElt.TryGetProperty("format", out JsonElement formatElt))
                     {
-                        return new StringType();
+                        return formatElt.GetString() switch
+                        {
+                            "double" => new DoubleType(),
+                            "float" => new FloatType(),
+                            "int32" => new IntegerType(),
+                            "int64" => new LongType(),
+                            "date" => new DateType(),
+                            "date-time" => new DateTimeType(),
+                            "time" => new TimeType(),
+                            "duration" => new DurationType(),
+                            "uuid" => new UuidType(),
+                            _ => throw new Exception($"unrecognized schema (format = {formatElt.GetString()})"),
+                        };
                     }
 
-                    return formatElt.GetString() switch
+                    if (schemaElt.TryGetProperty("contentEncoding", out JsonElement encodingElt))
                     {
-                        "double" => new DoubleType(),
-                        "float" => new FloatType(),
-                        "int32" => new IntegerType(),
-                        "int64" => new LongType(),
-                        "date" => new DateType(),
-                        "date-time" => new DateTimeType(),
-                        "time" => new TimeType(),
-                        "duration" => new DurationType(),
-                        "uuid" => new UuidType(),
-                        _ => throw new Exception("unrecognized schema"),
-                    };
+                        return encodingElt.GetString() switch
+                        {
+                            "base64" => new BytesType(),
+                            _ => throw new Exception($"unrecognized schema (contentEncoding = {encodingElt.GetString()})"),
+                        };
+                    }
+
+                    return new StringType();
             }
         }
     }
