@@ -117,7 +117,7 @@ public class DssClientService(ILogger<DssClientService> logger, IConfiguration c
     }
 
     static void PrintUsage() => Console.WriteLine(
-@$"IoTMq DSS CLI {ThisAssembly.AssemblyVersion} Usage: 
+@$"IoTMq DSS CLI Usage: 
 
 dsscli 
 --get <key> 

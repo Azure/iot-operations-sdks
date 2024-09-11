@@ -20,8 +20,9 @@ namespace Akri.Dtdl.Codegen
                 DateTimeType _ => "DateTime",
                 TimeType _ => "TimeOnly",
                 DurationType _ => "TimeSpan",
-                UuidType => "Guid",
+                UuidType _ => "Guid",
                 StringType _ => "string",
+                BytesType _ => "byte[]",
                 ReferenceType referenceType => referenceType.SchemaName,
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
