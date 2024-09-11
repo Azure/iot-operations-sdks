@@ -639,7 +639,6 @@ where
             tokio::select! {
                   // on drop, this cancellation token will be called so this loop can exit
                   () = recv_cancellation_token.cancelled() => {
-                    log::info!("[{command_name}] Receive response loop cancelled");
                     break;
                   },
                   msg = mqtt_receiver.recv() => {
@@ -941,6 +940,7 @@ where
 
         // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
         self.recv_cancellation_token.cancel();
+        log::info!("[{}] Invoker has been dropped", self.command_name);
     }
 }
 
@@ -956,7 +956,9 @@ async fn unsubscribe<PS: MqttPubSub + Clone + Send + Sync + 'static>(
             .unsubscribe(response_topic_pattern.clone())
             .await
         {
-            Ok(_) => {}
+            Ok(_) => {
+                log::debug!("Unsubscribe sent on topic {response_topic_pattern}. Unsuback may still be pending.");
+            }
             Err(e) => {
                 log::error!("Unsubscribe error on topic {response_topic_pattern}: {e}");
             }
