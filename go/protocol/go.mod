@@ -1,6 +1,6 @@
 module github.com/Azure/iot-operations-sdks/go/protocol
 
-go 1.21
+go 1.21.0
 
 require (
 	github.com/eclipse/paho.golang v0.21.0
