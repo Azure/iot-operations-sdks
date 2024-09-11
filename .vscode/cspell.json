@@ -25,7 +25,7 @@
         { "name": "mqtt",  "path": "dictionaries/mqtt.txt"  },
         { "name": "gosdk", "path": "dictionaries/gosdk.txt" }
     ],
-    "dictionaries": ["mqtt", "dtdl"],
+    "dictionaries": ["mqtt", "dtdl", "softwareTerms"],
     "words": [
         "Akri",
         "avrogen",
@@ -92,12 +92,12 @@
             "languageId": "yaml",
             "dictionaries": ["k8s"]
         },
-        // {
-        //     // markdown is case sensative
-        //     "languageId": "markdown",
-        //     "dictionaries": ["softwareTerms"],
-        //     "caseSensitive": true
-        // },
+        {
+            // markdown is case sensative
+            "languageId": "markdown",
+       
+            "caseSensitive": true
+        },
         {
             // markdown code blocks not case sensative and include additional dicts
             "languageId": "markdown",
