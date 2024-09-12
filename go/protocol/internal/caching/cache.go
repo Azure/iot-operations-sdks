@@ -9,15 +9,22 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 type (
 	entry struct {
 		req *mqtt.Message
-		res *mqtt.Message
-		exp time.Time
-		ttl time.Time
+		*result
+		start    time.Time // Time the cache entry was requested.
+		reqTTL   time.Time // Time the initial request expires.
+		cacheTTL time.Time // Time the cache entry fully expires.
+	}
+
+	result struct {
+		cb   Callback  // sync.OnceValues used to compute and store the result.
+		end  time.Time // Time processing completed.
+		refs int       // Count of additional references to this result.
+		size int       // Recorded size of the result for trimming.
 	}
 
 	key struct {
@@ -26,19 +33,25 @@ type (
 	}
 
 	Cache struct {
-		entries    map[key]*entry
-		idempotent bool
+		clock Clock
+		ttl   time.Duration
+		bytes int
 
-		// TODO: Temporary workaround to pass METL tests pending equivalency
+		// TODO: Temporary workaround to pass protocol tests pending equivalency
 		// discussions.
 		ignoreClient bool
 
-		costQueue container.PriorityQueue[key, float64]
-		timeQueue container.PriorityQueue[key, int64]
+		timeStore container.PriorityMap[key, *entry, int64]
+		costStore container.PriorityMap[key, *entry, float64]
 
-		bytes int
+		mu sync.Mutex
+	}
 
-		mutex sync.RWMutex
+	Callback = func() (*mqtt.Message, error)
+
+	// Clock used for test dependency injection.
+	Clock interface {
+		Now() time.Time
 	}
 )
 
@@ -51,124 +64,169 @@ const (
 )
 
 // New creates a new cache.
-func New(idempotent bool, requestTopic string) *Cache {
+func New(clock Clock, ttl time.Duration, requestTopic string) *Cache {
 	return &Cache{
-		entries:    map[key]*entry{},
-		idempotent: idempotent,
+		clock: clock,
+		ttl:   ttl,
 
 		ignoreClient: !strings.Contains(requestTopic, "{executorId}"),
 
-		costQueue: container.NewPriorityQueue[key, float64](),
-		timeQueue: container.NewPriorityQueue[key, int64](),
+		timeStore: container.NewPriorityMap[key, *entry, int64](),
+		costStore: container.NewPriorityMap[key, *entry, float64](),
 	}
 }
 
-// Get returns the response for a request from the cache if available.
-func (c *Cache) Get(req *mqtt.Message) (*mqtt.Message, bool) {
-	c.mutex.RLock()
-	defer c.mutex.RUnlock()
+// Exec will return the cached response message, executing the provided function
+// to produce it if necessary. A nil message with no error indicates that the
+// request should be dropped, e.g. if it has expired or a duplicate request is
+// already in-flight.
+func (c *Cache) Exec(req *mqtt.Message, cb Callback) (*mqtt.Message, error) {
+	e := c.get(req, cb)
+	if e == nil {
+		return nil, nil
+	}
+	return e.cb()
+}
 
-	now := wallclock.Instance.Now().UTC()
+// Get or create the cache entry. This is separate from exec so that we don't
+// retain the cache mutex while the callback is executing.
+func (c *Cache) get(req *mqtt.Message, cb Callback) *entry {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
-	if e, ok := c.entries[getKey(req)]; ok {
-		if now.After(e.exp) {
-			return nil, false
+	id := getKey(req)
+	now := c.clock.Now().UTC()
+
+	if cached, ok := c.timeStore.Get(id); ok {
+		if cached.end.IsZero() || now.After(cached.reqTTL) {
+			return nil
 		}
 		// TODO: Check equivalency?
-		return e.res, true
+		return cached
 	}
 
-	if c.idempotent {
-		// TODO: This is a linear search for simplicity; consider another
-		// algorithm for speed.
-		for _, e := range c.entries {
-			if c.equivalentRequest(req, e.req) {
-				if now.After(e.ttl) {
-					return nil, false
-				}
-				return e.res, true
-			}
+	e := &entry{
+		req:    req,
+		start:  now,
+		reqTTL: now.Add(time.Duration(req.MessageExpiry) * time.Second),
+	}
+
+	// The cache entry has a TTL equal to its request until after processing,
+	// after which it may be updated to reflect equivalent-request caching.
+	e.cacheTTL = e.reqTTL
+	c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
+
+	// Attempt to find an equivalent request to use its existing result.
+	if equiv, ok := c.costStore.Find(func(cached *entry) bool {
+		return c.equivalentRequest(req, cached.req) &&
+			now.Before(cached.end.Add(c.ttl))
+	}); ok {
+		e.result = equiv.result
+		e.refs++
+	} else {
+		e.result = &result{
+			cb: sync.OnceValues(func() (*mqtt.Message, error) {
+				res, err := cb()
+				return c.set(e, res, err, c.clock.Now().UTC())
+			}),
 		}
 	}
 
-	return nil, false
+	return e
 }
 
-// Set stores the request and response in the cache.
-func (c *Cache) Set(
-	req, res *mqtt.Message,
-	expiry, ttl time.Time,
-	exec time.Duration,
-) {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
+// Store the result in the cache.
+func (c *Cache) set(
+	e *entry,
+	res *mqtt.Message,
+	err error,
+	now time.Time,
+) (*mqtt.Message, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
-	// expiry refers to the time at which the command request expires. This also
-	// indicates the time until which the invoker will wait for the response
-	// from the server. This time also indicates for how long that response is
-	// valid for non-idempotent and duplicate requests.
-	//
-	// ttl refers to the time until which the response of an equivalent
-	// idempotent request is valid.
-	//
-	// For non-idempotent requests => timeout = expiry
-	// For idempotent requests => timeout = max(expiry, ttl)
-	timeout := expiry
-	if c.idempotent && expiry.Before(ttl) {
-		timeout = ttl
-	}
+	id := getKey(e.req)
+	e.end = now
 
-	if wallclock.Instance.Now().UTC().Before(timeout) {
-		id := getKey(req)
-
-		e := &entry{res: res, exp: expiry}
-		c.entries[id] = e
-		c.bytes += len(res.Payload) // TODO: Include more values?
-		c.timeQueue.Push(id, timeout.UnixNano())
-
-		if c.idempotent {
-			e.req = req // TODO: Include in cost?
-			e.ttl = ttl
-			c.costQueue.Push(id, costWeightedBenefit(res, exec))
+	// Don't perform equivalent-request caching for errors.
+	if c.ttl > 0 && res != nil {
+		// Update the TTL if it is longer than the request TTL.
+		if e.end.Add(c.ttl).After(e.cacheTTL) {
+			e.cacheTTL = e.end.Add(c.ttl)
+			c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
 		}
 
-		c.trim()
+		// Add the entry to the cost store.
+		c.costStore.Set(id, e, costWeightedBenefit(res, e.end.Sub(e.start)))
+	} else {
+		// If the request has already expired, don't bother sending a response.
+		if e.end.After(e.cacheTTL) {
+			c.timeStore.Delete(id)
+			return nil, nil
+		}
+
+		// Don't keep the request message around if we don't need it.
+		e.req = nil
 	}
+
+	if res != nil {
+		e.size = sizeOf(res)
+		c.bytes += e.size
+	}
+
+	c.trim(now)
+
+	return res, err
 }
 
 // Trim the entries in the cache based on expiry and cost-weighted benefit.
-func (c *Cache) trim() {
-	// First, remove all entries that are expired.
-	now := wallclock.Instance.Now().UTC()
+func (c *Cache) trim(now time.Time) {
+	// First, remove all entries that have expired.
 	for {
-		id, ok := c.timeQueue.Peek()
-		if !ok || now.Before(c.entries[id].exp) {
+		id, e, ok := c.timeStore.Next()
+		if !ok || now.Before(e.cacheTTL) {
 			break
 		}
-		c.removeEntry(id)
+		c.remove(id, e)
 	}
 
-	// NOTE: This will never evict non-idempotent requests, since they're not in
-	// the cost queue.
-	for len(c.entries) >= MaxEntryCount || c.bytes >= MaxAggregatePayloadBytes {
-		id, ok := c.costQueue.Peek()
+	for c.timeStore.Len() >= MaxEntryCount || c.bytes >= MaxAggregatePayloadBytes {
+		id, e, ok := c.costStore.Next()
 		if !ok {
 			break
 		}
-		c.removeEntry(id)
+
+		// If the request has expired, fully remove it. Otherwise, remove it
+		// from the cost store and update its TTL to be only its request expiry,
+		// since we're no longer equivalent-request caching it.
+		if now.After(e.reqTTL) {
+			c.remove(id, e)
+		} else {
+			e.req = nil
+			e.cacheTTL = e.reqTTL
+			c.timeStore.Set(id, e, e.cacheTTL.UnixNano())
+			c.costStore.Delete(id)
+		}
 	}
 }
 
-func (c *Cache) removeEntry(id key) {
-	c.timeQueue.Remove(id)
-	c.costQueue.Remove(id)
-	c.bytes -= len(c.entries[id].res.Payload)
-	delete(c.entries, id)
+// Fully remove the cache from both stores and dereference its data.
+func (c *Cache) remove(id key, e *entry) {
+	c.timeStore.Delete(id)
+	c.costStore.Delete(id)
+	e.refs--
+	if e.refs < 0 {
+		c.bytes -= e.size
+	}
+}
+
+func sizeOf(res *mqtt.Message) int {
+	return len(res.Payload) // TODO: Include more values?
 }
 
 func costWeightedBenefit(msg *mqtt.Message, exec time.Duration) float64 {
 	executionBypassBenefit := FixedProcessingOverheadMs + exec.Milliseconds()
-	storageCost := FixedStorageOverheadBytes + len(msg.Payload)
+	storageCost := FixedStorageOverheadBytes + sizeOf(msg)
 	return float64(executionBypassBenefit) / float64(storageCost)
 }
 
