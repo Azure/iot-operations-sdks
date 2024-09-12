@@ -7,8 +7,8 @@ This directory contains the source code, examples and tests for the Azure IoT Op
 The following Azure IoT Operations crates are available:
 | Crate | Description |
 | - | -|
-| [**azure_iot_operations_mqtt**](../azure_iot_operations_mqtt/) | MQTT utilities |
-| [**azure_iot_operations_protocol**](../azure_iot_operations_protocol/) | Protocol envoys for RPC and Telemetry patterns|
+| [**azure_iot_operations_mqtt**](./azure_iot_operations_mqtt/) | MQTT utilities |
+| [**azure_iot_operations_protocol**](./azure_iot_operations_protocol/) | Protocol envoys for RPC and Telemetry patterns|
 | **azure_iot_operations_services** | COMING SOON
 
 ## Installing crates

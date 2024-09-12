@@ -1,125 +1,179 @@
 package caching
 
 import (
-	"encoding/json"
 	"testing"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/stretchr/testify/require"
 )
 
-func TestIdempotentCache(t *testing.T) {
-	c := New(true, "")
+type (
+	fixedClock time.Time
 
-	// Add 1st entry for idempotent request.
-	byt, err := json.Marshal("helloworld")
-	require.NoError(t, err)
+	test struct {
+		num byte
+		req string
+		res string
+		err error
+		exp time.Duration
+		exe time.Duration
+	}
+)
 
-	c.bytes = MaxAggregatePayloadBytes - len(byt) - len(byt)/2
+func TestEquivalentCacheEviction(t *testing.T) {
+	clock := fixedClock(time.Now())
+	c := New(&clock, time.Hour, "")
 
-	req1 := message("foo", "fooCorrData1", "request1")
-	c.Set(
-		req1,
-		&mqtt.Message{Payload: byt},
-		wallclock.Instance.Now().Add(time.Minute),
-		wallclock.Instance.Now().Add(5*time.Second),
-		time.Second,
-	)
-	res, ok := c.Get(req1)
-	require.True(t, ok)
+	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
+	msg2 := &test{2, "req2", "res2", nil, time.Minute, 10 * time.Second}
+	eqv1 := &test{3, "req1", "res1", nil, time.Minute, time.Second}
+	eqv2 := &test{4, "req2", "res2", nil, time.Minute, time.Second}
 
-	var st string
-	err = json.Unmarshal(res.Payload, &st)
-	require.NoError(t, err)
-	require.Equal(t, st, "helloworld")
+	// Artificially fill the cache.
+	c.bytes = MaxAggregatePayloadBytes - len(msg1.res) - len(msg2.res)/2
 
-	// Add 2nd entry for idempotent request with higher exec benefit.
-	byt, err = json.Marshal("helloworld2")
-	require.NoError(t, err)
+	// Initial request does not hit the cache.
+	msg1.testCacheHit(t, &clock, c, false)
 
-	req2 := message("foo", "fooCorrData2", "request2")
-	c.Set(
-		req2,
-		&mqtt.Message{Payload: byt},
-		wallclock.Instance.Now().Add(time.Minute),
-		wallclock.Instance.Now().Add(5*time.Second),
-		5*time.Second,
-	)
-	res, ok = c.Get(req2)
-	require.True(t, ok)
+	// Advance the clock so that the first request expires but does not timeout.
+	clock.Add(2 * time.Minute)
 
-	err = json.Unmarshal(res.Payload, &st)
-	require.NoError(t, err)
-	require.Equal(t, st, "helloworld2")
+	// First request is expired, and should return nothing.
+	msg1.testCacheRes(t, &clock, c, true, "", nil)
 
-	// Verify if the entry with least exec benefit is not in the cache anymore.
-	_, ok = c.Get(req1)
-	require.False(t, ok)
+	// Add a second request with higher storage benefit that overflows the
+	// cache. This should evict the first request.
+	msg2.testCacheHit(t, &clock, c, false)
+
+	// An equivalent request to the longer execution should be cached.
+	eqv2.testCacheHit(t, &clock, c, true)
+
+	// The faster request should have been evicted.
+	eqv1.testCacheHit(t, &clock, c, false)
 }
 
-func TestNonIdempotentCache(t *testing.T) {
-	c := New(false, "")
+func TestDuplicateCacheEviction(t *testing.T) {
+	clock := fixedClock(time.Now())
+	c := New(&clock, time.Hour, "")
 
-	byt, err := json.Marshal("helloworld")
-	require.NoError(t, err)
+	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
+	msg2 := &test{2, "req2", "res2", nil, time.Minute, 10 * time.Second}
+	eqv1 := &test{3, "req1", "res1", nil, time.Minute, time.Second}
 
-	c.bytes = MaxAggregatePayloadBytes - len(byt) - len(byt)/2
+	// Artificially fill the cache.
+	c.bytes = MaxAggregatePayloadBytes - len(msg1.res) - len(msg2.res)/2
 
-	// Add 1st entry.
-	req1 := message("foo", "fooCorrData1", "request1")
-	c.Set(
-		req1,
-		&mqtt.Message{Payload: byt},
-		wallclock.Instance.Now().Add(time.Minute),
-		wallclock.Instance.Now().Add(5*time.Second),
-		time.Second,
-	)
-	res, ok := c.Get(req1)
-	require.True(t, ok)
+	// Initial request does not hit the cache.
+	msg1.testCacheHit(t, &clock, c, false)
 
-	var st string
-	err = json.Unmarshal(res.Payload, &st)
-	require.NoError(t, err)
-	require.Equal(t, st, "helloworld")
+	// Add a second request with higher storage benefit that overflows the
+	// cache. This should evict the first request from equivalency caching but
+	// not from duplicate caching.
+	msg2.testCacheHit(t, &clock, c, false)
 
-	// Add 2nd entry.
-	req2 := message("foo", "fooCorrData2", "request2")
-	byt, err = json.Marshal("helloworld2")
-	require.NoError(t, err)
-	c.Set(
-		req2,
-		&mqtt.Message{Payload: byt},
-		wallclock.Instance.Now().Add(time.Minute),
-		wallclock.Instance.Now().Add(5*time.Second),
-		5*time.Second,
-	)
-	res, ok = c.Get(req2)
-	require.True(t, ok)
+	// A duplicate request still hits the cache.
+	msg1.testCacheHit(t, &clock, c, true)
 
-	err = json.Unmarshal(res.Payload, &st)
-	require.NoError(t, err)
-	require.Equal(t, st, "helloworld2")
-
-	// Verify 1st entry still exists.
-	res, ok = c.Get(req1)
-	require.True(t, ok)
-
-	err = json.Unmarshal(res.Payload, &st)
-	require.NoError(t, err)
-	require.Equal(t, st, "helloworld")
+	// An equivalent request does not.
+	eqv1.testCacheHit(t, &clock, c, false)
 }
 
-func message(clientID, correlationID, payload string) *mqtt.Message {
-	return &mqtt.Message{
-		Payload: []byte(payload),
-		PublishOptions: mqtt.PublishOptions{
-			CorrelationData: []byte(correlationID),
-			UserProperties: map[string]string{
-				constants.InvokerClientID: clientID,
-			},
+func TestDuplicateCacheProcessing(t *testing.T) {
+	clock := fixedClock(time.Now())
+	c := New(&clock, time.Hour, "")
+
+	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
+
+	lock := make(chan struct{})
+
+	// Perform the initial cache in the background with controlled execution.
+	go func() {
+		req, res := msg1.messages()
+		_, _ = c.Exec(req, func() (*mqtt.Message, error) {
+			lock <- struct{}{}
+			<-lock
+			return res, nil
+		})
+		lock <- struct{}{}
+	}()
+
+	<-lock
+
+	// An in-flight request should return nothing, to avoid duplicate processing
+	// and responses.
+	msg1.testCacheRes(t, &clock, c, true, "", nil)
+
+	lock <- struct{}{}
+	<-lock
+
+	// After the response completes, the cache is hit successfully.
+	msg1.testCacheHit(t, &clock, c, true)
+}
+
+func (tc *test) messages() (*mqtt.Message, *mqtt.Message) {
+	opts := mqtt.PublishOptions{
+		CorrelationData: []byte{1, 2, 3, 4, tc.num},
+		MessageExpiry:   uint32(tc.exp.Seconds()),
+		UserProperties: map[string]string{
+			constants.InvokerClientID: "client",
 		},
 	}
+	req := &mqtt.Message{Payload: []byte(tc.req), PublishOptions: opts}
+	var res *mqtt.Message
+	if tc.err == nil {
+		res = &mqtt.Message{Payload: []byte(tc.res), PublishOptions: opts}
+	}
+	return req, res
+}
+
+func (tc *test) cache(
+	clock *fixedClock,
+	c *Cache,
+) (bool, *mqtt.Message, error) {
+	hit := true
+	req, res := tc.messages()
+	msg, err := c.Exec(req, func() (*mqtt.Message, error) {
+		hit = false
+		clock.Add(tc.exe)
+		return res, tc.err
+	})
+	return hit, msg, err
+}
+
+func (tc *test) testCacheHit(
+	t *testing.T,
+	clock *fixedClock,
+	c *Cache,
+	expHit bool,
+) {
+	tc.testCacheRes(t, clock, c, expHit, tc.res, tc.err)
+}
+
+func (tc *test) testCacheRes(
+	t *testing.T,
+	clock *fixedClock,
+	c *Cache,
+	expHit bool,
+	expRes string,
+	expErr error,
+) {
+	hit, res, err := tc.cache(clock, c)
+	require.Equal(t, expHit, hit)
+	if expRes != "" {
+		require.NotNil(t, res)
+		require.Equal(t, tc.res, string(res.Payload))
+	} else {
+		require.Nil(t, res)
+	}
+	require.Equal(t, expErr, err)
+}
+
+func (c *fixedClock) Now() time.Time {
+	return time.Time(*c)
+}
+
+func (c *fixedClock) Add(d time.Duration) {
+	*c = fixedClock(time.Time(*c).Add(d))
 }

@@ -1,0 +1,9 @@
+# dictionary for the "/codegen" directory
+avsc
+DVER
+mqttv
+MVER
+ndsi
+Protos
+serde
+stringish
