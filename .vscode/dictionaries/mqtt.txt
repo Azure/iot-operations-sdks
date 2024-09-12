@@ -1,4 +1,9 @@
+acked
 acker
+acking
+acks
+cafile
+clientid
 CONNACK
 KEYNOTIFY
 MQTT
@@ -11,6 +16,9 @@ PUBACK
 PUBACKs
 rumqttc
 SUBACK
+tcpport
 unacked
 UNSUBACK
 unsubs
+usetls
+unsubscription

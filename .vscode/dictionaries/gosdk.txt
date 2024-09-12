@@ -7,3 +7,7 @@ mageutil
 mochi
 nolint
 nosec
+princjef
+segmentio
+shellcmd
+stretchr
