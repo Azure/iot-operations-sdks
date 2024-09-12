@@ -3,7 +3,6 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 {
     using System;
-    using System.Globalization;
     using System.Text.Json;
     using System.Text.Json.Serialization;
 

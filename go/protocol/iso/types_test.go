@@ -60,3 +60,22 @@ func TestTypes(t *testing.T) {
 	require.Equal(t, d, time.Duration(typ.Duration))
 	require.Equal(t, timeOnly, time.Time(typ.Time))
 }
+
+func TestByteSlice(t *testing.T) {
+	someBytes := iso.ByteSlice("Hello, I'm a UTF-8 string.")
+
+	b, err := json.Marshal(someBytes)
+	require.NoError(t, err)
+
+	var str string
+	err = json.Unmarshal(b, &str)
+	require.NoError(t, err)
+
+	require.Equal(t, "SGVsbG8sIEknbSBhIFVURi04IHN0cmluZy4=", str)
+
+	var ba iso.ByteSlice
+	err = json.Unmarshal(b, &ba)
+	require.NoError(t, err)
+
+	require.Equal(t, someBytes, ba)
+}
