@@ -2,13 +2,12 @@ package iso
 
 import (
 	"bytes"
+	"encoding/base64"
 	"strings"
 	"time"
 
 	"github.com/relvacode/iso8601"
 	"github.com/sosodev/duration"
-
-	"encoding/base64"
 )
 
 // Wrappers for the native Go time types that will serialize to ISO 8601.

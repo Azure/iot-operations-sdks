@@ -30,7 +30,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/iso"
 
 
 <a name="ByteSlice"></a>
-## type [ByteSlice](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L30>)
+## type [ByteSlice](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L29>)
 
 Wrapper for the native Go byte slice that will serialize to Base64.
 
@@ -39,7 +39,7 @@ type ByteSlice []byte
 ```
 
 <a name="ByteSlice.MarshalText"></a>
-### func \(ByteSlice\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L125>)
+### func \(ByteSlice\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L124>)
 
 ```go
 func (byteSlice ByteSlice) MarshalText() ([]byte, error)
@@ -48,7 +48,7 @@ func (byteSlice ByteSlice) MarshalText() ([]byte, error)
 MarshalText marshals the byte slice to a Base64 string.
 
 <a name="ByteSlice.UnmarshalText"></a>
-### func \(\*ByteSlice\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L130>)
+### func \(\*ByteSlice\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L129>)
 
 ```go
 func (byteSlice *ByteSlice) UnmarshalText(b []byte) error
@@ -57,7 +57,7 @@ func (byteSlice *ByteSlice) UnmarshalText(b []byte) error
 UnmarshalText unmarshals the byte slice from a Base64 string.
 
 <a name="Date"></a>
-## type [Date](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L17>)
+## type [Date](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L16>)
 
 Date is a date in ISO 8601 format, per RFC 3339.
 
@@ -66,7 +66,7 @@ type Date time.Time
 ```
 
 <a name="Date.MarshalText"></a>
-### func \(Date\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L44>)
+### func \(Date\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L43>)
 
 ```go
 func (d Date) MarshalText() ([]byte, error)
@@ -75,7 +75,7 @@ func (d Date) MarshalText() ([]byte, error)
 MarshalText marshals the date to an ISO 8601 string.
 
 <a name="Date.String"></a>
-### func \(Date\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L39>)
+### func \(Date\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L38>)
 
 ```go
 func (d Date) String() string
@@ -84,7 +84,7 @@ func (d Date) String() string
 String returns the date to an ISO 8601 string.
 
 <a name="Date.UnmarshalText"></a>
-### func \(\*Date\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L49>)
+### func \(\*Date\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L48>)
 
 ```go
 func (d *Date) UnmarshalText(b []byte) error
@@ -93,7 +93,7 @@ func (d *Date) UnmarshalText(b []byte) error
 UnmarshalText unmarshals the date from an ISO 8601 string.
 
 <a name="DateTime"></a>
-## type [DateTime](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L20>)
+## type [DateTime](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L19>)
 
 DateTime is a date and time in ISO 8601 format, per RFC 3339.
 
@@ -102,7 +102,7 @@ type DateTime time.Time
 ```
 
 <a name="DateTime.MarshalText"></a>
-### func \(DateTime\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L67>)
+### func \(DateTime\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L66>)
 
 ```go
 func (dt DateTime) MarshalText() ([]byte, error)
@@ -111,7 +111,7 @@ func (dt DateTime) MarshalText() ([]byte, error)
 MarshalText marshals the date\-time to an ISO 8601 string.
 
 <a name="DateTime.String"></a>
-### func \(DateTime\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L62>)
+### func \(DateTime\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L61>)
 
 ```go
 func (dt DateTime) String() string
@@ -120,7 +120,7 @@ func (dt DateTime) String() string
 String returns the date\-time to an ISO 8601 string.
 
 <a name="DateTime.UnmarshalText"></a>
-### func \(\*DateTime\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L72>)
+### func \(\*DateTime\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L71>)
 
 ```go
 func (dt *DateTime) UnmarshalText(b []byte) error
@@ -129,7 +129,7 @@ func (dt *DateTime) UnmarshalText(b []byte) error
 UnmarshalText unmarshals the date\-time from an ISO 8601 string.
 
 <a name="Duration"></a>
-## type [Duration](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L23>)
+## type [Duration](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L22>)
 
 Duration is a duration in ISO 8601 format.
 
@@ -138,7 +138,7 @@ type Duration time.Duration
 ```
 
 <a name="Duration.MarshalText"></a>
-### func \(Duration\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L87>)
+### func \(Duration\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L86>)
 
 ```go
 func (d Duration) MarshalText() ([]byte, error)
@@ -147,7 +147,7 @@ func (d Duration) MarshalText() ([]byte, error)
 MarshalText marshals the duration to an ISO 8601 string.
 
 <a name="Duration.String"></a>
-### func \(Duration\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L82>)
+### func \(Duration\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L81>)
 
 ```go
 func (d Duration) String() string
@@ -156,7 +156,7 @@ func (d Duration) String() string
 String returns the duration to an ISO 8601 string.
 
 <a name="Duration.UnmarshalText"></a>
-### func \(\*Duration\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L92>)
+### func \(\*Duration\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L91>)
 
 ```go
 func (d *Duration) UnmarshalText(b []byte) error
@@ -165,7 +165,7 @@ func (d *Duration) UnmarshalText(b []byte) error
 UnmarshalText unmarshals the duration from an ISO 8601 string.
 
 <a name="Time"></a>
-## type [Time](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L26>)
+## type [Time](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L25>)
 
 Time is a time in ISO 8601 format, per RFC 3339.
 
@@ -174,7 +174,7 @@ type Time time.Time
 ```
 
 <a name="Time.MarshalText"></a>
-### func \(Time\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L107>)
+### func \(Time\) [MarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L106>)
 
 ```go
 func (t Time) MarshalText() ([]byte, error)
@@ -183,7 +183,7 @@ func (t Time) MarshalText() ([]byte, error)
 MarshalText marshals the time to an ISO 8601 string.
 
 <a name="Time.String"></a>
-### func \(Time\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L102>)
+### func \(Time\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L101>)
 
 ```go
 func (t Time) String() string
@@ -192,7 +192,7 @@ func (t Time) String() string
 String returns the time to an ISO 8601 string.
 
 <a name="Time.UnmarshalText"></a>
-### func \(\*Time\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L112>)
+### func \(\*Time\) [UnmarshalText](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/iso/types.go#L111>)
 
 ```go
 func (t *Time) UnmarshalText(b []byte) error

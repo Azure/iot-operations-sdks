@@ -1,6 +1,6 @@
 module github.com/Azure/iot-operations-sdks/go/test/protocol
 
-go 1.21
+go 1.21.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.0
