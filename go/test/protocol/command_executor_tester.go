@@ -61,10 +61,7 @@ func runOneCommandExecutorTest(
 	fileName string,
 	useRealSession bool,
 ) {
-	problematicTestCases := []string{
-		"CommandExecutorRequestUnparsableProtocolVersion_RespondsError",
-		"CommandExecutorRequestUnsupportedProtocolVersion_RespondsError",
-	}
+	pendingTestCases := []string{}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -89,9 +86,9 @@ func runOneCommandExecutorTest(
 		)
 	}
 
-	if slices.Contains(problematicTestCases, testName) {
+	if slices.Contains(pendingTestCases, testName) {
 		t.Skipf(
-			"Skipping test %s because it is problematic",
+			"Skipping test %s because it requires a feature which has not yet been implemented",
 			testName,
 		)
 	}

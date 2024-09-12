@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
@@ -77,6 +78,7 @@ func (p *publisher[T]) build(
 		return nil, err
 	}
 	pub.UserProperties[constants.Timestamp] = ts.String()
+	pub.UserProperties[constants.ProtocolVersion] = version.ProtocolString
 
 	return pub, nil
 }
