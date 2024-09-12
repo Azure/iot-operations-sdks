@@ -51,5 +51,7 @@ $(git log --pretty=oneline --abbrev-commit --no-decorate --no-color \
     --no-merges --reverse --format="- [%h](https://$REPO/commit/%H) %s" \
     "$RANGE" -- "$ROOT/$MOD")
 EOF
+    else
+        echo "nothing to do for $TAG" >&2
     fi
 done

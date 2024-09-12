@@ -1,11 +1,11 @@
 name: CD-go
 
-# Since this is a no-op on existing versions, it runs on every push to main
-# to ensure releases are picked up promptly in case of failure.
 on:
   push:
     branches:
       - main
+    paths:
+      - 'go/go.work'
 
 permissions:
   contents: write
