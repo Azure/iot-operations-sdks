@@ -4,8 +4,7 @@ This folder contains the source code for the IoT MQ .NET State Store Client.
 
 ## Concept
 
-IoT MQ deployments come with a [distributed state store](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#azure-iot-mq-state-store-protocol)
-and this client allows you to interact with that state store over an MQTT connection.
+Azure IoT Operations ships with a [state store](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol), this client allows you to interact with that state store over an MQTT connection.
 
 
 ## Features
@@ -63,5 +62,5 @@ or the [leased lock client](../LeasedLock/LeasedLockClient.cs) to edit shared re
 store while being protected from race conditions. For details on this point, see the 
 [leader election readme](../LeaderElection/README.md#what-arent-leaders-protected-from) 
 and/or the [leased lock readme](../LeasedLock/README.md#what-arent-lock-owners-protected-from). 
-Additionally, see [this document](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#locking-and-fencing-tokens) for more details on how the state store itself uses versioning and 
+Additionally, see [this document](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol) for more details on how the state store itself uses versioning and 
 fencing tokens to provide this protection from race conditions.

@@ -1,9 +1,8 @@
-# .NET sample application for MQ
+# .NET sample application for MQTT Broker
 
-This is a .NET sample used to demonstrate how to connect an in-cluster Pod using MQTTnet to MQ and
-then perform passive replication using the Akir.MQ leader election client.
+This is a .NET sample used to demonstrate how to connect an in-cluster Pod using MQTTnet to MQTT Broker and then perform passive replication using the leader election client.
 
-This sample is designed to be deployed alongside an MQ deployment. 
+This sample is designed to be deployed alongside an MQTT Broker deployment. 
 
 When deployed, 2 or more pods running this hosted service will automatically campaign to be elected 
 leader on start-up. Once one of the pods is elected leader, that pod will periodically update some 
@@ -14,7 +13,7 @@ For more details on how leader election works, please see [here](../../../dotnet
 ## Pre-requisites
 
 - [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
-- [K3D](https://k3d.io/)
+- [K3d](https://k3d.io/)
 - [Docker](https://docs.docker.com/engine/install/)
 
 ## Setup script
@@ -96,7 +95,7 @@ kubectl get pods
 
 This should list off 2 (or more, if you scaled up further earlier) pods with names like:
 
-```
+```output
 passive-replication-deployment-6dc457dd49-dp6h8   1/1     Running   0          7s
 passive-replication-deployment-6dc457dd49-nhwg8   1/1     Running   0          7s
 ```
@@ -135,7 +134,7 @@ kubectl delete pod passive-replication-deployment-__________-_____
 
 where the passive-replication-deployment pod's name matches the name of the current leader.
 
-Once that pod is deleted, kubernetes will automatically re-create a new pod (to make sure
+Once that pod is deleted, Kubernetes will automatically re-create a new pod (to make sure
 that the currently deployed count matches the replica count set in [deploy.yaml](./deploy.yaml)),
 but this disruption will provide enough time for a new leader to be elected.
 

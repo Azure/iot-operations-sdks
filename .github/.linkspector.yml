@@ -1,0 +1,6 @@
+dirs:
+  - ./
+useGitIgnore: true
+ignorePatterns:
+  # Ignore links to the GitHub repository itself as this will fail until its public. This is mostly used by the Go autogen docs.
+  - pattern: "^https://github.com/Azure/iot-operations-sdks/.*$"  
