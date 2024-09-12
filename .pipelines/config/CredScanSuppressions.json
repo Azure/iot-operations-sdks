@@ -1,0 +1,17 @@
+{
+  "tool": "Credential Scanner",
+  "suppressions": [
+      {
+          "file": "TestSdkLiteCertKey.txt",
+          "_justification": "Not a real cert but a sample for testing."
+      },
+      {
+        "file": "validVars.txt",
+        "_justification": "Not a real password but used for testing."
+      },
+      {
+        "file": "testEnvFiles/validVarsWithCertificateRevocationCheck.txt",
+        "_justification": "Not a real password but used for testing."
+      }
+  ]
+}
