@@ -1,3 +1,4 @@
+# MQTT related words used across the entire codebase
 acked
 acker
 acking
