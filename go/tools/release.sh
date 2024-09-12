@@ -2,8 +2,8 @@
 REPO=github.com/Azure/iot-operations-sdks
 ROOT=$(git rev-parse --show-toplevel)
 
-# This script automates GitHub releases for the Go SDKs based on the version
-# tags present in the go.work file. It uses the existing tags to determine
+# This script automates GitHub releases for the Go SDKs based on the versions
+# present in the go.work file. It uses the existing Git tags to determine
 # whether a new release should occur (and to determine the previous version),
 # so re-running it on existing releases is a no-op. Calling it with "dry-run"
 # prints pending release notes without making any changes.
@@ -31,7 +31,7 @@ while read MOD VER ; do
         # release notes; otherwise, only include the change delta.
         RANGE=$([ "$PREV" = "$TAG" ] && echo "HEAD" || echo "$PREV..HEAD")
 
-        # Mark v0 versions and versions with prerelease tags as prerelease.
+        # Mark v0 versions and versions with prerelease markers as prerelease.
         PRE=$(echo "$VER" | grep -q "^0\|-" && echo "--prerelease")
 
         # Remove the local tag to make sure it doesn't interfere with anything.
