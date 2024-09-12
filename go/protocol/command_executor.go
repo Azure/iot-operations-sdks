@@ -158,8 +158,12 @@ func NewCommandExecutor[Req, Res any](
 		client:  client,
 		handler: handler,
 		timeout: to,
-		cache:   caching.New(options.Idempotent, requestTopic),
-		ttl:     options.CacheTTL,
+		cache: caching.New(
+			wallclock.Instance,
+			options.CacheTTL,
+			requestTopic,
+		),
+		ttl: options.CacheTTL,
 	}
 	ce.listener = &listener[Req]{
 		client:      ce.client,
@@ -203,17 +207,13 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		}
 	}
 
-	var rpub *mqtt.Message
-	var err error
-
-	if r, ok := ce.cache.Get(pub); ok {
-		rpub = r
-	} else {
+	rpub, err := ce.cache.Exec(pub, func() (*mqtt.Message, error) {
 		req := &CommandRequest[Req]{Message: *msg}
+		var err error
 
 		req.ClientID = pub.UserProperties[constants.InvokerClientID]
 		if req.ClientID == "" {
-			return &errors.Error{
+			return nil, &errors.Error{
 				Message:    "invoker client ID missing",
 				Kind:       errors.HeaderMissing,
 				HeaderName: constants.InvokerClientID,
@@ -224,13 +224,13 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		if ft != "" {
 			req.FencingToken, err = hlc.Parse(constants.FencingToken, ft)
 			if err != nil {
-				return err
+				return nil, err
 			}
 		}
 
 		req.Payload, err = ce.listener.payload(pub)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		handlerCtx, cancel := ce.timeout(ctx)
@@ -243,29 +243,33 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		)
 		defer cancel()
 
-		expiry := time.Duration(pub.MessageExpiry) * time.Second
-
-		start := wallclock.Instance.Now().UTC()
 		res, err := ce.handle(handlerCtx, req)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		exec := time.Since(start)
 
-		rpub, err = ce.build(pub, res, nil)
+		rpub, err := ce.build(pub, res, nil)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
-		ce.cache.Set(pub, rpub, start.Add(expiry), start.Add(ce.ttl), exec)
+		return rpub, nil
+	})
+	if err != nil {
+		return err
 	}
 
 	defer ce.listener.ack(ctx, pub)
+	if rpub == nil {
+		return nil
+	}
+
 	err = ce.client.Publish(ctx, rpub.Topic, rpub.Payload, &rpub.PublishOptions)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
 	}
+
 	return nil
 }
 
