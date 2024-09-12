@@ -15,6 +15,7 @@ if (result.ResultCode != MqttClientConnectResultCode.Success)
 }
 
 await using StateStoreClient stateStoreClient = new(mqttClient);
+TaskCompletionSource onKeyChange = new TaskCompletionSource();
 
 try
 {
@@ -23,12 +24,11 @@ try
     string newValue = "someNewValue";
 
     KeyChangeMessageReceivedEventArgs? mostRecentChange = null;
-    TaskCompletionSource onKeyChange = new TaskCompletionSource();
 
     // callback to handle key change notifications
     Task OnKeyChange(object? arg1, KeyChangeMessageReceivedEventArgs args)
     {
-        Console.WriteLine($"Key {args.ChangedKey} changed value to {args.NewValue}");
+        Console.WriteLine($"Observed: Key {args.ChangedKey} changed value to {args.NewValue}");
         mostRecentChange = args;
         onKeyChange.TrySetResult();
         return Task.CompletedTask;
@@ -40,30 +40,30 @@ try
     // observe for notifications when the key changes values
     await stateStoreClient.ObserveAsync(stateStoreKey);
 
-    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, stateStoreValue, onKeyChange);
-    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, newValue, onKeyChange);
+    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, stateStoreValue);
+    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, newValue);
 
-    await UnobserveKey(stateStoreClient, stateStoreKey, stateStoreValue, onKeyChange);
+    await UnobserveKey(stateStoreClient, stateStoreKey, stateStoreValue);
 }
-catch(Exception ex)
+catch(Exception)
 {
-    Console.WriteLine($"Error: {ex.Message}");
+    throw;
 }
 
 Console.WriteLine("The End.");
 
-async Task SetKeyAndWaitForNotification(StateStoreClient client, string key, string value, TaskCompletionSource tcs)
+async Task SetKeyAndWaitForNotification(StateStoreClient client, string key, string value)
 {
     Console.WriteLine($"Setting the key to {value}...");
     await client.SetAsync(key, value);
-    await tcs.Task;
-    tcs = new TaskCompletionSource();
+    await onKeyChange.Task;
+    onKeyChange = new TaskCompletionSource();
 }
 
-async Task UnobserveKey(StateStoreClient client, string key, string value, TaskCompletionSource tcs)
+async Task UnobserveKey(StateStoreClient client, string key, string value)
 {
     var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-    cts.Token.Register(() => tcs.TrySetResult());
+    cts.Token.Register(() => onKeyChange.TrySetResult());
 
     Console.WriteLine("Unobserving the key, setting/deleting the key should not be successfully observed...");
     await client.UnobserveAsync(key);
@@ -73,6 +73,6 @@ async Task UnobserveKey(StateStoreClient client, string key, string value, TaskC
     Console.WriteLine("Deleting the key...");
     await client.DeleteAsync(key);
 
-    await tcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+    await onKeyChange.Task.WaitAsync(TimeSpan.FromSeconds(3));
     Console.WriteLine("Successfully unobserved the key.");
 }
