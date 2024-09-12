@@ -45,12 +45,11 @@ try
 
     await UnobserveKey(stateStoreClient, stateStoreKey, stateStoreValue);
 }
-catch(Exception)
-{
-    throw;
-}
 
-Console.WriteLine("The End.");
+finally
+{
+    Console.WriteLine("The End.");
+}
 
 async Task SetKeyAndWaitForNotification(StateStoreClient client, string key, string value)
 {
