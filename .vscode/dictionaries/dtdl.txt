@@ -1,0 +1,6 @@
+# DTDL related words used across the entire codebase
+DTDL
+dtdlparser
+dtmi
+dtmis
+mebibyte
