@@ -34,7 +34,7 @@ while read MOD VER ; do
         # Mark v0 versions and versions with prerelease tags as prerelease.
         PRE=$(echo "$VER" | grep -q "^0\|-" && echo "--prerelease")
 
-        # Remove the local tag to make sure it doesn't interefere with anything.
+        # Remove the local tag to make sure it doesn't interfere with anything.
         git tag -d "$TAG" > /dev/null
 
         # Generate the release notes and perform the release.
