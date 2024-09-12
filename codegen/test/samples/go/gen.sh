@@ -1,6 +1,6 @@
 set -e
 
-gen=../../../src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen 
+gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
 
 $gen --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariants --lang go
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommand --lang go

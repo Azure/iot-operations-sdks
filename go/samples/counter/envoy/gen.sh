@@ -1,3 +1,3 @@
 #!/bin/sh
-../../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen \
+../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler \
     --modelFile counter.json --outDir . --lang go

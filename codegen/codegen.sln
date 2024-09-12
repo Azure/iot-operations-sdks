@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen", "src\Akri.Dtdl.Codegen\Akri.Dtdl.Codegen.csproj", "{F02C3BE7-EE39-4D53-B313-7E3AC173EE25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler", "src\Azure.Iot.Operations.ProtocolCompiler\Azure.Iot.Operations.ProtocolCompiler.csproj", "{F02C3BE7-EE39-4D53-B313-7E3AC173EE25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FAB5A39C-1299-4F70-9BB3-66784DB0CA73}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.UnitTests", "test\Akri.Dtdl.Codegen.UnitTests\Akri.Dtdl.Codegen.UnitTests.csproj", "{4DB32A0A-DBBF-478C-A9AE-C1897CD4B68D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.UnitTests", "test\ProtocolCompiler.UnitTests\ProtocolCompiler.UnitTests.csproj", "{4DB32A0A-DBBF-478C-A9AE-C1897CD4B68D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor", "test\Akri.Dtdl.Codegen.IntegrationTests\Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor\Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor.csproj", "{2131A4EB-133F-480D-BA4D-83530647DAFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.IntegrationTests.SchemaExtractor", "test\ProtocolCompiler.IntegrationTests\ProtocolCompiler.IntegrationTests.SchemaExtractor\ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj", "{2131A4EB-133F-480D-BA4D-83530647DAFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.IntegrationTests.STK", "test\Akri.Dtdl.Codegen.IntegrationTests\Akri.Dtdl.Codegen.IntegrationTests.STK\dotnet\Akri.Dtdl.Codegen.IntegrationTests.STK.csproj", "{15C705AA-FC62-4080-9B51-E9823FFF6C5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.IntegrationTests.STK", "test\ProtocolCompiler.IntegrationTests\ProtocolCompiler.IntegrationTests.STK\dotnet\ProtocolCompiler.IntegrationTests.STK.csproj", "{15C705AA-FC62-4080-9B51-E9823FFF6C5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.IntegrationTests.T4", "test\Akri.Dtdl.Codegen.IntegrationTests\Akri.Dtdl.Codegen.IntegrationTests.T4\Akri.Dtdl.Codegen.IntegrationTests.T4.csproj", "{E78E1F38-73D8-421B-B26B-BB0BB6882451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.IntegrationTests.T4", "test\ProtocolCompiler.IntegrationTests\ProtocolCompiler.IntegrationTests.T4\ProtocolCompiler.IntegrationTests.T4.csproj", "{E78E1F38-73D8-421B-B26B-BB0BB6882451}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.IntegrationTests.TestCaseGenerator", "test\Akri.Dtdl.Codegen.IntegrationTests\Akri.Dtdl.Codegen.IntegrationTests.TestCaseGenerator\Akri.Dtdl.Codegen.IntegrationTests.TestCaseGenerator.csproj", "{47B37898-74C7-4DE2-B9FB-228F68E1D5E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.IntegrationTests.TestCaseGenerator", "test\ProtocolCompiler.IntegrationTests\ProtocolCompiler.IntegrationTests.TestCaseGenerator\ProtocolCompiler.IntegrationTests.TestCaseGenerator.csproj", "{47B37898-74C7-4DE2-B9FB-228F68E1D5E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akri.Dtdl.Codegen.IntegrationTests.TestCodeGenerator", "test\Akri.Dtdl.Codegen.IntegrationTests\Akri.Dtdl.Codegen.IntegrationTests.TestCodeGenerator\Akri.Dtdl.Codegen.IntegrationTests.TestCodeGenerator.csproj", "{7BAD51A6-32F6-4A87-BEFC-D63CCA31BD7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolCompiler.IntegrationTests.TestCodeGenerator", "test\ProtocolCompiler.IntegrationTests\ProtocolCompiler.IntegrationTests.TestCodeGenerator\ProtocolCompiler.IntegrationTests.TestCodeGenerator.csproj", "{7BAD51A6-32F6-4A87-BEFC-D63CCA31BD7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
