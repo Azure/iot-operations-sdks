@@ -4,7 +4,6 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 
-
 var mqttClient = new MqttSessionClient();
 
 MqttConnectionSettings connectionSettings = new("localhost") { TcpPort = 1883, ClientId = "someClientId", UseTls = false };
@@ -41,43 +40,39 @@ try
     // observe for notifications when the key changes values
     await stateStoreClient.ObserveAsync(stateStoreKey);
 
-    // change the key value
-    Console.WriteLine("Setting the key...");
-    await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue);
+    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, stateStoreValue, onKeyChange);
+    await SetKeyAndWaitForNotification(stateStoreClient, stateStoreKey, newValue, onKeyChange);
 
-    // wait for the key change notification
-    await onKeyChange.Task;
-
-    // change the key value again
-    Console.WriteLine("Setting the key again...");
-    await stateStoreClient.SetAsync(stateStoreKey, newValue);
-
-    // wait for the key change notification
-    await onKeyChange.Task;
-
-    // create a CTS with a timeout
-    var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-
-    // mark the TCS as complete if the timeout is reached
-    cts.Token.Register(() => onKeyChange.TrySetResult());
-
-    // unobserve the key
-    await stateStoreClient.UnobserveAsync(stateStoreKey);
-
-    // update and delete key to ensure neither triggers OnKeyChange
-    Console.WriteLine("Setting the key to a new value...");
-    await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue);
-    Console.WriteLine("Deleting the key...");
-    await stateStoreClient.DeleteAsync(stateStoreKey);
-
-    // wait for the key change notification
-    await onKeyChange.Task.WaitAsync(TimeSpan.FromSeconds(3));
-    Console.WriteLine("Successfully unobserved the key.");
+    await UnobserveKey(stateStoreClient, stateStoreKey, stateStoreValue, onKeyChange);
 }
-catch(TimeoutException)
+catch(Exception ex)
 {
-    Console.WriteLine("Timed out waiting for key change notification.");
-    throw;
+    Console.WriteLine($"Error: {ex.Message}");
 }
 
 Console.WriteLine("The End.");
+
+async Task SetKeyAndWaitForNotification(StateStoreClient client, string key, string value, TaskCompletionSource tcs)
+{
+    Console.WriteLine($"Setting the key to {value}...");
+    await client.SetAsync(key, value);
+    await tcs.Task;
+    tcs = new TaskCompletionSource();
+}
+
+async Task UnobserveKey(StateStoreClient client, string key, string value, TaskCompletionSource tcs)
+{
+    var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+    cts.Token.Register(() => tcs.TrySetResult());
+
+    Console.WriteLine("Unobserving the key, setting/deleting the key should not be successfully observed...");
+    await client.UnobserveAsync(key);
+
+    Console.WriteLine($"Setting the key to {value}...");
+    await client.SetAsync(key, value);
+    Console.WriteLine("Deleting the key...");
+    await client.DeleteAsync(key);
+
+    await tcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+    Console.WriteLine("Successfully unobserved the key.");
+}
