@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Envoys for Telemetry operations.
+
 use azure_iot_operations_mqtt::control_packet::QoS;
 
 use crate::common::{

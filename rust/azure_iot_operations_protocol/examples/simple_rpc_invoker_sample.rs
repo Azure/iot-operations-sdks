@@ -15,11 +15,11 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
 
-const CLIENT_ID: &str = "<client id>";
-const HOST: &str = "<broker host>";
+const CLIENT_ID: &str = "aio_example_invoker_client";
+const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const REQUEST_TOPIC_PATTERN: &str = "<request topic>";
-const RESPONSE_TOPIC_PATTERN: &str = "<response topic>";
+const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
+const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
