@@ -2,7 +2,7 @@
 
 This directory contains the source code, examples and tests for the Azure IoT Operations Rust SDK.
 
-## Getting started
+## Overview
 
 The following Azure IoT Operations crates are available:
 | Crate | Description |
@@ -10,6 +10,9 @@ The following Azure IoT Operations crates are available:
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | **azure_iot_operations_services** | COMING SOON
+
+## Getting started with Rust
+To get familiar with the Rust language, there are several resources available in our [Rust Resources](../doc/dev/rust_resources.md) guide.
 
 ## Installing crates
 
