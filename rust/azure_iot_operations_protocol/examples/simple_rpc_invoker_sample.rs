@@ -70,7 +70,7 @@ async fn rpc_loop(
             .payload(&IncrRequest::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
-            .executor_id(Some("SampleServer".to_string()))
+            .executor_id(None)
             .build()
             .unwrap();
         let response = rpc_invoker.invoke(payload).await;
