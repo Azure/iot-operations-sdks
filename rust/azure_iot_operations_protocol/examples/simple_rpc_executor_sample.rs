@@ -15,15 +15,15 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
 
-const CLIENT_ID: &str = "<client id>";
-const HOST: &str = "<broker host>";
+const CLIENT_ID: &str = "aio_example_executor_client";
+const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const REQUEST_TOPIC_PATTERN: &str = "<request topic>";
+const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
