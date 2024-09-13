@@ -46,7 +46,7 @@ The following Azure IoT Operations crates are available:
 
 ## Set up broker
 
-The samples in this repository assume a broker is running on `localhost`. They are intended for use with the Azure IoT Operations MQ Broker, but are compatible with any broker local or remote.
+The samples in this repository assume a broker is running on `localhost`. They are intended for use with the Azure IoT Operations MQ Broker, but are compatible with any MQTT broker, local or remote.
 
 ## Running samples
 
@@ -55,3 +55,5 @@ To run a sample for one of the crates, navigate to its respective directory and 
 ```bash
 cargo run --example <sample name>
 ```
+
+Note that you should **not** include the `.rs` extension in the sample name.
