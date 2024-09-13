@@ -7,7 +7,7 @@ use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::control_packet::{
-    Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties, AuthProperties,
+    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::topic::TopicParseError;

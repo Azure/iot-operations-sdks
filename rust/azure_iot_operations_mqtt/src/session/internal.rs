@@ -19,8 +19,8 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError, StateError};
 use crate::interface::{
-    InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttProvider,
-    MqttPubReceiver, MqttPubSub,
+    InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttProvider, MqttPubReceiver,
+    MqttPubSub,
 };
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{PubTracker, RegisterError};

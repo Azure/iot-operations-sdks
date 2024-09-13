@@ -25,7 +25,6 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Error)
         .init();
 
-
     // Build the options and settings for the session.
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
@@ -45,9 +44,7 @@ async fn main() {
     // Spawn PubSubs to send, PubReceivers to receive, and an ExitHandle for exiting.
     let pub_sub1 = session.pub_sub();
     let pub_sub2 = session.pub_sub();
-    let receiver = session
-        .filtered_pub_receiver(TOPIC, true)
-        .unwrap();
+    let receiver = session.filtered_pub_receiver(TOPIC, true).unwrap();
     let exit_handle = session.get_session_exit_handle();
 
     // Send the spawned components to their respective tasks.
