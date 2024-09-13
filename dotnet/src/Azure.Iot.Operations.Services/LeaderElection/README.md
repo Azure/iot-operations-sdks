@@ -121,7 +121,7 @@ the shared resource again.
 In applications with a large number of clients vying to be a leader at any given moment, it is 
 possible to encounter a herding effect once the leadership position becomes available. To avoid
 cases like this where a sudden flurry of requests to become leader overwhelm the MQ broker,
-it is generally recommended to add a short exponentional backoff time with jitter before attempting
+it is generally recommended to add a short exponential backoff time with jitter before attempting
 to campaign to be the leader. A simplified version of this logic can be seen below:
 
 ```csharp
@@ -148,7 +148,7 @@ updating or deleting the shared resource negates any race condition protection t
 provides. For more on this, see [this section](#what-arent-leaders-protected-from).
 
 For additional details about fencing tokens and how the service uses them to provide race condition
-protections, see [this document](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#locking-and-fencing-tokens).
+protections, see [this document](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#locking-and-fencing-tokens).
 
 #### Scaling considerations
 
@@ -165,7 +165,7 @@ resources that live within the distributed state store and only if the latest gr
 is provided when editing that shared resource. 
 
 If you are interested in using this client to get race condition protections on data that lives
-outside of the state store, you should reference [this document](https://github.com/Azure/iotedge-broker/blob/main/docs/state-store/concept-about-state-store-protocol.md#locking-and-fencing-tokens) which explains how MQ's state store uses fencing tokens to provide this protection.
+outside of the state store, you should reference [this document](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#locking-and-fencing-tokens) which explains how MQ's state store uses fencing tokens to provide this protection.
 
 An example of the correct usage of this leader election client in conjunction with the state 
 store client looks like the below snippet:

@@ -14,10 +14,11 @@ namespace Akri.Dtdl.Codegen
         private readonly string subType;
         private readonly string paramName;
         private readonly DTSchemaInfo paramSchema;
+        private readonly bool isNullable;
         private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly bool setIndex;
 
-        public CommandJsonSchema(string genNamespace, string interfaceId, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, DtmiToSchemaName dtmiToSchemaName, bool setIndex, string interfaceIdAsNamespace, string normalizedVersionSuffix)
+        public CommandJsonSchema(string genNamespace, string interfaceId, string schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, bool isNullable, DtmiToSchemaName dtmiToSchemaName, bool setIndex, string interfaceIdAsNamespace, string normalizedVersionSuffix)
         {
             int semiIndex = interfaceId.IndexOf(';');
             int bareIdLength = semiIndex >= 0 ? semiIndex : interfaceId.Length;
@@ -33,6 +34,7 @@ namespace Akri.Dtdl.Codegen
             this.subType = subType;
             this.paramName = paramName;
             this.paramSchema = paramSchema;
+            this.isNullable = isNullable;
             this.dtmiToSchemaName = dtmiToSchemaName;
             this.setIndex = setIndex;
         }

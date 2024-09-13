@@ -1,4 +1,5 @@
-﻿using Azure.Iot.Operations.Protocol;
+﻿// cSpell:disable
+using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {

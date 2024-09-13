@@ -4,14 +4,17 @@ set -o errexit
 set -o pipefail
 
 # install k3d
-wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+if [ ! $(which k3d) ] 
+then
+    wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+fi
 
 # install Step
-wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb
-sudo dpkg -i step-cli_amd64.deb
-
-# install Dapr
-wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
+if [ ! $(which step) ] 
+then
+    wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
+    sudo dpkg -i /tmp/step-cli_amd64.deb
+fi
 
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
 k3d cluster delete
@@ -22,8 +25,5 @@ k3d cluster create \
     --registry-create k3d-registry.localhost:127.0.0.1:5000 \
     --wait
 
-# Set the default context / namespace
+# Set the default context / namespace to azure-iot-operations
 kubectl config set-context k3d-k3s-default --namespace=azure-iot-operations
-
-# Install Dapr components
-dapr init -k

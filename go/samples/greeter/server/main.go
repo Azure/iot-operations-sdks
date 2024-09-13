@@ -21,10 +21,12 @@ func main() {
 
 	// EnableManualAcknowledgment must be set.
 	clientID := fmt.Sprintf("sampleServer-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf("ClientID=%s;HostName=%s;TcpPort=%s",
+	connStr := fmt.Sprintf(
+		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
 		clientID,
 		"localhost",
 		"1883",
+		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	check(mqttClient.Connect(ctx))

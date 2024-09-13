@@ -31,8 +31,13 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalizedVersionSuffix));
             this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schema));
-            this.Write("\",\r\n  \"type\": \"object\",\r\n  \"additionalProperties\": false,\r\n  \"properties\": {\r\n   " +
-                    " \"");
+            this.Write("\",\r\n  \"type\": \"object\",\r\n  \"additionalProperties\": false,\r\n");
+ if (!this.isNullable) { 
+            this.Write("  \"required\": [ \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.paramName));
+            this.Write("\" ],\r\n");
+ } 
+            this.Write("  \"properties\": {\r\n    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.paramName));
             this.Write("\": {\r\n      \"description\": \"The Command ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.subType));
@@ -42,9 +47,7 @@ namespace Akri.Dtdl.Codegen
  } 
             this.Write("      ");
             this.Write(this.ToStringHelper.ToStringWithCulture(JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName)));
-            this.Write("\r\n    }\r\n  },\r\n  \"required\": [ \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.paramName));
-            this.Write("\" ]\r\n}\r\n");
+            this.Write("\r\n    }\r\n  }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -39,6 +39,7 @@ namespace Akri.Dtdl.Codegen
             this.Write("\r\nmessage ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schema));
             this.Write(" {\r\n    ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isNullable ? "optional " : ""));
             this.Write(this.ToStringHelper.ToStringWithCulture(ProtobufSupport.GetType(this.paramSchema, this.dtmiToSchemaName)));
             this.Write(" ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.paramName));

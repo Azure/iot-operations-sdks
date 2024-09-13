@@ -21,7 +21,9 @@ namespace Akri.Dtdl.Codegen
                 DateTimeType _ => $"{optRef}iso.Time",
                 TimeType _ => $"{optRef}iso.Time",
                 DurationType _ => $"{optRef}iso.Duration",
+                UuidType _ => $"{optRef}uuid.UUID",
                 StringType _ => $"{optRef}string",
+                BytesType _ => $"{optRef}iso.ByteSlice",
                 ReferenceType referenceType => $"{optRef}{referenceType.SchemaName}",
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
@@ -35,7 +37,11 @@ namespace Akri.Dtdl.Codegen
                 case TimeType:
                 case DateTimeType:
                 case DurationType:
+                case BytesType:
                     schemaImport = "github.com/Azure/iot-operations-sdks/go/protocol/iso";
+                    return true;
+                case UuidType:
+                    schemaImport = "github.com/google/uuid";
                     return true;
                 default:
                     schemaImport = string.Empty;

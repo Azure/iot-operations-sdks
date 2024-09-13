@@ -22,10 +22,12 @@ func main() {
 
 	// EnableManualAcknowledgment must be set.
 	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf("ClientID=%s;HostName=%s;TcpPort=%s",
+	connStr := fmt.Sprintf(
+		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
 		clientID,
 		"localhost",
 		"1883",
+		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	check(mqttClient.Connect(ctx))
@@ -81,7 +83,9 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithMessageExpiry(10+uint32(duration.Seconds()))))
+			protocol.WithMessageExpiry(
+				protocol.DefaultMessageExpiry+uint32(duration.Seconds()),
+			)))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
 }

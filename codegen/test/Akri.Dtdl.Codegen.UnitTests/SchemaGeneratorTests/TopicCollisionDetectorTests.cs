@@ -34,29 +34,33 @@
         }
 
         [Theory]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{executorId}/{commandName}", false)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{executorId}/{commandName}", false)]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{executorId}/{commandName}", false)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{executorId}/{commandName}", true)]
-        public void TestInterInterfaceCommandCollisions(string nameX1, string nameX2, string nameY1, string nameY2, string topic, bool collides)
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{executorId}/{commandName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{executorId}/{commandName}", true, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{executorId}/{commandName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{executorId}/{commandName}", true, 4, 2)]
+        public void TestInterInterfaceCommandCollisions(string nameX1, string nameX2, string nameY1, string nameY2, string topic, bool collides, int dtdlVersion, int mqttVersion)
         {
             TopicCollisionDetector commandTopicCollisionDetector = TopicCollisionDetector.GetCommandTopicCollisionDetector();
 
             var modelDict = modelParser.Parse(new string[]
             {
-                twoCommandModelTemplate.Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameX1).Replace("<[NAME2]>", nameX2),
-                twoCommandModelTemplate.Replace("<[ID]>", interfaceIdY.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameY1).Replace("<[NAME2]>", nameY2),
+                twoCommandModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameX1).Replace("<[NAME2]>", nameX2),
+                twoCommandModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdY.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameY1).Replace("<[NAME2]>", nameY2),
             });
 
             DTInterfaceInfo dtInterfaceX = (DTInterfaceInfo)modelDict[interfaceIdX];
             DTInterfaceInfo dtInterfaceY = (DTInterfaceInfo)modelDict[interfaceIdY];
 
-            commandTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Commands.Keys);
+            commandTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Commands.Keys, mqttVersion);
 
             bool collisionDetected = false;
             try
             {
-                commandTopicCollisionDetector.Check(dtInterfaceY, dtInterfaceY.Commands.Keys);
+                commandTopicCollisionDetector.Check(dtInterfaceY, dtInterfaceY.Commands.Keys, mqttVersion);
             }
             catch
             {
@@ -67,33 +71,41 @@
         }
 
         [Theory]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false)]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}/{telemetryName}", false)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}/{telemetryName}", true)]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}", false)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}", false)]
-        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}", true)]
-        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}", true)]
-        public void TestInterInterfaceTelemetryCollisions(string nameX1, string nameX2, string nameY1, string nameY2, string topic, bool collides)
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}/{telemetryName}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}/{telemetryName}", true, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}", false, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}", true, 3, 1)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}", true, 3, 1)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}/{telemetryName}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}/{telemetryName}", true, 4, 2)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{modelId}/{senderId}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{modelId}/{senderId}", false, 4, 2)]
+        [InlineData("Foo", "Bar", "Baz", "Qux", "akri/dtdl/{senderId}", true, 4, 2)]
+        [InlineData("Foo", "Bar", "Bar", "Baz", "akri/dtdl/{senderId}", true, 4, 2)]
+        public void TestInterInterfaceTelemetryCollisions(string nameX1, string nameX2, string nameY1, string nameY2, string topic, bool collides, int dtdlVersion, int mqttVersion)
         {
             TopicCollisionDetector telemetryTopicCollisionDetector = TopicCollisionDetector.GetTelemetryTopicCollisionDetector();
 
             var modelDict = modelParser.Parse(new string[]
             {
-                twoTelemetryModelTemplate.Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameX1).Replace("<[NAME2]>", nameX2),
-                twoTelemetryModelTemplate.Replace("<[ID]>", interfaceIdY.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameY1).Replace("<[NAME2]>", nameY2),
+                twoTelemetryModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameX1).Replace("<[NAME2]>", nameX2),
+                twoTelemetryModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdY.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", nameY1).Replace("<[NAME2]>", nameY2),
             });
 
             DTInterfaceInfo dtInterfaceX = (DTInterfaceInfo)modelDict[interfaceIdX];
             DTInterfaceInfo dtInterfaceY = (DTInterfaceInfo)modelDict[interfaceIdY];
 
-            telemetryTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Telemetries.Keys);
+            telemetryTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Telemetries.Keys, mqttVersion);
 
             bool collisionDetected = false;
             try
             {
-                telemetryTopicCollisionDetector.Check(dtInterfaceY, dtInterfaceY.Telemetries.Keys);
+                telemetryTopicCollisionDetector.Check(dtInterfaceY, dtInterfaceY.Telemetries.Keys, mqttVersion);
             }
             catch
             {
@@ -104,11 +116,15 @@
         }
 
         [Theory]
-        [InlineData(1, "akri/dtdl/{modelId}/{executorId}/{commandName}", false)]
-        [InlineData(2, "akri/dtdl/{modelId}/{executorId}/{commandName}", false)]
-        [InlineData(1, "akri/dtdl/{modelId}/{executorId}", false)]
-        [InlineData(2, "akri/dtdl/{modelId}/{executorId}", true)]
-        public void TestIntraInterfaceCommandCollisions(int commandCount, string topic, bool collides)
+        [InlineData(1, "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 3, 1)]
+        [InlineData(2, "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 3, 1)]
+        [InlineData(1, "akri/dtdl/{modelId}/{executorId}", false, 3, 1)]
+        [InlineData(2, "akri/dtdl/{modelId}/{executorId}", true, 3, 1)]
+        [InlineData(1, "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 4, 2)]
+        [InlineData(2, "akri/dtdl/{modelId}/{executorId}/{commandName}", false, 4, 2)]
+        [InlineData(1, "akri/dtdl/{modelId}/{executorId}", false, 4, 2)]
+        [InlineData(2, "akri/dtdl/{modelId}/{executorId}", true, 4, 2)]
+        public void TestIntraInterfaceCommandCollisions(int commandCount, string topic, bool collides, int dtdlVersion, int mqttVersion)
         {
             TopicCollisionDetector commandTopicCollisionDetector = TopicCollisionDetector.GetCommandTopicCollisionDetector();
 
@@ -119,14 +135,14 @@
                 _ => throw new Exception("INTERNAL TEST FAILURE"),
             };
                 
-            var modelDict = modelParser.Parse(commandModelTemplate.Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", "Foo").Replace("<[NAME2]>", "Bar"));
+            var modelDict = modelParser.Parse(commandModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", "Foo").Replace("<[NAME2]>", "Bar"));
 
             DTInterfaceInfo dtInterfaceX = (DTInterfaceInfo)modelDict[interfaceIdX];
 
             bool collisionDetected = false;
             try
             {
-                commandTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Commands.Keys);
+                commandTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Commands.Keys, mqttVersion);
             }
             catch
             {
@@ -137,11 +153,15 @@
         }
 
         [Theory]
-        [InlineData(1, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false)]
-        [InlineData(2, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false)]
-        [InlineData(1, "akri/dtdl/{modelId}/{senderId}", false)]
-        [InlineData(2, "akri/dtdl/{modelId}/{senderId}", false)]
-        public void TestIntraInterfaceTelemetryCollisions(int telemetryCount, string topic, bool collides)
+        [InlineData(1, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 3, 1)]
+        [InlineData(2, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 3, 1)]
+        [InlineData(1, "akri/dtdl/{modelId}/{senderId}", false, 3, 1)]
+        [InlineData(2, "akri/dtdl/{modelId}/{senderId}", false, 3, 1)]
+        [InlineData(1, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 4, 2)]
+        [InlineData(2, "akri/dtdl/{modelId}/{senderId}/{telemetryName}", false, 4, 2)]
+        [InlineData(1, "akri/dtdl/{modelId}/{senderId}", false, 4, 2)]
+        [InlineData(2, "akri/dtdl/{modelId}/{senderId}", false, 4, 2)]
+        public void TestIntraInterfaceTelemetryCollisions(int telemetryCount, string topic, bool collides, int dtdlVersion, int mqttVersion)
         {
             TopicCollisionDetector telemetryTopicCollisionDetector = TopicCollisionDetector.GetTelemetryTopicCollisionDetector();
 
@@ -152,14 +172,14 @@
                 _ => throw new Exception("INTERNAL TEST FAILURE"),
             };
 
-            var modelDict = modelParser.Parse(telemetryModelTemplate.Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", "Foo").Replace("<[NAME2]>", "Bar"));
+            var modelDict = modelParser.Parse(telemetryModelTemplate.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()).Replace("<[ID]>", interfaceIdX.AbsoluteUri).Replace("<[TOPIC]>", topic).Replace("<[NAME1]>", "Foo").Replace("<[NAME2]>", "Bar"));
 
             DTInterfaceInfo dtInterfaceX = (DTInterfaceInfo)modelDict[interfaceIdX];
 
             bool collisionDetected = false;
             try
             {
-                telemetryTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Telemetries.Keys);
+                telemetryTopicCollisionDetector.Check(dtInterfaceX, dtInterfaceX.Telemetries.Keys, mqttVersion);
             }
             catch
             {

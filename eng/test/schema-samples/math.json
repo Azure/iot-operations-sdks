@@ -1,0 +1,146 @@
+{
+    "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:dtdl:extension:mqtt;1"
+      ],
+    "@id": "dtmi:rpc:samples:math;1",
+    "@type": ["Interface", "Mqtt"],
+    "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+    "payloadFormat": "Protobuf/3",
+    "contents": [
+        {
+            "@type": ["Command", "Idempotent", "Cacheable"],
+            "ttl" : "PT10M",
+            "name": "isPrime",
+            "request": {
+                "name": "isPrimeRequest",
+                "schema": {
+                    "@type": "Object",
+                    "fields": [
+                        {
+                            "@type": [ "Field", "Indexed" ],
+                            "index" : 1,
+                            "name": "number",
+                            "schema": "integer"
+                        },
+                        {
+                            "@type": [ "Field", "Indexed" ],
+                            "index" : 2,
+                            "name": "invokerStartTime",
+                            "schema": "integer"
+                        },
+                        {
+                            "@type": [ "Field", "Indexed" ],
+                            "index" : 3,
+                            "name": "invokerId",
+                            "schema": "string"
+                        }
+                    ]
+                }
+            },
+            "response": {
+              "name": "isPrimeResponse",
+              "schema": {
+                "@type": ["Object"],
+                "fields": [
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 1,
+                        "name": "number",
+                        "schema": "integer"
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 2,
+                        "name": "isPrime",
+                        "schema": "boolean"
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 3,
+                        "name": "ops",
+                        "schema": {
+                            "@type": "Array",
+                            "elementSchema": "string"
+                        }
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 4,
+                        "name": "invokerId",
+                        "schema": "string"
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 5,
+                        "name": "executorId",
+                        "schema": "string"
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 6,
+                        "name": "computeMS",
+                        "schema": "integer"
+                    },
+                    {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 7,
+                        "name": "threadId",
+                        "schema": "integer"
+                    }
+                ]
+              }
+            }
+        },
+        {
+            "@type": ["Command", "Idempotent", "Cacheable"],
+            "ttl" : "PT10M",
+            "name": "fib",
+            "request": {
+                "name": "fibRequest",
+                "schema": {
+                    "@type": ["Object"],
+                    "fields": [
+                        {
+                            "@type": [ "Field", "Indexed" ],
+                            "index" : 1,
+                            "name": "number",
+                            "schema": "integer"
+                        }
+                    ]
+                }
+            },
+            "response": {
+                "name": "fibResponse",
+                "schema": {
+                    "@type": ["Object"],
+                    "fields": [
+                        {
+                            "@type": [ "Field", "Indexed" ],
+                            "index" : 1,
+                            "name": "fibResult",
+                            "schema": "integer"
+                        },
+                       {
+                        "@type": [ "Field", "Indexed" ],
+                        "index" : 2,
+                        "name": "fibNumbers",
+                        "schema": {
+                            "@type": "Array",
+                            "elementSchema": "string"
+                        }
+                       }
+                    ]
+                }
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "getRandom",
+            "response": {
+                "name": "getRandomResponse",
+                "schema": "integer"
+            }
+        }
+    ]
+}

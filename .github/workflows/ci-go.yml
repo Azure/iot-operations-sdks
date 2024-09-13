@@ -46,38 +46,38 @@ jobs:
     # This file is created by deploy-aio.sh
     - name: Load test service account token into environment
       run: |
-        if [ ! -f "./.devcontainer/token.txt" ]; then
+        if [ ! -f ".session/token.txt" ]; then
           echo "Missing 'token.txt' file"
           exit 1
         fi
 
-        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
+        echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
 
     # This file is created by deploy-aio.sh
     - name: Load CA certificate into environment
       run: |
-        if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
-          echo "Missing 'mqtt-broker-ca.crt' file"
+        if [ ! -f ".session/broker-ca.crt" ]; then
+          echo "Missing 'broker-ca.crt' file"
           exit 1
         fi
 
-        echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
+        echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
 
     # These files are created by deploy-aio.sh
     - name: Load client certificates into environment
       run: |
-        if [ ! -f "./.devcontainer/client.key" ]; then
+        if [ ! -f ".session/client.key" ]; then
           echo "Missing 'client.key' file"
           exit 1
         fi
 
-        if [ ! -f "./.devcontainer/client.crt" ]; then
+        if [ ! -f ".session/client.crt" ]; then
           echo "Missing 'client.crt' file"
           exit 1
         fi
 
-        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
-        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
+        echo "CLIENT_KEY=$(pwd)/.session/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.session/client.crt" >> $GITHUB_ENV 
 
     - name: Setup faultable MQTT broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &

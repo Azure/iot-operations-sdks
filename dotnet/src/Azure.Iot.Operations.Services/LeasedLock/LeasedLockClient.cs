@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// The name this client uses when trying to acquire the leased lock.
         /// </summary>
-        public string LockHolderName { get; }
+        public string LockHolderName { get; private set; }
 
         /// <summary>
         /// The options for automatically re-acquiring a lock before the previous lease expires. By default, 
@@ -107,7 +107,20 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             _stateStoreClient = new StateStoreClient(mqttClient);
             _lockKey = lockName;
-            LockHolderName = string.IsNullOrEmpty(lockHolderName) ? mqttClient.ClientId : lockHolderName;
+
+            if (lockHolderName != null)
+            {
+                LockHolderName = lockHolderName;
+            }
+            else if (mqttClient.ClientId != null)
+            { 
+                LockHolderName = mqttClient.ClientId;
+            }
+            else
+            {
+                throw new ArgumentNullException("Must provide either a non-null MQTT client Id or a non-null lock holder name");
+            }
+
             _automaticRenewalOptions = new LeasedLockAutomaticRenewalOptions();
             _stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChangeNotification;
         }
@@ -289,7 +302,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 if (!_isObservingLock)
                 {
                     Debug.Assert(_lockKey != null);
-                    // The user may already be observing the lock seperately from this single attempt to acquire the lock, so don't 
+                    // The user may already be observing the lock separately from this single attempt to acquire the lock, so don't 
                     // observe it if the user is already observing it.
                     await _stateStoreClient.ObserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
@@ -487,7 +500,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             options ??= new ObserveLockRequestOptions();
             Debug.Assert(_lockKey != null);
             await _stateStoreClient.ObserveAsync(
-                _lockKey, 
+                _lockKey,
                 new StateStoreObserveRequestOptions()
                 {
                     GetNewValue = options.GetNewValue,

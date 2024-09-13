@@ -258,10 +258,13 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             if (!_isSubscribedToNotifications)
             {
+                string? clientId = _mqttClient.ClientId;
+                Debug.Assert(!string.IsNullOrEmpty(clientId));
+
                 // When receiving notifications, the topic string will contain the hex string encoded client id.
                 // Since that value doesn't change from notification to notification, calculate that hex 
                 // string once here instead of calculating it each time a notification is received.
-                byte[] clientIdBytes = Encoding.UTF8.GetBytes(_mqttClient.ClientId);
+                byte[] clientIdBytes = Encoding.UTF8.GetBytes(clientId);
                 _clientIdHexString = Convert.ToHexString(clientIdBytes);
 
                 MqttClientSubscribeOptions subscribeOptions = new MqttClientSubscribeOptions(string.Format(NotificationsTopicFormat, _mqttClient.ClientId), MqttQualityOfServiceLevel.AtLeastOnce);

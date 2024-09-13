@@ -6,7 +6,8 @@ on:
     paths:
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
-      - 'tools/dsscli'
+      - 'tools/dsscli/**'
+      - 'codegen/**'
   push:
     branches:
     - main  
@@ -81,38 +82,38 @@ jobs:
     # This file is created by deploy-aio.sh
     - name: Load test service account token into environment
       run: |
-        if [ ! -f "./.devcontainer/token.txt" ]; then
+        if [ ! -f ".session/token.txt" ]; then
           echo "Missing 'token.txt' file"
           exit 1
         fi
 
-        echo "TOKEN_FILE_PATH=$(pwd)/.devcontainer/token.txt" >> $GITHUB_ENV
+        echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
 
     # This file is created by deploy-aio.sh
     - name: Load CA certificate into environment
       run: |
-        if [ ! -f "./.devcontainer/mqtt-broker-ca.crt" ]; then
-          echo "Missing 'mqtt-broker-ca.crt' file"
+        if [ ! -f ".session/broker-ca.crt" ]; then
+          echo "Missing 'broker-ca.crt' file"
           exit 1
         fi
 
-        echo "CA_FILE_PATH=$(pwd)/.devcontainer/mqtt-broker-ca.crt" >> $GITHUB_ENV
+        echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
 
     # These files are created by deploy-aio.sh
     - name: Load client certificates into environment
       run: |
-        if [ ! -f "./.devcontainer/client.key" ]; then
+        if [ ! -f ".session/client.key" ]; then
           echo "Missing 'client.key' file"
           exit 1
         fi
 
-        if [ ! -f "./.devcontainer/client.crt" ]; then
+        if [ ! -f ".session/client.crt" ]; then
           echo "Missing 'client.crt' file"
           exit 1
         fi
 
-        echo "CLIENT_KEY=$(pwd)/.devcontainer/client.key" >> $GITHUB_ENV
-        echo "CLIENT_CERT=$(pwd)/.devcontainer/client.crt" >> $GITHUB_ENV 
+        echo "CLIENT_KEY=$(pwd)/.session/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.session/client.crt" >> $GITHUB_ENV 
       
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
@@ -120,6 +121,15 @@ jobs:
     - name: Test SDK (TLS + x509)
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
     
+    - name: Build DSS CLI (Debug)
+      run:  |
+        cd tools/dsscli/src/Azure.Iot.Operations.Services.DssCli
+        dotnet restore
+        dotnet build -c Debug Azure.Iot.Operations.Services.DssCli.csproj
+
+    - name: Build DSS CLI (Release)
+      run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
+
     - uses: dorny/test-reporter@v1
       id: test-reporter
       if: always()

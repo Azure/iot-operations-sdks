@@ -8,7 +8,7 @@ The following Azure IoT Operations crates are available:
 | Crate | Description |
 | - | -|
 | [**azure_iot_operations_mqtt**](../azure_iot_operations_mqtt/) | Flexible MQTT client types and traits for async applications |
-| [**azure_iot_operations_protocol**](../azure_iot_operations_protocol/) | Types and traits for using the Azure IoT Operations Protocol |
+| [**azure_iot_operations_protocol**](../azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | **azure_iot_operations_services** | COMING SOON
 
 ## Installing crates

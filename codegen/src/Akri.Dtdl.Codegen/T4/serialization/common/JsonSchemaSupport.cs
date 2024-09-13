@@ -29,6 +29,8 @@ namespace Akri.Dtdl.Codegen
                 "dtmi:dtdl:instance:Schema:time;2" => @"""type"": ""string"", ""format"": ""time""",
                 "dtmi:dtdl:instance:Schema:duration;2" => @"""type"": ""string"", ""format"": ""duration""",
                 "dtmi:dtdl:instance:Schema:string;2" => @"""type"": ""string""",
+                "dtmi:dtdl:instance:Schema:uuid;4" => @"""type"": ""string"", ""format"": ""uuid""",
+                "dtmi:dtdl:instance:Schema:bytes;4" => @"""type"": ""string"", ""contentEncoding"": ""base64""",
                 _ => $"\"$ref\": \"{dtmiToSchemaName(dtSchema.Id, dtSchema.EntityKind.ToString())}.schema.json\"",
             };
         }
@@ -47,6 +49,8 @@ namespace Akri.Dtdl.Codegen
                 "dtmi:dtdl:instance:Schema:time;2" => "string",
                 "dtmi:dtdl:instance:Schema:duration;2" => "string",
                 "dtmi:dtdl:instance:Schema:string;2" => "string",
+                "dtmi:dtdl:instance:Schema:uuid;4" => "string",
+                "dtmi:dtdl:instance:Schema:bytes;4" => "string",
                 _ => "null",
             };
         }

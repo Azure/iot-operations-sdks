@@ -499,4 +499,14 @@ public class OrderedAckMqttClientTests
 
         await Assert.ThrowsAsync<InvalidOperationException>(async () => await mqttNetClient.PublishAsync(message));
     }
+
+    [Fact]
+    public async Task OrderedAckMqttClient_GetClientIdWithoutAnAssignedClientIdReturnsNull()
+    {
+        using MockMqttClient mockMqttClient = new MockMqttClient();
+        await using OrderedAckMqttClient orderedAckMqttClient = new(mockMqttClient);
+
+        // Previously, this would throw a NPE. This test implicitly asserts that no exception is thrown in this case.
+        Assert.Null(orderedAckMqttClient.ClientId);
+    }
 }

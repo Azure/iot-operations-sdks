@@ -1,0 +1,104 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;3",
+    "dtmi:dtdl:extension:quantitativeTypes;1",
+    "dtmi:dtdl:extension:mqtt;1"
+  ],
+  "@id": "dtmi:akri:samples:memmon;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+  "payloadFormat": "Avro/1.11.0",
+  "contents": [
+    {
+      "@type": [
+        "Telemetry",
+        "DataSize"
+      ],
+      "name": "workingSet",
+      "schema": "double",
+      "unit": "mebibyte"
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "DataSize"
+      ],
+      "name": "managedMemory",
+      "schema": "double",
+      "unit": "mebibyte"
+    },
+    {
+      "@type": "Telemetry",
+      "name": "memoryStats",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": [ "Field", "DataSize" ],
+            "name": "managedMemory",
+            "schema": "double",
+            "unit": "mebibyte"
+          },
+          {
+            "@type": [ "Field", "DataSize" ],
+            "name": "workingSet",
+            "schema": "double",
+            "unit": "mebibyte"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "startTelemetry",
+      "request": {
+        "name": "interval",
+        "schema": "integer"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "stopTelemetry"
+    },
+    {
+      "@type": "Command",
+      "name": "getRuntimeStats",
+      "request": {
+        "name": "diagnosticsMode",
+        "schema": {
+          "@type": "Enum",
+          "enumValues": [
+            {
+              "name": "minimal",
+              "enumValue": 0
+            },
+            {
+              "enumValue": 1,
+              "name": "complete"
+            },
+            {
+              "name": "full",
+              "enumValue": 2
+            }
+          ],
+          "valueSchema": "integer"
+        }
+      },
+      "response": {
+        "name": "diagnosticResults",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "key",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "val",
+            "schema": "string"
+          }
+        }
+      }
+    }
+  ]
+}
