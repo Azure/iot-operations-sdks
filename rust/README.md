@@ -44,5 +44,14 @@ The following Azure IoT Operations crates are available:
     > We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull.
     >To get the latest build, just pass the `git` argument by itself, with no other parameters, although this is not recommended.
 
-#### Deploy MQ broker?
-#### Run samples?
+## Set up broker
+
+The samples in this repository assume a broker is running on `localhost`. They are intended for use with the Azure IoT Operations MQ Broker, but are compatible with any broker local or remote.
+
+## Running samples
+
+To run a sample for one of the crates, navigate to its respective directory and run the command
+
+```bash
+cargo run --example <sample name>
+```
