@@ -24,7 +24,7 @@ const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
@@ -84,7 +84,9 @@ async fn rpc_loop(
 pub struct IncrRequest {}
 
 #[derive(Clone, Debug, Default)]
-pub struct IncrResponse {}
+pub struct IncrResponse {
+    pub counter_response: i32,
+}
 
 impl PayloadSerialize for IncrRequest {
     fn content_type() -> &'static str {
@@ -116,7 +118,9 @@ impl PayloadSerialize for IncrResponse {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrResponse, SerializerError> {
-        Ok(IncrResponse {})
+    fn deserialize(payload: &[u8]) -> Result<IncrResponse, SerializerError> {
+        let payload = String::from_utf8(payload.to_vec()).unwrap();
+        let counter_response = payload.parse::<i32>().unwrap();
+        Ok(IncrResponse { counter_response })
     }
 }

@@ -20,7 +20,7 @@ const TOPIC: &str = "hello/mqtt";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::Error)
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Error)
         .init();
