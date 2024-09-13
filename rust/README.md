@@ -7,7 +7,7 @@ This directory contains the source code, examples and tests for the Azure IoT Op
 The following Azure IoT Operations crates are available:
 | Crate | Description |
 | - | -|
-| [**azure_iot_operations_mqtt**](../azure_iot_operations_mqtt/) | Flexible MQTT client types and traits for async applications |
+| [**azure_iot_operations_mqtt**](../azure_iot_operations_mqtt/) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](../azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | **azure_iot_operations_services** | COMING SOON
 
