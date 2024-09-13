@@ -45,7 +45,7 @@ async fn main() {
     // Create a new session.
     let mut session = Session::new(session_options).unwrap();
 
-    // Spawn PubSubs to send, PubReceivers to receive, and an ExitHandle for exiting.
+    // Create PubSubs to send, PubReceivers to receive, and an ExitHandle for exiting.
     let pub_sub1 = session.pub_sub();
     let pub_sub2 = session.pub_sub();
     let receiver = session
@@ -53,7 +53,7 @@ async fn main() {
         .unwrap();
     let exit_handle = session.get_session_exit_handle();
 
-    // Send the spawned components to their respective tasks.
+    // Send the created components to their respective tasks.
     tokio::spawn(receive_messages(pub_sub1, receiver));
     tokio::spawn(send_messages(pub_sub2, exit_handle));
 
