@@ -98,7 +98,7 @@ const DefaultMessageExpiry = 10
 ```
 
 <a name="Listen"></a>
-## func [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L168>)
+## func [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L182>)
 
 ```go
 func Listen(ctx context.Context, listeners ...Listener) (func(), error)
@@ -263,7 +263,7 @@ type CommandInvokerOptions struct {
 ```
 
 <a name="CommandInvokerOptions.Apply"></a>
-### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L310-L313>)
+### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L316-L319>)
 
 ```go
 func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...CommandInvokerOption)
@@ -272,7 +272,7 @@ func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...Comma
 Apply resolves the provided list of options.
 
 <a name="CommandInvokerOptions.ApplyOptions"></a>
-### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L327>)
+### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L333>)
 
 ```go
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -420,7 +420,7 @@ type InvokeOptions struct {
 ```
 
 <a name="InvokeOptions.Apply"></a>
-### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L367-L370>)
+### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L373-L376>)
 
 ```go
 func (o *InvokeOptions) Apply(opts []InvokeOption, rest ...InvokeOption)
@@ -474,7 +474,7 @@ func (JSON[T]) Serialize(t T) ([]byte, error)
 Serialize translates the Go type T into JSON bytes.
 
 <a name="Listener"></a>
-## type [Listener](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L18-L20>)
+## type [Listener](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L19-L21>)
 
 Listener represents an object which will listen to a MQTT topic.
 

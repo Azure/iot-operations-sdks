@@ -15,16 +15,16 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
 
-const CLIENT_ID: &str = "<client id>";
-const HOST: &str = "<broker host>";
+const CLIENT_ID: &str = "aio_example_invoker_client";
+const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const REQUEST_TOPIC_PATTERN: &str = "<request topic>";
-const RESPONSE_TOPIC_PATTERN: &str = "<response topic>";
+const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
+const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
@@ -70,7 +70,7 @@ async fn rpc_loop(
             .payload(&IncrRequest::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
-            .executor_id(Some("SampleServer".to_string()))
+            .executor_id(None)
             .build()
             .unwrap();
         let response = rpc_invoker.invoke(payload).await;
@@ -84,7 +84,9 @@ async fn rpc_loop(
 pub struct IncrRequest {}
 
 #[derive(Clone, Debug, Default)]
-pub struct IncrResponse {}
+pub struct IncrResponse {
+    pub counter_response: i32,
+}
 
 impl PayloadSerialize for IncrRequest {
     fn content_type() -> &'static str {
@@ -116,7 +118,9 @@ impl PayloadSerialize for IncrResponse {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrResponse, SerializerError> {
-        Ok(IncrResponse {})
+    fn deserialize(payload: &[u8]) -> Result<IncrResponse, SerializerError> {
+        let payload = String::from_utf8(payload.to_vec()).unwrap();
+        let counter_response = payload.parse::<i32>().unwrap();
+        Ok(IncrResponse { counter_response })
     }
 }

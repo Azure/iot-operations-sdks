@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Common utilities for use with the protocol.
+
 /// Implementation of hybrid logical clock.
 pub mod hybrid_logical_clock;
 
