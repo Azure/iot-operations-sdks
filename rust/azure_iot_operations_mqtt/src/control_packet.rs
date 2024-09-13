@@ -23,5 +23,5 @@ pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperti
 pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
 
 #[cfg(test)]
-/// PubAck data. Internal/testing use only.
+/// PUBACK data. Internal/testing use only.
 pub type PubAck = rumqttc::v5::mqttbytes::v5::PubAck;

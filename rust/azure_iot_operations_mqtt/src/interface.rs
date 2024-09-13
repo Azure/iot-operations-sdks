@@ -14,9 +14,9 @@ use crate::topic::TopicParseError;
 use crate::{CompletionToken, Event};
 
 // TODO: restrict the visibility of these to match InternalClient
-/// ManualAck packet. Currently internal use only.
+/// Data for acking a publish. Currently internal use only.
 pub type ManualAck = rumqttc::v5::ManualAck;
-/// ManualAckReason. Currently internal use only.
+/// Reason Code for ack. Currently internal use only.
 pub type ManualAckReason = rumqttc::v5::ManualAckReason;
 
 // ---------- Lower level MQTT abstractions ----------
