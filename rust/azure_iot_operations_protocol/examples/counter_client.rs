@@ -21,7 +21,7 @@ const REQUEST_TOPIC_PATTERN: &str = "rpc/command-samples/{executorId}/{commandNa
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::Warn)
+        .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
