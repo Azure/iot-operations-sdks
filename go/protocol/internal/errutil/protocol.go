@@ -6,14 +6,16 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/sosodev/duration"
 )
 
 type result struct {
-	status int
-	error  *errors.Error
-	name   string
-	value  any
+	status  int
+	error   *errors.Error
+	name    string
+	value   any
+	version string
 }
 
 func ToUserProp(err error) map[string]string {
@@ -113,6 +115,12 @@ func ToUserProp(err error) map[string]string {
 			error:  e,
 			name:   e.PropertyName,
 		}.props()
+	case errors.UnsupportedRequestVersion:
+		return result{
+			status:  505,
+			error:   e,
+			version: e.ProtocolVersion,
+		}.props()
 	default:
 		return result{
 			status: 500,
@@ -130,6 +138,8 @@ func FromUserProp(user map[string]string) error {
 	statusMessage := user[constants.StatusMessage]
 	propertyName := user[constants.InvalidPropertyName]
 	propertyValue := user[constants.InvalidPropertyValue]
+	protocolVersion := user[constants.RequestProtocolVersion]
+	supportedVersions := user[constants.SupportedProtocolMajorVersion]
 
 	if status == "" {
 		return &errors.Error{
@@ -212,6 +222,12 @@ func FromUserProp(user map[string]string) error {
 		if propertyValue != "" {
 			e.PropertyValue = propertyValue
 		}
+	case 505:
+		e.Kind = errors.UnsupportedRequestVersion
+		e.ProtocolVersion = protocolVersion
+		e.SupportedMajorProtocolVersions = version.ParseSupported(
+			supportedVersions,
+		)
 	default:
 		// Treat unknown status as an unknown error, but otherwise allow them.
 		e.Kind = errors.UnknownError
@@ -237,6 +253,11 @@ func (r result) props() map[string]string {
 		if r.value != nil {
 			props[constants.InvalidPropertyValue] = fmt.Sprint(r.value)
 		}
+	}
+
+	if r.version != "" {
+		props[constants.RequestProtocolVersion] = r.version
+		props[constants.SupportedProtocolMajorVersion] = version.SupportedString
 	}
 
 	return props

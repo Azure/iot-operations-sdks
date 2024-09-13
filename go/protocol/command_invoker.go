@@ -303,6 +303,12 @@ func (ci *CommandInvoker[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
+	// If we received a version error from the listener implementation rather
+	// than the response message, it indicates a version *we* don't support.
+	if e, ok := err.(*errors.Error); ok &&
+		e.Kind == errors.UnsupportedRequestVersion {
+		e.Kind = errors.UnsupportedResponseVersion
+	}
 	return ci.sendPending(ctx, pub, nil, err)
 }
 

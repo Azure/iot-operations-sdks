@@ -34,7 +34,7 @@ func Normalize(err error, msg string) error
 Normalize well\-known errors into protocol errors.
 
 <a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L7-L29>)
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L7-L32>)
 
 Error represents a structured protocol error.
 
@@ -54,6 +54,9 @@ type Error struct {
     PropertyName  string
     PropertyValue any
 
+    ProtocolVersion                string
+    SupportedMajorProtocolVersions []int
+
     InApplication  bool
     IsShallow      bool
     IsRemote       bool
@@ -62,7 +65,7 @@ type Error struct {
 ```
 
 <a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L53>)
+### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L58>)
 
 ```go
 func (e *Error) Error() string
@@ -71,7 +74,7 @@ func (e *Error) Error() string
 Error returns the error as a string.
 
 <a name="Kind"></a>
-## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L32>)
+## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L35>)
 
 Kind defines the type of error being thrown.
 
@@ -96,6 +99,8 @@ const (
     InvocationException
     ExecutionException
     MqttError
+    UnsupportedRequestVersion
+    UnsupportedResponseVersion
 )
 ```
 
