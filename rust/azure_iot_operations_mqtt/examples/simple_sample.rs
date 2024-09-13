@@ -22,7 +22,7 @@ async fn main() {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Error)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Build the options and settings for the session.
