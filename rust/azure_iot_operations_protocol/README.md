@@ -2,7 +2,7 @@
 Utilities for using the Azure IoT Operations Protocol over MQTT, leveraging the [Azure IoT Operations - MQTT](../azure_iot_operations_mqtt/) crate.
 
 [API documentation] |
-[Examples](/examples) |
+[Examples](examples) |
 [Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fprotocol&expanded=true)
 
 ## Overview

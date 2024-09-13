@@ -2,7 +2,7 @@
 MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
 
 [API documentation] |
-[Examples](/examples) |
+[Examples](examples) |
 [Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fmqtt&expanded=true)
 
 ## Overview
