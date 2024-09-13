@@ -1,4 +1,4 @@
-../../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile dss.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.StateStore.Gen
+../../../../codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen --modelFile dss.json --lang csharp --outDir /tmp/StateStore
 rm -rf ./StateStoreGen
 mkdir ./StateStoreGen
 cp -f /tmp/StateStore/dtmi_ms_aio_mq_StateStore__1/*.cs ./StateStoreGen -v
