@@ -35,7 +35,7 @@ The following Azure IoT Operations crates are available:
     #### Windows
     While this can be done on a Windows development environment, we would at this time advise you to simply use WSL and follow the above Linux instructions.
 
-3. Take a dependency on the crate(s) you need to use in your `Cargo.toml` file for your application.
+3. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application.
     ```toml
     [dependencies]
     azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>"}
@@ -46,7 +46,8 @@ The following Azure IoT Operations crates are available:
 
 ## Set up broker
 
-The samples in this repository assume a broker is running on `localhost`. They are intended for use with the Azure IoT Operations MQ Broker, but are compatible with any MQTT broker, local or remote.
+The samples in this repository assume a broker is running on `localhost`.
+The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Operations MQ broker, but are compatible with any MQTTv5 broker, local or remote.
 
 ## Running samples
 
