@@ -11,12 +11,16 @@ use uuid::Uuid;
 
 use super::aio_protocol_error::AIOProtocolError;
 
-/// Hybrid Logical Clock generating unique timestamps
-/// Placeholder. TODO: Implement
+// TODO: Placeholder. Implement
+/// Hybrid Logical Clock (HLC) generating unique timestamps
 #[derive(Clone, Debug, PartialEq)]
 pub struct HybridLogicalClock {
+    /// Current timestamp.
     pub timestamp: SystemTime,
+    /// Counter is used to coordinate ordering of events within a distributed system where each
+    /// device may have slightly different system clock times.
     pub counter: u64,
+    /// Unique identifier for this node.
     pub node_id: Uuid,
 }
 
@@ -27,6 +31,8 @@ impl Default for HybridLogicalClock {
 }
 
 impl HybridLogicalClock {
+    /// Creates a new [`HybridLogicalClock`] with the current timestamp, a counter of 0,
+    /// and a unique identifier
     #[must_use]
     pub fn new() -> Self {
         Self {

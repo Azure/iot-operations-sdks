@@ -140,5 +140,10 @@ namespace Azure.Iot.Operations.Services.StateStore
         {
             return Bytes.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return GetString();
+        }
     }
 }

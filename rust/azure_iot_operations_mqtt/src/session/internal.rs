@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Internal implementation of the [`Session`] type.
+
 use std::collections::HashSet;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
@@ -12,12 +15,12 @@ use tokio::sync::mpsc::Receiver;
 use tokio_util::sync::CancellationToken;
 
 use crate::control_packet::{
-    Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{ClientError, ConnectionError, StateError};
 use crate::interface::{
-    AuthProperties, InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttProvider,
-    MqttPubReceiver, MqttPubSub,
+    InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttProvider, MqttPubReceiver,
+    MqttPubSub,
 };
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
@@ -71,7 +74,7 @@ where
 {
     // TODO: get client id out of here
     // TODO: can we eliminate need for box on input?
-    /// API NOT STABLE, INTERNAL USE ONLY FOR NOW
+    /// ----API NOT STABLE, INTERNAL USE ONLY FOR NOW----
     pub fn new_from_injection(
         client: C,
         event_loop: EL,
