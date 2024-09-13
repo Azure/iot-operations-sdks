@@ -39,9 +39,13 @@ pub enum AIOProtocolErrorKind {
 /// Represents the possible types of the value of a property
 #[derive(Debug, PartialEq)]
 pub enum Value {
+    /// A 32-bit integer value
     Integer(i32),
+    /// A 64-bit floating point value
     Float(f64),
+    /// A String value
     String(String),
+    /// A bool value
     Boolean(bool),
 }
 

@@ -40,8 +40,8 @@ struct ResponseArguments {
     command_expiration_time: Option<Instant>,
 }
 
-/// Command Request struct
-/// Used by the command executor
+/// Command Request struct.
+/// Used by the [`CommandExecutor`]
 ///
 /// If dropped, executor will send an error response to the invoker
 pub struct CommandRequest<TReq, TResp>
@@ -117,8 +117,8 @@ where
     }
 }
 
-/// Command Response struct
-/// Used by the command executor
+/// Command Response struct.
+/// Used by the [`CommandExecutor`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
 pub struct CommandResponse<TResp>

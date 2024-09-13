@@ -26,8 +26,8 @@ use crate::common::{
     user_properties::{self, validate_user_properties, UserProperty},
 };
 
-/// Command Request struct
-/// Used by the command invoker
+/// Command Request struct.
+/// Used by the [`CommandInvoker`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct CommandRequest<TReq>
@@ -93,8 +93,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     }
 }
 
-/// Command Response struct
-///
+/// Command Response struct.
 /// Used by the [`CommandInvoker`]
 #[derive(Debug)]
 pub struct CommandResponse<TResp>

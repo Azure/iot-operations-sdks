@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Common error types
+
 /// Error type for MQTT client
 pub type ClientError = rumqttc::v5::ClientError;
 /// Error type for MQTT connection
