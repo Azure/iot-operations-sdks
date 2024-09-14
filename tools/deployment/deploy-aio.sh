@@ -26,10 +26,7 @@ az extension add --upgrade --name azure-iot-ops
 helm repo add jetstack https://charts.jetstack.io --force-update
 helm repo update
 
-if [ "$deploy_type" = "release" ]; then
-    # Check that Azure IoT Operations is installed
-
-elif [ "$deploy_type" = "nightly" ]; then
+if [ "$deploy_type" = "nightly" ]; then
     # install cert-manager
     helm upgrade cert-manager jetstack/cert-manager --install --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} --wait
 
