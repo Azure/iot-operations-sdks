@@ -8,12 +8,15 @@ const (
 	InvokerClientID = Protocol + "invId"
 	Timestamp       = Protocol + "ts"
 	FencingToken    = Protocol + "ft"
+	ProtocolVersion = Protocol + "protVer"
 
-	Status               = Protocol + "stat"
-	StatusMessage        = Protocol + "stMsg"
-	IsApplicationError   = Protocol + "apErr"
-	InvalidPropertyName  = Protocol + "propName"
-	InvalidPropertyValue = Protocol + "propVal"
+	Status                        = Protocol + "stat"
+	StatusMessage                 = Protocol + "stMsg"
+	IsApplicationError            = Protocol + "apErr"
+	InvalidPropertyName           = Protocol + "propName"
+	InvalidPropertyValue          = Protocol + "propVal"
+	SupportedProtocolMajorVersion = Protocol + "supProtMajVer"
+	RequestProtocolVersion        = Protocol + "requestProtVer"
 )
 
 // MQ user property keys.

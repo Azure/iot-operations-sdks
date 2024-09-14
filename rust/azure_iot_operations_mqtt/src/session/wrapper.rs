@@ -16,17 +16,25 @@ use crate::session::{SessionError, SessionErrorKind};
 use crate::topic::TopicParseError;
 use crate::{CompletionToken, MqttConnectionSettings};
 
+/// Client that manages connections over a single MQTT session.
+///
+/// Use this centrally in an application to control the session and to create
+/// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
 pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 #[derive(Clone)]
+/// Handle used to end an MQTT session.
 pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
 #[derive(Clone)]
+/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
+/// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver(internal::SessionPubReceiver);
 
+/// Options for configuring a new [`Session`]
 #[derive(Builder)]
 #[builder(pattern = "owned", setter(into))]
 pub struct SessionOptions {
-    /// MQTT Connection Settings for configuring the `Session`
+    /// MQTT Connection Settings for configuring the [`Session`]
     pub connection_settings: MqttConnectionSettings,
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     /// Reconnect Policy to by used by the `Session`
@@ -96,10 +104,6 @@ impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
 
 #[async_trait]
 impl MqttPubSub for SessionPubSub {
-    /// MQTT Publish
-    ///
-    /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -110,10 +114,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.publish(topic, qos, retain, payload).await
     }
 
-    // MQTT Publish
-    ///
-    /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn publish_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -127,10 +127,6 @@ impl MqttPubSub for SessionPubSub {
             .await
     }
 
-    // MQTT Subscribe
-    ///
-    /// If connection is unavailable, subscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
@@ -139,10 +135,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.subscribe(topic, qos).await
     }
 
-    // MQTT Subscribe
-    ///
-    /// If connection is unavailable, subscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn subscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -154,10 +146,6 @@ impl MqttPubSub for SessionPubSub {
             .await
     }
 
-    // MQTT Unsubscribe
-    ///
-    /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
@@ -165,10 +153,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.unsubscribe(topic).await
     }
 
-    // MQTT Unsubscribe
-    ///
-    /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn unsubscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,

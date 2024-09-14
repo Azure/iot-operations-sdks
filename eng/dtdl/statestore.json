@@ -1,7 +1,7 @@
 {
   "@context": [
-    "dtmi:dtdl:context;3",
-    "dtmi:dtdl:extension:mqtt;1"
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
   ],
   "@id": "dtmi:ms:aio:mq:StateStore;1",
   "@type": [
@@ -17,11 +17,11 @@
       "name": "invoke",
       "request": {
         "name": "invoke",
-        "schema": "string"
+        "schema": "bytes"
       },
       "response": {
         "name": "invoke",
-        "schema": "string"
+        "schema": "bytes"
       }
     }
   ]

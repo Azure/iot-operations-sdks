@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Adapter layer for the rumqttc crate
+
 use std::{
     fmt,
     fs::{self, File},
@@ -22,11 +25,11 @@ use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
 use crate::control_packet::{
-    Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    AuthProperties, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
+    InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 use crate::{CompletionToken, Event};
 

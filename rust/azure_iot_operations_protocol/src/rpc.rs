@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Envoys for Remote Procedure Call (RPC) operations.
+
 use std::str::FromStr;
 
 use crate::common::aio_protocol_error::AIOProtocolError;

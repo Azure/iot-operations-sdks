@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![warn(missing_docs)]
+
+//! MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
+
 pub use crate::connection_settings::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,
 };
@@ -17,6 +21,7 @@ mod rumqttc_adapter;
 #[macro_use]
 extern crate derive_builder;
 
+/// Awaitable token indicating completion of MQTT message delivery.
 pub struct CompletionToken(pub rumqttc::NoticeFuture);
 
 // NOTE: Ideally, this would impl Future instead, but the rumqttc NoticeFuture does not implement Future
@@ -32,7 +37,7 @@ impl CompletionToken {
 
 //----------------------------------------------------------------------
 
-/// Re-export rumqttc types to avoid user code taking the dependency.
+// Re-export rumqttc types to avoid user code taking the dependency.
 // TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
 // Only once there are non-rumqttc implementations of these can we allow non-rumqttc compilations
 
