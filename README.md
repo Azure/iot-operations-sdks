@@ -81,12 +81,12 @@ The following features are available or planned, along with the current language
 | Feature | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
+| **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :orange_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :orange_circle: | :orange_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :orange_circle: | :orange_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :orange_circle: | :orange_circle: |
 | **Schema registry** client | Interact with the schema registry | :green_circle: | :orange_circle: | :orange_circle: |
-| **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :orange_circle: |
 
 ### Protocol compiler
 
@@ -94,18 +94,18 @@ The Protocol compiler is a command line tool distributed as a NuGet package. It 
 
 | Component | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
 |-|-|-|-|-|
-| **Protocol compiler CLI** | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :yellow_circle:  | :yellow_circle:  |
-| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :yellow_circle:  | :yellow_circle:  |
+| **Protocol compiler CLI** | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :yellow_circle:  |
+| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :yellow_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
 | [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
 
-### Additional tooling
+### Other tooling
 
-Other tools available for use during development of IoT Operation applications.
+Tools available for use during development of IoT Operation applications.
 
 | Tool | Description | Status |
 |-|-|-|
-| **State store CLI** | Interact with the state store via a CLI. Get, set and delete keys. | :yellow_circle: |
+| **State store cli** | Interact with the state store via a CLI. Get, set and delete keys. | :green_circle: |
 
 ## Need help?
 
