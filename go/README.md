@@ -26,11 +26,10 @@ The following Azure IoT Operations modules are available:
 1. Ensure you have access to GitHub via
    [SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
-2. Update your `.gitconfig` with:
+2. Update your Git configruation with:
 
-    ```ini
-    [url "git@github.com:Azure/iot-operations-sdks"]
-        insteadOf = https://github.com/Azure/iot-operations-sdks
+    ```bash
+    git config --global url."git@github.com:Azure/iot-operations-sdks".insteadOf "https://github.com/Azure/iot-operations-sdks"
     ```
 
 3. Ensure your `GOPRIVATE` environment variable includes

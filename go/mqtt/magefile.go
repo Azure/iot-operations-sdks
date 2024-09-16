@@ -53,7 +53,7 @@ func Doc() error {
 	}
 
 	return documenter.Command(
-		`./... --exclude-dirs ./internal/...,./mqtt/internal/...,./mqtt/test/...`,
+		`./... --exclude-dirs ./internal/...,./test/...`,
 	).Run()
 }
 
