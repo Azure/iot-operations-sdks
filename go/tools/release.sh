@@ -31,7 +31,7 @@ while read MOD VER ; do
         # release notes; otherwise, only include the change delta.
         RANGE=$([ "$PREV" = "$TAG" ] && echo "HEAD" || echo "$PREV..HEAD")
 
-        # Mark v0 versions and versions with prerelease markers as prerelease.
+        # Mark versions with prerelease markers as prerelease.
         PRE=$(echo "$VER" | grep -q - && echo "--prerelease --latest=false")
 
         # Remove the local tag to make sure it doesn't interfere with anything.
