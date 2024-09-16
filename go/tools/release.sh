@@ -32,13 +32,13 @@ while read MOD VER ; do
         RANGE=$([ "$PREV" = "$TAG" ] && echo "HEAD" || echo "$PREV..HEAD")
 
         # Mark v0 versions and versions with prerelease markers as prerelease.
-        PRE=$(echo "$VER" | grep -q "^0\|-" && echo "--prerelease")
+        PRE=$(echo "$VER" | grep -q - && echo "--prerelease --latest=false")
 
         # Remove the local tag to make sure it doesn't interfere with anything.
         git tag -d "$TAG" > /dev/null
 
         # Generate the release notes and perform the release.
-        release "$TAG" $PRE --title "[Go] $MOD v$VER" << EOF
+        release "$TAG" $PRE --title "[Go] ${MOD##*/}@v$VER" << EOF
 A new release is available for $MOD. To install, run:
 
 \`\`\`
