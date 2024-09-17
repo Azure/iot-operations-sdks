@@ -110,9 +110,9 @@ func (Empty) Deserialize(data []byte) (any, error) {
 	return nil, nil
 }
 
-// ContentType returns no MIME type.
+// ContentType returns the raw MIME type.
 func (Raw) ContentType() string {
-	return ""
+	return "application/octet-stream"
 }
 
 // IsUTF8 indicates that raw is not known to be valid UTF8.

@@ -550,7 +550,7 @@ type Raw struct{}
 func (Raw) ContentType() string
 ```
 
-ContentType returns no MIME type.
+ContentType returns the raw MIME type.
 
 <a name="Raw.Deserialize"></a>
 ### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L129>)
