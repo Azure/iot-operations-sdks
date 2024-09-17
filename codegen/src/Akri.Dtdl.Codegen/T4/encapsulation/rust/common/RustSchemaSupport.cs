@@ -21,9 +21,9 @@ namespace Akri.Dtdl.Codegen
                 DateTimeType _ => "DateTime<Utc>",
                 TimeType _ => "Time",
                 DurationType _ => "Duration",
-                UuidType _ => "placeholder for proper Rust uuid type",
+                UuidType _ => "Uuid",
                 StringType _ => "String",
-                BytesType _ => "placeholder for proper Rust bytes type",
+                BytesType _ => "Bytes",
                 ReferenceType referenceType => referenceType.SchemaName,
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };

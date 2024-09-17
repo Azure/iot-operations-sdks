@@ -29,8 +29,9 @@ namespace Akri.Dtdl.Codegen
 use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 use iso8601_duration::Duration;
+use uuid::Uuid;
 use serde::{Deserialize, Serialize};
-use akri_mqtt::encapsulation::{Date, Time};
+use super::super::common_types::{b64::Bytes, date_only::Date, time_only::Time};
 
 ");
  foreach (var referencedSchema in this.referencedSchemaNames) { 
@@ -46,7 +47,7 @@ use akri_mqtt::encapsulation::{Date, Time};
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectType.Description));
             this.Write("\r\n");
  } 
-            this.Write("#[derive(Serialize, Deserialize)]\r\npub struct ");
+            this.Write("#[derive(Serialize, Deserialize, Debug, Clone)]\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectType.SchemaName));
             this.Write(" {\r\n");
  foreach (var fieldInfo in this.objectType.FieldInfos) { 

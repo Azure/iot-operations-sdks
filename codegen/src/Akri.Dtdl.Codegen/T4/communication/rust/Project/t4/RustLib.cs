@@ -22,9 +22,10 @@ namespace Akri.Dtdl.Codegen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("#![allow(non_snake_case)]\r\npub mod ");
+            this.Write("/* This is an auto-generated file.  Do not modify. */\r\n#![allow(non_snake_case)]\r" +
+                    "\npub mod ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.genNamespace));
-            this.Write(";\r\npub mod serialization;\r\n");
+            this.Write(";\r\npub mod common_types;\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

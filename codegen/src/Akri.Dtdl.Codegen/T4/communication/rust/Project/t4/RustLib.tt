@@ -1,4 +1,5 @@
 <#@ template language="C#" linePragmas="false" #>
+/* This is an auto-generated file.  Do not modify. */
 #![allow(non_snake_case)]
 pub mod <#=this.genNamespace#>;
-pub mod serialization;
+pub mod common_types;
