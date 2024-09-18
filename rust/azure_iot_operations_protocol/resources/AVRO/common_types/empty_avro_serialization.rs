@@ -1,4 +1,4 @@
-/* This is an auto-generated file.  Do not modify. */
+/* This file will be copied into the folder for generated code. */
 use azure_iot_operations_protocol::common::payload_serialize::{
     FormatIndicator, PayloadSerialize, SerializerError,
 };
