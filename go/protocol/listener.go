@@ -11,7 +11,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/google/uuid"
 )
 
 type (
@@ -85,25 +84,7 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if len(pub.CorrelationData) == 0 {
-		l.error(ctx, pub, &errors.Error{
-			Message:    "correlation data missing",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.CorrelationData,
-		})
-		return
-	}
-	correlationData, err := uuid.FromBytes(pub.CorrelationData)
-	if err != nil {
-		l.error(ctx, pub, &errors.Error{
-			Message:    "correlation data is not a valid UUID",
-			Kind:       errors.HeaderInvalid,
-			HeaderName: constants.CorrelationData,
-		})
-		return
-	}
-	msg.CorrelationData = correlationData.String()
-
+	var err error
 	ts := pub.UserProperties[constants.Timestamp]
 	if ts != "" {
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
