@@ -8,7 +8,7 @@ namespace Akri.Dtdl.Codegen
         private readonly string modelId;
         private readonly string serviceName;
         private readonly string serializerSubNamespace;
-        private readonly string serialzerEmptyType;
+        private readonly string serializerEmptyType;
         private readonly string allocateEmpty;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
@@ -25,7 +25,7 @@ namespace Akri.Dtdl.Codegen
             string modelId,
             string serviceName,
             string serializerSubNamespace,
-            string serialzerEmptyType,
+            string serializerEmptyType,
             string? commandTopic,
             string? telemetryTopic,
             List<(string, string?, string?)> cmdNameReqResps,
@@ -40,8 +40,8 @@ namespace Akri.Dtdl.Codegen
             this.modelId = modelId;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
-            this.serialzerEmptyType = serialzerEmptyType == "" ? "byte[]" : serialzerEmptyType;
-            this.allocateEmpty = serialzerEmptyType == "" ? "Array.Empty<byte>()" : $"new {serialzerEmptyType}()";
+            this.serializerEmptyType = serializerEmptyType == "" ? "byte[]" : serializerEmptyType;
+            this.allocateEmpty = serializerEmptyType == "" ? "Array.Empty<byte>()" : $"new {serializerEmptyType}()";
             this.commandTopic = commandTopic;
             this.telemetryTopic = telemetryTopic;
             this.cmdNameReqResps = cmdNameReqResps;

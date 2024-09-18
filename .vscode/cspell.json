@@ -100,6 +100,7 @@
         "myvalue",
         "PKID",
         "PKIDs",
+        "protobuf",
         "protoc",
         "reauth",
         "reauthenticates",

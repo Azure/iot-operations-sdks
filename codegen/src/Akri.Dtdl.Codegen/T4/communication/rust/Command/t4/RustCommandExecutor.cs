@@ -41,9 +41,9 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 ");
  if (this.reqSchema == null || this.respSchema == null) { 
             this.Write("use super::super::common_types::");
-            this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.serialzerEmptyType)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.serializerEmptyType)));
             this.Write("::");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serialzerEmptyType));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerEmptyType));
             this.Write(";\r\n");
  } 
  if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { 
@@ -98,7 +98,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             return this.GenerationEnvironment.ToString();
         }
 
-    private string TypeParams() => $"{this.reqSchema ?? this.serialzerEmptyType}, {this.respSchema ?? this.serialzerEmptyType}";
+    private string TypeParams() => $"{this.reqSchema ?? this.serializerEmptyType}, {this.respSchema ?? this.serializerEmptyType}";
 
     }
     #region Base class

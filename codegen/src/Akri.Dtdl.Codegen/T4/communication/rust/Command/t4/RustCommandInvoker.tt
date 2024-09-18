@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serialzerEmptyType)#>::<#=this.serialzerEmptyType#>;
+use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
 <# } #>
 <# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
 use super::super::common_types::bytes::Bytes;
@@ -58,5 +58,5 @@ impl DerefMut for <#=this.capitalizedCommandName#>CommandInvoker {
     }
 }
 <#+
-    private string TypeParams() => $"{this.reqSchema ?? this.serialzerEmptyType}, {this.respSchema ?? this.serialzerEmptyType}";
+    private string TypeParams() => $"{this.reqSchema ?? this.serializerEmptyType}, {this.respSchema ?? this.serializerEmptyType}";
 #>

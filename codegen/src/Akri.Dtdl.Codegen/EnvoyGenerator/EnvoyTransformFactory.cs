@@ -88,8 +88,8 @@ namespace Akri.Dtdl.Codegen
         private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serializerlClassName = formatSerializers[genFormat].ClassName;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerClassName = formatSerializers[genFormat].ClassName;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             string? telemetryName = telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() : null;
             string schemaClass = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
@@ -97,20 +97,20 @@ namespace Akri.Dtdl.Codegen
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, schemaClass);
-                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, schemaClass);
+                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
                     break;
                 case "go":
                     yield return new GoTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
                     yield return new GoTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
                     break;
                 case "java":
-                    yield return new JavaTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
-                    yield return new JavaTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
+                    yield return new JavaTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                    yield return new JavaTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
                     break;
                 case "python":
-                    yield return new PythonTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
-                    yield return new PythonTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
+                    yield return new PythonTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                    yield return new PythonTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
                     break;
                 case "rust":
                     yield return new RustTelemetrySender(telemetryName, genNamespace, schemaClass);
@@ -134,8 +134,8 @@ namespace Akri.Dtdl.Codegen
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serializerlClassName = formatSerializers[genFormat].ClassName;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerClassName = formatSerializers[genFormat].ClassName;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             string commandName = cmdElt.GetProperty(AnnexFileProperties.CommandName).GetString()!;
             string? reqSchemaClass = cmdElt.GetProperty(AnnexFileProperties.CmdRequestSchema).GetString();
@@ -146,24 +146,24 @@ namespace Akri.Dtdl.Codegen
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, reqSchemaClass, respSchemaClass);
-                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     break;
                 case "go":
                     yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
                     yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     break;
                 case "java":
-                    yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
-                    yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
+                    yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                    yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
                     break;
                 case "python":
-                    yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
-                    yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
+                    yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                    yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
                     break;
                 case "rust":
-                    yield return new RustCommandInvoker(commandName, genNamespace, serialzerEmptyType, reqSchemaClass, respSchemaClass);
-                    yield return new RustCommandExecutor(commandName, genNamespace, serialzerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                    yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     if (reqSchemaClass != null && reqSchemaClass != string.Empty)
                     {
                         schemaTypes.Add(reqSchemaClass);
@@ -176,8 +176,8 @@ namespace Akri.Dtdl.Codegen
                     }
                     break;
                 case "c":
-                    yield return new CCommandInvoker(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
-                    yield return new CCommandExecutor(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                    yield return new CCommandInvoker(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                    yield return new CCommandExecutor(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
                     break;
                 default:
                     throw GetLanguageNotRecognizedException(language);
@@ -192,12 +192,12 @@ namespace Akri.Dtdl.Codegen
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
             bool doesTelemetryTargetService = DoesTopicReferToService(telemetryTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serialzerEmptyType, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
+                    yield return new DotNetService(projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
                     break;
                 case "go":
                     yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi);

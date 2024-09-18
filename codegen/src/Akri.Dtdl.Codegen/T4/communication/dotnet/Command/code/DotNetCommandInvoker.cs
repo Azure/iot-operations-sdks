@@ -10,11 +10,11 @@ namespace Akri.Dtdl.Codegen
         private readonly string serviceName;
         private readonly string serializerSubNamespace;
         private readonly string serializerClassName;
-        private readonly string serialzerEmptyType;
+        private readonly string serializerEmptyType;
         private readonly string? reqSchema;
         private readonly string? respSchema;
 
-        public DotNetCommandInvoker(string commandName, string projectName, string genNamespace, string serviceName, string serializerSubNamespace, string serializerClassName, string serialzerEmptyType, string? reqSchema, string? respSchema)
+        public DotNetCommandInvoker(string commandName, string projectName, string genNamespace, string serviceName, string serializerSubNamespace, string serializerClassName, string serializerEmptyType, string? reqSchema, string? respSchema)
         {
             this.commandName = commandName;
             this.capitalizedCommandName = char.ToUpperInvariant(commandName[0]) + commandName.Substring(1);
@@ -23,7 +23,7 @@ namespace Akri.Dtdl.Codegen
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
             this.serializerClassName = serializerClassName;
-            this.serialzerEmptyType = serialzerEmptyType == "" ? "byte[]" : serialzerEmptyType;
+            this.serializerEmptyType = serializerEmptyType == "" ? "byte[]" : serializerEmptyType;
             this.reqSchema = reqSchema == "" ? "byte[]" : reqSchema;
             this.respSchema = respSchema == "" ? "byte[]" : respSchema;
         }
