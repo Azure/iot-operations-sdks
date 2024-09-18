@@ -44,7 +44,7 @@
             switch (schemaType)
             {
                 case ArrayType arrayType:
-                    AddReferencedSchemaNames(referencedSchemaNames, arrayType.ElementSchmema);
+                    AddReferencedSchemaNames(referencedSchemaNames, arrayType.ElementSchema);
                     break;
                 case MapType mapType:
                     AddReferencedSchemaNames(referencedSchemaNames, mapType.ValueSchema);

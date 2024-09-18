@@ -8,7 +8,7 @@ namespace Akri.Dtdl.Codegen
         {
             string innerType = schemaType switch
             {
-                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchmema, true)}>",
+                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, true)}>",
                 MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, true)}>",
                 ObjectType objectType => objectType.SchemaName,
                 EnumType enumType => enumType.SchemaName,

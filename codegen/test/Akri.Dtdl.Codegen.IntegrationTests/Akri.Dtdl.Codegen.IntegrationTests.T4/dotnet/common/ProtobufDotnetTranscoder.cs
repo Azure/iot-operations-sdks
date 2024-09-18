@@ -62,12 +62,12 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.T4
                     };
                 case ArrayTypeInfo arrayType:
                     iter = GetIter();
-                    return $"new JArray({varName}.Value.Select({iter} => {JTokenFromSchemaValue(iter, arrayType.ElementSchmema)}))";
+                    return $"new JArray({varName}.Value.Select({iter} => {JTokenFromSchemaValue(iter, arrayType.ElementSchema)}))";
                 case ObjectTypeInfo objectType:
                     return $"new JObject(new List<JProperty> {{ {string.Join(", ", objectType.FieldSchemas.Select(f => $"new JProperty(\"{f.Key}\", {JTokenFromSchemaValue($"{varName}.{ProtoName(f.Key)}", f.Value)})"))} }})";
                 case MapTypeInfo mapType:
                     iter = GetIter();
-                    return $"new JObject({varName}.Value.Select({iter} => new JProperty({iter}.Key, {JTokenFromSchemaValue($"{iter}.Value", mapType.ValueSchmema)})))";
+                    return $"new JObject({varName}.Value.Select({iter} => new JProperty({iter}.Key, {JTokenFromSchemaValue($"{iter}.Value", mapType.ValueSchema)})))";
                 case EnumTypeInfo enumType:
                     return $"new JValue(typeof({enumType.SchemaName}).GetField(System.Enum.GetName(typeof({enumType.SchemaName}), {varName})).GetCustomAttributes(false).OfType<OriginalNameAttribute>().Single().Name)";
                 default: throw new Exception($"inappropriate schema type {schemaType.GetType()}");
@@ -96,12 +96,12 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.T4
                     };
                 case ArrayTypeInfo arrayType:
                     iter = GetIter();
-                    return $"new {arrayType.SchemaName} {{ Value = {{ ((JArray){varName}).Select({iter} => {SchemaValueFromJToken(iter, arrayType.ElementSchmema)}) }} }}";
+                    return $"new {arrayType.SchemaName} {{ Value = {{ ((JArray){varName}).Select({iter} => {SchemaValueFromJToken(iter, arrayType.ElementSchema)}) }} }}";
                 case ObjectTypeInfo objectType:
                     return $"new {objectType.SchemaName} {{ {string.Join(", ", objectType.FieldSchemas.Select(f => $" {ProtoName(f.Key)} = {SchemaValueFromJToken($"((JObject){varName})[\"{f.Key}\"]", f.Value)}"))} }}";
                 case MapTypeInfo mapType:
                     iter = GetIter();
-                    return $"new {mapType.SchemaName} {{ Value = {{ ((JObject){varName}).Properties().ToDictionary({iter} => {iter}.Name, {iter} => {SchemaValueFromJToken($"{iter}.Value", mapType.ValueSchmema)}) }} }}";
+                    return $"new {mapType.SchemaName} {{ Value = {{ ((JObject){varName}).Properties().ToDictionary({iter} => {iter}.Name, {iter} => {SchemaValueFromJToken($"{iter}.Value", mapType.ValueSchema)}) }} }}";
                 case EnumTypeInfo enumType:
                     return $"System.Enum.GetValues<{enumType.SchemaName}>().First(e => typeof({enumType.SchemaName}).GetField(System.Enum.GetName(typeof({enumType.SchemaName}), e)).GetCustomAttributes(false).OfType<OriginalNameAttribute>().Single().Name == ((JValue){varName}).Value<string>())";
                 default: throw new Exception($"inappropriate schema type {schemaType.GetType()}");

@@ -2,11 +2,11 @@ namespace Akri.Dtdl.Codegen
 {
     public class ArrayType : SchemaType
     {
-        public ArrayType(SchemaType elementSchmema)
+        public ArrayType(SchemaType elementSchema)
         {
-            ElementSchmema = elementSchmema;
+            ElementSchema = elementSchema;
         }
 
-        public SchemaType ElementSchmema { get; set; }
+        public SchemaType ElementSchema { get; set; }
     }
 }

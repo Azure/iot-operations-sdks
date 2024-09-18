@@ -34,7 +34,7 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.TestCaseGenerator
             foreach (string key in keySet)
             {
                 jsonWriter.WritePropertyName(key);
-                schemaInstantiator.InstantiateSchema(jsonWriter, arrayType.ValueSchmema);
+                schemaInstantiator.InstantiateSchema(jsonWriter, arrayType.ValueSchema);
             }
 
             jsonWriter.WriteEndObject();

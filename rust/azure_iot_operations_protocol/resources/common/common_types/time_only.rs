@@ -39,8 +39,8 @@ fn time_to_rfc3339(time: &Time) -> Result<String, &'static str> {
     let date_time = Utc.with_ymd_and_hms(0, 1, 1, time.hour() as u32, time.minute() as u32, time.second() as u32).unwrap();
     let date_time_string = date_time.to_rfc3339();
     let t_ix = date_time_string.find('T').ok_or("error serializing Time to RFC 3339 format")?;
-    let plux_ix = date_time_string.find('+').ok_or("error serializing Time to RFC 3339 format")?;
-    let time_str = &date_time_string[t_ix + 1..plux_ix];
+    let plus_ix = date_time_string.find('+').ok_or("error serializing Time to RFC 3339 format")?;
+    let time_str = &date_time_string[t_ix + 1..plus_ix];
     let mut time_string = time_str.to_string();
     time_string.push('Z');
     Ok(time_string)

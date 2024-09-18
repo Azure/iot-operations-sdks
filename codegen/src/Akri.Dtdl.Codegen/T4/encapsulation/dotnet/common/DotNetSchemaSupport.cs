@@ -7,7 +7,7 @@ namespace Akri.Dtdl.Codegen
         {
             return schemaType switch
             {
-                ArrayType arrayType => $"List<{GetType(arrayType.ElementSchmema)}>",
+                ArrayType arrayType => $"List<{GetType(arrayType.ElementSchema)}>",
                 MapType mapType => $"Dictionary<string, {GetType(mapType.ValueSchema)}>",
                 ObjectType objectType => objectType.SchemaName,
                 EnumType enumType => enumType.SchemaName,

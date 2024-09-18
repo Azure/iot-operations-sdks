@@ -112,6 +112,7 @@
         "retriable",
         "retryable",
         "retrypolicy",
+        "rustfmt",
         "sessionclient",
         "standardizer",
         "standardizers",
