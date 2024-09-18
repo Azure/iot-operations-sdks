@@ -49,6 +49,11 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Message](<#Message>)
 - [type Option](<#Option>)
   - [func WithLogger\(logger \*slog.Logger\) Option](<#WithLogger>)
+- [type Raw](<#Raw>)
+  - [func \(Raw\) ContentType\(\) string](<#Raw.ContentType>)
+  - [func \(Raw\) Deserialize\(data \[\]byte\) \(\[\]byte, error\)](<#Raw.Deserialize>)
+  - [func \(Raw\) IsUTF8\(\) bool](<#Raw.IsUTF8>)
+  - [func \(Raw\) Serialize\(t \[\]byte\) \(\[\]byte, error\)](<#Raw.Serialize>)
 - [type RespondOption](<#RespondOption>)
 - [type RespondOptions](<#RespondOptions>)
   - [func \(o \*RespondOptions\) Apply\(opts \[\]RespondOption, rest ...RespondOption\)](<#RespondOptions.Apply>)
@@ -322,7 +327,7 @@ type Empty struct{}
 ```
 
 <a name="Empty.ContentType"></a>
-### func \(Empty\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L79>)
+### func \(Empty\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L82>)
 
 ```go
 func (Empty) ContentType() string
@@ -331,7 +336,7 @@ func (Empty) ContentType() string
 ContentType returns the empty MIME type.
 
 <a name="Empty.Deserialize"></a>
-### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L100>)
+### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L103>)
 
 ```go
 func (Empty) Deserialize(data []byte) (any, error)
@@ -340,7 +345,7 @@ func (Empty) Deserialize(data []byte) (any, error)
 Deserialize validates that the payload is empty.
 
 <a name="Empty.IsUTF8"></a>
-### func \(Empty\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L84>)
+### func \(Empty\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L87>)
 
 ```go
 func (Empty) IsUTF8() bool
@@ -349,7 +354,7 @@ func (Empty) IsUTF8() bool
 IsUTF8 indicates that empty is not \(meaningfully\) valid UTF8.
 
 <a name="Empty.Serialize"></a>
-### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L89>)
+### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L92>)
 
 ```go
 func (Empty) Serialize(t any) ([]byte, error)
@@ -438,7 +443,7 @@ type JSON[T any] struct{}
 ```
 
 <a name="JSON[T].ContentType"></a>
-### func \(JSON\[T\]\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L57>)
+### func \(JSON\[T\]\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L60>)
 
 ```go
 func (JSON[T]) ContentType() string
@@ -447,7 +452,7 @@ func (JSON[T]) ContentType() string
 ContentType returns the JSON MIME type.
 
 <a name="JSON[T].Deserialize"></a>
-### func \(JSON\[T\]\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L72>)
+### func \(JSON\[T\]\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L75>)
 
 ```go
 func (JSON[T]) Deserialize(data []byte) (T, error)
@@ -456,7 +461,7 @@ func (JSON[T]) Deserialize(data []byte) (T, error)
 Deserialize translates JSON bytes into the Go type T.
 
 <a name="JSON[T].IsUTF8"></a>
-### func \(JSON\[T\]\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L62>)
+### func \(JSON\[T\]\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L65>)
 
 ```go
 func (JSON[T]) IsUTF8() bool
@@ -465,7 +470,7 @@ func (JSON[T]) IsUTF8() bool
 IsUTF8 indicates that JSON is valid UTF8.
 
 <a name="JSON[T].Serialize"></a>
-### func \(JSON\[T\]\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L67>)
+### func \(JSON\[T\]\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L70>)
 
 ```go
 func (JSON[T]) Serialize(t T) ([]byte, error)
@@ -528,6 +533,51 @@ func WithLogger(logger *slog.Logger) Option
 ```
 
 WithLogger enables logging with the provided slog logger.
+
+<a name="Raw"></a>
+## type [Raw](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L26>)
+
+Raw represents no encoding.
+
+```go
+type Raw struct{}
+```
+
+<a name="Raw.ContentType"></a>
+### func \(Raw\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L114>)
+
+```go
+func (Raw) ContentType() string
+```
+
+ContentType returns the raw MIME type.
+
+<a name="Raw.Deserialize"></a>
+### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L129>)
+
+```go
+func (Raw) Deserialize(data []byte) ([]byte, error)
+```
+
+Deserialize returns the bytes unchanged.
+
+<a name="Raw.IsUTF8"></a>
+### func \(Raw\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L119>)
+
+```go
+func (Raw) IsUTF8() bool
+```
+
+IsUTF8 indicates that raw is not known to be valid UTF8.
+
+<a name="Raw.Serialize"></a>
+### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L124>)
+
+```go
+func (Raw) Serialize(t []byte) ([]byte, error)
+```
+
+Serialize returns the bytes unchanged.
 
 <a name="RespondOption"></a>
 ## type [RespondOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L79>)
