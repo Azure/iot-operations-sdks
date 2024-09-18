@@ -11,13 +11,13 @@ import (
 )
 
 type <#=this.capitalizedCommandName#>CommandExecutor struct {
-	*protocol.CommandExecutor[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>]
+	*protocol.CommandExecutor[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>]
 }
 
 func New<#=this.capitalizedCommandName#>CommandExecutor(
 	client mqtt.Client,
 	requestTopic string,
-	handler protocol.CommandHandler[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>],
+	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>],
 	opt ...protocol.CommandExecutorOption,
 ) (*<#=this.capitalizedCommandName#>CommandExecutor, error) {
 	var err error
@@ -44,16 +44,8 @@ func New<#=this.capitalizedCommandName#>CommandExecutor(
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
 		client,
-<# if (this.reqSchema != null) { #>
-		protocol.<#=this.serializerSubNamespace#>[<#=this.reqSchema#>]{},
-<# } else { #>
-		protocol.Empty{},
-<# } #>
-<# if (this.respSchema != null) { #>
-		protocol.<#=this.serializerSubNamespace#>[<#=this.respSchema#>]{},
-<# } else { #>
-		protocol.Empty{},
-<# } #>
+		protocol.<#=GetSerializer(this.reqSchema)#>{},
+		protocol.<#=GetSerializer(this.respSchema)#>{},
 		requestTopic,
 		handler,
 		&opts,
@@ -61,3 +53,8 @@ func New<#=this.capitalizedCommandName#>CommandExecutor(
 
 	return executor, err
 }
+<#+
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
+#>

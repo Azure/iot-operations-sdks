@@ -74,9 +74,9 @@ namespace Akri.Dtdl.Codegen
             this.Write("\t");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(cmdNameReqResp.Item1)));
             this.Write("Handler protocol.CommandHandler[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(cmdNameReqResp.Item2 ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(cmdNameReqResp.Item2)));
             this.Write(", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(cmdNameReqResp.Item3 ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(cmdNameReqResp.Item3)));
             this.Write("],\r\n");
  } 
             this.Write("\topts ...protocol.Option,\r\n) (*");
@@ -216,6 +216,8 @@ namespace Akri.Dtdl.Codegen
     private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
 
     private string AsLower(string name) => char.ToLowerInvariant(name[0]) + name.Substring(1);
+
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
 
     }
     #region Base class
