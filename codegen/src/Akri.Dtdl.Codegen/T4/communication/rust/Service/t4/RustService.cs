@@ -42,9 +42,9 @@ namespace Akri.Dtdl.Codegen
             this.Write(" {\r\n    use azure_iot_operations_mqtt::session::{\r\n        SessionPubReceiver, Se" +
                     "ssionPubSub,\r\n    };\r\n    use azure_iot_operations_mqtt::interface::MqttProvider" +
                     ";\r\n    use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtoco" +
-                    "lError;\r\n\r\n");
+                    "lError;\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
-            this.Write("    use super::super::");
+            this.Write("\r\n    use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));

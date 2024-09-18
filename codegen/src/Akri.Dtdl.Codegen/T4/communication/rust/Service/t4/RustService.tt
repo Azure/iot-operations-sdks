@@ -17,8 +17,8 @@ pub mod <#=this.serviceName#> {
     };
     use azure_iot_operations_mqtt::interface::MqttProvider;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
     use super::super::<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>::<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor;
     use super::super::<#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>::<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker;
 <# } #>
