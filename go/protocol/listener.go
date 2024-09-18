@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/google/uuid"
 )
 
 type (
@@ -26,6 +27,7 @@ type (
 		topic       *internal.TopicFilter
 		shareName   string
 		concurrency uint
+		correlation bool
 		logger      log.Logger
 		handler     interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
@@ -82,6 +84,27 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 			SupportedMajorProtocolVersions: version.Supported,
 		})
 		return
+	}
+
+	if l.correlation {
+		if len(pub.CorrelationData) == 0 {
+			l.error(ctx, pub, &errors.Error{
+				Message:    "correlation data missing",
+				Kind:       errors.HeaderMissing,
+				HeaderName: constants.CorrelationData,
+			})
+			return
+		}
+		correlationData, err := uuid.FromBytes(pub.CorrelationData)
+		if err != nil {
+			l.error(ctx, pub, &errors.Error{
+				Message:    "correlation data is not a valid UUID",
+				Kind:       errors.HeaderInvalid,
+				HeaderName: constants.CorrelationData,
+			})
+			return
+		}
+		msg.CorrelationData = correlationData.String()
 	}
 
 	var err error

@@ -15,7 +15,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
-	"github.com/google/uuid"
 )
 
 type (
@@ -173,6 +172,7 @@ func NewCommandExecutor[Req, Res any](
 		topic:       reqTF,
 		shareName:   options.ShareName,
 		concurrency: options.Concurrency,
+		correlation: true,
 		logger:      log.Wrap(options.Logger),
 		handler:     ce,
 	}
@@ -200,23 +200,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	if err := ignoreRequest(pub); err != nil {
 		return err
 	}
-
-	if len(pub.CorrelationData) == 0 {
-		return &errors.Error{
-			Message:    "correlation data missing",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.CorrelationData,
-		}
-	}
-	correlationData, err := uuid.FromBytes(pub.CorrelationData)
-	if err != nil {
-		return &errors.Error{
-			Message:    "correlation data is not a valid UUID",
-			Kind:       errors.HeaderInvalid,
-			HeaderName: constants.CorrelationData,
-		}
-	}
-	msg.CorrelationData = correlationData.String()
 
 	if pub.MessageExpiry == 0 {
 		return &errors.Error{
