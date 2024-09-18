@@ -9,6 +9,8 @@ use (
 	./samples/greeter/client
 	./samples/greeter/envoy
 	./samples/greeter/server
+	./samples/statestore
+	./services
 	./test/protocol
 )
 
