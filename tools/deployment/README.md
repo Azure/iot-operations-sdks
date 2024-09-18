@@ -1,9 +1,9 @@
-# Initializing a Kubernetes cluster and installing AIO
+# Initializing a Kubernetes cluster and installing Azure IoT Operations
 
 The following scripts will:
 
 1. Install Step and Jetstack to manage certs
-1. Install AIO
+1. Install Azure IoT Operations
 1. Deploy the `Broker` resource
 1. Create the trust bundle ConfigMap for the broker
 1. Deploy a TLS listener with sat-auth on 8883 for internal connections

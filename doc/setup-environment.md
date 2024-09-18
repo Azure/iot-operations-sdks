@@ -1,92 +1,76 @@
 # Environment Setup
 
 ## Platform
-1. Linux - Codespaces
 
-Use Github Codespaces to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine. Setting up in [GitHub Codespaces](https://github.com/features/codespaces) can be done with the below badge:
+### **Codespaces**
 
- [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
+    Use Github Codespaces to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine. Setting up in [GitHub Codespaces](https://github.com/features/codespaces) can be done with the below badge:
+
+    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
 
-1. Linux - Native
+### **Linux**
 
-Installation in Native Linux can be accomplished by [installing the latest verison of k3d](https://k3d.io/v5.7.4/#releases).
+    Install on Linux by following the [k3d documentation](https://k3d.io/v5.7.4/#releases).
 
-1. Linux - WSL
+### **Windows (WSL)**
 
-Installation of WSL can be accomplished by [following this doc](https://learn.microsoft.com/en-us/windows/wsl/install).
-Ensure you also follow the steps under **Upgrade version from WSL 1 to WSL 2**.
+    Installation on Windows uses WSL, which can be added by [Installing Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
+    Ensure you also follow the steps under **Upgrade version from WSL 1 to WSL 2**.
+    Then [install k3d](https://k3d.io/v5.7.4/#releases).
 
 ## Cluster Setup
-Your Kubernetes cluster and AIO can be setup via Helm or via Azure Arc. Steps for both are included below.
 
-### Helm
-1. Install helm
-```bash
-sudo snap install helm --classic
-```
+Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Steps for both are included below.
 
-1. Create a cluster with the `initialize-cluster` script:
-From the main repo directory:
-```bash
-./tools/deployment/initialize_cluster.sh
-```
+### Helm (Nightly Build)
 
-1. Install the AIO build with the `deploy_aio.sh` script:
+1. [Install Helm](https://helm.sh/docs/intro/install/)
 
-From the main repo directory, for the **nightly** build
-```bash
-./tools/deployment/deploy-aio.sh nightly
-```
+2. Create a cluster with the `initialize-cluster` script:
 
-From the main repo directory, for the **release** build
-```bash
-./tools/deployment/deploy-aio.sh release
-```
+    From the root directory of the repo:
+    ```bash
+    ./tools/deployment/initialize_cluster.sh
+    ```
+
+3. Install Azure IoT Operations with the `deploy_aio.sh` script:
+
+    From the root directory of the repo, for the **nightly** build
+    ```bash
+    ./tools/deployment/deploy-aio.sh nightly
+    ```
 
 Scripts can be executed with the above commands for ease of use, however if you would like to see the exact steps being performed or would like more info, navigate to the [deployment folder](../tools/deployment/).
 
-### Arc + IoT Operations
-1. [Install Arc + IoT Operations](https://learn.microsoft.com/en-us/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy)
-1. [Prepare your Kubernetes cluster](https://learn.microsoft.com/en-us/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster?tabs=ubuntu)
+### Azure Arc (Release Build)
+
+The release build must be installed using Azure Arc.
+
+1. Run the initialize cluster script
+
+    From the main repo directory:
+    ```bash
+    ./tools/deployment/initialize_cluster.sh
+    ```
+
+2. [Arc-enable your cluster](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster?tabs=ubuntu#arc-enable-your-cluster)
+3. [Install IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli)
 
 ## Language
-### dotnet
-1. Install the dotnet SDK [(steps here)](https://learn.microsoft.com/en-us/dotnet/core/install/linux-snap-sdk).
 
-```bash
-sudo snap install dotnet-sdk --classic
-```
+### .NET
 
-1. Refer to the [.NET Packaging guide](../dotnet/README.md#packaging) to install desired packages
+1. Install the .NET SDK by following [(Install .NET on Linux)](https://learn.microsoft.com/dotnet/core/install/linux).
 
-1. Navigate to the folder of the sample you want to run
-Build the sample:
-```bash
-dotnet build
-```
+2. Refer to the [.NET documentation](/dotnet/) for further steps.
 
-Run the sample:
-```bash
-dotnet run
-```
+### Go
 
-### go
-1. Install Go
-```bash
-wget https://dl.google.com/go/go1.23.1.src.tar.gz
-sudo tar -xvf go1.18.3.linux-amd64.tar.gz
-sudo mv go /usr/local
-```
+1. Install Go [(steps here)](https://go.dev/doc/install).
 
-1. Refer to the [Go sample documentation](../go/samples/README.md)
+2. Refer to the [Go sample documentation](/go/samples/README.md)
 
-### rust
+### Rust
 
-## Resetting cluster
-If you need to reset your cluster:
-```bash
-helm un broker
-```
-
-Then go back through the steps you followed in **Cluster Setup**.
+1. Refer to the [Rust documentation](/rust/) for further steps.

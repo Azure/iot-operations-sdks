@@ -58,7 +58,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
    ./tools/deployment/deploy-aio.sh release
    ```
 
-1. Refer to the [environment setup doc](./doc/setup-environment.md) for alternative platforms and setup instructions.
+1. Refer to the [environment setup doc](/doc/setup-environment.md) for alternative platforms and setup instructions.
 
 1. Review each components documentation for available quickstarts:
     

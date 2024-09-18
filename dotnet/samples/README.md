@@ -1,7 +1,7 @@
 # .NET Samples
 
 ## Ensure you properly setup your local environment
-[Setup doc](../../doc/setup-environment.md)
+[Setup Environment](/doc/setup-environment.md)
 
 ## Navigate to the folder of the sample you want to run
 Build the sample:
