@@ -1,6 +1,7 @@
 name: CD Docs
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - '**'
