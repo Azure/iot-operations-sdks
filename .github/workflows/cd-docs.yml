@@ -13,6 +13,8 @@ jobs:
       - name: Find release tags
         id: tags
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         run: |
           for tag in $(gh api repos/Azure/iot-operations-sdks/releases -q '.[].tag_name'); do
               if [[ $tag =~ (.*)/(.*)/(.*) ]]; then
