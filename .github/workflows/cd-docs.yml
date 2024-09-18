@@ -3,6 +3,8 @@ name: CD Docs
 on:
   workflow_dispatch:
   push:
+    branches:
+      - doc-workflow
 #    tags:
 #      - '**'
 
@@ -11,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find release tags
+        id: tags
         shell: bash
         run: |
           for tag in $(gh api repos/Azure/iot-operations-sdks/releases -q '.[].tag_name'); do
@@ -31,14 +34,14 @@ jobs:
               fi
           done
 
-          echo "rust_tag=$rust_tag" >> $GITHUB_ENV
-          echo "go_tag=$go_tag" >> $GITHUB_ENV
-          echo "dotnet_tag=$dotnet_tag" >> $GITHUB_ENV
+          echo "rust_tag=$rust_tag" >> $GITHUB_OUTPUT
+          echo "go_tag=$go_tag" >> $GITHUB_OUTPUT
+          echo "dotnet_tag=$dotnet_tag" >> $GITHUB_OUTPUT
 
       - name: Checkout Rust
         uses: actions/checkout@v4
         with:
-          ref: $rust_tag
+          ref: ${{steps.tags.outputs.rust_tag}}
           path: rust
 
       - name: Generate index.html
