@@ -35,9 +35,9 @@ MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogg
 await using SchemaRegistryClient schemaRegistryClient = new(mqttClient);
 await mqttClient.ConnectAsync(MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!));
 
-SchemaInfo schemaInfo = await schemaRegistryClient.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);
+SchemaInfo? schemaInfo = await schemaRegistryClient.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);
 // "9045385BAD270EE5840D1F88F202B21444920F7A5486B8B69ED86DDC0A30E936"
-SchemaInfo resolvedSchema = await schemaRegistryClient.GetAsync(schemaInfo.Name!);
+SchemaInfo? resolvedSchema = await schemaRegistryClient.GetAsync(schemaInfo?.Name!);
 
 if (resolvedSchema == null)
 {
@@ -49,5 +49,5 @@ Console.WriteLine(resolvedSchema.Name);
 Console.WriteLine(resolvedSchema.SchemaContent);
 
 
-SchemaInfo notfound = await schemaRegistryClient.GetAsync("not found");
+SchemaInfo? notfound = await schemaRegistryClient.GetAsync("not found");
 Console.WriteLine(notfound == null ? "notfound" : "found");
