@@ -3,10 +3,8 @@ name: CD Docs
 on:
   workflow_dispatch:
   push:
-    branches:
-      - doc-workflow
-#    tags:
-#      - '**'
+    tags:
+      - '**'
 
 jobs:
   build:
