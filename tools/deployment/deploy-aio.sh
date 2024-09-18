@@ -3,7 +3,7 @@
 set -o errexit # fail if any command fails
 
 # check input args
-export deploy_type=$1
+deploy_type=$1
 if [[ -z "$deploy_type" ]] || ! [[ "$deploy_type" =~ ^(nightly|release)$ ]]; then
     echo "Error: Missing argument"
     echo "  Options are 'nightly' or 'release'"
@@ -14,8 +14,8 @@ fi
 echo "Installing $deploy_type build of MQTT Broker"
 
 # setup some variables, and change into the script directory
-export script_dir=$(dirname $(readlink -f $0))
-export session_dir=$script_dir/../../.session
+script_dir=$(dirname $(readlink -f $0))
+session_dir=$script_dir/../../.session
 mkdir -p $session_dir
 cd $script_dir
 
@@ -47,11 +47,8 @@ helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -
 # install cert issuers and trust bundle
 kubectl apply -f yaml/certificates.yaml
 
-# Wait for CA trust bundle to be generated for external connections to the MQTT Broker and then push to a local file
-while ! kubectl get secret aio-broker-external-ca -n azure-iot-operations; do
-    echo "Waiting for broker ca..."
-    sleep 2
-done
+# Wait for CA trust bundle to be generated (for external connections to the MQTT Broker) and then push to a local file
+kubectl wait --for=create --timeout=30s secret/aio-broker-external-ca -n azure-iot-operations
 kubectl get secret aio-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d > $session_dir/broker-ca.crt
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable

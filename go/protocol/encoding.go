@@ -21,6 +21,9 @@ type (
 
 	// Empty represents an encoding that contains no value.
 	Empty struct{}
+
+	// Raw represents no encoding.
+	Raw struct{}
 )
 
 // Utility to serialize with a protocol error.
@@ -105,4 +108,24 @@ func (Empty) Deserialize(data []byte) (any, error) {
 		}
 	}
 	return nil, nil
+}
+
+// ContentType returns the raw MIME type.
+func (Raw) ContentType() string {
+	return "application/octet-stream"
+}
+
+// IsUTF8 indicates that raw is not known to be valid UTF8.
+func (Raw) IsUTF8() bool {
+	return false
+}
+
+// Serialize returns the bytes unchanged.
+func (Raw) Serialize(t []byte) ([]byte, error) {
+	return t, nil
+}
+
+// Deserialize returns the bytes unchanged.
+func (Raw) Deserialize(data []byte) ([]byte, error) {
+	return data, nil
 }
