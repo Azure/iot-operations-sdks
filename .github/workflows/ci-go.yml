@@ -96,6 +96,13 @@ jobs:
         args: civerify
         workdir: ./go/mqtt
 
+    - name: Verify Go services module
+      uses: magefile/mage-action@v3
+      with:
+        version: latest
+        args: civerify
+        workdir: ./go/services
+
     - name: Verify Go protocol tests
       uses: magefile/mage-action@v3
       with:

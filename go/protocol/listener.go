@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 )
@@ -70,6 +71,19 @@ func (l *listener[T]) listen(ctx context.Context) (func(), error) {
 
 func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	msg := &Message[T]{}
+
+	// The very first check must be the version, because if we don't support it,
+	// nothing else is trustworthy.
+	ver := pub.UserProperties[constants.ProtocolVersion]
+	if !version.IsSupported(ver) {
+		l.error(ctx, pub, &errors.Error{
+			Message:                        "unsupported version",
+			Kind:                           errors.UnsupportedRequestVersion,
+			ProtocolVersion:                ver,
+			SupportedMajorProtocolVersions: version.Supported,
+		})
+		return
+	}
 
 	if len(pub.CorrelationData) == 0 {
 		l.error(ctx, pub, &errors.Error{

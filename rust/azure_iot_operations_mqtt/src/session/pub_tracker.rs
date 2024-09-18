@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Inverse demultiplexing of publishes previously distributed to multiple receivers, in original receiving order.
+
 use std::collections::VecDeque;
 use std::sync::Mutex;
 
