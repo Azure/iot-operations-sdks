@@ -10,7 +10,7 @@ import (
 )
 
 type <#=this.capitalizedCommandName#>CommandInvoker struct {
-	*protocol.CommandInvoker[<#=this.reqSchema ?? "any"#>, <#=this.respSchema ?? "any"#>]
+	*protocol.CommandInvoker[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>]
 }
 
 func New<#=this.capitalizedCommandName#>CommandInvoker(
@@ -33,16 +33,8 @@ func New<#=this.capitalizedCommandName#>CommandInvoker(
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
 		client,
-<# if (this.reqSchema != null) { #>
-		protocol.<#=this.serializerSubNamespace#>[<#=this.reqSchema#>]{},
-<# } else { #>
-		protocol.Empty{},
-<# } #>
-<# if (this.respSchema != null) { #>
-		protocol.<#=this.serializerSubNamespace#>[<#=this.respSchema#>]{},
-<# } else { #>
-		protocol.Empty{},
-<# } #>
+		protocol.<#=GetSerializer(this.reqSchema)#>{},
+		protocol.<#=GetSerializer(this.respSchema)#>{},
 		requestTopic,
 		&opts,
 	)
@@ -87,5 +79,7 @@ func (invoker <#=this.capitalizedCommandName#>CommandInvoker) <#=this.capitalize
 	return <#=this.respSchema != null ? "response, " : ""#>err
 }
 <#+
-    private string AsSchema(string schema) => schema == "" ? "[]byte" : schema;
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
 #>

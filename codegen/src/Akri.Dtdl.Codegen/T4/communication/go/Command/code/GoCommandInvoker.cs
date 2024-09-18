@@ -17,8 +17,8 @@ namespace Akri.Dtdl.Codegen
             this.capitalizedCommandName = char.ToUpperInvariant(commandName[0]) + commandName.Substring(1);
             this.genNamespace = genNamespace;
             this.serializerSubNamespace = serializerSubNamespace;
-            this.reqSchema = reqSchema == "" ? "[]byte" : reqSchema;
-            this.respSchema = respSchema == "" ? "[]byte" : respSchema;
+            this.reqSchema = reqSchema;
+            this.respSchema = respSchema;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
         }
 

@@ -28,9 +28,9 @@ namespace Akri.Dtdl.Codegen
                     "\t\"github.com/Azure/iot-operations-sdks/go/protocol/mqtt\"\r\n)\r\n\r\ntype ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker struct {\r\n\t*protocol.CommandInvoker[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.reqSchema)));
             this.Write(", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.respSchema)));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker(\r\n\tclient mqtt.Client,\r\n\trequestTopic string,\r\n\topt ...protocol.Co" +
@@ -43,26 +43,11 @@ namespace Akri.Dtdl.Codegen
                     "commandName\":     \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName));
             this.Write("\",\r\n\t\t\t\"invokerClientId\": client.ClientID(),\r\n\t\t},\r\n\t)\r\n\r\n\tinvoker.CommandInvoker" +
-                    ", err = protocol.NewCommandInvoker(\r\n\t\tclient,\r\n");
- if (this.reqSchema != null) { 
-            this.Write("\t\tprotocol.");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerSubNamespace));
-            this.Write("[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema));
-            this.Write("]{},\r\n");
- } else { 
-            this.Write("\t\tprotocol.Empty{},\r\n");
- } 
- if (this.respSchema != null) { 
-            this.Write("\t\tprotocol.");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerSubNamespace));
-            this.Write("[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema));
-            this.Write("]{},\r\n");
- } else { 
-            this.Write("\t\tprotocol.Empty{},\r\n");
- } 
-            this.Write("\t\trequestTopic,\r\n\t\t&opts,\r\n\t)\r\n\r\n\treturn invoker, err\r\n}\r\n\r\nfunc (invoker ");
+                    ", err = protocol.NewCommandInvoker(\r\n\t\tclient,\r\n\t\tprotocol.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.reqSchema)));
+            this.Write("{},\r\n\t\tprotocol.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.respSchema)));
+            this.Write("{},\r\n\t\trequestTopic,\r\n\t\t&opts,\r\n\t)\r\n\r\n\treturn invoker, err\r\n}\r\n\r\nfunc (invoker ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker) ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
@@ -103,7 +88,9 @@ namespace Akri.Dtdl.Codegen
             return this.GenerationEnvironment.ToString();
         }
 
-    private string AsSchema(string schema) => schema == "" ? "[]byte" : schema;
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
 
     }
     #region Base class
