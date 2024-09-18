@@ -8,16 +8,27 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
-// Structure to apply tokens to a named topic pattern.
-type TopicPattern struct {
-	Name    string
-	Pattern string
-}
+type (
+	// Structure to apply tokens to a named topic pattern.
+	TopicPattern struct {
+		name    string
+		pattern string
+		tokens  map[string]string
+	}
+
+	// Structure to provide a topic filter that can parse out its named tokens.
+	TopicFilter struct {
+		filter string
+		regexp *regexp.Regexp
+		tokens []string
+	}
+)
 
 var (
 	topicLabel = `[^ +#{}/]+`
 	topicToken = fmt.Sprintf(`{%s}`, topicLabel)
 	topicLevel = fmt.Sprintf(`(%s|%s)`, topicLabel, topicToken)
+	topicMatch = fmt.Sprintf(`(%s)`, topicLabel)
 
 	matchLabel = regexp.MustCompile(fmt.Sprintf(`^%s$`, topicLabel))
 	matchToken = regexp.MustCompile(topicToken) // Used for replace.
@@ -34,10 +45,10 @@ func NewTopicPattern(
 	name, pattern string,
 	tokens map[string]string,
 	namespace string,
-) (TopicPattern, error) {
+) (*TopicPattern, error) {
 	if namespace != "" {
 		if !ValidTopic(namespace) {
-			return TopicPattern{}, &errors.Error{
+			return nil, &errors.Error{
 				Message:       "invalid topic namespace",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "TopicNamespace",
@@ -46,63 +57,86 @@ func NewTopicPattern(
 		}
 		pattern = namespace + "/" + pattern
 	}
-	if err := validateTokens(errors.ConfigurationInvalid, tokens); err != nil {
-		return TopicPattern{}, err
-	}
-	tp := TopicPattern{name, pattern}.Apply(tokens)
-	if err := tp.validate(); err != nil {
-		return TopicPattern{}, err
-	}
-	return tp, nil
-}
-
-// Verify the format of the topic pattern.
-func (tp TopicPattern) validate() error {
-	if !matchPattern.MatchString(tp.Pattern) {
-		return &errors.Error{
+	if !matchPattern.MatchString(pattern) {
+		return nil, &errors.Error{
 			Message:       "invalid topic pattern",
 			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  tp.Name,
-			PropertyValue: tp.Pattern,
+			PropertyName:  name,
+			PropertyValue: pattern,
 		}
 	}
-	return nil
-}
-
-// Apply the given token values to the MQTT topic and return the result (which
-// may still have remaining unresolved tokens).
-func (tp TopicPattern) Apply(tokens map[string]string) TopicPattern {
-	next := tp
-	for token, value := range tokens {
-		next.Pattern = strings.ReplaceAll(next.Pattern, "{"+token+"}", value)
+	if err := validateTokens(errors.ConfigurationInvalid, tokens); err != nil {
+		return nil, err
 	}
-	return next
+	return &TopicPattern{name, pattern, tokens}, nil
 }
 
 // Fully resolve a topic pattern for publishing.
-func (tp TopicPattern) Topic(tokens map[string]string) (string, error) {
+func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	if err := validateTokens(errors.ArgumentInvalid, tokens); err != nil {
 		return "", err
 	}
-	topic := tp.Apply(tokens).Pattern
+
+	topic := tp.pattern
+	for token, value := range tokens {
+		topic = strings.ReplaceAll(topic, "{"+token+"}", value)
+	}
+	for token, value := range tp.tokens {
+		topic = strings.ReplaceAll(topic, "{"+token+"}", value)
+	}
+
 	if !ValidTopic(topic) {
 		return "", &errors.Error{
 			Message:       "invalid topic",
 			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  tp.Name,
-			PropertyValue: tp.Pattern,
+			PropertyName:  tp.name,
+			PropertyValue: topic,
 		}
 	}
 	return topic, nil
 }
 
-// Generate a regexp for subscribing. Unresolved tokens are treated as "+"
+// Generate a filter for subscribing. Unresolved tokens are treated as "+"
 // wildcards for this purpose.
-func (tp TopicPattern) Filter() (string, error) {
-	if err := tp.validate(); err != nil {
-		return "", err
+func (tp *TopicPattern) Filter() (*TopicFilter, error) {
+	// Build a regexp matching all tokens
+	rx, err := regexp.Compile(
+		matchToken.ReplaceAllString(tp.pattern, topicMatch),
+	)
+	if err != nil {
+		return nil, err
 	}
-	return matchToken.ReplaceAllString(tp.Pattern, "+"), nil
+
+	// Get the token names.
+	tok := matchToken.FindAllString(tp.pattern, -1)
+	tokens := make([]string, len(tok))
+	for i, t := range tok {
+		tokens[i] = t[1 : len(t)-1]
+	}
+
+	// Resolve specified tokens and replace the remainder with "+".
+	filter := tp.pattern
+	for token, value := range tp.tokens {
+		filter = strings.ReplaceAll(filter, "{"+token+"}", value)
+	}
+	filter = matchToken.ReplaceAllString(filter, "+")
+
+	return &TopicFilter{filter, rx, tokens}, nil
+}
+
+// Filter provides the MQTT topic filter string.
+func (tf *TopicFilter) Filter() string {
+	return tf.filter
+}
+
+// Tokens resolves the topic tokens from the topic.
+func (tf *TopicFilter) Tokens(topic string) map[string]string {
+	values := tf.regexp.FindStringSubmatch(topic)[1:]
+	tokens := make(map[string]string, len(values))
+	for i, val := range values {
+		tokens[tf.tokens[i]] = val
+	}
+	return tokens
 }
 
 // Return whether the provided string is a fully-resolved topic.

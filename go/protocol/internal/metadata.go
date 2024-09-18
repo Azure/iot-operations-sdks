@@ -8,9 +8,6 @@ import (
 )
 
 func MetadataToProp(data map[string]string) (map[string]string, error) {
-	if data == nil {
-		data = map[string]string{}
-	}
 	for k := range data {
 		if strings.HasPrefix(k, constants.Protocol) {
 			return nil, &errors.Error{

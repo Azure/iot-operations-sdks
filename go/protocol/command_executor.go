@@ -43,6 +43,7 @@ type (
 
 		TopicNamespace string
 		TopicTokens    map[string]string
+		Metadata       map[string]string
 		Logger         *slog.Logger
 	}
 
@@ -176,7 +177,7 @@ func NewCommandExecutor[Req, Res any](
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,
-		topic:    internal.TopicPattern{Pattern: "-"},
+		metadata: options.Metadata,
 	}
 
 	return ce, nil

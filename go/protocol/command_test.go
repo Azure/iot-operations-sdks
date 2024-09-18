@@ -25,7 +25,7 @@ func TestCommand(t *testing.T) {
 		) (*protocol.CommandResponse[string], error) {
 			return protocol.Respond(
 				cr.Payload+cr.ClientID+cr.CorrelationData,
-				protocol.WithMetadata{"key": "value"},
+				protocol.WithMetadata(cr.TopicTokens),
 			)
 		},
 		protocol.WithTopicNamespace("ns"),
@@ -51,7 +51,11 @@ func TestCommand(t *testing.T) {
 
 	expected := value + stub.Client.ClientID() + res.CorrelationData
 	require.Equal(t, expected, res.Payload)
-	require.Equal(t, map[string]string{"key": "value"}, res.Metadata)
+	require.Equal(t, map[string]string{"ex:token": "test"}, res.Metadata)
+	require.Equal(t, map[string]string{
+		"ex:token":   "test",
+		"executorId": stub.Server.ClientID(),
+	}, res.TopicTokens)
 }
 
 func TestCommandError(t *testing.T) {

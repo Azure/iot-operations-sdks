@@ -26,6 +26,7 @@ type (
 	TelemetrySenderOptions struct {
 		TopicNamespace string
 		TopicTokens    map[string]string
+		Metadata       map[string]string
 		Logger         *slog.Logger
 	}
 
@@ -81,6 +82,7 @@ func NewTelemetrySender[T any](
 	ts.publisher = &publisher[T]{
 		encoding: encoding,
 		topic:    tp,
+		metadata: options.Metadata,
 	}
 
 	return ts, nil

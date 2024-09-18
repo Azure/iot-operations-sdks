@@ -20,7 +20,7 @@ type (
 		client        mqtt.Client
 		publisher     *publisher[Req]
 		listener      *listener[Res]
-		responseTopic internal.TopicPattern
+		responseTopic *internal.TopicPattern
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}
@@ -36,6 +36,7 @@ type (
 
 		TopicNamespace string
 		TopicTokens    map[string]string
+		Metadata       map[string]string
 		Logger         *slog.Logger
 	}
 
@@ -148,6 +149,7 @@ func NewCommandInvoker[Req, Res any](
 	ci.publisher = &publisher[Req]{
 		encoding: requestEncoding,
 		topic:    reqTP,
+		metadata: options.Metadata,
 	}
 	ci.listener = &listener[Res]{
 		client:   ci.client,
