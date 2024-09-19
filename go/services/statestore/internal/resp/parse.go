@@ -14,10 +14,7 @@ func parseStr(
 ) (arg string, idx int, err error) {
 	sep := bytes.Index(data, separator)
 	if sep < 0 {
-		return "", 0, &internal.Error{
-			Operation: op,
-			Message:   "missing separator",
-		}
+		return "", 0, ErrMissingSeparator(op)
 	}
 
 	arg = string(data[1:sep])
@@ -25,18 +22,11 @@ func parseStr(
 
 	switch data[0] {
 	case '-':
-		return "", 0, &internal.Error{
-			Operation: op,
-			Message:   arg,
-		}
+		return "", 0, &internal.Error{Operation: op, Message: arg}
 	case typ:
 		return arg, idx, nil
 	default:
-		return "", 0, &internal.Error{
-			Operation: op,
-			Message:   "wrong type",
-			Value:     string(data[:1]),
-		}
+		return "", 0, ErrWrongType(op, data[0])
 	}
 }
 
@@ -52,11 +42,7 @@ func parseNum(
 
 	num, err = strconv.Atoi(val)
 	if err != nil {
-		return 0, 0, &internal.Error{
-			Operation: op,
-			Message:   "invalid number",
-			Value:     val,
-		}
+		return 0, 0, ErrInvalidNumber(op, val)
 	}
 
 	return num, idx, nil
@@ -78,17 +64,11 @@ func parseBlob(
 
 	length := len(data) - idx - len(separator)
 	if length < n {
-		return nil, idx, &internal.Error{
-			Operation: op,
-			Message:   "insufficient data",
-		}
+		return nil, idx, ErrInsufficientData(op)
 	}
 
 	if data[idx+n] != separator[0] || data[idx+n+1] != separator[1] {
-		return nil, idx, &internal.Error{
-			Operation: op,
-			Message:   "missing separator",
-		}
+		return nil, idx, ErrMissingSeparator(op)
 	}
 
 	return data[idx : idx+n], idx + n + len(separator), nil

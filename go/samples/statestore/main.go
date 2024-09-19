@@ -35,7 +35,7 @@ func main() {
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	check(client.KeyNotify(ctx, stateStoreKey, true))
+	must(client.KeyNotify(ctx, stateStoreKey, true))
 
 	check(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
 	n := <-client.Notify()
@@ -48,7 +48,7 @@ func main() {
 	n = <-client.Notify()
 	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
 
-	check(client.KeyNotify(ctx, stateStoreKey, false))
+	must(client.KeyNotify(ctx, stateStoreKey, false))
 }
 
 func check(e error) {

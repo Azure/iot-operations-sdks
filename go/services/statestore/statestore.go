@@ -140,7 +140,8 @@ func (c *Client) Set(
 		args = append(args, "PX", exp)
 	}
 
-	return invokeOK(ctx, c.invoker, args...)
+	_, err := invoke(ctx, c.invoker, parseOK, args...)
+	return err
 }
 
 // Get the value of the given key.
@@ -148,30 +149,46 @@ func (c *Client) Get(ctx context.Context, key string) ([]byte, error) {
 	return invoke(ctx, c.invoker, resp.ParseBlob, "GET", key)
 }
 
-// Del deletes the value of the given key. Returns whether a value was deleted.
+// Del deletes the value of the given key. If the key was not present, returns
+// false with no error.
 func (c *Client) Del(ctx context.Context, key string) (bool, error) {
-	n, err := invoke(ctx, c.invoker, resp.ParseNumber, "DEL", key)
-	return err == nil && n > 0, err
+	return invoke(ctx, c.invoker, parseBool, "DEL", key)
 }
 
 // Vdel deletes the value of the given key if it is equal to the given value.
-// Returns whether a value was deleted.
+// If the key was not present or the value did not match, returns false with no
+// error.
 func (c *Client) Vdel(
 	ctx context.Context,
 	key string,
 	val []byte,
 ) (bool, error) {
-	n, err := invoke(ctx, c.invoker, resp.ParseNumber, "VDEL", key, string(val))
-	return err == nil && n > 0, err
+	return invoke(ctx, c.invoker, parseBool, "VDEL", key, string(val))
 }
 
-// KeyNotify requests or stops notification for a key.
-func (c *Client) KeyNotify(ctx context.Context, key string, notify bool) error {
+// KeyNotify requests or stops notification for a key. If a stop is requested on
+// a key that did not have notifications, it will return false with no error.
+func (c *Client) KeyNotify(
+	ctx context.Context,
+	key string,
+	notify bool,
+) (bool, error) {
 	args := []string{"KEYNOTIFY", key}
 	if !notify {
 		args = append(args, "STOP")
 	}
-	return invokeOK(ctx, c.invoker, args...)
+	res, err := c.invoker.Invoke(ctx, resp.FormatBlobArray(args...))
+	if err != nil {
+		return false, err
+	}
+	switch res.Payload[0] {
+	case '+':
+		return parseOK("KEYNOTIFY", res.Payload)
+	case ':':
+		return parseBool("KEYNOTIFY", res.Payload)
+	default:
+		return false, resp.ErrWrongType("KEYNOTIFY", res.Payload[0])
+	}
 }
 
 // Notify messages for registered keys will be sent to this channel.
@@ -185,7 +202,7 @@ func (c *Client) Notify() <-chan Notify {
 func invoke[T any](
 	ctx context.Context,
 	invoker *protocol.CommandInvoker[[]byte, []byte],
-	parse func(cmd string, byt []byte) (T, error),
+	parse func(string, []byte) (T, error),
 	args ...string,
 ) (T, error) {
 	var zero T
@@ -196,24 +213,26 @@ func invoke[T any](
 	return parse(args[0], res.Payload)
 }
 
-// Shorthand to invoke with an expected "OK" response.
-func invokeOK(
-	ctx context.Context,
-	invoker *protocol.CommandInvoker[[]byte, []byte],
-	args ...string,
-) error {
-	res, err := invoke(ctx, invoker, resp.ParseString, args...)
+// Shorthand to check an "OK" response.
+func parseOK(op string, data []byte) (bool, error) {
+	res, err := resp.ParseString(op, data)
 	if err != nil {
-		return err
+		return false, err
 	}
 	if res != "OK" {
-		return &Error{
-			Operation: args[0],
+		return false, &Error{
+			Operation: op,
 			Message:   "unexpected response",
 			Value:     res,
 		}
 	}
-	return nil
+	return true, nil
+}
+
+// Shorthand to check a "boolean" numeric response.
+func parseBool(op string, data []byte) (bool, error) {
+	res, err := resp.ParseNumber(op, data)
+	return err == nil && res > 0, err
 }
 
 // Receive a NOTIFY message.
@@ -238,21 +257,17 @@ func (c *Client) receive(
 		}
 	}
 
-	body, err := resp.ParseBlobArray("NOTIFY", msg.Payload)
+	data, err := resp.ParseBlobArray("NOTIFY", msg.Payload)
 	if err != nil {
 		return err
 	}
 
-	key := string(bytKey)
-	var op string
-	var val []byte
-	switch len(body) {
-	case 2:
-		op = string(body[1])
-	case 4:
-		op = string(body[1])
-		val = body[3]
-	default:
+	opOnly := len(data) == 2
+	hasValue := len(data) == 4
+
+	if (!opOnly && !hasValue) ||
+		(string(data[0]) != "NOTIFY") ||
+		(hasValue && string(data[2]) != "VALUE") {
 		return &Error{
 			Operation: "NOTIFY",
 			Message:   "invalid payload",
@@ -260,8 +275,13 @@ func (c *Client) receive(
 		}
 	}
 
+	var val []byte
+	if hasValue {
+		val = data[3]
+	}
+
 	select {
-	case c.notify <- Notify{op, key, val}:
+	case c.notify <- Notify{string(data[1]), string(bytKey), val}:
 	case <-ctx.Done():
 	}
 	return nil
