@@ -1,0 +1,26 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:jsonTest:CommandRaw;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "raw/0",
+    "commandTopic": "samples/command/{commandName}/{executorId}",
+    "contents": [
+      {
+        "@type": "Command",
+        "name": "post",
+        "request": {
+          "name": "postData",
+          "schema": "bytes"
+        },
+        "response": {
+          "name": "replyData",
+          "schema": "bytes"
+        }
+      }
+    ]
+  }
+]
