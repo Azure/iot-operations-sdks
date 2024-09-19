@@ -81,14 +81,14 @@ Output:
 
 ### Go
 
-1. Install Go [(steps here)](https://go.dev/doc/install).
+1. Install Go by following the [Go Install Dev Doc](https://go.dev/doc/install).
 
-1. Refer to the [Go documentation](/go/)
+1. Refer to the [Go documentation](/go/) for further steps.
 
 ### Rust
 
+1. Install Rust by following [Installing Rust](https://www.rust-lang.org/tools/install).
+
 1. Refer to the [Rust documentation](/rust/) for further steps.
 
-1. [Rust Azure IoT Operations Protocol Samples](/rust/azure_iot_operations_protocol/examples/)
-
-1. [Rust Azure IoT Operations MQTT Samples](/rust/azure_iot_operations_mqtt/examples/)
+1. Additional Rust resources, including guides and tooling, can be found in the doc folder: [Rust Resources](/doc/dev/rust_resources.md)
