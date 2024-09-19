@@ -12,7 +12,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
   - [func New\(client mqtt.Client, opt ...protocol.Option\) \(\*Client, error\)](<#New>)
   - [func \(c \*Client\) Del\(ctx context.Context, key string\) \(bool, error\)](<#Client.Del>)
   - [func \(c \*Client\) Get\(ctx context.Context, key string\) \(\[\]byte, error\)](<#Client.Get>)
-  - [func \(c \*Client\) KeyNotify\(ctx context.Context, key string, notify bool\) error](<#Client.KeyNotify>)
+  - [func \(c \*Client\) KeyNotify\(ctx context.Context, key string, notify bool\) \(bool, error\)](<#Client.KeyNotify>)
   - [func \(c \*Client\) Listen\(ctx context.Context\) \(func\(\), error\)](<#Client.Listen>)
   - [func \(c \*Client\) Notify\(\) \<\-chan Notify](<#Client.Notify>)
   - [func \(c \*Client\) Set\(ctx context.Context, key string, val \[\]byte, opt ...SetOption\) error](<#Client.Set>)
@@ -30,7 +30,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 <a name="Client"></a>
 ## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L18-L23>)
 
-Client represents a client of the MQ state store.
+Client represents a client of the state store.
 
 ```go
 type Client struct {
@@ -48,16 +48,16 @@ func New(client mqtt.Client, opt ...protocol.Option) (*Client, error)
 New creates a new state store client.
 
 <a name="Client.Del"></a>
-### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L152>)
+### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L154>)
 
 ```go
 func (c *Client) Del(ctx context.Context, key string) (bool, error)
 ```
 
-Del deletes the value of the given key. Returns whether a value was deleted.
+Del deletes the value of the given key. If the key was not present, returns false with no error.
 
 <a name="Client.Get"></a>
-### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L147>)
+### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L148>)
 
 ```go
 func (c *Client) Get(ctx context.Context, key string) ([]byte, error)
@@ -66,13 +66,13 @@ func (c *Client) Get(ctx context.Context, key string) ([]byte, error)
 Get the value of the given key.
 
 <a name="Client.KeyNotify"></a>
-### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L169>)
+### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L171-L175>)
 
 ```go
-func (c *Client) KeyNotify(ctx context.Context, key string, notify bool) error
+func (c *Client) KeyNotify(ctx context.Context, key string, notify bool) (bool, error)
 ```
 
-KeyNotify requests or stops notification for a key.
+KeyNotify requests or stops notification for a key. If a stop is requested on a key that did not have notifications, it will return false with no error.
 
 <a name="Client.Listen"></a>
 ### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L84>)
@@ -84,7 +84,7 @@ func (c *Client) Listen(ctx context.Context) (func(), error)
 Listen to the response topic\(s\). Returns a function to stop listening. Must be called before any state store methods. Note that cancelling this context will cause the unsubscribe call to fail.
 
 <a name="Client.Notify"></a>
-### func \(\*Client\) [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L178>)
+### func \(\*Client\) [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L195>)
 
 ```go
 func (c *Client) Notify() <-chan Notify
@@ -102,13 +102,13 @@ func (c *Client) Set(ctx context.Context, key string, val []byte, opt ...SetOpti
 Set the value of the given key.
 
 <a name="Client.Vdel"></a>
-### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L159-L163>)
+### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L161-L165>)
 
 ```go
 func (c *Client) Vdel(ctx context.Context, key string, val []byte) (bool, error)
 ```
 
-Vdel deletes the value of the given key if it is equal to the given value. Returns whether a value was deleted.
+Vdel deletes the value of the given key if it is equal to the given value. If the key was not present or the value did not match, returns false with no error.
 
 <a name="Condition"></a>
 ## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L16>)
@@ -149,7 +149,7 @@ type Error = internal.Error
 <a name="Notify"></a>
 ## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L26-L29>)
 
-NotifyHandler processes a notification event.
+Notify represents a notification event.
 
 ```go
 type Notify struct {

@@ -14,7 +14,7 @@ import (
 )
 
 type (
-	// Client represents a client of the MQ state store.
+	// Client represents a client of the state store.
 	Client struct {
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
 		receiver *protocol.TelemetryReceiver[[]byte]
@@ -22,7 +22,7 @@ type (
 		notifyMu sync.RWMutex
 	}
 
-	// NotifyHandler processes a notification event.
+	// Notify represents a notification event.
 	Notify struct {
 		Operation, Key string
 		Value          []byte
