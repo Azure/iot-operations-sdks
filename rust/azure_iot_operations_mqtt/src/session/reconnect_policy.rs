@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Reconnect policies for a [`Session`](crate::session::Session).
+
 use std::time::Duration;
 
 use rand::Rng;
@@ -8,6 +11,8 @@ use crate::error::ConnectionError;
 
 /// Trait defining interface for reconnect policies.
 pub trait ReconnectPolicy {
+    /// Get the next reconnect delay.
+    /// Returns None if no reconnect should be attempted.
     fn next_reconnect_delay(&self, prev_attempts: u32, error: &ConnectionError)
         -> Option<Duration>;
 }
@@ -63,8 +68,6 @@ impl Default for ExponentialBackoffWithJitter {
 }
 
 impl ReconnectPolicy for ExponentialBackoffWithJitter {
-    /// Get the next reconnect delay.
-    /// Returns None if no reconnect should be attempted.
     fn next_reconnect_delay(
         &self,
         attempt_count: u32,

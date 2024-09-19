@@ -66,6 +66,10 @@ func (catch *TestCaseCatch) GetErrorKind() errors.Kind {
 		return errors.ExecutionException
 	case "mqtt error":
 		return errors.MqttError
+	case "request version not supported":
+		return errors.UnsupportedRequestVersion
+	case "response version not supported":
+		return errors.UnsupportedResponseVersion
 	default:
 		return errors.Kind(-1)
 	}

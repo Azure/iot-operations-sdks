@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Inverse multiplexing of incoming publishes to multiple receivers based on topic filters.
+
 use std::{collections::HashMap, string::FromUtf8Error};
 
 use thiserror::Error;
