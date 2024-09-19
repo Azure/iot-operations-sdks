@@ -42,7 +42,7 @@ const (
 func New<#=this.serviceName#>Service(
 	client mqtt.Client,
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=cmdNameReqResp.Item2 ?? "any"#>, <#=cmdNameReqResp.Item3 ?? "any"#>],
+	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=this.AsSchema(cmdNameReqResp.Item2)#>, <#=this.AsSchema(cmdNameReqResp.Item3)#>],
 <# } #>
 	opts ...protocol.Option,
 ) (*<#=this.serviceName#>Service, error) {
@@ -188,4 +188,6 @@ func (client *<#=this.serviceName#>Client) Listen(
     private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
 
     private string AsLower(string name) => char.ToLowerInvariant(name[0]) + name.Substring(1);
+
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
 #>
