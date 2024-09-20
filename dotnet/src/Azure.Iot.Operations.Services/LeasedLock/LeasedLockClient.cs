@@ -209,11 +209,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     },
                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            LeasedLockHolder? previousLockHolder = null;
-
             MostRecentAcquireLockResponse = new AcquireLockResponse(
                 setResponse.Version,
-                previousLockHolder,
                 setResponse.Success);
 
             return MostRecentAcquireLockResponse;

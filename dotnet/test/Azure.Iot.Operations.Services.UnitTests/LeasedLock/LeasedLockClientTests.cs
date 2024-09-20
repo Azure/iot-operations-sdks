@@ -55,8 +55,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             Assert.Equal(fencingToken, lockResponse.FencingToken);
             Assert.True(lockResponse.Success);
-            Assert.NotNull(lockResponse.LastKnownOwner);
-            Assert.Equal(expectedPreviousValue.GetString(), lockResponse.LastKnownOwner.GetString());
 
             await leasedLockClient.DisposeAsync();
         }
@@ -152,7 +150,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             Assert.Equal(fencingToken, lockResponse.FencingToken);
             Assert.True(lockResponse.Success);
-            Assert.NotNull(lockResponse.LastKnownOwner);
 
             await leasedLockClient.DisposeAsync();
         }
