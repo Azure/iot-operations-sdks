@@ -8,15 +8,18 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 
 ## Index
 
+- [Variables](<#variables>)
+- [type ArgumentError](<#ArgumentError>)
 - [type Client](<#Client>)
   - [func New\(client mqtt.Client\) \(\*Client, error\)](<#New>)
-  - [func \(c \*Client\) Del\(ctx context.Context, key string\) \(bool, error\)](<#Client.Del>)
-  - [func \(c \*Client\) Get\(ctx context.Context, key string\) \(\[\]byte, error\)](<#Client.Get>)
+  - [func \(c \*Client\) Del\(ctx context.Context, key string\) \(bool, hlc.HybridLogicalClock, error\)](<#Client.Del>)
+  - [func \(c \*Client\) Get\(ctx context.Context, key string\) \(\[\]byte, hlc.HybridLogicalClock, error\)](<#Client.Get>)
   - [func \(c \*Client\) Listen\(ctx context.Context\) \(func\(\), error\)](<#Client.Listen>)
-  - [func \(c \*Client\) Set\(ctx context.Context, key string, val \[\]byte, opt ...SetOption\) error](<#Client.Set>)
-  - [func \(c \*Client\) Vdel\(ctx context.Context, key string, val \[\]byte\) \(bool, error\)](<#Client.Vdel>)
+  - [func \(c \*Client\) Set\(ctx context.Context, key string, val \[\]byte, opt ...SetOption\) \(bool, hlc.HybridLogicalClock, error\)](<#Client.Set>)
+  - [func \(c \*Client\) Vdel\(ctx context.Context, key string, val \[\]byte\) \(bool, hlc.HybridLogicalClock, error\)](<#Client.Vdel>)
 - [type Condition](<#Condition>)
-- [type Error](<#Error>)
+- [type PayloadError](<#PayloadError>)
+- [type ResponseError](<#ResponseError>)
 - [type SetOption](<#SetOption>)
 - [type SetOptions](<#SetOptions>)
   - [func \(o \*SetOptions\) Apply\(opts \[\]SetOption, rest ...SetOption\)](<#SetOptions.Apply>)
@@ -24,10 +27,31 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type WithExpiry](<#WithExpiry>)
 
 
-<a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L15-L17>)
+## Variables
 
-Client represents a client of the MQ state store.
+<a name="ErrResponse"></a>
+
+```go
+var (
+    ErrResponse = errors.ErrResponse
+    ErrPayload  = errors.ErrPayload
+    ErrArgument = errors.ErrArgument
+)
+```
+
+<a name="ArgumentError"></a>
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L22>)
+
+
+
+```go
+type ArgumentError = errors.Argument
+```
+
+<a name="Client"></a>
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L16-L18>)
+
+Client represents a client of the state store.
 
 ```go
 type Client struct {
@@ -36,7 +60,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L24>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L32>)
 
 ```go
 func New(client mqtt.Client) (*Client, error)
@@ -45,25 +69,25 @@ func New(client mqtt.Client) (*Client, error)
 New creates a new state store client.
 
 <a name="Client.Del"></a>
-### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L110>)
+### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L110-L113>)
 
 ```go
-func (c *Client) Del(ctx context.Context, key string) (bool, error)
+func (c *Client) Del(ctx context.Context, key string) (bool, hlc.HybridLogicalClock, error)
 ```
 
-Del deletes the value of the given key. Returns whether a value was deleted.
+Del deletes the value of the given key. If the key was present, it returns true and the stored timestamp of the key; otherwise, it returns false and a zero timestamp.
 
 <a name="Client.Get"></a>
-### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L105>)
+### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L100-L103>)
 
 ```go
-func (c *Client) Get(ctx context.Context, key string) ([]byte, error)
+func (c *Client) Get(ctx context.Context, key string) ([]byte, hlc.HybridLogicalClock, error)
 ```
 
-Get the value of the given key.
+Get the value and timestamp of the given key. If the key is not present, it returns nil and a zero timestamp; if the key is present but empty, it returns an empty slice and the stored timestamp.
 
 <a name="Client.Listen"></a>
-### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L47>)
+### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L55>)
 
 ```go
 func (c *Client) Listen(ctx context.Context) (func(), error)
@@ -72,22 +96,22 @@ func (c *Client) Listen(ctx context.Context) (func(), error)
 Listen to the response topic\(s\). Returns a function to stop listening. Must be called before any state store methods. Note that cancelling this context will cause the unsubscribe call to fail.
 
 <a name="Client.Set"></a>
-### func \(\*Client\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L52-L57>)
+### func \(\*Client\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L62-L67>)
 
 ```go
-func (c *Client) Set(ctx context.Context, key string, val []byte, opt ...SetOption) error
+func (c *Client) Set(ctx context.Context, key string, val []byte, opt ...SetOption) (bool, hlc.HybridLogicalClock, error)
 ```
 
-Set the value of the given key.
+Set the value of the given key. If the key is successfully set, it returns true and the new or updated timestamp; if the key is not set due to the specified condition, it returns false and the stored timestamp.
 
 <a name="Client.Vdel"></a>
-### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L117-L121>)
+### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L120-L124>)
 
 ```go
-func (c *Client) Vdel(ctx context.Context, key string, val []byte) (bool, error)
+func (c *Client) Vdel(ctx context.Context, key string, val []byte) (bool, hlc.HybridLogicalClock, error)
 ```
 
-Vdel deletes the value of the given key if it is equal to the given value. Returns whether a value was deleted.
+Vdel deletes the value of the given key if it is equal to the given value. If the key was present and the value matched, it returns true and the stored timestamp of the key; otherwise, it returns false and a zero timestamp.
 
 <a name="Condition"></a>
 ## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L16>)
@@ -116,13 +140,22 @@ const (
 )
 ```
 
-<a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L20>)
+<a name="PayloadError"></a>
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L21>)
 
-Error represents an error in a state store method.
+
 
 ```go
-type Error = internal.Error
+type PayloadError = errors.Payload
+```
+
+<a name="ResponseError"></a>
+## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L20>)
+
+
+
+```go
+type ResponseError = errors.Response
 ```
 
 <a name="SetOption"></a>
