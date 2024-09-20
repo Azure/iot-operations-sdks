@@ -21,18 +21,18 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await using SchemaRegistryClient client = new(_mqttClient);
         Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
-        Object_Ms_Adr_SchemaRegistry_Schema__1 res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, testTags);
-        output.WriteLine($"resp {res.Name}");
+        Object_Ms_Adr_SchemaRegistry_Schema__1? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, testTags);
+        output.WriteLine($"resp {res?.Name}");
         //Assert.Equal("29F37966A94F76DB402A96BC5D9B2B3A5B9465CA2A80696D7DE40AEB3DE8E9E7", res.Name);
-        string schemaId = res.Name!;
-        Object_Ms_Adr_SchemaRegistry_Schema__1 getSchemaResponse = await client.GetAsync(schemaId, Version1_0_0);
+        string schemaId = res?.Name!;
+        Object_Ms_Adr_SchemaRegistry_Schema__1? getSchemaResponse = await client.GetAsync(schemaId, Version1_0_0);
 
-        output.WriteLine($"getRes {res.Version}");
-        Assert.Contains("temperature", getSchemaResponse.SchemaContent);
-        Assert.Equal(SchemaFormat.JsonSchemaDraft07, getSchemaResponse.Format);
-        Assert.Equal(SchemaType.MessageSchema, getSchemaResponse.SchemaType);
-        Assert.Equal(jsonSchema1, getSchemaResponse.SchemaContent);
-        Assert.NotNull(getSchemaResponse.Tags);
+        output.WriteLine($"getRes {res?.Version}");
+        Assert.Contains("temperature", getSchemaResponse?.SchemaContent);
+        Assert.Equal(SchemaFormat.JsonSchemaDraft07, getSchemaResponse?.Format);
+        Assert.Equal(SchemaType.MessageSchema, getSchemaResponse?.SchemaType);
+        Assert.Equal(jsonSchema1, getSchemaResponse?.SchemaContent);
+        Assert.NotNull(getSchemaResponse?.Tags);
         Assert.Equal("value1", getSchemaResponse.Tags.GetValueOrDefault("key1"));
         Assert.Equal("DefaultSRNamespace", getSchemaResponse.Namespace);
     }
@@ -43,7 +43,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using SchemaRegistryClient client = new(_mqttClient);
         
-        Object_Ms_Adr_SchemaRegistry_Schema__1 s = await client.GetAsync("NotFound");
+        Object_Ms_Adr_SchemaRegistry_Schema__1? s = await client.GetAsync("NotFound");
         Assert.Null(s);
     }
 

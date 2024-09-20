@@ -32,16 +32,16 @@ namespace Akri.Dtdl.Codegen
             this.Write(")\r\n\r\ntype ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandExecutor struct {\r\n\t*protocol.CommandExecutor[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.reqSchema)));
             this.Write(", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.respSchema)));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandExecutor(\r\n\tclient mqtt.Client,\r\n\trequestTopic string,\r\n\thandler protocol." +
                     "CommandHandler[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.reqSchema)));
             this.Write(", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema ?? "any"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.respSchema)));
             this.Write("],\r\n\topt ...protocol.CommandExecutorOption,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandExecutor, error) {\r\n\tvar err error\r\n\texecutor := &");
@@ -61,28 +61,19 @@ namespace Akri.Dtdl.Codegen
  if (this.ttl != null) { 
             this.Write("\t\tprotocol.WithCacheTTL(cacheTTL.ToTimeDuration()),\r\n");
  } 
-            this.Write("\t)\r\n\r\n\texecutor.CommandExecutor, err = protocol.NewCommandExecutor(\r\n\t\tclient,\r\n");
- if (this.reqSchema != null) { 
-            this.Write("\t\tprotocol.");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerSubNamespace));
-            this.Write("[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.reqSchema));
-            this.Write("]{},\r\n");
- } else { 
-            this.Write("\t\tprotocol.Empty{},\r\n");
- } 
- if (this.respSchema != null) { 
-            this.Write("\t\tprotocol.");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerSubNamespace));
-            this.Write("[");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema));
-            this.Write("]{},\r\n");
- } else { 
-            this.Write("\t\tprotocol.Empty{},\r\n");
- } 
-            this.Write("\t\trequestTopic,\r\n\t\thandler,\r\n\t\t&opts,\r\n\t)\r\n\r\n\treturn executor, err\r\n}\r\n");
+            this.Write("\t)\r\n\r\n\texecutor.CommandExecutor, err = protocol.NewCommandExecutor(\r\n\t\tclient,\r\n\t" +
+                    "\tprotocol.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.reqSchema)));
+            this.Write("{},\r\n\t\tprotocol.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.respSchema)));
+            this.Write("{},\r\n\t\trequestTopic,\r\n\t\thandler,\r\n\t\t&opts,\r\n\t)\r\n\r\n\treturn executor, err\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
+
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
+
     }
     #region Base class
     /// <summary>
