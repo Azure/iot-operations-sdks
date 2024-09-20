@@ -90,7 +90,14 @@ func (c *Client) Set(
 		args = append(args, "PX", exp)
 	}
 
-	return invoke(ctx, c.invoker, parseOK, args...)
+	var invOpt []protocol.InvokeOption
+	if !opts.FencingToken.IsZero() {
+		invOpt = []protocol.InvokeOption{
+			protocol.WithFencingToken(opts.FencingToken),
+		}
+	}
+
+	return invoke(ctx, c.invoker, parseOK, args, invOpt...)
 }
 
 // Get the value and version of the given key. If the key is not present, it
@@ -100,7 +107,7 @@ func (c *Client) Get(
 	ctx context.Context,
 	key string,
 ) (*Response[[]byte], error) {
-	return invoke(ctx, c.invoker, resp.ParseBlob, "GET", key)
+	return invoke(ctx, c.invoker, resp.ParseBlob, []string{"GET", key})
 }
 
 // Del deletes the value of the given key. If the key was present, it returns
@@ -110,7 +117,7 @@ func (c *Client) Del(
 	ctx context.Context,
 	key string,
 ) (*Response[bool], error) {
-	return invoke(ctx, c.invoker, parseBool, "DEL", key)
+	return invoke(ctx, c.invoker, parseBool, []string{"DEL", key})
 }
 
 // Vdel deletes the value of the given key if it is equal to the given value.
@@ -121,7 +128,7 @@ func (c *Client) Vdel(
 	key string,
 	val []byte,
 ) (*Response[bool], error) {
-	return invoke(ctx, c.invoker, parseBool, "VDEL", key, string(val))
+	return invoke(ctx, c.invoker, parseBool, []string{"VDEL", key, string(val)})
 }
 
 // Shorthand to invoke and parse.
@@ -129,13 +136,14 @@ func invoke[T any](
 	ctx context.Context,
 	invoker *protocol.CommandInvoker[[]byte, []byte],
 	parse func([]byte) (T, error),
-	args ...string,
+	args []string,
+	opts ...protocol.InvokeOption,
 ) (*Response[T], error) {
 	if args[1] == "" {
 		return nil, ArgumentError{Name: "key"}
 	}
 
-	res, err := invoker.Invoke(ctx, resp.FormatBlobArray(args...))
+	res, err := invoker.Invoke(ctx, resp.FormatBlobArray(args...), opts...)
 	if err != nil {
 		return nil, err
 	}

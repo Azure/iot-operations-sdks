@@ -1,6 +1,10 @@
 package statestore
 
-import "time"
+import (
+	"time"
+
+	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+)
 
 type (
 	// SetOption represents a single option for the Set method.
@@ -8,8 +12,9 @@ type (
 
 	// SetOptions are the resolved options for the Set method.
 	SetOptions struct {
-		Condition Condition
-		Expiry    time.Duration
+		Condition    Condition
+		Expiry       time.Duration
+		FencingToken hlc.HybridLogicalClock
 	}
 
 	// Condition specifies the conditions under which the key will be set.
@@ -22,6 +27,10 @@ type (
 	// WithExpiry indicates that the key should expire after the given duration
 	// (with millisecond precision).
 	WithExpiry time.Duration
+
+	// WithFencingToken adds a fencing token to the set request to provide lock
+	// ownership checking.
+	WithFencingToken hlc.HybridLogicalClock
 )
 
 const (
@@ -67,4 +76,8 @@ func (o WithCondition) set(opt *SetOptions) {
 
 func (o WithExpiry) set(opt *SetOptions) {
 	opt.Expiry = time.Duration(o)
+}
+
+func (o WithFencingToken) set(opt *SetOptions) {
+	opt.FencingToken = hlc.HybridLogicalClock(o)
 }

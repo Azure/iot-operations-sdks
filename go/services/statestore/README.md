@@ -26,6 +26,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
   - [func \(o \*SetOptions\) Apply\(opts \[\]SetOption, rest ...SetOption\)](<#SetOptions.Apply>)
 - [type WithCondition](<#WithCondition>)
 - [type WithExpiry](<#WithExpiry>)
+- [type WithFencingToken](<#WithFencingToken>)
 
 
 ## Variables
@@ -70,7 +71,7 @@ func New(client mqtt.Client) (*Client, error)
 New creates a new state store client.
 
 <a name="Client.Del"></a>
-### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L109-L112>)
+### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L116-L119>)
 
 ```go
 func (c *Client) Del(ctx context.Context, key string) (*Response[bool], error)
@@ -79,7 +80,7 @@ func (c *Client) Del(ctx context.Context, key string) (*Response[bool], error)
 Del deletes the value of the given key. If the key was present, it returns true and the stored version of the key; otherwise, it returns false and a zero version.
 
 <a name="Client.Get"></a>
-### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L99-L102>)
+### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L106-L109>)
 
 ```go
 func (c *Client) Get(ctx context.Context, key string) (*Response[[]byte], error)
@@ -106,7 +107,7 @@ func (c *Client) Set(ctx context.Context, key string, val []byte, opt ...SetOpti
 Set the value of the given key. If the key is successfully set, it returns true and the new or updated version; if the key is not set due to the specified condition, it returns false and the stored version.
 
 <a name="Client.Vdel"></a>
-### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L119-L123>)
+### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L126-L130>)
 
 ```go
 func (c *Client) Vdel(ctx context.Context, key string, val []byte) (*Response[bool], error)
@@ -115,7 +116,7 @@ func (c *Client) Vdel(ctx context.Context, key string, val []byte) (*Response[bo
 Vdel deletes the value of the given key if it is equal to the given value. If the key was present and the value matched, it returns true and the stored version of the key; otherwise, it returns false and a zero version.
 
 <a name="Condition"></a>
-## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L16>)
+## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L21>)
 
 Condition specifies the conditions under which the key will be set.
 
@@ -172,7 +173,7 @@ type ResponseError = errors.Response
 ```
 
 <a name="SetOption"></a>
-## type [SetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L7>)
+## type [SetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L11>)
 
 SetOption represents a single option for the Set method.
 
@@ -183,19 +184,20 @@ type SetOption interface {
 ```
 
 <a name="SetOptions"></a>
-## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L10-L13>)
+## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L14-L18>)
 
 SetOptions are the resolved options for the Set method.
 
 ```go
 type SetOptions struct {
-    Condition Condition
-    Expiry    time.Duration
+    Condition    Condition
+    Expiry       time.Duration
+    FencingToken hlc.HybridLogicalClock
 }
 ```
 
 <a name="SetOptions.Apply"></a>
-### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L42-L45>)
+### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L51-L54>)
 
 ```go
 func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption)
@@ -204,7 +206,7 @@ func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption)
 Apply resolves the provided list of options.
 
 <a name="WithCondition"></a>
-## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L20>)
+## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L25>)
 
 WithCondition indicates that the key should only be set under the given conditions.
 
@@ -213,12 +215,21 @@ type WithCondition Condition
 ```
 
 <a name="WithExpiry"></a>
-## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L24>)
+## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L29>)
 
 WithExpiry indicates that the key should expire after the given duration \(with millisecond precision\).
 
 ```go
 type WithExpiry time.Duration
+```
+
+<a name="WithFencingToken"></a>
+## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L33>)
+
+WithFencingToken adds a fencing token to the set request to provide lock ownership checking.
+
+```go
+type WithFencingToken hlc.HybridLogicalClock
 ```
 
 Generated by [gomarkdoc](<https://github.com/princjef/gomarkdoc>)
