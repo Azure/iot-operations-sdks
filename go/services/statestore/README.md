@@ -52,7 +52,7 @@ var (
 ```
 
 <a name="ArgumentError"></a>
-## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L29>)
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L29>)
 
 
 
@@ -61,7 +61,7 @@ type ArgumentError = errors.Argument
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L15-L17>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L15-L17>)
 
 Client represents a client of the state store.
 
@@ -72,7 +72,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L39>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L39>)
 
 ```go
 func New(client mqtt.Client) (*Client, error)
@@ -99,7 +99,7 @@ func (c *Client) Get(ctx context.Context, key string, opt ...GetOption) (*Respon
 Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
 
 <a name="Client.Listen"></a>
-### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L62>)
+### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L62>)
 
 ```go
 func (c *Client) Listen(ctx context.Context) (func(), error)
@@ -216,7 +216,7 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 Apply resolves the provided list of options.
 
 <a name="PayloadError"></a>
-## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L28>)
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L28>)
 
 
 
@@ -225,7 +225,7 @@ type PayloadError = errors.Payload
 ```
 
 <a name="Response"></a>
-## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L22-L25>)
+## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L22-L25>)
 
 Response represents a state store response, which will include a value depending on the method and the stored version returned for the key \(if any\).
 
@@ -237,7 +237,7 @@ type Response[T any] struct {
 ```
 
 <a name="ResponseError"></a>
-## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L27>)
+## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L27>)
 
 
 
