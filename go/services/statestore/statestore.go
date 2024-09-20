@@ -17,6 +17,14 @@ type (
 		invoker *protocol.CommandInvoker[[]byte, []byte]
 	}
 
+	// Response represents a state store response, which will include a value
+	// depending on the method and the stored timestamp returned for the key
+	// (if any).
+	Response[T any] struct {
+		Value     T
+		Timestamp hlc.HybridLogicalClock
+	}
+
 	ResponseError = errors.Response
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
@@ -64,7 +72,7 @@ func (c *Client) Set(
 	key string,
 	val []byte,
 	opt ...SetOption,
-) (bool, hlc.HybridLogicalClock, error) {
+) (*Response[bool], error) {
 	var opts SetOptions
 	opts.Apply(opt)
 
@@ -78,14 +86,12 @@ func (c *Client) Set(
 	case NotExistsOrEqual:
 		args = append(args, "NEX")
 	default:
-		return false, hlc.HybridLogicalClock{},
-			ArgumentError{Name: "Condition", Value: opts.Condition}
+		return nil, ArgumentError{Name: "Condition", Value: opts.Condition}
 	}
 
 	switch {
 	case opts.Expiry < 0:
-		return false, hlc.HybridLogicalClock{},
-			ArgumentError{Name: "Expiry", Value: opts.Expiry}
+		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		exp := strconv.Itoa(int(opts.Expiry.Milliseconds()))
 		args = append(args, "PX", exp)
@@ -100,7 +106,7 @@ func (c *Client) Set(
 func (c *Client) Get(
 	ctx context.Context,
 	key string,
-) ([]byte, hlc.HybridLogicalClock, error) {
+) (*Response[[]byte], error) {
 	return invoke(ctx, c.invoker, resp.ParseBlob, "GET", key)
 }
 
@@ -110,7 +116,7 @@ func (c *Client) Get(
 func (c *Client) Del(
 	ctx context.Context,
 	key string,
-) (bool, hlc.HybridLogicalClock, error) {
+) (*Response[bool], error) {
 	return invoke(ctx, c.invoker, parseBool, "DEL", key)
 }
 
@@ -121,7 +127,7 @@ func (c *Client) Vdel(
 	ctx context.Context,
 	key string,
 	val []byte,
-) (bool, hlc.HybridLogicalClock, error) {
+) (*Response[bool], error) {
 	return invoke(ctx, c.invoker, parseBool, "VDEL", key, string(val))
 }
 
@@ -131,23 +137,22 @@ func invoke[T any](
 	invoker *protocol.CommandInvoker[[]byte, []byte],
 	parse func([]byte) (T, error),
 	args ...string,
-) (T, hlc.HybridLogicalClock, error) {
-	var zero T
+) (*Response[T], error) {
 	if args[1] == "" {
-		return zero, hlc.HybridLogicalClock{}, ArgumentError{Name: "key"}
+		return nil, ArgumentError{Name: "key"}
 	}
 
 	res, err := invoker.Invoke(ctx, resp.FormatBlobArray(args...))
 	if err != nil {
-		return zero, hlc.HybridLogicalClock{}, err
+		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
-		return zero, hlc.HybridLogicalClock{}, err
+		return nil, err
 	}
 
-	return val, res.Timestamp, nil
+	return &Response[T]{val, res.Timestamp}, nil
 }
 
 // Shorthand to check an "OK" response.
