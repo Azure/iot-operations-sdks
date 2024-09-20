@@ -13,7 +13,7 @@ type (
 	}
 
 	// Condition specifies the conditions under which the key will be set.
-	Condition byte
+	Condition string
 
 	// WithCondition indicates that the key should only be set under the given
 	// conditions.
@@ -27,15 +27,15 @@ type (
 const (
 	// Always indicates that the key should always be set to the provided value.
 	// This is the default.
-	Always Condition = iota
+	Always Condition = ""
 
 	// NotExists indicates that the key should only be set if it does not exist.
-	NotExists
+	NotExists Condition = "NX"
 
 	// NotExistOrEqual indicates that the key should only be set if it does not
 	// exist or is equal to the set value. This is typically used to update the
 	// expiry on the key.
-	NotExistsOrEqual
+	NotExistsOrEqual Condition = "NEX"
 )
 
 // Apply resolves the provided list of options.

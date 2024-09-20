@@ -70,22 +70,22 @@ func New(client mqtt.Client) (*Client, error)
 New creates a new state store client.
 
 <a name="Client.Del"></a>
-### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L116-L119>)
+### func \(\*Client\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L109-L112>)
 
 ```go
 func (c *Client) Del(ctx context.Context, key string) (*Response[bool], error)
 ```
 
-Del deletes the value of the given key. If the key was present, it returns true and the stored timestamp of the key; otherwise, it returns false and a zero timestamp.
+Del deletes the value of the given key. If the key was present, it returns true and the stored version of the key; otherwise, it returns false and a zero version.
 
 <a name="Client.Get"></a>
-### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L106-L109>)
+### func \(\*Client\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L99-L102>)
 
 ```go
 func (c *Client) Get(ctx context.Context, key string) (*Response[[]byte], error)
 ```
 
-Get the value and timestamp of the given key. If the key is not present, it returns nil and a zero timestamp; if the key is present but empty, it returns an empty slice and the stored timestamp.
+Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
 
 <a name="Client.Listen"></a>
 ### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L63>)
@@ -103,16 +103,16 @@ Listen to the response topic\(s\). Returns a function to stop listening. Must be
 func (c *Client) Set(ctx context.Context, key string, val []byte, opt ...SetOption) (*Response[bool], error)
 ```
 
-Set the value of the given key. If the key is successfully set, it returns true and the new or updated timestamp; if the key is not set due to the specified condition, it returns false and the stored timestamp.
+Set the value of the given key. If the key is successfully set, it returns true and the new or updated version; if the key is not set due to the specified condition, it returns false and the stored version.
 
 <a name="Client.Vdel"></a>
-### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L126-L130>)
+### func \(\*Client\) [Vdel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L119-L123>)
 
 ```go
 func (c *Client) Vdel(ctx context.Context, key string, val []byte) (*Response[bool], error)
 ```
 
-Vdel deletes the value of the given key if it is equal to the given value. If the key was present and the value matched, it returns true and the stored timestamp of the key; otherwise, it returns false and a zero timestamp.
+Vdel deletes the value of the given key if it is equal to the given value. If the key was present and the value matched, it returns true and the stored version of the key; otherwise, it returns false and a zero version.
 
 <a name="Condition"></a>
 ## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L16>)
@@ -120,7 +120,7 @@ Vdel deletes the value of the given key if it is equal to the given value. If th
 Condition specifies the conditions under which the key will be set.
 
 ```go
-type Condition byte
+type Condition string
 ```
 
 <a name="Always"></a>
@@ -129,15 +129,15 @@ type Condition byte
 const (
     // Always indicates that the key should always be set to the provided value.
     // This is the default.
-    Always Condition = iota
+    Always Condition = ""
 
     // NotExists indicates that the key should only be set if it does not exist.
-    NotExists
+    NotExists Condition = "NX"
 
     // NotExistOrEqual indicates that the key should only be set if it does not
     // exist or is equal to the set value. This is typically used to update the
     // expiry on the key.
-    NotExistsOrEqual
+    NotExistsOrEqual Condition = "NEX"
 )
 ```
 
@@ -153,12 +153,12 @@ type PayloadError = errors.Payload
 <a name="Response"></a>
 ## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/statestore.go#L23-L26>)
 
-Response represents a state store response, which will include a value depending on the method and the stored timestamp returned for the key \(if any\).
+Response represents a state store response, which will include a value depending on the method and the stored version returned for the key \(if any\).
 
 ```go
 type Response[T any] struct {
-    Value     T
-    Timestamp hlc.HybridLogicalClock
+    Value   T
+    Version hlc.HybridLogicalClock
 }
 ```
 
