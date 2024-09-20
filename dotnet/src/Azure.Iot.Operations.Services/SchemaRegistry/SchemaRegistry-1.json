@@ -1,7 +1,7 @@
 {
   "@context": [
-    "dtmi:dtdl:context;3",
-    "dtmi:dtdl:extension:mqtt;1"
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
   ],
   "@id": "dtmi:ms:adr:SchemaRegistry;1",
   "@type": [
@@ -138,7 +138,8 @@
       },
       "response": {
         "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+        "nullable": true
       }
     },
     {
@@ -163,7 +164,8 @@
       },
       "response": {
         "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+        "nullable": true
       }
     }
   ]
