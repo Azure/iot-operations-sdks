@@ -2,7 +2,6 @@ package statestore
 
 import (
 	"context"
-	"strconv"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -64,86 +63,23 @@ func (c *Client) Listen(ctx context.Context) (func(), error) {
 	return c.invoker.Listen(ctx)
 }
 
-// Set the value of the given key. If the key is successfully set, it returns
-// true and the new or updated version; if the key is not set due to the
-// specified condition, it returns false and the stored version.
-func (c *Client) Set(
-	ctx context.Context,
-	key string,
-	val []byte,
-	opt ...SetOption,
-) (*Response[bool], error) {
-	var opts SetOptions
-	opts.Apply(opt)
-
-	args := []string{"SET", key, string(val)}
-
-	if opts.Condition != Always {
-		args = append(args, string(opts.Condition))
-	}
-
-	switch {
-	case opts.Expiry < 0:
-		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
-	case opts.Expiry > 0:
-		exp := strconv.Itoa(int(opts.Expiry.Milliseconds()))
-		args = append(args, "PX", exp)
-	}
-
-	var invOpt []protocol.InvokeOption
-	if !opts.FencingToken.IsZero() {
-		invOpt = []protocol.InvokeOption{
-			protocol.WithFencingToken(opts.FencingToken),
-		}
-	}
-
-	return invoke(ctx, c.invoker, parseOK, args, invOpt...)
-}
-
-// Get the value and version of the given key. If the key is not present, it
-// returns nil and a zero version; if the key is present but empty, it returns
-// an empty slice and the stored version.
-func (c *Client) Get(
-	ctx context.Context,
-	key string,
-) (*Response[[]byte], error) {
-	return invoke(ctx, c.invoker, resp.ParseBlob, []string{"GET", key})
-}
-
-// Del deletes the value of the given key. If the key was present, it returns
-// true and the stored version of the key; otherwise, it returns false and a
-// zero version.
-func (c *Client) Del(
-	ctx context.Context,
-	key string,
-) (*Response[bool], error) {
-	return invoke(ctx, c.invoker, parseBool, []string{"DEL", key})
-}
-
-// Vdel deletes the value of the given key if it is equal to the given value.
-// If the key was present and the value matched, it returns true and the stored
-// version of the key; otherwise, it returns false and a zero version.
-func (c *Client) Vdel(
-	ctx context.Context,
-	key string,
-	val []byte,
-) (*Response[bool], error) {
-	return invoke(ctx, c.invoker, parseBool, []string{"VDEL", key, string(val)})
-}
-
 // Shorthand to invoke and parse.
 func invoke[T any](
 	ctx context.Context,
 	invoker *protocol.CommandInvoker[[]byte, []byte],
 	parse func([]byte) (T, error),
-	args []string,
-	opts ...protocol.InvokeOption,
+	opts invokeOptions,
+	args ...string,
 ) (*Response[T], error) {
 	if args[1] == "" {
 		return nil, ArgumentError{Name: "key"}
 	}
 
-	res, err := invoker.Invoke(ctx, resp.FormatBlobArray(args...), opts...)
+	res, err := invoker.Invoke(
+		ctx,
+		resp.FormatBlobArray(args...),
+		opts.invoke(),
+	)
 	if err != nil {
 		return nil, err
 	}
