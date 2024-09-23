@@ -39,10 +39,9 @@ namespace Akri.Dtdl.Codegen
  } 
             this.Write("\r\npub mod ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceName));
-            this.Write(" {\r\n    use azure_iot_operations_mqtt::session::{\r\n        SessionPubReceiver, Se" +
-                    "ssionPubSub,\r\n    };\r\n    use azure_iot_operations_mqtt::interface::MqttProvider" +
-                    ";\r\n    use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtoco" +
-                    "lError;\r\n");
+            this.Write(" {\r\n    use azure_iot_operations_mqtt::interface::{\r\n    MqttProvider, MqttPubSub" +
+                    ", MqttPubReceiver, MqttAck,\r\n    };\r\n    use azure_iot_operations_protocol::comm" +
+                    "on::aio_protocol_error::AIOProtocolError;\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("\r\n    use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
@@ -65,39 +64,48 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
             this.Write("Receiver;\r\n");
  } 
-            this.Write("\r\n    pub struct Service {\r\n");
+            this.Write("\r\n    pub struct Service<PS: MqttPubSub + Clone + Send + Sync + \'static");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""));
+            this.Write("> {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("        pub ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
-            this.Write("CommandExecutor,\r\n");
+            this.Write("CommandExecutor<PS, PR>,\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("        pub ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{telemSchema}Sender")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
-            this.Write("Sender,\r\n");
+            this.Write("Sender<PS>,\r\n");
  } 
-            this.Write("    }\r\n\r\n    pub struct Client {\r\n");
+            this.Write("    }\r\n\r\n    pub struct Client<PS: MqttPubSub + Clone + Send + Sync + \'static");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""));
+            this.Write("> {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("        pub ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
-            this.Write("CommandInvoker,\r\n");
+            this.Write("CommandInvoker<PS>,\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("        pub ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{telemSchema}Receiver")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
-            this.Write("Receiver,\r\n");
+            this.Write("Receiver<PS, PR>,\r\n");
  } 
-            this.Write("    }\r\n\r\n    impl Service {\r\n        pub fn new(mqtt_provider: &mut impl MqttProv" +
-                    "ider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {\r\n  " +
-                    "          let service = Self {\r\n");
+            this.Write("    }\r\n\r\n    impl<PS: MqttPubSub + Clone + Send + Sync + \'static");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""));
+            this.Write("> Service<PS");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? ", PR" : ""));
+            this.Write("> {\r\n        pub fn new");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"));
+            this.Write("(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError>" +
+                    " {\r\n            let service = Self {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("                ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
@@ -112,10 +120,15 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
             this.Write("Sender::new(mqtt_provider)?,\r\n");
  } 
-            this.Write("            };\r\n\r\n            Ok(service)\r\n        }\r\n    }\r\n\r\n    impl Client {\r" +
-                    "\n        pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, Session" +
-                    "PubReceiver>) -> Result<Self, AIOProtocolError> {\r\n            let client = Self" +
-                    " {\r\n");
+            this.Write("            };\r\n\r\n            Ok(service)\r\n        }\r\n    }\r\n\r\n    impl<PS: MqttP" +
+                    "ubSub + Clone + Send + Sync + \'static");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""));
+            this.Write("> Client<PS");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? ", PR" : ""));
+            this.Write("> {\r\n        pub fn new");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"));
+            this.Write("(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError>" +
+                    " {\r\n            let client = Self {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("                ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")));

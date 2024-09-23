@@ -27,10 +27,9 @@ namespace Akri.Dtdl.Codegen
 
 use std::ops::{Deref, DerefMut};
 
-use azure_iot_operations_mqtt::session::{
-    SessionPubReceiver, SessionPubSub,
+use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
-use azure_iot_operations_mqtt::interface::MqttProvider;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder,
 };
@@ -64,12 +63,12 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write("\r\nuse super::wrapper::MODEL_ID;\r\nuse super::wrapper::REQUEST_TOPIC_PATTERN;\r\n\r\npu" +
                     "b struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandInvoker(CommandInvoker<");
+            this.Write("CommandInvoker<PS: MqttPubSub + Clone + Send + Sync + \'static>(CommandInvoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.TypeParams()));
-            this.Write(", SessionPubSub>);\r\n\r\nimpl ");
+            this.Write(", PS>);\r\n\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write(@"CommandInvoker {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+            this.Write(@"CommandInvoker<PS> {
+    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -77,15 +76,16 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             .command_name(""");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName));
             this.Write("\")\r\n            .build()\r\n            .unwrap();\r\n        CommandInvoker::new(mqt" +
-                    "t_provider, invoker_options).map(|ce| Self(ce))\r\n    }\r\n}\r\n\r\nimpl Deref for ");
+                    "t_provider, invoker_options).map(|ce| Self(ce))\r\n    }\r\n}\r\n\r\nimpl<PS: MqttPubSub" +
+                    " + Clone + Send + Sync + \'static> Deref for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandInvoker {\r\n    type Target = CommandInvoker<");
+            this.Write("CommandInvoker<PS> {\r\n    type Target = CommandInvoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.TypeParams()));
-            this.Write(", SessionPubSub>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n        &self.0\r\n   " +
-                    " }\r\n}\r\n\r\nimpl DerefMut for ");
+            this.Write(", PS>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n        &self.0\r\n    }\r\n}\r\n\r\nim" +
+                    "pl<PS: MqttPubSub + Clone + Send + Sync + \'static> DerefMut for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandInvoker {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n        &mu" +
-                    "t self.0\r\n    }\r\n}\r\n");
+            this.Write("CommandInvoker<PS> {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n       " +
+                    " &mut self.0\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
 

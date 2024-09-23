@@ -29,10 +29,9 @@ namespace Akri.Dtdl.Codegen
             this.Write("use iso8601_duration;\r\n");
  } 
             this.Write(@"
-use azure_iot_operations_mqtt::session::{
-    SessionPubReceiver, SessionPubSub,
+use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
-use azure_iot_operations_mqtt::interface::MqttProvider;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder,
 };
@@ -66,12 +65,14 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write("\r\nuse super::wrapper::MODEL_ID;\r\nuse super::wrapper::REQUEST_TOPIC_PATTERN;\r\n\r\npu" +
                     "b struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandExecutor(CommandExecutor<");
+            this.Write("CommandExecutor<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubReceiv" +
+                    "er + MqttAck + Send + Sync + \'static>(CommandExecutor<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.TypeParams()));
-            this.Write(", SessionPubSub, SessionPubReceiver>);\r\n\r\nimpl ");
+            this.Write(", PS, PR>);\r\n\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubRe" +
+                    "ceiver + MqttAck + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write(@"CommandExecutor {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+            this.Write(@"CommandExecutor<PS, PR> {
+    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
         let executor_options = CommandExecutorOptionsBuilder::default()
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -85,16 +86,23 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
  } 
             this.Write("            .is_idempotent(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isIdempotent ? "true" : "false"));
-            this.Write(")\r\n            .build()\r\n            .unwrap();\r\n        CommandExecutor::new(mqt" +
-                    "t_provider, executor_options).map(|ce| Self(ce))\r\n    }\r\n}\r\n\r\nimpl Deref for ");
+            this.Write(@")
+            .build()
+            .unwrap();
+        CommandExecutor::new(mqtt_provider, executor_options).map(|ce| Self(ce))
+    }
+}
+
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> Deref for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandExecutor {\r\n    type Target = CommandExecutor<");
+            this.Write("CommandExecutor<PS, PR> {\r\n    type Target = CommandExecutor<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.TypeParams()));
-            this.Write(", SessionPubSub, SessionPubReceiver>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n" +
-                    "        &self.0\r\n    }\r\n}\r\n\r\nimpl DerefMut for ");
+            this.Write(", PS, PR>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n        &self.0\r\n    }\r\n}\r\n" +
+                    "\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubReceiver + Mqt" +
+                    "tAck + Send + Sync + \'static> DerefMut for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandExecutor {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n        &m" +
-                    "ut self.0\r\n    }\r\n}\r\n");
+            this.Write("CommandExecutor<PS, PR> {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n  " +
+                    "      &mut self.0\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
 

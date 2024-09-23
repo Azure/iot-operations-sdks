@@ -7,10 +7,9 @@ use std::ops::{Deref, DerefMut};
 use iso8601_duration;
 <# } #>
 
-use azure_iot_operations_mqtt::session::{
-    SessionPubReceiver, SessionPubSub,
+use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
-use azure_iot_operations_mqtt::interface::MqttProvider;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder,
 };
@@ -32,10 +31,10 @@ use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>
 use super::wrapper::MODEL_ID;
 use super::wrapper::REQUEST_TOPIC_PATTERN;
 
-pub struct <#=this.capitalizedCommandName#>CommandExecutor(CommandExecutor<<#=this.TypeParams()#>, SessionPubSub, SessionPubReceiver>);
+pub struct <#=this.capitalizedCommandName#>CommandExecutor<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(CommandExecutor<<#=this.TypeParams()#>, PS, PR>);
 
-impl <#=this.capitalizedCommandName#>CommandExecutor {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> <#=this.capitalizedCommandName#>CommandExecutor<PS, PR> {
+    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
         let executor_options = CommandExecutorOptionsBuilder::default()
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -50,15 +49,15 @@ impl <#=this.capitalizedCommandName#>CommandExecutor {
     }
 }
 
-impl Deref for <#=this.capitalizedCommandName#>CommandExecutor {
-    type Target = CommandExecutor<<#=this.TypeParams()#>, SessionPubSub, SessionPubReceiver>;
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> Deref for <#=this.capitalizedCommandName#>CommandExecutor<PS, PR> {
+    type Target = CommandExecutor<<#=this.TypeParams()#>, PS, PR>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl DerefMut for <#=this.capitalizedCommandName#>CommandExecutor {
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> DerefMut for <#=this.capitalizedCommandName#>CommandExecutor<PS, PR> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }

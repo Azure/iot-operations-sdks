@@ -4,10 +4,9 @@
 
 use std::ops::{Deref, DerefMut};
 
-use azure_iot_operations_mqtt::session::{
-    SessionPubReceiver, SessionPubSub,
+use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
-use azure_iot_operations_mqtt::interface::MqttProvider;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     TelemetryReceiver, TelemetryReceiverOptionsBuilder,
 };
@@ -18,10 +17,10 @@ use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaC
 use super::wrapper::MODEL_ID;
 use super::wrapper::TELEMETRY_TOPIC_PATTERN;
 
-pub struct <#=this.schemaClassName#>Receiver(TelemetryReceiver<<#=this.schemaClassName#>, SessionPubSub, SessionPubReceiver>);
+pub struct <#=this.schemaClassName#>Receiver<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(TelemetryReceiver<<#=this.schemaClassName#>, PS, PR>);
 
-impl <#=this.schemaClassName#>Receiver {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> <#=this.schemaClassName#>Receiver<PS, PR> {
+    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .model_id(MODEL_ID.to_string())
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
@@ -34,15 +33,15 @@ impl <#=this.schemaClassName#>Receiver {
     }
 }
 
-impl Deref for <#=this.schemaClassName#>Receiver {
-    type Target = TelemetryReceiver<<#=this.schemaClassName#>, SessionPubSub, SessionPubReceiver>;
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> Deref for <#=this.schemaClassName#>Receiver<PS, PR> {
+    type Target = TelemetryReceiver<<#=this.schemaClassName#>, PS, PR>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl DerefMut for <#=this.schemaClassName#>Receiver {
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> DerefMut for <#=this.schemaClassName#>Receiver<PS, PR> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }

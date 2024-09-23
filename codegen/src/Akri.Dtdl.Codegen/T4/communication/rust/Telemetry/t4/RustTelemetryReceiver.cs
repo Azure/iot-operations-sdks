@@ -27,10 +27,9 @@ namespace Akri.Dtdl.Codegen
 
 use std::ops::{Deref, DerefMut};
 
-use azure_iot_operations_mqtt::session::{
-    SessionPubReceiver, SessionPubSub,
+use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
-use azure_iot_operations_mqtt::interface::MqttProvider;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     TelemetryReceiver, TelemetryReceiverOptionsBuilder,
 };
@@ -43,12 +42,14 @@ use super::");
             this.Write(";\r\n\r\nuse super::wrapper::MODEL_ID;\r\nuse super::wrapper::TELEMETRY_TOPIC_PATTERN;\r" +
                     "\n\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write("Receiver(TelemetryReceiver<");
+            this.Write("Receiver<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubReceiver + Mq" +
+                    "ttAck + Send + Sync + \'static>(TelemetryReceiver<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write(", SessionPubSub, SessionPubReceiver>);\r\n\r\nimpl ");
+            this.Write(", PS, PR>);\r\n\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubRe" +
+                    "ceiver + MqttAck + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write(@"Receiver {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+            this.Write(@"Receiver<PS, PR> {
+    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .model_id(MODEL_ID.to_string())
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
@@ -58,16 +59,22 @@ use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryName));
             this.Write("\")\r\n");
  } 
-            this.Write("            .build()\r\n            .unwrap();\r\n        TelemetryReceiver::new(mqtt" +
-                    "_provider, receiver_options).map(|ce| Self(ce))\r\n    }\r\n}\r\n\r\nimpl Deref for ");
+            this.Write(@"            .build()
+            .unwrap();
+        TelemetryReceiver::new(mqtt_provider, receiver_options).map(|ce| Self(ce))
+    }
+}
+
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static> Deref for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write("Receiver {\r\n    type Target = TelemetryReceiver<");
+            this.Write("Receiver<PS, PR> {\r\n    type Target = TelemetryReceiver<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write(", SessionPubSub, SessionPubReceiver>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n" +
-                    "        &self.0\r\n    }\r\n}\r\n\r\nimpl DerefMut for ");
+            this.Write(", PS, PR>;\r\n\r\n    fn deref(&self) -> &Self::Target {\r\n        &self.0\r\n    }\r\n}\r\n" +
+                    "\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static, PR: MqttPubReceiver + Mqt" +
+                    "tAck + Send + Sync + \'static> DerefMut for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write("Receiver {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n        &mut self" +
-                    ".0\r\n    }\r\n}\r\n");
+            this.Write("Receiver<PS, PR> {\r\n    fn deref_mut(&mut self) -> &mut Self::Target {\r\n        &" +
+                    "mut self.0\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -12,10 +12,9 @@ pub const TELEMETRY_TOPIC_PATTERN: &str = "<#=this.telemetryTopic#>";
 <# } #>
 
 pub mod <#=this.serviceName#> {
-    use azure_iot_operations_mqtt::session::{
-        SessionPubReceiver, SessionPubSub,
+    use azure_iot_operations_mqtt::interface::{
+    MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
     };
-    use azure_iot_operations_mqtt::interface::MqttProvider;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
@@ -28,26 +27,26 @@ pub mod <#=this.serviceName#> {
     use super::super::<#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>::<#=this.AsUpper(telemSchema)#>Receiver;
 <# } #>
 
-    pub struct Service {
+    pub struct Service<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.cmdNameReqResps.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-        pub <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor,
+        pub <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor<PS, PR>,
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
-        pub <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender,
+        pub <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender<PS>,
 <# } #>
     }
 
-    pub struct Client {
+    pub struct Client<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.telemSchemas.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-        pub <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker,
+        pub <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker<PS>,
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
-        pub <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver,
+        pub <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver<PS, PR>,
 <# } #>
     }
 
-    impl Service {
-        pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+    impl<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.cmdNameReqResps.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> Service<PS<#=this.cmdNameReqResps.Any() ? ", PR" : ""#>> {
+        pub fn new<#=this.cmdNameReqResps.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
             let service = Self {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor::new(mqtt_provider)?,
@@ -61,8 +60,8 @@ pub mod <#=this.serviceName#> {
         }
     }
 
-    impl Client {
-        pub fn new(mqtt_provider: &mut impl MqttProvider<SessionPubSub, SessionPubReceiver>) -> Result<Self, AIOProtocolError> {
+    impl<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.telemSchemas.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> Client<PS<#=this.telemSchemas.Any() ? ", PR" : ""#>> {
+        pub fn new<#=this.telemSchemas.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
             let client = Self {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker::new(mqtt_provider)?,
