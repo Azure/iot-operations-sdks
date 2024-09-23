@@ -33,12 +33,6 @@ type (
 	ResponseError = errors.Response
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
-
-	// Notify represents a notification event.
-	Notify struct {
-		Operation, Key string
-		Value          []byte
-	}
 )
 
 var (

@@ -8,6 +8,12 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
+// Notify represents a notification event.
+type Notify struct {
+	Operation, Key string
+	Value          []byte
+}
+
 // Notify messages for registered keys will be sent to this channel.
 func (c *Client) Notify() <-chan Notify {
 	c.notifyMu.RLock()

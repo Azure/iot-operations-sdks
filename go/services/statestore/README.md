@@ -79,7 +79,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L51>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L45>)
 
 ```go
 func New(client mqtt.Client, opt ...protocol.Option) (*Client, error)
@@ -115,7 +115,7 @@ func (c *Client) KeyNotify(ctx context.Context, key string, opt ...KeyNotifyOpti
 KeyNotify requests or stops notification for a key. If a stop is requested on a key that did not have notifications, it will return false with no error.
 
 <a name="Client.Listen"></a>
-### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L99>)
+### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L93>)
 
 ```go
 func (c *Client) Listen(ctx context.Context) (func(), error)
@@ -124,7 +124,7 @@ func (c *Client) Listen(ctx context.Context) (func(), error)
 Listen to the response topic\(s\). Returns a function to stop listening. Must be called before any state store methods. Note that cancelling this context will cause the unsubscribe call to fail.
 
 <a name="Client.Notify"></a>
-### func \(\*Client\) [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12>)
+### func \(\*Client\) [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L18>)
 
 ```go
 func (c *Client) Notify() <-chan Notify
@@ -273,7 +273,7 @@ func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption
 Apply resolves the provided list of options.
 
 <a name="Notify"></a>
-## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L38-L41>)
+## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12-L15>)
 
 Notify represents a notification event.
 
