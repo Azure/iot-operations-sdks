@@ -27,6 +27,7 @@ type (
 		topic       string
 		shareName   string
 		concurrency uint
+		correlation bool
 		logger      log.Logger
 		handler     interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
@@ -85,7 +86,7 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if len(pub.CorrelationData) == 0 {
+	if l.correlation && len(pub.CorrelationData) == 0 {
 		l.error(ctx, pub, &errors.Error{
 			Message:    "correlation data missing",
 			Kind:       errors.HeaderMissing,
@@ -93,19 +94,22 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		})
 		return
 	}
-	correlationData, err := uuid.FromBytes(pub.CorrelationData)
-	if err != nil {
-		l.error(ctx, pub, &errors.Error{
-			Message:    "correlation data is not a valid UUID",
-			Kind:       errors.HeaderInvalid,
-			HeaderName: constants.CorrelationData,
-		})
-		return
+	if len(pub.CorrelationData) != 0 {
+		correlationData, err := uuid.FromBytes(pub.CorrelationData)
+		if err != nil {
+			l.error(ctx, pub, &errors.Error{
+				Message:    "correlation data is not a valid UUID",
+				Kind:       errors.HeaderInvalid,
+				HeaderName: constants.CorrelationData,
+			})
+			return
+		}
+		msg.CorrelationData = correlationData.String()
 	}
-	msg.CorrelationData = correlationData.String()
 
 	ts := pub.UserProperties[constants.Timestamp]
 	if ts != "" {
+		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
 			l.error(ctx, pub, err)

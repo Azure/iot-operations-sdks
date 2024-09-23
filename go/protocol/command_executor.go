@@ -171,6 +171,7 @@ func NewCommandExecutor[Req, Res any](
 		topic:       reqTF,
 		shareName:   options.ShareName,
 		concurrency: options.Concurrency,
+		correlation: true,
 		logger:      log.Wrap(options.Logger),
 		handler:     ce,
 	}
