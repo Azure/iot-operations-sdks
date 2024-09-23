@@ -39,8 +39,7 @@ use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.schemaClassName)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write(";\r\n\r\nuse super::wrapper::MODEL_ID;\r\nuse super::wrapper::TELEMETRY_TOPIC_PATTERN;\r" +
-                    "\n\r\npub struct ");
+            this.Write(";\r\n\r\nuse super::MODEL_ID;\r\nuse super::TELEMETRY_TOPIC_PATTERN;\r\n\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("Sender<PS: MqttPubSub + Clone + Send + Sync + \'static>(TelemetrySender<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));

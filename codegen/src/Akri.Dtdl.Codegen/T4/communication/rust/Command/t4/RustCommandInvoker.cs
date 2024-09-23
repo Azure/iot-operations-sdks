@@ -60,8 +60,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema));
             this.Write(";\r\n");
  } 
-            this.Write("\r\nuse super::wrapper::MODEL_ID;\r\nuse super::wrapper::REQUEST_TOPIC_PATTERN;\r\n\r\npu" +
-                    "b struct ");
+            this.Write("\r\nuse super::MODEL_ID;\r\nuse super::REQUEST_TOPIC_PATTERN;\r\n\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker<PS: MqttPubSub + Clone + Send + Sync + \'static>(CommandInvoker<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.TypeParams()));

@@ -14,8 +14,8 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
 
-use super::wrapper::MODEL_ID;
-use super::wrapper::TELEMETRY_TOPIC_PATTERN;
+use super::MODEL_ID;
+use super::TELEMETRY_TOPIC_PATTERN;
 
 pub struct <#=this.schemaClassName#>Sender<PS: MqttPubSub + Clone + Send + Sync + 'static>(TelemetrySender<<#=this.schemaClassName#>, PS>);
 

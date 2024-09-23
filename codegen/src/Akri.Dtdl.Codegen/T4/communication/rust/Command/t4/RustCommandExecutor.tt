@@ -28,8 +28,8 @@ use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
 use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>;
 <# } #>
 
-use super::wrapper::MODEL_ID;
-use super::wrapper::REQUEST_TOPIC_PATTERN;
+use super::MODEL_ID;
+use super::REQUEST_TOPIC_PATTERN;
 
 pub struct <#=this.capitalizedCommandName#>CommandExecutor<PS: MqttPubSub + Clone + Send + Sync + 'static, PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(CommandExecutor<<#=this.TypeParams()#>, PS, PR>);
 

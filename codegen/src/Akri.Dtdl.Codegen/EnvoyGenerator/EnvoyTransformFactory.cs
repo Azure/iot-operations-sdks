@@ -69,7 +69,7 @@ namespace Akri.Dtdl.Codegen
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, syncApi))
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, sourceFilePaths, syncApi))
             {
                 yield return templateTransform;
             }
@@ -186,7 +186,7 @@ namespace Akri.Dtdl.Codegen
             cmdNameReqResps.Add((commandName, reqSchemaClass, respSchemaClass));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, bool syncApi)
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, HashSet<string> sourceFilePaths, bool syncApi)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
@@ -209,7 +209,7 @@ namespace Akri.Dtdl.Codegen
                     yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
-                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, sourceFilePaths);
                     break;
                 case "c":
                     break;
@@ -232,7 +232,6 @@ namespace Akri.Dtdl.Codegen
                 case "python":
                     break;
                 case "rust":
-                    yield return new RustNamespace(genNamespace, sourceFilePaths);
                     yield return new RustLib(genNamespace);
                     yield return new RustCargoToml(projectName, genFormat, sdkPath);
                     break;

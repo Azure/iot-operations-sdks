@@ -25,8 +25,8 @@ use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
 use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>;
 <# } #>
 
-use super::wrapper::MODEL_ID;
-use super::wrapper::REQUEST_TOPIC_PATTERN;
+use super::MODEL_ID;
+use super::REQUEST_TOPIC_PATTERN;
 
 pub struct <#=this.capitalizedCommandName#>CommandInvoker<PS: MqttPubSub + Clone + Send + Sync + 'static>(CommandInvoker<<#=this.TypeParams()#>, PS>);
 
