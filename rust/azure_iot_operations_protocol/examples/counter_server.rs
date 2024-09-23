@@ -4,6 +4,7 @@
 use std::time::Duration;
 
 use env_logger::Builder;
+use thiserror::Error;
 use tokio::time::Instant;
 
 use azure_iot_operations_mqtt::session::{
@@ -93,6 +94,7 @@ async fn rpc_loop(
                 let response = CounterResponse {
                     counter_response: counter,
                 };
+                tokio::time::sleep(Duration::from_secs(1)).await;
                 let response = CommandResponseBuilder::default()
                     .payload(&response)
                     .unwrap()
@@ -123,6 +125,12 @@ pub struct CounterRequest {}
 #[derive(Clone, Debug, Default)]
 pub struct CounterResponse {
     counter_response: u64,
+}
+
+#[derive(Error, Debug)]
+pub enum CounterError {
+    #[error("Invalid payload: {0:?}")]
+    Deserialize(Vec<u8>),
 }
 
 impl PayloadSerialize for CounterRequest {
@@ -176,7 +184,7 @@ impl PayloadSerialize for CounterResponse {
             }
         } else {
             Err(SerializerError {
-                nested_error: ("Invalid payload".into()),
+                nested_error: Box::new(CounterError::Deserialize(payload.into())),
             })
         }
     }

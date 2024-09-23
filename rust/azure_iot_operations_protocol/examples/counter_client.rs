@@ -15,6 +15,7 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
+use thiserror::Error;
 
 const REQUEST_TOPIC_PATTERN: &str = "rpc/command-samples/{executorId}/{commandName}";
 
@@ -112,6 +113,12 @@ pub struct CounterResponse {
     counter_response: u64,
 }
 
+#[derive(Error, Debug)]
+pub enum CounterError {
+    #[error("Invalid payload: {0:?}")]
+    Deserialize(Vec<u8>),
+}
+
 impl PayloadSerialize for CounterRequest {
     fn content_type() -> &'static str {
         "application/json"
@@ -160,7 +167,7 @@ impl PayloadSerialize for CounterResponse {
             }
         } else {
             Err(SerializerError {
-                nested_error: ("Invalid payload".into()),
+                nested_error: Box::new(CounterError::Deserialize(payload.into())),
             })
         }
     }

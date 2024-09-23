@@ -7,7 +7,7 @@ use std::{error::Error, fmt};
 #[derive(Debug)]
 pub struct SerializerError {
     /// Error created by the custom serializer
-    pub nested_error: Box<dyn Error>,
+    pub nested_error: Box<dyn Error + Send>,
 }
 
 impl fmt::Display for SerializerError {
