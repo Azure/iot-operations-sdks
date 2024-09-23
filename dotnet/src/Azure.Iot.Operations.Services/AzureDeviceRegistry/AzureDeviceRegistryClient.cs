@@ -8,10 +8,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public class AzureDeviceRegistryClient : IDisposable
     {
         // The operator will deploy the connector pod with these environment variables set.
-        string ConfigMapMountPathEnvVar = "CONFIGMAP_MOUNT_PATH";
-        string AepUsernameSecretMountPathEnvVar = "AEP_USERNAME_SECRET_MOUNT_PATH";
-        string AepPasswordSecretMountPathEnvVar = "AEP_PASSWORD_SECRET_MOUNT_PATH";
-        string AepCertMountPathEnvVar = "AEP_CERT_MOUNT_PATH";
+        internal const string ConfigMapMountPathEnvVar = "CONFIGMAP_MOUNT_PATH";
+        internal const string AepUsernameSecretMountPathEnvVar = "AEP_USERNAME_SECRET_MOUNT_PATH";
+        internal const string AepPasswordSecretMountPathEnvVar = "AEP_PASSWORD_SECRET_MOUNT_PATH";
+        internal const string AepCertMountPathEnvVar = "AEP_CERT_MOUNT_PATH";
 
         // The operator will deploy the connector pod with volumes with this information.
         // These particular files will be in the configmap mount path folder
@@ -41,9 +41,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar) ?? throw new ArgumentException("TODO misconfiguration");
         }
 
-        public async Task<Asset> GetAssetAsync()
+        public Task<Asset> GetAssetAsync()
         {
-
+            throw new NotImplementedException();
         }
 
         public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync()
@@ -196,7 +196,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         private async static Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
         {
-            byte[]? bytesRead = await File.ReadAllBytesAsync(path);
+            byte[]? bytesRead = await GetMountedConfigurationValueAsync(path);
 
             return bytesRead != null ? Encoding.UTF8.GetString(bytesRead) : null;
         }

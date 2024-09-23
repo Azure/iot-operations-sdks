@@ -8,9 +8,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     public class Asset
     {
-        public string AssetId { get; set; }
+        public string? AssetId { get; set; }
 
-        public string DefaultTopic { get; set; }
+        public string? DefaultTopic { get; set; }
 
     }
 }
