@@ -103,7 +103,7 @@ const DefaultMessageExpiry = 10
 ```
 
 <a name="Listen"></a>
-## func [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L187>)
+## func [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L185>)
 
 ```go
 func Listen(ctx context.Context, listeners ...Listener) (func(), error)

@@ -12,7 +12,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
     private readonly SchemaRegistryClientStub _clientStub = new (pubSubClient);
     private bool _disposed;
 
-    public async Task<SchemaInfo> GetAsync(
+    public async Task<SchemaInfo?> GetAsync(
         string schemaId,
         string version = "1.0.0",
         TimeSpan? timeout = default,
@@ -32,7 +32,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
             }, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
     }
 
-    public async Task<SchemaInfo> PutAsync(
+    public async Task<SchemaInfo?> PutAsync(
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,

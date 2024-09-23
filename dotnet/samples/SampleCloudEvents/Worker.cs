@@ -24,7 +24,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
         {
             CloudEvent = new CloudEvent(new Uri("aio://oven/sample"))
             {
-                DataSchema = $"sr://{schemaInfo.Namespace}/{schemaInfo.Name}#{schemaInfo.Version}"
+                DataSchema = $"sr://{schemaInfo?.Namespace}/{schemaInfo?.Name}#{schemaInfo?.Version}"
             }
         };
 

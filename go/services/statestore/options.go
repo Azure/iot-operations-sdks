@@ -1,19 +1,15 @@
 package statestore
 
-import "time"
+import (
+	"time"
+
+	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+)
 
 type (
-	// SetOption represents a single option for the Set method.
-	SetOption interface{ set(*SetOptions) }
-
-	// SetOptions are the resolved options for the Set method.
-	SetOptions struct {
-		Condition Condition
-		Expiry    time.Duration
-	}
-
 	// Condition specifies the conditions under which the key will be set.
-	Condition byte
+	Condition string
 
 	// WithCondition indicates that the key should only be set under the given
 	// conditions.
@@ -22,49 +18,30 @@ type (
 	// WithExpiry indicates that the key should expire after the given duration
 	// (with millisecond precision).
 	WithExpiry time.Duration
+
+	// WithFencingToken adds a fencing token to the set request to provide lock
+	// ownership checking.
+	WithFencingToken hlc.HybridLogicalClock
+
+	// WithTimeout adds a timeout to the request (with second precision).
+	WithTimeout time.Duration
+
+	// Extract the underlying invoke options where applicable.
+	invokeOptions interface {
+		invoke() *protocol.InvokeOptions
+	}
 )
 
 const (
 	// Always indicates that the key should always be set to the provided value.
 	// This is the default.
-	Always Condition = iota
+	Always Condition = ""
 
 	// NotExists indicates that the key should only be set if it does not exist.
-	NotExists
+	NotExists Condition = "NX"
 
 	// NotExistOrEqual indicates that the key should only be set if it does not
 	// exist or is equal to the set value. This is typically used to update the
 	// expiry on the key.
-	NotExistsOrEqual
+	NotExistsOrEqual Condition = "NEX"
 )
-
-// Apply resolves the provided list of options.
-func (o *SetOptions) Apply(
-	opts []SetOption,
-	rest ...SetOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.set(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.set(o)
-		}
-	}
-}
-
-func (o *SetOptions) set(opt *SetOptions) {
-	if o != nil {
-		*opt = *o
-	}
-}
-
-func (o WithCondition) set(opt *SetOptions) {
-	opt.Condition = Condition(o)
-}
-
-func (o WithExpiry) set(opt *SetOptions) {
-	opt.Expiry = time.Duration(o)
-}
