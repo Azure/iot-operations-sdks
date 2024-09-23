@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
@@ -26,12 +27,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         private string _aepPasswordSecretMountPath;
         private string _aepCertMountPath;
 
-
-        FileSystemWatcher credentialsFilesSystemWatcher = new();
+        FileSystemWatcher assetEndpointProfileFilesSystemWatcher = new();
         FileSystemWatcher assetFilesSystemWatcher = new();
 
-        public event EventHandler<AssetEndpointProfileCredentials>? CredentialsFileChanged;
-        public event EventHandler<AssetEndpointProfile>? AssetFileChanged;
+        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileFileChanged;
+        public event EventHandler<Asset>? AssetFileChanged;
 
         public AzureDeviceRegistryClient()
         {
@@ -41,13 +41,32 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar) ?? throw new ArgumentException("TODO misconfiguration");
         }
 
-        //TODO what all constitutes the asset here? Additional config + auth method + endpoint profile + target address?
-        public AssetEndpointProfile GetAsset()
+        public async Task<Asset> GetAssetAsync()
         {
-            string aepTargetAddressFileContents = GetMountedConfigurationValue($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string aepAuthenticationMethodFileContents = GetMountedConfigurationValue($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string endpointProfileTypeFileContents = GetMountedConfigurationValue($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string? aepAdditionalConfigurationFileContents = GetMountedConfigurationValue($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
+
+        }
+
+        public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync()
+        {
+            string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
+            string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
+            string? aepUsernameSecretFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
+            byte[]? aepPasswordSecretFileContents = await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
+            string? aepCertFileContents = await GetMountedConfigurationValueAsStringAsync(_aepCertMountPath);
+
+            X509Certificate2? aepCert = null;
+            if (aepCertFileContents != null)
+            {
+                //TODO this is a PEM file, right?
+                aepCert = X509Certificate2.CreateFromPemFile(aepCertFileContents);
+            }
+
+            var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCert);
+
+            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
 
             JsonDocument? aepAdditionalConfigurationJson = null;
             if (aepAdditionalConfigurationFileContents != null)
@@ -62,36 +81,17 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 }
             }
 
-            return new AssetEndpointProfile(aepTargetAddressFileContents, aepAuthenticationMethodFileContents, endpointProfileTypeFileContents, aepAdditionalConfigurationJson);
-        }
-
-        public AssetEndpointProfileCredentials GetAssetCredentials()
-        {
-            string? aepUsernameSecretName = GetMountedConfigurationValue($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-            string? aepPasswordSecretName = GetMountedConfigurationValue($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-            string? aepUsernameSecretFileContents = GetMountedConfigurationValue($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
-            string? aepPasswordSecretFileContents = GetMountedConfigurationValue($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
-            string? aepCertFileContents = GetMountedConfigurationValue(_aepCertMountPath);
-
-            X509Certificate2? aepCert = null;
-            if (aepCertFileContents != null)
+            return new AssetEndpointProfile(aepTargetAddressFileContents, aepAuthenticationMethodFileContents, endpointProfileTypeFileContents)
             {
-                //TODO this is a PEM file, right?
-                aepCert = X509Certificate2.CreateFromPemFile(aepCertFileContents);
-            }
-
-            return new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCert);
+                AdditionalConfiguration = aepAdditionalConfigurationJson,
+                Credentials = credentials,
+            };
         }
 
         public void ObserveAsset()
         {
-            if (!assetFilesSystemWatcher.Filters.Contains($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}"))
+            if (!assetFilesSystemWatcher.Filters.Contains("TODO"))
             {
-                assetFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
-
                 assetFilesSystemWatcher.Changed += OnAssetFileChanged;
 
                 assetFilesSystemWatcher.EnableRaisingEvents = true;
@@ -100,100 +100,115 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         public void UnobserveAsset()
         {
-            if (assetFilesSystemWatcher.Filters.Contains($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}"))
+            if (assetFilesSystemWatcher.Filters.Contains("TODO"))
             {
-                assetFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}");
-                assetFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
-
                 assetFilesSystemWatcher.Changed -= OnAssetFileChanged;
 
                 assetFilesSystemWatcher.EnableRaisingEvents = false;
             }
         }
 
-        public void ObserveAssetCredentials()
+        public void ObserveAssetEndpointProfile()
         {
-            if (!credentialsFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
+            if (!assetEndpointProfileFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
             {
-                credentialsFilesSystemWatcher.Filters.Add(_aepUsernameSecretMountPath);
-                credentialsFilesSystemWatcher.Filters.Add(_aepPasswordSecretMountPath);
-                credentialsFilesSystemWatcher.Filters.Add(_aepCertMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
 
-                credentialsFilesSystemWatcher.Changed += OnCredentialsFileChanged;
+                assetEndpointProfileFilesSystemWatcher.Filters.Add(_aepUsernameSecretMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Add(_aepPasswordSecretMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Add(_aepCertMountPath);
 
-                credentialsFilesSystemWatcher.EnableRaisingEvents = true;
+                assetEndpointProfileFilesSystemWatcher.Changed += OnAssetEndpointProfileFileChanged;
+
+                assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = true;
             }
         }
 
-        public void UnobserveAssetCredentials()
+        public void UnobserveAssetEndpointProfile()
         {
-            if (credentialsFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
+            if (assetEndpointProfileFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
             {
-                credentialsFilesSystemWatcher.Filters.Remove(_aepUsernameSecretMountPath);
-                credentialsFilesSystemWatcher.Filters.Remove(_aepPasswordSecretMountPath);
-                credentialsFilesSystemWatcher.Filters.Remove(_aepCertMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}");
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
 
-                credentialsFilesSystemWatcher.Changed -= OnCredentialsFileChanged;
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove(_aepUsernameSecretMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove(_aepPasswordSecretMountPath);
+                assetEndpointProfileFilesSystemWatcher.Filters.Remove(_aepCertMountPath);
 
-                credentialsFilesSystemWatcher.EnableRaisingEvents = false;
+                assetEndpointProfileFilesSystemWatcher.Changed -= OnAssetEndpointProfileFileChanged;
+
+                assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = false;
             }
         }
 
-        private void OnCredentialsFileChanged(object sender, FileSystemEventArgs e)
+        private void OnAssetEndpointProfileFileChanged(object sender, FileSystemEventArgs e)
         {
-            switch (e.ChangeType)
+            new Task(async () =>
             {
-                case WatcherChangeTypes.Changed:
-                    CredentialsFileChanged?.Invoke(this, GetAssetCredentials());
-                    break;
-                case WatcherChangeTypes.Created:
-                case WatcherChangeTypes.Renamed:
-                case WatcherChangeTypes.Deleted:
-                default:
-                    // This would only happen if the user is messing around with these files for some reason. Under
-                    // normal conditions, the credentials files should only ever be updated in place with new credentials
-                    Trace.TraceWarning("One or more asset endpoint profile credentials files was renamed/deleted/created unexpectedly");
-                    break;
-            }
+                switch (e.ChangeType)
+                {
+                    case WatcherChangeTypes.Changed:
+                        AssetEndpointProfileFileChanged?.Invoke(this, await GetAssetEndpointProfileAsync());
+                        break;
+                    case WatcherChangeTypes.Created:
+                    case WatcherChangeTypes.Renamed:
+                    case WatcherChangeTypes.Deleted:
+                    default:
+                        // This would only happen if the user is messing around with these files for some reason. Under
+                        // normal conditions, the credentials files should only ever be updated in place with new credentials
+                        Trace.TraceWarning("One or more asset endpoint profile credentials files was renamed/deleted/created unexpectedly");
+                        break;
+                }
+            }).Start();
         }
 
         private void OnAssetFileChanged(object sender, FileSystemEventArgs e)
         {
-            switch (e.ChangeType)
+            new Task(async () =>
             {
-                case WatcherChangeTypes.Changed:
-                    AssetFileChanged?.Invoke(this, GetAsset());
-                    break;
-                case WatcherChangeTypes.Created:
-                case WatcherChangeTypes.Renamed:
-                case WatcherChangeTypes.Deleted:
-                default:
-                    // This would only happen if the user is messing around with these files for some reason. Under
-                    // normal conditions, the credentials files should only ever be updated in place with new credentials
-                    Trace.TraceWarning("One or more asset files was renamed/deleted/created unexpectedly");
-                    break;
-            }
+                switch (e.ChangeType)
+                {
+                    case WatcherChangeTypes.Changed:
+                        AssetFileChanged?.Invoke(this, await GetAssetAsync());
+                        break;
+                    case WatcherChangeTypes.Created:
+                    case WatcherChangeTypes.Renamed:
+                    case WatcherChangeTypes.Deleted:
+                    default:
+                        // This would only happen if the user is messing around with these files for some reason. Under
+                        // normal conditions, the asset files should only ever be updated in place
+                        Trace.TraceWarning("One or more asset files was renamed/deleted/created unexpectedly");
+                        break;
+                }
+            }).Start();
         }
 
         public void Dispose()
         {
-            credentialsFilesSystemWatcher.Dispose();
+            assetEndpointProfileFilesSystemWatcher.Dispose();
             assetFilesSystemWatcher.Dispose();
         }
 
-        private static string? GetMountedConfigurationValue(string path)
+        private async static Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
+        {
+            byte[]? bytesRead = await File.ReadAllBytesAsync(path);
+
+            return bytesRead != null ? Encoding.UTF8.GetString(bytesRead) : null;
+        }
+
+        private async static Task<byte[]?> GetMountedConfigurationValueAsync(string path)
         {
             if (!File.Exists(path))
             {
                 return null;
             }
 
-            using (var reader = new StreamReader(path))
-            {
-                return reader.ReadToEnd();
-            }
+            return await File.ReadAllBytesAsync(path);
         }
     }
 }
