@@ -55,6 +55,8 @@ func (c *Client) receive(
 		val = data[3]
 	}
 
+	c.notifyMu.RLock()
+	defer c.notifyMu.RUnlock()
 	select {
 	case c.notify <- Notify{string(data[1]), string(bytKey), val}:
 	case <-ctx.Done():

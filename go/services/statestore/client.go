@@ -102,10 +102,10 @@ func (c *Client) Listen(ctx context.Context) (func(), error) {
 
 	return func() {
 		done()
-		close(c.notify)
 
 		c.notifyMu.Lock()
 		defer c.notifyMu.Unlock()
+		close(c.notify)
 		c.notify = nil
 	}, nil
 }

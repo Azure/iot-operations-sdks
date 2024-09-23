@@ -42,7 +42,7 @@ func main() {
 	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
 
 	get := must(client.Get(ctx, stateStoreKey))
-	slog.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
+	log.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
 
 	must(client.Del(ctx, stateStoreKey))
 	n = <-client.Notify()

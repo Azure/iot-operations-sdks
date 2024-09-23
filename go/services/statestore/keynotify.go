@@ -32,7 +32,7 @@ func (c *Client) KeyNotify(
 	opts.Apply(opt)
 
 	args := []string{"KEYNOTIFY", key}
-	if !opts.Stop {
+	if opts.Stop {
 		args = append(args, "STOP")
 	}
 	return invoke(ctx, c.invoker, parseOK, &opts, args...)
