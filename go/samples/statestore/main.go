@@ -34,14 +34,14 @@ func main() {
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	check(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
-	slog.Info("SET", "key", stateStoreKey, "value", stateStoreValue)
+	set := must(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
+	slog.Info("SET", "key", stateStoreKey, "value", set.Value, "version", set.Version)
 
-	stateStoreValue = string(must(client.Get(ctx, stateStoreKey)))
-	slog.Info("GET", "key", stateStoreKey, "value", stateStoreValue)
+	get := must(client.Get(ctx, stateStoreKey))
+	slog.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
 
-	delResult := must(client.Del(ctx, stateStoreKey))
-	slog.Info("DEL", "key", stateStoreKey, "value", delResult)
+	del := must(client.Del(ctx, stateStoreKey))
+	slog.Info("DEL", "key", stateStoreKey, "value", del.Value, "version", del.Version)
 }
 
 func check(e error) {
