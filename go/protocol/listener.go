@@ -107,12 +107,10 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	ts := pub.UserProperties[constants.Timestamp]
 	if ts != "" {
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
-	} else {
-		msg.Timestamp, err = hlc.Get()
-	}
-	if err != nil {
-		l.error(ctx, pub, err)
-		return
+		if err != nil {
+			l.error(ctx, pub, err)
+			return
+		}
 	}
 
 	msg.Metadata = internal.PropToMetadata(pub.UserProperties)
