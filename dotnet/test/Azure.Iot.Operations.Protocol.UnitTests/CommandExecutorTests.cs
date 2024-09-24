@@ -1344,10 +1344,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.NotNull(mock.MessagePublished);
             Assert.Null(mock.MessagePublished.PayloadSegment.Array);
 
-            Assert.True(mock.MessagePublished.UserProperties.TryGetProperty(AkriSystemProperties.Status, out string? cmdStatus));
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? cmdStatus));
             Assert.Equal(((int)CommandStatusCode.BadRequest).ToString(CultureInfo.InvariantCulture), cmdStatus);
 
-            Assert.False(mock.MessagePublished.UserProperties.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) && isAppError?.ToLower() == "true");
+            Assert.False(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) && isAppError?.ToLower() == "true");
         }
 
         [Fact]
