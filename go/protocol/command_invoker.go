@@ -150,12 +150,12 @@ func NewCommandInvoker[Req, Res any](
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		client:      ci.client,
-		encoding:    responseEncoding,
-		topic:       resTF,
-		correlation: true,
-		logger:      log.Wrap(options.Logger),
-		handler:     ci,
+		client:         ci.client,
+		encoding:       responseEncoding,
+		topic:          resTF,
+		reqCorrelation: true,
+		logger:         log.Wrap(options.Logger),
+		handler:        ci,
 	}
 
 	return ci, nil

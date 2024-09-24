@@ -22,14 +22,14 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client      mqtt.Client
-		encoding    Encoding[T]
-		topic       string
-		shareName   string
-		concurrency uint
-		correlation bool
-		logger      log.Logger
-		handler     interface {
+		client         mqtt.Client
+		encoding       Encoding[T]
+		topic          string
+		shareName      string
+		concurrency    uint
+		reqCorrelation bool
+		logger         log.Logger
+		handler        interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
@@ -86,7 +86,7 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if l.correlation && len(pub.CorrelationData) == 0 {
+	if l.reqCorrelation && len(pub.CorrelationData) == 0 {
 		l.error(ctx, pub, &errors.Error{
 			Message:    "correlation data missing",
 			Kind:       errors.HeaderMissing,
