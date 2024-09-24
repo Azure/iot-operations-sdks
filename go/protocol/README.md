@@ -10,6 +10,13 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 
 - [Constants](<#constants>)
 - [func Listen\(ctx context.Context, listeners ...Listener\) \(func\(\), error\)](<#Listen>)
+- [func WithLogger\(logger \*slog.Logger\) interface \{
+    Option
+    CommandExecutorOption
+    CommandInvokerOption
+    TelemetryReceiverOption
+    TelemetrySenderOption
+\}](<#WithLogger>)
 - [type CommandExecutor](<#CommandExecutor>)
   - [func NewCommandExecutor\[Req, Res any\]\(client mqtt.Client, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopic string, handler CommandHandler\[Req, Res\], opt ...CommandExecutorOption\) \(ce \*CommandExecutor\[Req, Res\], err error\)](<#NewCommandExecutor>)
   - [func \(ce \*CommandExecutor\[Req, Res\]\) Listen\(ctx context.Context\) \(func\(\), error\)](<#CommandExecutor[Req, Res].Listen>)
@@ -48,7 +55,6 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Listener](<#Listener>)
 - [type Message](<#Message>)
 - [type Option](<#Option>)
-  - [func WithLogger\(logger \*slog.Logger\) Option](<#WithLogger>)
 - [type Raw](<#Raw>)
   - [func \(Raw\) ContentType\(\) string](<#Raw.ContentType>)
   - [func \(Raw\) Deserialize\(data \[\]byte\) \(\[\]byte, error\)](<#Raw.Deserialize>)
@@ -110,6 +116,21 @@ func Listen(ctx context.Context, listeners ...Listener) (func(), error)
 ```
 
 Listen starts all of the provided listeners.
+
+<a name="WithLogger"></a>
+## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L208-L214>)
+
+```go
+func WithLogger(logger *slog.Logger) interface {
+    Option
+    CommandExecutorOption
+    CommandInvokerOption
+    TelemetryReceiverOption
+    TelemetrySenderOption
+}
+```
+
+WithLogger enables logging with the provided slog logger.
 
 <a name="CommandExecutor"></a>
 ## type [CommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L22-L30>)
@@ -529,15 +550,6 @@ type Option interface {
     // contains filtered or unexported methods
 }
 ```
-
-<a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L208>)
-
-```go
-func WithLogger(logger *slog.Logger) Option
-```
-
-WithLogger enables logging with the provided slog logger.
 
 <a name="Raw"></a>
 ## type [Raw](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L26>)

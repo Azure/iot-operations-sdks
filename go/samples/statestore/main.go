@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/lmittmann/tint"
 )
@@ -28,7 +27,7 @@ func main() {
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	check(mqttClient.Connect(ctx))
 
-	client := must(statestore.New(mqttClient, protocol.WithLogger(log)))
+	client := must(statestore.New(mqttClient, statestore.WithLogger(log)))
 	done := must(client.Listen(ctx))
 	defer done()
 

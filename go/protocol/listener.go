@@ -22,14 +22,14 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client      mqtt.Client
-		encoding    Encoding[T]
-		topic       *internal.TopicFilter
-		shareName   string
-		concurrency uint
-		correlation bool
-		logger      log.Logger
-		handler     interface {
+		client         mqtt.Client
+		encoding       Encoding[T]
+		topic          *internal.TopicFilter
+		shareName      string
+		concurrency    uint
+		reqCorrelation bool
+		logger         log.Logger
+		handler        interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
@@ -86,15 +86,15 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if l.correlation {
-		if len(pub.CorrelationData) == 0 {
-			l.error(ctx, pub, &errors.Error{
-				Message:    "correlation data missing",
-				Kind:       errors.HeaderMissing,
-				HeaderName: constants.CorrelationData,
-			})
-			return
-		}
+	if l.reqCorrelation && len(pub.CorrelationData) == 0 {
+		l.error(ctx, pub, &errors.Error{
+			Message:    "correlation data missing",
+			Kind:       errors.HeaderMissing,
+			HeaderName: constants.CorrelationData,
+		})
+		return
+	}
+	if len(pub.CorrelationData) != 0 {
 		correlationData, err := uuid.FromBytes(pub.CorrelationData)
 		if err != nil {
 			l.error(ctx, pub, &errors.Error{
@@ -107,9 +107,9 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		msg.CorrelationData = correlationData.String()
 	}
 
-	var err error
 	ts := pub.UserProperties[constants.Timestamp]
 	if ts != "" {
+		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
 			l.error(ctx, pub, err)

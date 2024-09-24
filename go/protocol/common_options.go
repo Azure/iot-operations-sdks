@@ -205,7 +205,13 @@ func (o WithMetadata) telemetrySender(opt *TelemetrySenderOptions) {
 }
 
 // WithLogger enables logging with the provided slog logger.
-func WithLogger(logger *slog.Logger) Option {
+func WithLogger(logger *slog.Logger) interface {
+	Option
+	CommandExecutorOption
+	CommandInvokerOption
+	TelemetryReceiverOption
+	TelemetrySenderOption
+} {
 	return withLogger{logger}
 }
 
