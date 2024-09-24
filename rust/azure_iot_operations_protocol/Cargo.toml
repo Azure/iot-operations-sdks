@@ -18,7 +18,7 @@ derive_builder = "0.20"
 log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
 tokio = { version = "1.36", features = ["full"] }                       # TODO: Remove full
 tokio-util = "0.7.11"
-uuid = { version = "1.8.0", features = ["v4"] }                                                           # TODO: reconsider inclusion once TLS library is finalized
+uuid = { version = "1.8.0", features = ["v4"] }
 
 [dev-dependencies]
 env_logger = "0.11.3"

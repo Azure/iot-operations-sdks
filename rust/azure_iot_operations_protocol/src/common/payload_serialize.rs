@@ -43,7 +43,8 @@ pub enum FormatIndicator {
 /// ```
 ///
 pub trait PayloadSerialize: Clone {
-    type SerializerError: Debug + Into<Box<dyn Error + Sync + Send + 'static>>;
+    /// The type returned in the event of a serialization/deserialization error
+    type Error: Debug + Into<Box<dyn Error + Sync + Send + 'static>>;
     /// Return content type
     /// Returns a String value to specify the binary format used in the payload, e.g., application/json, application/protobuf, or application/avro.
     fn content_type() -> &'static str;
@@ -55,14 +56,14 @@ pub trait PayloadSerialize: Clone {
     /// Serializes the payload from the generic type to a byte vector
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if the serialization fails.
-    fn serialize(&self) -> Result<Vec<u8>, Self::SerializerError>;
+    /// Returns a [`PayloadSerialize::Error`] if the serialization fails.
+    fn serialize(&self) -> Result<Vec<u8>, Self::Error>;
 
     /// Deserializes the payload from a byte vector to the generic type
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if the deserialization fails.
-    fn deserialize(payload: &[u8]) -> Result<Self, Self::SerializerError>;
+    /// Returns a [`PayloadSerialize::Error`] if the deserialization fails.
+    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error>;
 }
 
 #[cfg(test)]
@@ -74,7 +75,7 @@ mock! {
         fn clone(&self) -> Self;
     }
     impl PayloadSerialize for Payload {
-        type SerializerError = String;
+        type Error = String;
         fn content_type() -> &'static str;
         fn format_indicator() -> FormatIndicator;
         fn serialize(&self) -> Result<Vec<u8>, String>;

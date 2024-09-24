@@ -124,7 +124,7 @@ pub enum CounterSerializerError {
 }
 
 impl PayloadSerialize for CounterRequest {
-    type SerializerError = CounterSerializerError;
+    type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -143,7 +143,7 @@ impl PayloadSerialize for CounterRequest {
 }
 
 impl PayloadSerialize for CounterResponse {
-    type SerializerError = CounterSerializerError;
+    type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }

@@ -84,7 +84,7 @@ pub struct IncrResponse {
 }
 
 impl PayloadSerialize for IncrRequest {
-    type SerializerError = String;
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -104,7 +104,7 @@ impl PayloadSerialize for IncrRequest {
 }
 
 impl PayloadSerialize for IncrResponse {
-    type SerializerError = String;
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }

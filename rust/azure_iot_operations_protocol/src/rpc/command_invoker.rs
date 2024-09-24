@@ -59,8 +59,8 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::SerializerError> {
+    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
+    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.request_payload_type = Some(PhantomData);

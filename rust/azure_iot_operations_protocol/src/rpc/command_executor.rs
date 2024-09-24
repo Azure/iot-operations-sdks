@@ -142,8 +142,8 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     /// Add a payload to the command response. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::SerializerError> {
+    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
+    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.response_payload_type = Some(PhantomData);
