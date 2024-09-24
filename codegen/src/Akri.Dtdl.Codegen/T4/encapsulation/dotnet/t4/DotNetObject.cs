@@ -72,7 +72,7 @@ namespace Akri.Dtdl.Codegen
  if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { 
             this.Write("            if (");
             this.Write(this.ToStringHelper.ToStringWithCulture(Capitalize(fieldInfo.Key)));
-            this.Write(" is null)\r\n            {\r\n                throw new InvalidOperationException(\"");
+            this.Write(" is null)\r\n            {\r\n                throw new ArgumentNullException(\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldInfo.Key));
             this.Write(" field cannot be null\");\r\n            }\r\n");
  } 
@@ -82,7 +82,7 @@ namespace Akri.Dtdl.Codegen
  if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { 
             this.Write("            if (");
             this.Write(this.ToStringHelper.ToStringWithCulture(Capitalize(fieldInfo.Key)));
-            this.Write(" is null)\r\n            {\r\n                throw new InvalidOperationException(\"");
+            this.Write(" is null)\r\n            {\r\n                throw new ArgumentNullException(\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldInfo.Key));
             this.Write(" field cannot be null\");\r\n            }\r\n");
  } 
