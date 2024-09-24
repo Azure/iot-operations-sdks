@@ -47,11 +47,7 @@ jobs:
       - name: Generate index.html
         run: |
           mkdir _site
-          echo "<html><body><h1>Documentation</h1><ul>" > _site/index.html
-          echo "<li><a href='rust/azure_iot_operations_mqtt/index.html'>Rust</a></li>" >> _site/index.html
-          echo "<li><a href='go/index.html'>Go</a></li>" >> _site/index.html
-          echo "<li><a href='dotnet/index.html'>.NET</a></li>" >> _site/index.html
-          echo "</ul></body></html>" >> _site/index.html
+          cp .github/index-pages.html _site/index.html
 
       - name: Build Rust docs
         run: |
