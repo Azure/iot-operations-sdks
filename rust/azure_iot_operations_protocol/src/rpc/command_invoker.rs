@@ -916,7 +916,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             return Err(AIOProtocolError::new_payload_invalid_error(
                 false,
                 false,
-                Some(e.nested_error),
+                Some(Box::new(e)),
                 None,
                 None,
                 Some(command_name),
@@ -1356,16 +1356,16 @@ mod tests {
         mock_payload_deserialize_ctx
             .expect()
             .returning(|_| {
-                Err(SerializerError {
-                    nested_error: Box::new(AIOProtocolError::new_payload_invalid_error(
+                Err(SerializerError::Other(Box::new(
+                    AIOProtocolError::new_payload_invalid_error(
                         false,
                         false,
                         None,
                         None,
                         None,
                         Some("test_command_name".to_string()),
-                    )),
-                })
+                    ),
+                )))
             })
             .once();
 
@@ -1571,14 +1571,7 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| {
-                Err(SerializerError {
-                    // dummy nested error, doesn't matter what it is
-                    nested_error: Box::new(AIOProtocolError::new_payload_invalid_error(
-                        true, false, None, None, None, None,
-                    )),
-                })
-            })
+            .returning(|| Err(SerializerError::Simple("dummy error".to_string())))
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();

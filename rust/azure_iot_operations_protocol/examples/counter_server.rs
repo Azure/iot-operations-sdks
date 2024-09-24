@@ -4,7 +4,6 @@
 use std::time::Duration;
 
 use env_logger::Builder;
-use thiserror::Error;
 use tokio::time::Instant;
 
 use azure_iot_operations_mqtt::session::{
@@ -127,12 +126,6 @@ pub struct CounterResponse {
     counter_response: u64,
 }
 
-#[derive(Error, Debug)]
-pub enum CounterError {
-    #[error("Invalid payload: {0:?}")]
-    Deserialize(Vec<u8>),
-}
-
 impl PayloadSerialize for CounterRequest {
     fn content_type() -> &'static str {
         "application/json"
@@ -173,19 +166,15 @@ impl PayloadSerialize for CounterResponse {
                         Ok(n) => Ok(CounterResponse {
                             counter_response: n,
                         }),
-                        Err(e) => Err(SerializerError {
-                            nested_error: Box::new(e),
-                        }),
+                        Err(e) => Err(SerializerError::Other(Box::new(e))),
                     }
                 }
-                Err(e) => Err(SerializerError {
-                    nested_error: Box::new(e),
-                }),
+                Err(e) => Err(SerializerError::Other(Box::new(e))),
             }
         } else {
-            Err(SerializerError {
-                nested_error: Box::new(CounterError::Deserialize(payload.into())),
-            })
+            Err(SerializerError::Simple(format!(
+                "Invalid payload: {payload:?}"
+            )))
         }
     }
 }

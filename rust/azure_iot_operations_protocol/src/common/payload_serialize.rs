@@ -1,25 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-use std::{error::Error, fmt};
+use thiserror::Error;
 
 /// Error type for serialization and deserialization
-#[derive(Debug)]
-pub struct SerializerError {
-    /// Error created by the custom serializer
-    pub nested_error: Box<dyn Error + Send>,
-}
-
-impl fmt::Display for SerializerError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.nested_error)
-    }
-}
-
-impl Error for SerializerError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        Some(self.nested_error.as_ref())
-    }
+#[derive(Debug, Error)]
+pub enum SerializerError {
+    /// Serializer error that just has an error message
+    #[error("{0}")]
+    Simple(String),
+    /// Serializer error from an underlying component
+    #[error(transparent)]
+    Other(#[from] Box<dyn std::error::Error + Send>),
 }
 
 /// Format indicator for serialization and deserialization.

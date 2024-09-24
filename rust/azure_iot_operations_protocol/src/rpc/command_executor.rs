@@ -1140,14 +1140,7 @@ mod tests {
         let mut mock_response_payload = MockPayload::new();
         mock_response_payload
             .expect_serialize()
-            .returning(|| {
-                Err(SerializerError {
-                    // dummy nested error, doesn't matter what it is
-                    nested_error: Box::new(AIOProtocolError::new_payload_invalid_error(
-                        true, false, None, None, None, None,
-                    )),
-                })
-            })
+            .returning(|| Err(SerializerError::Simple("dummy error".to_string())))
             .times(1);
 
         let mut binding = CommandResponseBuilder::default();
