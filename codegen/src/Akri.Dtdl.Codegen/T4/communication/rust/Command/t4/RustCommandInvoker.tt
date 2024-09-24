@@ -20,6 +20,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandResponse,
 };
 
+use super::super::common_types::common_options::CommonOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
 use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
 <# } #>
@@ -61,11 +62,19 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
 pub struct <#=this.capitalizedCommandName#>CommandInvoker<PS: MqttPubSub + Clone + Send + Sync + 'static>(CommandInvoker<<#=this.RequestType()#>, <#=this.ResponseType()#>, PS>);
 
 impl<PS: MqttPubSub + Clone + Send + Sync + 'static> <#=this.capitalizedCommandName#>CommandInvoker<PS> {
-    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
+        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        if let Some(topic_namespace) = &common_options.topic_namespace {
+            invoker_options_builder.topic_namespace(topic_namespace.clone());
+        }
+        let invoker_options = invoker_options_builder
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("<#=this.commandName#>")
+            .custom_topic_token_map(common_options.custom_topic_token_map.clone())
             .build()
             .unwrap();
         CommandInvoker::new(mqtt_provider, invoker_options).map(|ce| Self(ce))

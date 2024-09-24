@@ -45,7 +45,8 @@ namespace Akri.Dtdl.Codegen
  } 
             this.Write("\r\nuse azure_iot_operations_mqtt::interface::{\r\nMqttProvider, MqttPubSub, MqttPubR" +
                     "eceiver, MqttAck,\r\n};\r\nuse azure_iot_operations_protocol::common::aio_protocol_e" +
-                    "rror::AIOProtocolError;\r\n");
+                    "rror::AIOProtocolError;\r\n\r\nuse crate::common_types::common_options::CommonOption" +
+                    "s;\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("\r\nuse ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
@@ -108,21 +109,22 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? ", PR" : ""));
             this.Write("> {\r\n    pub fn new");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdNameReqResps.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"));
-            this.Write("(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError>" +
-                    " {\r\n        let service = Self {\r\n");
+            this.Write("(\r\n        mqtt_provider: &mut impl MqttProvider<PS, PR>,\r\n        common_options" +
+                    ": &CommonOptions,\r\n    ) -> Result<Self, AIOProtocolError> {\r\n        let servic" +
+                    "e = Self {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
-            this.Write("CommandExecutor::new(mqtt_provider)?,\r\n");
+            this.Write("CommandExecutor::new(mqtt_provider, common_options)?,\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{telemSchema}Sender")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
-            this.Write("Sender::new(mqtt_provider)?,\r\n");
+            this.Write("Sender::new(mqtt_provider, common_options)?,\r\n");
  } 
             this.Write("        };\r\n\r\n        Ok(service)\r\n    }\r\n}\r\n\r\nimpl<PS: MqttPubSub + Clone + Send" +
                     " + Sync + \'static");
@@ -131,21 +133,22 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? ", PR" : ""));
             this.Write("> {\r\n    pub fn new");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemSchemas.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"));
-            this.Write("(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError>" +
-                    " {\r\n        let client = Self {\r\n");
+            this.Write("(\r\n        mqtt_provider: &mut impl MqttProvider<PS, PR>,\r\n        common_options" +
+                    ": &CommonOptions,\r\n    ) -> Result<Self, AIOProtocolError> {\r\n        let client" +
+                    " = Self {\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(cmdNameReqResp.Item1)));
-            this.Write("CommandInvoker::new(mqtt_provider)?,\r\n");
+            this.Write("CommandInvoker::new(mqtt_provider, common_options)?,\r\n");
  } 
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase($"{telemSchema}Receiver")));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsUpper(telemSchema)));
-            this.Write("Receiver::new(mqtt_provider)?,\r\n");
+            this.Write("Receiver::new(mqtt_provider, common_options)?,\r\n");
  } 
             this.Write("        };\r\n\r\n        Ok(client)\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();

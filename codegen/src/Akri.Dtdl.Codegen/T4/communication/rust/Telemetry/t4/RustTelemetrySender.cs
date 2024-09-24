@@ -35,6 +35,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
 };
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
+use super::super::common_types::common_options::CommonOptions;
 use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.schemaClassName)));
             this.Write("::");
@@ -46,8 +47,15 @@ use super::");
             this.Write(", PS>);\r\n\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write(@"Sender<PS> {
-    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
-        let sender_options = TelemetrySenderOptionsBuilder::default()
+    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
+        let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
+        if let Some(topic_namespace) = &common_options.topic_namespace {
+            sender_options_builder.topic_namespace(topic_namespace.clone());
+        }
+        let sender_options = sender_options_builder
             .model_id(MODEL_ID.to_string())
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
 ");
@@ -56,9 +64,14 @@ use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryName));
             this.Write("\")\r\n");
  } 
-            this.Write("            .build()\r\n            .unwrap();\r\n        TelemetrySender::new(mqtt_p" +
-                    "rovider, sender_options).map(|ce| Self(ce))\r\n    }\r\n}\r\n\r\nimpl<PS: MqttPubSub + C" +
-                    "lone + Send + Sync + \'static> Deref for ");
+            this.Write(@"            .custom_topic_token_map(common_options.custom_topic_token_map.clone())
+            .build()
+            .unwrap();
+        TelemetrySender::new(mqtt_provider, sender_options).map(|ce| Self(ce))
+    }
+}
+
+impl<PS: MqttPubSub + Clone + Send + Sync + 'static> Deref for ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("Sender<PS> {\r\n    type Target = TelemetrySender<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));

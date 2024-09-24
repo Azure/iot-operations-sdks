@@ -19,6 +19,8 @@ use azure_iot_operations_mqtt::interface::{
 MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+
+use crate::common_types::common_options::CommonOptions;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
 use <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>::<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor;
@@ -49,13 +51,16 @@ pub struct Client<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.telemSch
 }
 
 impl<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.cmdNameReqResps.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> Service<PS<#=this.cmdNameReqResps.Any() ? ", PR" : ""#>> {
-    pub fn new<#=this.cmdNameReqResps.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
+    pub fn new<#=this.cmdNameReqResps.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
         let service = Self {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor::new(mqtt_provider)?,
+            <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandExecutor")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor::new(mqtt_provider, common_options)?,
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
-            <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender::new(mqtt_provider)?,
+            <#=NamingSupport.ToSnakeCase($"{telemSchema}Sender")#>: <#=this.AsUpper(telemSchema)#>Sender::new(mqtt_provider, common_options)?,
 <# } #>
         };
 
@@ -64,13 +69,16 @@ impl<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.cmdNameReqResps.Any()
 }
 
 impl<PS: MqttPubSub + Clone + Send + Sync + 'static<#=this.telemSchemas.Any() ? ", PR: MqttPubReceiver + MqttAck + Send + Sync + 'static" : ""#>> Client<PS<#=this.telemSchemas.Any() ? ", PR" : ""#>> {
-    pub fn new<#=this.telemSchemas.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
+    pub fn new<#=this.telemSchemas.Any() ? "" : "<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>"#>(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
         let client = Self {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker::new(mqtt_provider)?,
+            <#=NamingSupport.ToSnakeCase($"{cmdNameReqResp.Item1}CommandInvoker")#>: <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker::new(mqtt_provider, common_options)?,
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
-            <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver::new(mqtt_provider)?,
+            <#=NamingSupport.ToSnakeCase($"{telemSchema}Receiver")#>: <#=this.AsUpper(telemSchema)#>Receiver::new(mqtt_provider, common_options)?,
 <# } #>
         };
 

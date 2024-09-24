@@ -35,6 +35,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
 };
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
+use super::super::common_types::common_options::CommonOptions;
 use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.schemaClassName)));
             this.Write("::");
@@ -48,8 +49,15 @@ use super::");
                     "ceiver + MqttAck + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write(@"Receiver<PS, PR> {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+    pub fn new(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
+        let mut receiver_options_builder = TelemetryReceiverOptionsBuilder::default();
+        if let Some(topic_namespace) = &common_options.topic_namespace {
+            receiver_options_builder.topic_namespace(topic_namespace.clone());
+        }
+        let receiver_options = receiver_options_builder
             .model_id(MODEL_ID.to_string())
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
 ");
@@ -58,7 +66,8 @@ use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryName));
             this.Write("\")\r\n");
  } 
-            this.Write(@"            .build()
+            this.Write(@"            .custom_topic_token_map(common_options.custom_topic_token_map.clone())
+            .build()
             .unwrap();
         TelemetryReceiver::new(mqtt_provider, receiver_options).map(|ce| Self(ce))
     }

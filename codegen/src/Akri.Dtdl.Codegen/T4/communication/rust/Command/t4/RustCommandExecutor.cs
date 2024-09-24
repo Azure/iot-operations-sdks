@@ -45,6 +45,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandResponseBuilder,
 };
 
+use super::super::common_types::common_options::CommonOptions;
 ");
  if (this.reqSchema == null || this.respSchema == null) { 
             this.Write("use super::super::common_types::");
@@ -98,8 +99,15 @@ use azure_iot_operations_protocol::rpc::command_executor::{
                     "ceiver + MqttAck + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write(@"CommandExecutor<PS, PR> {
-    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
-        let executor_options = CommandExecutorOptionsBuilder::default()
+    pub fn new(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
+        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+        if let Some(topic_namespace) = &common_options.topic_namespace {
+            executor_options_builder.topic_namespace(topic_namespace.clone());
+        }
+        let executor_options = executor_options_builder
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name(""");
@@ -112,9 +120,14 @@ use azure_iot_operations_protocol::rpc::command_executor::{
  } 
             this.Write("            .is_idempotent(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isIdempotent ? "true" : "false"));
-            this.Write(")\r\n            .build()\r\n            .unwrap();\r\n        CommandExecutor::new(mqt" +
-                    "t_provider, executor_options).map(|ce| Self(ce))\r\n    }\r\n\r\n    pub async fn recv" +
-                    "(&mut self) -> Result<CommandRequest<");
+            this.Write(@")
+            .custom_topic_token_map(common_options.custom_topic_token_map.clone())
+            .build()
+            .unwrap();
+        CommandExecutor::new(mqtt_provider, executor_options).map(|ce| Self(ce))
+    }
+
+    pub async fn recv(&mut self) -> Result<CommandRequest<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestType()));
             this.Write(", ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ResponseType()));

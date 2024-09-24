@@ -43,6 +43,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandResponse,
 };
 
+use super::super::common_types::common_options::CommonOptions;
 ");
  if (this.reqSchema == null || this.respSchema == null) { 
             this.Write("use super::super::common_types::");
@@ -101,15 +102,29 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
             this.Write(", PS>);\r\n\r\nimpl<PS: MqttPubSub + Clone + Send + Sync + \'static> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write(@"CommandInvoker<PS> {
-    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, AIOProtocolError> {
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
+        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        common_options: &CommonOptions,
+    ) -> Result<Self, AIOProtocolError> {
+        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        if let Some(topic_namespace) = &common_options.topic_namespace {
+            invoker_options_builder.topic_namespace(topic_namespace.clone());
+        }
+        let invoker_options = invoker_options_builder
             .model_id(MODEL_ID.to_string())
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name(""");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName));
-            this.Write("\")\r\n            .build()\r\n            .unwrap();\r\n        CommandInvoker::new(mqt" +
-                    "t_provider, invoker_options).map(|ce| Self(ce))\r\n    }\r\n\r\n    pub async fn invok" +
-                    "e(\r\n        &self,\r\n        request: CommandRequest<");
+            this.Write(@""")
+            .custom_topic_token_map(common_options.custom_topic_token_map.clone())
+            .build()
+            .unwrap();
+        CommandInvoker::new(mqtt_provider, invoker_options).map(|ce| Self(ce))
+    }
+
+    pub async fn invoke(
+        &self,
+        request: CommandRequest<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.RequestType()));
             this.Write(">,\r\n    ) -> Result<CommandResponse<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ResponseType()));
