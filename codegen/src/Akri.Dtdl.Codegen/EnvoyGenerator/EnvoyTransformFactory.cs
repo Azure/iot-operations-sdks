@@ -162,7 +162,7 @@ namespace Akri.Dtdl.Codegen
                     yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
                     break;
                 case "rust":
-                    yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                    yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
                     yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     if (reqSchemaClass != null && reqSchemaClass != string.Empty)
                     {
