@@ -15,7 +15,7 @@ use super::StatusCode;
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
-    payload_serialize::{FormatIndicator, PayloadSerialize, SerializerError},
+    payload_serialize::{FormatIndicator, PayloadSerialize},
     topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
     user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
 };
@@ -143,7 +143,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a [`SerializerError`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, SerializerError> {
+    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::SerializerError> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.response_payload_type = Some(PhantomData);
@@ -647,7 +647,7 @@ where
                                 Ok(payload) => payload,
                                 Err(e) => {
                                     response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e}"));
+                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e:?}"));
                                     break 'process_request;
                                 }
                             };
@@ -1140,7 +1140,7 @@ mod tests {
         let mut mock_response_payload = MockPayload::new();
         mock_response_payload
             .expect_serialize()
-            .returning(|| Err(SerializerError::Simple("dummy error".to_string())))
+            .returning(|| Err("dummy error".to_string()))
             .times(1);
 
         let mut binding = CommandResponseBuilder::default();

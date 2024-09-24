@@ -21,7 +21,7 @@ use crate::common::{
     aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
     hybrid_logical_clock::HybridLogicalClock,
     is_invalid_utf8,
-    payload_serialize::{FormatIndicator, PayloadSerialize, SerializerError},
+    payload_serialize::{FormatIndicator, PayloadSerialize},
     topic_processor::{self, contains_invalid_char, TopicPattern},
     user_properties::{self, validate_user_properties, UserProperty},
 };
@@ -60,7 +60,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a [`SerializerError`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, SerializerError> {
+    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::SerializerError> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.request_payload_type = Some(PhantomData);
@@ -916,7 +916,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             return Err(AIOProtocolError::new_payload_invalid_error(
                 false,
                 false,
-                Some(Box::new(e)),
+                Some(e.into()),
                 None,
                 None,
                 Some(command_name),
@@ -952,7 +952,7 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{FormatIndicator, MockPayload, SerializerError},
+        payload_serialize::{FormatIndicator, MockPayload},
     };
 
     /// Mutex needed to check mock calls of static methods `PayloadSerialize::deserialize`, `PayloadSerialize::content_type`, and `PayloadSerialize::format_indicator`
@@ -1355,18 +1355,7 @@ mod tests {
         // Deserialize should be called on the incoming response payload
         mock_payload_deserialize_ctx
             .expect()
-            .returning(|_| {
-                Err(SerializerError::Other(Box::new(
-                    AIOProtocolError::new_payload_invalid_error(
-                        false,
-                        false,
-                        None,
-                        None,
-                        None,
-                        Some("test_command_name".to_string()),
-                    ),
-                )))
-            })
+            .returning(|_| Err("dummy error".to_string()))
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
@@ -1571,7 +1560,7 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Err(SerializerError::Simple("dummy error".to_string())))
+            .returning(|| Err("dummy error".to_string()))
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();

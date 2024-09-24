@@ -1,17 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use thiserror::Error;
 
-/// Error type for serialization and deserialization
-#[derive(Debug, Error)]
-pub enum SerializerError {
-    /// Serializer error that just has an error message
-    #[error("{0}")]
-    Simple(String),
-    /// Serializer error from an underlying component
-    #[error(transparent)]
-    Other(#[from] Box<dyn std::error::Error + Send>),
-}
+use std::error::Error;
+use std::fmt::Debug;
 
 /// Format indicator for serialization and deserialization.
 #[repr(u8)]
@@ -52,6 +43,7 @@ pub enum FormatIndicator {
 /// ```
 ///
 pub trait PayloadSerialize: Clone {
+    type SerializerError: Debug + Into<Box<dyn Error + Sync + Send + 'static>>;
     /// Return content type
     /// Returns a String value to specify the binary format used in the payload, e.g., application/json, application/protobuf, or application/avro.
     fn content_type() -> &'static str;
@@ -64,13 +56,13 @@ pub trait PayloadSerialize: Clone {
     ///
     /// # Errors
     /// Returns a [`SerializerError`] if the serialization fails.
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError>;
+    fn serialize(&self) -> Result<Vec<u8>, Self::SerializerError>;
 
     /// Deserializes the payload from a byte vector to the generic type
     ///
     /// # Errors
     /// Returns a [`SerializerError`] if the deserialization fails.
-    fn deserialize(payload: &[u8]) -> Result<Self, SerializerError>;
+    fn deserialize(payload: &[u8]) -> Result<Self, Self::SerializerError>;
 }
 
 #[cfg(test)]
@@ -82,9 +74,10 @@ mock! {
         fn clone(&self) -> Self;
     }
     impl PayloadSerialize for Payload {
+        type SerializerError = String;
         fn content_type() -> &'static str;
         fn format_indicator() -> FormatIndicator;
-        fn serialize(&self) -> Result<Vec<u8>, SerializerError>;
-        fn deserialize(payload: &[u8]) -> Result<Self, SerializerError>;
+        fn serialize(&self) -> Result<Vec<u8>, String>;
+        fn deserialize(payload: &[u8]) -> Result<Self, String>;
     }
 }
