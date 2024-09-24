@@ -29,15 +29,19 @@ use crate::session::{SessionError, SessionErrorKind};
 use crate::topic::{TopicFilter, TopicParseError};
 use crate::{CompletionToken, Event, Incoming, Outgoing};
 
-/// Enum used to track the reason why client-side disconnect occurs
-#[derive(PartialEq, Eq)]
-enum DesireDisconnect {
-    /// Indicates no disconnect is desired
-    No,
-    /// Indicates the user has requested a disconnect
-    User,
-    /// Indicates the session logic has requested a disconnect
-    Internal,
+/// Enum used to track the current connection state of the session
+enum ConnectionState {
+    /// Indicates the Session is not connected and does not desire to be.
+    NotConnected,
+    /// Indicates the Session is connected to the best of current knowledge,
+    /// and that this is desired.
+    Connected,
+    /// Indicates the Session has lost connection and is in the process of attempting to reconnect.
+    Reconnecting,
+    /// Indicates the user has requested a disconnect, but the disconnection has not completed.
+    DesireDisconnectUser,
+    /// Indicates the session logic has requested a disconnect but the disconnection has not completed.
+    DesireDisconnectInternal,
 }
 
 /// Client that manages connections over a single MQTT session.
@@ -63,6 +67,8 @@ where
     unacked_pubs: Arc<PubTracker>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Current MQTT connection state
+    connection_state: ConnectionState,
     /// Indicates if Session was previously run. Temporary until re-use is supported.
     previously_run: bool,
 }
@@ -95,6 +101,7 @@ where
             incoming_pub_dispatcher,
             unacked_pubs: Arc::new(PubTracker::new()),
             reconnect_policy,
+            connection_state: ConnectionState::NotConnected,
             previously_run: false,
         }
     }
@@ -149,9 +156,7 @@ where
             )
         });
 
-        // Indicates whether a disconnect is desired, and why
-        let mut desire_disconnect = DesireDisconnect::No;
-        // Indicates whether the session has been previously connected
+        // Indicates whether this session has been previously connected
         let mut prev_connected = false;
         // Number of previous reconnect attempts
         let mut prev_reconnect_attempts = 0;
@@ -163,6 +168,8 @@ where
             let r = self.event_loop.poll().await;
             match r {
                 Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
+                    // Update connection state
+                    self.connection_state = ConnectionState::Connected;
                     // Reset the counter on reconnect attempts
                     prev_reconnect_attempts = 0;
                     log::debug!("Incoming CONNACK: {connack:?}");
@@ -173,7 +180,7 @@ where
                             "Session state not present on broker after reconnect. Ending session."
                         );
                         result = Err(SessionErrorKind::SessionLost);
-                        desire_disconnect = DesireDisconnect::Internal;
+                        self.connection_state = ConnectionState::DesireDisconnectInternal;
                         self.trigger_session_exit().await;
                     }
                     // Otherwise, connection was successful
@@ -261,29 +268,37 @@ where
 
                 // Disconnect is initiated on client-side
                 Ok(Event::Outgoing(Outgoing::Disconnect)) => {
-                    // Update the desire_disconnect state if necessary
-                    match desire_disconnect {
-                        // Session logic caused disconnect
-                        // NOTE: No need to set the DesireDisconnect here, as it was set when the
-                        // decision to disconnect was made.
-                        DesireDisconnect::Internal => {
+                    match self.connection_state {
+                        // Session logic caused disconnect.
+                        // NOTE: No need to change the state here, as it was set when the decision to
+                        // disconnect was made.
+                        ConnectionState::DesireDisconnectInternal => {
                             log::debug!("Session initiated disconnect");
                         }
                         // User triggered the disconnect.
-                        // NOTE: If the user triggered it, the DesireDisconnect will not yet be
-                        // set to User - it would be set to No. That's why we set it here.
-                        DesireDisconnect::No => {
-                            log::debug!("User initiated disconnect");
-                            desire_disconnect = DesireDisconnect::User;
+                        // NOTE: If the user triggered it, the state will not yet be set
+                        // to DesireDisconnectUser - it would be set to something else.
+                        // That's why we set it here.
+                        ConnectionState::Connected => {
+                            log::debug!("Disconnect initiated by user while connected");
+                            self.connection_state = ConnectionState::DesireDisconnectUser;
                         }
-                        // NOTE: This case is invalid. DesireDisconnect should NOT already be set
-                        // to User. However, we handle it as above, just in case.
-                        DesireDisconnect::User => {
+                        // TODO: what should this do?
+                        ConnectionState::Reconnecting => {
+                            log::debug!("Disconnect initiated by user while attempting to reconnect");
+                            self.connection_state = ConnectionState::DesireDisconnectUser;
+                        }
+                        // NOTE: These cases are invalid.
+                        // DesireDisconnectUser should NOT already be
+                        // set. However, we handle it as above, just in case.
+                        // TODO: clean up the above doc
+                        _ => {
                             log::warn!(
                                 "Disconnect initiated in unexpected state. Assuming user-initiated."
                             );
-                            desire_disconnect = DesireDisconnect::User;
+                            self.connection_state = ConnectionState::DesireDisconnectUser;
                         }
+
                     }
                 }
 
@@ -294,19 +309,19 @@ where
 
                 // Desired disconnect completion
                 Err(ConnectionError::MqttState(StateError::ConnectionAborted))
-                    if desire_disconnect != DesireDisconnect::No =>
+                    if matches!(self.connection_state, ConnectionState::DesireDisconnectUser | ConnectionState::DesireDisconnectInternal ) =>
                 {
-                    match desire_disconnect {
-                        DesireDisconnect::Internal => {
+                    match self.connection_state {
+                        ConnectionState::DesireDisconnectInternal => {
                             log::debug!("Internal disconnect complete");
                             break;
                         }
-                        DesireDisconnect::User => {
+                        ConnectionState::DesireDisconnectUser => {
                             log::debug!("User disconnect complete");
                             break;
                         }
                         // Unreachable because of arm with guard condition.
-                        DesireDisconnect::No => unreachable!(),
+                        _ => unreachable!(),
                     }
                 }
 
@@ -319,6 +334,8 @@ where
 
                 // Other errors are passed to reconnect policy
                 Err(e) => {
+                    // Update connection state to indicate reconnecting
+                    self.connection_state = ConnectionState::Reconnecting;
                     // Only log connection loss at info level the first time an error happens,
                     // so as not to spam the logs.
                     if prev_reconnect_attempts == 0 {
@@ -344,6 +361,7 @@ where
             }
         }
         log::info!("Session ended");
+        self.connection_state = ConnectionState::NotConnected;
         cancel_token.cancel();
         result.map_err(std::convert::Into::into)
     }
@@ -722,6 +740,15 @@ where
         // Need to work with Shanghai to drive this feature.
         self.disconnector.disconnect().await
     }
+
+    // pub async fn exit_force(&self) -> Result<(), ClientError> {
+    //     self.disconnector.disconnect_force().await
+    // }
+
+    // pub async fn try_exit(&self) -> Result<(), ClientError> {
+    //     //self.disconnector.try_disconnect().await
+    //     unimplemented!()
+    // }
 }
 
 fn get_jwt_expiry(token: &str) -> Result<u64, String> {
