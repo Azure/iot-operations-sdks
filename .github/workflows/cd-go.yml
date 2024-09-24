@@ -1,0 +1,28 @@
+name: CD-go
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'go/go.work'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Release Go SDKs
+      run: go/tools/release.sh
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

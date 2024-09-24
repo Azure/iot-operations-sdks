@@ -166,13 +166,14 @@ func NewCommandExecutor[Req, Res any](
 		ttl: options.CacheTTL,
 	}
 	ce.listener = &listener[Req]{
-		client:      ce.client,
-		encoding:    requestEncoding,
-		topic:       reqTF,
-		shareName:   options.ShareName,
-		concurrency: options.Concurrency,
-		logger:      log.Wrap(options.Logger),
-		handler:     ce,
+		client:         ce.client,
+		encoding:       requestEncoding,
+		topic:          reqTF,
+		shareName:      options.ShareName,
+		concurrency:    options.Concurrency,
+		reqCorrelation: true,
+		logger:         log.Wrap(options.Logger),
+		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,

@@ -6,6 +6,6 @@ using SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Sche
 
 public interface ISchemaRegistryClient : IAsyncDisposable
 {
-    public Task<SchemaInfo> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
-    public Task<SchemaInfo> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = default!, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+    public Task<SchemaInfo?> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+    public Task<SchemaInfo?> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = default!, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

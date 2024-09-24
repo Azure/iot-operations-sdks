@@ -1,7 +1,7 @@
 # Azure IoT Operations - MQTT
 MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
 
-[API documentation] |
+[API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt) |
 [Examples](examples) |
 [Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fmqtt&expanded=true)
 
