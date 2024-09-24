@@ -38,7 +38,7 @@ The MqttConnectionSettings class can be configured through the API, or with the 
 ### Initialize from API
 
 ```cs
-MqttConnectionSettings connSettings = new("public.iotmq.com")
+MqttConnectionSettings connSettings = new("aio-broker")
 {
     TcpPort = 1883,
     UseTls = false
@@ -48,7 +48,7 @@ MqttConnectionSettings connSettings = new("public.iotmq.com")
 ### Initialize from environment variables
 
 ```bash
-export MQTT_HOST_NAME=public.iotmq.com
+export MQTT_HOST_NAME=aio-broker
 export MQTT_TCP_PORT=1883
 export MQTT_USE_TLS=false
 ```
@@ -60,7 +60,7 @@ MqttConnectionSettings connSettings = MqttConnectionSettings.CreateFromEnvVars()
 ### Initialize from connection string
 
 ```cs
-string connectionString = "HostName=public.iotmq.com;TcpPort=1883;UseTls=false";
+string connectionString = "HostName=aio-broker;TcpPort=1883;UseTls=false";
 MqttConnectionSettings connSettings = MqttConnectionSettings.CreateFromConnectionString(connectionString);
 ```
 
