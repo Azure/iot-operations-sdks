@@ -127,10 +127,8 @@ pub struct CounterResponse {
 
 #[derive(Debug, Error)]
 pub enum CounterSerializerError {
-    /// Serializer error that just has an error message
     #[error("invalid payload: {0:?}")]
     InvalidPayload(Vec<u8>),
-    /// Serializer error from an underlying component
     #[error(transparent)]
     ParseIntError(#[from] ParseIntError),
     #[error(transparent)]
