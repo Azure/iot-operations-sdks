@@ -11,12 +11,16 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [Variables](<#variables>)
 - [type ArgumentError](<#ArgumentError>)
 - [type Client](<#Client>)
-  - [func New\(client mqtt.Client\) \(\*Client, error\)](<#New>)
+  - [func New\(client mqtt.Client, opt ...ClientOption\) \(\*Client, error\)](<#New>)
   - [func \(c \*Client\) Del\(ctx context.Context, key string, opt ...DelOption\) \(\*Response\[bool\], error\)](<#Client.Del>)
   - [func \(c \*Client\) Get\(ctx context.Context, key string, opt ...GetOption\) \(\*Response\[\[\]byte\], error\)](<#Client.Get>)
   - [func \(c \*Client\) Listen\(ctx context.Context\) \(func\(\), error\)](<#Client.Listen>)
   - [func \(c \*Client\) Set\(ctx context.Context, key string, val \[\]byte, opt ...SetOption\) \(\*Response\[bool\], error\)](<#Client.Set>)
   - [func \(c \*Client\) Vdel\(ctx context.Context, key string, val \[\]byte, opt ...VdelOption\) \(\*Response\[bool\], error\)](<#Client.Vdel>)
+- [type ClientOption](<#ClientOption>)
+  - [func WithLogger\(logger \*slog.Logger\) ClientOption](<#WithLogger>)
+- [type ClientOptions](<#ClientOptions>)
+  - [func \(o \*ClientOptions\) Apply\(opts \[\]ClientOption, rest ...ClientOption\)](<#ClientOptions.Apply>)
 - [type Condition](<#Condition>)
 - [type DelOption](<#DelOption>)
 - [type DelOptions](<#DelOptions>)
@@ -52,7 +56,7 @@ var (
 ```
 
 <a name="ArgumentError"></a>
-## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L29>)
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L38>)
 
 
 
@@ -61,7 +65,7 @@ type ArgumentError = errors.Argument
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L15-L17>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L16-L18>)
 
 Client represents a client of the state store.
 
@@ -72,10 +76,10 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L39>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L51>)
 
 ```go
-func New(client mqtt.Client) (*Client, error)
+func New(client mqtt.Client, opt ...ClientOption) (*Client, error)
 ```
 
 New creates a new state store client.
@@ -99,7 +103,7 @@ func (c *Client) Get(ctx context.Context, key string, opt ...GetOption) (*Respon
 Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
 
 <a name="Client.Listen"></a>
-### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L62>)
+### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L78>)
 
 ```go
 func (c *Client) Listen(ctx context.Context) (func(), error)
@@ -124,6 +128,46 @@ func (c *Client) Vdel(ctx context.Context, key string, val []byte, opt ...VdelOp
 ```
 
 Vdel deletes the value of the given key if it is equal to the given value. If the key was present and the value matched, it returns true and the stored version of the key; otherwise, it returns false and a zero version.
+
+<a name="ClientOption"></a>
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L21>)
+
+ClientOption represents a single option for the client.
+
+```go
+type ClientOption interface {
+    // contains filtered or unexported methods
+}
+```
+
+<a name="WithLogger"></a>
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L172>)
+
+```go
+func WithLogger(logger *slog.Logger) ClientOption
+```
+
+WithLogger enables logging with the provided slog logger.
+
+<a name="ClientOptions"></a>
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L24-L26>)
+
+ClientOptions are the resolved options for the client.
+
+```go
+type ClientOptions struct {
+    Logger *slog.Logger
+}
+```
+
+<a name="ClientOptions.Apply"></a>
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L149-L152>)
+
+```go
+func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
+```
+
+Apply resolves the provided list of options.
 
 <a name="Condition"></a>
 ## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L12>)
@@ -216,7 +260,7 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 Apply resolves the provided list of options.
 
 <a name="PayloadError"></a>
-## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L28>)
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L37>)
 
 
 
@@ -225,7 +269,7 @@ type PayloadError = errors.Payload
 ```
 
 <a name="Response"></a>
-## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L22-L25>)
+## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L31-L34>)
 
 Response represents a state store response, which will include a value depending on the method and the stored version returned for the key \(if any\).
 
@@ -237,7 +281,7 @@ type Response[T any] struct {
 ```
 
 <a name="ResponseError"></a>
-## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L27>)
+## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L36>)
 
 
 
