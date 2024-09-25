@@ -17,24 +17,25 @@ pub enum FormatIndicator {
 /// Trait for serializing and deserializing payloads.
 /// # Examples
 /// ```
-/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, SerializerError, FormatIndicator};
+/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
 /// #[derive(Clone, Debug)]
 /// pub struct CarLocationResponse {
 ///   latitude: f64,
 ///   longitude: f64,
 /// }
 /// impl PayloadSerialize for CarLocationResponse {
+///   type Error = String;
 ///   fn content_type() -> &'static str {
 ///     "application/json"
 ///   }
 ///   fn format_indicator() -> FormatIndicator {
 ///    FormatIndicator::Utf8EncodedCharacterData
 ///   }
-///   fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+///   fn serialize(&self) -> Result<Vec<u8>, String> {
 ///     let response = format!("{{\"latitude\": {}, \"longitude\": {}}}", self.latitude, self.longitude);
 ///     Ok(response.as_bytes().to_vec())
 ///   }
-///   fn deserialize(payload: &[u8]) -> Result<Self, SerializerError> {
+///   fn deserialize(payload: &[u8]) -> Result<Self, String> {
 ///     // mock deserialization here for brevity
 ///     let _payload = String::from_utf8(payload.to_vec()).unwrap();
 ///     Ok(CarLocationResponse {latitude: 12.0, longitude: 35.0})

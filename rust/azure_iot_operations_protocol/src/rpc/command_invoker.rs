@@ -146,14 +146,15 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
-/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, SerializerError, FormatIndicator};
+/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
+/// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, SerializerError> { Ok(Vec::new()) }
-/// #   fn deserialize(payload: &[u8]) -> Result<Self, SerializerError> { Ok(SamplePayload {}) }
+/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
