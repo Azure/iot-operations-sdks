@@ -29,22 +29,6 @@ use crate::session::{SessionError, SessionErrorKind};
 use crate::topic::{TopicFilter, TopicParseError};
 use crate::{CompletionToken, Event, Incoming, Outgoing};
 
-// /// Enum used to track the current connection state of the session
-// enum ConnectionState {
-//     /// Indicates the Session is not connected and does not desire to be.
-//     NotConnected,
-//     /// Indicates the Session is connected to the best of current knowledge,
-//     /// and that this is desired.
-//     Connected,
-//     /// Indicates the Session has lost connection and is in the process of attempting to reconnect.
-//     Reconnecting,
-//     /// Indicates the user has requested a disconnect, but the disconnection has not completed.
-//     DesireDisconnectUser,
-//     /// Indicates the session logic has requested a disconnect but the disconnection has not completed.
-//     DesireDisconnectInternal,
-// }
-
-
 /// Information used to track the state of the Session.
 struct SessionState {
     /// Indicates whether or not the Session is currently connected.
@@ -788,11 +772,11 @@ where
         self.disconnector.disconnect().await
     }
 
-    // pub async fn exit_force(&self) -> Result<(), ClientError> {
-    //     self.disconnector.disconnect_force().await
-    // }
-
     pub async fn try_exit(&self) -> Result<(), ClientError> {
+        self.disconnector.disconnect().await
+    }
+
+    pub async fn exit_force(&self) -> Result<(), ClientError> {
         self.disconnector.disconnect().await
     }
 }
