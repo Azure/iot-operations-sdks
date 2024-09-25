@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-#![allow(missing_docs)]
 use async_trait::async_trait;
 use bytes::Bytes;
 
@@ -12,7 +11,7 @@ use crate::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
 use crate::rumqttc_adapter as adapter;
 use crate::session::internal;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
-use crate::session::{SessionError, SessionErrorKind};
+use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::{CompletionToken, MqttConnectionSettings};
 
@@ -177,16 +176,12 @@ impl MqttAck for SessionPubReceiver {
 }
 
 impl SessionExitHandle {
-    /// End the session running in the [`Session`] that created this handle.
-    ///
-    /// # Errors
-    /// Returns `ClientError` if there is a failure ending the session.
-    /// This should not happen.
-    pub async fn exit_session(&self) -> Result<(), ClientError> {
-        self.0.exit_session().await
+
+    pub async fn try_exit(&self) -> Result<(), SessionExitError> {
+        self.0.try_exit().await
     }
 
-    pub async fn try_exit(&self) -> Result<(), ClientError> {
-        self.0.try_exit().await
+    pub async fn exit_force(&self) {
+        self.0.exit_force().await;
     }
 }
