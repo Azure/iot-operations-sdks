@@ -2,6 +2,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -16,6 +17,14 @@ type (
 		invoker *protocol.CommandInvoker[[]byte, []byte]
 	}
 
+	// ClientOption represents a single option for the client.
+	ClientOption interface{ client(*ClientOptions) }
+
+	// ClientOptions are the resolved options for the client.
+	ClientOptions struct {
+		Logger *slog.Logger
+	}
+
 	// Response represents a state store response, which will include a value
 	// depending on the method and the stored version returned for the key
 	// (if any).
@@ -27,6 +36,9 @@ type (
 	ResponseError = errors.Response
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
+
+	// This option is not used directly; see WithLogger below.
+	withLogger struct{ *slog.Logger }
 )
 
 var (
@@ -36,15 +48,19 @@ var (
 )
 
 // New creates a new state store client.
-func New(client mqtt.Client) (*Client, error) {
+func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
 	c := &Client{}
 	var err error
+
+	var opts ClientOptions
+	opts.Apply(opt)
 
 	c.invoker, err = protocol.NewCommandInvoker(
 		client,
 		protocol.Raw{},
 		protocol.Raw{},
 		"statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke",
+		opts.invoker(),
 		protocol.WithResponseTopicPrefix("clients/{clientId}"),
 		protocol.WithResponseTopicSuffix("response"),
 		protocol.WithTopicTokens{"clientId": client.ClientID()},
@@ -127,4 +143,42 @@ func parseOK(data []byte) (bool, error) {
 func parseBool(data []byte) (bool, error) {
 	res, err := resp.ParseNumber(data)
 	return err == nil && res > 0, err
+}
+
+// Apply resolves the provided list of options.
+func (o *ClientOptions) Apply(
+	opts []ClientOption,
+	rest ...ClientOption,
+) {
+	for _, opt := range opts {
+		if opt != nil {
+			opt.client(o)
+		}
+	}
+	for _, opt := range rest {
+		if opt != nil {
+			opt.client(o)
+		}
+	}
+}
+
+func (o *ClientOptions) client(opt *ClientOptions) {
+	if o != nil {
+		*opt = *o
+	}
+}
+
+// WithLogger enables logging with the provided slog logger.
+func WithLogger(logger *slog.Logger) ClientOption {
+	return withLogger{logger}
+}
+
+func (o withLogger) client(opt *ClientOptions) {
+	opt.Logger = o.Logger
+}
+
+func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {
+	return &protocol.CommandInvokerOptions{
+		Logger: o.Logger,
+	}
 }

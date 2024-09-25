@@ -27,5 +27,18 @@ namespace Akri.Dtdl.Codegen
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
         }
+
+        public static bool IsNullable(SchemaType schemaType)
+        {
+            return schemaType switch
+            {
+                ArrayType _ => true,
+                MapType _ => true,
+                ObjectType _ => true,
+                StringType _ => true,
+                ReferenceType _ => true,
+                _ => false,
+            };
+        }
     }
 }
