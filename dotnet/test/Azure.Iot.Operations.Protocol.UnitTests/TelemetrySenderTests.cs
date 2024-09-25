@@ -57,10 +57,10 @@ public class TelemetrySenderTests
 
         await sendTelemetry;
         Assert.Equal(1, mockClient.GetNumberOfPublishes());
-        Assert.Equal(3, mockClient.MessagesPublished[0].UserProperties.Count);
-        Assert.True(mockClient.MessagesPublished[0].UserProperties.TryGetProperty(expectedKey, out string? actualValue));
+        Assert.Equal(3, mockClient.MessagesPublished[0].UserProperties!.Count);
+        Assert.True(mockClient.MessagesPublished[0].UserProperties!.TryGetProperty(expectedKey, out string? actualValue));
         Assert.Equal(expectedValue, actualValue);
-        Assert.True(mockClient.MessagesPublished[0].UserProperties.TryGetProperty(AkriSystemProperties.Timestamp, out string? actualTimestamp));
+        Assert.True(mockClient.MessagesPublished[0].UserProperties!.TryGetProperty(AkriSystemProperties.Timestamp, out string? actualTimestamp));
         Assert.NotNull(expectedTimestamp);
         Assert.Equal(expectedTimestamp.EncodeToString(), actualTimestamp);
     }
@@ -427,7 +427,7 @@ public class TelemetrySenderTests
         Assert.Equal(1, mockClient.GetNumberOfPublishes());
         var msg = mockClient.MessagesPublished[0];
         Assert.NotNull(msg);
-        Assert.Equal(10, msg.UserProperties.Count);
+        Assert.Equal(10, msg.UserProperties!.Count);
         AssertUserProperty(msg.UserProperties, "specversion", "1.0");
         AssertUserProperty(msg.UserProperties, "type", "test-type");
         AssertUserProperty(msg.UserProperties, "datacontenttype", "application/json");
@@ -443,11 +443,11 @@ public class TelemetrySenderTests
 
         await sender.SendTelemetryAsync(telemetry, telemetryMetadata, MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan.FromSeconds(10));
         var msg2 = mockClient.MessagesPublished[1];
-        msg2.UserProperties.TryGetProperty("time", out var time2);
+        msg2.UserProperties!.TryGetProperty("time", out var time2);
         Assert.NotNull(time2);
         Assert.NotEqual(time1, time2);
 
-        msg2.UserProperties.TryGetProperty("id", out var id2);
+        msg2.UserProperties!.TryGetProperty("id", out var id2);
         Assert.NotNull(id2);
         Assert.NotEqual(id1, id2);
     }
