@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
+#![allow(missing_docs)]
 use async_trait::async_trait;
 use bytes::Bytes;
 
@@ -184,5 +184,9 @@ impl SessionExitHandle {
     /// This should not happen.
     pub async fn exit_session(&self) -> Result<(), ClientError> {
         self.0.exit_session().await
+    }
+
+    pub async fn try_exit(&self) -> Result<(), ClientError> {
+        self.0.try_exit().await
     }
 }
