@@ -1,4 +1,7 @@
-﻿using System.Text.Json.Nodes;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -35,7 +38,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public string? AssetEndpointProfileRef { get; init; }
 
         /// <summary>
-        /// An integer that is incremented each time the resource is modified.
+        /// An value that is incremented each time the resource is modified.
         /// </summary>
         public long? Version { get; init; }
 
