@@ -1,0 +1,1 @@
+{"DataSourceType": "Http", "HttpPath": "contexts/quality", "RequestIntervalInSeconds":15, "DssKey": "quality", "MqttClientId": "myHttpDssClient"}
