@@ -71,7 +71,6 @@ where
 pub struct state_store::KeyNotification {
   pub key: Vec<u8>,
   pub operation: state_store::Operation,
-  pub timestamp: HybridLogicalClock,
 }
 
 pub enum Operation {
