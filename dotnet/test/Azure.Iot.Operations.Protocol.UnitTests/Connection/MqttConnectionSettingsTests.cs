@@ -571,7 +571,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(4343, tcpOptions.Port);
             Assert.Equal(3600, (double)options.SessionExpiryInterval);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.True(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates().Count == 0);
+            Assert.True(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates().Count == 0);
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
         }
 
@@ -597,7 +597,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(4343, tcpOptions.Port);
             Assert.Equal(3600, (double)options.SessionExpiryInterval);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates());
+            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
         }
 
@@ -625,10 +625,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(4343, tcpOptions.Port);
             Assert.Equal(3600, (double)options.SessionExpiryInterval);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates());
+            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
-            Assert.Equal("user", options.Credentials.GetUserName(options));
-            Assert.Equal("hello", Encoding.UTF8.GetString(options.Credentials.GetPassword(options)));
+            Assert.Equal("user", options.Credentials!.GetUserName(options));
+            Assert.Equal("hello", Encoding.UTF8.GetString(options.Credentials!.GetPassword(options)!));
         }
 
         [Fact]
@@ -653,10 +653,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(4343, tcpOptions.Port);
             Assert.Equal(3600, (double)options.SessionExpiryInterval);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates());
+            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
             Assert.Equal("K8S-SAT", options.AuthenticationMethod);
-            Assert.Equal("hello", Encoding.UTF8.GetString(options.AuthenticationData));
+            Assert.Equal("hello", Encoding.UTF8.GetString(options.AuthenticationData!));
         }
 
 
@@ -683,10 +683,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(4343, tcpOptions.Port);
             Assert.Equal(3600, (double)options.SessionExpiryInterval);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates());
+            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
-            Assert.Equal("user", options.Credentials.GetUserName(options));
-            Assert.Equal("mypassword", Encoding.UTF8.GetString(options.Credentials.GetPassword(options)));
+            Assert.Equal("user", options.Credentials!.GetUserName(options));
+            Assert.Equal("mypassword", Encoding.UTF8.GetString(options.Credentials.GetPassword(options)!));
         }
 
 
@@ -712,7 +712,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal("localhost", tcpOptions.Host);
             Assert.Equal(4343, tcpOptions.Port);
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
-            Assert.NotEmpty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider.GetCertificates());
+            Assert.NotEmpty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
         }
     }

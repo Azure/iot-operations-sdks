@@ -73,13 +73,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         private Task AcknowledgeReceivedMessageAsync(MqttApplicationMessageReceivedEventArgs arg, CancellationToken ct)
         {
-            if (arg.ApplicationMessage.UserProperties.TryGetProperty("_failFirstPubAck", out string? failPubAckString)
+            if (arg.ApplicationMessage.UserProperties!.TryGetProperty("_failFirstPubAck", out string? failPubAckString)
                 && (bool.TryParse(failPubAckString, out bool failPubAckBool))
                 && failPubAckBool
                 && arg.ApplicationMessage.QualityOfServiceLevel != MqttQualityOfServiceLevel.AtMostOnce)
             {
                 var subListOfProperties = new List<MqttUserProperty>();
-                foreach (var userProperty in arg.ApplicationMessage.UserProperties)
+                foreach (var userProperty in arg.ApplicationMessage.UserProperties!)
                 {
                     if (!userProperty.Name.Equals("_failFirstPubAck"))
                     {
@@ -184,13 +184,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 PacketsPublished.Enqueue(Encoding.UTF8.GetString(applicationMessage.CorrelationData));
             }
 
-            if (applicationMessage.UserProperties.TryGetProperty("_failPubAck", out string? failPubAck) && failPubAck == "true")
+            if (applicationMessage.UserProperties!.TryGetProperty("_failPubAck", out string? failPubAck) && failPubAck == "true")
             {
-                if (applicationMessage.UserProperties.TryGetProperty("_notAuthorized", out string? naPubAck) && naPubAck == "true")
+                if (applicationMessage.UserProperties!.TryGetProperty("_notAuthorized", out string? naPubAck) && naPubAck == "true")
                 {
                     return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.NotAuthorized, string.Empty, new List<MqttUserProperty>()));
                 }
-                else if (applicationMessage.UserProperties.TryGetProperty("_noMatchingSubscribers", out string? nmsPubAck) && nmsPubAck == "true")
+                else if (applicationMessage.UserProperties!.TryGetProperty("_noMatchingSubscribers", out string? nmsPubAck) && nmsPubAck == "true")
                 {
                     return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.NoMatchingSubscribers, string.Empty, new List<MqttUserProperty>()));
                 }
@@ -200,7 +200,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 }
             }
 
-            if (applicationMessage.UserProperties.TryGetProperty("_dropPubAck", out string? dropPubAck) && dropPubAck == "true")
+            if (applicationMessage.UserProperties!.TryGetProperty("_dropPubAck", out string? dropPubAck) && dropPubAck == "true")
             {
                 throw new MqttCommunicationException("PubAck dropped");
             }
