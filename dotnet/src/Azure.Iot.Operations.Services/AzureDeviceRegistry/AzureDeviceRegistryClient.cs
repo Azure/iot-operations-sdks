@@ -3,8 +3,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     public class AzureDeviceRegistryClient : IDisposable
     {
+#pragma warning disable CS0067 // Unused for now
         public event EventHandler<Asset>? AssetFileChanged;
         public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileFileChanged;
+#pragma warning restore CS0067 // Unused for now
 
         public AzureDeviceRegistryClient()
         {
