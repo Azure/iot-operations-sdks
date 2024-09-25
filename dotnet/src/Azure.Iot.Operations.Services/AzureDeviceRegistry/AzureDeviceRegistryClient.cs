@@ -196,7 +196,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 switch (e.ChangeType)
                 {
                     case WatcherChangeTypes.Changed:
-                        AssetEndpointProfileFileChanged?.Invoke(this, await GetAssetEndpointProfileAsync());
+                        AssetEndpointProfileFileChanged?.Invoke(this, await GetAssetEndpointProfileAsync("todo"));
                         break;
                     case WatcherChangeTypes.Created:
                     case WatcherChangeTypes.Renamed:
@@ -217,7 +217,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 switch (e.ChangeType)
                 {
                     case WatcherChangeTypes.Changed:
-                        AssetFileChanged?.Invoke(this, await GetAssetAsync());
+                        AssetFileChanged?.Invoke(this, await GetAssetAsync("todo"));
                         break;
                     case WatcherChangeTypes.Created:
                     case WatcherChangeTypes.Renamed:

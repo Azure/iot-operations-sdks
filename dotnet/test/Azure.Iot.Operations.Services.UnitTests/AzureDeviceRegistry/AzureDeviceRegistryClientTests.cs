@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             SetupNormalEnvironmentVariables();
 
             var adrClient = new AzureDeviceRegistryClient();
-            var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
+            var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
 
             Assert.Equal(assetEndpointProfile.TargetAddress, File.ReadAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS"));
         }
