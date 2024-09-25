@@ -37,6 +37,7 @@ struct SessionState {
     /// Indicates whether or not the Session is currently connected.
     /// Note that this is best-effort information - it may not be accurate.
     connected: RwLock<bool>,
+    /// Indicates if a Session exit is desired, and if so, by whom.
     desire_exit: RwLock<DesireExit>,
 
     /// Notifier indicating a connection state change
@@ -328,6 +329,10 @@ where
                 // NOTE: This normally is StateError::ConnectionAborted, but rumqttc sometimes
                 // can deliver something else in this case. For now, we'll accept any
                 // MqttState variant when trying to disconnect.
+                // TODO: However, this has the side-effect of falsely reporting disconnects that are the
+                // result of network failure as client-side disconnects if there is an outstanding
+                // DesireExit value. This is not harmful, but it is bad for logging, and should
+                // probably be fixed.
                 Err(ConnectionError::MqttState(_))
                     if !matches!(*self.state.desire_exit.read().unwrap(), DesireExit::No ) =>
                 {

@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+use std::time::Duration;
+
 use async_trait::async_trait;
 use bytes::Bytes;
 
@@ -179,6 +181,10 @@ impl SessionExitHandle {
 
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         self.0.try_exit().await
+    }
+
+    pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
+        self.0.try_exit_timeout(timeout).await
     }
 
     pub async fn exit_force(&self) {

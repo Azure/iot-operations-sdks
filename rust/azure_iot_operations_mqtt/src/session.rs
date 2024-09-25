@@ -52,12 +52,12 @@ pub enum SessionExitError {
     #[error("session dropped")]
     Dropped(#[from] ClientError),
     /// Session is not currently able to contact the broker for graceful exit.
-    #[error("cannot gracefully exit session while disconnected from broker - attempted = {attempted}")]
+    #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
     BrokerUnavailable{ 
         /// Indicates if a disconnect attempt was made.
         attempted: bool
     },
     /// Attempt to exit the Session gracefully timed out.
-    #[error("exit attempt timed out after {0}")]
+    #[error("exit attempt timed out")]
     Timeout(#[from] tokio::time::error::Elapsed),
 }
