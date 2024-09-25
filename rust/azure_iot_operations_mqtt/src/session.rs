@@ -58,6 +58,6 @@ pub enum SessionExitError {
         attempted: bool
     },
     /// Attempt to exit the Session gracefully timed out.
-    #[error("exit attempt timed out")]
+    #[error("exit attempt timed out after {0}")]
     Timeout(#[from] tokio::time::error::Elapsed),
 }
