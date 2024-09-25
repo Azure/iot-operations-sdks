@@ -8,19 +8,12 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
-type (
-	// Notify represents a notification event.
-	Notify struct {
-		Key       string
-		Operation string
-		Value     []byte
-	}
-
-	notify struct {
-		handler func(context.Context, *Notify)
-		index   int
-	}
-)
+// Notify represents a notification event.
+type Notify struct {
+	Key       string
+	Operation string
+	Value     []byte
+}
 
 // Receive a NOTIFY message.
 func (c *Client) notifyReceive(
@@ -62,8 +55,11 @@ func (c *Client) notifyReceive(
 	c.notifyMu.RLock()
 	defer c.notifyMu.RUnlock()
 
-	for _, n := range c.notify[key] {
-		n.handler(ctx, &Notify{key, op, val})
+	for _, kn := range c.notify[key] {
+		select {
+		case kn.c <- Notify{key, op, val}:
+		case <-ctx.Done():
+		}
 	}
 
 	return nil

@@ -14,7 +14,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
   - [func New\(client mqtt.Client, opt ...ClientOption\) \(\*Client, error\)](<#New>)
   - [func \(c \*Client\) Del\(ctx context.Context, key string, opt ...DelOption\) \(\*Response\[bool\], error\)](<#Client.Del>)
   - [func \(c \*Client\) Get\(ctx context.Context, key string, opt ...GetOption\) \(\*Response\[\[\]byte\], error\)](<#Client.Get>)
-  - [func \(c \*Client\) KeyNotify\(ctx context.Context, key string, cb func\(context.Context, \*Notify\), opt ...KeyNotifyOption\) \(func\(context.Context, ...KeyNotifyOption\) error, error\)](<#Client.KeyNotify>)
+  - [func \(c \*Client\) KeyNotify\(ctx context.Context, key string, opt ...KeyNotifyOption\) \(\*KeyNotify, error\)](<#Client.KeyNotify>)
   - [func \(c \*Client\) Listen\(ctx context.Context\) \(func\(\), error\)](<#Client.Listen>)
   - [func \(c \*Client\) Set\(ctx context.Context, key string, val \[\]byte, opt ...SetOption\) \(\*Response\[bool\], error\)](<#Client.Set>)
   - [func \(c \*Client\) Vdel\(ctx context.Context, key string, val \[\]byte, opt ...VdelOption\) \(\*Response\[bool\], error\)](<#Client.Vdel>)
@@ -29,6 +29,9 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type GetOption](<#GetOption>)
 - [type GetOptions](<#GetOptions>)
   - [func \(o \*GetOptions\) Apply\(opts \[\]GetOption, rest ...GetOption\)](<#GetOptions.Apply>)
+- [type KeyNotify](<#KeyNotify>)
+  - [func \(kn \*KeyNotify\) C\(\) \<\-chan Notify](<#KeyNotify.C>)
+  - [func \(kn \*KeyNotify\) Stop\(ctx context.Context, opt ...KeyNotifyOption\) error](<#KeyNotify.Stop>)
 - [type KeyNotifyOption](<#KeyNotifyOption>)
 - [type KeyNotifyOptions](<#KeyNotifyOptions>)
   - [func \(o \*KeyNotifyOptions\) Apply\(opts \[\]KeyNotifyOption, rest ...KeyNotifyOption\)](<#KeyNotifyOptions.Apply>)
@@ -109,13 +112,13 @@ func (c *Client) Get(ctx context.Context, key string, opt ...GetOption) (*Respon
 Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
 
 <a name="Client.KeyNotify"></a>
-### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L22-L27>)
+### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L31-L35>)
 
 ```go
-func (c *Client) KeyNotify(ctx context.Context, key string, cb func(context.Context, *Notify), opt ...KeyNotifyOption) (func(context.Context, ...KeyNotifyOption) error, error)
+func (c *Client) KeyNotify(ctx context.Context, key string, opt ...KeyNotifyOption) (*KeyNotify, error)
 ```
 
-KeyNotify requests notification for a key. It returns a callback to remove the provided notification handler.
+KeyNotify requests a notification channel for a key, starting notifications if necessary. It returns an object with the channel, which can be used to stop this notification request.
 
 <a name="Client.Listen"></a>
 ### func \(\*Client\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L107>)
@@ -275,8 +278,37 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 
 Apply resolves the provided list of options.
 
+<a name="KeyNotify"></a>
+## type [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L12-L17>)
+
+KeyNotify represents a registered notification.
+
+```go
+type KeyNotify struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="KeyNotify.C"></a>
+### func \(\*KeyNotify\) [C](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L53>)
+
+```go
+func (kn *KeyNotify) C() <-chan Notify
+```
+
+C gets the notification channel.
+
+<a name="KeyNotify.Stop"></a>
+### func \(\*KeyNotify\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L59>)
+
+```go
+func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error
+```
+
+Stop removes this notification and stops notifications for this key if no other notifications are registered.
+
 <a name="KeyNotifyOption"></a>
-## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L12>)
+## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L20>)
 
 KeyNotifyOption represents a single option for the KeyNotify method.
 
@@ -287,7 +319,7 @@ type KeyNotifyOption interface {
 ```
 
 <a name="KeyNotifyOptions"></a>
-## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L15-L17>)
+## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L23-L25>)
 
 KeyNotifyOptions are the resolved options for the KeyNotify method.
 
@@ -298,7 +330,7 @@ type KeyNotifyOptions struct {
 ```
 
 <a name="KeyNotifyOptions.Apply"></a>
-### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L86-L89>)
+### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L106-L109>)
 
 ```go
 func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption)
@@ -307,7 +339,7 @@ func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption
 Apply resolves the provided list of options.
 
 <a name="Notify"></a>
-## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L13-L17>)
+## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12-L16>)
 
 Notify represents a notification event.
 

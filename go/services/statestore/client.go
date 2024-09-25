@@ -20,7 +20,7 @@ type (
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
 		receiver *protocol.TelemetryReceiver[[]byte]
 
-		notify   map[string][]*notify
+		notify   map[string][]*KeyNotify
 		notifyMu sync.RWMutex
 	}
 
@@ -60,7 +60,7 @@ var (
 
 // New creates a new state store client.
 func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
-	c := &Client{notify: map[string][]*notify{}}
+	c := &Client{notify: map[string][]*KeyNotify{}}
 	var err error
 
 	var opts ClientOptions
