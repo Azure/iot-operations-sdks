@@ -421,7 +421,7 @@
 
         public class BeforeAndDuringFreeze
         {
-            [Theory(Skip = "flacky")]
+            [Theory(Skip = "flaky")]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsBeforeAndWaitDuringFreeze(bool relativeWait)
