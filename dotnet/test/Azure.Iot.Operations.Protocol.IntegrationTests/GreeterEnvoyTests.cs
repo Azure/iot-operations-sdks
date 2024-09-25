@@ -1,7 +1,5 @@
-﻿using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Mqtt.Session;
+﻿using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 using TestEnvoys.Greeter;
 using Azure.Iot.Operations.Mqtt;
@@ -9,7 +7,7 @@ using Azure.Iot.Operations.Mqtt;
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class GreeterEnvoyTests
-{ 
+{
     [Fact]
     public async Task SayHello()
     {
@@ -128,7 +126,7 @@ public class GreeterEnvoyTests
 
         await using GreeterService greeterService = new GreeterService(mqttExecutorClient);
         await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvokerClient);
-        
+
         await greeterService.StartAsync();
 
         RpcCallAsync<GreeterEnvoy.HelloResponse> longRunningTask = greeterClient.SayHelloWithDelay(new ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest>
@@ -194,29 +192,29 @@ public class GreeterEnvoyTests
 
         // add count for each executor's commands handled
         int count1 = 0;
-        greeterService1.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
         {
             count1++;
-            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
             {
                 Response = new GreeterEnvoy.HelloResponse
                 {
                     Message = "Hello " + req.Request.Name
                 }
-            };
+            });
         };
 
         int count2 = 0;
-        greeterService2.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
         {
             count2++;
-            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
             {
                 Response = new GreeterEnvoy.HelloResponse
                 {
                     Message = "Hello " + req.Request.Name
                 }
-            };
+            });
         };
 
         // create invoker
@@ -261,29 +259,29 @@ public class GreeterEnvoyTests
 
         // add count for each executor's commands handled
         int count1 = 0;
-        greeterService1.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
         {
             count1++;
-            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
             {
                 Response = new GreeterEnvoy.HelloResponse
                 {
                     Message = "Hello " + req.Request.Name
                 }
-            };
+            });
         };
 
         int count2 = 0;
-        greeterService2.SayHelloCommandExecutor.OnCommandReceived = async (req, ct) =>
+        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
         {
             count2++;
-            return new ExtendedResponse<GreeterEnvoy.HelloResponse>
+            return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
             {
                 Response = new GreeterEnvoy.HelloResponse
                 {
                     Message = "Hello " + req.Request.Name
                 }
-            };
+            });
         };
 
         // create invoker
