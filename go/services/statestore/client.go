@@ -19,7 +19,8 @@ type (
 	Client struct {
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
 		receiver *protocol.TelemetryReceiver[[]byte]
-		notify   chan Notify
+
+		notify   map[string][]*notify
 		notifyMu sync.RWMutex
 	}
 
@@ -59,7 +60,7 @@ var (
 
 // New creates a new state store client.
 func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
-	c := &Client{}
+	c := &Client{notify: map[string][]*notify{}}
 	var err error
 
 	var opts ClientOptions
@@ -89,7 +90,7 @@ func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
 		client,
 		protocol.Raw{},
 		"clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{clientId}/command/notify/{keyName}",
-		c.receive,
+		c.notifyReceive,
 		opts.receiver(),
 		tokens,
 	)
@@ -104,23 +105,7 @@ func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
 // be called before any state store methods. Note that cancelling this context
 // will cause the unsubscribe call to fail.
 func (c *Client) Listen(ctx context.Context) (func(), error) {
-	done, err := protocol.Listen(ctx, c.invoker, c.receiver)
-	if err != nil {
-		return nil, err
-	}
-
-	c.notifyMu.Lock()
-	defer c.notifyMu.Unlock()
-	c.notify = make(chan Notify)
-
-	return func() {
-		done()
-
-		c.notifyMu.Lock()
-		defer c.notifyMu.Unlock()
-		close(c.notify)
-		c.notify = nil
-	}, nil
+	return protocol.Listen(ctx, c.invoker, c.receiver)
 }
 
 // Shorthand to invoke and parse.
@@ -156,7 +141,7 @@ func invoke[T any](
 func parseOK(data []byte) (bool, error) {
 	switch data[0] {
 	// SET and KEYNOTIFY return +OK on success.
-	case '+':
+	case '+', '-':
 		res, err := resp.ParseString(data)
 		if err != nil {
 			return false, err

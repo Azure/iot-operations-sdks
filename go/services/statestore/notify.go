@@ -8,21 +8,22 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
-// Notify represents a notification event.
-type Notify struct {
-	Operation, Key string
-	Value          []byte
-}
+type (
+	// Notify represents a notification event.
+	Notify struct {
+		Key       string
+		Operation string
+		Value     []byte
+	}
 
-// Notify messages for registered keys will be sent to this channel.
-func (c *Client) Notify() <-chan Notify {
-	c.notifyMu.RLock()
-	defer c.notifyMu.RUnlock()
-	return c.notify
-}
+	notify struct {
+		handler func(context.Context, *Notify)
+		index   int
+	}
+)
 
 // Receive a NOTIFY message.
-func (c *Client) receive(
+func (c *Client) notifyReceive(
 	ctx context.Context,
 	msg *protocol.TelemetryMessage[[]byte],
 ) error {
@@ -50,16 +51,20 @@ func (c *Client) receive(
 		return resp.PayloadError("invalid payload %q", string(msg.Payload))
 	}
 
+	key := string(bytKey)
+	op := string(data[1])
 	var val []byte
 	if hasValue {
 		val = data[3]
 	}
 
+	// TODO: Lock less globally if possible, but keep it simple for now.
 	c.notifyMu.RLock()
 	defer c.notifyMu.RUnlock()
-	select {
-	case c.notify <- Notify{string(data[1]), string(bytKey), val}:
-	case <-ctx.Done():
+
+	for _, n := range c.notify[key] {
+		n.handler(ctx, &Notify{key, op, val})
 	}
+
 	return nil
 }

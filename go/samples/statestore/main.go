@@ -34,20 +34,24 @@ func main() {
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	must(client.KeyNotify(ctx, stateStoreKey))
+	ns := make(chan *statestore.Notify)
+	stop := must(client.KeyNotify(ctx, stateStoreKey,
+		func(_ context.Context, n *statestore.Notify) {
+			ns <- n
+		},
+	))
+	defer func() { check(stop(ctx)) }()
 
 	must(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
-	n := <-client.Notify()
+	n := <-ns
 	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
 
 	get := must(client.Get(ctx, stateStoreKey))
 	log.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
 
 	must(client.Del(ctx, stateStoreKey))
-	n = <-client.Notify()
+	n = <-ns
 	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
-
-	must(client.KeyNotify(ctx, stateStoreKey, statestore.WithStop(true)))
 }
 
 func check(e error) {

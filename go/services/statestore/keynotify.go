@@ -13,29 +13,73 @@ type (
 
 	// KeyNotifyOptions are the resolved options for the KeyNotify method.
 	KeyNotifyOptions struct {
-		Stop    bool
 		Timeout time.Duration
 	}
-
-	// WithStop indicates that the notification should be stopped.
-	WithStop bool
 )
 
-// KeyNotify requests or stops notification for a key. If a stop is requested on
-// a key that did not have notifications, it will return false with no error.
+// KeyNotify requests notification for a key. It returns a callback to remove
+// the provided notification handler.
 func (c *Client) KeyNotify(
 	ctx context.Context,
 	key string,
+	cb func(context.Context, *Notify),
 	opt ...KeyNotifyOption,
-) (*Response[bool], error) {
-	var opts KeyNotifyOptions
-	opts.Apply(opt)
+) (func(context.Context, ...KeyNotifyOption) error, error) {
+	c.notifyMu.Lock()
+	defer c.notifyMu.Unlock()
 
-	args := []string{"KEYNOTIFY", key}
-	if opts.Stop {
-		args = append(args, "STOP")
+	if len(c.notify[key]) == 0 {
+		if err := c.keyNotify(ctx, key, true, opt); err != nil {
+			return nil, err
+		}
 	}
-	return invoke(ctx, c.invoker, parseOK, &opts, args...)
+
+	h := &notify{cb, len(c.notify[key])}
+	c.notify[key] = append(c.notify[key], h)
+
+	return func(sCtx context.Context, sOpt ...KeyNotifyOption) error {
+		c.notifyMu.Lock()
+		defer c.notifyMu.Unlock()
+
+		if h.index >= 0 {
+			// Order doesn't matter, so remove this index quickly by swapping.
+			last := len(c.notify[key]) - 1
+			c.notify[key][h.index] = c.notify[key][last]
+			c.notify[key][h.index].index = h.index
+			c.notify[key] = c.notify[key][:last]
+			h.index = -1
+		}
+
+		if len(c.notify[key]) == 0 {
+			delete(c.notify, key)
+			if err := c.keyNotify(sCtx, key, false, opt, sOpt...); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}, nil
+}
+
+// KEYNOTIFY invoke shorthand.
+func (c *Client) keyNotify(
+	ctx context.Context,
+	key string,
+	run bool,
+	opts []KeyNotifyOption,
+	rest ...KeyNotifyOption,
+) error {
+	var args []string
+	if run {
+		args = []string{"KEYNOTIFY", key}
+	} else {
+		args = []string{"KEYNOTIFY", key, "STOP"}
+	}
+
+	var o KeyNotifyOptions
+	o.Apply(opts, rest...)
+	_, err := invoke(ctx, c.invoker, parseOK, &o, args...)
+	return err
 }
 
 // Apply resolves the provided list of options.
@@ -59,10 +103,6 @@ func (o *KeyNotifyOptions) keynotify(opt *KeyNotifyOptions) {
 	if o != nil {
 		*opt = *o
 	}
-}
-
-func (o WithStop) keynotify(opt *KeyNotifyOptions) {
-	opt.Stop = bool(o)
 }
 
 func (o WithTimeout) keynotify(opt *KeyNotifyOptions) {
