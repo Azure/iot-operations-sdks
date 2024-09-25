@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
+    //TODO an operator will list multiple pairs of asset + aep. Do get by id + list ids?
+    // Asset field deployment is still under construction from operator side. Just stub it out and throw NotImplemented
+    // The important next step is just API review for this client.
     public class AzureDeviceRegistryClient : IDisposable
     {
         // The operator will deploy the connector pod with these environment variables set.
