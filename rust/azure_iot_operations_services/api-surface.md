@@ -74,8 +74,7 @@ pub struct state_store::KeyNotification {
 }
 
 pub enum Operation {
-    /// key was set. The modified value may be present if the keynotify request included the optional `GET` flag (TODO: not sure how this can be set currently)
-    Set(Option<Vec<u8>>),
+    Set(Vec<u8>),
     Del,
 }
 ```
