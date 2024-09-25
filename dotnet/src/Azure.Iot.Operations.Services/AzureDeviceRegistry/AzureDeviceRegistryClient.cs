@@ -3,8 +3,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     public class AzureDeviceRegistryClient : IDisposable
     {
-        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileFileChanged;
         public event EventHandler<Asset>? AssetFileChanged;
+        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileFileChanged;
 
         public AzureDeviceRegistryClient()
         {
