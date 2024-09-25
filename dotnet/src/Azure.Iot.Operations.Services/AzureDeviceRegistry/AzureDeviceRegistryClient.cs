@@ -63,6 +63,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <returns>The requested asset endpoint profile.</returns>
         public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string assetId)
         {
+            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
             string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
             string? aepUsernameSecretFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
@@ -109,13 +110,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <param name="assetId">The Id of the asset to observe.</param>
         public void ObserveAsset(string assetId)
         {
-            if (!assetFilesSystemWatcher.Filters.Contains("TODO"))
-            {
-                assetFilesSystemWatcher.Changed += OnAssetFileChanged;
-
-                assetFilesSystemWatcher.EnableRaisingEvents = true;
-            }
-
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -124,12 +119,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <param name="assetId">The Id of the asset to unobserve.</param>
         public void UnobserveAsset(string assetId)
         {
-            if (assetFilesSystemWatcher.Filters.Contains("TODO"))
-            {
-                assetFilesSystemWatcher.Changed -= OnAssetFileChanged;
-
-                assetFilesSystemWatcher.EnableRaisingEvents = false;
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -139,6 +129,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
         public void ObserveAssetEndpointProfile(string assetId)
         {
+            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (!assetEndpointProfileFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
             {
                 assetEndpointProfileFilesSystemWatcher.Filters.Add($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
@@ -163,6 +154,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to unobserve.</param>
         public void UnobserveAssetEndpointProfile(string assetId)
         {
+            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (assetEndpointProfileFilesSystemWatcher.Filters.Contains(_aepUsernameSecretMountPath))
             {
                 assetEndpointProfileFilesSystemWatcher.Filters.Remove($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}");
