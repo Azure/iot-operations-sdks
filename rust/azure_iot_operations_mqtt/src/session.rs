@@ -6,6 +6,7 @@
 mod dispatcher;
 #[doc(hidden)]
 pub mod internal; // TODO: Make this private and accessible via compile flags
+mod managed_client;
 mod pub_tracker;
 pub mod reconnect_policy;
 mod state;

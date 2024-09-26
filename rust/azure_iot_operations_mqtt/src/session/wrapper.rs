@@ -12,6 +12,7 @@ use crate::error::ClientError;
 use crate::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
 use crate::rumqttc_adapter as adapter;
 use crate::session::internal;
+use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
@@ -31,9 +32,9 @@ pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAli
 pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
 #[derive(Clone)]
 /// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
-pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
+pub struct SessionPubSub(managed_client::SessionPubSub<adapter::ClientAlias>);
 /// Receive and acknowledge incoming MQTT messages.
-pub struct SessionPubReceiver(internal::SessionPubReceiver);
+pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
@@ -87,25 +88,25 @@ impl Session {
     }
 }
 
-impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
-    fn client_id(&self) -> &str {
-        self.0.client_id()
-    }
+// impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
+//     fn client_id(&self) -> &str {
+//         self.0.client_id()
+//     }
 
-    fn pub_sub(&self) -> SessionPubSub {
-        SessionPubSub(self.0.pub_sub())
-    }
+//     fn pub_sub(&self) -> SessionPubSub {
+//         SessionPubSub(self.0.pub_sub())
+//     }
 
-    fn filtered_pub_receiver(
-        &mut self,
-        topic_filter: &str,
-        auto_ack: bool,
-    ) -> Result<SessionPubReceiver, TopicParseError> {
-        Ok(SessionPubReceiver(
-            self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
-        ))
-    }
-}
+//     fn filtered_pub_receiver(
+//         &mut self,
+//         topic_filter: &str,
+//         auto_ack: bool,
+//     ) -> Result<SessionPubReceiver, TopicParseError> {
+//         Ok(SessionPubReceiver(
+//             self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
+//         ))
+//     }
+// }
 
 #[async_trait]
 impl MqttPubSub for SessionPubSub {
