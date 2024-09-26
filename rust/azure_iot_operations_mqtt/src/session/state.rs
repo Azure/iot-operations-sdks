@@ -17,7 +17,6 @@ pub struct SessionState {
 }
 
 /// The inner state containing the actual state data.
-//#[derive(Debug)]
 struct InnerSessionState {
     /// Indicates the part of the lifecycle the Session is currently in.
     lifecycle_status: LifecycleStatus,
