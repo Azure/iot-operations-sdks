@@ -30,20 +30,20 @@ namespace Akri.Dtdl.Codegen
             this.Write("\",\r\n  \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schema));
             this.Write("\",\r\n  \"type\": \"record\",\r\n  \"fields\": [\r\n");
- foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { 
+ foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { 
             this.Write("    {\r\n      \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item1));
             this.Write("\",\r\n");
-            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndex.Item3, this.dtmiToSchemaName, indent: 6, nullable: true, nestNamedType: true)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName, indent: 6, nullable: !nameDescSchemaRequiredIndex.Item4, nestNamedType: true)));
             this.Write("\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameDescSchemaIndex) ? "" : ","));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","));
             this.Write("\r\n");
  } 
             this.Write("  ]\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
 
-    private bool IsLast((string, string, DTSchemaInfo, int) nameDescSchemaIndex) => nameDescSchemaIndex.Item1 == this.nameDescSchemaIndices.Last().Item1;
+    private bool IsLast((string, string, DTSchemaInfo, bool, int) nameDescSchemaRequiredIndex) => nameDescSchemaRequiredIndex.Item1 == this.nameDescSchemaRequiredIndices.Last().Item1;
 
     }
     #region Base class

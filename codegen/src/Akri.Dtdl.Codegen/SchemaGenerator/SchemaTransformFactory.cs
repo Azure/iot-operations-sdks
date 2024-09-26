@@ -11,26 +11,26 @@ namespace Akri.Dtdl.Codegen
     {
         private static Dictionary<string, int> uniquifiers = new();
 
-        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices)
+        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
         {
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
                     throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' is not supported for Interfaces whose contents include Telemetry");
                 case PayloadFormat.Avro:
-                    yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
+                    yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new TelemetryJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true);
+                    yield return new TelemetryJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new TelemetryJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false);
+                    yield return new TelemetryJsonSchema(genNamespace, interfaceId.AbsoluteUri, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
-                    yield return new TelemetryProto2(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new TelemetryProto2(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 case PayloadFormat.Proto3:
-                    yield return new TelemetryProto3(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new TelemetryProto3(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 default:
                     throw GetFormatNotRecognizedException(payloadFormat);
@@ -68,7 +68,7 @@ namespace Akri.Dtdl.Codegen
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, Dtmi objectId, string description, string schema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices)
+        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, Dtmi objectId, string description, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
         {
             switch (payloadFormat)
             {
@@ -77,16 +77,16 @@ namespace Akri.Dtdl.Codegen
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new ObjectJsonSchema(genNamespace, objectId.AbsoluteUri, description, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true);
+                    yield return new ObjectJsonSchema(genNamespace, objectId.AbsoluteUri, description, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new ObjectJsonSchema(genNamespace, objectId.AbsoluteUri, description, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false);
+                    yield return new ObjectJsonSchema(genNamespace, objectId.AbsoluteUri, description, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId), setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
-                    yield return new ObjectProto2(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new ObjectProto2(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 case PayloadFormat.Proto3:
-                    yield return new ObjectProto3(projectName, genNamespace, schema, nameDescSchemaIndices, GetDtmiToSchemaNameDelegate(interfaceId));
+                    yield return new ObjectProto3(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToSchemaNameDelegate(interfaceId));
                     yield break;
                 default:
                     throw GetFormatNotRecognizedException(payloadFormat);

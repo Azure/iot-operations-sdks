@@ -9,11 +9,11 @@ namespace Akri.Dtdl.Codegen
         private readonly string intfBareId;
         private readonly string versionSuffix;
         private readonly string schema;
-        private readonly List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
         private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly bool setIndex;
 
-        public TelemetryJsonSchema(string genNamespace, string interfaceId, string schema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices, DtmiToSchemaName dtmiToSchemaName, bool setIndex)
+        public TelemetryJsonSchema(string genNamespace, string interfaceId, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName, bool setIndex)
         {
             int semiIndex = interfaceId.IndexOf(';');
             int bareIdLength = semiIndex >= 0 ? semiIndex : interfaceId.Length;
@@ -23,7 +23,7 @@ namespace Akri.Dtdl.Codegen
 
             this.genNamespace = genNamespace;
             this.schema = schema;
-            this.nameDescSchemaIndices = nameDescSchemaIndices;
+            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
             this.dtmiToSchemaName = dtmiToSchemaName;
             this.setIndex = setIndex;
         }
