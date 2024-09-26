@@ -89,7 +89,6 @@ impl SessionState {
     }
 
     fn set_exited(&self) {
-        // TODO: does this get called twice? That might be bad. And it probably does. Guard.
         *self.running.write().unwrap() = RunState::Exited;
         log::debug!("Session exited");
         self.state_change.notify_waiters();
@@ -294,7 +293,7 @@ where
                 // Ensure that the force exit signal is checked first.
                 biased;
                 () = self.notify_force_exit.notified() => { break },
-                r = self.event_loop.poll() => { r },
+                next = self.event_loop.poll() => { next },
             };
 
             match next {
