@@ -72,7 +72,7 @@ impl SessionState {
     }
 
     /// Wait until the Session has exited.
-    /// Returns immediately if the Session has already exited.6
+    /// Returns immediately if the Session has already exited.
     pub async fn condition_exited(&self) {
         loop {
             if self.has_exited() {
