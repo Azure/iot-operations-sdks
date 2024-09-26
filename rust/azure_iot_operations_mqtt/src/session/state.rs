@@ -52,7 +52,7 @@ impl SessionState {
     #[allow(dead_code)]
     pub async fn condition_connected(&self) {
         loop {
-            if self.state.read().unwrap().connected {
+            if self.is_connected() {
                 break;
             }
             self.state_change.notified().await;
@@ -63,7 +63,7 @@ impl SessionState {
     /// Returns immediately if the Session is already disconnected.
     pub async fn condition_disconnected(&self) {
         loop {
-            if !self.state.read().unwrap().connected {
+            if !self.is_connected() {
                 break;
             }
             self.state_change.notified().await;
