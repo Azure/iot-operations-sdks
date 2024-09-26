@@ -147,6 +147,35 @@ public class MqttConnectionSettings
         }
     }
 
+    public static MqttConnectionSettings FromFileMount()
+    {
+        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH");
+        if (string.IsNullOrEmpty(configMapPath))
+        {
+            throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH environment variable is not set.");
+        }
+    
+        string targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
+        bool useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
+        string satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
+        string tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+
+        try
+        {
+            return new MqttConnectionSettings(targetAddress)
+            {
+                UseTls = useTls,
+                SatAuthFile = satMountPath,
+                CaFile = tlsCaCertMountPath
+            };
+        }
+        catch (ArgumentException ex)
+        {
+            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, Env(ex.ParamName!), "Invalid settings in provided Environment Variables: " + ex.Message, ex);
+        }
+    }
+
+
     public static MqttConnectionSettings FromConnectionString(string connectionString)
     {
         IDictionary<string, string> map = connectionString.ToDictionary(';', '=');
