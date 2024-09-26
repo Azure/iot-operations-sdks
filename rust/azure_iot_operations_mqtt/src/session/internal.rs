@@ -180,12 +180,14 @@ where
                         );
                         result = Err(SessionErrorKind::SessionLost);
                         if self.state.desire_exit() {
-                            // NOTE: This is basically a theoretical case - currently, this should
-                            // never actually happen because a user disconnect would not be able to
-                            // trigger before this because user disconnects cannot process unless
-                            // the Session is connected. But in case that changes, it's worth
-                            // logging for tracing purposes.
-                            log::debug!("SessionLogic disconnect triggered when User disconnect was already in-progress. There may be two disconnects, both attributed to SessionLogic");
+                            // NOTE: this could happen if the user was exiting when the connection was dropped,
+                            // while the Session was not aware of the connection drop. Then, the drop has to last
+                            // long enough for the MQTT session expiry interval to cause the broker to discard the
+                            // MQTT session, and thus, you would enter this case.
+                            // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                            // (current) loose matching of received disconnects on account of an rumqttc bug.
+                            // See the error cases below in this match statement for more information.
+                            log::debug!("Session-initiated exit triggered when User-initiated exit was already in-progress. There may be two disconnects, both attributed to Session");
                         }
                         self.trigger_session_exit().await;
                     }
