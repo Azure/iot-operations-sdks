@@ -169,7 +169,16 @@ public class MqttConnectionSettings
         }
         catch (ArgumentException ex)
         {
-            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, Env(ex.ParamName!), "Invalid settings in provided Environment Variables: " + ex.Message, ex);
+            string paramValue = ex.ParamName switch
+            {
+                nameof(targetAddress) => targetAddress,
+                nameof(useTls) => useTls.ToString(),
+                nameof(satMountPath) => satMountPath,
+                nameof(tlsCaCertMountPath) => tlsCaCertMountPath,
+                _ => string.Empty
+            };
+
+            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue, "Invalid settings in provided configuration files: " + ex.Message, ex);
         }
     }
 
