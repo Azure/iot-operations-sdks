@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -149,11 +150,8 @@ public class MqttConnectionSettings
 
     public static MqttConnectionSettings FromFileMount()
     {
-        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH");
-        if (string.IsNullOrEmpty(configMapPath))
-        {
-            throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH environment variable is not set.");
-        }
+        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
+            ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
     
         string targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
         bool useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
