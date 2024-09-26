@@ -22,7 +22,6 @@ pub use wrapper::*;
 #[error(transparent)]
 pub struct SessionError(#[from] SessionErrorKind);
 
-//TODO: arguably, ConfigError and ExitError types should be a part of a separate enum
 /// Error kind for [`SessionError`].
 #[derive(Error, Debug)]
 pub enum SessionErrorKind {
