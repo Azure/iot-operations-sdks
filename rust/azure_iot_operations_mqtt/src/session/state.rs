@@ -3,12 +3,12 @@
 
 //! Types for tracking the state of a [`crate::session::Session`].
 
+use std::fmt;
 use std::sync::RwLock;
 
 use tokio::sync::Notify;
 
 /// Information used to track the state of the Session.
-#[derive(Debug)]
 pub struct SessionState {
     /// State information locked for concurrency protection
     state: RwLock<InnerSessionState>,
@@ -17,7 +17,7 @@ pub struct SessionState {
 }
 
 /// The inner state containing the actual state data.
-#[derive(Debug)]
+//#[derive(Debug)]
 struct InnerSessionState {
     /// Indicates the part of the lifecycle the Session is currently in.
     lifecycle_status: LifecycleStatus,
@@ -172,6 +172,28 @@ impl Default for InnerSessionState {
             connected: false,
             desire_exit: DesireExit::No,
         }
+    }
+}
+
+// NOTE: Do NOT log SessionState directly within it's own internal methods, at least those that
+// have acquired write locks or you will deadlock. Instead, log the InnerSessionState directly.
+impl fmt::Debug for SessionState {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // Acquire lock on inner state, and then just defer to the Debug implementation there.
+        let state = self.state.read().unwrap();
+        fmt::Debug::fmt(&state, f)
+    }
+}
+
+impl fmt::Debug for InnerSessionState {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // Even though this is the inner state, represent it as the outer state, since this is
+        // the state for all intents and purposes.
+        f.debug_struct("SessionState")
+            .field("lifecycle_status", &self.lifecycle_status)
+            .field("connected", &self.connected)
+            .field("desire_exit", &self.desire_exit)
+            .finish()
     }
 }
 
