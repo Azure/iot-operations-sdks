@@ -21,8 +21,10 @@ pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateS
 ///
 /// Returns `Some(())` if the Set completed successfully, or `None` if the Set did not occur because of values specified in `SetOptions`
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -46,8 +48,10 @@ pub async fn set(
 ///
 /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -69,8 +73,10 @@ pub async fn get(
 ///
 /// Returns `Some(())` if the key is found and deleted or `None` if the key was not found
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -93,8 +99,10 @@ pub async fn del(
 ///
 /// Returns `Some(())` if the key is found and deleted or `None` if the key was not found
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -118,8 +126,10 @@ pub async fn vdel(
 ///
 /// Returns `OK(())` if the key is now being observed
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -143,8 +153,10 @@ pub async fn observe(
 ///
 /// Returns `Some(())` if the key is no longer being observed or `None` if the key wasn't being observed
 /// # Errors
-/// [`StateStoreError`] of kind [`ClientError`](StateStoreErrorKind::ClientError) if
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
+///
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
 /// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
@@ -211,8 +223,20 @@ pub enum StateStoreErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
     #[error("{0}")]
-    ServerError(String),
+    ServerError(#[from] ServerErrorKind),
+    #[error("key length must not be zero")]
+    KeyLengthZero,
     #[error("{0}")]
-    ClientError(String),
+    SerializationError(String),
+    #[error("{0}")]
+    InvalidArgument(String),
+}
+
+#[derive(Error, Debug)]
+pub enum ServerErrorKind {
+    // This is an example for now
+    #[error("Malformed request")]
+    BadFormat,
+    // TODO: fill in these errors
 }
 ```
