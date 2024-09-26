@@ -11,28 +11,6 @@ import (
 
 type SessionClientOption func(*SessionClient)
 
-// ******TESTING******
-
-// WithPahoClientFactory sets the pahoClientFactory for the MQTT session client.
-// Please note that this is intended for injecting a stub Paho client
-// for testing purposes and not for general use.
-func WithPahoClientFactory(
-	pahoClientFactory func(*paho.ClientConfig) PahoClient,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.pahoClientFactory = pahoClientFactory
-	}
-}
-
-// WithPahoClientConfig set the pahoClientConfig for the pahoClientFactory.
-func WithPahoClientConfig(
-	pahoClientConfig *paho.ClientConfig,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.pahoClientConfig = pahoClientConfig
-	}
-}
-
 // WithDebugMode set the debugMode flag for the MQTT session client.
 func WithDebugMode(
 	debugMode bool,

@@ -128,7 +128,7 @@ func (e *ExponentialBackoffRetryPolicy) shouldRetry(
 	return interval
 }
 
-// status returns the result of each retry.
+// status logs the result of each retry.
 func (*ExponentialBackoffRetryPolicy) status(
 	log func(msg string, args ...any),
 	task string,

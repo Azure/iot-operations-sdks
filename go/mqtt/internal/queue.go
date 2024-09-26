@@ -4,6 +4,8 @@ import (
 	"sync"
 )
 
+// TODO: add notify functionality
+
 // Queue is a concurrency-safe generic circular queue.
 type Queue[T comparable] struct {
 	mu      sync.RWMutex

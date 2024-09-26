@@ -231,7 +231,7 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
 	// multiple topic filter matches a message, thus if we see same message
 	// multiple times, we need to check their QoS before send the Ack().
 	var acked bool
-	connCount := atomic.LoadInt64(&c.connCount)
+	connCount := atomic.LoadUint64(&c.connCount)
 	msg := &mqtt.Message{
 		Topic:   p.Topic,
 		Payload: p.Payload,
@@ -256,7 +256,7 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
 				}
 			}
 
-			if connCount != atomic.LoadInt64(&c.connCount) {
+			if connCount != atomic.LoadUint64(&c.connCount) {
 				return &errors.Error{
 					Kind:    errors.ExecutionException,
 					Message: "connection lost before ack",

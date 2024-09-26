@@ -47,6 +47,7 @@ const (
 	InvocationException
 	ExecutionException
 	MqttError
+	ResultUnavailable
 )
 
 // Error returns the error as a string.

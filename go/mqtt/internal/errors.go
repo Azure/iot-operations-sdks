@@ -18,6 +18,11 @@ type ErrMap[T any] struct {
 // indicates an issue in the MQTT request.
 func (e *ErrMap[T]) Translate(ctx context.Context, res *T, err error) error {
 	// An error from the incoming context overrides any returned error.
+	// TODO: this might introduce a race condition. Consider the case where the following interleaving happens:
+	// - The underlying operation completes successfully
+	// - The context used for that operation is cancelled (should have no effect because the operation already completed)
+	// - Translate is called
+	// if this occurs, Translate will return an error when it shouldn't
 	if ctxErr := errors.Context(ctx, e.String); ctxErr != nil {
 		return ctxErr
 	}

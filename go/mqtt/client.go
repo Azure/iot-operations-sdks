@@ -85,9 +85,10 @@ type (
 			packet *paho.Unsubscribe,
 		) (*paho.Unsuback, error)
 
-		Publish(
+		PublishWithOptions(
 			ctx context.Context,
 			packet *paho.Publish,
+			options paho.PublishOptions,
 		) (*paho.PublishResponse, error)
 
 		AddOnPublishReceived(

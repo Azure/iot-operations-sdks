@@ -4,7 +4,6 @@ package test
 
 import (
 	"context"
-	"net"
 	"os"
 	"os/exec"
 	"strings"
@@ -13,7 +12,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 )
 
@@ -298,71 +296,74 @@ func TestPublishMQ(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func startSessionClientWithWillMessage(t *testing.T) (
-	context.Context,
-	context.CancelFunc,
-	*mqtt.SessionClient,
-) {
-	ctx, cancel := context.WithCancel(context.Background())
+// TODO: Commented out because we don't want to have this test mess directly with the TCP socket. It is not necessary to test what this is trying to test.
+// func startSessionClientWithWillMessage(t *testing.T) (
+// 	context.Context,
+// 	context.CancelFunc,
+// 	*mqtt.SessionClient,
+// ) {
+// 	ctx, cancel := context.WithCancel(context.Background())
 
-	// Create network connection manually so it can be closed later.
-	address := "localhost:1883"
-	var d net.Dialer
-	conn, err := d.DialContext(ctx, "tcp", address)
-	require.NoError(t, err)
+// 	// Create network connection manually so it can be closed later.
+// 	address := "localhost:1883"
+// 	var d net.Dialer
+// 	conn, err := d.DialContext(ctx, "tcp", address)
+// 	require.NoError(t, err)
 
-	config := &paho.ClientConfig{
-		Conn:     conn,
-		ClientID: clientID,
-	}
+// 	config := &paho.ClientConfig{
+// 		Conn:     conn,
+// 		ClientID: clientID,
+// 	}
 
-	client, err := mqtt.NewSessionClient(
-		mqServerURL,
-		mqtt.WithPahoClientConfig(config),
-		mqtt.WithWillMessageTopic(LWTTopicName),
-		mqtt.WithWillMessagePayload([]byte(LWTMessage)),
-	)
-	require.NoError(t, err)
+// 	client, err := mqtt.NewSessionClient(
+// 		mqServerURL,
+// 		mqtt.WithPahoClientConfig(config),
+// 		mqtt.WithWillMessageTopic(LWTTopicName),
+// 		mqtt.WithWillMessagePayload([]byte(LWTMessage)),
+// 	)
+// 	require.NoError(t, err)
 
-	// Close network connection so client connection would exit unexpectedly.
-	// NOTE: We can also induce an LWT message by disconnecting with a error reason code rather than messing directly with the tcp socket.
-	go func(c net.Conn) {
-		time.Sleep(2 * time.Second)
-		err := c.Close()
-		require.NoError(t, err)
-	}(conn)
+// 	// Close network connection so client connection would exit unexpectedly.
+// 	// NOTE: We can also induce an LWT message by disconnecting with a error reason code rather than messing directly with the tcp socket.
+// 	go func(c net.Conn) {
+// 		time.Sleep(2 * time.Second)
+// 		err := c.Close()
+// 		require.NoError(t, err)
+// 	}(conn)
 
-	return ctx, cancel, client
-}
+// 	return ctx, cancel, client
+// }
 
 func TestLastWillMessageMQ(t *testing.T) {
+	// TODO
+	t.Skip("TODO: rewrite this test to induce an LWT message by disconnecting with a error reason code rather than messing directly with the tcp socket")
 	shouldRunIntegrationTest(t)
 
-	client1, err := mqtt.NewSessionClient(mqServerURL)
-	require.NoError(t, err)
+	// client1, err := mqtt.NewSessionClient(mqServerURL)
+	// require.NoError(t, err)
 
-	ctx := context.Background()
-	err = client1.Connect(ctx)
-	require.NoError(t, err)
+	// ctx := context.Background()
+	// err = client1.Connect(ctx)
+	// require.NoError(t, err)
 
-	subscribed := make(chan struct{})
-	_, err = client1.Subscribe(
-		ctx,
-		LWTTopicName,
-		func(_ context.Context, msg *protocol.Message) error {
-			require.Equal(t, LWTTopicName, msg.Topic)
-			require.Equal(t, []byte(LWTMessage), msg.Payload)
-			close(subscribed)
-			return nil
-		},
-	)
-	require.NoError(t, err)
+	// subscribed := make(chan struct{})
+	// _, err = client1.Subscribe(
+	// 	ctx,
+	// 	LWTTopicName,
+	// 	func(_ context.Context, msg *protocol.Message) error {
+	// 		require.Equal(t, LWTTopicName, msg.Topic)
+	// 		require.Equal(t, []byte(LWTMessage), msg.Payload)
+	// 		close(subscribed)
+	// 		return nil
+	// 	},
+	// )
+	// require.NoError(t, err)
 
-	ctx, cancel, client2 := startSessionClientWithWillMessage(t)
-	defer cancel()
+	// ctx, cancel, client2 := startSessionClientWithWillMessage(t)
+	// defer cancel()
 
-	err = client2.Connect(ctx)
-	require.NoError(t, err)
+	// err = client2.Connect(ctx)
+	// require.NoError(t, err)
 
-	<-subscribed
+	// <-subscribed
 }

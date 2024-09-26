@@ -59,7 +59,7 @@ func pahoConn(
 ) (*paho.Connack, error) {
 	res, err := c.Connect(ctx, p)
 	if e := connErr.Translate(ctx, res, err); e != nil {
-		return nil, e
+		return res, e
 	}
 	return res, nil
 }

@@ -8,13 +8,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
@@ -22,74 +20,51 @@ type (
 	// SessionClient implements an MQTT Session client
 	// supporting MQTT v5 with QoS 0 and QoS 1.
 	// TODO: Add support for QoS 2.
+	// TODO: make sure the initialization is valid.
 	SessionClient struct {
-		// **Paho MQTTv5 client**
+		// Used to ensure that the SessionClient does not leak goroutines
+		wg sync.WaitGroup
+
+		// Used to ensure Connect() is called only once and that user
+		// operations are only started after Connect() is called
+		sessionStarted atomic.Bool
+
+		// Used to internally to signal client shutdown for cleaning up background goroutines.
+		shutdown chan struct{}
+
+		// RWMutex to protect pahoClient, connUp, connDown, and connCount
+		pahoClientMu sync.RWMutex
+		// Instance of a Paho client. Underlying implmentation may be an instance of a real paho.Client or it may be a stub client used for testing.
 		pahoClient PahoClient
+		// Channel that is closed when the connection is up (i.e., a new Paho client instance is created and connected to the server with a successful CONNACK),
+		// used to notify goroutines that are waiting on a connection to be re-establised.
+		connUp chan struct{}
+		// Channel that is closed when the the connection is down (i.e., when a goroutine sees an error from the current Paho client instance and expects a disconnection to occur),
+		// used to notify goroutines that the connection management goroutine has detected a disconnection and is attempting to start a new connection.
+		connDown chan struct{}
+		// The number of successful connections that have ocurred on the session client, up to and including the current Paho client instance.
+		connCount uint64
+
+		// Buffered channel containing the publish packets to be sent
+		outgoingPublishes chan *outgoingPublish
+
+		// Paho's internal MQTT session tracker
+		session session.SessionManager
 
 		// **Connection**
 		connSettings *connectionSettings
 		connRetry    retrypolicy.RetryPolicy
-
-		// Count of the successful connections.
-		connCount int64
-
-		// Connection status signal.
-		isConnected atomic.Bool
-
-		// Connection shut down channel.
-		// (Go revive) No nested structs are allowed so we use error here.
-		connStopC internal.BufferChan[error]
-
-		// Allowing session restoration upon reconnection.
-		session session.SessionManager
 
 		// **Management**
 		// Subscriptions by topic filter.
 		subscriptions   map[string]*subscription
 		subscriptionsMu sync.Mutex
 
-		// Queue for storing pending packets when the connection fails.
-		pendingPackets *internal.Queue[queuedPacket]
-
-		// If pendingPackets is being processed,
-		// block other packets sending operations.
-		packetQueueMu   sync.Mutex
-		packetQueueCond sync.Cond
-
-		// The user-defined function would be called
-		// when fatal (non-retryable) connection errors happens.
-		fatalErrHandler func(error)
 		// The user-defined function would be called
 		// when auto reauthentication returns an error.
 		authErrHandler func(error)
 
-		// The user-defined function will be called
-		// whenever the session client permanently disconnects
-		// without automatic reconnection.
-		shutdownHandler func(error)
-
-		// Error channel for connection errors from Paho.
-		// Errors during connection will be captured in this channel.
-		// A message on the clientErrC indicates
-		// a disconnection has occurred or will occur.
-		// Only 1 error for 1 connection at the time to make sure
-		// error would be handled immediately after sending.
-		clientErrC internal.BufferChan[error]
-
-		// Error channel for translated disconnect errors
-		// from Paho.OnServerDisconnect callback,
-		// indicating an abnormal disconnection event
-		// from the server, thus potentially prompting a retry.
-		disconnErrC internal.BufferChan[error]
-
 		logger *slog.Logger
-
-		// **Testing**
-		// Factory for initializing the Paho Client.
-		// Currently, this is intended only for testing convenience.
-		pahoClientFactory func(*paho.ClientConfig) PahoClient
-		// Nil by default since it's only needed for stub client.
-		pahoClientConfig *paho.ClientConfig
 
 		// If debugMode is disabled, only error() will be printed.
 		// If debugMode is enabled, the prettier logger provides
@@ -236,10 +211,7 @@ func (c *SessionClient) ClientID() string {
 // initialize sets all default configurations
 // to ensure the SessionClient is properly initialized.
 func (c *SessionClient) initialize() {
-	atomic.StoreInt64(&c.connCount, 0)
-	c.setDisconnected()
 	c.connRetry = retrypolicy.NewExponentialBackoffRetryPolicy()
-	c.connStopC = *internal.NewBufferChan[error](1)
 	c.connSettings = &connectionSettings{
 		clientID: randomClientID(),
 		// If receiveMaximum is 0, we can't establish connection.
@@ -271,40 +243,8 @@ func (c *SessionClient) initialize() {
 			c.info(fmt.Sprintf("client shutdown reason: %v", e.Error()))
 		}
 	}
-	c.clientErrC = *internal.NewBufferChan[error](1)
-	c.disconnErrC = *internal.NewBufferChan[error](1)
-
-	c.pahoClientFactory = func(config *paho.ClientConfig) PahoClient {
-		return paho.NewClient(*config)
-	}
 
 	c.logger = slog.Default()
 	// Debug mode is disabled by default.
 	c.debugMode = false
-}
-
-// ensureClient checks that the session client is initialized.
-func (c *SessionClient) ensureClient() error {
-	if c == nil {
-		err := &errors.Error{
-			Kind:    errors.StateInvalid,
-			Message: "session client was not initialized",
-		}
-		c.error(err.Error())
-		return err
-	}
-	return nil
-}
-
-// ensureClient checks that the Paho client is initialized.
-func (c *SessionClient) ensurePahoClient() error {
-	if c == nil {
-		err := &errors.Error{
-			Kind:    errors.StateInvalid,
-			Message: "Paho client was not initialized",
-		}
-		c.error(err.Error())
-		return err
-	}
-	return nil
 }
