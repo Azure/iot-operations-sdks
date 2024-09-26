@@ -86,7 +86,7 @@ impl SessionState {
         // Acquire write lock for duration of method to ensure correctness of logging
         let mut state = self.state.write().unwrap();
 
-        if self.is_connected() {
+        if state.connected {
             // NOTE: I don't think this is possible, but just in case, log it.
             log::warn!("Duplicate connection");
         } else {
@@ -94,7 +94,7 @@ impl SessionState {
             log::info!("Connected!");
             self.state_change.notify_waiters();
         }
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 
     /// Update the state to reflect a disconnection
@@ -102,7 +102,7 @@ impl SessionState {
         // Acquire write lock for duration of method to ensure correctness of logging
         let mut state = self.state.write().unwrap();
 
-        if self.is_connected() {
+        if state.connected {
             state.connected = false;
             match state.desire_exit {
                 DesireExit::No => log::info!("Connection lost."),
@@ -113,7 +113,7 @@ impl SessionState {
             }
             self.state_change.notify_waiters();
         }
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session is running
@@ -122,7 +122,7 @@ impl SessionState {
         state.lifecycle_status = LifecycleStatus::Running;
         self.state_change.notify_waiters();
         log::info!("Session started");
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session has exited
@@ -131,7 +131,7 @@ impl SessionState {
         state.lifecycle_status = LifecycleStatus::Exited;
         self.state_change.notify_waiters();
         log::info!("Session exited");
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 
     /// Update the state to reflect the user desires a Session exit
@@ -140,7 +140,7 @@ impl SessionState {
         state.desire_exit = DesireExit::User;
         self.state_change.notify_waiters();
         log::info!("User initiated Session exit process");
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session logic desires a Session exit
@@ -149,7 +149,7 @@ impl SessionState {
         state.desire_exit = DesireExit::SessionLogic;
         self.state_change.notify_waiters();
         log::info!("Session initiated Session exit process");
-        log::debug!("{self}");
+        //log::debug!("{self}");
     }
 }
 
@@ -173,7 +173,7 @@ impl Default for InnerSessionState {
     }
 }
 
-impl fmt::Display for SessionState {
+impl fmt::Debug for SessionState {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let state = self.state.read().unwrap();
         write!(
