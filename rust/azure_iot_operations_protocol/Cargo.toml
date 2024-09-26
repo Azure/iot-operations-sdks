@@ -25,6 +25,7 @@ env_logger = "0.11.3"
 mockall = "0.12.1"
 test-case = "3.3.1"
 tokio-test = "0.4.4"
+thiserror = "1.0.63"  
 
 [lints]
 workspace = true

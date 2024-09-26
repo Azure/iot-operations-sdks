@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{env, time::Duration};
+use std::{env, num::ParseIntError, str::Utf8Error, time::Duration};
 
 use env_logger::Builder;
+use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionOptionsBuilder, SessionPubSub,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadSerialize, SerializerError,
-};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
@@ -112,7 +111,18 @@ pub struct CounterResponse {
     counter_response: u64,
 }
 
+#[derive(Debug, Error)]
+pub enum CounterSerializerError {
+    #[error("invalid payload: {0:?}")]
+    InvalidPayload(Vec<u8>),
+    #[error(transparent)]
+    ParseIntError(#[from] ParseIntError),
+    #[error(transparent)]
+    Utf8Error(#[from] Utf8Error),
+}
+
 impl PayloadSerialize for CounterRequest {
+    type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -121,16 +131,17 @@ impl PayloadSerialize for CounterRequest {
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<CounterRequest, SerializerError> {
+    fn deserialize(_payload: &[u8]) -> Result<CounterRequest, CounterSerializerError> {
         Ok(CounterRequest {})
     }
 }
 
 impl PayloadSerialize for CounterResponse {
+    type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -138,11 +149,11 @@ impl PayloadSerialize for CounterResponse {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
         Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<CounterResponse, SerializerError> {
+    fn deserialize(payload: &[u8]) -> Result<CounterResponse, CounterSerializerError> {
         log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
         if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
             match std::str::from_utf8(&payload[19..payload.len() - 1]) {
@@ -150,18 +161,12 @@ impl PayloadSerialize for CounterResponse {
                     Ok(n) => Ok(CounterResponse {
                         counter_response: n,
                     }),
-                    Err(e) => Err(SerializerError {
-                        nested_error: Box::new(e),
-                    }),
+                    Err(e) => Err(CounterSerializerError::ParseIntError(e)),
                 },
-                Err(e) => Err(SerializerError {
-                    nested_error: Box::new(e),
-                }),
+                Err(e) => Err(CounterSerializerError::Utf8Error(e)),
             }
         } else {
-            Err(SerializerError {
-                nested_error: ("Invalid payload".into()),
-            })
+            Err(CounterSerializerError::InvalidPayload(payload.into()))
         }
     }
 }

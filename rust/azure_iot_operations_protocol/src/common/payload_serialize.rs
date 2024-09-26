@@ -1,26 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{error::Error, fmt};
-
-/// Error type for serialization and deserialization
-#[derive(Debug)]
-pub struct SerializerError {
-    /// Error created by the custom serializer
-    pub nested_error: Box<dyn Error>,
-}
-
-impl fmt::Display for SerializerError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.nested_error)
-    }
-}
-
-impl Error for SerializerError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        Some(self.nested_error.as_ref())
-    }
-}
+use std::error::Error;
+use std::fmt::Debug;
 
 /// Format indicator for serialization and deserialization.
 #[repr(u8)]
@@ -35,24 +17,25 @@ pub enum FormatIndicator {
 /// Trait for serializing and deserializing payloads.
 /// # Examples
 /// ```
-/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, SerializerError, FormatIndicator};
+/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
 /// #[derive(Clone, Debug)]
 /// pub struct CarLocationResponse {
 ///   latitude: f64,
 ///   longitude: f64,
 /// }
 /// impl PayloadSerialize for CarLocationResponse {
+///   type Error = String;
 ///   fn content_type() -> &'static str {
 ///     "application/json"
 ///   }
 ///   fn format_indicator() -> FormatIndicator {
 ///    FormatIndicator::Utf8EncodedCharacterData
 ///   }
-///   fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+///   fn serialize(&self) -> Result<Vec<u8>, String> {
 ///     let response = format!("{{\"latitude\": {}, \"longitude\": {}}}", self.latitude, self.longitude);
 ///     Ok(response.as_bytes().to_vec())
 ///   }
-///   fn deserialize(payload: &[u8]) -> Result<Self, SerializerError> {
+///   fn deserialize(payload: &[u8]) -> Result<Self, String> {
 ///     // mock deserialization here for brevity
 ///     let _payload = String::from_utf8(payload.to_vec()).unwrap();
 ///     Ok(CarLocationResponse {latitude: 12.0, longitude: 35.0})
@@ -61,6 +44,8 @@ pub enum FormatIndicator {
 /// ```
 ///
 pub trait PayloadSerialize: Clone {
+    /// The type returned in the event of a serialization/deserialization error
+    type Error: Debug + Into<Box<dyn Error + Sync + Send + 'static>>;
     /// Return content type
     /// Returns a String value to specify the binary format used in the payload, e.g., application/json, application/protobuf, or application/avro.
     fn content_type() -> &'static str;
@@ -72,14 +57,14 @@ pub trait PayloadSerialize: Clone {
     /// Serializes the payload from the generic type to a byte vector
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if the serialization fails.
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError>;
+    /// Returns a [`PayloadSerialize::Error`] if the serialization fails.
+    fn serialize(&self) -> Result<Vec<u8>, Self::Error>;
 
     /// Deserializes the payload from a byte vector to the generic type
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if the deserialization fails.
-    fn deserialize(payload: &[u8]) -> Result<Self, SerializerError>;
+    /// Returns a [`PayloadSerialize::Error`] if the deserialization fails.
+    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error>;
 }
 
 #[cfg(test)]
@@ -91,9 +76,10 @@ mock! {
         fn clone(&self) -> Self;
     }
     impl PayloadSerialize for Payload {
+        type Error = String;
         fn content_type() -> &'static str;
         fn format_indicator() -> FormatIndicator;
-        fn serialize(&self) -> Result<Vec<u8>, SerializerError>;
-        fn deserialize(payload: &[u8]) -> Result<Self, SerializerError>;
+        fn serialize(&self) -> Result<Vec<u8>, String>;
+        fn deserialize(payload: &[u8]) -> Result<Self, String>;
     }
 }
