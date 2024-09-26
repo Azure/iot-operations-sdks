@@ -27,7 +27,7 @@ pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateS
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for a `Set` request
 ///
@@ -54,7 +54,7 @@ pub async fn set(
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for a `Get` request
 ///
@@ -79,7 +79,7 @@ pub async fn get(
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for a `Delete` request
 ///
@@ -105,7 +105,7 @@ pub async fn del(
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for a `V Delete` request
 ///
@@ -132,7 +132,7 @@ pub async fn vdel(
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for an `Observe` request
 ///
@@ -159,7 +159,7 @@ pub async fn observe(
 /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
 /// - the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServerError`](StateStoreErrorKind::ServerError) if
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
 /// - the State Store returns an Error response
 /// - the State Store returns a response that isn't valid for an `Unobserve` request
 ///
@@ -207,7 +207,9 @@ pub struct state_store::KeyNotification {
 }
 
 pub enum Operation {
+    /// Operation was a `SET`, and the argument is the new value
     Set(Vec<u8>),
+    /// Operation was a `DELETE`
     Del,
 }
 ```
@@ -223,7 +225,7 @@ pub enum StateStoreErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
     #[error("{0}")]
-    ServerError(#[from] ServerErrorKind),
+    ServiceError(#[from] ServiceError),
     #[error("key length must not be zero")]
     KeyLengthZero,
     #[error("{0}")]
@@ -233,7 +235,7 @@ pub enum StateStoreErrorKind {
 }
 
 #[derive(Error, Debug)]
-pub enum ServerErrorKind {
+pub enum ServiceError {
     // This is an example for now
     #[error("Malformed request")]
     BadFormat,
