@@ -536,7 +536,10 @@ where
         self.trigger_exit_user().await?;
         // Wait for the exit to complete, or until the session realizes it was already disconnected.
         tokio::select! {
-            // NOTE: These two conditions here are functionally almost identical for now, due to the very loose
+            // NOTE: These two conditions here are functionally almost identical for now, due to the
+            // very loose matching of disconnect events in [`Session::run()`] (as a result of bugs and
+            // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
+            // that matching back up, and that's why they're here.
             () = self.state.condition_exited() => Ok(()),
             () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
         }
