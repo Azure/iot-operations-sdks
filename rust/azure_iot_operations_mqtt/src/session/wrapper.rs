@@ -178,16 +178,55 @@ impl MqttAck for SessionPubReceiver {
 }
 
 impl SessionExitHandle {
-
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         self.0.try_exit().await
     }
 
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
+    /// will return an error indicating such.
+    ///
+    /// # Arguments
+    /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
     pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
         self.0.try_exit_timeout(timeout).await
     }
 
-    pub async fn exit_force(&self) {
-        self.0.exit_force().await;
+    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
+    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
+    /// has ended.
+    ///
+    /// Returns true if the exit was graceful, and false if the exit was forced.
+    pub async fn exit_force(&self) -> bool {
+        self.0.exit_force().await
     }
 }

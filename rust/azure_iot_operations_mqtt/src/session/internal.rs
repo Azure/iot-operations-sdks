@@ -5,7 +5,7 @@
 
 use std::collections::HashSet;
 use std::str::FromStr;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use async_trait::async_trait;
@@ -26,140 +26,10 @@ use crate::interface::{
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
 use crate::session::reconnect_policy::ReconnectPolicy;
+use crate::session::state::SessionState;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::{TopicFilter, TopicParseError};
 use crate::{CompletionToken, Event, Incoming};
-
-/// Information used to track the state of the Session.
-struct SessionState {
-    /// Indicates if the Session is running.
-    running: RwLock<RunState>,
-    /// Indicates whether or not the Session is currently connected.
-    /// Note that this is best-effort information - it may not be accurate.
-    connected: RwLock<bool>,
-    /// Indicates if a Session exit is desired, and if so, by whom.
-    desire_exit: RwLock<DesireExit>,
-    /// Notifier indicating a state change
-    state_change: Notify,
-}
-
-// TODO: display entire state on change
-impl SessionState {
-
-    fn is_exited(&self) -> bool {
-        matches!(*self.running.read().unwrap(), RunState::Exited)
-    }
-
-    fn is_connected(&self) -> bool {
-        *self.connected.read().unwrap()
-    }
-
-    fn desire_exit(&self) -> bool {
-        !matches!(*self.desire_exit.read().unwrap(), DesireExit::No)
-    }
-
-    fn set_connected(&self) {
-        if !self.is_connected() {
-            *self.connected.write().unwrap() = true;
-            log::info!("Connected!");
-            self.state_change.notify_waiters();
-        } else {
-            // NOTE: I don't think this is possible, but just in case, log it.
-            log::warn!("Duplicate connection")
-        }
-        
-    }
-
-    fn set_disconnected(&self) {
-        if self.is_connected() {
-            *self.connected.write().unwrap() = false;
-            match *self.desire_exit.read().unwrap() {
-                DesireExit::No => log::info!("Connection lost."),
-                DesireExit::User => log::info!("Disconnected due to user-initiated Session exit"),
-                DesireExit::SessionLogic => log::info!("Disconnected due to Session-initiated Session exit"),
-            }
-            self.state_change.notify_waiters();
-        }
-    }
-
-    fn set_running(&self) {
-        *self.running.write().unwrap() = RunState::Running;
-        log::debug!("Session running");
-        self.state_change.notify_waiters();
-    }
-
-    fn set_exited(&self) {
-        *self.running.write().unwrap() = RunState::Exited;
-        log::debug!("Session exited");
-        self.state_change.notify_waiters();
-    }
-
-    fn set_desire_exit(&self, desire: DesireExit) {
-        match desire {
-            DesireExit::No => log::warn!("Unexpected setting of DesireExit::No"),   // NOTE: Should not happen
-            DesireExit::User => log::debug!("User initiated Session exit process"),
-            DesireExit::SessionLogic => log::debug!("Session initiated Session exit process"),
-        }
-        *self.desire_exit.write().unwrap() = desire;
-        self.state_change.notify_waiters();
-    }
-
-    #[allow(dead_code)]
-    async fn condition_connected(&self) {
-        loop {
-            if *self.connected.read().unwrap() {
-                break;
-            }
-            self.state_change.notified().await;
-        }
-    }
-
-    async fn condition_disconnected(&self) {
-        loop {
-            if !*self.connected.read().unwrap() {
-                break;
-            }
-            self.state_change.notified().await;
-        }
-    }
-
-    async fn condition_exited(&self) {
-        loop {
-            if self.is_exited() {
-                break;
-            }
-            self.state_change.notified().await;
-        }
-    }
-}
-
-impl Default for SessionState {
-    fn default() -> Self {
-        Self {
-            running: RwLock::new(RunState::NotStarted),
-            connected: RwLock::new(false),
-            desire_exit: RwLock::new(DesireExit::No),
-            state_change: Notify::new(),
-        }
-    }
-}
-
-enum RunState {
-    NotStarted,
-    Running,
-    Exited,
-}
-
-/// Enum indicating if and why the Session should end from the client-side.
-enum DesireExit {
-    /// Indicates no desire for Session exit.
-    No,
-    /// Indicates the user has requested Session exit.
-    User,
-    /// Indicates the Session logic has requested Session exit.
-    SessionLogic,
-}
-
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -242,7 +112,7 @@ where
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(&mut self) -> Result<(), SessionError> {
-        self.state.set_running();
+        self.state.transition_running();
         // TODO: This is a temporary solution to prevent re-use of the session.
         // Re-use should be available in the future.
         if self.previously_run {
@@ -252,7 +122,7 @@ where
             )));
         }
         self.previously_run = true;
-        
+
         // Reset the pending pub tracker so as not to carry over any state from previous sessions.
         // NOTE: Dispatcher does not need to be reset, as it prunes itself as necessary.
         // TODO: Find a solution for dealing with the case were a receiver may ack a publish after
@@ -287,7 +157,6 @@ where
 
         // Handle events
         loop {
-            
             // Poll the next event/error unless a force exit occurs.
             let next = tokio::select! {
                 // Ensure that the force exit signal is checked first.
@@ -299,7 +168,7 @@ where
             match next {
                 Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
                     // Update connection state
-                    self.state.set_connected();
+                    self.state.transition_connected();
                     // Reset the counter on reconnect attempts
                     prev_reconnect_attempts = 0;
                     log::debug!("Incoming CONNACK: {connack:?}");
@@ -416,9 +285,8 @@ where
                 // result of network failure as client-side disconnects if there is an outstanding
                 // DesireExit value. This is not harmful, but it is bad for logging, and should
                 // probably be fixed.
-                Err(ConnectionError::MqttState(_)) if self.state.desire_exit() =>
-                {
-                    self.state.set_disconnected();
+                Err(ConnectionError::MqttState(_)) if self.state.desire_exit() => {
+                    self.state.transition_disconnected();
                     break;
                 }
 
@@ -431,7 +299,7 @@ where
 
                 // Other errors are passed to reconnect policy
                 Err(e) => {
-                    self.state.set_disconnected();
+                    self.state.transition_disconnected();
 
                     // Always log the error itself at error level
                     log::error!("Error: {e:?}");
@@ -460,7 +328,7 @@ where
                 }
             }
         }
-        self.state.set_exited();
+        self.state.transition_exited();
         cancel_token.cancel();
         result.map_err(std::convert::Into::into)
     }
@@ -468,7 +336,7 @@ where
     /// Helper for triggering a session exit and logging the result
     async fn trigger_session_exit(&self) {
         let exit_handle = self.get_session_exit_handle();
-        match exit_handle.trigger_exit(DesireExit::SessionLogic).await {
+        match exit_handle.trigger_exit_internal().await {
             Ok(()) => log::debug!("Internal session exit successful"),
             Err(e) => log::debug!("Internal session exit failed: {e:?}"),
         }
@@ -619,6 +487,122 @@ where
             self.unacked_pubs.clone(),
             auto_ack,
         ))
+    }
+}
+
+/// Handle used to end an MQTT session.
+#[derive(Clone)]
+pub struct SessionExitHandle<D>
+where
+    D: MqttDisconnect + Clone + Send + Sync,
+{
+    /// The disconnector used to issue disconnect requests
+    disconnector: D,
+    /// Session state information
+    state: Arc<SessionState>,
+    /// Notifier for force exit
+    force_exit: Arc<Notify>,
+}
+
+impl<D> SessionExitHandle<D>
+where
+    D: MqttDisconnect + Clone + Send + Sync,
+{
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    pub async fn try_exit(&self) -> Result<(), SessionExitError> {
+        log::debug!("Attempting to exit session gracefully");
+        // Check if the session is connected (to best of knowledge)
+        if !self.state.is_connected() {
+            return Err(SessionExitError::BrokerUnavailable { attempted: false });
+        }
+        // Initiate the exit
+        self.trigger_exit_user().await?;
+        // Wait for the exit to complete, or until the session realizes it was already disconnected.
+        tokio::select! {
+            // NOTE: These two conditions here are functionally almost identical for now, due to the very loose
+            () = self.state.condition_exited() => Ok(()),
+            () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
+        }
+    }
+
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
+    /// will return an error indicating such.
+    ///
+    /// # Arguments
+    /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
+        tokio::time::timeout(timeout, self.try_exit()).await?
+    }
+
+    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
+    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
+    /// has ended.
+    ///
+    /// Returns true if the exit was graceful, and false if the exit was forced.
+    pub async fn exit_force(&self) -> bool {
+        log::debug!("Attempting to exit session gracefully before force exiting");
+        // Ignore the result here - we don't care
+        let _ = self.trigger_exit_user().await;
+        // 1 second grace period to gracefully complete
+        tokio::select! {
+            () = tokio::time::sleep(Duration::from_secs(1)) => {
+                log::debug!("Grace period for graceful session exit expired. Force exiting session");
+                // NOTE: There is only one waiter on this Notify at any time.
+                self.force_exit.notify_one();
+                false
+            },
+            () = self.state.condition_exited() => {
+                log::debug!("Session exited gracefully without need for force exit");
+                true
+            }
+        }
+    }
+
+    /// Trigger a session exit, specifying the end user as the issuer of the request
+    async fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
+        self.state.transition_user_desire_exit();
+        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
+        // us to manually set the session expiry interval to 0 on a reconnect.
+        // Need to work with Shanghai to drive this feature.
+        Ok(self.disconnector.disconnect().await?)
+    }
+
+    /// Trigger a session exit, specifying the internal session logic as the issuer of the request
+    async fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
+        self.state.transition_session_desire_exit();
+        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
+        // us to manually set the session expiry interval to 0 on a reconnect.
+        // Need to work with Shanghai to drive this feature.
+        Ok(self.disconnector.disconnect().await?)
     }
 }
 
@@ -811,110 +795,6 @@ impl Drop for SessionPubReceiver {
                 }
             });
         }
-    }
-}
-
-/// Handle used to end an MQTT session.
-#[derive(Clone)]
-pub struct SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
-    /// The disconnector used to issue disconnect requests
-    disconnector: D,
-    /// Session state information
-    state: Arc<SessionState>,
-    /// Notifier for force exit
-    force_exit: Arc<Notify>,
-}
-
-impl<D> SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
-    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
-    /// This will cause the [`Session::run()`] method to return.
-    /// 
-    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
-    /// If the [`Session`] is not connected, this method will return an error.
-    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
-    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
-    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
-    /// and may eventually succeed even if this method returns the error
-    /// 
-    /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    pub async fn try_exit(&self) -> Result<(), SessionExitError> {
-        log::debug!("Attempting to exit session gracefully");
-        // Check if the session is connected (to best of knowledge)
-        if !self.state.is_connected() {
-            return Err(SessionExitError::BrokerUnavailable{attempted: false})
-        }
-        // Initiate the exit
-        self.trigger_exit(DesireExit::User).await?;
-        // Wait for the exit to complete, or until the session realizes it was already disconnected.
-        tokio::select! {
-            // NOTE: These two conditions here are functionally almost identical for now, due to the very loose
-            () = self.state.condition_exited() => Ok(()),
-            () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
-        }
-    }
-
-    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
-    /// This will cause the [`Session::run()`] method to return.
-    /// 
-    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
-    /// If the [`Session`] is not connected, this method will return an error.
-    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
-    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
-    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
-    /// and may eventually succeed even if this method returns the error
-    /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
-    /// will return an error indicating such. 
-    /// 
-    /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
-    pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
-        tokio::time::timeout(timeout, self.try_exit()).await?
-    }
-
-    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
-    /// This will cause the [`Session::run()`] method to return.
-    /// 
-    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
-    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
-    /// has ended.
-    /// 
-    /// Returns true if the exit was graceful, and false if the exit was forced.
-    pub async fn exit_force(&self) -> bool {
-        log::debug!("Attempting to exit session gracefully before force exiting");
-        // Ignore the result here - we don't care
-        let _ = self.trigger_exit(DesireExit::User).await;
-        // 1 second grace period to gracefully complete
-        tokio::select! {
-            () = tokio::time::sleep(Duration::from_secs(1)) => {
-                log::debug!("Grace period for graceful session exit expired. Force exiting session");
-                // NOTE: There is only one waiter on this Notify at any time.
-                self.force_exit.notify_one();
-                false
-            },
-            () = self.state.condition_exited() => {
-                log::debug!("Session exited gracefully without need for force exit");
-                true
-            }
-        }
-    }
-
-    /// Trigger a session exit, specifying the issuer of the exit request.
-    async fn trigger_exit(&self, desire_exit: DesireExit) -> Result<(), SessionExitError> {
-        self.state.set_desire_exit(desire_exit);
-        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
-        // us to manually set the session expiry interval to 0 on a reconnect.
-        // Need to work with Shanghai to drive this feature.
-        Ok(self.disconnector.disconnect().await?)
     }
 }
 

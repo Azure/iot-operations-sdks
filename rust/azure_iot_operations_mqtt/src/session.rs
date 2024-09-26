@@ -8,11 +8,12 @@ mod dispatcher;
 pub mod internal; // TODO: Make this private and accessible via compile flags
 mod pub_tracker;
 pub mod reconnect_policy;
+mod state;
 mod wrapper;
 
 use thiserror::Error;
 
-use crate::error::{ConnectionError, ClientError};
+use crate::error::{ClientError, ConnectionError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
 
@@ -53,9 +54,9 @@ pub enum SessionExitError {
     Dropped(#[from] ClientError),
     /// Session is not currently able to contact the broker for graceful exit.
     #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
-    BrokerUnavailable{ 
+    BrokerUnavailable {
         /// Indicates if a disconnect attempt was made.
-        attempted: bool
+        attempted: bool,
     },
     /// Attempt to exit the Session gracefully timed out.
     #[error("exit attempt timed out")]
