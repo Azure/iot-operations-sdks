@@ -14,7 +14,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     /// <#=this.objectType.Description#>
     /// </summary>
 <# } #>
-    public class <#=this.objectType.SchemaName#>
+    public class <#=this.objectType.SchemaName#><#=this.needsNullCheck ? " : IJsonOnDeserialized, IJsonOnSerializing": ""#>
     {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
 <# if (fieldInfo.Value.Description != null) { #>
@@ -24,11 +24,39 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
         [JsonPropertyName("<#=fieldInfo.Key#>")]
         [JsonIgnore(Condition = JsonIgnoreCondition.<#=fieldInfo.Value.IsRequired ? "Never" : "WhenWritingDefault"#>)]
+<# if (fieldInfo.Value.IsRequired) { #>
+        [JsonRequired]
+<# } #>
 <# if (fieldInfo.Value.Index != null) { #>
         [Dahomey.Cbor.Attributes.CborPropertyAttribute(index: <#=fieldInfo.Value.Index#>)]
 <# } #>
         public <#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#> <#=Capitalize(fieldInfo.Key)#> { get; set; } = default<#=fieldInfo.Value.IsRequired ? "!" : ""#>;
 
+<# } #>
+<# if (this.needsNullCheck) { #>
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+<# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+<# if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
+            if (<#=Capitalize(fieldInfo.Key)#> is null)
+            {
+                throw new ArgumentNullException("<#=fieldInfo.Key#> field cannot be null");
+            }
+<# } #>
+<# } #>
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+<# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+<# if (fieldInfo.Value.IsRequired && DotNetSchemaSupport.IsNullable(fieldInfo.Value.SchemaType)) { #>
+            if (<#=Capitalize(fieldInfo.Key)#> is null)
+            {
+                throw new ArgumentNullException("<#=fieldInfo.Key#> field cannot be null");
+            }
+<# } #>
+<# } #>
+        }
 <# } #>
     }
 }
