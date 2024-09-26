@@ -490,7 +490,7 @@ where
 }
 
 /// Handle used to end an MQTT session.
-/// 
+///
 /// PLEASE NOTE WELL
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
