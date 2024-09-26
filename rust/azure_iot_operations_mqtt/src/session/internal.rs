@@ -271,10 +271,9 @@ where
                     }
                 }
 
-                Ok(e) => {
+                Ok(_e) => {
                     // There could be additional incoming and outgoing event responses here if
                     // more filters like the above one are applied
-                    log::debug!("{e:?}");
                 }
 
                 // Desired disconnect completion

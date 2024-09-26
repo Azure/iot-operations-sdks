@@ -3,6 +3,7 @@
 
 //! Types for tracking the state of a [`crate::session::Session`].
 
+use std::fmt;
 use std::sync::RwLock;
 
 use tokio::sync::Notify;
@@ -20,7 +21,8 @@ pub struct SessionState {
     state_change: Notify,
 }
 
-// TODO: display entire state on change
+// NOTE: There could be more methods implemented here, but they would not be used yet,
+// so they are omitted for now. Add as necessary.
 impl SessionState {
     /// Return true if the Session has exited.
     pub fn has_exited(&self) -> bool {
@@ -84,6 +86,7 @@ impl SessionState {
             log::info!("Connected!");
             self.state_change.notify_waiters();
         }
+        log::debug!("{self}");
     }
 
     /// Update the state to reflect a disconnection
@@ -99,34 +102,39 @@ impl SessionState {
             }
             self.state_change.notify_waiters();
         }
+        log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session is running
     pub fn transition_running(&self) {
         *self.lifecycle_status.write().unwrap() = LifecycleStatus::Running;
-        log::debug!("Session lifecycle_status");
         self.state_change.notify_waiters();
+        log::info!("Session started");
+        log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session has exited
     pub fn transition_exited(&self) {
         *self.lifecycle_status.write().unwrap() = LifecycleStatus::Exited;
-        log::debug!("Session exited");
         self.state_change.notify_waiters();
+        log::info!("Session exited");
+        log::debug!("{self}");
     }
 
     /// Update the state to reflect the user desires a Session exit
     pub fn transition_user_desire_exit(&self) {
-        log::debug!("User initiated Session exit process");
         *self.desire_exit.write().unwrap() = DesireExit::User;
         self.state_change.notify_waiters();
+        log::info!("User initiated Session exit process");
+        log::debug!("{self}");
     }
 
     /// Update the state to reflect the Session logic desires a Session exit
     pub fn transition_session_desire_exit(&self) {
-        log::debug!("Session initiated Session exit process");
         *self.desire_exit.write().unwrap() = DesireExit::SessionLogic;
         self.state_change.notify_waiters();
+        log::info!("Session initiated Session exit process");
+        log::debug!("{self}");
     }
 }
 
@@ -142,7 +150,20 @@ impl Default for SessionState {
     }
 }
 
+impl fmt::Display for SessionState {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "SessionState {{ lifecycle_status: {:?}, connected: {:?}, desire_exit: {:?} }}",
+            *self.lifecycle_status.read().unwrap(),
+            *self.connected.read().unwrap(),
+            *self.desire_exit.read().unwrap()
+        )
+    }
+}
+
 /// Enum indicating the part of the lifecycle the Session is currently in.
+#[derive(Debug)]
 enum LifecycleStatus {
     /// Indicates the Session has not yet started.
     NotStarted,
@@ -152,6 +173,7 @@ enum LifecycleStatus {
     Exited,
 }
 
+#[derive(Debug)]
 /// Enum indicating if and why the Session should end from the client-side.
 enum DesireExit {
     /// Indicates no desire for Session exit.
