@@ -30,7 +30,6 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type GetOptions](<#GetOptions>)
   - [func \(o \*GetOptions\) Apply\(opts \[\]GetOption, rest ...GetOption\)](<#GetOptions.Apply>)
 - [type KeyNotify](<#KeyNotify>)
-  - [func \(kn \*KeyNotify\) C\(\) \<\-chan Notify](<#KeyNotify.C>)
   - [func \(kn \*KeyNotify\) Stop\(ctx context.Context, opt ...KeyNotifyOption\) error](<#KeyNotify.Stop>)
 - [type KeyNotifyOption](<#KeyNotifyOption>)
 - [type KeyNotifyOptions](<#KeyNotifyOptions>)
@@ -112,7 +111,7 @@ func (c *Client) Get(ctx context.Context, key string, opt ...GetOption) (*Respon
 Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
 
 <a name="Client.KeyNotify"></a>
-### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L31-L35>)
+### func \(\*Client\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L33-L37>)
 
 ```go
 func (c *Client) KeyNotify(ctx context.Context, key string, opt ...KeyNotifyOption) (*KeyNotify, error)
@@ -279,27 +278,20 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 Apply resolves the provided list of options.
 
 <a name="KeyNotify"></a>
-## type [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L12-L17>)
+## type [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L12-L19>)
 
-KeyNotify represents a registered notification.
+KeyNotify represents a registered notification request.
 
 ```go
 type KeyNotify struct {
+    Key string
+    C   chan Notify
     // contains filtered or unexported fields
 }
 ```
 
-<a name="KeyNotify.C"></a>
-### func \(\*KeyNotify\) [C](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L53>)
-
-```go
-func (kn *KeyNotify) C() <-chan Notify
-```
-
-C gets the notification channel.
-
 <a name="KeyNotify.Stop"></a>
-### func \(\*KeyNotify\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L59>)
+### func \(\*KeyNotify\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L62>)
 
 ```go
 func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error
@@ -308,7 +300,7 @@ func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error
 Stop removes this notification and stops notifications for this key if no other notifications are registered.
 
 <a name="KeyNotifyOption"></a>
-## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L20>)
+## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L22>)
 
 KeyNotifyOption represents a single option for the KeyNotify method.
 
@@ -319,7 +311,7 @@ type KeyNotifyOption interface {
 ```
 
 <a name="KeyNotifyOptions"></a>
-## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L23-L25>)
+## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L25-L27>)
 
 KeyNotifyOptions are the resolved options for the KeyNotify method.
 
@@ -330,7 +322,7 @@ type KeyNotifyOptions struct {
 ```
 
 <a name="KeyNotifyOptions.Apply"></a>
-### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L106-L109>)
+### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L116-L119>)
 
 ```go
 func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption)

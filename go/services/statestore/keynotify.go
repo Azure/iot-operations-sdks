@@ -8,10 +8,12 @@ import (
 )
 
 type (
-	// KeyNotify represents a registered notification.
+	// KeyNotify represents a registered notification request.
 	KeyNotify struct {
-		c      chan Notify
-		key    string
+		Key string
+		C   chan Notify
+
+		done   chan struct{}
 		client *Client
 		index  int
 	}
@@ -43,38 +45,46 @@ func (c *Client) KeyNotify(
 	}
 
 	// Give the channel a buffer of 1 so we can iterate through them quickly.
-	kn := &KeyNotify{make(chan Notify, 1), key, c, len(c.notify[key])}
+	kn := &KeyNotify{
+		Key:    key,
+		C:      make(chan Notify, 1),
+		done:   make(chan struct{}),
+		client: c,
+		index:  len(c.notify[key]),
+	}
 	c.notify[key] = append(c.notify[key], kn)
 
 	return kn, nil
 }
 
-// C gets the notification channel.
-func (kn *KeyNotify) C() <-chan Notify {
-	return kn.c
-}
-
 // Stop removes this notification and stops notifications for this key if no
 // other notifications are registered.
 func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error {
+	// Stop needs to be thread-safe with other keys, but not with itself, and we
+	// need to close the done channel outside of the lock to guarantee that the
+	// notify loop will unblock (and eventually free the lock).
+	if kn.index >= 0 {
+		close(kn.done)
+	}
+
 	c := kn.client
 	c.notifyMu.Lock()
 	defer c.notifyMu.Unlock()
 
 	if kn.index >= 0 {
 		// Order doesn't matter, so remove this index quickly by swapping.
-		last := len(c.notify[kn.key]) - 1
-		c.notify[kn.key][kn.index] = c.notify[kn.key][last]
-		c.notify[kn.key][kn.index].index = kn.index
-		c.notify[kn.key] = c.notify[kn.key][:last]
+		last := len(c.notify[kn.Key]) - 1
+		c.notify[kn.Key][kn.index] = c.notify[kn.Key][last]
+		c.notify[kn.Key][kn.index].index = kn.index
+		c.notify[kn.Key] = c.notify[kn.Key][:last]
 
 		kn.index = -1
-		close(kn.c)
+		close(kn.C)
 	}
 
-	if len(c.notify[kn.key]) == 0 {
-		delete(c.notify, kn.key)
-		if err := c.keyNotify(ctx, kn.key, false, opt...); err != nil {
+	if len(c.notify[kn.Key]) == 0 {
+		delete(c.notify, kn.Key)
+		if err := c.keyNotify(ctx, kn.Key, false, opt...); err != nil {
 			return err
 		}
 	}
