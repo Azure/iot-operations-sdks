@@ -3,12 +3,12 @@
 
 //! Types for tracking the state of a [`crate::session::Session`].
 
-use std::fmt;
 use std::sync::RwLock;
 
 use tokio::sync::Notify;
 
 /// Information used to track the state of the Session.
+#[derive(Debug)]
 pub struct SessionState {
     /// State information locked for concurrency protection
     state: RwLock<InnerSessionState>,
@@ -16,6 +16,8 @@ pub struct SessionState {
     state_change: Notify,
 }
 
+/// The inner state containing the actual state data.
+#[derive(Debug)]
 struct InnerSessionState {
     /// Indicates the part of the lifecycle the Session is currently in.
     lifecycle_status: LifecycleStatus,
@@ -94,7 +96,7 @@ impl SessionState {
             log::info!("Connected!");
             self.state_change.notify_waiters();
         }
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 
     /// Update the state to reflect a disconnection
@@ -113,7 +115,7 @@ impl SessionState {
             }
             self.state_change.notify_waiters();
         }
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 
     /// Update the state to reflect the Session is running
@@ -122,7 +124,7 @@ impl SessionState {
         state.lifecycle_status = LifecycleStatus::Running;
         self.state_change.notify_waiters();
         log::info!("Session started");
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 
     /// Update the state to reflect the Session has exited
@@ -131,7 +133,7 @@ impl SessionState {
         state.lifecycle_status = LifecycleStatus::Exited;
         self.state_change.notify_waiters();
         log::info!("Session exited");
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 
     /// Update the state to reflect the user desires a Session exit
@@ -140,7 +142,7 @@ impl SessionState {
         state.desire_exit = DesireExit::User;
         self.state_change.notify_waiters();
         log::info!("User initiated Session exit process");
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 
     /// Update the state to reflect the Session logic desires a Session exit
@@ -149,7 +151,7 @@ impl SessionState {
         state.desire_exit = DesireExit::SessionLogic;
         self.state_change.notify_waiters();
         log::info!("Session initiated Session exit process");
-        //log::debug!("{self}");
+        log::debug!("{state:?}");
     }
 }
 
@@ -170,17 +172,6 @@ impl Default for InnerSessionState {
             connected: false,
             desire_exit: DesireExit::No,
         }
-    }
-}
-
-impl fmt::Debug for SessionState {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let state = self.state.read().unwrap();
-        write!(
-            f,
-            "SessionState {{ lifecycle_status: {:?}, connected: {:?}, desire_exit: {:?} }}",
-            state.lifecycle_status, state.connected, state.desire_exit,
-        )
     }
 }
 
