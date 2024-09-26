@@ -6,8 +6,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public class AzureDeviceRegistryClient : IDisposable
     {
 #pragma warning disable CS0067 // Unused for now
-        public event EventHandler<Asset>? AssetFileChanged;
-        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileFileChanged;
+        public event EventHandler<Asset>? AssetChanged;
+        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileChanged;
 #pragma warning restore CS0067 // Unused for now
 
         public AzureDeviceRegistryClient()
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Start receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
         /// <param name="assetId">The Id of the asset to observe.</param>
-        public void ObserveAsset(string assetId)
+        public Task ObserveAssetAsync(string assetId)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Stop receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
         /// <param name="assetId">The Id of the asset to unobserve.</param>
-        public void UnobserveAsset(string assetId)
+        public Task UnobserveAssetAsync(string assetId)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
-        public void ObserveAssetEndpointProfile(string assetId)
+        public Task ObserveAssetEndpointProfileAsync(string assetId)
         {
             throw new NotImplementedException();
         }
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to unobserve.</param>
-        public void UnobserveAssetEndpointProfile(string assetId)
+        public Task UnobserveAssetEndpointProfileAsync(string assetId)
         {
             throw new NotImplementedException();
         }
@@ -76,7 +76,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Returns the complete list of assets deployed by the operator to this pod.
         /// </summary>
         /// <returns>The complete list of assets deployed by the operator to this pod.</returns>
-        public IEnumerable<string> GetAssetIds()
+        public Task<IEnumerable<string>> GetAssetIdsAsync()
         {
             throw new NotImplementedException();
         }
