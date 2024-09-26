@@ -10,7 +10,8 @@ use tokio::sync::Notify;
 
 /// Information used to track the state of the Session.
 pub struct SessionState {
-    inner: RwLock<InnerSessionState>,
+    /// State information locked for concurrency protection
+    state: RwLock<InnerSessionState>,
     /// Notifier indicating a state change
     state_change: Notify,
 }
@@ -31,19 +32,19 @@ impl SessionState {
     /// Return true if the Session has exited.
     pub fn has_exited(&self) -> bool {
         matches!(
-            self.inner.read().unwrap().lifecycle_status,
+            self.state.read().unwrap().lifecycle_status,
             LifecycleStatus::Exited
         )
     }
 
     /// Return true if the Session is currently connected (to the best of knowledge)
     pub fn is_connected(&self) -> bool {
-        self.inner.read().unwrap().connected
+        self.state.read().unwrap().connected
     }
 
     /// Return true if the a Session exit is desired
     pub fn desire_exit(&self) -> bool {
-        !matches!(self.inner.read().unwrap().desire_exit, DesireExit::No)
+        !matches!(self.state.read().unwrap().desire_exit, DesireExit::No)
     }
 
     /// Wait until the Session is connected.
@@ -51,7 +52,7 @@ impl SessionState {
     #[allow(dead_code)]
     pub async fn condition_connected(&self) {
         loop {
-            if self.inner.read().unwrap().connected {
+            if self.state.read().unwrap().connected {
                 break;
             }
             self.state_change.notified().await;
@@ -62,7 +63,7 @@ impl SessionState {
     /// Returns immediately if the Session is already disconnected.
     pub async fn condition_disconnected(&self) {
         loop {
-            if !self.inner.read().unwrap().connected {
+            if !self.state.read().unwrap().connected {
                 break;
             }
             self.state_change.notified().await;
@@ -82,11 +83,14 @@ impl SessionState {
 
     /// Update the state to reflect a connection
     pub fn transition_connected(&self) {
+        // Acquire write lock for duration of method to ensure correctness of logging
+        let mut state = self.state.write().unwrap();
+
         if self.is_connected() {
             // NOTE: I don't think this is possible, but just in case, log it.
             log::warn!("Duplicate connection");
         } else {
-            self.inner.write().unwrap().connected = true;
+            state.connected = true;
             log::info!("Connected!");
             self.state_change.notify_waiters();
         }
@@ -95,9 +99,12 @@ impl SessionState {
 
     /// Update the state to reflect a disconnection
     pub fn transition_disconnected(&self) {
+        // Acquire write lock for duration of method to ensure correctness of logging
+        let mut state = self.state.write().unwrap();
+
         if self.is_connected() {
-            self.inner.write().unwrap().connected = false;
-            match self.inner.read().unwrap().desire_exit {
+            state.connected = false;
+            match state.desire_exit {
                 DesireExit::No => log::info!("Connection lost."),
                 DesireExit::User => log::info!("Disconnected due to user-initiated Session exit"),
                 DesireExit::SessionLogic => {
@@ -111,7 +118,8 @@ impl SessionState {
 
     /// Update the state to reflect the Session is running
     pub fn transition_running(&self) {
-        self.inner.write().unwrap().lifecycle_status = LifecycleStatus::Running;
+        let mut state = self.state.write().unwrap();
+        state.lifecycle_status = LifecycleStatus::Running;
         self.state_change.notify_waiters();
         log::info!("Session started");
         log::debug!("{self}");
@@ -119,7 +127,8 @@ impl SessionState {
 
     /// Update the state to reflect the Session has exited
     pub fn transition_exited(&self) {
-        self.inner.write().unwrap().lifecycle_status = LifecycleStatus::Exited;
+        let mut state = self.state.write().unwrap();
+        state.lifecycle_status = LifecycleStatus::Exited;
         self.state_change.notify_waiters();
         log::info!("Session exited");
         log::debug!("{self}");
@@ -127,7 +136,8 @@ impl SessionState {
 
     /// Update the state to reflect the user desires a Session exit
     pub fn transition_user_desire_exit(&self) {
-        self.inner.write().unwrap().desire_exit = DesireExit::User;
+        let mut state = self.state.write().unwrap();
+        state.desire_exit = DesireExit::User;
         self.state_change.notify_waiters();
         log::info!("User initiated Session exit process");
         log::debug!("{self}");
@@ -135,7 +145,8 @@ impl SessionState {
 
     /// Update the state to reflect the Session logic desires a Session exit
     pub fn transition_session_desire_exit(&self) {
-        self.inner.write().unwrap().desire_exit = DesireExit::SessionLogic;
+        let mut state = self.state.write().unwrap();
+        state.desire_exit = DesireExit::SessionLogic;
         self.state_change.notify_waiters();
         log::info!("Session initiated Session exit process");
         log::debug!("{self}");
@@ -146,7 +157,7 @@ impl Default for SessionState {
     /// Create a new `SessionState` with default values.
     fn default() -> Self {
         Self {
-            inner: RwLock::new(InnerSessionState::default()),
+            state: RwLock::new(InnerSessionState::default()),
             state_change: Notify::new(),
         }
     }
@@ -164,11 +175,11 @@ impl Default for InnerSessionState {
 
 impl fmt::Display for SessionState {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let inner = self.inner.read().unwrap();
+        let state = self.state.read().unwrap();
         write!(
             f,
             "SessionState {{ lifecycle_status: {:?}, connected: {:?}, desire_exit: {:?} }}",
-            inner.lifecycle_status, inner.connected, inner.desire_exit,
+            state.lifecycle_status, state.connected, state.desire_exit,
         )
     }
 }
