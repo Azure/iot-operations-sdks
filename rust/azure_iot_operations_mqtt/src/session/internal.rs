@@ -288,8 +288,16 @@ where
 
         // Handle events
         loop {
-            let r = self.event_loop.poll().await;
-            match r {
+            
+            // Poll the next event/error unless a force exit occurs.
+            let next = tokio::select! {
+                // Ensure that the force exit signal is checked first.
+                biased;
+                () = self.notify_force_exit.notified() => { break },
+                r = self.event_loop.poll() => { r },
+            };
+
+            match next {
                 Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
                     // Update connection state
                     self.state.set_connected();
@@ -418,7 +426,7 @@ where
                 // Connection refused by broker - unrecoverable
                 Err(ConnectionError::ConnectionRefused(rc)) => {
                     log::error!("Connection Refused: rc: {rc:?}");
-                    result = Err(SessionErrorKind::ConnectionError(r.unwrap_err()));
+                    result = Err(SessionErrorKind::ConnectionError(next.unwrap_err()));
                     break;
                 }
 
