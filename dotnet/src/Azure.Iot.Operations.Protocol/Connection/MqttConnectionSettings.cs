@@ -149,14 +149,54 @@ public class MqttConnectionSettings
     }
 
     public static MqttConnectionSettings FromFileMount()
+    // This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
+    // Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
+    // MqttConnectionSettings are created from these settings to construct a session client.
+    // This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
     {
         string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
-    
-        string targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
-        bool useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
-        string satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
-        string tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+        
+        string targetAddress;
+        bool useTls = false;
+        string satMountPath = string.Empty;
+        string tlsCaCertMountPath = string.Empty;
+
+        try
+        {
+            targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
+        }
+        catch (Exception ex)
+        {
+            throw AkriMqttException.GetConfigurationInvalidException("MQ_TARGET_ADDRESS", string.Empty, "Missing target address configuration file", ex);
+        }
+
+        try
+        {
+            useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
+        }
+        catch
+        {
+            logger.LogInformation("MQ_USE_TLS is not set. Defaulting to false.");
+        }
+
+        try
+        {
+            satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
+        }
+        catch
+        {
+            logger.LogInformation("MQ_SAT_MOUNT_PATH is not set.");
+        }
+
+        try
+        {
+            tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+        }
+        catch
+        {
+            logger.LogInformation("MQ_TLS_CACERT_MOUNT_PATH is not set.");
+        }
 
         try
         {
