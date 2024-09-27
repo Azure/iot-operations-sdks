@@ -1,5 +1,6 @@
 
 use std::collections::HashSet;
+use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
 use async_trait::async_trait;
@@ -9,8 +10,10 @@ use tokio::sync::mpsc::Receiver;
 use crate::CompletionToken;
 use crate::control_packet::{Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties};
 use crate::error::ClientError;
-use crate::interface::{MqttAck, MqttPubReceiver, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
 use crate::session::pub_tracker::PubTracker;
+use crate::session::dispatcher::IncomingPublishDispatcher;
+use crate::topic::{TopicFilter, TopicParseError};
 
 
 // impl<C, EL> MqttProvider<SessionPubSub<C>, SessionPubReceiver> for Session<C, EL>
@@ -57,12 +60,35 @@ use crate::session::pub_tracker::PubTracker;
 /// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 // TODO: MORE DOC
 #[derive(Clone)]
-struct SessionManagedClient<PS>
+pub struct SessionManagedClient<PS>
 where
     PS: MqttPubSub + Clone + Send + Sync,
 {
-    client_id: String,
-    pub_sub: PS
+    pub(crate) client_id: String,
+    pub(crate) pub_sub: PS,
+    /// Dispatcher for incoming publishes
+    pub(crate) incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
+    /// Tracker for unacked incoming publishes
+    pub(crate) unacked_pubs: Arc<PubTracker>,
+}
+
+impl <PS> ManagedClient<SessionPubReceiver> for SessionManagedClient<PS>
+where
+    PS: MqttPubSub + Clone + Send + Sync,
+{
+    fn client_id(&self) -> &str {
+        &self.client_id
+    }
+
+    fn filtered_pub_receiver(&self, topic_filter: &str, auto_ack: bool) -> Result<SessionPubReceiver, TopicParseError> {
+        let topic_filter = TopicFilter::from_str(topic_filter)?;
+        let rx = self.incoming_pub_dispatcher.lock().unwrap().register_filter(&topic_filter);
+        Ok(SessionPubReceiver::new(
+            rx,
+            self.unacked_pubs.clone(),
+            auto_ack,
+        ))
+    }
 }
 
 #[async_trait]

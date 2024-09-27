@@ -141,26 +141,46 @@ pub trait MqttPubReceiver {
     async fn recv(&mut self) -> Option<Publish>;
 }
 
-// TODO: refactor into "ManagedClient"
-/// Spawns [`MqttPubSub`] and [`MqttPubReceiver`]
-pub trait MqttProvider<PS, PR>
+
+pub trait ManagedClient<PR>: MqttPubSub
 where
-    PS: MqttPubSub + Clone + Send + Sync,
     PR: MqttPubReceiver + Send + Sync,
 {
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
-
-    /// Get an [`MqttPubSub`] for this connection
-    fn pub_sub(&self) -> PS;
 
     /// Get an [`MqttPubReceiver`] for a specific topic
     ///
     /// # Errors
     /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
     fn filtered_pub_receiver(
-        &mut self,
+        &self,
         topic_filter: &str,
         auto_ack: bool,
     ) -> Result<PR, TopicParseError>;
 }
+
+
+// // TODO: refactor into "ManagedClient"
+// /// Spawns [`MqttPubSub`] and [`MqttPubReceiver`]
+// pub trait MqttProvider<PS, PR>
+// where
+//     PS: MqttPubSub + Clone + Send + Sync,
+//     PR: MqttPubReceiver + Send + Sync,
+// {
+//     /// Get the client id for the MQTT connection
+//     fn client_id(&self) -> &str;
+
+//     /// Get an [`MqttPubSub`] for this connection
+//     fn pub_sub(&self) -> PS;
+
+//         /// Get an [`MqttPubReceiver`] for a specific topic
+//     ///
+//     /// # Errors
+//     /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
+//     fn filtered_pub_receiver(
+//         &mut self,
+//         topic_filter: &str,
+//         auto_ack: bool,
+//     ) -> Result<PR, TopicParseError>;
+// }

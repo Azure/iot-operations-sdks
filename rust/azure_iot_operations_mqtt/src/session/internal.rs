@@ -3,7 +3,7 @@
 
 //! Internal implementation of the [`Session`] type.
 
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
@@ -14,6 +14,7 @@ use crate::control_packet::AuthProperties;
 use crate::error::ConnectionError;
 use crate::interface::{InternalClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
+use crate::session::managed_client::SessionManagedClient;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
 use crate::session::reconnect_policy::ReconnectPolicy;
 use crate::session::state::SessionState;
@@ -38,7 +39,7 @@ where
     /// File path to the SAT token
     sat_auth_file: Option<String>,
     /// Dispatcher for incoming publishes
-    incoming_pub_dispatcher: IncomingPublishDispatcher,
+    incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Tracker for unacked incoming publishes
     unacked_pubs: Arc<PubTracker>,
     /// Reconnect policy
@@ -70,6 +71,7 @@ where
         // messages to fail to be dispatched. The .run() method will respond to this failure by acking.
         // This lets us retain correct functionality while waiting for a more elegant solution with ordered ack.
         let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new(capacity);
+        let incoming_pub_dispatcher = Arc::new(Mutex::new(incoming_pub_dispatcher));
         Self {
             client,
             event_loop,
@@ -91,6 +93,18 @@ where
             disconnector: self.client.clone(),
             state: self.state.clone(),
             force_exit: self.notify_force_exit.clone(),
+        }
+    }
+
+    /// Return a [`SessionManagedClient`] that can be used to do MQTT
+    //TODO: finish doc
+    pub fn get_managed_client(&self) -> SessionManagedClient<C> {
+        SessionManagedClient {
+            client_id: self.client_id.clone(),
+            pub_sub: self.client.clone(),
+            incoming_pub_dispatcher: self.incoming_pub_dispatcher.clone(),
+            unacked_pubs: self.unacked_pubs.clone(),
+
         }
     }
 
@@ -214,6 +228,8 @@ where
                     // consumption semantics are probably better.
                     match self
                         .incoming_pub_dispatcher
+                        .lock()
+                        .unwrap()
                         .dispatch_publish(publish.clone())
                         .await
                     {
@@ -485,7 +501,10 @@ where
         self.trigger_exit_user().await?;
         // Wait for the exit to complete, or until the session realizes it was already disconnected.
         tokio::select! {
-            // NOTE: These two conditions here are functionally almost identical for now, due to the very loose
+            // NOTE: These two conditions here are functionally almost identical for now, due to the
+            // very loose matching of disconnect events in [`Session::run()`] (as a result of bugs and
+            // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
+            // that matching back up, and that's why they're here.
             () = self.state.condition_exited() => Ok(()),
             () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
         }

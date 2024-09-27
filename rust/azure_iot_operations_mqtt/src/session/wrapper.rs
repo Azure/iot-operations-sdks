@@ -9,7 +9,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
 use crate::rumqttc_adapter as adapter;
 use crate::session::internal;
 use crate::session::managed_client;
@@ -23,6 +23,7 @@ use crate::{CompletionToken, MqttConnectionSettings};
 /// Use this centrally in an application to control the session and to create
 /// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
 pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
+
 #[derive(Clone)]
 /// Handle used to end an MQTT session.
 ///
@@ -30,9 +31,11 @@ pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAli
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
 pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
-#[derive(Clone)]
+
 /// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
-pub struct SessionPubSub(managed_client::SessionPubSub<adapter::ClientAlias>);
+/// //TODO doc
+pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
+
 /// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
@@ -77,6 +80,12 @@ impl Session {
         SessionExitHandle(self.0.get_session_exit_handle())
     }
 
+    /// Placeholder doc
+    //TODO: doc
+    pub fn get_managed_client(&self) -> SessionManagedClient {
+        SessionManagedClient(self.0.get_managed_client())
+    }
+
     /// Begin running the [`Session`].
     ///
     /// Blocks until either a session exit or a fatal connection error is encountered.
@@ -88,28 +97,24 @@ impl Session {
     }
 }
 
-// impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
-//     fn client_id(&self) -> &str {
-//         self.0.client_id()
-//     }
+impl ManagedClient<SessionPubReceiver> for SessionManagedClient {
+    fn client_id(&self) -> &str {
+        self.0.client_id()
+    }
 
-//     fn pub_sub(&self) -> SessionPubSub {
-//         SessionPubSub(self.0.pub_sub())
-//     }
-
-//     fn filtered_pub_receiver(
-//         &mut self,
-//         topic_filter: &str,
-//         auto_ack: bool,
-//     ) -> Result<SessionPubReceiver, TopicParseError> {
-//         Ok(SessionPubReceiver(
-//             self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
-//         ))
-//     }
-// }
+    fn filtered_pub_receiver(
+        &self,
+        topic_filter: &str,
+        auto_ack: bool,
+    ) -> Result<SessionPubReceiver, TopicParseError> {
+        Ok(SessionPubReceiver(
+            self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
+        ))
+    }
+}
 
 #[async_trait]
-impl MqttPubSub for SessionPubSub {
+impl MqttPubSub for SessionManagedClient {
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
