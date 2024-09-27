@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -21,9 +20,7 @@ public class MqttConnectionSettings
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
     private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
-
-    private static readonly ILogger logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<MqttConnectionSettings>();
-
+    
     public string HostName { get; init; }
 
     public int TcpPort { get; set; } = DefaultTcpPort;
@@ -151,11 +148,13 @@ public class MqttConnectionSettings
         }
     }
 
+    /// <summary>
+    /// This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
+    /// Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
+    /// MqttConnectionSettings are created from these settings to construct a session client.
+    /// This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
+    /// </summary>
     public static MqttConnectionSettings FromFileMount()
-    // This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
-    // Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
-    // MqttConnectionSettings are created from these settings to construct a session client.
-    // This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
     {
         string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
@@ -180,7 +179,7 @@ public class MqttConnectionSettings
         }
         catch
         {
-            logger.LogInformation("MQ_USE_TLS is not set. Defaulting to false.");
+            throw AkriMqttException.GetConfigurationInvalidException("MQ_USE_TLS", string.Empty, "MQ_USE_TLS not set.");
         }
 
         try
@@ -189,7 +188,7 @@ public class MqttConnectionSettings
         }
         catch
         {
-            logger.LogInformation("MQ_SAT_MOUNT_PATH is not set.");
+            Trace.TraceInformation("MQ_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
         }
 
         try
@@ -198,7 +197,7 @@ public class MqttConnectionSettings
         }
         catch
         {
-            logger.LogInformation("MQ_TLS_CACERT_MOUNT_PATH is not set.");
+            Trace.TraceInformation("MQ_TLS_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
         }
 
         try
