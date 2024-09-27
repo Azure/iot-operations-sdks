@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -20,6 +21,8 @@ public class MqttConnectionSettings
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
     private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
+
+    private static readonly ILogger logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<MqttConnectionSettings>();
 
     public string HostName { get; init; }
 
