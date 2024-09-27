@@ -15,7 +15,7 @@ use super::StatusCode;
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
-    payload_serialize::{FormatIndicator, PayloadSerialize, SerializerError},
+    payload_serialize::{FormatIndicator, PayloadSerialize},
     topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
     user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
 };
@@ -142,8 +142,8 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     /// Add a payload to the command response. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`SerializerError`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, SerializerError> {
+    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
+    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.response_payload_type = Some(PhantomData);
@@ -205,14 +205,15 @@ pub struct CommandExecutorOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
-/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, SerializerError, FormatIndicator};
+/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
+/// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, SerializerError> { Ok(Vec::new()) }
-/// #   fn deserialize(payload: &[u8]) -> Result<Self, SerializerError> { Ok(SamplePayload {}) }
+/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -647,7 +648,7 @@ where
                                 Ok(payload) => payload,
                                 Err(e) => {
                                     response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e}"));
+                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e:?}"));
                                     break 'process_request;
                                 }
                             };
@@ -1140,14 +1141,7 @@ mod tests {
         let mut mock_response_payload = MockPayload::new();
         mock_response_payload
             .expect_serialize()
-            .returning(|| {
-                Err(SerializerError {
-                    // dummy nested error, doesn't matter what it is
-                    nested_error: Box::new(AIOProtocolError::new_payload_invalid_error(
-                        true, false, None, None, None, None,
-                    )),
-                })
-            })
+            .returning(|| Err("dummy error".to_string()))
             .times(1);
 
         let mut binding = CommandResponseBuilder::default();

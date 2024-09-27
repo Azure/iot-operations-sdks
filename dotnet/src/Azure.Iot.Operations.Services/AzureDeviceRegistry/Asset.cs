@@ -38,7 +38,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public string? AssetEndpointProfileRef { get; init; }
 
         /// <summary>
-        /// An value that is incremented each time the resource is modified.
+        /// A value that is incremented each time the resource is modified.
+
         /// </summary>
         public long? Version { get; init; }
 
