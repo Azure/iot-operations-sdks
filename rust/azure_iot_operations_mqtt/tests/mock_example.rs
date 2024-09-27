@@ -8,7 +8,7 @@ use tokio::select;
 
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::ConnectionError;
-use azure_iot_operations_mqtt::interface::{MqttEventLoop, MqttProvider, MqttPubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttEventLoop, MqttPubReceiver};
 use azure_iot_operations_mqtt::session::{
     internal::Session, reconnect_policy::ExponentialBackoffWithJitter,
 };
@@ -62,6 +62,7 @@ async fn mock_event_loop() {
     );
 
     let mut pub_receiver = session
+        .get_managed_client()
         .filtered_pub_receiver("test/resp/topic", true)
         .unwrap();
 

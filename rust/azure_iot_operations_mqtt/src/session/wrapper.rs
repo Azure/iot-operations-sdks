@@ -34,6 +34,7 @@ pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
 
 /// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 /// //TODO doc
+#[derive(Clone)]
 pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
 
 /// Receive and acknowledge incoming MQTT messages.

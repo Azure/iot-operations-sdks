@@ -142,6 +142,8 @@ pub trait MqttPubReceiver {
 }
 
 
+/// PLACEHOLDER
+//TODO: doc
 pub trait ManagedClient<PR>: MqttPubSub
 where
     PR: MqttPubReceiver + Send + Sync,

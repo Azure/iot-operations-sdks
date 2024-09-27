@@ -24,7 +24,7 @@ use crate::{Event, Incoming};
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
-/// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
+/// the [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session<C, EL>
 where
     C: InternalClient + Clone + Send + Sync + 'static,
