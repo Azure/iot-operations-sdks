@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -234,7 +234,7 @@ where
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](CommandInvokerOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
-        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        managed_client: impl ManagedClient<PR> + Clone,
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
@@ -270,7 +270,7 @@ where
             &invoker_options.request_topic_pattern,
             &invoker_options.command_name,
             topic_processor::WILDCARD,
-            mqtt_provider.client_id(),
+            managed_client.client_id(),
             invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
@@ -280,7 +280,7 @@ where
             &response_topic_pattern,
             &invoker_options.command_name,
             topic_processor::WILDCARD,
-            mqtt_provider.client_id(),
+            managed_client.client_id(),
             invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
@@ -289,9 +289,8 @@ where
         // Create mutex to track subscription state
         let is_subscribed_mutex = Arc::new(Mutex::new(false));
 
-        // Get the pub sub and receiver from the session
-        let mqtt_pub_sub = mqtt_provider.pub_sub();
-        let mqtt_receiver = match mqtt_provider
+        // Create a filtered receiver from the Managed Client
+        let mqtt_receiver = match managed_client
             .filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
         {
             Ok(receiver) => receiver,
@@ -329,9 +328,9 @@ where
         });
 
         Ok(Self {
-            mqtt_pub_sub,
+            mqtt_pub_sub: managed_client,
             command_name: invoker_options.command_name,
-            client_id: mqtt_provider.client_id().to_string(),
+            client_id: managed_client.client_id().to_string(),
             request_topic_pattern,
             response_topic_pattern,
             request_payload_type: PhantomData,
@@ -947,7 +946,7 @@ mod tests {
 
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
@@ -961,9 +960,9 @@ mod tests {
     static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
     static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
 
-    // TODO: This should return a mock MqttProvider instead
-    fn get_mqtt_provider() -> Session {
-        // TODO: Make a real mock that implements MqttProvider
+    // TODO: This should return a mock ManagedClient instead
+    fn get_managed_client() -> SessionManagedClient {
+        // TODO: Make a real mock that implements ManagedClient
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
             .client_id("test_client")
@@ -973,12 +972,13 @@ mod tests {
             .connection_settings(connection_settings)
             .build()
             .unwrap();
-        Session::new(session_options).unwrap()
+        let session = Session::new(session_options).unwrap();
+        session.get_managed_client()
     }
 
     #[tokio::test]
     async fn test_new_defaults() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
@@ -986,7 +986,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
         assert!(command_invoker
             .request_topic_pattern
             .is_match("test/test_command_name/some_executor/request"));
@@ -1001,7 +1001,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{modelId}/{executorId}/request")
             .response_topic_pattern(
@@ -1017,7 +1017,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
         assert!(command_invoker
             .request_topic_pattern
             .is_match("test_namespace/test/test_command_name/test_model_id/some_executor/request"));
@@ -1043,7 +1043,7 @@ mod tests {
     #[test_case("response_topic_suffix", " "; "new_whitespace_response_topic_suffix")]
     #[tokio::test]
     async fn test_new_empty_args(property_name: &str, property_value: &str) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
 
         let mut command_name = "test_command_name".to_string();
         let mut request_topic_pattern = "test/req/topic".to_string();
@@ -1081,8 +1081,11 @@ mod tests {
             .command_name(command_name)
             .build()
             .unwrap();
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options);
+        // TODO: For some reason in this specific test SessionManagedClient has to be specified as the type
+        // in the Result. I do not know why right now - need to investigate further. Best guess is something
+        // about the test_case macro.
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, SessionManagedClient>, AIOProtocolError> =
+            CommandInvoker::new(managed_client, invoker_options);
         match command_invoker {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -1109,7 +1112,7 @@ mod tests {
         response_topic_suffix: Option<String>,
         expected_response_topic_subscribe_pattern: &str,
     ) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
 
         let command_name = "test_command_name".to_string();
         let request_topic_pattern = "test/req/topic".to_string();
@@ -1121,8 +1124,11 @@ mod tests {
             .response_topic_suffix(response_topic_suffix)
             .build()
             .unwrap();
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options);
+        // TODO: For some reason in this specific test SessionManagedClient has to be specified as the type
+        // in the Result. I do not know why right now - need to investigate further. Best guess is something
+        // about the test_case macro.
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, SessionManagedClient>, AIOProtocolError> =
+            CommandInvoker::new(managed_client, invoker_options);
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1136,7 +1142,7 @@ mod tests {
     // If response pattern suffix is not specified, the default is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
 
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
@@ -1147,7 +1153,7 @@ mod tests {
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options);
+            CommandInvoker::new(managed_client, invoker_options);
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1167,7 +1173,7 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1175,7 +1181,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1245,7 +1251,7 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1253,7 +1259,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1314,7 +1320,7 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1322,7 +1328,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1389,7 +1395,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_executor_id_invalid_value() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
@@ -1397,7 +1403,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
@@ -1434,7 +1440,7 @@ mod tests {
         // Get mutexes for checking static PayloadSerialize calls
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
 
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1442,7 +1448,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(&mut mqtt_provider, invoker_options).unwrap();
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload

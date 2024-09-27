@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -247,8 +247,9 @@ where
     PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
 {
     // Static properties of the executor
-    mqtt_receiver: PR,
+    //managed_client: M,
     mqtt_pub_sub: PS,
+    mqtt_receiver: PR,
     is_idempotent: bool,
     request_topic: String,
     command_name: String,
@@ -263,11 +264,11 @@ where
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, PS, PR> CommandExecutor<TReq, TResp, PS, PR>
+impl<TReq, TResp, M, PR> CommandExecutor<TReq, TResp, M, PR>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
+    M: ManagedClient<PR>,
     PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
 {
     /// Create a new [`CommandExecutor`].
@@ -289,7 +290,7 @@ where
     /// - [`custom_topic_token_map`](CommandExecutorOptions::custom_topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
-        mqtt_provider: &mut impl MqttProvider<PS, PR>,
+        mqtt_provider: impl ManagedClient<PR>,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
