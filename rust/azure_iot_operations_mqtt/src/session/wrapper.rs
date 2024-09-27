@@ -24,18 +24,21 @@ use crate::{CompletionToken, MqttConnectionSettings};
 /// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
 pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 
-#[derive(Clone)]
 /// Handle used to end an MQTT session.
 ///
 /// PLEASE NOTE WELL
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
+#[derive(Clone)]
 pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
 
-/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 /// //TODO doc
 #[derive(Clone)]
 pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
+
+/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
+#[derive(Clone)]
+pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
 
 /// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
