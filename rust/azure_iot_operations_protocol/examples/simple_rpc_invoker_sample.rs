@@ -75,7 +75,7 @@ async fn rpc_loop(
         log::info!("Response {}: {:?}", i, response);
     }
 
-    exit_handle.exit_session().await.unwrap();
+    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]

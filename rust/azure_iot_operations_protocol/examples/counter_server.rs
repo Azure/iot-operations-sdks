@@ -83,7 +83,7 @@ async fn rpc_loop(
     loop {
         if !exit_time.elapsed().is_zero() {
             log::info!("Exiting counter executor");
-            exit_handle.exit_session().await.unwrap();
+            exit_handle.try_exit().await.unwrap();
             break;
         }
         tokio::select! {

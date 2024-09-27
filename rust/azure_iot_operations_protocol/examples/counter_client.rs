@@ -100,7 +100,7 @@ async fn rpc_loop(
     let read_response = rpc_read_invoker.invoke(read_payload).await.unwrap();
     log::info!("Counter value: {:?}", read_response);
 
-    exit_handle.exit_session().await.unwrap();
+    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]
