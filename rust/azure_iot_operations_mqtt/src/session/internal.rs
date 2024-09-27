@@ -577,6 +577,8 @@ where
     ///
     /// Returns true if the exit was graceful, and false if the exit was forced.
     pub async fn exit_force(&self) -> bool {
+        // TODO: There might be a way to optimize this a bit better if we know we're disconnected,
+        // but I don't wanna mess around with this until we have mockable unit testing
         log::debug!("Attempting to exit session gracefully before force exiting");
         // Ignore the result here - we don't care
         let _ = self.trigger_exit_user().await;
