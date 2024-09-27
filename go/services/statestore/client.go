@@ -139,12 +139,6 @@ func parseOK(data []byte) (bool, error) {
 	}
 }
 
-// Shorthand to check a "boolean" numeric response.
-func parseBool(data []byte) (bool, error) {
-	res, err := resp.ParseNumber(data)
-	return err == nil && res > 0, err
-}
-
 // Apply resolves the provided list of options.
 func (o *ClientOptions) Apply(
 	opts []ClientOption,

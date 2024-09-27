@@ -6,37 +6,45 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
 type (
-	// VdelOption represents a single option for the Vdel method.
-	VdelOption interface{ vdel(*VdelOptions) }
+	// VDelOption represents a single option for the VDel method.
+	VDelOption interface{ vdel(*VDelOptions) }
 
-	// VdelOptions are the resolved options for the Vdel method.
-	VdelOptions struct {
+	// VDelOptions are the resolved options for the VDel method.
+	VDelOptions struct {
 		FencingToken hlc.HybridLogicalClock
 		Timeout      time.Duration
 	}
 )
 
-// Vdel deletes the value of the given key if it is equal to the given value.
-// If the key was present and the value matched, it returns true and the stored
-// version of the key; otherwise, it returns false and a zero version.
-func (c *Client) Vdel(
+// VDel deletes the value of the given key if it is equal to the given value.
+// It returns the number of values deleted.
+func (c *Client) VDel(
 	ctx context.Context,
 	key string,
 	val []byte,
-	opt ...VdelOption,
-) (*Response[bool], error) {
-	var opts VdelOptions
+	opt ...VDelOption,
+) (*Response[int], error) {
+	var opts VDelOptions
 	opts.Apply(opt)
-	return invoke(ctx, c.invoker, parseBool, &opts, "VDEL", key, string(val))
+	return invoke(
+		ctx,
+		c.invoker,
+		resp.ParseNumber,
+		&opts,
+		"VDEL",
+		key,
+		string(val),
+	)
 }
 
 // Apply resolves the provided list of options.
-func (o *VdelOptions) Apply(
-	opts []VdelOption,
-	rest ...VdelOption,
+func (o *VDelOptions) Apply(
+	opts []VDelOption,
+	rest ...VDelOption,
 ) {
 	for _, opt := range opts {
 		if opt != nil {
@@ -50,21 +58,21 @@ func (o *VdelOptions) Apply(
 	}
 }
 
-func (o *VdelOptions) vdel(opt *VdelOptions) {
+func (o *VDelOptions) vdel(opt *VDelOptions) {
 	if o != nil {
 		*opt = *o
 	}
 }
 
-func (o WithFencingToken) vdel(opt *VdelOptions) {
+func (o WithFencingToken) vdel(opt *VDelOptions) {
 	opt.FencingToken = hlc.HybridLogicalClock(o)
 }
 
-func (o WithTimeout) vdel(opt *VdelOptions) {
+func (o WithTimeout) vdel(opt *VDelOptions) {
 	opt.Timeout = time.Duration(o)
 }
 
-func (o *VdelOptions) invoke() *protocol.InvokeOptions {
+func (o *VDelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
 		MessageExpiry: uint32(o.Timeout.Seconds()),
 		FencingToken:  o.FencingToken,
