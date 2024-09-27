@@ -19,7 +19,7 @@ public class MqttConnectionSettings
 
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
-    private static readonly TimeSpan s_defaultConenctionTimeout = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
 
     public string HostName { get; init; }
 
@@ -82,7 +82,7 @@ public class MqttConnectionSettings
             KeepAlive = GetTimeSpanValue(connectionSettings, nameof(KeepAlive), s_defaultKeepAlive);
             CleanStart = GetBooleanValue(connectionSettings, nameof(CleanStart), DefaultCleanStart);
             SessionExpiry = GetTimeSpanValue(connectionSettings, nameof(SessionExpiry), s_defaultSessionExpiry);
-            ConnectionTimeout = GetTimeSpanValue(connectionSettings, nameof(ConnectionTimeout), s_defaultConenctionTimeout);
+            ConnectionTimeout = GetTimeSpanValue(connectionSettings, nameof(ConnectionTimeout), s_defaultConnectionTimeout);
             TcpPort = GetPositiveIntValueOrDefault(connectionSettings, nameof(TcpPort), DefaultTcpPort);
             UseTls = GetBooleanValue(connectionSettings, nameof(UseTls), DefaultUseTls);
             CaFile = GetStringValue(connectionSettings, nameof(CaFile));
@@ -164,7 +164,8 @@ public class MqttConnectionSettings
             {
                 UseTls = useTls,
                 SatAuthFile = satMountPath,
-                CaFile = tlsCaCertMountPath
+                CaFile = tlsCaCertMountPath,
+                CleanStart = false
             };
         }
         catch (ArgumentException ex)
