@@ -56,6 +56,7 @@ where
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
     state: Arc<SessionState>,
+    /// Notifier for a force exit signal
     notify_force_exit: Arc<Notify>,
     /// Indicates if Session was previously run. Temporary until re-use is supported.
     previously_run: bool,
