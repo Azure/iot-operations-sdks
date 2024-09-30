@@ -12,12 +12,13 @@ use async_trait::async_trait;
 use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
 use bytes::Bytes;
 use tokio::sync::mpsc::Receiver;
+use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, ConnectionError, StateError};
+use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
     InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttProvider, MqttPubReceiver,
     MqttPubSub,
@@ -25,20 +26,10 @@ use crate::interface::{
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
 use crate::session::reconnect_policy::ReconnectPolicy;
-use crate::session::{SessionError, SessionErrorKind};
+use crate::session::state::SessionState;
+use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::{TopicFilter, TopicParseError};
-use crate::{CompletionToken, Event, Incoming, Outgoing};
-
-/// Enum used to track the reason why client-side disconnect occurs
-#[derive(PartialEq, Eq)]
-enum DesireDisconnect {
-    /// Indicates no disconnect is desired
-    No,
-    /// Indicates the user has requested a disconnect
-    User,
-    /// Indicates the session logic has requested a disconnect
-    Internal,
-}
+use crate::{CompletionToken, Event, Incoming};
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -63,6 +54,10 @@ where
     unacked_pubs: Arc<PubTracker>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
+    /// Current state
+    state: Arc<SessionState>,
+    /// Notifier for a force exit signal
+    notify_force_exit: Arc<Notify>,
     /// Indicates if Session was previously run. Temporary until re-use is supported.
     previously_run: bool,
 }
@@ -95,6 +90,8 @@ where
             incoming_pub_dispatcher,
             unacked_pubs: Arc::new(PubTracker::new()),
             reconnect_policy,
+            state: Arc::new(SessionState::default()),
+            notify_force_exit: Arc::new(Notify::new()),
             previously_run: false,
         }
     }
@@ -104,6 +101,8 @@ where
     pub fn get_session_exit_handle(&self) -> SessionExitHandle<C> {
         SessionExitHandle {
             disconnector: self.client.clone(),
+            state: self.state.clone(),
+            force_exit: self.notify_force_exit.clone(),
         }
     }
 
@@ -114,6 +113,7 @@ where
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
     pub async fn run(&mut self) -> Result<(), SessionError> {
+        self.state.transition_running();
         // TODO: This is a temporary solution to prevent re-use of the session.
         // Re-use should be available in the future.
         if self.previously_run {
@@ -149,9 +149,7 @@ where
             )
         });
 
-        // Indicates whether a disconnect is desired, and why
-        let mut desire_disconnect = DesireDisconnect::No;
-        // Indicates whether the session has been previously connected
+        // Indicates whether this session has been previously connected
         let mut prev_connected = false;
         // Number of previous reconnect attempts
         let mut prev_reconnect_attempts = 0;
@@ -160,9 +158,18 @@ where
 
         // Handle events
         loop {
-            let r = self.event_loop.poll().await;
-            match r {
+            // Poll the next event/error unless a force exit occurs.
+            let next = tokio::select! {
+                // Ensure that the force exit signal is checked first.
+                biased;
+                () = self.notify_force_exit.notified() => { break },
+                next = self.event_loop.poll() => { next },
+            };
+
+            match next {
                 Ok(Event::Incoming(Incoming::ConnAck(connack))) => {
+                    // Update connection state
+                    self.state.transition_connected();
                     // Reset the counter on reconnect attempts
                     prev_reconnect_attempts = 0;
                     log::debug!("Incoming CONNACK: {connack:?}");
@@ -173,7 +180,16 @@ where
                             "Session state not present on broker after reconnect. Ending session."
                         );
                         result = Err(SessionErrorKind::SessionLost);
-                        desire_disconnect = DesireDisconnect::Internal;
+                        if self.state.desire_exit() {
+                            // NOTE: this could happen if the user was exiting when the connection was dropped,
+                            // while the Session was not aware of the connection drop. Then, the drop has to last
+                            // long enough for the MQTT session expiry interval to cause the broker to discard the
+                            // MQTT session, and thus, you would enter this case.
+                            // NOTE: The reason that the misattribution of cause may occur in logs is due to the
+                            // (current) loose matching of received disconnects on account of an rumqttc bug.
+                            // See the error cases below in this match statement for more information.
+                            log::debug!("Session-initiated exit triggered when User-initiated exit was already in-progress. There may be two disconnects, both attributed to Session");
+                        }
                         self.trigger_session_exit().await;
                     }
                     // Otherwise, connection was successful
@@ -181,7 +197,6 @@ where
                         prev_connected = true;
                         // Set clean start to false for subsequent connections
                         self.event_loop.set_clean_start(false);
-                        log::info!("Connected!");
                     }
                 }
                 Ok(Event::Incoming(Incoming::Publish(publish))) => {
@@ -259,71 +274,35 @@ where
                     }
                 }
 
-                // Disconnect is initiated on client-side
-                Ok(Event::Outgoing(Outgoing::Disconnect)) => {
-                    // Update the desire_disconnect state if necessary
-                    match desire_disconnect {
-                        // Session logic caused disconnect
-                        // NOTE: No need to set the DesireDisconnect here, as it was set when the
-                        // decision to disconnect was made.
-                        DesireDisconnect::Internal => {
-                            log::debug!("Session initiated disconnect");
-                        }
-                        // User triggered the disconnect.
-                        // NOTE: If the user triggered it, the DesireDisconnect will not yet be
-                        // set to User - it would be set to No. That's why we set it here.
-                        DesireDisconnect::No => {
-                            log::debug!("User initiated disconnect");
-                            desire_disconnect = DesireDisconnect::User;
-                        }
-                        // NOTE: This case is invalid. DesireDisconnect should NOT already be set
-                        // to User. However, we handle it as above, just in case.
-                        DesireDisconnect::User => {
-                            log::warn!(
-                                "Disconnect initiated in unexpected state. Assuming user-initiated."
-                            );
-                            desire_disconnect = DesireDisconnect::User;
-                        }
-                    }
-                }
-
-                Ok(_) => {
+                Ok(_e) => {
                     // There could be additional incoming and outgoing event responses here if
                     // more filters like the above one are applied
                 }
 
                 // Desired disconnect completion
-                Err(ConnectionError::MqttState(StateError::ConnectionAborted))
-                    if desire_disconnect != DesireDisconnect::No =>
-                {
-                    match desire_disconnect {
-                        DesireDisconnect::Internal => {
-                            log::debug!("Internal disconnect complete");
-                            break;
-                        }
-                        DesireDisconnect::User => {
-                            log::debug!("User disconnect complete");
-                            break;
-                        }
-                        // Unreachable because of arm with guard condition.
-                        DesireDisconnect::No => unreachable!(),
-                    }
+                // NOTE: This normally is StateError::ConnectionAborted, but rumqttc sometimes
+                // can deliver something else in this case. For now, we'll accept any
+                // MqttState variant when trying to disconnect.
+                // TODO: However, this has the side-effect of falsely reporting disconnects that are the
+                // result of network failure as client-side disconnects if there is an outstanding
+                // DesireExit value. This is not harmful, but it is bad for logging, and should
+                // probably be fixed.
+                Err(ConnectionError::MqttState(_)) if self.state.desire_exit() => {
+                    self.state.transition_disconnected();
+                    break;
                 }
 
                 // Connection refused by broker - unrecoverable
                 Err(ConnectionError::ConnectionRefused(rc)) => {
                     log::error!("Connection Refused: rc: {rc:?}");
-                    result = Err(SessionErrorKind::ConnectionError(r.unwrap_err()));
+                    result = Err(SessionErrorKind::ConnectionError(next.unwrap_err()));
                     break;
                 }
 
                 // Other errors are passed to reconnect policy
                 Err(e) => {
-                    // Only log connection loss at info level the first time an error happens,
-                    // so as not to spam the logs.
-                    if prev_reconnect_attempts == 0 {
-                        log::info!("Connection lost.");
-                    }
+                    self.state.transition_disconnected();
+
                     // Always log the error itself at error level
                     log::error!("Error: {e:?}");
 
@@ -333,7 +312,15 @@ where
                         .next_reconnect_delay(prev_reconnect_attempts, &e)
                     {
                         log::info!("Attempting reconnect in {delay:?}");
-                        tokio::time::sleep(delay).await;
+                        // Wait for either the reconnect delay time, or a force exit signal
+                        tokio::select! {
+                            () = tokio::time::sleep(delay) => {}
+                            () = self.notify_force_exit.notified() => {
+                                log::info!("Reconnect attempts halted by force exit");
+                                result = Err(SessionErrorKind::ForceExit);
+                                break;
+                            }
+                        }
                     } else {
                         log::info!("Reconnect attempts halted by reconnect policy");
                         result = Err(SessionErrorKind::ReconnectHalted);
@@ -343,17 +330,17 @@ where
                 }
             }
         }
-        log::info!("Session ended");
+        self.state.transition_exited();
         cancel_token.cancel();
         result.map_err(std::convert::Into::into)
     }
 
+    /// Helper for triggering a session exit and logging the result
     async fn trigger_session_exit(&self) {
         let exit_handle = self.get_session_exit_handle();
-        // TODO: Can this even fail? If not, this helper function is unnecessary
-        match exit_handle.exit_session().await {
-            Ok(()) => log::debug!("Session exit successful"),
-            Err(e) => log::debug!("Session exit failed: {e:?}"),
+        match exit_handle.trigger_exit_internal().await {
+            Ok(()) => log::debug!("Internal session exit successful"),
+            Err(e) => log::debug!("Internal session exit failed: {e:?}"),
         }
     }
 }
@@ -502,6 +489,131 @@ where
             self.unacked_pubs.clone(),
             auto_ack,
         ))
+    }
+}
+
+/// Handle used to end an MQTT session.
+///
+/// PLEASE NOTE WELL
+/// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
+/// However, this is not actually possible right now due to a bug in underlying MQTT library.
+#[derive(Clone)]
+pub struct SessionExitHandle<D>
+where
+    D: MqttDisconnect + Clone + Send + Sync,
+{
+    /// The disconnector used to issue disconnect requests
+    disconnector: D,
+    /// Session state information
+    state: Arc<SessionState>,
+    /// Notifier for force exit
+    force_exit: Arc<Notify>,
+}
+
+impl<D> SessionExitHandle<D>
+where
+    D: MqttDisconnect + Clone + Send + Sync,
+{
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    pub async fn try_exit(&self) -> Result<(), SessionExitError> {
+        log::debug!("Attempting to exit session gracefully");
+        // Check if the session is connected (to best of knowledge)
+        if !self.state.is_connected() {
+            return Err(SessionExitError::BrokerUnavailable { attempted: false });
+        }
+        // Initiate the exit
+        self.trigger_exit_user().await?;
+        // Wait for the exit to complete, or until the session realizes it was already disconnected.
+        tokio::select! {
+            // NOTE: These two conditions here are functionally almost identical for now, due to the
+            // very loose matching of disconnect events in [`Session::run()`] (as a result of bugs and
+            // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
+            // that matching back up, and that's why they're here.
+            () = self.state.condition_exited() => Ok(()),
+            () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
+        }
+    }
+
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
+    /// will return an error indicating such.
+    ///
+    /// # Arguments
+    /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
+        tokio::time::timeout(timeout, self.try_exit()).await?
+    }
+
+    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
+    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
+    /// has ended.
+    ///
+    /// Returns true if the exit was graceful, and false if the exit was forced.
+    pub async fn exit_force(&self) -> bool {
+        // TODO: There might be a way to optimize this a bit better if we know we're disconnected,
+        // but I don't wanna mess around with this until we have mockable unit testing
+        log::debug!("Attempting to exit session gracefully before force exiting");
+        // Ignore the result here - we don't care
+        let _ = self.trigger_exit_user().await;
+        // 1 second grace period to gracefully complete
+        tokio::select! {
+            () = tokio::time::sleep(Duration::from_secs(1)) => {
+                log::debug!("Grace period for graceful session exit expired. Force exiting session");
+                // NOTE: There is only one waiter on this Notify at any time.
+                self.force_exit.notify_one();
+                false
+            },
+            () = self.state.condition_exited() => {
+                log::debug!("Session exited gracefully without need for force exit");
+                true
+            }
+        }
+    }
+
+    /// Trigger a session exit, specifying the end user as the issuer of the request
+    async fn trigger_exit_user(&self) -> Result<(), SessionExitError> {
+        self.state.transition_user_desire_exit();
+        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
+        // us to manually set the session expiry interval to 0 on a reconnect.
+        // Need to work with Shanghai to drive this feature.
+        Ok(self.disconnector.disconnect().await?)
+    }
+
+    /// Trigger a session exit, specifying the internal session logic as the issuer of the request
+    async fn trigger_exit_internal(&self) -> Result<(), SessionExitError> {
+        self.state.transition_session_desire_exit();
+        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
+        // us to manually set the session expiry interval to 0 on a reconnect.
+        // Need to work with Shanghai to drive this feature.
+        Ok(self.disconnector.disconnect().await?)
     }
 }
 
@@ -694,33 +806,6 @@ impl Drop for SessionPubReceiver {
                 }
             });
         }
-    }
-}
-
-/// Handle used to end an MQTT session.
-#[derive(Clone)]
-pub struct SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
-    disconnector: D,
-}
-
-impl<D> SessionExitHandle<D>
-where
-    D: MqttDisconnect + Clone + Send + Sync,
-{
-    /// End the session running in the [`Session`] that created this handle.
-    ///
-    /// # Errors
-    /// Returns `ClientError` if there is a failure ending the session.
-    /// This should not happen.
-    pub async fn exit_session(&self) -> Result<(), ClientError> {
-        // TODO: can this fail? I don't think it actually can.
-        // TODO: This doesn't actually end the MQTT session because rumqttc doesn't allow
-        // us to manually set the session expiry interval to 0 on a reconnect.
-        // Need to work with Shanghai to drive this feature.
-        self.disconnector.disconnect().await
     }
 }
 

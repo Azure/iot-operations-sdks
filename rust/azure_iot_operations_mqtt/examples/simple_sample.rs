@@ -78,5 +78,5 @@ async fn send_messages(pub_sub: SessionPubSub, exit_handler: SessionExitHandle) 
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
 
-    exit_handler.exit_session().await.unwrap();
+    exit_handler.try_exit().await.unwrap();
 }

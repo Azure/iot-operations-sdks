@@ -63,7 +63,7 @@ pub struct AIOProtocolError {
     /// True if the error was detected by a remote component
     pub is_remote: bool,
     /// Error from a dependent component that caused this error
-    pub nested_error: Option<Box<dyn Error>>,
+    pub nested_error: Option<Box<dyn Error + Send + Sync>>,
     /// An HTTP status code received from a remote service that caused the error being reported
     pub http_status_code: Option<u16>,
     /// The name of a MQTT header that is missing or has an invalid value
@@ -174,7 +174,9 @@ impl fmt::Display for AIOProtocolError {
 
 impl Error for AIOProtocolError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
-        self.nested_error.as_ref().map(std::convert::AsRef::as_ref)
+        self.nested_error
+            .as_ref()
+            .map(|e| e.as_ref() as &(dyn Error + 'static))
     }
 }
 
@@ -243,7 +245,7 @@ impl AIOProtocolError {
     pub fn new_payload_invalid_error(
         is_shallow: bool,
         is_remote: bool,
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
@@ -272,7 +274,7 @@ impl AIOProtocolError {
     #[must_use]
     pub fn new_timeout_error(
         is_remote: bool,
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         http_status_code: Option<u16>,
         timeout_name: &str,
         timeout_value: Duration,
@@ -303,7 +305,7 @@ impl AIOProtocolError {
     #[must_use]
     pub fn new_cancellation_error(
         is_remote: bool,
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
@@ -331,7 +333,7 @@ impl AIOProtocolError {
     /// Creates a new [`AIOProtocolError`] for an invalid configuration error
     #[must_use]
     pub fn new_configuration_invalid_error(
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         property_name: &str,
         property_value: Value,
         message: Option<String>,
@@ -419,7 +421,7 @@ impl AIOProtocolError {
     pub fn new_internal_logic_error(
         is_shallow: bool,
         is_remote: bool,
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         http_status_code: Option<u16>,
         property_name: &str,
         property_value: Option<Value>,
@@ -451,7 +453,7 @@ impl AIOProtocolError {
     pub fn new_unknown_error(
         is_remote: bool,
         is_shallow: bool,
-        nested_error: Option<Box<dyn Error>>,
+        nested_error: Option<Box<dyn Error + Send + Sync>>,
         http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
@@ -538,7 +540,7 @@ impl AIOProtocolError {
     #[must_use]
     pub fn new_mqtt_error(
         message: Option<String>,
-        nested_error: Box<dyn Error>,
+        nested_error: Box<dyn Error + Send + Sync>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {

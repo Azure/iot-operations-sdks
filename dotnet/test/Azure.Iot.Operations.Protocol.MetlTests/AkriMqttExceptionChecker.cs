@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             if (testCaseCatch.Supplemental.TryGetValue(TestCaseCatch.SupportedMajorProtocolVersions, out string? supportedMajorProtocolVersions))
             {
                 Assert.True(ProtocolVersion.TryParseFromString(supportedMajorProtocolVersions!, out int[] ? intValues), "Could not parse the supported major protocol version value string");
-                Assert.True(Enumerable.SequenceEqual(intValues, exception.SupportedMajorProtocolVersions));
+                Assert.True(Enumerable.SequenceEqual(intValues, exception.SupportedMajorProtocolVersions!));
             }
         }
     }

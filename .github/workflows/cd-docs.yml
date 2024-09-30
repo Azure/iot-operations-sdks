@@ -38,20 +38,21 @@ jobs:
           echo "go_tag=$go_tag" >> $GITHUB_OUTPUT
           echo "dotnet_tag=$dotnet_tag" >> $GITHUB_OUTPUT
 
+      - name: Checkout Main
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Create index.html
+        run: |
+          mkdir _site
+          cp main/.github/index-pages.html _site/index.html
+
       - name: Checkout Rust
         uses: actions/checkout@v4
         with:
           ref: ${{steps.tags.outputs.rust_tag}}
           path: rust
-
-      - name: Generate index.html
-        run: |
-          mkdir _site
-          echo "<html><body><h1>Documentation</h1><ul>" > _site/index.html
-          echo "<li><a href='rust/azure_iot_operations_mqtt/index.html'>Rust</a></li>" >> _site/index.html
-          echo "<li><a href='go/index.html'>Go</a></li>" >> _site/index.html
-          echo "<li><a href='dotnet/index.html'>.NET</a></li>" >> _site/index.html
-          echo "</ul></body></html>" >> _site/index.html
 
       - name: Build Rust docs
         run: |
