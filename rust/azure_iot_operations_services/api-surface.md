@@ -233,7 +233,7 @@ pub struct StateStoreError(#[from] StateStoreErrorKind);
 pub enum StateStoreErrorKind {
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
-    #[error("{0}")]
+    #[error(transparent)]
     ServiceError(#[from] ServiceError),
     #[error("key length must not be zero")]
     KeyLengthZero,
@@ -245,9 +245,31 @@ pub enum StateStoreErrorKind {
 
 #[derive(Error, Debug)]
 pub enum ServiceError {
-    // This is an example for now
-    #[error("Malformed request")]
-    BadFormat,
-    // TODO: fill in these errors
+    #[error("the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    TimestampSkew,
+    #[error("a fencing token is required for this request")]
+    MissingFencingToken,
+    #[error("the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    FencingTokenSkew,
+    #[error("the requested fencing token is a lower version that the fencing token protecting the resource")]
+    FencingTokenLowerVersion,
+    #[error("the quota has been exceeded")]
+    QuotaExceeded,
+    #[error("syntax error")]
+    SyntaxError,
+    #[error("not authorized")]
+    NotAuthorized,
+    #[error("unknown command")]
+    UnknownCommand,
+    #[error("wrong number of arguments")]
+    WrongNumberOfArguments,
+    #[error("missing timestamp")]
+    TimestampMissing,
+    #[error("malformed timestamp")]
+    TimestampMalformed,
+    #[error("the key length is zero")]
+    KeyLengthZero,
+    #[error("{0}")]
+    Unknown(String),
 }
 ```
