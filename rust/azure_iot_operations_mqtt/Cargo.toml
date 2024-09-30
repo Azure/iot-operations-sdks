@@ -17,7 +17,7 @@ async-trait = "0.1.81"
 base64 = "0.21"
 bytes.workspace = true
 derive_builder.workspace = true
-log.workspace = true                                                                # For performance, I believe this should have some filters on it
+log.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
 rumqttc = { git = "https://github.com/xiaocq2001/rumqtt.git", branch = "all_test", features = ["use-rustls"] }

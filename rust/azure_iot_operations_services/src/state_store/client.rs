@@ -70,17 +70,15 @@ where
 
     /// Sets a key value pair in the State Store Service
     ///
-    /// Returns `true` if the Set completed successfully, or `false` if the Set did not occur because of values specified in `SetOptions`
+    /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-    /// - the `key` is empty
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-    /// - the State Store returns an Error response
-    /// - the State Store returns a response that isn't valid for a `Set` request
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn set(
@@ -121,15 +119,13 @@ where
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-    /// - the `key` is empty
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-    /// - the State Store returns an Error response
-    /// - the State Store returns a response that isn't valid for a `Get` request
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
     ///
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn get(
@@ -161,17 +157,15 @@ where
 
     /// Deletes a key from the State Store Service
     ///
-    /// Returns the number of keys deleted. Can be `0` if the key was not found, otherwise `1`
+    /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-    /// - the `key` is empty
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-    /// - the State Store returns an Error response
-    /// - the State Store returns a response that isn't valid for a `Delete` request
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
     ///
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn del(
@@ -194,17 +188,15 @@ where
 
     /// Deletes a key from the State Store Service if and only if the value matches the one provided
     ///
-    /// Returns the number of keys deleted. Can be `0` if the key was not found or the value did not match, otherwise `1`
+    /// Returns the number of keys deleted. Will be `0` if the key was not found or the value did not match, otherwise `1`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-    /// - the `key` is empty
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-    /// - the State Store returns an Error response
-    /// - the State Store returns a response that isn't valid for a `V Delete` request
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn vdel(

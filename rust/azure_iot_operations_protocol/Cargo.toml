@@ -15,8 +15,8 @@ publish = false
 azure_iot_operations_mqtt = { version = "0.2", path = "../azure_iot_operations_mqtt" }
 bytes.workspace = true
 derive_builder.workspace = true
-log.workspace = true                # For performance, I believe this should have some filters on it
-tokio.workspace = true              # TODO: Remove full
+log.workspace = true
+tokio.workspace = true
 tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4"] }
 

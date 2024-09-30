@@ -22,22 +22,26 @@ pub(crate) enum Request {
     VDel(Vec<u8>, Vec<u8>),
 }
 
+/// Options for a `Set` Request
 #[derive(Clone, Debug, Default)]
 pub struct SetOptions {
+    /// Condition for the `Set` operation
     pub set_condition: SetCondition,
-    /// How long the key should persist before it expires
+    /// How long the key should persist before it expires, in millisecond precision.
     pub expires: Option<Duration>,
+    /// Optional fencing token for the `Set` operation
     pub fencing_token: Option<HybridLogicalClock>,
 }
 
+/// Condition for a `Set` Request
 #[derive(Clone, Debug, Default)]
 pub enum SetCondition {
-    /// The set operation will only execute if the State Store does not have this key already.
+    /// The `Set` operation will only execute if the State Store does not have this key already.
     OnlyIfDoesNotExist,
-    /// The set operation will only execute if the State Store does not have this key or it has this key and
-    /// the value in the State Store is equal to the value provided for this set operation.
+    /// The `Set` operation will only execute if the State Store does not have this key or it has this key and
+    /// the value in the State Store is equal to the value provided for this `Set` operation.
     OnlyIfEqualOrDoesNotExist,
-    /// The set operation will execute regardless of if the key exists already and regardless of the value
+    /// The `Set` operation will execute regardless of if the key exists already and regardless of the value
     /// of this key in the State Store.
     #[default]
     Unconditional,
