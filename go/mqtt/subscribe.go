@@ -83,7 +83,7 @@ func (c *SessionClient) Subscribe(
 	}
 
 	removeHandlerFunc := c.registerIncomingPublishHandler(func(incoming incomingPublish) {
-		// TODO
+
 	})
 
 	for {

@@ -34,7 +34,7 @@ type (
 		Topic   string
 		Payload []byte
 		PublishOptions
-		Ack func() error
+		Ack func() func() error
 	}
 
 	// MessageHandler is a user-defined callback function used to handle
