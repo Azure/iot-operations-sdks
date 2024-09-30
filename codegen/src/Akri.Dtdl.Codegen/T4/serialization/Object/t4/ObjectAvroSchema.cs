@@ -30,13 +30,13 @@ namespace Akri.Dtdl.Codegen
             this.Write("\",\r\n");
  } 
             this.Write("\"type\": \"record\",\r\n\"fields\": [\r\n");
- foreach (var nameSchema in this.nameSchemas) { 
+ foreach (var nameSchemaRequired in this.nameSchemaRequireds) { 
             this.Write("  {\r\n    \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameSchema.Item1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameSchemaRequired.Item1));
             this.Write("\",\r\n");
-            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(nameSchema.Item2, this.dtmiToSchemaName, 4, nullable: true, nestNamedType: true)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, this.dtmiToSchemaName, 4, nullable: !nameSchemaRequired.Item3, nestNamedType: true)));
             this.Write("\r\n  }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameSchema) ? "" : ","));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameSchemaRequired) ? "" : ","));
             this.Write("\r\n");
  } 
             this.Write("]");
@@ -44,7 +44,7 @@ namespace Akri.Dtdl.Codegen
             return this.GenerationEnvironment.ToString();
         }
 
-    private bool IsLast((string, DTSchemaInfo) nameSchema) => nameSchema.Item1 == this.nameSchemas.Last().Item1;
+    private bool IsLast((string, DTSchemaInfo, bool) nameSchemaRequired) => nameSchemaRequired.Item1 == this.nameSchemaRequireds.Last().Item1;
 
     }
     #region Base class

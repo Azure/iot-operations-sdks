@@ -5,3 +5,4 @@ pkey
 println
 rustls
 webpki
+protobuf
