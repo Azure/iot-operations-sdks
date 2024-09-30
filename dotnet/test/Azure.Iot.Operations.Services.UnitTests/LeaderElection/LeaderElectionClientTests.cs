@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
 
-            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), new LeasedLockHolder("somePreviousValue"), true);
+            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), true);
 
             mockedLeasedLockClient.Setup(
                 mock => mock.TryAcquireLockAsync(
@@ -36,8 +36,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                     It.IsAny<AcquireLockRequestOptions>(),
                     tokenSource.Token),
                 Times.Once());
-            Assert.NotNull(response.LastKnownLeader);
-            Assert.Equal("somePreviousValue", response.LastKnownLeader.GetString());
             Assert.True(response.IsLeader);
 
             await leaderElectionClient.DisposeAsync();
@@ -52,7 +50,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
 
-            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), null, false);
+            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), false);
 
             mockedLeasedLockClient.Setup(
                 mock => mock.TryAcquireLockAsync(
@@ -72,7 +70,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                     tokenSource.Token),
                 Times.Once());
 
-            Assert.Null(response.LastKnownLeader);
             Assert.False(response.IsLeader);
 
             await leaderElectionClient.DisposeAsync();
@@ -87,7 +84,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
 
-            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), new LeasedLockHolder("somePreviousValue"), true);
+            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), true);
 
             mockedLeasedLockClient.Setup(
                 mock => mock.AcquireLockAsync(
@@ -106,8 +103,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                     It.IsAny<AcquireLockRequestOptions>(),
                     tokenSource.Token),
                 Times.Once());
-            Assert.NotNull(response.LastKnownLeader);
-            Assert.Equal("somePreviousValue", response.LastKnownLeader.GetString());
             Assert.True(response.IsLeader);
 
             await leaderElectionClient.DisposeAsync();
@@ -122,7 +117,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
 
-            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), null, false);
+            var acquireLockResponse = new AcquireLockResponse(new HybridLogicalClock(), false);
 
             mockedLeasedLockClient.Setup(
                 mock => mock.AcquireLockAsync(
@@ -142,7 +137,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                     tokenSource.Token),
                 Times.Once());
 
-            Assert.Null(response.LastKnownLeader);
             Assert.False(response.IsLeader);
 
             await leaderElectionClient.DisposeAsync();
