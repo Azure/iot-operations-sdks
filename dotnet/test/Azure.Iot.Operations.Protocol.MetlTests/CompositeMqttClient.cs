@@ -36,7 +36,7 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
             }
             else
             {
-                mqttClient.ApplicationMessageReceivedAsync += MqttNetConverter.FromGeneric(value);
+                mqttClient.ApplicationMessageReceivedAsync += MqttNetConverter.FromGeneric(value!);
             }
         }
 
@@ -48,7 +48,7 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
             }
             else
             {
-                mqttClient.ApplicationMessageReceivedAsync -= MqttNetConverter.FromGeneric(value);
+                mqttClient.ApplicationMessageReceivedAsync -= MqttNetConverter.FromGeneric(value!);
             }
         }
     }
@@ -65,7 +65,7 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
         await sessionClient.UnsubscribeAsync(options, cancellationToken) :
         MqttNetConverter.ToGeneric(await mqttClient.UnsubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
 
-    public string ClientId { get => sessionClient != null ? sessionClient.ClientId : mqttClient.Options?.ClientId ?? string.Empty; }
+    public string ClientId { get => sessionClient != null ? sessionClient.ClientId! : mqttClient.Options?.ClientId ?? string.Empty; }
 
     public MqttProtocolVersion ProtocolVersion { get => sessionClient != null ? sessionClient.ProtocolVersion : (MqttProtocolVersion)((int) (mqttClient.Options?.ProtocolVersion ?? MQTTnet.Formatter.MqttProtocolVersion.Unknown)); }
 

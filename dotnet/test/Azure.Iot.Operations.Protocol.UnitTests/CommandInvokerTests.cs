@@ -406,7 +406,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal("hola", response.Response);
             Assert.Equal(MqttPayloadFormatIndicator.CharacterData, mock.MessagePublished.PayloadFormatIndicator);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata.CorrelationId);
         }
 
         [Fact]
@@ -440,7 +440,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -473,7 +473,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -503,7 +503,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -534,7 +534,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -564,7 +564,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -594,7 +594,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             ExtendedResponse<string> response = await invokeTask;
             Assert.Equal("hola", response.Response);
             Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
         }
 
         [Fact]
@@ -679,7 +679,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 var response = await invokeTask;
                 Assert.Equal($"hola {i}", response.Response);
                 Assert.NotNull(response.ResponseMetadata?.CorrelationId);
-                Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), response.ResponseMetadata?.CorrelationId);
+                Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), response.ResponseMetadata?.CorrelationId);
             }
         }
 
@@ -822,7 +822,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -851,7 +851,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.True(ex.IsRemote);
             Assert.Equal((int)CommandStatusCode.BadRequest, ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -885,7 +885,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.True(ex.IsRemote);
             Assert.Equal((int)CommandStatusCode.UnprocessableContent, ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -921,7 +921,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal("Content Type", ex.HeaderName);
             Assert.Equal("application/json", ex.HeaderValue);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -997,7 +997,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -1019,8 +1019,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -1050,7 +1050,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal("myCmd", ex.CommandName);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -1073,7 +1073,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -1098,7 +1098,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal("myCmd", ex.CommandName);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Fact]
@@ -1123,7 +1123,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal("myCmd", ex.CommandName);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
         }
 
         [Theory]
@@ -1253,7 +1253,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     Assert.False(ex.IsShallow);
                     Assert.False(ex.IsRemote);
                     Assert.Null(ex.HttpStatusCode);
-                    Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+                    Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
                 }
                 else
                 {
@@ -1303,7 +1303,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal("myCmd", ex.CommandName);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             // Invoker reconnects and receives response
             invokeRequest = invoker.InvokeCommandAsync("someExecutor",
@@ -1345,7 +1345,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             // Invoker reconnects and receives response
             invokeRequest = invoker.InvokeCommandAsync("someExecutor",
@@ -1388,7 +1388,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
             Assert.Null(ex.HttpStatusCode);
-            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData), ex.CorrelationId);
+            Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             var secondInvoke = invoker.InvokeCommandAsync("someExecutor", "req Payload");
             // Invoker reconnects and receives response

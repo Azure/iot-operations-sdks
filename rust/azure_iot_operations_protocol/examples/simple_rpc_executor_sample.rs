@@ -8,9 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadSerialize, SerializerError,
-};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
@@ -86,6 +84,7 @@ pub struct IncrResponse {
 }
 
 impl PayloadSerialize for IncrRequest {
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -94,17 +93,18 @@ impl PayloadSerialize for IncrRequest {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, String> {
         let payload = String::from("{}");
         Ok(payload.into_bytes())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequest, SerializerError> {
+    fn deserialize(_payload: &[u8]) -> Result<IncrRequest, String> {
         Ok(IncrRequest {})
     }
 }
 
 impl PayloadSerialize for IncrResponse {
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -113,12 +113,12 @@ impl PayloadSerialize for IncrResponse {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, String> {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
         Ok(payload.into_bytes())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponse, SerializerError> {
+    fn deserialize(payload: &[u8]) -> Result<IncrResponse, String> {
         let payload = String::from_utf8(payload.to_vec()).unwrap();
         let counter_response = payload.parse::<i32>().unwrap();
         Ok(IncrResponse { counter_response })
