@@ -85,17 +85,17 @@
                 {
                     foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in dtInterface.Telemetries)
                     {
-                        var nameDescSchemaIndices = new List<(string, string, DTSchemaInfo, int)> { (dtTelemetry.Key, dtTelemetry.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtTelemetry.Key}' Telemetry.", dtTelemetry.Value.Schema, 1) };
-                        WriteTelemetrySchema(SchemaNames.GetTelemSchema(dtTelemetry.Key), nameDescSchemaIndices, acceptor);
+                        var nameDescSchemaRequiredIndices = new List<(string, string, DTSchemaInfo, bool, int)> { (dtTelemetry.Key, dtTelemetry.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtTelemetry.Key}' Telemetry.", dtTelemetry.Value.Schema, true, 1) };
+                        WriteTelemetrySchema(SchemaNames.GetTelemSchema(dtTelemetry.Key), nameDescSchemaRequiredIndices, acceptor);
                     }
                 }
                 else
                 {
-                    List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices = dtInterface.Telemetries.Values.Select(t => (t.Name, t.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{t.Name}' Telemetry.", t.Schema, GetFieldIndex(t, mqttVersion))).ToList();
-                    nameDescSchemaIndices.Sort((x, y) => x.Item4 == 0 && y.Item4 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item4.CompareTo(x.Item4));
-                    int ix = nameDescSchemaIndices.FirstOrDefault().Item4;
-                    nameDescSchemaIndices = nameDescSchemaIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4 == 0 ? ++ix : x.Item4)).ToList();
-                    WriteTelemetrySchema(SchemaNames.AggregateTelemSchema, nameDescSchemaIndices, acceptor);
+                    List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtInterface.Telemetries.Values.Select(t => (t.Name, t.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{t.Name}' Telemetry.", t.Schema, false, GetFieldIndex(t, mqttVersion))).ToList();
+                    nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
+                    int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
+                    nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
+                    WriteTelemetrySchema(SchemaNames.AggregateTelemSchema, nameDescSchemaRequiredIndices, acceptor);
                 }
             }
         }
@@ -137,12 +137,12 @@
                 string schemaName = NameFormatter.DtmiToSchemaName(dtObject.Id, dtInterface.Id, "Object");
                 string? description = dtObject.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
 
-                List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices = dtObject.Fields.Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, GetFieldIndex(f, mqttVersion))).ToList();
-                nameDescSchemaIndices.Sort((x, y) => x.Item4 == 0 && y.Item4 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item4.CompareTo(x.Item4));
-                int ix = nameDescSchemaIndices.FirstOrDefault().Item4;
-                nameDescSchemaIndices = nameDescSchemaIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4 == 0 ? ++ix : x.Item4)).ToList();
+                List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f, mqttVersion))).ToList();
+                nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
+                int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
+                nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
 
-                foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, dtObject.Id, description, schemaName, nameDescSchemaIndices))
+                foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices))
                 {
                     acceptor(objectSchemaTransform.TransformText(), objectSchemaTransform.FileName, objectSchemaTransform.FolderPath);
                 }
@@ -204,9 +204,9 @@
             }
         }
 
-        private void WriteTelemetrySchema(string telemSchema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices, Action<string, string, string> acceptor)
+        private void WriteTelemetrySchema(string telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor)
         {
-            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaIndices))
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices))
             {
                 acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
             }
@@ -215,6 +215,11 @@
         private int GetFieldIndex(DTEntityInfo dtEntity, int mqttVersion)
         {
             return dtEntity.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IndexedAdjunctTypeFormat, mqttVersion))) ? (int)dtEntity.SupplementalProperties[string.Format(DtdlMqttExtensionValues.IndexPropertyFormat, mqttVersion)] : 0;
+        }
+
+        private bool IsRequired(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
         }
 
         private string? GetRequestSchema(DTCommandInfo dtCommand)
