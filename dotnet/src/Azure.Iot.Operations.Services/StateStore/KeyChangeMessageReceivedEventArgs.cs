@@ -5,11 +5,6 @@ namespace Azure.Iot.Operations.Services.StateStore
     public sealed class KeyChangeMessageReceivedEventArgs : EventArgs
     {
         /// <summary>
-        /// The version of the key returned by the service.
-        /// </summary>
-        public HybridLogicalClock? Version { get; set; }
-
-        /// <summary>
         /// The key that was created, updated, or deleted.
         /// </summary>
         public StateStoreKey ChangedKey { get; internal set; }
@@ -29,9 +24,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// </summary>
         public StateStoreValue? PreviousValue { get; internal set; }
 
-        internal KeyChangeMessageReceivedEventArgs(HybridLogicalClock? version, StateStoreKey changedKey, KeyState newState)
+        internal KeyChangeMessageReceivedEventArgs(StateStoreKey changedKey, KeyState newState)
         {
-            Version = version;
             ChangedKey = changedKey;
             NewState = newState;
         }
