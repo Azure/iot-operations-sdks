@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -10,7 +11,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     /// </summary>
     public record AssetEndpointProfileCredentials
     {
-        internal AssetEndpointProfileCredentials(string? username, byte[]? password, X509Certificate2? certificate)
+        internal AssetEndpointProfileCredentials(string? username, byte[]? password, string? certificate)
         {
             Username = username;
             Password = password;
@@ -23,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <remarks>
         /// This may be null if no x509 certificate is required for authentication when connecting to the asset endpoint.
         /// </remarks>
-        public X509Certificate2? Certificate { get; private set; }
+        public string? Certificate { get; private set; }
 
         /// <summary>
         /// The username to use for authentication when connecting with the asset endpoint.
