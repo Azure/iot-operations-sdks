@@ -1,0 +1,26 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "azure_iot_operations_services"
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+description = "Azure IoT Operations Services"
+repository = "https://github.com/Azure/iot-operations-sdks"
+readme = "README.md"
+publish = false
+
+[dependencies]
+azure_iot_operations_protocol = { version = "0.2", path = "../azure_iot_operations_protocol" }
+azure_iot_operations_mqtt = { version = "0.2", path = "../azure_iot_operations_mqtt" }
+thiserror.workspace = true
+
+[dev-dependencies]
+env_logger.workspace = true
+test-case.workspace = true
+log.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

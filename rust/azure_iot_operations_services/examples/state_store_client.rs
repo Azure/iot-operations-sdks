@@ -1,0 +1,79 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::time::Duration;
+
+use azure_iot_operations_mqtt::session::{
+    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+};
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_services::state_store::{self, SetOptions};
+use env_logger::Builder;
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() {
+    Builder::new()
+        .filter_level(log::LevelFilter::max())
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .init();
+
+    let connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id("someClientId")
+        .host_name("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .build()
+        .unwrap();
+
+    let session_options = SessionOptionsBuilder::default()
+        .connection_settings(connection_settings)
+        .build()
+        .unwrap();
+
+    let mut session = Session::new(session_options).unwrap();
+    let exit_handle = session.get_session_exit_handle();
+
+    let state_store_client: state_store::Client<_, _> =
+        state_store::Client::new(&mut session).unwrap();
+
+    tokio::task::spawn(state_store_loop(state_store_client, exit_handle));
+
+    session.run().await.unwrap();
+}
+
+async fn state_store_loop(
+    state_store_client: state_store::Client<SessionPubSub, SessionPubReceiver>,
+    exit_handle: SessionExitHandle,
+) {
+    let state_store_key = b"someKey2";
+    // let state_store_key3 = Bytes::from("someOtherKey");
+    let state_store_value = b"someValue";
+    let timeout = Duration::from_secs(10);
+
+    let set_response = state_store_client
+        .set(
+            state_store_key.to_vec(),
+            state_store_value.to_vec(),
+            timeout,
+            SetOptions::default(),
+        )
+        .await
+        .unwrap();
+    log::info!("Set response: {:?}", set_response);
+
+    let get_response = state_store_client
+        .get(state_store_key.to_vec(), timeout)
+        .await
+        .unwrap();
+    log::info!("Get response: {:?}", get_response);
+
+    let delete_response = state_store_client
+        .del(state_store_key.to_vec(), None, timeout)
+        .await
+        .unwrap();
+    log::info!("Delete response: {:?}", delete_response);
+
+    exit_handle.try_exit().await.unwrap();
+}
