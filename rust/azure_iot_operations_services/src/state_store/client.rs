@@ -70,6 +70,10 @@ where
 
     /// Sets a key value pair in the State Store Service
     ///
+    /// Note: timeout refers to the duration until the State Store Client stops
+    /// waiting for a `Set` response from the Service. This value is not linked
+    /// to the key in the State Store.
+    ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
@@ -117,6 +121,10 @@ where
 
     /// Gets the value of a key in the State Store Service
     ///
+    /// Note: timeout refers to the duration until the State Store Client stops
+    /// waiting for a `Get` response from the Service. This value is not linked
+    /// to the key in the State Store.
+    ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
@@ -157,6 +165,10 @@ where
 
     /// Deletes a key from the State Store Service
     ///
+    /// Note: timeout refers to the duration until the State Store Client stops
+    /// waiting for a `Delete` response from the Service. This value is not linked
+    /// to the key in the State Store.
+    ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
@@ -187,6 +199,10 @@ where
     }
 
     /// Deletes a key from the State Store Service if and only if the value matches the one provided
+    ///
+    /// Note: timeout refers to the duration until the State Store Client stops
+    /// waiting for a `V Delete` response from the Service. This value is not linked
+    /// to the key in the State Store.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found or the value did not match, otherwise `1`
     /// # Errors

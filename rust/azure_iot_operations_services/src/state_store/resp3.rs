@@ -25,7 +25,7 @@ pub(crate) enum Request {
 /// Options for a `Set` Request
 #[derive(Clone, Debug, Default)]
 pub struct SetOptions {
-    /// Condition for the `Set` operation
+    /// Condition for the `Set` operation. Default is [`SetCondition::Unconditional`]
     pub set_condition: SetCondition,
     /// How long the key should persist before it expires, in millisecond precision.
     pub expires: Option<Duration>,
