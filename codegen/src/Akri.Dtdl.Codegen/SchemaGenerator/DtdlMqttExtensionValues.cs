@@ -9,6 +9,10 @@
 
         public static Regex MqttAdjunctTypeRegex = new Regex(MqttAdjunctTypePattern, RegexOptions.Compiled);
 
+        public static string RequiredAdjunctTypePattern = @"dtmi:dtdl:extension:requirement:v(\d+):Required";
+
+        public static Regex RequiredAdjunctTypeRegex = new Regex(RequiredAdjunctTypePattern, RegexOptions.Compiled);
+
         public static readonly string IdempotentAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Idempotent";
 
         public static readonly string CacheableAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable";
