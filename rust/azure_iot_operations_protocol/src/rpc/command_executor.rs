@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -229,7 +229,7 @@ pub struct CommandExecutorOptions {
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut command_executor: CommandExecutor<SamplePayload, SamplePayload, _, _> = CommandExecutor::new(&mut mqtt_session, executor_options).unwrap();
+/// let mut command_executor: CommandExecutor<SamplePayload, SamplePayload, _> = CommandExecutor::new(&mut mqtt_session, executor_options).unwrap();
 /// // command_executor.start().await.unwrap();
 /// // let request = command_executor.recv().await.unwrap();
 /// // let response = CommandResponseBuilder::default()
@@ -239,17 +239,16 @@ pub struct CommandExecutorOptions {
 /// # });
 /// ```
 #[allow(unused)]
-pub struct CommandExecutor<TReq, TResp, PS, PR>
+pub struct CommandExecutor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send,
     TResp: PayloadSerialize + Send,
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
-    PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync,
 {
     // Static properties of the executor
-    //managed_client: M,
-    mqtt_pub_sub: PS,
-    mqtt_receiver: PR,
+    client: C,
+    mqtt_receiver: C::PubReceiver,
     is_idempotent: bool,
     request_topic: String,
     command_name: String,
@@ -264,17 +263,17 @@ where
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, M, PR> CommandExecutor<TReq, TResp, M, PR>
+impl<TReq, TResp, C> CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send + 'static,
+    TReq: PayloadSerialize + Send,
     TResp: PayloadSerialize + Send + 'static,
-    M: ManagedClient<PR>,
-    PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
 {
     /// Create a new [`CommandExecutor`].
     ///
     /// # Arguments
-    /// * `mqtt_provider` - The [`MqttProvider`] to use.
+    /// * `client` - The [`MqttProvider`] to use.
     /// * `executor_options` - The [`CommandExecutorOptions`] to use.
     ///
     /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
@@ -290,7 +289,7 @@ where
     /// - [`custom_topic_token_map`](CommandExecutorOptions::custom_topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
-        mqtt_provider: impl ManagedClient<PR>,
+        client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
@@ -320,7 +319,7 @@ where
         let executor_id = executor_options
             .executor_id
             .as_deref()
-            .unwrap_or(mqtt_provider.client_id());
+            .unwrap_or(client.client_id());
 
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new_command_pattern(
@@ -340,7 +339,7 @@ where
         let recv_cancellation_token = CancellationToken::new();
 
         // Get pub sub and receiver from the mqtt session
-        let mqtt_receiver = match mqtt_provider
+        let mqtt_receiver = match client
             .filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
         {
             Ok(receiver) => receiver,
@@ -355,12 +354,10 @@ where
             }
         };
 
-        let mqtt_pub_sub = mqtt_provider.pub_sub();
-
         // Create Command executor
         Ok(CommandExecutor {
+            client,
             mqtt_receiver,
-            mqtt_pub_sub,
             is_idempotent: executor_options.is_idempotent,
             request_topic,
             command_name: executor_options.command_name,
@@ -380,7 +377,7 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.mqtt_pub_sub.unsubscribe(&self.request_topic).await;
+        let unsubscribe_result = self.client.unsubscribe(&self.request_topic).await;
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
@@ -417,7 +414,7 @@ where
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
         if !self.is_subscribed {
             let subscribe_result = self
-                .mqtt_pub_sub
+                .client
                 .subscribe(&self.request_topic, QoS::AtLeastOnce)
                 .await;
 
@@ -668,14 +665,14 @@ where
                             // Check the command has not expired, if it has, we do not respond to the invoker.
                             if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
                                 self.pending_pubs.spawn({
-                                    let mqtt_pub_sub_clone = self.mqtt_pub_sub.clone();
+                                    let client_clone = self.client.clone();
                                     let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
                                     let pkid = m.pkid;
                                     async move {
                                         tokio::select! {
                                             () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
                                             () = Self::process_command(
-                                                    mqtt_pub_sub_clone,
+                                                    client_clone,
                                                     pkid,
                                                     response_arguments,
                                                     Some(response_rx),
@@ -697,14 +694,14 @@ where
                         }
 
                         self.pending_pubs.spawn({
-                            let mqtt_pub_sub_clone = self.mqtt_pub_sub.clone();
+                            let client_clone = self.client.clone();
                             let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
                             let pkid = m.pkid;
                             async move {
                                 tokio::select! {
                                     () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
                                     () = Self::process_command(
-                                        mqtt_pub_sub_clone,
+                                        client_clone,
                                         pkid,
                                         response_arguments,
                                         None,
@@ -736,7 +733,7 @@ where
     }
 
     async fn process_command(
-        mqtt_pub_sub: PS,
+        client: C,
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
@@ -872,7 +869,7 @@ where
         };
 
         // Try to publish
-        match mqtt_pub_sub
+        match client
             .publish_with_properties(
                 response_arguments.response_topic,
                 QoS::AtLeastOnce,
@@ -906,19 +903,21 @@ where
     }
 }
 
-impl<TReq, TResp, PS, PR> Drop for CommandExecutor<TReq, TResp, PS, PR>
+impl<TReq, TResp, C> Drop for CommandExecutor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send,
     TResp: PayloadSerialize + Send,
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
-    PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
 {
     fn drop(&mut self) {}
 }
 
 #[cfg(test)]
 mod tests {
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{
+        Session, SessionManagedClient, SessionOptionsBuilder,
+    };
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -926,32 +925,33 @@ mod tests {
     use super::*;
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
-    // TODO: This should return a mock MqttProvider instead
-    fn get_mqtt_provider() -> Session {
-        // TODO: Make a real mock that implements MqttProvider
+    // TODO: This should return a mock ManagedClient instead
+    fn get_managed_client() -> SessionManagedClient {
+        // TODO: Make a real mock that implements ManagedClient
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
-            .client_id("test_server")
+            .client_id("test_client")
             .build()
             .unwrap();
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(connection_settings)
             .build()
             .unwrap();
-        Session::new(session_options).unwrap()
+        let session = Session::new(session_options).unwrap();
+        session.get_managed_client()
     }
 
     #[tokio::test]
     async fn test_new_defaults() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _, _> =
-            CommandExecutor::new(&mut mqtt_provider, executor_options).unwrap();
+        let command_executor: CommandExecutor<MockPayload, MockPayload, _> =
+            CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
             command_executor.request_topic,
@@ -965,7 +965,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/{modelId}/request")
             .command_name("test_command_name")
@@ -978,8 +978,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _, _> =
-            CommandExecutor::new(&mut mqtt_provider, executor_options).unwrap();
+        let command_executor: CommandExecutor<MockPayload, MockPayload, _> =
+            CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
             command_executor.request_topic,
@@ -994,7 +994,7 @@ mod tests {
     #[test_case(" "; "whitespace command name")]
     #[tokio::test]
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
@@ -1002,8 +1002,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _, _>, AIOProtocolError> =
-            CommandExecutor::new(&mut mqtt_provider, executor_options);
+        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            CommandExecutor::new(managed_client, executor_options);
 
         match executor {
             Err(e) => {
@@ -1026,7 +1026,7 @@ mod tests {
     #[test_case("test/{commandName}/\u{0}/request"; "invalid request topic pattern")]
     #[tokio::test]
     async fn test_invalid_request_topic_string(request_topic: &str) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
@@ -1034,8 +1034,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _, _>, AIOProtocolError> =
-            CommandExecutor::new(&mut mqtt_provider, executor_options);
+        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            CommandExecutor::new(managed_client, executor_options);
 
         match executor {
             Err(e) => {
@@ -1058,7 +1058,7 @@ mod tests {
     #[test_case("test/\u{0}"; "invalid topic namespace")]
     #[tokio::test]
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
@@ -1066,8 +1066,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _, _>, AIOProtocolError> =
-            CommandExecutor::new(&mut mqtt_provider, executor_options);
+        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            CommandExecutor::new(managed_client, executor_options);
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1088,7 +1088,7 @@ mod tests {
     #[test_case(Duration::from_secs(60); "cacheable duration positive")]
     #[tokio::test]
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
@@ -1097,16 +1097,14 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor = CommandExecutor::<MockPayload, MockPayload, _, _>::new(
-            &mut mqtt_provider,
-            executor_options,
-        );
+        let command_executor =
+            CommandExecutor::<MockPayload, MockPayload, _>::new(managed_client, executor_options);
         assert!(command_executor.is_ok());
     }
 
     #[tokio::test]
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
-        let mut mqtt_provider = get_mqtt_provider();
+        let managed_client = get_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
@@ -1115,9 +1113,9 @@ mod tests {
             .unwrap();
 
         let command_executor: Result<
-            CommandExecutor<MockPayload, MockPayload, _, _>,
+            CommandExecutor<MockPayload, MockPayload, _>,
             AIOProtocolError,
-        > = CommandExecutor::new(&mut mqtt_provider, executor_options);
+        > = CommandExecutor::new(managed_client, executor_options);
 
         match command_executor {
             Err(e) => {

@@ -8,7 +8,7 @@ use thiserror::Error;
 use tokio::time::Instant;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
@@ -43,16 +43,16 @@ async fn main() {
         .command_name("readCounter")
         .build()
         .unwrap();
-    let rpc_read_executor: CommandExecutor<CounterRequest, CounterResponse, _, _> =
-        CommandExecutor::new(&mut session, rpc_read_executor_options).unwrap();
+    let rpc_read_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+        CommandExecutor::new(session.get_managed_client(), rpc_read_executor_options).unwrap();
 
     let rpc_incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
         .build()
         .unwrap();
-    let rpc_incr_executor: CommandExecutor<CounterRequest, CounterResponse, _, _> =
-        CommandExecutor::new(&mut session, rpc_incr_executor_options).unwrap();
+    let rpc_incr_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+        CommandExecutor::new(session.get_managed_client(), rpc_incr_executor_options).unwrap();
 
     tokio::task::spawn(rpc_loop(rpc_read_executor, rpc_incr_executor, exit_handle));
 
@@ -60,18 +60,8 @@ async fn main() {
 }
 
 async fn rpc_loop(
-    mut rpc_read_executor: CommandExecutor<
-        CounterRequest,
-        CounterResponse,
-        SessionPubSub,
-        SessionPubReceiver,
-    >,
-    mut rpc_incr_executor: CommandExecutor<
-        CounterRequest,
-        CounterResponse,
-        SessionPubSub,
-        SessionPubReceiver,
-    >,
+    mut rpc_read_executor: CommandExecutor<CounterRequest, CounterResponse, SessionManagedClient>,
+    mut rpc_incr_executor: CommandExecutor<CounterRequest, CounterResponse, SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     log::info!("Starting counter executor");

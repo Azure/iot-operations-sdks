@@ -7,7 +7,7 @@ use env_logger::Builder;
 use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
@@ -43,7 +43,7 @@ async fn main() {
         .build()
         .unwrap();
     let rpc_read_invoker: CommandInvoker<CounterRequest, CounterResponse, _> =
-        CommandInvoker::new(&mut session, rpc_read_invoker_options).unwrap();
+        CommandInvoker::new(session.get_managed_client(), rpc_read_invoker_options).unwrap();
 
     let rpc_incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -51,7 +51,7 @@ async fn main() {
         .build()
         .unwrap();
     let rpc_incr_invoker: CommandInvoker<CounterRequest, CounterResponse, _> =
-        CommandInvoker::new(&mut session, rpc_incr_invoker_options).unwrap();
+        CommandInvoker::new(session.get_managed_client(), rpc_incr_invoker_options).unwrap();
 
     tokio::task::spawn(rpc_loop(rpc_read_invoker, rpc_incr_invoker, exit_handle));
 
@@ -60,8 +60,8 @@ async fn main() {
 
 /// Send a read request, 15 increment command requests, and another read request and wait for their responses, then disconnect
 async fn rpc_loop(
-    rpc_read_invoker: CommandInvoker<CounterRequest, CounterResponse, SessionPubSub>,
-    rpc_incr_invoker: CommandInvoker<CounterRequest, CounterResponse, SessionPubSub>,
+    rpc_read_invoker: CommandInvoker<CounterRequest, CounterResponse, SessionManagedClient>,
+    rpc_incr_invoker: CommandInvoker<CounterRequest, CounterResponse, SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let executor_id = env::var("COUNTER_SERVER_ID").ok();

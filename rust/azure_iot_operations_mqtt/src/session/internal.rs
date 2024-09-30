@@ -79,7 +79,7 @@ where
             client_id,
             sat_auth_file,
             incoming_pub_dispatcher,
-            unacked_pubs: Arc::new(PubTracker::new()),
+            unacked_pubs: Arc::new(PubTracker::default()),
             reconnect_policy,
             state: Arc::new(SessionState::default()),
             notify_force_exit: Arc::new(Notify::new()),
@@ -105,7 +105,6 @@ where
             pub_sub: self.client.clone(),
             incoming_pub_dispatcher: self.incoming_pub_dispatcher.clone(),
             unacked_pubs: self.unacked_pubs.clone(),
-
         }
     }
 

@@ -141,13 +141,12 @@ pub trait MqttPubReceiver {
     async fn recv(&mut self) -> Option<Publish>;
 }
 
-
 /// PLACEHOLDER
 //TODO: doc
-pub trait ManagedClient<PR>: MqttPubSub
-where
-    PR: MqttPubReceiver + Send + Sync,
-{
+pub trait ManagedClient: MqttPubSub {
+    /// The type of receiver used by this client
+    type PubReceiver: MqttPubReceiver + MqttAck;
+
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
 
@@ -159,9 +158,26 @@ where
         &self,
         topic_filter: &str,
         auto_ack: bool,
-    ) -> Result<PR, TopicParseError>;
+    ) -> Result<Self::PubReceiver, TopicParseError>;
 }
 
+// pub trait ManagedClient<PR>: MqttPubSub
+// where
+//     PR: MqttPubReceiver + Send + Sync,
+// {
+//     /// Get the client id for the MQTT connection
+//     fn client_id(&self) -> &str;
+
+//     /// Get an [`MqttPubReceiver`] for a specific topic
+//     ///
+//     /// # Errors
+//     /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
+//     fn filtered_pub_receiver(
+//         &self,
+//         topic_filter: &str,
+//         auto_ack: bool,
+//     ) -> Result<PR, TopicParseError>;
+// }
 
 // // TODO: refactor into "ManagedClient"
 // /// Spawns [`MqttPubSub`] and [`MqttPubReceiver`]

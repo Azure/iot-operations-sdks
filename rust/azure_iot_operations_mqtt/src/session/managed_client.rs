@@ -1,4 +1,3 @@
-
 use std::collections::HashSet;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
@@ -7,14 +6,15 @@ use async_trait::async_trait;
 use bytes::Bytes;
 use tokio::sync::mpsc::Receiver;
 
-use crate::CompletionToken;
-use crate::control_packet::{Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties};
+use crate::control_packet::{
+    Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+};
 use crate::error::ClientError;
 use crate::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
-use crate::session::pub_tracker::PubTracker;
 use crate::session::dispatcher::IncomingPublishDispatcher;
+use crate::session::pub_tracker::PubTracker;
 use crate::topic::{TopicFilter, TopicParseError};
-
+use crate::CompletionToken;
 
 // impl<C, EL> MqttProvider<SessionPubSub<C>, SessionPubReceiver> for Session<C, EL>
 // where
@@ -56,13 +56,12 @@ use crate::topic::{TopicFilter, TopicParseError};
 //     }
 // }
 
-
 /// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 // TODO: MORE DOC
 #[derive(Clone)]
 pub struct SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
     pub(crate) client_id: String,
     pub(crate) pub_sub: PS,
@@ -72,17 +71,27 @@ where
     pub(crate) unacked_pubs: Arc<PubTracker>,
 }
 
-impl <PS> ManagedClient<SessionPubReceiver> for SessionManagedClient<PS>
+impl<PS> ManagedClient for SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
+    type PubReceiver = SessionPubReceiver;
+
     fn client_id(&self) -> &str {
         &self.client_id
     }
 
-    fn filtered_pub_receiver(&self, topic_filter: &str, auto_ack: bool) -> Result<SessionPubReceiver, TopicParseError> {
+    fn filtered_pub_receiver(
+        &self,
+        topic_filter: &str,
+        auto_ack: bool,
+    ) -> Result<SessionPubReceiver, TopicParseError> {
         let topic_filter = TopicFilter::from_str(topic_filter)?;
-        let rx = self.incoming_pub_dispatcher.lock().unwrap().register_filter(&topic_filter);
+        let rx = self
+            .incoming_pub_dispatcher
+            .lock()
+            .unwrap()
+            .register_filter(&topic_filter);
         Ok(SessionPubReceiver::new(
             rx,
             self.unacked_pubs.clone(),
@@ -91,10 +100,68 @@ where
     }
 }
 
+// impl <PS> ManagedClient for SessionManagedClient<PS>
+// where
+//     PS: MqttPubSub + Clone + Send + Sync + 'static,
+// {
+//     fn client_id(&self) -> &str {
+//         &self.client_id
+//     }
+
+//     #[allow(refining_impl_trait)]
+//     fn filtered_pub_receiver(&self, topic_filter: &str, auto_ack: bool) -> Result<SessionPubReceiver, TopicParseError> {
+//         let topic_filter = TopicFilter::from_str(topic_filter)?;
+//         let rx = self.incoming_pub_dispatcher.lock().unwrap().register_filter(&topic_filter);
+//         Ok(SessionPubReceiver::new(
+//             rx,
+//             self.unacked_pubs.clone(),
+//             auto_ack,
+//         ))
+//     }
+// }
+
+// impl <PS> ManagedClient<SessionPubReceiver> for SessionManagedClient<PS>
+// where
+//     PS: MqttPubSub + Clone + Send + Sync + 'static,
+// {
+//     fn client_id(&self) -> &str {
+//         &self.client_id
+//     }
+
+//     fn filtered_pub_receiver(&self, topic_filter: &str, auto_ack: bool) -> Result<SessionPubReceiver, TopicParseError> {
+//         let topic_filter = TopicFilter::from_str(topic_filter)?;
+//         let rx = self.incoming_pub_dispatcher.lock().unwrap().register_filter(&topic_filter);
+//         Ok(SessionPubReceiver::new(
+//             rx,
+//             self.unacked_pubs.clone(),
+//             auto_ack,
+//         ))
+//     }
+// }
+
+// impl <PS> ManagedClient for SessionManagedClient<PS>
+// where
+//     PS: MqttPubSub + Clone + Send + Sync + 'static,
+// {
+//     fn client_id(&self) -> &str {
+//         &self.client_id
+//     }
+
+//     fn filtered_pub_receiver(&self, topic_filter: &str, auto_ack: bool) -> Result<impl MqttPubReceiver + Send + Sync, TopicParseError> {
+//         let topic_filter = TopicFilter::from_str(topic_filter)?;
+//         let rx = self.incoming_pub_dispatcher.lock().unwrap().register_filter(&topic_filter);
+//         Ok(SessionPubReceiver::new(
+//             rx,
+//             self.unacked_pubs.clone(),
+//             auto_ack,
+//         ))
+//     }
+// }
+
 #[async_trait]
 impl<PS> MqttPubSub for SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync,
+    PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
     async fn publish(
         &self,
@@ -168,12 +235,11 @@ where
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        self.pub_sub.unsubscribe_with_properties(topic, properties).await
+        self.pub_sub
+            .unsubscribe_with_properties(topic, properties)
+            .await
     }
 }
-
-
-
 
 /// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver {

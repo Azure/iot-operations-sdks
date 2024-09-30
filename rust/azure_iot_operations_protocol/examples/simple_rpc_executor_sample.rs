@@ -4,9 +4,7 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use azure_iot_operations_protocol::rpc::command_executor::{
@@ -47,8 +45,8 @@ async fn main() {
         .command_name("increment")
         .build()
         .unwrap();
-    let rpc_incr_executor: CommandExecutor<IncrRequest, IncrResponse, _, _> =
-        CommandExecutor::new(&mut session, rpc_incr_executor_options).unwrap();
+    let rpc_incr_executor: CommandExecutor<IncrRequest, IncrResponse, _> =
+        CommandExecutor::new(session.get_managed_client(), rpc_incr_executor_options).unwrap();
 
     tokio::task::spawn(incr_loop(rpc_incr_executor));
 
@@ -56,7 +54,7 @@ async fn main() {
 }
 
 async fn incr_loop(
-    mut rpc_executor: CommandExecutor<IncrRequest, IncrResponse, SessionPubSub, SessionPubReceiver>,
+    mut rpc_executor: CommandExecutor<IncrRequest, IncrResponse, SessionManagedClient>,
 ) {
     let mut counter = 0;
     loop {

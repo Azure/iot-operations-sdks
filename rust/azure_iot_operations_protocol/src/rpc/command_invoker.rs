@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -186,16 +186,15 @@ pub struct CommandInvokerOptions {
 /// # })
 /// ```
 #[allow(unused)] // TODO: remove once drop is implemented
-pub struct CommandInvoker<TReq, TResp, PS>
+pub struct CommandInvoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    C: ManagedClient + Clone + Send + Sync,
 {
     // static properties of the invoker
-    mqtt_pub_sub: PS,
+    client: C,
     command_name: String,
-    client_id: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
@@ -208,11 +207,12 @@ where
 }
 
 /// Implementation of Command Invoker.
-impl<TReq, TResp, PS> CommandInvoker<TReq, TResp, PS>
+impl<TReq, TResp, C> CommandInvoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`CommandInvoker`].
     ///
@@ -233,8 +233,8 @@ where
     ///     or [`model_id`](CommandInvokerOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](CommandInvokerOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
-    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
-        managed_client: impl ManagedClient<PR> + Clone,
+    pub fn new(
+        client: C,
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
@@ -270,7 +270,7 @@ where
             &invoker_options.request_topic_pattern,
             &invoker_options.command_name,
             topic_processor::WILDCARD,
-            managed_client.client_id(),
+            client.client_id(),
             invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
@@ -280,7 +280,7 @@ where
             &response_topic_pattern,
             &invoker_options.command_name,
             topic_processor::WILDCARD,
-            managed_client.client_id(),
+            client.client_id(),
             invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
@@ -290,7 +290,7 @@ where
         let is_subscribed_mutex = Arc::new(Mutex::new(false));
 
         // Create a filtered receiver from the Managed Client
-        let mqtt_receiver = match managed_client
+        let mqtt_receiver = match client
             .filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
         {
             Ok(receiver) => receiver,
@@ -328,9 +328,8 @@ where
         });
 
         Ok(Self {
-            mqtt_pub_sub: managed_client,
+            client,
             command_name: invoker_options.command_name,
-            client_id: managed_client.client_id().to_string(),
             request_topic_pattern,
             response_topic_pattern,
             request_payload_type: PhantomData,
@@ -435,7 +434,7 @@ where
         let response_subscribe_topic = self.response_topic_pattern.as_subscribe_topic();
         // Send subscribe
         let subscribe_result = self
-            .mqtt_pub_sub
+            .client
             .subscribe(response_subscribe_topic, QoS::AtLeastOnce)
             .await;
         match subscribe_result {
@@ -509,7 +508,7 @@ where
         // Add internal user properties
         request.custom_user_data.push((
             UserProperty::CommandInvokerId.to_string(),
-            self.client_id.clone(),
+            self.client.client_id().to_string(),
         ));
         request.custom_user_data.push((
             UserProperty::Timestamp.to_string(),
@@ -549,7 +548,7 @@ where
 
         // Send publish
         let publish_result = self
-            .mqtt_pub_sub
+            .client
             .publish_with_properties(
                 request_topic,
                 QoS::AtLeastOnce,
@@ -931,11 +930,11 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     })
 }
 
-impl<TReq, TResp, PS> Drop for CommandInvoker<TReq, TResp, PS>
+impl<TReq, TResp, C> Drop for CommandInvoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    C: ManagedClient + Clone + Send + Sync,
 {
     fn drop(&mut self) {}
 }
@@ -946,7 +945,9 @@ mod tests {
 
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::session::{
+        Session, SessionManagedClient, SessionOptionsBuilder,
+    };
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
@@ -1081,10 +1082,8 @@ mod tests {
             .command_name(command_name)
             .build()
             .unwrap();
-        // TODO: For some reason in this specific test SessionManagedClient has to be specified as the type
-        // in the Result. I do not know why right now - need to investigate further. Best guess is something
-        // about the test_case macro.
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, SessionManagedClient>, AIOProtocolError> =
+
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(managed_client, invoker_options);
         match command_invoker {
             Ok(_) => panic!("Expected error"),
@@ -1124,10 +1123,8 @@ mod tests {
             .response_topic_suffix(response_topic_suffix)
             .build()
             .unwrap();
-        // TODO: For some reason in this specific test SessionManagedClient has to be specified as the type
-        // in the Result. I do not know why right now - need to investigate further. Best guess is something
-        // about the test_case macro.
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, SessionManagedClient>, AIOProtocolError> =
+
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(managed_client, invoker_options);
         assert!(command_invoker.is_ok());
         assert_eq!(

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 use std::{collections::HashMap, marker::PhantomData};
 
-use azure_iot_operations_mqtt::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::ManagedClient;
 
 use super::{TelemetryMessage, TelemetryMessageBuilder};
 use crate::common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize};
@@ -72,24 +72,21 @@ pub struct TelemetryReceiverOptions {
 /// ```
 ///
 #[allow(unused)]
-pub struct TelemetryReceiver<T, PS, PR>
+pub struct TelemetryReceiver<T, C>
 where
     T: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
-    PR: MqttPubReceiver + MqttAck + Send + Sync,
+    C: ManagedClient,
 {
-    ps_placeholder: PhantomData<PS>,
-    pr_placeholder: PhantomData<PR>,
+    client: C,
     message_payload_type: PhantomData<T>,
     telemetry_name: Option<String>,
 }
 
 /// Implementation of a Telemetry Sender
-impl<T, PS, PR> TelemetryReceiver<T, PS, PR>
+impl<T, C> TelemetryReceiver<T, C>
 where
     T: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
-    PR: MqttPubReceiver + MqttAck + Send + Sync,
+    C: ManagedClient,
 {
     /// Creates a new [`TelemetryReceiver`].
     ///
@@ -101,13 +98,9 @@ where
     /// # Errors
     /// TODO: Add errors
     #[allow(unused)]
-    pub fn new(
-        mqtt_provider: &mut impl MqttProvider<PS, PR>,
-        options: TelemetryReceiverOptions,
-    ) -> Result<Self, AIOProtocolError> {
+    pub fn new(client: C, options: TelemetryReceiverOptions) -> Result<Self, AIOProtocolError> {
         Ok(Self {
-            ps_placeholder: PhantomData,
-            pr_placeholder: PhantomData,
+            client,
             message_payload_type: PhantomData,
             telemetry_name: options.telemetry_name,
         })
@@ -150,11 +143,10 @@ where
     }
 }
 
-impl<T, PS, PR> Drop for TelemetryReceiver<T, PS, PR>
+impl<T, C> Drop for TelemetryReceiver<T, C>
 where
     T: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
-    PR: MqttPubReceiver + MqttAck + Send + Sync,
+    C: ManagedClient,
 {
     fn drop(&mut self) {}
 }

@@ -21,7 +21,7 @@ use crate::{CompletionToken, MqttConnectionSettings};
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
-/// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
+/// any necessary [`SessionPubReceiver`] and [`SessionExitHandle`].
 pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 
 /// Handle used to end an MQTT session.
@@ -32,13 +32,10 @@ pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAli
 #[derive(Clone)]
 pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
 
+/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 /// //TODO doc
 #[derive(Clone)]
 pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
-
-/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
-#[derive(Clone)]
-pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
 
 /// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
@@ -101,7 +98,9 @@ impl Session {
     }
 }
 
-impl ManagedClient<SessionPubReceiver> for SessionManagedClient {
+impl ManagedClient for SessionManagedClient {
+    type PubReceiver = SessionPubReceiver;
+
     fn client_id(&self) -> &str {
         self.0.client_id()
     }
