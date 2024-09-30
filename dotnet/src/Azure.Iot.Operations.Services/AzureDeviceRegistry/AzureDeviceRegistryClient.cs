@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (assetEndpointProfileFilesSystemWatcher == null)
             {
-                assetEndpointProfileFilesSystemWatcher = new($".\\{AepTargetAddressRelativeMountPath}\\");
+                assetEndpointProfileFilesSystemWatcher = new($".\\{_configMapMountPath}\\{AepTargetAddressRelativeMountPath}\\");
                 assetEndpointProfileFilesSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
                 assetEndpointProfileFilesSystemWatcher.IncludeSubdirectories = false;
 
