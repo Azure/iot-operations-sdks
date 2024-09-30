@@ -20,16 +20,23 @@ type (
 	}
 )
 
+const del = "DEL"
+
 // Del deletes the value of the given key. It returns the number of values
-// deleted.
-func (c *Client) Del(
+// deleted (typically 0 or 1).
+func (c *Client[K, V]) Del(
 	ctx context.Context,
-	key string,
+	key K,
 	opt ...DelOption,
 ) (*Response[int], error) {
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
+	}
+
 	var opts DelOptions
 	opts.Apply(opt)
-	return invoke(ctx, c.invoker, resp.ParseNumber, &opts, "DEL", key)
+
+	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpK(del, key))
 }
 
 // Apply resolves the provided list of options.

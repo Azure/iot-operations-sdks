@@ -12,8 +12,11 @@ import (
 )
 
 type (
+	// Bytes represents generic byte data.
+	Bytes interface{ ~string | ~[]byte }
+
 	// Client represents a client of the state store.
-	Client struct {
+	Client[K, V Bytes] struct {
 		invoker *protocol.CommandInvoker[[]byte, []byte]
 	}
 
@@ -47,9 +50,14 @@ var (
 	ErrArgument = errors.ErrArgument
 )
 
-// New creates a new state store client.
-func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
-	c := &Client{}
+// New creates a new state store client. It takes the key and value types as
+// parameters to avoid unnecessary casting; both may be string, []byte, or
+// equivalent types.
+func New[K, V Bytes](
+	client mqtt.Client,
+	opt ...ClientOption,
+) (*Client[K, V], error) {
+	c := &Client[K, V]{}
 	var err error
 
 	var opts ClientOptions
@@ -75,7 +83,7 @@ func New(client mqtt.Client, opt ...ClientOption) (*Client, error) {
 // Listen to the response topic(s). Returns a function to stop listening. Must
 // be called before any state store methods. Note that cancelling this context
 // will cause the unsubscribe call to fail.
-func (c *Client) Listen(ctx context.Context) (func(), error) {
+func (c *Client[K, V]) Listen(ctx context.Context) (func(), error) {
 	return c.invoker.Listen(ctx)
 }
 
@@ -85,17 +93,9 @@ func invoke[T any](
 	invoker *protocol.CommandInvoker[[]byte, []byte],
 	parse func([]byte) (T, error),
 	opts invokeOptions,
-	args ...string,
+	data []byte,
 ) (*Response[T], error) {
-	if args[1] == "" {
-		return nil, ArgumentError{Name: "key"}
-	}
-
-	res, err := invoker.Invoke(
-		ctx,
-		resp.FormatBlobArray(args...),
-		opts.invoke(),
-	)
+	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func parseOK(data []byte) (bool, error) {
 	switch data[0] {
 	// SET and KEYNOTIFY return +OK on success.
 	case '+':
-		res, err := resp.ParseString(data)
+		res, err := resp.String(data)
 		if err != nil {
 			return false, err
 		}
@@ -125,7 +125,7 @@ func parseOK(data []byte) (bool, error) {
 	// SET returns :-1 if it is skipped due to NX or NEX. KEYNOTIFY returns :0
 	// if set on an existing key.
 	case ':':
-		res, err := resp.ParseNumber(data)
+		res, err := resp.Number(data)
 		if err != nil {
 			return false, err
 		}

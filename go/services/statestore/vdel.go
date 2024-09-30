@@ -20,25 +20,25 @@ type (
 	}
 )
 
+const vdel = "VDEL"
+
 // VDel deletes the value of the given key if it is equal to the given value.
-// It returns the number of values deleted.
-func (c *Client) VDel(
+// It returns the number of values deleted (typically 0 or 1), or -1 if the
+// value was present but did not match the given value.
+func (c *Client[K, V]) VDel(
 	ctx context.Context,
-	key string,
-	val []byte,
+	key K,
+	val V,
 	opt ...VDelOption,
 ) (*Response[int], error) {
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
+	}
+
 	var opts VDelOptions
 	opts.Apply(opt)
-	return invoke(
-		ctx,
-		c.invoker,
-		resp.ParseNumber,
-		&opts,
-		"VDEL",
-		key,
-		string(val),
-	)
+
+	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpKV(vdel, key, val))
 }
 
 // Apply resolves the provided list of options.
