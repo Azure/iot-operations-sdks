@@ -8,11 +8,6 @@ namespace Azure.Iot.Operations.Services.LeasedLock
     public class AcquireLockResponse
     {
         /// <summary>
-        /// The previous value of the lock.
-        /// </summary>
-        public LeasedLockHolder? LastKnownOwner { get; internal set; }
-
-        /// <summary>
         /// True if the lock was successfully acquired and false otherwise.
         /// </summary>
         public bool Success { get; internal set; }
@@ -23,9 +18,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// </summary>
         public HybridLogicalClock? FencingToken { get; internal set; }
 
-        internal AcquireLockResponse(HybridLogicalClock? version, LeasedLockHolder? previousValue, bool result)
+        internal AcquireLockResponse(HybridLogicalClock? version, bool result)
         {
-            LastKnownOwner = previousValue;
             Success = result;
             
             if (Success)
