@@ -152,6 +152,19 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
         // should always run after any such test.
         private void ResetFileContents()
         {
+            if (!Directory.Exists("./AzureDeviceRegistry/testFiles/config"))
+            { 
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/config");
+            }
+
+            if (!Directory.Exists("./AzureDeviceRegistry/testFiles/secret"))
+            {
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/secret");
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/secret/aep_username");
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/secret/aep_password");
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/secret/aep_cert");
+            }
+
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS", "http://my-backend-api-s.default.svc.cluster.local:80");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_ADDITIONAL_CONFIGURATION", "{ \"DataSourceType\": \"Http\" }");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD", "UsernamePassword");
