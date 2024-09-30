@@ -30,29 +30,35 @@ namespace Akri.Dtdl.Codegen
             this.Write(this.ToStringHelper.ToStringWithCulture(this.versionSuffix));
             this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schema));
-            this.Write("\",\r\n  \"type\": \"object\",\r\n  \"additionalProperties\": false,\r\n  \"properties\": {\r\n");
- foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { 
+            this.Write("\",\r\n  \"type\": \"object\",\r\n  \"additionalProperties\": false,\r\n");
+ if (this.nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item4)) { 
+            this.Write("  \"required\": [ ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.nameDescSchemaRequiredIndices.Where(ndsri => ndsri.Item4).Select(ndsri => $"\"{ndsri.Item1}\""))));
+            this.Write(" ],\r\n");
+ } 
+            this.Write("  \"properties\": {\r\n");
+ foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { 
             this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item1));
             this.Write("\": {\r\n      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item2));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item2));
             this.Write("\",\r\n");
- if (this.setIndex && nameDescSchemaIndex.Item4 > 0) { 
+ if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { 
             this.Write("      \"index\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item4));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item5));
             this.Write(",\r\n");
  } 
             this.Write("      ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndex.Item3, this.dtmiToSchemaName)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)));
             this.Write("\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameDescSchemaIndex) ? "" : ","));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","));
             this.Write("\r\n");
  } 
             this.Write("  }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
 
-    private bool IsLast((string, string, DTSchemaInfo, int) nameDescSchemaIndex) => nameDescSchemaIndex.Item1 == this.nameDescSchemaIndices.Last().Item1;
+    private bool IsLast((string, string, DTSchemaInfo, bool, int) nameDescSchemaRequiredIndex) => nameDescSchemaRequiredIndex.Item1 == this.nameDescSchemaRequiredIndices.Last().Item1;
 
     }
     #region Base class
