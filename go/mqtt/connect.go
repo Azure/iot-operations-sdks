@@ -9,8 +9,12 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
-	protocolErrors "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
+
+type pahoClientDisconnectedEvent struct {
+	err              error
+	disconnectPacket *paho.Disconnect
+}
 
 // Attempts an initial connection and then listens for disconnections
 // to attempt reconnections. Blocks until the ctx is cancelled or
@@ -18,7 +22,7 @@ import (
 // or retry policy exhaustion)
 func (c *SessionClient) manageConnection(ctx context.Context) error {
 	var pahoClient PahoClient
-	var disconnected <-chan error
+	var disconnected <-chan *pahoClientDisconnectedEvent
 
 	signalDisconnection := func() {
 		// caller must hold a write lock on c.pahoClientMu
@@ -46,7 +50,6 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 	}()
 
 	for {
-		isInitialConn := c.connCount == 0 // this is thread safe because this is the only goroutine that is supposed to write to connCount
 		err := c.connRetry.Start(
 			ctx,
 			c.info,
@@ -54,7 +57,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				Name: "connect",
 				Exec: func(ctx context.Context) error {
 					var err error
-					pahoClient, disconnected, err = c.buildPahoClient(ctx, isInitialConn)
+					pahoClient, disconnected, err = c.buildPahoClient(ctx, c.connCount)
 					return err
 				},
 				Cond: isRetryableError,
@@ -72,15 +75,16 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		c.connCount++
 		c.pahoClientMu.Unlock()
 
+		var disconnectEvent *pahoClientDisconnectedEvent
 		select {
-		case err = <-disconnected:
+		case disconnectEvent = <-disconnected:
 			// Current paho instance got disconnected
 		case <-ctx.Done():
 			// SessionClient is shutting down
 			return nil
 		}
 
-		// TODO: check if this is a fatal error, return normalized error if so
+		// TODO: check if this is a fatal error, error if so
 
 		c.pahoClientMu.Lock()
 		signalDisconnection()
@@ -130,7 +134,9 @@ func (c *SessionClient) Run(ctx context.Context) error {
 
 // buildPahoClient creates an instance of a Paho client and attempts to connect it to the server. If the client is successfully connected,
 // the client instance is returned along with a channel to be notified when the connection on that client instance goes down.
-func (c *SessionClient) buildPahoClient(ctx context.Context, isInitialConn bool) (PahoClient, <-chan error, error) {
+func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (PahoClient, <-chan *pahoClientDisconnectedEvent, error) {
+	isInitialConn := connCount == 0
+
 	// Refresh TLS config for new connection.
 	if err := c.connSettings.validateTLS(); err != nil {
 		// TODO: this currently returns immediately if refreshing TLS config fails. Do we want to instead attempt to connect with the stale TLS config?
@@ -148,7 +154,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, isInitialConn bool)
 	}
 
 	// buffer the channel by 1 to avoid hanging a goroutine in the case where paho has an error AND the server sends a DISCONNECT packet.
-	disconnected := make(chan error, 1)
+	disconnected := make(chan *pahoClientDisconnectedEvent, 1)
 	var clientErrOnce, serverDisconnectOnce sync.Once
 
 	pahoClient := paho.NewClient(paho.ClientConfig{
@@ -156,28 +162,23 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, isInitialConn bool)
 		Conn:        conn,
 		Session:     c.session,
 		AuthHandler: c.connSettings.authOptions.AuthHandler,
-		// TODO: put the callback here once we refactor the session client to only have one callback registered in paho
-		OnPublishReceived: nil,
-		// Set Paho's packet timeout to the maximum possible value to effectively disable it. The session client will control any needed timeouts instead.
-		PacketTimeout: math.MaxInt64,
+		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
+			c.makeOnPublishReceived(connCount + 1), // add 1 to the conn count for this because this listener is effective AFTER the connection succeeds
+		},
+		PacketTimeout: math.MaxInt64, // Set Paho's packet timeout to the maximum possible value to effectively disable it. We can still control any timeouts through the contexts we pass into Paho.
 		OnServerDisconnect: func(d *paho.Disconnect) {
 			serverDisconnectOnce.Do(func() {
-				disconnected <- disconnErr.Translate(context.Background(), d, nil)
+				disconnected <- &pahoClientDisconnectedEvent{disconnectPacket: d}
 			})
 		},
 		OnClientError: func(err error) {
 			clientErrOnce.Do(func() {
-				disconnected <- err
+				disconnected <- &pahoClientDisconnectedEvent{err: err}
 			})
 		},
 		// Disable automatic acking in Paho. The session client will manage acks instead.
 		EnableManualAcknowledgment: true,
 	})
-
-	// TODO: make this just one callback and manage callbacks in the session client.
-	for _, s := range c.subscriptions {
-		s.register(ctx)
-	}
 
 	if c.connSettings.authOptions.AuthDataProvider != nil {
 		WithAuthData(c.connSettings.authOptions.AuthDataProvider(ctx))(c)
@@ -186,22 +187,19 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, isInitialConn bool)
 	cp := buildConnectPacket(c.connSettings.clientID, c.connSettings, isInitialConn)
 
 	c.logConnect(cp)
-	// TODO: figure out results from paho map to the return values of pahoconn
+
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
-	connack, err := pahoConn(ctx, pahoClient, cp) // TODO: determine if we want to call pahoConn or conn on the client directly.
+	connack, err := pahoClient.Connect(ctx, cp)
 
 	if connack != nil && connack.ReasonCode >= 0x80 && !isRetryableConnack(reasonCode(connack.ReasonCode)) {
 		return nil, nil, err
 	}
 	if err != nil {
-		// TODO: this assumes that all errors returned by Paho's connect method without a CONNACK are retryable.
+		// This assumes that all errors returned by Paho's connect method without a CONNACK are retryable.
 		return nil, nil, retryableErr{err}
 	}
 	if !isInitialConn && !connack.SessionPresent {
-		return nil, nil, &protocolErrors.Error{
-			Message: "mqtt server sent a connack with session present false when a session was expected",
-			Kind:    protocolErrors.MqttError,
-		}
+		return nil, nil, fmt.Errorf("mqtt server sent a connack with session present false when a session was expected")
 	}
 
 	return pahoClient, disconnected, nil

@@ -100,27 +100,3 @@ func buildDisconnectPacket(
 		},
 	}
 }
-
-// packetType gets the string name of a paho packet.
-func (qp *queuedPacket) packetType() string {
-	switch qp.packet.(type) {
-	case *paho.Subscribe:
-		return subscribePacket
-	case *paho.Unsubscribe:
-		return unsubscribePacket
-	case *paho.Publish:
-		return publishPacket
-	default:
-		return "unknown packet"
-	}
-}
-
-// handleError will pass errors from executed operations to error channel.
-func (qp *queuedPacket) handleError(err error) {
-	if err != nil {
-		qp.errC <- err
-	} else {
-		// No errors returned; close the channel to indicate exit.
-		close(qp.errC)
-	}
-}

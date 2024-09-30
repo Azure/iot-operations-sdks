@@ -2,13 +2,74 @@ package mqtt
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"sync"
 	"sync/atomic"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	protocolErrors "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
+
+type incomingPublish struct {
+	// The incoming PUBLISH packet
+	packet *paho.Publish
+	// The conn count on which the PUBLISH was received. This is used to discard PUBACKs if a disconnection occurs.
+	connCount uint64
+}
+
+// Creates the single callback to register to the underlying Paho client for incoming PUBLISH packets
+func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
+	return func(publishReceived paho.PublishReceived) (bool, error) {
+		c.incomingPublishHandlerMu.Lock()
+		defer c.incomingPublishHandlerMu.Unlock()
+
+		for _, handler := range c.incomingPublishHandlers {
+			handler(
+				incomingPublish{
+					packet:    publishReceived.Packet,
+					connCount: connCount,
+				},
+			)
+		}
+
+		// NOTE: this return value doesn't really mean anything because this is the only OnPublishReceivedHandler on this Paho instance
+		return true, nil
+	}
+}
+
+// Registers a handler to a list of handlers that a called sychronously in order whenever a PUBLISH is received.
+// Returns a function which removes the handler from the list when called.
+func (c *SessionClient) registerIncomingPublishHandler(handler func(incomingPublish)) func() {
+	c.incomingPublishHandlerMu.Lock()
+	defer c.incomingPublishHandlerMu.Unlock()
+	var currID uint64
+ID:
+	for ; ; currID++ {
+		for _, existingID := range c.incomingPublishHandlerIDs {
+			if currID == existingID {
+				continue ID
+			}
+		}
+		break
+	}
+
+	c.incomingPublishHandlers = append(c.incomingPublishHandlers, handler)
+	c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs, currID)
+
+	return func() {
+		c.incomingPublishHandlerMu.Lock()
+		defer c.incomingPublishHandlerMu.Unlock()
+		for i, existingID := range c.incomingPublishHandlerIDs {
+			if currID == existingID {
+				c.incomingPublishHandlers = append(c.incomingPublishHandlers[:i], c.incomingPublishHandlers[i+1:]...)
+				c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs[:i], c.incomingPublishHandlerIDs[i+1:]...)
+				return
+			}
+		}
+	}
+}
 
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
@@ -16,159 +77,116 @@ func (c *SessionClient) Subscribe(
 	handler mqtt.MessageHandler,
 	opts ...mqtt.SubscribeOption,
 ) (mqtt.Subscription, error) {
-	if err := c.prepare(ctx); err != nil {
-		return nil, err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := c.subscriptions[topic]; ok {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "cannot subscribe to existing topic",
-			PropertyName:  "topic",
-			PropertyValue: topic,
-		}
-	}
-
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	s := &subscription{c, topic, handler, nil}
+	removeHandlerFunc := c.registerIncomingPublishHandler(func(incoming incomingPublish) {
+		// TODO
+	})
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		if err := c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub, subscription: s},
-		); err != nil {
-			return nil, err
-		}
-		return s, nil
-	}
+	for {
+		c.pahoClientMu.RLock()
+		pahoClient := c.pahoClient
+		connUp := c.connUp
+		connDown := c.connDown
+		c.pahoClientMu.RUnlock()
 
-	// Execute the subscribe.
-	c.logSubscribe(sub)
-	s.register(ctx)
-	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
-		s.done()
-		return nil, err
-	}
-
-	c.subscriptions[topic] = s
-
-	return s, nil
-}
-
-// Register the handler to process messages received on the target topic.
-// AddOnPublishReceived returns a callback for removing message handler
-// so we assign it to 'done' for unregistering handler afterwards.
-func (s *subscription) register(ctx context.Context) {
-	s.info(fmt.Sprintf("registering callback for %s", s.topic))
-	s.done = s.pahoClient.AddOnPublishReceived(
-		func(pb paho.PublishReceived) (bool, error) {
-			if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
-				msg := s.buildMessage(pb.Packet)
-				if err := s.handler(ctx, msg); err != nil {
-					s.error(fmt.Sprintf(
-						"failed to execute the handler on message: %s",
-						err.Error(),
-					))
-					return false, err
-				}
-				return true, nil
+		if pahoClient == nil {
+			select {
+			case <-c.shutdown:
+				removeHandlerFunc()
+				return nil, fmt.Errorf("session client is shutting down")
+			case <-ctx.Done():
+				removeHandlerFunc()
+				return nil, fmt.Errorf("context cancelled: %w", ctx.Err())
+			case <-connUp:
 			}
-			return false, nil
-		},
-	)
-}
+			continue
+		}
+		// TODO: figure out what to do with suback
+		suback, err := pahoClient.Subscribe(ctx, sub)
+		if errors.Is(err, paho.ErrInvalidArguments) {
+			removeHandlerFunc()
+			return nil, fmt.Errorf("invalid arguments in subscribe options: %w", err)
+		}
+		if suback != nil {
+			return &subscription{
+				SessionClient:     c,
+				topic:             topic,
+				removeHandlerFunc: sync.OnceFunc(removeHandlerFunc),
+			}, nil
+		}
 
-// Helper function for user to update subscribe options.
-func (s *subscription) Update(
-	ctx context.Context,
-	opts ...mqtt.SubscribeOption,
-) error {
-	c := s.SessionClient
-
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := s.subscriptions[s.topic]; !ok {
-		return &errors.Error{
-			Kind:          errors.StateInvalid,
-			Message:       "cannot update unsubscribed topic",
-			PropertyName:  "topic",
-			PropertyValue: s.topic,
+		// If we get here, the SUBSCRIBE failed because the connection is down or because ctx was cancelled.
+		select {
+		case <-ctx.Done():
+			removeHandlerFunc()
+			fmt.Errorf("context cancelled: %w", ctx.Err())
+		case <-c.shutdown:
+			removeHandlerFunc()
+			fmt.Errorf("session client is shutting down")
+		case <-connDown:
+			// Connection is down, wait for the connection to come back up and retry
 		}
 	}
-
-	sub, err := buildSubscribe(s.topic, opts...)
-	if err != nil {
-		return err
-	}
-
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub},
-		)
-	}
-
-	c.logPacket(sub)
-	return pahoSub(ctx, c.pahoClient, sub)
 }
 
-// Helper function for user to unsubscribe topic.
+type subscription struct {
+	*SessionClient
+	topic             string
+	removeHandlerFunc func()
+}
+
 func (s *subscription) Unsubscribe(
 	ctx context.Context,
 	opts ...mqtt.UnsubscribeOption,
 ) error {
 	c := s.SessionClient
 
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
 	unsub, err := buildUnsubscribe(s.topic, opts...)
 	if err != nil {
 		return err
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: unsub},
-		)
+	for {
+		c.pahoClientMu.RLock()
+		pahoClient := c.pahoClient
+		connUp := c.connUp
+		connDown := c.connDown
+		c.pahoClientMu.RUnlock()
+
+		if pahoClient == nil {
+			select {
+			case <-c.shutdown:
+				return fmt.Errorf("session client is shutting down")
+			case <-ctx.Done():
+				return fmt.Errorf("context cancelled: %w", ctx.Err())
+			case <-connUp:
+			}
+			continue
+		}
+		// TODO: figure out what to do with unsuback
+		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
+		if errors.Is(err, paho.ErrInvalidArguments) {
+			return fmt.Errorf("invalid arguments in unsubscribe options: %w", err)
+		}
+		if unsuback != nil {
+			s.removeHandlerFunc()
+			return nil
+		}
+
+		// If we get here, the UNSUBSCRIBE failed because the connection is down or because ctx was cancelled.
+		select {
+		case <-ctx.Done():
+			fmt.Errorf("context cancelled: %w", ctx.Err())
+		case <-c.shutdown:
+			fmt.Errorf("session client is shutting down")
+		case <-connDown:
+			// Connection is down, wait for the connection to come back up and retry
+		}
 	}
-
-	c.logPacket(unsub)
-	if err := pahoUnsub(ctx, c.pahoClient, unsub); err != nil {
-		return err
-	}
-
-	// Remove subscribed topic and callback.
-	delete(s.subscriptions, s.topic)
-	s.done()
-
-	return nil
 }
 
 func buildSubscribe(
@@ -180,8 +198,8 @@ func buildSubscribe(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
+		return nil, &protocolErrors.Error{
+			Kind:          protocolErrors.ConfigurationInvalid,
 			Message:       "unsupported QoS",
 			PropertyName:  "QoS",
 			PropertyValue: opt.QoS,
@@ -250,15 +268,15 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
 			}
 
 			if p.QoS == 0 {
-				return &errors.Error{
-					Kind:    errors.ExecutionException,
+				return &protocolErrors.Error{
+					Kind:    protocolErrors.ExecutionException,
 					Message: "cannot ack a QoS 0 message",
 				}
 			}
 
 			if connCount != atomic.LoadUint64(&c.connCount) {
-				return &errors.Error{
-					Kind:    errors.ExecutionException,
+				return &protocolErrors.Error{
+					Kind:    protocolErrors.ExecutionException,
 					Message: "connection lost before ack",
 				}
 			}

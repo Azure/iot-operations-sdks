@@ -27,20 +27,17 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 connection:
 	for {
 		c.pahoClientMu.RLock()
-		connUp := c.connUp
-		c.pahoClientMu.RUnlock()
-
-		select {
-		case <-ctx.Done():
-			return
-		case <-connUp:
-		}
-
-		c.pahoClientMu.RLock()
 		pahoClient := c.pahoClient
+		connUp := c.connUp
 		connDown := c.connDown
 		c.pahoClientMu.RUnlock()
+
 		if pahoClient == nil {
+			select {
+			case <-ctx.Done():
+				return
+			case <-connUp:
+			}
 			continue connection
 		}
 
@@ -51,8 +48,10 @@ connection:
 			case <-connDown:
 				continue connection
 			case nextOutgoingPublish = <-func() chan *outgoingPublish {
+				// NOTE: This function either returns a nil channel (for which a read from blocks indefinitely) or c.outgoingPublishes depending on whether we are retrying the PUBLISH
+				// from the previous iteration or whether we are pulling in a new PUBLISH.
 				if nextOutgoingPublish != nil {
-					// We already have a PUBLISH we need to send, so don't read the next PUBLISH from outgoingPublishes.
+					// We already have a PUBLISH we need to send, so don't read the next PUBLISH from c.outgoingPublishes.
 					return nil
 				}
 				return c.outgoingPublishes
@@ -83,28 +82,20 @@ connection:
 				}
 			}
 			if result != nil {
-				select {
-				case <-ctx.Done():
-					return
-				case nextOutgoingPublish.resultChan <- result:
-				}
+				nextOutgoingPublish.resultChan <- result // this should never block because it should be buffered by 1
 				nextOutgoingPublish = nil
 			}
 		}
 	}
 }
 
-// TODO: do we also want to return the PUBACK details?
+// TODO: Change the API surface to return the PUBACK details (currently unable to due to paho limitations, but we should futureproof)
 func (c *SessionClient) Publish(
 	ctx context.Context,
 	topic string,
 	payload []byte,
 	opts ...mqtt.PublishOption,
 ) error {
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
 	var opt mqtt.PublishOptions
 	opt.Apply(opts)
 

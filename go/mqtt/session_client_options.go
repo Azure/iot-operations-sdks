@@ -31,17 +31,6 @@ func WithConnRetry(
 	}
 }
 
-// WithFatalErrHandler sets fatalErrHandler for the MQTT session client.
-// The user-defined fatalErrHandler would be called
-// when fatal (non-retryable) connection errors happens.
-func WithFatalErrHandler(
-	fatalErrHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.fatalErrHandler = fatalErrHandler
-	}
-}
-
 // WithAuthErrHandler sets authErrHandler for the MQTT session client.
 // The user-defined function authErrHandler would be called
 // when auto reauthentication returns an error.
@@ -50,18 +39,6 @@ func WithAuthErrHandler(
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		c.authErrHandler = authErrHandler
-	}
-}
-
-// WithShutdownHandler sets shutdownHandler for the MQTT session client.
-// The user-defined function will be called
-// whenever the session client permanently disconnects
-// without automatic reconnection.
-func WithShutdownHandler(
-	shutdownHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.shutdownHandler = shutdownHandler
 	}
 }
 

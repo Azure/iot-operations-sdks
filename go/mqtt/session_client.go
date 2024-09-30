@@ -11,9 +11,7 @@ import (
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
@@ -45,20 +43,21 @@ type (
 		// The number of successful connections that have ocurred on the session client, up to and including the current Paho client instance.
 		connCount uint64
 
-		// Buffered channel containing the publish packets to be sent
+		// Mutex used to protect publishHandlers and publishHandlerTracker
+		incomingPublishHandlerMu sync.Mutex
+		// A slice of functions that listen for incoming publishes
+		incomingPublishHandlers []func(incomingPublish)
+		// A slice of unique IDs corresponding to the functions in incomingPublishHandlers, used to track handlers for removal.
+		incomingPublishHandlerIDs []uint64
+
+		// Buffered channel containing the PUBLISH packets to be sent
 		outgoingPublishes chan *outgoingPublish
 
 		// Paho's internal MQTT session tracker
 		session session.SessionManager
 
-		// **Connection**
 		connSettings *connectionSettings
 		connRetry    retrypolicy.RetryPolicy
-
-		// **Management**
-		// Subscriptions by topic filter.
-		subscriptions   map[string]*subscription
-		subscriptionsMu sync.Mutex
 
 		// The user-defined function would be called
 		// when auto reauthentication returns an error.
@@ -120,23 +119,6 @@ type (
 		// Last Will and Testament (LWT) option.
 		willMessage    *WillMessage
 		willProperties *WillProperties
-	}
-
-	subscription struct {
-		*SessionClient
-		topic   string
-		handler mqtt.MessageHandler
-		done    func()
-	}
-
-	// queuedPacket would hold packets such as
-	// paho.Subscribe, paho.Publish, or paho.Unsubscribe,
-	// and other necessary information.
-	queuedPacket struct {
-		packet any
-		errC   chan error
-		// For paho.Subscribe
-		*subscription
 	}
 )
 
@@ -223,24 +205,9 @@ func (c *SessionClient) initialize() {
 
 	c.session = state.NewInMemory()
 
-	c.subscriptions = map[string]*subscription{}
-	c.pendingPackets = internal.NewQueue[queuedPacket](maxPacketQueueSize)
-	c.packetQueueCond = *sync.NewCond(&c.packetQueueMu)
-
-	c.fatalErrHandler = func(e error) {
-		if e != nil {
-			c.error(fmt.Sprintf("fatal error occurred: %v", e.Error()))
-		}
-	}
 	c.authErrHandler = func(e error) {
 		if e != nil {
 			c.error(fmt.Sprintf("error during authentication: %v", e.Error()))
-		}
-	}
-	c.shutdownHandler = func(e error) {
-		c.info("client has been shut down")
-		if e != nil {
-			c.info(fmt.Sprintf("client shutdown reason: %v", e.Error()))
 		}
 	}
 
