@@ -36,7 +36,7 @@ type (
 		Version hlc.HybridLogicalClock
 	}
 
-	ResponseError = errors.Response
+	ServiceError  = errors.Service
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
 
@@ -45,7 +45,7 @@ type (
 )
 
 var (
-	ErrResponse = errors.ErrResponse
+	ErrService  = errors.ErrService
 	ErrPayload  = errors.ErrPayload
 	ErrArgument = errors.ErrArgument
 )

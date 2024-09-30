@@ -31,7 +31,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
   - [func \(o \*GetOptions\) Apply\(opts \[\]GetOption, rest ...GetOption\)](<#GetOptions.Apply>)
 - [type PayloadError](<#PayloadError>)
 - [type Response](<#Response>)
-- [type ResponseError](<#ResponseError>)
+- [type ServiceError](<#ServiceError>)
 - [type SetOption](<#SetOption>)
 - [type SetOptions](<#SetOptions>)
   - [func \(o \*SetOptions\) Apply\(opts \[\]SetOption, rest ...SetOption\)](<#SetOptions.Apply>)
@@ -46,11 +46,11 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 
 ## Variables
 
-<a name="ErrResponse"></a>
+<a name="ErrService"></a>
 
 ```go
 var (
-    ErrResponse = errors.ErrResponse
+    ErrService  = errors.ErrService
     ErrPayload  = errors.ErrPayload
     ErrArgument = errors.ErrArgument
 )
@@ -292,13 +292,13 @@ type Response[T any] struct {
 }
 ```
 
-<a name="ResponseError"></a>
-## type [ResponseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L39>)
+<a name="ServiceError"></a>
+## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L39>)
 
 
 
 ```go
-type ResponseError = errors.Response
+type ServiceError = errors.Service
 ```
 
 <a name="SetOption"></a>

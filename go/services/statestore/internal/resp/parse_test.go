@@ -11,8 +11,8 @@ import (
 
 func TestParseError(t *testing.T) {
 	_, err := resp.String([]byte("-ERR syntax error\r\n"))
-	require.Equal(t, "error response: ERR syntax error", err.Error())
-	require.True(t, errors.Is(err, statestore.ErrResponse))
+	require.Equal(t, "service error: syntax error", err.Error())
+	require.True(t, errors.Is(err, statestore.ErrService))
 }
 
 func TestParseString(t *testing.T) {

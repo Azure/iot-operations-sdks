@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
 )
@@ -23,7 +24,7 @@ func parseStr(typ byte, data []byte) (arg string, idx int, err error) {
 
 	switch data[0] {
 	case '-':
-		return "", 0, errors.Response(arg)
+		return "", 0, errors.Service(strings.TrimPrefix(arg, "ERR "))
 	case typ:
 		return arg, idx, nil
 	default:
