@@ -27,17 +27,15 @@ pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateS
 /// waiting for a `Set` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns `true` if the Set completed successfully, or `false` if the Set did not occur because of values specified in `SetOptions`
+/// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
 /// # Errors
-/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-/// - the `key` is empty
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
 ///
-/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-/// - the `timeout` is < 1 ms or > `u32::max`
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-/// - the State Store returns an Error response
-/// - the State Store returns a response that isn't valid for a `Set` request
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+///
+/// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
 ///
 /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
 pub async fn set(
@@ -56,15 +54,13 @@ pub async fn set(
 ///
 /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
 /// # Errors
-/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-/// - the `key` is empty
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
 ///
-/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-/// - the `timeout` is < 1 ms or > `u32::max`
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-/// - the State Store returns an Error response
-/// - the State Store returns a response that isn't valid for a `Get` request
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+///
+/// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
 ///
 /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
 pub async fn get(
@@ -79,17 +75,15 @@ pub async fn get(
 /// waiting for a `Delete` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns the number of keys deleted. Can be `0` if the key was not found, otherwise `1`
+/// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
 /// # Errors
-/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-/// - the `key` is empty
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
 ///
-/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-/// - the `timeout` is < 1 ms or > `u32::max`
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-/// - the State Store returns an Error response
-/// - the State Store returns a response that isn't valid for a `Delete` request
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+///
+/// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
 ///
 /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
 pub async fn del(
@@ -105,17 +99,15 @@ pub async fn del(
 /// waiting for a `V Delete` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns the number of keys deleted. Can be `0` if the key was not found or the value did not match, otherwise `1`
+/// Returns the number of keys deleted. Will be `0` if the key was not found or the value did not match, otherwise `1`
 /// # Errors
-/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
-/// - the `key` is empty
+/// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
 ///
-/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-/// - the `timeout` is < 1 ms or > `u32::max`
+/// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
 ///
-/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
-/// - the State Store returns an Error response
-/// - the State Store returns a response that isn't valid for a `V Delete` request
+/// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+///
+/// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
 ///
 /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
 pub async fn vdel(
@@ -188,26 +180,41 @@ pub async fn recv_notification(
   ) -> Result<state_store::KeyNotification, StateStoreError>
 
 // Request Relevant type(s)
+/// Options for a `Set` Request
 #[derive(Clone, Debug, Default)]
 pub struct SetOptions {
-    pub set_condition: SetCondition, // default is SetCondition::Unconditional
-    /// How long the key should persist before it expires
-    pub expires: Option<Duration>, // default is None
-    pub fencing_token: Option<HybridLogicalClock>, // default is None
+    /// Condition for the `Set` operation. Default is [`SetCondition::Unconditional`]
+    pub set_condition: SetCondition,
+    /// How long the key should persist before it expires, in millisecond precision.
+    pub expires: Option<Duration>,
+    /// Optional fencing token for the `Set` operation
+    pub fencing_token: Option<HybridLogicalClock>,
 }
 
+/// Condition for a `Set` Request
 #[derive(Clone, Debug, Default)]
 pub enum SetCondition {
+    /// The `Set` operation will only execute if the State Store does not have this key already.
     OnlyIfDoesNotExist,
+    /// The `Set` operation will only execute if the State Store does not have this key or it has this key and
+    /// the value in the State Store is equal to the value provided for this `Set` operation.
     OnlyIfEqualOrDoesNotExist,
+    /// The `Set` operation will execute regardless of if the key exists already and regardless of the value
+    /// of this key in the State Store.
     #[default]
     Unconditional,
 }
 
-// Return type
-pub struct state_store::Response<T> {
-  pub response: T,
-  pub version: Option<HybridLogicalClock>
+/// State Store Operation Response struct.
+#[derive(Debug)]
+pub struct state_store::Response<T>
+where
+    T: Debug,
+{
+    /// The version of the key as a [`HybridLogicalClock`].
+    pub version: Option<HybridLogicalClock>,
+    /// The response for the request. Will vary per operation.
+    pub response: T,
 }
 
 pub struct state_store::KeyNotification {
@@ -225,50 +232,74 @@ pub enum Operation {
 
 ## State Store Error
 ```rust
+/// Represents an error that occurred in the Azure IoT Operations State Store implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct StateStoreError(#[from] StateStoreErrorKind);
 
+/// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
 #[derive(Error, Debug)]
 pub enum StateStoreErrorKind {
+    /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
+    /// An error occurred from the State Store Service. See [`ServiceError`] for more information.
     #[error(transparent)]
     ServiceError(#[from] ServiceError),
+    /// The key length must not be zero.
     #[error("key length must not be zero")]
     KeyLengthZero,
+    /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
+    /// An argument provided for a request was invalid.
     #[error("{0}")]
     InvalidArgument(String),
+    /// The payload of the response does not match the expected type for the request.
+    #[error("Unexpected response payload for the request type: {0}")]
+    UnexpectedPayload(String),
 }
 
+/// Represents the errors that occur in the Azure IoT Operations State Store Service.
 #[derive(Error, Debug)]
 pub enum ServiceError {
+    /// The requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
     #[error("the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     TimestampSkew,
+    /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
     #[error("a fencing token is required for this request")]
     MissingFencingToken,
+    /// The requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
     #[error("the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     FencingTokenSkew,
+    /// The requested fencing token is a lower version that the fencing token protecting the resource.
     #[error("the requested fencing token is a lower version that the fencing token protecting the resource")]
     FencingTokenLowerVersion,
+    /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
     #[error("the quota has been exceeded")]
     QuotaExceeded,
+    /// The payload sent does not conform to state store's definition.
     #[error("syntax error")]
     SyntaxError,
+    /// The client is not authorized to perform the operation.
     #[error("not authorized")]
     NotAuthorized,
+    /// The command sent is not recognized by the state store.
     #[error("unknown command")]
     UnknownCommand,
+    /// The number of arguments sent in the command is incorrect.
     #[error("wrong number of arguments")]
     WrongNumberOfArguments,
+    /// The timestamp is missing on the request.
     #[error("missing timestamp")]
     TimestampMissing,
+    /// The timestamp or fencing token is malformed.
     #[error("malformed timestamp")]
     TimestampMalformed,
+    /// The key length is zero.
     #[error("the key length is zero")]
     KeyLengthZero,
+    /// An unknown error was received from the State Store Service.
     #[error("{0}")]
     Unknown(String),
 }
