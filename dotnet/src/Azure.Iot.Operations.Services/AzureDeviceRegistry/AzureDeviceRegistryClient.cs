@@ -127,34 +127,23 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
-        public async Task ObserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task ObserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (assetEndpointProfileFilesSystemWatcher == null)
             {
-                assetEndpointProfileFilesSystemWatcher = new(".");
+                assetEndpointProfileFilesSystemWatcher = new($".\\{AepTargetAddressRelativeMountPath}\\");
                 assetEndpointProfileFilesSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                assetEndpointProfileFilesSystemWatcher.IncludeSubdirectories = false;
 
-                //TODO how much do I care that this also triggers if someone changes an unrelated file with the same name? Seems unlikely
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepTargetAddressRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepAuthenticationMethodRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{EndpointProfileTypeRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepAdditionalConfigurationRelativeMountPath}");
-                
-                string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-                string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-                string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepUsernameSecretName}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepPasswordSecretName}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepCertificateSecretName}");
-                
                 assetEndpointProfileFilesSystemWatcher.Changed += OnAssetEndpointProfileFileChanged;
 
-                assetEndpointProfileFilesSystemWatcher.IncludeSubdirectories = true;
                 assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = true;
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -162,31 +151,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to unobserve.</param>
-        public async Task UnobserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task UnobserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (assetEndpointProfileFilesSystemWatcher != null)
             {
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepTargetAddressRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepAuthenticationMethodRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{EndpointProfileTypeRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{AepAdditionalConfigurationRelativeMountPath}");
-
-                string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-                string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-                string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepUsernameSecretName}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepPasswordSecretName}");
-                assetEndpointProfileFilesSystemWatcher.Filters.Add($"{aepCertificateSecretName}");
-
                 assetEndpointProfileFilesSystemWatcher.Changed -= OnAssetEndpointProfileFileChanged;
 
                 assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = false;
                 assetEndpointProfileFilesSystemWatcher.Dispose();
                 assetEndpointProfileFilesSystemWatcher = null;
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
