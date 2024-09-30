@@ -196,13 +196,13 @@ impl Response {
     const RESPONSE_LENGTH_PREFIX: &'static [u8] = b"$";
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
 
-    fn parse_error(payload: &[u8]) -> Vec<u8> {
+    fn parse_error(payload: &[u8]) -> Result<Vec<u8>, String> {
         if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX) {
             if let Some(err_msg) = err.strip_suffix(Self::RESPONSE_SUFFIX) {
-                return err_msg.to_vec();
+                return Ok(err_msg.to_vec());
             }
         }
-        payload.to_vec()
+        Err(format!("Invalid error response: {payload:?}"))
     }
 }
 
@@ -227,7 +227,7 @@ impl PayloadSerialize for Response {
             | Self::RESPONSE_KEY_NOT_FOUND
             | Self::RESPONSE_SET_NOT_APPLIED => Ok(Response::NotFound),
             _ if payload.starts_with(Self::RESPONSE_ERROR_PREFIX) => {
-                Ok(Response::Error(Self::parse_error(payload)))
+                Ok(Response::Error(Self::parse_error(payload)?))
             }
             _ if payload.starts_with(Self::RESPONSE_LENGTH_PREFIX) => Ok(Response::Value(
                 parse_value(payload, Self::RESPONSE_LENGTH_PREFIX)?,
@@ -336,7 +336,7 @@ mod tests {
 
     use super::*;
 
-    // ------------- Response Tests -------------
+    // ------------- Deserialize Response Tests -------------
 
     #[test]
     fn test_set_response() {
@@ -414,7 +414,6 @@ mod tests {
         ));
     }
 
-    // TODO: double check whether there should be a ':' after ERR
     #[test]
     fn test_error_response() {
         assert_eq!(
@@ -439,7 +438,7 @@ mod tests {
     #[test_case(b"$11\r\nthis string is longer than 11 characters\r\n"; "length not accurate")]
     #[test_case(b"-ERR\r\n"; "Malformed error")]
     #[test_case(b"ERR description\r\n"; "Error missing minus")]
-    // #[test_case(b"-ERR description"; "Error missing newline")] // TODO: Fix
+    #[test_case(b"-ERR description"; "Error missing newline")]
     #[test_case(b":"; "Delete response too short")]
     #[test_case(b"1234\r\n"; "Delete response doesn't start with colon")]
     #[test_case(b":1234"; "Delete response doesn't end with newline")]
@@ -462,17 +461,31 @@ mod tests {
         );
     }
 
-    // ---------------- Serialize tests -----------------------
-    #[test]
-    fn test_serialize_set() {
+    // ---------------- Serialize Request tests -----------------------
+    #[test_case(SetOptions::default(),
+        b"*3\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n";
+        "default")]
+    #[test_case(SetOptions {set_condition: SetCondition::OnlyIfDoesNotExist, ..Default::default()},
+        b"*4\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n$2\r\nNX\r\n";
+        "OnlyIfDoesNotExist")]
+    #[test_case(SetOptions {set_condition: SetCondition::OnlyIfEqualOrDoesNotExist, ..Default::default()},
+        b"*4\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n$3\r\nNEX\r\n";
+        "OnlyIfEqualOrDoesNotExist")]
+    #[test_case(SetOptions {expires: Some(Duration::from_millis(10)), ..Default::default()},
+        b"*5\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n$2\r\nPX\r\n$2\r\n10\r\n";
+        "expires set")]
+    #[test_case(SetOptions {fencing_token: Some(HybridLogicalClock::new()), ..Default::default()},
+        b"*3\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n";
+        "fencing token set")]
+    fn test_serialize_set_options(set_options: SetOptions, expected: &[u8]) {
         assert_eq!(
             Request::serialize(&Request::Set(
                 b"testkey".to_vec(),
                 b"testvalue".to_vec(),
-                SetOptions::default()
+                set_options
             ))
             .unwrap(),
-            b"*3\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n"
+            expected
         );
     }
 
@@ -486,6 +499,31 @@ mod tests {
             ))
             .unwrap(),
             b"*3\r\n$3\r\nSET\r\n$0\r\n\r\n$0\r\n\r\n"
+        );
+    }
+
+    #[test]
+    fn test_serialize_get() {
+        assert_eq!(
+            Request::serialize(&Request::Get(b"testkey".to_vec(),)).unwrap(),
+            b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n"
+        );
+    }
+
+    #[test]
+    fn test_serialize_del() {
+        assert_eq!(
+            Request::serialize(&Request::Del(b"testkey".to_vec(),)).unwrap(),
+            b"*2\r\n$3\r\nDEL\r\n$7\r\ntestkey\r\n"
+        );
+    }
+
+    #[test]
+    fn test_serialize_vdel() {
+        assert_eq!(
+            Request::serialize(&Request::VDel(b"testkey".to_vec(), b"testvalue".to_vec(),))
+                .unwrap(),
+            b"*3\r\n$4\r\nVDEL\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n"
         );
     }
 }

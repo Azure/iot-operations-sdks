@@ -91,7 +91,7 @@ where
         options: SetOptions,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
             .payload(&state_store::resp3::Request::Set(
@@ -138,7 +138,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
             .payload(&state_store::resp3::Request::Get(key))
@@ -182,7 +182,7 @@ where
     ) -> Result<state_store::Response<usize>, StateStoreError> {
         // ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::Del(key),
@@ -215,7 +215,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<usize>, StateStoreError> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::VDel(key, value),
@@ -251,3 +251,174 @@ where
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::time::Duration;
+
+    // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+
+    use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
+
+    // TODO: This should return a mock MqttProvider instead
+    fn get_mqtt_provider() -> Session {
+        // TODO: Make a real mock that implements MqttProvider
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .host_name("localhost")
+            .client_id("test_client")
+            .build()
+            .unwrap();
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()
+            .unwrap();
+        Session::new(session_options).unwrap()
+    }
+
+    #[tokio::test]
+    async fn test_set_empty_key() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .set(
+                vec![],
+                b"testValue".to_vec(),
+                Duration::from_secs(1),
+                SetOptions::default(),
+            )
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_empty_key() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_del_empty_key() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .del(vec![], None, Duration::from_secs(1))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_vdel_empty_key() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .vdel(vec![], b"testValue".to_vec(), None, Duration::from_secs(1))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_set_invalid_timeout() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .set(
+                b"testKey".to_vec(),
+                b"testValue".to_vec(),
+                Duration::from_nanos(50),
+                SetOptions::default(),
+            )
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_invalid_timeout() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .get(b"testKey".to_vec(), Duration::from_nanos(50))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_del_invalid_timeout() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .del(b"testKey".to_vec(), None, Duration::from_nanos(50))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_vdel_invalid_timeout() {
+        let mut mqtt_provider = get_mqtt_provider();
+        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let response = state_store_client
+            .vdel(
+                b"testKey".to_vec(),
+                b"testValue".to_vec(),
+                None,
+                Duration::from_nanos(50),
+            )
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+}
+
+// TODO: Live network tests
+//     - set("somekey", "somevalue", timeout, SetOptions::default())
+//         - default setOptions
+//             - valid new key/value
+//             - valid existing key/value
+//         - with/without fencing token where fencing_token required
+//         - with/without fencing token where fencing_token not required
+//         - with expires set (wait and then validate key can no longer be gotten?)
+//         - setCondition OnlyIfDoesNotExist where key doesn't exist
+//         - setCondition OnlyIfDoesNotExist where key exists
+//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and is equal
+//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and isn't equal
+//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and is equal
+//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and isn't equal
+//    - get("somekey", timeout) where "somekey" exists
+//         - non-existent key
+//    - del
+//         - valid key
+//         - non-existent key
+//         - with/without fencing token where fencing_token required
+//         - with/without fencing token where fencing_token not required
+//     - vdel
+//         - valid key/value
+//         - non-existent key
+//         - value doesn't match
+//         - with/without fencing token where fencing_token required
+//         - with/without fencing token where fencing_token not required

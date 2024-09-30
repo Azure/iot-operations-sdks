@@ -47,8 +47,7 @@ async fn state_store_loop(
     state_store_client: state_store::Client<SessionPubSub, SessionPubReceiver>,
     exit_handle: SessionExitHandle,
 ) {
-    let state_store_key = b"someKey2";
-    // let state_store_key3 = Bytes::from("someOtherKey");
+    let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
 
