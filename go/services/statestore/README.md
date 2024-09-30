@@ -103,7 +103,7 @@ New creates a new state store client. It takes the key and value types as parame
 func (c *Client[K, V]) Del(ctx context.Context, key K, opt ...DelOption) (*Response[int], error)
 ```
 
-Del deletes the value of the given key. It returns the number of values deleted \(typically 0 or 1\).
+Del deletes the given key. It returns the number of keys deleted \(typically 0 or 1\).
 
 <a name="Client[K, V].Get"></a>
 ### func \(\*Client\[K, V\]\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L26-L30>)
@@ -112,7 +112,7 @@ Del deletes the value of the given key. It returns the number of values deleted 
 func (c *Client[K, V]) Get(ctx context.Context, key K, opt ...GetOption) (*Response[V], error)
 ```
 
-Get the value and version of the given key. If the key is not present, it returns nil and a zero version; if the key is present but empty, it returns an empty slice and the stored version.
+Get the value and version of the given key. If the key is not present, it returns a fully zero response struct; if the key is present but empty, it returns an empty value and the stored version.
 
 <a name="Client[K, V].Listen"></a>
 ### func \(\*Client\[K, V\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L86>)
@@ -139,7 +139,7 @@ Set the value of the given key. If the key is successfully set, it returns true 
 func (c *Client[K, V]) VDel(ctx context.Context, key K, val V, opt ...VDelOption) (*Response[int], error)
 ```
 
-VDel deletes the value of the given key if it is equal to the given value. It returns the number of values deleted \(typically 0 or 1\), or \-1 if the value was present but did not match the given value.
+VDel deletes the given key if it is equal to the given value. It returns the number of values deleted \(typically 0 or 1\) or \-1 if the key was present but did not match the given value.
 
 <a name="ClientOption"></a>
 ## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L24>)

@@ -22,9 +22,9 @@ type (
 
 const vdel = "VDEL"
 
-// VDel deletes the value of the given key if it is equal to the given value.
-// It returns the number of values deleted (typically 0 or 1), or -1 if the
-// value was present but did not match the given value.
+// VDel deletes the given key if it is equal to the given value. It returns the
+// number of values deleted (typically 0 or 1) or -1 if the key was present but
+// did not match the given value.
 func (c *Client[K, V]) VDel(
 	ctx context.Context,
 	key K,

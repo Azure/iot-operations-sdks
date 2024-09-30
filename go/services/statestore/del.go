@@ -22,8 +22,8 @@ type (
 
 const del = "DEL"
 
-// Del deletes the value of the given key. It returns the number of values
-// deleted (typically 0 or 1).
+// Del deletes the given key. It returns the number of keys deleted
+// (typically 0 or 1).
 func (c *Client[K, V]) Del(
 	ctx context.Context,
 	key K,

@@ -21,8 +21,8 @@ type (
 const get = "GET"
 
 // Get the value and version of the given key. If the key is not present, it
-// returns nil and a zero version; if the key is present but empty, it returns
-// an empty slice and the stored version.
+// returns a fully zero response struct; if the key is present but empty, it
+// returns an empty value and the stored version.
 func (c *Client[K, V]) Get(
 	ctx context.Context,
 	key K,
