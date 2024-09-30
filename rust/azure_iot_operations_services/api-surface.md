@@ -11,6 +11,14 @@ where
     observed_keys: Arc<Mutex<HashSet<Vec<u8>>>>, // This may not be needed depending on key notification implementation
 }
 
+/// Create a new State Store Client
+/// # Errors
+/// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
+///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
+///
+/// # Panics
+/// Possible panics when building options for the underlying command invoker or telemetry receiver,
+/// but they should be unreachable because we control the static parameters that go into these calls.
 pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateStoreError>;
 
 /// Sets a key value pair in the State Store Service
@@ -19,7 +27,7 @@ pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateS
 /// waiting for a `Set` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns `Some(())` if the Set completed successfully, or `None` if the Set did not occur because of values specified in `SetOptions`
+/// Returns `true` if the Set completed successfully, or `false` if the Set did not occur because of values specified in `SetOptions`
 /// # Errors
 /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
@@ -38,7 +46,7 @@ pub async fn set(
       value: Vec<u8>,
       timeout: Duration,
       options: SetOptions,
-  ) -> Result<state_store::Response<Option<()>>, StateStoreError>;
+  ) -> Result<state_store::Response<bool>, StateStoreError>;
 
 /// Gets the value of a key in the State Store Service
 /// 
@@ -71,7 +79,7 @@ pub async fn get(
 /// waiting for a `Delete` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns `Some(())` if the key is found and deleted or `None` if the key was not found
+/// Returns the number of keys deleted. Can be `0` if the key was not found, otherwise `1`
 /// # Errors
 /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
@@ -89,7 +97,7 @@ pub async fn del(
       key: Vec<u8>,
       fencing_token: Option<HybridLogicalClock>,
       timeout: Duration,
-  ) -> Result<state_store::Response<Option<()>>, StateStoreError>;
+  ) -> Result<state_store::Response<usize>, StateStoreError>;
 
 /// Deletes a key from the State Store Service if and only if the value matches the one provided
 /// 
@@ -97,7 +105,7 @@ pub async fn del(
 /// waiting for a `V Delete` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns `Some(())` if the key is found and deleted or `None` if the key was not found
+/// Returns the number of keys deleted. Can be `0` if the key was not found or the value did not match, otherwise `1`
 /// # Errors
 /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
@@ -116,7 +124,7 @@ pub async fn vdel(
       value: Vec<u8>,
       fencing_token: Option<HybridLogicalClock>,
       timeout: Duration,
-  ) -> Result<state_store::Response<Option<()>>, StateStoreError>;
+  ) -> Result<state_store::Response<usize>, StateStoreError>;
 
 /// Starts observation of any changes on a key from the State Store Service
 /// 
@@ -151,7 +159,7 @@ pub async fn observe(
 /// waiting for an `Unobserve` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns `Some(())` if the key is no longer being observed or `None` if the key wasn't being observed
+/// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
 /// # Errors
 /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
 /// - the `key` is empty
@@ -170,7 +178,7 @@ pub async fn unobserve(
       &mut self,
       key: Vec<u8>,
       timeout: Duration,
-  ) -> Result<state_store::Response<Option<()>>, StateStoreError>;
+  ) -> Result<state_store::Response<bool>, StateStoreError>;
 
 /// Recv a key notification
 /// # Errors
@@ -183,7 +191,8 @@ pub async fn recv_notification(
 #[derive(Clone, Debug, Default)]
 pub struct SetOptions {
     pub set_condition: SetCondition, // default is SetCondition::Unconditional
-    pub expires_millis: Option<u64>, // default is None
+    /// How long the key should persist before it expires
+    pub expires: Option<Duration>, // default is None
     pub fencing_token: Option<HybridLogicalClock>, // default is None
 }
 
