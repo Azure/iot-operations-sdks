@@ -7,13 +7,13 @@ import (
 )
 
 type CountdownEvent struct {
-	remainingCount int32
+	remainingCount int64
 	signalChan     chan struct{}
 }
 
 func NewCountdownEvent(initialCount int) *CountdownEvent {
 	return &CountdownEvent{
-		remainingCount: int32(initialCount),
+		remainingCount: int64(initialCount),
 		signalChan:     make(chan struct{}, initialCount),
 	}
 }
@@ -33,7 +33,7 @@ func (c *CountdownEvent) Wait(ctx context.Context) error {
 }
 
 func (c *CountdownEvent) Signal() {
-	if atomic.AddInt32(&c.remainingCount, -1) <= 0 {
+	if atomic.AddInt64(&c.remainingCount, -1) <= 0 {
 		c.signalChan <- struct{}{}
 	}
 }

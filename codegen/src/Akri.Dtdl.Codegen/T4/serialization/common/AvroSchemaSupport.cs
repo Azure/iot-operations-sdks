@@ -15,7 +15,7 @@ namespace Akri.Dtdl.Codegen
 
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
-                var templateTransform = new ObjectAvroSchema(dtmiToSchemaName(dtSchema.Id, "Object"), ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema)).ToList(), dtmiToSchemaName, indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new ObjectAvroSchema(dtmiToSchemaName(dtSchema.Id, "Object"), ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), dtmiToSchemaName, indent + (nestNamedType ? 2 : 0));
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
@@ -63,6 +63,11 @@ namespace Akri.Dtdl.Codegen
         {
             string indentation = new string(' ', indent);
             return $"{indentation}\"type\": {{\r\n{code}\r\n{indentation}}}";
+        }
+
+        private static bool IsRequired(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
         }
     }
 }

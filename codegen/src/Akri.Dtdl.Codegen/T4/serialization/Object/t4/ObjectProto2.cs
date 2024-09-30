@@ -39,15 +39,15 @@ namespace Akri.Dtdl.Codegen
             this.Write("\r\nmessage ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schema));
             this.Write(" {\r\n");
- foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { 
+ foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { 
             this.Write("    optional ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ProtobufSupport.GetType(nameDescSchemaIndex.Item3, this.dtmiToSchemaName)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ProtobufSupport.GetType(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)));
             this.Write(" ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item1));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item1));
             this.Write(" = ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item4));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item5));
             this.Write("; // ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaIndex.Item2));
+            this.Write(this.ToStringHelper.ToStringWithCulture(nameDescSchemaRequiredIndex.Item2));
             this.Write("\r\n");
  } 
             this.Write("}\r\n");

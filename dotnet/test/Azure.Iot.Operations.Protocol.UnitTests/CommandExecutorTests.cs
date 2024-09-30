@@ -667,7 +667,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(serializer.ToBytes(payload + payload + 1), mock.MessagePublished.PayloadSegment.Array);
         }
 
-        [Fact(Skip = "falcky")]
+        [Fact(Skip = "flaky")]
         public async Task DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicContainsExecutorId_NotRetrievedFromCache()
         {
             MockMqttPubSubClient mock = new();
@@ -806,7 +806,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
         }
 
-        [Fact(Skip = "flacky")]
+        [Fact(Skip = "flaky")]
         public async Task EquivalentRequest_NonIdempotent_NotRetrievedFromCache()
         {
             MockMqttPubSubClient mock = new();
@@ -1010,7 +1010,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(serializer.ToBytes(payload + payload + 1), mock.MessagePublished.PayloadSegment.Array);
         }
 
-        [Fact(Skip = "flacky")]
+        [Fact(Skip = "flaky")]
         public async Task EquivalentRequest_Idempotent_CacheExpired_NotRetrievedFromCache()
         {
             MockMqttPubSubClient mock = new();
@@ -1280,7 +1280,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var payloadSerializer = new Utf8JsonSerializer();
             var requestTopic = $"mock/extraEcho";
-            var responseTopic = "mock/extraExco/response";
+            var responseTopic = "mock/extraEcho/response";
             var message = new MqttApplicationMessage(requestTopic)
             {
                 PayloadSegment = payloadSerializer.ToBytes(nameof(RequestTopicMismatch_MessageDiscarded)) ?? Array.Empty<byte>(),
@@ -1344,10 +1344,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.NotNull(mock.MessagePublished);
             Assert.Null(mock.MessagePublished.PayloadSegment.Array);
 
-            Assert.True(mock.MessagePublished.UserProperties.TryGetProperty(AkriSystemProperties.Status, out string? cmdStatus));
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? cmdStatus));
             Assert.Equal(((int)CommandStatusCode.BadRequest).ToString(CultureInfo.InvariantCulture), cmdStatus);
 
-            Assert.False(mock.MessagePublished.UserProperties.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) && isAppError?.ToLower() == "true");
+            Assert.False(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) && isAppError?.ToLower() == "true");
         }
 
         [Fact]

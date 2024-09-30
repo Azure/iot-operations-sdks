@@ -8,15 +8,15 @@ namespace Akri.Dtdl.Codegen
         private readonly string projectName;
         private readonly string genNamespace;
         private readonly string schema;
-        private readonly List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
         private readonly DtmiToSchemaName dtmiToSchemaName;
 
-        public TelemetryAvroSchema(string projectName, string genNamespace, string schema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices, DtmiToSchemaName dtmiToSchemaName)
+        public TelemetryAvroSchema(string projectName, string genNamespace, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
-            this.nameDescSchemaIndices = nameDescSchemaIndices;
+            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
             this.dtmiToSchemaName = dtmiToSchemaName;
         }
 
