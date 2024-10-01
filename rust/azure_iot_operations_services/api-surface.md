@@ -92,7 +92,7 @@ pub async fn del(
       key: Vec<u8>,
       fencing_token: Option<HybridLogicalClock>,
       timeout: Duration,
-  ) -> Result<state_store::Response<usize>, StateStoreError>;
+  ) -> Result<state_store::Response<i64>, StateStoreError>;
 
 /// Deletes a key from the State Store Service if and only if the value matches the one provided
 /// 
@@ -100,7 +100,7 @@ pub async fn del(
 /// waiting for a `V Delete` response from the Service. This value is not linked
 /// to the key in the State Store.
 ///
-/// Returns the number of keys deleted. Will be `0` if the key was not found or the value did not match, otherwise `1`
+/// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
 /// # Errors
 /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
 ///
@@ -117,7 +117,7 @@ pub async fn vdel(
       value: Vec<u8>,
       fencing_token: Option<HybridLogicalClock>,
       timeout: Duration,
-  ) -> Result<state_store::Response<usize>, StateStoreError>;
+  ) -> Result<state_store::Response<i64>, StateStoreError>;
 
 /// Starts observation of any changes on a key from the State Store Service
 /// 
