@@ -6,13 +6,13 @@
 <# } #>
 "type": "record",
 "fields": [
-<# foreach (var nameSchema in this.nameSchemas) { #>
+<# foreach (var nameSchemaRequired in this.nameSchemaRequireds) { #>
   {
-    "name": "<#=nameSchema.Item1#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(nameSchema.Item2, this.dtmiToSchemaName, 4, nullable: true, nestNamedType: true)#>
-  }<#=this.IsLast(nameSchema) ? "" : ","#>
+    "name": "<#=nameSchemaRequired.Item1#>",
+<#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, this.dtmiToSchemaName, 4, nullable: !nameSchemaRequired.Item3, nestNamedType: true)#>
+  }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
 <# } #>
 ]<# this.PopIndent(); #>
 <#+
-    private bool IsLast((string, DTSchemaInfo) nameSchema) => nameSchema.Item1 == this.nameSchemas.Last().Item1;
+    private bool IsLast((string, DTSchemaInfo, bool) nameSchemaRequired) => nameSchemaRequired.Item1 == this.nameSchemaRequireds.Last().Item1;
 #>

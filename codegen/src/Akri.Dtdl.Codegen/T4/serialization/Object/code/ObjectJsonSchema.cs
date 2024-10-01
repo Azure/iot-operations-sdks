@@ -1,6 +1,7 @@
 namespace Akri.Dtdl.Codegen
 {
     using System.Collections.Generic;
+    using System.Linq;
     using DTDLParser.Models;
 
     public partial class ObjectJsonSchema : ITemplateTransform
@@ -10,11 +11,11 @@ namespace Akri.Dtdl.Codegen
         private readonly string versionSuffix;
         private readonly string description;
         private readonly string schema;
-        private readonly List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
         private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly bool setIndex;
 
-        public ObjectJsonSchema(string genNamespace, string objectId, string description, string schema, List<(string, string, DTSchemaInfo, int)> nameDescSchemaIndices, DtmiToSchemaName dtmiToSchemaName, bool setIndex)
+        public ObjectJsonSchema(string genNamespace, string objectId, string description, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName, bool setIndex)
         {
             int semiIndex = objectId.IndexOf(';');
             int bareIdLength = semiIndex >= 0 ? semiIndex : objectId.Length;
@@ -25,7 +26,7 @@ namespace Akri.Dtdl.Codegen
             this.genNamespace = genNamespace;
             this.description = description;
             this.schema = schema;
-            this.nameDescSchemaIndices = nameDescSchemaIndices;
+            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
             this.dtmiToSchemaName = dtmiToSchemaName;
             this.setIndex = setIndex;
         }

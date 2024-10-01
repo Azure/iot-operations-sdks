@@ -6,14 +6,14 @@ namespace Akri.Dtdl.Codegen
     public partial class ObjectAvroSchema : ITemplateTransform
     {
         private readonly string? schema;
-        private readonly List<(string, DTSchemaInfo)> nameSchemas;
+        private readonly List<(string, DTSchemaInfo, bool)> nameSchemaRequireds;
         private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly int indent;
 
-        public ObjectAvroSchema(string? schema, List<(string, DTSchemaInfo)> nameSchemas, DtmiToSchemaName dtmiToSchemaName, int indent)
+        public ObjectAvroSchema(string? schema, List<(string, DTSchemaInfo, bool)> nameSchemaRequireds, DtmiToSchemaName dtmiToSchemaName, int indent)
         {
             this.schema = schema;
-            this.nameSchemas = nameSchemas;
+            this.nameSchemaRequireds = nameSchemaRequireds;
             this.dtmiToSchemaName = dtmiToSchemaName;
             this.indent = indent;
         }
