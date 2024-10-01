@@ -133,7 +133,7 @@ pub trait MqttEventLoop {
 // ---------- Higher level MQTT abstractions ----------
 
 /// An MQTT client that has it's connection state externally managed.
-/// Can be used to send and receive messages.
+/// Can be used to send messages and create receivers for incoming messages.
 pub trait ManagedClient: MqttPubSub {
     /// The type of receiver used by this client
     type PubReceiver: PubReceiver + MqttAck;
@@ -153,7 +153,7 @@ pub trait ManagedClient: MqttPubSub {
 }
 
 #[async_trait]
-/// Functionality for receiving an MQTT publish
+/// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
     /// Receives the next incoming publish.
     ///
