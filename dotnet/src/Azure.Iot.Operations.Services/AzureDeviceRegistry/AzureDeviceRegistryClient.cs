@@ -142,7 +142,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                         $"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}",
                         $"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}",
                         $"{_aepCertMountPath}/{aepCertificateSecretName}",
-                    });
+                    }, 
+                    pollingInterval);
 
                 assetEndpointProfileFileObservers.Add(assetId, assetEndpointObserver);
 
