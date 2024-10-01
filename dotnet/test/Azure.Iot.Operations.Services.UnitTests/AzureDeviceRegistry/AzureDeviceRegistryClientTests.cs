@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                     assetEndpointProfileTcs.TrySetResult(assetEndpointProfile);
                 };
 
-                await adrClient.ObserveAssetEndpointProfileAsync("someAssetId");
+                await adrClient.ObserveAssetEndpointProfileAsync("someAssetId", TimeSpan.FromMilliseconds(1000));
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
