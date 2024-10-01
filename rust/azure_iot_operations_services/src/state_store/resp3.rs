@@ -198,7 +198,9 @@ pub(crate) enum Response {
     /// Successful `Get` response
     Value(Vec<u8>),
     /// Successful `Del` or `VDel` response. Specifies the number of keys deleted
-    ValuesDeleted(usize),
+    ValuesDeleted(i64),
+    /// 'Set' or `VDel` not applied because of conditions provided
+    NotApplied,
     /// Key not found for `Get`, `Del`, or `VDel` or parameters caused the operation to not be applied for `Set` or `VDel`
     NotFound,
     /// Description of error because of invalid request
@@ -211,7 +213,7 @@ impl Response {
     const RESPONSE_ERROR_PREFIX: &'static [u8] = b"-ERR ";
     const RESPONSE_SUFFIX: &'static [u8] = b"\r\n";
     const GET_RESPONSE_NOT_FOUND: &'static [u8] = b"$-1\r\n";
-    const RESPONSE_SET_NOT_APPLIED: &'static [u8] = b":-1\r\n";
+    const RESPONSE_NOT_APPLIED: &'static [u8] = b":-1\r\n";
     const RESPONSE_KEY_NOT_FOUND: &'static [u8] = b":0\r\n";
     const RESPONSE_LENGTH_PREFIX: &'static [u8] = b"$";
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
@@ -243,9 +245,8 @@ impl PayloadSerialize for Response {
     fn deserialize(payload: &[u8]) -> Result<Self, String> {
         match payload {
             Self::RESPONSE_OK => Ok(Response::Ok),
-            Self::GET_RESPONSE_NOT_FOUND
-            | Self::RESPONSE_KEY_NOT_FOUND
-            | Self::RESPONSE_SET_NOT_APPLIED => Ok(Response::NotFound),
+            Self::GET_RESPONSE_NOT_FOUND | Self::RESPONSE_KEY_NOT_FOUND => Ok(Response::NotFound),
+            Self::RESPONSE_NOT_APPLIED => Ok(Response::NotApplied),
             _ if payload.starts_with(Self::RESPONSE_ERROR_PREFIX) => {
                 Ok(Response::Error(Self::parse_error(payload)?))
             }
@@ -253,7 +254,9 @@ impl PayloadSerialize for Response {
                 parse_value(payload, Self::RESPONSE_LENGTH_PREFIX)?,
             )),
             _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => Ok(Response::ValuesDeleted(
-                parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?,
+                parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?
+                    .try_into()
+                    .unwrap(), // TODO: to error
             )),
             _ => Err(format!("Unknown response: {payload:?}")),
         }
@@ -363,12 +366,12 @@ mod tests {
     // ------------- Deserialize Response Tests -------------
 
     #[test_case(b"+OK\r\n", &Response::Ok; "test_set_response")]
-    #[test_case(b":-1\r\n", &Response::NotFound; "test_did_not_set_response")]
+    #[test_case(b":-1\r\n", &Response::NotApplied; "test_did_not_set_response")]
     #[test_case(b"$4\r\n1234\r\n", &Response::Value(b"1234".to_vec()); "test_get_response_success")]
     #[test_case(b"$0\r\n\r\n", &Response::Value(b"".to_vec()); "test_get_response_empty_success")]
     #[test_case(b"$-1\r\n", &Response::NotFound; "test_get_response_no_key")]
     #[test_case(b":1\r\n", &Response::ValuesDeleted(1); "test_del_response")] // Same as vdel response
-    #[test_case(b":-1\r\n", &Response::NotFound; "test_vdel_no_match_response")]
+    #[test_case(b":-1\r\n", &Response::NotApplied; "test_vdel_no_match_response")]
     #[test_case(b":6\r\n", &Response::ValuesDeleted(6); "test_del_multiple_response")] // this isn't currently possible, but could be in the future. same as a vdel response
     #[test_case(b":0\r\n", &Response::NotFound; "test_del_no_key")] // same as a vdel response
     #[test_case(b"-ERR syntax error\r\n", &Response::Error(b"syntax error".to_vec()); "test_error_response")]

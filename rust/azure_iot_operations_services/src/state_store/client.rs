@@ -111,7 +111,7 @@ where
                 .await
                 .map_err(StateStoreErrorKind::from)?,
             |payload| match payload {
-                state_store::resp3::Response::NotFound => Ok(false),
+                state_store::resp3::Response::NotApplied => Ok(false),
                 state_store::resp3::Response::Ok => Ok(true),
                 _ => Err(()),
             },
@@ -184,7 +184,7 @@ where
         key: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<usize>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, StateStoreError> {
         // ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
@@ -203,7 +203,7 @@ where
     /// waiting for a `V Delete` response from the Service. This value is not linked
     /// to the key in the State Store.
     ///
-    /// Returns the number of keys deleted. Will be `0` if the key was not found or the value did not match, otherwise `1`
+    /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
@@ -220,7 +220,7 @@ where
         value: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<usize>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, StateStoreError> {
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
@@ -237,7 +237,7 @@ where
         request: state_store::resp3::Request,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<usize>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, StateStoreError> {
         let request = CommandRequestBuilder::default()
             .payload(&request)
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
@@ -252,6 +252,7 @@ where
                 .map_err(StateStoreErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::NotFound => Ok(0),
+                state_store::resp3::Response::NotApplied => Ok(-1),
                 state_store::resp3::Response::ValuesDeleted(value) => Ok(value),
                 _ => Err(()),
             },

@@ -71,7 +71,7 @@ async fn main() {
 // VDEL
 //    20. where key exists and value matches
 //    21. where key does not exist (expect success that indicates 0 keys were deleted)
-//    22. where key exists and value doesn't match (expect success that indicates 0 keys were deleted) // TODO: should be -1
+//    22. where key exists and value doesn't match (expect success that indicates -1 keys were deleted
 //    23. with fencing token where fencing_token required
 //    24. without fencing token where fencing_token required (expect error)
 //    25. without fencing token where fencing_token not required
@@ -381,7 +381,7 @@ async fn state_store_tests(
     );
     key4_fencing_token = set_if_equal_or_not_exist_does_not_exist.version.unwrap();
 
-    // Tests 22 (where key exists and value doesn't match (expect success that indicates 0 keys were deleted))
+    // Tests 22 (where key exists and value doesn't match (expect success that indicates -1 keys were deleted))
     let v_delete_value_mismatch = state_store_client
         .vdel(
             key4.to_vec(),
@@ -391,7 +391,7 @@ async fn state_store_tests(
         )
         .await
         .unwrap();
-    assert_eq!(v_delete_value_mismatch.response, 0); // TODO: should be -1
+    assert_eq!(v_delete_value_mismatch.response, -1);
     log::info!(
         "v_delete_value_mismatch response: {:?}",
         v_delete_value_mismatch
