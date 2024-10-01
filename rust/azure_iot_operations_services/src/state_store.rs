@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! APIs for State Store operations.
+//! Types for State Store operations.
 
 use core::fmt::Debug;
 
