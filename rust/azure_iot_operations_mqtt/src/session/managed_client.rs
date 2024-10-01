@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+//! Internal implementation of [`SessionManagedClient`] and [`SessionPubReceiver`].
+
 use std::collections::HashSet;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
