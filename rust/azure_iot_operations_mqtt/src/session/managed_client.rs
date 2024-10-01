@@ -10,7 +10,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
+use crate::interface::{ManagedClient, PubReceiver, MqttAck, MqttPubSub};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::PubTracker;
 use crate::topic::{TopicFilter, TopicParseError};
@@ -169,7 +169,7 @@ impl SessionPubReceiver {
 }
 
 #[async_trait]
-impl MqttPubReceiver for SessionPubReceiver {
+impl PubReceiver for SessionPubReceiver {
     async fn recv(&mut self) -> Option<Publish> {
         let result = self.pub_rx.recv().await;
         if let Some(publish) = &result {

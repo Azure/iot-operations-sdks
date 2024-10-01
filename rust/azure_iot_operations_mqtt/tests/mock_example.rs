@@ -8,7 +8,7 @@ use tokio::select;
 
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::ConnectionError;
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttEventLoop, MqttPubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttEventLoop};
 use azure_iot_operations_mqtt::session::{
     reconnect_policy::ExponentialBackoffWithJitter, session::Session,
 };
@@ -67,7 +67,7 @@ async fn mock_event_loop() {
         .unwrap();
 
     #[allow(clippy::items_after_statements)]
-    async fn receive_publish(injector: Sender<Event>, pub_receiver: &mut impl MqttPubReceiver) {
+    async fn receive_publish(injector: Sender<Event>, pub_receiver: &mut impl PubReceiver) {
         injector
             .send_async(Event::Incoming(Incoming::Publish(Publish {
                 dup: false,

@@ -132,25 +132,16 @@ pub trait MqttEventLoop {
 
 // ---------- Higher level MQTT abstractions ----------
 
-#[async_trait]
-/// Functionality for receiving an MQTT publish
-pub trait MqttPubReceiver {
-    /// Receives the next incoming publish.
-    ///
-    /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<Publish>;
-}
-
 /// An MQTT client that has it's connection state externally managed.
 /// Can be used to send and receive messages.
 pub trait ManagedClient: MqttPubSub {
     /// The type of receiver used by this client
-    type PubReceiver: MqttPubReceiver + MqttAck;
+    type PubReceiver: PubReceiver + MqttAck;
 
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
 
-    /// Get an [`MqttPubReceiver`] for a specific topic
+    /// Get an [`PubReceiver`] for a specific topic
     ///
     /// # Errors
     /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
@@ -160,3 +151,14 @@ pub trait ManagedClient: MqttPubSub {
         auto_ack: bool,
     ) -> Result<Self::PubReceiver, TopicParseError>;
 }
+
+
+#[async_trait]
+/// Functionality for receiving an MQTT publish
+pub trait PubReceiver {
+    /// Receives the next incoming publish.
+    ///
+    /// Return None if there will be no more incoming publishes.
+    async fn recv(&mut self) -> Option<Publish>;
+}
+
