@@ -2,104 +2,18 @@ package mqtt
 
 import (
 	"context"
-	"fmt"
 	"math"
 	"sync"
 
-	"github.com/eclipse/paho.golang/paho"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/eclipse/paho.golang/paho"
 )
-
-type pahoClientDisconnectedEvent struct {
-	err              error
-	disconnectPacket *paho.Disconnect
-}
-
-// Attempts an initial connection and then listens for disconnections
-// to attempt reconnections. Blocks until the ctx is cancelled or
-// the connection can no longer be maintained (due to a fatal error
-// or retry policy exhaustion)
-func (c *SessionClient) manageConnection(ctx context.Context) error {
-	var pahoClient PahoClient
-	var disconnected <-chan *pahoClientDisconnectedEvent
-
-	signalDisconnection := func() {
-		// caller must hold a write lock on c.pahoClientMu
-		c.pahoClient = nil
-		c.connUp = make(chan struct{})
-		close(c.connDown)
-	}
-
-	// On cleanup, send a DISCONNECT packet if possible and signal a disconnection to other goroutines if needed.
-	defer func() {
-		c.pahoClientMu.Lock()
-		defer c.pahoClientMu.Unlock()
-		if c.pahoClient == nil {
-			return
-		}
-		// TODO: allow the user to specify their own DISCONNECT packet (i.e., customize the reason code or properties)
-		immediateSessionExpiry := uint32(0)
-		_ = c.pahoClient.Disconnect(&paho.Disconnect{
-			ReasonCode: byte(disconnectNormalDisconnection),
-			Properties: &paho.DisconnectProperties{
-				SessionExpiryInterval: &immediateSessionExpiry,
-			},
-		})
-		signalDisconnection()
-	}()
-
-	for {
-		err := c.connRetry.Start(
-			ctx,
-			c.info,
-			retrypolicy.Task{
-				Name: "connect",
-				Exec: func(ctx context.Context) error {
-					var err error
-					pahoClient, disconnected, err = c.buildPahoClient(ctx, c.connCount)
-					return err
-				},
-				Cond: isRetryableError,
-			},
-		)
-		if err != nil {
-			// TODO: ensure error is normalized correctly
-			return err
-		}
-
-		c.pahoClientMu.Lock()
-		c.pahoClient = pahoClient
-		close(c.connUp) // TODO: we can use connup to get notified when the first connection succeeds
-		c.connDown = make(chan struct{})
-		c.connCount++
-		c.pahoClientMu.Unlock()
-
-		var disconnectEvent *pahoClientDisconnectedEvent
-		select {
-		case disconnectEvent = <-disconnected:
-			// Current paho instance got disconnected
-		case <-ctx.Done():
-			// SessionClient is shutting down
-			return nil
-		}
-
-		// TODO: check if this is a fatal error, error if so
-
-		c.pahoClientMu.Lock()
-		signalDisconnection()
-		c.pahoClientMu.Unlock()
-
-		// if we get here, a reconnection will be attempted
-	}
-}
 
 // Run starts the SessionClient and blocks until the SessionClient has stopped. ctx cancellation is used to stop the SessionClient.
 // If the SessionClient terminates due to an error, an error will be be returned. A SessionClient instance may only be run once.
 func (c *SessionClient) Run(ctx context.Context) error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
-		// TODO: normalize error
-		return fmt.Errorf("Run() already called on this SessionClient instance")
+		return &RunAlreadyCalledError{}
 	}
 
 	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
@@ -132,6 +46,90 @@ func (c *SessionClient) Run(ctx context.Context) error {
 	return err
 }
 
+type pahoClientDisconnectedEvent struct {
+	err              error
+	disconnectPacket *paho.Disconnect
+}
+
+// Attempts an initial connection and then listens for disconnections to attempt reconnections. Blocks until the ctx is cancelled or
+// the connection can no longer be maintained (due to a fatal error or retry policy exhaustion)
+func (c *SessionClient) manageConnection(ctx context.Context) error {
+	signalConnection := func(client PahoClient) {
+		c.pahoClientMu.Lock()
+		defer c.pahoClientMu.Unlock()
+
+		c.pahoClient = client
+		close(c.connUp)
+		c.connDown = make(chan struct{})
+		c.connCount++
+	}
+
+	signalDisconnection := func() {
+		c.pahoClientMu.Lock()
+		defer c.pahoClientMu.Unlock()
+
+		c.pahoClient = nil
+		c.connUp = make(chan struct{})
+		close(c.connDown)
+	}
+
+	// On cleanup, send a DISCONNECT packet if possible and signal a disconnection to other goroutines if needed.
+	defer func() {
+		// NOTE: accessing c.pahoClient is thread safe here because manageConnection is no longer writing to c.pahoClient
+		// if we get to this deferred function.
+		if c.pahoClient == nil {
+			return
+		}
+		immediateSessionExpiry := uint32(0)
+		_ = c.pahoClient.Disconnect(&paho.Disconnect{
+			ReasonCode: byte(disconnectNormalDisconnection),
+			Properties: &paho.DisconnectProperties{
+				SessionExpiryInterval: &immediateSessionExpiry,
+			},
+		})
+		signalDisconnection()
+	}()
+
+	for {
+		var pahoClient PahoClient
+		var disconnected <-chan *pahoClientDisconnectedEvent
+		err := c.connRetry.Start(
+			ctx,
+			c.info,
+			retrypolicy.Task{
+				Name: "connect",
+				Exec: func(ctx context.Context) error {
+					var err error
+					pahoClient, disconnected, err = c.buildPahoClient(ctx, c.connCount)
+					return err
+				},
+				Cond: isRetryableError,
+			},
+		)
+		if err != nil {
+			return &RetryFailureError{LastError: err}
+		}
+		signalConnection(pahoClient)
+
+		var disconnectEvent *pahoClientDisconnectedEvent
+		select {
+		case disconnectEvent = <-disconnected:
+			// Current paho instance got disconnected
+		case <-ctx.Done():
+			// SessionClient is shutting down
+			return nil
+		}
+
+		if disconnectEvent.disconnectPacket != nil && !isRetryableDisconnect(reasonCode(disconnectEvent.disconnectPacket.ReasonCode)) {
+			return &FatalDisconnectError{ReasonCode: reasonCode(disconnectEvent.disconnectPacket.ReasonCode)}
+
+		}
+		signalDisconnection()
+
+		// if we get here, a reconnection will be attempted
+	}
+}
+
 // buildPahoClient creates an instance of a Paho client and attempts to connect it to the server. If the client is successfully connected,
 // the client instance is returned along with a channel to be notified when the connection on that client instance goes down.
 func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (PahoClient, <-chan *pahoClientDisconnectedEvent, error) {
@@ -158,10 +156,9 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 	var clientErrOnce, serverDisconnectOnce sync.Once
 
 	pahoClient := paho.NewClient(paho.ClientConfig{
-		ClientID:    c.connSettings.clientID,
-		Conn:        conn,
-		Session:     c.session,
-		AuthHandler: c.connSettings.authOptions.AuthHandler,
+		ClientID: c.connSettings.clientID,
+		Conn:     conn,
+		Session:  c.session,
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			c.makeOnPublishReceived(connCount + 1), // add 1 to the conn count for this because this listener is effective AFTER the connection succeeds
 		},
@@ -180,10 +177,6 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		EnableManualAcknowledgment: true,
 	})
 
-	if c.connSettings.authOptions.AuthDataProvider != nil {
-		WithAuthData(c.connSettings.authOptions.AuthDataProvider(ctx))(c)
-	}
-
 	cp := buildConnectPacket(c.connSettings.clientID, c.connSettings, isInitialConn)
 
 	c.logConnect(cp)
@@ -199,7 +192,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		return nil, nil, retryableErr{err}
 	}
 	if !isInitialConn && !connack.SessionPresent {
-		return nil, nil, fmt.Errorf("mqtt server sent a connack with session present false when a session was expected")
+		return nil, nil, &SessionLostError{}
 	}
 
 	return pahoClient, disconnected, nil

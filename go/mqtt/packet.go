@@ -26,12 +26,6 @@ func buildConnectPacket(
 		),
 	}
 
-	// Enhanced Authentication.
-	if connSettings.authOptions.AuthMethod != "" {
-		properties.AuthMethod = connSettings.authOptions.AuthMethod
-		properties.AuthData = connSettings.authOptions.AuthData
-	}
-
 	// LWT.
 	var willMessage *paho.WillMessage
 	if connSettings.willMessage != nil {
@@ -66,14 +60,9 @@ func buildConnectPacket(
 		}
 	}
 
-	// Only apply user setting for initial connection.
-	cleanStart := connSettings.cleanStart
-	if !isInitialConn {
-		cleanStart = false
-	}
 	return &paho.Connect{
 		ClientID:       clientID,
-		CleanStart:     cleanStart,
+		CleanStart:     isInitialConn,
 		Username:       connSettings.username,
 		UsernameFlag:   connSettings.username != "",
 		Password:       connSettings.password,
@@ -82,21 +71,5 @@ func buildConnectPacket(
 		WillMessage:    willMessage,
 		WillProperties: willProperties,
 		Properties:     &properties,
-	}
-}
-
-func buildDisconnectPacket(
-	reasonCode reasonCode,
-	reasonString string,
-) *paho.Disconnect {
-	endSession := uint32(0)
-	return &paho.Disconnect{
-		ReasonCode: byte(reasonCode),
-		Properties: &paho.DisconnectProperties{
-			// Informs the server that the session is complete
-			// and can be safely deleted on the server's end.
-			SessionExpiryInterval: &endSession,
-			ReasonString:          reasonString,
-		},
 	}
 }

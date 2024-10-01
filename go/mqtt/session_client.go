@@ -2,8 +2,8 @@ package mqtt
 
 import (
 	"crypto/tls"
-	"fmt"
 	"log/slog"
+	"math"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -15,9 +15,7 @@ import (
 )
 
 type (
-	// SessionClient implements an MQTT Session client
-	// supporting MQTT v5 with QoS 0 and QoS 1.
-	// TODO: Add support for QoS 2.
+	// SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1.
 	// TODO: make sure the initialization is valid.
 	SessionClient struct {
 		// Used to ensure that the SessionClient does not leak goroutines
@@ -25,6 +23,7 @@ type (
 
 		// Used to ensure Connect() is called only once and that user
 		// operations are only started after Connect() is called
+		// TODO: actually use this
 		sessionStarted atomic.Bool
 
 		// Used to internally to signal client shutdown for cleaning up background goroutines.
@@ -59,10 +58,6 @@ type (
 		connSettings *connectionSettings
 		connRetry    retrypolicy.RetryPolicy
 
-		// The user-defined function would be called
-		// when auto reauthentication returns an error.
-		authErrHandler func(error)
-
 		logger *slog.Logger
 
 		// If debugMode is disabled, only error() will be printed.
@@ -81,7 +76,6 @@ type (
 		// if both are provided.
 		passwordFile string
 
-		cleanStart bool
 		// If keepAlive is 0,the Client is not obliged to send
 		// MQTT Control Packets on any particular schedule.
 		keepAlive time.Duration
@@ -112,9 +106,6 @@ type (
 		caFile string
 		// TODO: check the revocation status of the CA.
 		caRequireRevocationCheck bool
-
-		// Enhanced Authentication.
-		authOptions *AuthOptions
 
 		// Last Will and Testament (LWT) option.
 		willMessage    *WillMessage
@@ -193,22 +184,22 @@ func (c *SessionClient) ClientID() string {
 // initialize sets all default configurations
 // to ensure the SessionClient is properly initialized.
 func (c *SessionClient) initialize() {
+	c.shutdown = make(chan struct{})
+	c.connUp = make(chan struct{})
+	c.connDown = make(chan struct{})
+	// immediately close connDown to maintain the invariant that c.connDown is closed iff the session client is disconnected
+	close(c.connDown)
+
+	// TODO: make this queue size configurable
+	c.outgoingPublishes = make(chan *outgoingPublish, math.MaxUint16)
+
+	c.session = state.NewInMemory()
+
 	c.connRetry = retrypolicy.NewExponentialBackoffRetryPolicy()
 	c.connSettings = &connectionSettings{
 		clientID: randomClientID(),
 		// If receiveMaximum is 0, we can't establish connection.
 		receiveMaximum: defaultReceiveMaximum,
-		// Ensures AuthInterval is set for automatic credential refresh
-		// otherwise ticker in RefreshAuth() will panic.
-		authOptions: &AuthOptions{AuthInterval: defaultAuthInterval},
-	}
-
-	c.session = state.NewInMemory()
-
-	c.authErrHandler = func(e error) {
-		if e != nil {
-			c.error(fmt.Sprintf("error during authentication: %v", e.Error()))
-		}
 	}
 
 	c.logger = slog.Default()

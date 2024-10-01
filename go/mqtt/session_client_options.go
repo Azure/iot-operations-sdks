@@ -6,7 +6,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/eclipse/paho.golang/paho"
 )
 
 type SessionClientOption func(*SessionClient)
@@ -28,17 +27,6 @@ func WithConnRetry(
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		c.connRetry = connRetry
-	}
-}
-
-// WithAuthErrHandler sets authErrHandler for the MQTT session client.
-// The user-defined function authErrHandler would be called
-// when auto reauthentication returns an error.
-func WithAuthErrHandler(
-	authErrHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.authErrHandler = authErrHandler
 	}
 }
 
@@ -93,19 +81,6 @@ func WithPasswordFile(
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureConnSettings(c).passwordFile = passwordFile
-	}
-}
-
-// WithCleanStart sets the cleanStart flag for the MQTT connection.
-// It can be either true or false for the initial connection,
-// however, this option does not affect the cleanStart flag on reconnect.
-// It would be false internally for subsequent reconnections
-// so we can reuse the old session.
-func WithCleanStart(
-	cleanStart bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).cleanStart = cleanStart
 	}
 }
 
@@ -363,71 +338,5 @@ func WithCaRequireRevocationCheck(
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureConnSettings(c).caRequireRevocationCheck = revocationCheck
-	}
-}
-
-// ******AUTH******
-
-// ensureAuth ensures the existence of the AuthOptions
-// for the connectionSettings.
-func ensureAuth(c *SessionClient) *AuthOptions {
-	ensureConnSettings(c)
-	if c.connSettings.authOptions == nil {
-		c.connSettings.authOptions = &AuthOptions{}
-	}
-	return c.connSettings.authOptions
-}
-
-// WithAuthMethod sets the authMethod for the auth options.
-func WithAuthMethod(
-	authMethod string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthMethod = authMethod
-	}
-}
-
-// WithAuthData sets the authData for the auth options.
-func WithAuthData(
-	authData []byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthData = authData
-	}
-}
-
-// WithSatAuthFile sets the SatAuthFile for the auth options.
-func WithSatAuthFile(
-	satAuthFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).SatAuthFile = satAuthFile
-	}
-}
-
-// WithAuthDataProvider sets the authDataProvider for the auth options.
-func WithAuthDataProvider(
-	authDataProvider AuthDataProvider,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthDataProvider = authDataProvider
-	}
-}
-
-// WithAuthInterval sets the authInterval for the auth options.
-func WithAuthInterval(
-	authInterval time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthInterval = authInterval
-	}
-}
-
-// WithAuthHandler sets the authHandler for the auth options.
-func WithAuthHandler(
-	authHandler paho.Auther,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthHandler = authHandler
 	}
 }

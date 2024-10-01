@@ -3,6 +3,7 @@ package mqtt
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	protocolErrors "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
@@ -65,21 +66,10 @@ connection:
 			if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
 				// Paho has accepted control of the PUBLISH (i.e., either the PUBLISH was sent or the PUBLISH was stored in Paho's session tracker),
 				// so we relinquish control of the PUBLISH.
-				result = &publishResult{
-					err: &protocolErrors.Error{
-						Kind:    protocolErrors.ResultUnavailable,
-						Message: "the PUBLISH was accepted and will be attempted to be delivered with best effort, but the SessionClient is not able to report the PUBACK",
-					},
-				}
+				result = &publishResult{err: fmt.Errorf("the PUBLISH was accepted and will be attempted to be delivered with best effort, but the SessionClient is not able to report the PUBACK")}
 			} else if errors.Is(err, paho.ErrInvalidArguments) {
 				// Paho says the PUBLISH is invalid (likely due to an MQTT spec violation). There is no hope of this PUBLISH succeeding, so we will give up on this PUBLISH and notify the application.
-				result = &publishResult{
-					err: &protocolErrors.Error{
-						Kind:        protocolErrors.ArgumentInvalid,
-						Message:     "invalid PUBLISH arguments",
-						NestedError: err,
-					},
-				}
+				result = &publishResult{err: fmt.Errorf("invalid PUBLISH arguments")}
 			}
 			if result != nil {
 				nextOutgoingPublish.resultChan <- result // this should never block because it should be buffered by 1
@@ -96,6 +86,10 @@ func (c *SessionClient) Publish(
 	payload []byte,
 	opts ...mqtt.PublishOption,
 ) error {
+	if !c.sessionStarted.Load() {
+		return fmt.Errorf("Run() must be called before starting this operation")
+	}
+
 	var opt mqtt.PublishOptions
 	opt.Apply(opts)
 

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"sync/atomic"
 
 	protocolErrors "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
@@ -15,23 +14,51 @@ import (
 type incomingPublish struct {
 	// The incoming PUBLISH packet
 	packet *paho.Publish
-	// The conn count on which the PUBLISH was received. This is used to discard PUBACKs if a disconnection occurs.
-	connCount uint64
+	// Enables manual acks on this PUBLISH and returns a function that is called to send the ack. If this is called,
+	// the session client will not automatically ack the message, so acks MUST be manually sent.
+	enableManualAck func() func()
 }
 
 // Creates the single callback to register to the underlying Paho client for incoming PUBLISH packets
 func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
-		c.incomingPublishHandlerMu.Lock()
-		defer c.incomingPublishHandlerMu.Unlock()
+		var manualAckEnabled bool
+		var ackOnce sync.Once
 
-		for _, handler := range c.incomingPublishHandlers {
-			handler(
-				incomingPublish{
-					packet:    publishReceived.Packet,
-					connCount: connCount,
-				},
-			)
+		enableManualAck := func() func() {
+			manualAckEnabled = true
+			return func() {
+				ackOnce.Do(func() {
+					c.pahoClientMu.RLock()
+					pahoClient := c.pahoClient
+					currConnCount := c.connCount
+					c.pahoClientMu.RUnlock()
+
+					if pahoClient == nil || connCount != currConnCount {
+						// if any disconnections occurred since receiving this PUBLISH, discard the ack.
+						return
+					}
+					pahoClient.Ack(publishReceived.Packet)
+				})
+			}
+		}
+
+		func() {
+			c.incomingPublishHandlerMu.Lock()
+			defer c.incomingPublishHandlerMu.Unlock()
+			for _, handler := range c.incomingPublishHandlers {
+				handler(
+					incomingPublish{
+						packet:          publishReceived.Packet,
+						enableManualAck: enableManualAck,
+					},
+				)
+			}
+		}()
+
+		// automatically ack the message if none of the handlers requested manual acks
+		if !manualAckEnabled {
+			enableManualAck()()
 		}
 
 		// NOTE: this return value doesn't really mean anything because this is the only OnPublishReceivedHandler on this Paho instance
@@ -77,13 +104,20 @@ func (c *SessionClient) Subscribe(
 	handler mqtt.MessageHandler,
 	opts ...mqtt.SubscribeOption,
 ) (mqtt.Subscription, error) {
+	if !c.sessionStarted.Load() {
+		return nil, fmt.Errorf("Run() must be called before starting this operation")
+	}
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
 	}
 
 	removeHandlerFunc := c.registerIncomingPublishHandler(func(incoming incomingPublish) {
-
+		if !isTopicFilterMatch(topic, incoming.packet.Topic) {
+			return
+		}
+		msg := c.buildMessage(incoming)
+		handler(context.TODO(), msg)
 	})
 
 	for {
@@ -123,10 +157,10 @@ func (c *SessionClient) Subscribe(
 		select {
 		case <-ctx.Done():
 			removeHandlerFunc()
-			fmt.Errorf("context cancelled: %w", ctx.Err())
+			return nil, fmt.Errorf("context cancelled: %w", ctx.Err())
 		case <-c.shutdown:
 			removeHandlerFunc()
-			fmt.Errorf("session client is shutting down")
+			return nil, fmt.Errorf("session client is shutting down")
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and retry
 		}
@@ -180,9 +214,9 @@ func (s *subscription) Unsubscribe(
 		// If we get here, the UNSUBSCRIBE failed because the connection is down or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
-			fmt.Errorf("context cancelled: %w", ctx.Err())
+			return fmt.Errorf("context cancelled: %w", ctx.Err())
 		case <-c.shutdown:
-			fmt.Errorf("session client is shutting down")
+			return fmt.Errorf("session client is shutting down")
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and retry
 		}
@@ -244,57 +278,25 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
-	// TODO: MQTT server is allowed to send multiple copies if there are
-	// multiple topic filter matches a message, thus if we see same message
-	// multiple times, we need to check their QoS before send the Ack().
-	var acked bool
-	connCount := atomic.LoadUint64(&c.connCount)
+func (c *SessionClient) buildMessage(p incomingPublish) *mqtt.Message {
 	msg := &mqtt.Message{
-		Topic:   p.Topic,
-		Payload: p.Payload,
+		Topic:   p.packet.Topic,
+		Payload: p.packet.Payload,
 		PublishOptions: mqtt.PublishOptions{
-			ContentType:     p.Properties.ContentType,
-			CorrelationData: p.Properties.CorrelationData,
-			QoS:             mqtt.QoS(p.QoS),
-			ResponseTopic:   p.Properties.ResponseTopic,
-			Retain:          p.Retain,
-			UserProperties:  userPropertiesToMap(p.Properties.User),
+			ContentType:     p.packet.Properties.ContentType,
+			CorrelationData: p.packet.Properties.CorrelationData,
+			QoS:             mqtt.QoS(p.packet.QoS),
+			ResponseTopic:   p.packet.Properties.ResponseTopic,
+			Retain:          p.packet.Retain,
+			UserProperties:  userPropertiesToMap(p.packet.Properties.User),
 		},
-		Ack: func() error {
-			// More than one ack is a no-op.
-			if acked {
-				return nil
-			}
-
-			if p.QoS == 0 {
-				return &protocolErrors.Error{
-					Kind:    protocolErrors.ExecutionException,
-					Message: "cannot ack a QoS 0 message",
-				}
-			}
-
-			if connCount != atomic.LoadUint64(&c.connCount) {
-				return &protocolErrors.Error{
-					Kind:    protocolErrors.ExecutionException,
-					Message: "connection lost before ack",
-				}
-			}
-
-			c.logAck(p)
-			if err := pahoAck(c.pahoClient, p); err != nil {
-				return err
-			}
-
-			acked = true
-			return nil
-		},
+		Ack: p.enableManualAck,
 	}
-	if p.Properties.MessageExpiry != nil {
-		msg.MessageExpiry = *p.Properties.MessageExpiry
+	if p.packet.Properties.MessageExpiry != nil {
+		msg.MessageExpiry = *p.packet.Properties.MessageExpiry
 	}
-	if p.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = mqtt.PayloadFormat(*p.Properties.PayloadFormat)
+	if p.packet.Properties.PayloadFormat != nil {
+		msg.PayloadFormat = mqtt.PayloadFormat(*p.packet.Properties.PayloadFormat)
 	}
 	return msg
 }

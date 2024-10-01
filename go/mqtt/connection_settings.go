@@ -12,6 +12,8 @@ import (
 	"github.com/sosodev/duration"
 )
 
+// TODO: Uncomment and adjust auth-related connection settings code once the auth interfaces in the session client are determined.
+
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
 func (cs *connectionSettings) fromConnectionString(
@@ -77,9 +79,9 @@ func (cs *connectionSettings) applySettingsMap(
 	if cs == nil {
 		cs = &connectionSettings{}
 	}
-	if cs.authOptions == nil {
-		cs.authOptions = &AuthOptions{}
-	}
+	// if cs.authOptions == nil {
+	// 	cs.authOptions = &AuthOptions{}
+	// }
 
 	if settingsMap["hostname"] == "" {
 		return &errors.Error{
@@ -118,18 +120,18 @@ func (cs *connectionSettings) applySettingsMap(
 	assignIfExists(settingsMap, "keyfilepassword", &cs.keyFilePassword)
 	assignIfExists(settingsMap, "cafile", &cs.caFile)
 
-	if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
-		assignIfExists(
-			settingsMap,
-			"authmethod",
-			&cs.authOptions.AuthMethod,
-		)
-		assignIfExists(
-			settingsMap,
-			"satauthfile",
-			&cs.authOptions.SatAuthFile,
-		)
-	}
+	// if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
+	// 	assignIfExists(
+	// 		settingsMap,
+	// 		"authmethod",
+	// 		&cs.authOptions.AuthMethod,
+	// 	)
+	// 	assignIfExists(
+	// 		settingsMap,
+	// 		"satauthfile",
+	// 		&cs.authOptions.SatAuthFile,
+	// 	)
+	// }
 
 	cs.caRequireRevocationCheck = settingsMap["carequirerevocationcheck"] ==
 		"true"
@@ -160,18 +162,18 @@ func (cs *connectionSettings) applySettingsMap(
 		cs.sessionExpiry = sessionExpiry.ToTimeDuration()
 	}
 
-	if value, exists := settingsMap["authinterval"]; exists {
-		authinterval, err := duration.Parse(value)
-		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid AuthInterval in connection string",
-				PropertyName:  "AuthInterval",
-				PropertyValue: authinterval,
-			}
-		}
-		cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
-	}
+	// if value, exists := settingsMap["authinterval"]; exists {
+	// 	authinterval, err := duration.Parse(value)
+	// 	if err != nil {
+	// 		return &errors.Error{
+	// 			Kind:          errors.ConfigurationInvalid,
+	// 			Message:       "invalid AuthInterval in connection string",
+	// 			PropertyName:  "AuthInterval",
+	// 			PropertyValue: authinterval,
+	// 		}
+	// 	}
+	// 	cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
+	// }
 
 	if value, exists := settingsMap["receivemaximum"]; exists {
 		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
@@ -210,9 +212,9 @@ func (cs *connectionSettings) applySettingsMap(
 	}
 
 	// Ensure AuthInterval is set correctly.
-	if cs.authOptions.AuthInterval == 0 {
-		cs.authOptions.AuthInterval = defaultAuthInterval
-	}
+	// if cs.authOptions.AuthInterval == 0 {
+	// 	cs.authOptions.AuthInterval = defaultAuthInterval
+	// }
 
 	return nil
 }
@@ -252,20 +254,20 @@ func (cs *connectionSettings) validate() error {
 		}
 	}
 
-	if cs.authOptions.SatAuthFile != "" {
-		data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
-		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "cannot read auth data from SatAuthFile",
-				PropertyName:  "SatAuthFile",
-				PropertyValue: cs.authOptions.SatAuthFile,
-				NestedError:   err,
-			}
-		}
+	// if cs.authOptions.SatAuthFile != "" {
+	// 	data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
+	// 	if err != nil {
+	// 		return &errors.Error{
+	// 			Kind:          errors.ConfigurationInvalid,
+	// 			Message:       "cannot read auth data from SatAuthFile",
+	// 			PropertyName:  "SatAuthFile",
+	// 			PropertyValue: cs.authOptions.SatAuthFile,
+	// 			NestedError:   err,
+	// 		}
+	// 	}
 
-		cs.authOptions.AuthData = data
-	}
+	// 	cs.authOptions.AuthData = data
+	// }
 
 	return cs.validateTLS()
 }
