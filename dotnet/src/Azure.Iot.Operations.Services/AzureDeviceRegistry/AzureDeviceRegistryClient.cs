@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
-    public class AzureDeviceRegistryClient : IAsyncDisposable
+    public class AzureDeviceRegistryClient
     {
         // The operator will deploy the connector pod with these environment variables set.
         internal const string ConfigMapMountPathEnvVar = "CONFIGMAP_MOUNT_PATH";
@@ -103,7 +103,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Start receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
         /// <param name="assetId">The Id of the asset to observe.</param>
-        public Task ObserveAssetAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task ObserveAssetAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Stop receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
         /// <param name="assetId">The Id of the asset to unobserve.</param>
-        public Task UnobserveAssetAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public Task UnobserveAssetAsync(string assetId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -185,14 +185,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Task<IEnumerable<string>> GetAssetIdsAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Dispose this client and all its resources.
-        /// </summary>
-        public ValueTask DisposeAsync()
-        {
-            return ValueTask.CompletedTask;
         }
 
         private static async Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
