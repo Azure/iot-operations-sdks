@@ -53,7 +53,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
         {
             SetupTestEnvironment();
 
-            await using var adrClient = new AzureDeviceRegistryClient();
+            var adrClient = new AzureDeviceRegistryClient();
             try
             {
                 var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
         {
             SetupTestEnvironment();
 
-            await using var adrClient = new AzureDeviceRegistryClient();
+            var adrClient = new AzureDeviceRegistryClient();
             try
             {
                 var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
