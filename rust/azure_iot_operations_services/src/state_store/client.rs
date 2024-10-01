@@ -20,9 +20,8 @@ use crate::state_store;
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
-const RESPONSE_TOPIC_PATTERN: &str =
-    "clients/{invokerClientId}/services/statestore/_any_/command/invoke/response";
-
+const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
+const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
 
 pub struct Client<PS, PR>
@@ -52,7 +51,8 @@ where
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
-            .response_topic_pattern(Some(RESPONSE_TOPIC_PATTERN.into()))
+            .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
+            .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
             .command_name(COMMAND_NAME)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
