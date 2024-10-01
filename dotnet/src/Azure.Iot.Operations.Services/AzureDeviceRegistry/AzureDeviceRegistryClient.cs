@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
-    public class AzureDeviceRegistryClient : IAsyncDisposable
+    public class AzureDeviceRegistryClient
     {
 #pragma warning disable CS0067 // Unused for now
         public event EventHandler<Asset>? AssetChanged;
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Start receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
         /// <param name="assetId">The Id of the asset to observe.</param>
-        public Task ObserveAssetAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task ObserveAssetAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
-        public Task ObserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task ObserveAssetEndpointProfileAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -77,14 +77,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// </summary>
         /// <returns>The complete list of assets deployed by the operator to this pod.</returns>
         public Task<IEnumerable<string>> GetAssetIdsAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Dispose this client and all its resources.
-        /// </summary>
-        public ValueTask DisposeAsync()
         {
             throw new NotImplementedException();
         }
