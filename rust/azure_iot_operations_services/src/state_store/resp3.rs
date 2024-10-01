@@ -7,16 +7,24 @@ use std::time::Duration;
 
 use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 
+/// Request types for the State Store service, used internally for serialization
 #[derive(Clone, Debug)]
 pub(crate) enum Request {
-    /// `key`, `value`, options
-    Set(Vec<u8>, Vec<u8>, SetOptions),
-    /// `key`
-    Get(Vec<u8>),
-    /// `key`
-    Del(Vec<u8>),
-    /// `key`, `value`
-    VDel(Vec<u8>, Vec<u8>),
+    Set {
+        key: Vec<u8>,
+        value: Vec<u8>,
+        options: SetOptions,
+    },
+    Get {
+        key: Vec<u8>,
+    },
+    Del {
+        key: Vec<u8>,
+    },
+    VDel {
+        key: Vec<u8>,
+        value: Vec<u8>,
+    },
 }
 
 /// Options for a `Set` Request
@@ -54,10 +62,14 @@ impl PayloadSerialize for Request {
 
     fn serialize(&self) -> Result<Vec<u8>, String> {
         Ok(match self {
-            Request::Set(key, value, options) => serialize_set(key, value, options),
-            Request::Get(key) => serialize_get(key),
-            Request::Del(key) => serialize_del(key),
-            Request::VDel(key, value) => serialize_v_del(key, value),
+            Request::Set {
+                key,
+                value,
+                options,
+            } => serialize_set(key, value, options),
+            Request::Get { key } => serialize_get(key),
+            Request::Del { key } => serialize_del(key),
+            Request::VDel { key, value } => serialize_v_del(key, value),
         })
     }
 
@@ -99,12 +111,14 @@ fn get_number_additional_arguments(options: &SetOptions) -> u32 {
     let mut additional_arguments: u32 = 0;
 
     match options.set_condition {
+        // Will add `NX` or `NEX` argument to the request
         SetCondition::OnlyIfEqualOrDoesNotExist | SetCondition::OnlyIfDoesNotExist => {
             additional_arguments += 1;
         }
         SetCondition::Unconditional => (),
     }
 
+    // Will add `PX` and the expiration time as arguments to the request
     if options.expires.is_some() {
         additional_arguments += 2;
     }
@@ -113,11 +127,15 @@ fn get_number_additional_arguments(options: &SetOptions) -> u32 {
 }
 
 /// Builds a RESP3 payload to `SET(key=value)`
+/// For additional documentation on the format,
+/// see <https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#request-format>
 fn serialize_set(key: &[u8], value: &[u8], options: &SetOptions) -> Vec<u8> {
     let mut builder = RequestBufferBuilder::new();
 
+    // All `SET` requests have a minimum of 3 arguments: `SET`, the key, and the value
     let mut num_arguments = 3;
 
+    // Gets number of any additional arguments needed because of the options
     num_arguments += get_number_additional_arguments(options);
 
     builder.append_array_number(num_arguments);
@@ -143,6 +161,7 @@ fn serialize_set(key: &[u8], value: &[u8], options: &SetOptions) -> Vec<u8> {
 /// Builds a RESP3 payload to `GET(key)`
 fn serialize_get(key: &[u8]) -> Vec<u8> {
     let mut builder = RequestBufferBuilder::new();
+    // All `GET` requests have 2 arguments: `GET` and the key
     builder.append_array_number(2);
     builder.append_argument(b"GET");
     builder.append_argument(key);
@@ -152,6 +171,7 @@ fn serialize_get(key: &[u8]) -> Vec<u8> {
 /// Builds a RESP3 payload to `DEL(key)`
 fn serialize_del(key: &[u8]) -> Vec<u8> {
     let mut builder = RequestBufferBuilder::new();
+    // All `DEL` requests have 2 arguments: `DEL` and the key
     builder.append_array_number(2);
     builder.append_argument(b"DEL");
     builder.append_argument(key);
@@ -161,6 +181,7 @@ fn serialize_del(key: &[u8]) -> Vec<u8> {
 /// Builds a RESP3 payload to `VDEL(key, value)`
 fn serialize_v_del(key: &[u8], value: &[u8]) -> Vec<u8> {
     let mut builder = RequestBufferBuilder::new();
+    // All `VDEL` requests have 3 arguments: `VDEL`, the key, and the value
     builder.append_array_number(3);
     builder.append_argument(b"VDEL");
     builder.append_argument(key);
@@ -176,15 +197,15 @@ pub(crate) enum Response {
     Ok,
     /// Successful `Get` response
     Value(Vec<u8>),
-    /// Successful `Del` or `VDel`. Specifies the number of keys deleted
+    /// Successful `Del` or `VDel` response. Specifies the number of keys deleted
     ValuesDeleted(usize),
-    // ProtocolError,
     /// Key not found for `Get`, `Del`, or `VDel` or parameters caused the operation to not be applied for `Set` or `VDel`
     NotFound,
     /// Description of error because of invalid request
     Error(Vec<u8>),
 }
 
+/// Documentation of response payloads can be found [here](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#response-format)
 impl Response {
     const RESPONSE_OK: &'static [u8] = b"+OK\r\n";
     const RESPONSE_ERROR_PREFIX: &'static [u8] = b"-ERR ";
@@ -242,6 +263,8 @@ impl PayloadSerialize for Response {
 // ----------------------- DESERIALIZE FUNCTIONS -----------------------
 const RESPONSE_SUFFIX: &[u8] = b"\r\n";
 
+/// Given a payload, parse the numeric value that follows the prefix.
+/// Ex: for a payload of ":1234\r\n", the prefix would be b":" and the numeric value returned would be 1234.
 fn parse_numeric(payload: &[u8], prefix: &[u8]) -> Result<usize, String> {
     if let Some(val) = payload.strip_prefix(prefix) {
         let (num_deleted, current_index) = get_numeric(val)?;
@@ -253,6 +276,8 @@ fn parse_numeric(payload: &[u8], prefix: &[u8]) -> Result<usize, String> {
     Err(format!("Invalid numeric response: {payload:?}"))
 }
 
+/// Given a `&[u8]`, parse the numeric value at the beginning until `\r` and return the length.
+/// Ex: for a payload of "26\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n", this would return (26, 2).
 fn get_numeric(payload: &[u8]) -> Result<(usize, usize), String> {
     let mut value_len: usize = 0;
     let mut current_index: usize = 0;
@@ -337,96 +362,20 @@ mod tests {
 
     // ------------- Deserialize Response Tests -------------
 
-    #[test]
-    fn test_set_response() {
-        assert!(matches!(
-            Response::deserialize(b"+OK\r\n").unwrap(),
-            Response::Ok
-        ));
-    }
+    #[test_case(b"+OK\r\n", &Response::Ok; "test_set_response")]
+    #[test_case(b":-1\r\n", &Response::NotFound; "test_did_not_set_response")]
+    #[test_case(b"$4\r\n1234\r\n", &Response::Value(b"1234".to_vec()); "test_get_response_success")]
+    #[test_case(b"$0\r\n\r\n", &Response::Value(b"".to_vec()); "test_get_response_empty_success")]
+    #[test_case(b"$-1\r\n", &Response::NotFound; "test_get_response_no_key")]
+    #[test_case(b":1\r\n", &Response::ValuesDeleted(1); "test_del_response")] // Same as vdel response
+    #[test_case(b":-1\r\n", &Response::NotFound; "test_vdel_no_match_response")]
+    #[test_case(b":6\r\n", &Response::ValuesDeleted(6); "test_del_multiple_response")] // this isn't currently possible, but could be in the future. same as a vdel response
+    #[test_case(b":0\r\n", &Response::NotFound; "test_del_no_key")] // same as a vdel response
+    #[test_case(b"-ERR syntax error\r\n", &Response::Error(b"syntax error".to_vec()); "test_error_response")]
+    #[test_case(b"-ERR \r\n", &Response::Error(b"".to_vec()); "test_empty_error_response_success")]
 
-    #[test]
-    fn test_did_not_set_response() {
-        assert!(matches!(
-            Response::deserialize(b":-1\r\n").unwrap(),
-            Response::NotFound
-        ));
-    }
-
-    #[test]
-    fn test_get_response_success() {
-        assert_eq!(
-            Response::deserialize(b"$4\r\n1234\r\n").unwrap(),
-            Response::Value(b"1234".to_vec())
-        );
-    }
-
-    #[test]
-    fn test_get_response_empty_success() {
-        assert_eq!(
-            Response::deserialize(b"$0\r\n\r\n").unwrap(),
-            Response::Value(b"".to_vec())
-        );
-    }
-
-    #[test]
-    fn test_get_response_no_key() {
-        assert!(matches!(
-            Response::deserialize(b"$-1\r\n").unwrap(),
-            Response::NotFound
-        ));
-    }
-
-    // same as a vdel response
-    #[test]
-    fn test_del_response() {
-        assert!(matches!(
-            Response::deserialize(b":1\r\n").unwrap(),
-            Response::ValuesDeleted(1)
-        ));
-    }
-
-    #[test]
-    fn test_vdel_no_match_response() {
-        assert!(matches!(
-            Response::deserialize(b":-1\r\n").unwrap(),
-            Response::NotFound
-        ));
-    }
-
-    // same as a vdel response
-    // this isn't currently possible, but could be in the future
-    #[test]
-    fn test_del_multiple_response() {
-        assert!(matches!(
-            Response::deserialize(b":6\r\n").unwrap(),
-            Response::ValuesDeleted(6)
-        ));
-    }
-
-    // same as a vdel response
-    #[test]
-    fn test_del_no_key() {
-        assert!(matches!(
-            Response::deserialize(b":0\r\n").unwrap(),
-            Response::NotFound
-        ));
-    }
-
-    #[test]
-    fn test_error_response() {
-        assert_eq!(
-            Response::deserialize(b"-ERR syntax error\r\n").unwrap(),
-            Response::Error(b"syntax error".to_vec())
-        );
-    }
-
-    #[test]
-    fn test_empty_error_response_success() {
-        assert_eq!(
-            Response::deserialize(b"-ERR \r\n").unwrap(),
-            Response::Error(b"".to_vec())
-        );
+    fn test_response_deserialization_success(payload: &[u8], expected: &Response) {
+        assert_eq!(Response::deserialize(payload).unwrap(), expected.clone());
     }
 
     #[test_case(b"1"; "too short")]
@@ -447,7 +396,7 @@ mod tests {
     #[test_case(b"OK\r\n"; "OK response doesn't start with plus sign")]
     #[test_case(b"+OK"; "OK response doesn't end with newline")]
 
-    fn test_response_failures(payload: &[u8]) {
+    fn test_response_deserialization_failures(payload: &[u8]) {
         assert!(Response::deserialize(payload).is_err());
     }
 
@@ -475,11 +424,11 @@ mod tests {
         "expires set")]
     fn test_serialize_set_options(set_options: SetOptions, expected: &[u8]) {
         assert_eq!(
-            Request::serialize(&Request::Set(
-                b"testkey".to_vec(),
-                b"testvalue".to_vec(),
-                set_options
-            ))
+            Request::serialize(&Request::Set {
+                key: b"testkey".to_vec(),
+                value: b"testvalue".to_vec(),
+                options: set_options
+            })
             .unwrap(),
             expected
         );
@@ -488,11 +437,11 @@ mod tests {
     #[test]
     fn test_serialize_empty_set() {
         assert_eq!(
-            Request::serialize(&Request::Set(
-                b"".to_vec(),
-                b"".to_vec(),
-                SetOptions::default()
-            ))
+            Request::serialize(&Request::Set {
+                key: b"".to_vec(),
+                value: b"".to_vec(),
+                options: SetOptions::default()
+            })
             .unwrap(),
             b"*3\r\n$3\r\nSET\r\n$0\r\n\r\n$0\r\n\r\n"
         );
@@ -501,7 +450,10 @@ mod tests {
     #[test]
     fn test_serialize_get() {
         assert_eq!(
-            Request::serialize(&Request::Get(b"testkey".to_vec(),)).unwrap(),
+            Request::serialize(&Request::Get {
+                key: b"testkey".to_vec()
+            })
+            .unwrap(),
             b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n"
         );
     }
@@ -509,7 +461,10 @@ mod tests {
     #[test]
     fn test_serialize_del() {
         assert_eq!(
-            Request::serialize(&Request::Del(b"testkey".to_vec(),)).unwrap(),
+            Request::serialize(&Request::Del {
+                key: b"testkey".to_vec()
+            })
+            .unwrap(),
             b"*2\r\n$3\r\nDEL\r\n$7\r\ntestkey\r\n"
         );
     }
@@ -517,8 +472,11 @@ mod tests {
     #[test]
     fn test_serialize_vdel() {
         assert_eq!(
-            Request::serialize(&Request::VDel(b"testkey".to_vec(), b"testvalue".to_vec(),))
-                .unwrap(),
+            Request::serialize(&Request::VDel {
+                key: b"testkey".to_vec(),
+                value: b"testvalue".to_vec()
+            })
+            .unwrap(),
             b"*3\r\n$4\r\nVDEL\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n"
         );
     }

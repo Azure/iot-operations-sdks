@@ -12,7 +12,6 @@ use azure_iot_operations_protocol::{
 };
 
 use super::{
-    convert_response,
     resp3::{self, SetOptions},
     StateStoreError, StateStoreErrorKind,
 };
@@ -97,17 +96,17 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Set(
+            .payload(&state_store::resp3::Request::Set {
                 key,
                 value,
-                options.clone(),
-            ))
+                options: options.clone(),
+            })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .fencing_token(fencing_token)
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
-        convert_response(
+        state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
@@ -146,12 +145,12 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Get(key))
+            .payload(&state_store::resp3::Request::Get { key })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
-        convert_response(
+        state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
@@ -192,7 +191,7 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         self.del_internal(
-            state_store::resp3::Request::Del(key),
+            state_store::resp3::Request::Del { key },
             fencing_token,
             timeout,
         )
@@ -227,7 +226,7 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         self.del_internal(
-            state_store::resp3::Request::VDel(key, value),
+            state_store::resp3::Request::VDel { key, value },
             fencing_token,
             timeout,
         )
@@ -247,7 +246,7 @@ where
             .fencing_token(fencing_token)
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
-        convert_response(
+        state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
