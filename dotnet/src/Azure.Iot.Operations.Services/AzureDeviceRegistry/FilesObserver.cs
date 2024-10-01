@@ -2,13 +2,15 @@
 // Licensed under the MIT License.
 
 using System.Runtime.Caching;
+using System.Security.Cryptography;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     internal class FilesObserver
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
-        private Dictionary<string, byte[]> mostRecentContents = new();
+
+        private Dictionary<string, byte[]> mostRecentContentsHash = new();
         private List<string> _filePathsToObserve;
 
         internal event EventHandler? OnFileChanged;
@@ -25,9 +27,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             foreach (string filePath in _filePathsToObserve)
             {
-                byte[] contents = File.ReadAllBytes(filePath);
-
-                mostRecentContents.Add(filePath, contents);
+                //TODO retry
+                mostRecentContentsHash.Add(filePath, SHA1.HashData(File.ReadAllBytes(filePath)));
             }
             
             // TODO monitoring lastWrite attribute hit the same problem as FileSystemWatcher in that it is updated
@@ -45,9 +46,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                             {
                                 byte[] contents = File.ReadAllBytes(filePath);
 
-                                if (!Enumerable.SequenceEqual(mostRecentContents[filePath], contents))
+                                byte[] contentsHash = SHA1.HashData(contents);
+
+                                if (!Enumerable.SequenceEqual(mostRecentContentsHash[filePath], contentsHash))
                                 {
-                                    mostRecentContents[filePath] = contents;
+                                    mostRecentContentsHash[filePath] = contentsHash;
 
                                     OnFileChanged?.Invoke(this, new());
                                 }
