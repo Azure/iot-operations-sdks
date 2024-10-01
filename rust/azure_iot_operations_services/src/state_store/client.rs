@@ -11,11 +11,7 @@ use azure_iot_operations_protocol::{
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
 };
 
-use super::{
-    resp3::{self, SetOptions},
-    StateStoreError, StateStoreErrorKind,
-};
-use crate::state_store;
+use crate::state_store::{self, SetOptions, StateStoreError, StateStoreErrorKind};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -28,9 +24,9 @@ where
     PS: MqttPubSub + Clone + Send + Sync + 'static,
     PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
 {
-    command_invoker: CommandInvoker<state_store::resp3::Request, resp3::Response, PS>,
+    command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, PS>,
     pr_placeholder: PhantomData<PR>,
-    // notification_receiver: TelemetryReceiver<resp3::Operation, PS, PR>,
+    // notification_receiver: TelemetryReceiver<state_store::resp3::Operation, PS, PR>,
 }
 
 impl<PS, PR> Client<PS, PR>
@@ -56,9 +52,12 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        let command_invoker: CommandInvoker<state_store::resp3::Request, resp3::Response, PS> =
-            CommandInvoker::new(mqtt_provider, command_invoker_options)
-                .map_err(StateStoreErrorKind::from)?;
+        let command_invoker: CommandInvoker<
+            state_store::resp3::Request,
+            state_store::resp3::Response,
+            PS,
+        > = CommandInvoker::new(mqtt_provider, command_invoker_options)
+            .map_err(StateStoreErrorKind::from)?;
 
         Ok(Self {
             command_invoker,
@@ -112,8 +111,8 @@ where
                 .await
                 .map_err(StateStoreErrorKind::from)?,
             |payload| match payload {
-                resp3::Response::NotFound => Ok(false),
-                resp3::Response::Ok => Ok(true),
+                state_store::resp3::Response::NotFound => Ok(false),
+                state_store::resp3::Response::Ok => Ok(true),
                 _ => Err(()),
             },
         )
@@ -156,8 +155,8 @@ where
                 .await
                 .map_err(StateStoreErrorKind::from)?,
             |payload| match payload {
-                resp3::Response::Value(value) => Ok(Some(value)),
-                resp3::Response::NotFound => Ok(None),
+                state_store::resp3::Response::Value(value) => Ok(Some(value)),
+                state_store::resp3::Response::NotFound => Ok(None),
                 _ => Err(()),
             },
         )
@@ -252,8 +251,8 @@ where
                 .await
                 .map_err(StateStoreErrorKind::from)?,
             |payload| match payload {
-                resp3::Response::NotFound => Ok(0),
-                resp3::Response::ValuesDeleted(value) => Ok(value),
+                state_store::resp3::Response::NotFound => Ok(0),
+                state_store::resp3::Response::ValuesDeleted(value) => Ok(value),
                 _ => Err(()),
             },
         )
