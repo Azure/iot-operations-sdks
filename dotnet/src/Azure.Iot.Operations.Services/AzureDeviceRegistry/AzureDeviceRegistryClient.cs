@@ -4,7 +4,6 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
-using System.Runtime.Caching;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -18,29 +17,25 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         // The operator will deploy the connector pod with volumes with this information.
         // These particular files will be in the configmap mount path folder
-        string AepTargetAddressRelativeMountPath = "AEP_TARGET_ADDRESS";
-        string AepAuthenticationMethodRelativeMountPath = "AEP_AUTHENTICATION_METHOD";
-        string AepUsernameSecretNameRelativeMountPath = "AEP_USERNAME_SECRET_NAME";
-        string AepPasswordSecretNameRelativeMountPath = "AEP_PASSWORD_SECRET_NAME";
-        string AepCertificateSecretNameRelativeMountPath = "AEP_CERT_SECRET_NAME";
-        string EndpointProfileTypeRelativeMountPath = "ENDPOINT_PROFILE_TYPE";
-        string AepAdditionalConfigurationRelativeMountPath = "AEP_ADDITIONAL_CONFIGURATION";
+        internal string AepTargetAddressRelativeMountPath = "AEP_TARGET_ADDRESS";
+        internal string AepAuthenticationMethodRelativeMountPath = "AEP_AUTHENTICATION_METHOD";
+        internal string AepUsernameSecretNameRelativeMountPath = "AEP_USERNAME_SECRET_NAME";
+        internal string AepPasswordSecretNameRelativeMountPath = "AEP_PASSWORD_SECRET_NAME";
+        internal string AepCertificateSecretNameRelativeMountPath = "AEP_CERT_SECRET_NAME";
+        internal string EndpointProfileTypeRelativeMountPath = "ENDPOINT_PROFILE_TYPE";
+        internal string AepAdditionalConfigurationRelativeMountPath = "AEP_ADDITIONAL_CONFIGURATION";
+
+        private Dictionary<string, FilesObserver> assetEndpointProfileFileObservers = new();
 
         private string _configMapMountPath;
         private string _aepUsernameSecretMountPath;
         private string _aepPasswordSecretMountPath;
         private string _aepCertMountPath;
 
-        private MemoryCache notificationsCache = new("aepFileChangeNotificationsCache");
-
-        // All files watched by this client should live in a subdirectory of the current directory
-        FileSystemWatcher? assetEndpointProfileFilesSystemWatcher;
-        FileSystemWatcher? assetFilesSystemWatcher;
-
-        public event EventHandler<Asset>? AssetChanged;
 #pragma warning disable CS0067 // Unused for now
-        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileChanged;
+        public event EventHandler<Asset>? AssetChanged;
 #pragma warning restore CS0067 // Unused for now
+        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileChanged;
 
         public AzureDeviceRegistryClient()
         {
@@ -127,24 +122,42 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
-        public Task ObserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task ObserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
-            if (assetEndpointProfileFilesSystemWatcher == null)
+            if (!assetEndpointProfileFileObservers.ContainsKey(assetId))
             {
-                assetEndpointProfileFilesSystemWatcher = new($"{_configMapMountPath}");
-                assetEndpointProfileFilesSystemWatcher.Filter = $"{AepTargetAddressRelativeMountPath}";
-                assetEndpointProfileFilesSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
-                assetEndpointProfileFilesSystemWatcher.IncludeSubdirectories = false;
+                string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
+                string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
+                string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
 
-                assetEndpointProfileFilesSystemWatcher.Changed += OnAssetEndpointProfileFileChanged;
+                //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
+                var assetEndpointObserver = new FilesObserver(
+                    new(){
+                        $"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}",
+                        $"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}",
+                        $"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}",
+                        $"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}",
+                        $"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}",
+                        $"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}",
+                        $"{_aepCertMountPath}/{aepCertificateSecretName}",
+                    });
 
-                assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = true;
+                assetEndpointProfileFileObservers.Add(assetId, assetEndpointObserver);
+
+                assetEndpointObserver.Start();
+
+                assetEndpointObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
             }
+        }
 
-            return Task.CompletedTask;
+        private void OnAssetEndpointProfileFileChanged(object? sender, EventArgs e)
+        {
+            new Task(async () =>
+            {
+                AssetEndpointProfileChanged?.Invoke(this, await GetAssetEndpointProfileAsync("todo"));
+            }).Start();
         }
 
         /// <summary>
@@ -157,13 +170,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             cancellationToken.ThrowIfCancellationRequested();
 
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
-            if (assetEndpointProfileFilesSystemWatcher != null)
+            if (assetEndpointProfileFileObservers.ContainsKey(assetId))
             {
-                assetEndpointProfileFilesSystemWatcher.Changed -= OnAssetEndpointProfileFileChanged;
-
-                assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = false;
-                assetEndpointProfileFilesSystemWatcher.Dispose();
-                assetEndpointProfileFilesSystemWatcher = null;
+                assetEndpointProfileFileObservers[assetId].Stop();
+                assetEndpointProfileFileObservers.Remove(assetId);
             }
 
             return Task.CompletedTask;
@@ -183,77 +193,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// </summary>
         public ValueTask DisposeAsync()
         {
-            if (assetEndpointProfileFilesSystemWatcher != null)
-            {
-                assetEndpointProfileFilesSystemWatcher.EnableRaisingEvents = false;
-                assetEndpointProfileFilesSystemWatcher.Dispose();
-                assetEndpointProfileFilesSystemWatcher = null;
-            }
-
-            if (assetFilesSystemWatcher != null)
-            {
-                assetFilesSystemWatcher.EnableRaisingEvents = false;
-                assetFilesSystemWatcher.Dispose();
-                assetFilesSystemWatcher = null;
-            }
-
-            notificationsCache.Dispose();
-
             return ValueTask.CompletedTask;
-        }
-
-        private void OnAssetEndpointProfileFileChanged(object sender, FileSystemEventArgs e)
-        {
-            // The FileSystemWatcher class will invoke this callback twice during the course of a normal update of a file:
-            // Once when the writing to that file begins, and once when the writing has completed. We don't want to actually
-            // try reading the files again and telling the user that the asset endpoint profile has changed until the second event,
-            // so cache the first event for reference.
-            if (notificationsCache.GetCacheItem(e.Name) == null)
-            {
-                notificationsCache.Add(
-                    new CacheItem(e.Name, e),
-                    new CacheItemPolicy()
-                    {
-                        AbsoluteExpiration = DateTimeOffset.Now.AddMilliseconds(10000)
-                    });
-            }
-            else
-            {
-                new Task(async () =>
-                {
-                    string s = e.FullPath;
-
-                    switch (e.ChangeType)
-                    {
-                        case WatcherChangeTypes.Changed:
-                            AssetEndpointProfileChanged?.Invoke(this, await GetAssetEndpointProfileAsync("todo"));
-                            break;
-                        default: // Created/Deleted/Renamed
-                                 // This would only happen if the user is messing around with these files for some reason. Under
-                                 // normal conditions, the files should only ever be updated in place
-                            Trace.TraceWarning("One or more asset endpoint profile credentials files was renamed/deleted/created unexpectedly");
-                            break;
-                    }
-                }).Start();
-            }
-        }
-
-        private void OnAssetFileChanged(object sender, FileSystemEventArgs e)
-        {
-            new Task(async () =>
-            {
-                switch (e.ChangeType)
-                {
-                    case WatcherChangeTypes.Changed:
-                        AssetChanged?.Invoke(this, await GetAssetAsync("todo"));
-                        break;
-                    default: // Created/Deleted/Renamed
-                        // This would only happen if the user is messing around with these files for some reason. Under
-                        // normal conditions, the asset files should only ever be updated in place
-                        Trace.TraceWarning("One or more asset files was renamed/deleted/created unexpectedly");
-                        break;
-                }
-            }).Start();
         }
 
         private async static Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
