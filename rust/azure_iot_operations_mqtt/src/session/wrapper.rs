@@ -11,9 +11,9 @@ use crate::control_packet::{
 use crate::error::ClientError;
 use crate::interface::{ManagedClient, MqttAck, MqttPubReceiver, MqttPubSub};
 use crate::rumqttc_adapter as adapter;
-use crate::session::session;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
+use crate::session::session;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::{CompletionToken, MqttConnectionSettings};

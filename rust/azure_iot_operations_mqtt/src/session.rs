@@ -4,11 +4,11 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 
 mod dispatcher;
-#[doc(hidden)]
-pub mod session; // TODO: Make this private and accessible via compile flags
 mod managed_client;
 mod pub_tracker;
 pub mod reconnect_policy;
+#[doc(hidden)]
+pub mod session; // TODO: Make this private and accessible via compile flags
 mod state;
 mod wrapper;
 
