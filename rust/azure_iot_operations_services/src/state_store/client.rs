@@ -90,6 +90,7 @@ where
         key: Vec<u8>,
         value: Vec<u8>,
         timeout: Duration,
+        fencing_token: Option<HybridLogicalClock>,
         options: SetOptions,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
@@ -103,7 +104,7 @@ where
             ))
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
-            .fencing_token(options.fencing_token)
+            .fencing_token(fencing_token)
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         convert_response(
@@ -294,6 +295,7 @@ mod tests {
                 vec![],
                 b"testValue".to_vec(),
                 Duration::from_secs(1),
+                None,
                 SetOptions::default(),
             )
             .await;
@@ -349,6 +351,7 @@ mod tests {
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
                 Duration::from_nanos(50),
+                None,
                 SetOptions::default(),
             )
             .await;

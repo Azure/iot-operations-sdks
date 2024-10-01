@@ -56,6 +56,7 @@ async fn state_store_loop(
             state_store_key.to_vec(),
             state_store_value.to_vec(),
             timeout,
+            None,
             SetOptions::default(),
         )
         .await

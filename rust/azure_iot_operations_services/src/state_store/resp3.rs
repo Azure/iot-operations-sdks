@@ -5,10 +5,7 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_protocol::common::{
-    hybrid_logical_clock::HybridLogicalClock,
-    payload_serialize::{FormatIndicator, PayloadSerialize},
-};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 
 #[derive(Clone, Debug)]
 pub(crate) enum Request {
@@ -29,8 +26,6 @@ pub struct SetOptions {
     pub set_condition: SetCondition,
     /// How long the key should persist before it expires, in millisecond precision.
     pub expires: Option<Duration>,
-    /// Optional fencing token for the `Set` operation
-    pub fencing_token: Option<HybridLogicalClock>,
 }
 
 /// Condition for a `Set` Request
@@ -478,9 +473,6 @@ mod tests {
     #[test_case(SetOptions {expires: Some(Duration::from_millis(10)), ..Default::default()},
         b"*5\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n$2\r\nPX\r\n$2\r\n10\r\n";
         "expires set")]
-    #[test_case(SetOptions {fencing_token: Some(HybridLogicalClock::new()), ..Default::default()},
-        b"*3\r\n$3\r\nSET\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n";
-        "fencing token set")]
     fn test_serialize_set_options(set_options: SetOptions, expected: &[u8]) {
         assert_eq!(
             Request::serialize(&Request::Set(
