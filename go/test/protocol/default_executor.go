@@ -10,7 +10,7 @@ type DefaultExecutor struct {
 	CacheableDuration    TestCaseDuration    `toml:"cacheable-duration"`
 	ExecutionTimeout     TestCaseDuration    `toml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `toml:"request-responses-map"`
-	ExecutionConcurrency *int                `toml:"execution-concurrency"`
+	ExecutionConcurrency *uint               `toml:"execution-concurrency"`
 }
 
 func (executor *DefaultExecutor) GetCommandName() *string {
@@ -82,7 +82,7 @@ func (executor *DefaultExecutor) GetRequestResponsesMap() map[string][]string {
 	return requestResponsesMap
 }
 
-func (executor *DefaultExecutor) GetExecutionConcurrency() *int {
+func (executor *DefaultExecutor) GetExecutionConcurrency() *uint {
 	if executor.ExecutionConcurrency == nil {
 		return nil
 	}
