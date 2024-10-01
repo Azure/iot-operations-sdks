@@ -340,7 +340,7 @@ where
 
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client
-            .filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
         {
             Ok(receiver) => receiver,
             Err(e) => {

@@ -63,7 +63,7 @@ async fn mock_event_loop() {
 
     let mut pub_receiver = session
         .create_managed_client()
-        .filtered_pub_receiver("test/resp/topic", true)
+        .create_filtered_pub_receiver("test/resp/topic", true)
         .unwrap();
 
     #[allow(clippy::items_after_statements)]

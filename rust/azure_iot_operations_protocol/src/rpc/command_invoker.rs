@@ -295,7 +295,7 @@ where
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
-            .filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
         {
             Ok(receiver) => receiver,
             Err(e) => {

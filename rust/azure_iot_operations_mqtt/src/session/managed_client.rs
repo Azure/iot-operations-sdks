@@ -41,7 +41,7 @@ where
         &self.client_id
     }
 
-    fn filtered_pub_receiver(
+    fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
         auto_ack: bool,

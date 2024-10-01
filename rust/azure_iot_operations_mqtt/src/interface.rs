@@ -141,11 +141,11 @@ pub trait ManagedClient: MqttPubSub {
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
 
-    /// Get an [`PubReceiver`] for a specific topic
+    /// Create a [`PubReceiver`] for a specific topic
     ///
     /// # Errors
     /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
-    fn filtered_pub_receiver(
+    fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
         auto_ack: bool,

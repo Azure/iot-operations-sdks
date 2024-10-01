@@ -103,13 +103,13 @@ impl ManagedClient for SessionManagedClient {
         self.0.client_id()
     }
 
-    fn filtered_pub_receiver(
+    fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
         auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0.create_filtered_pub_receiver(topic_filter, auto_ack)?,
         ))
     }
 }
