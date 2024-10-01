@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttAck};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};

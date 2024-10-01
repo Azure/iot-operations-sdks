@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttAck};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -632,7 +632,7 @@ where
         }
     }
 
-    async fn receive_response_loop<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
+    async fn receive_response_loop<PR: PubReceiver + MqttAck + Send + Sync + 'static>(
         mut mqtt_receiver: PR,
         response_tx: Sender<Publish>,
         recv_cancellation_token: CancellationToken,
