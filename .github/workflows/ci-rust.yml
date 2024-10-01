@@ -48,6 +48,11 @@ jobs:
         set -e
         make check
 
+    - name: Setup Cluster
+      run: |
+        tools/deployment/initialize-cluster.sh
+        tools/deployment/deploy-aio.sh nightly
+
     - name: Run Tests
       run: |
         set -e
