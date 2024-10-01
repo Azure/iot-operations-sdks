@@ -89,7 +89,7 @@ where
 
     /// Return an instance of [`SessionExitHandle`] that can be used to end
     /// this [`Session`]
-    pub fn get_session_exit_handle(&self) -> SessionExitHandle<C> {
+    pub fn create_exit_handle(&self) -> SessionExitHandle<C> {
         SessionExitHandle {
             disconnector: self.client.clone(),
             state: self.state.clone(),
@@ -99,7 +99,7 @@ where
 
     /// Return a [`SessionManagedClient`] that can be used to do MQTT
     //TODO: finish doc
-    pub fn get_managed_client(&self) -> SessionManagedClient<C> {
+    pub fn create_managed_client(&self) -> SessionManagedClient<C> {
         SessionManagedClient {
             client_id: self.client_id.clone(),
             pub_sub: self.client.clone(),
@@ -341,7 +341,7 @@ where
 
     /// Helper for triggering a session exit and logging the result
     async fn trigger_session_exit(&self) {
-        let exit_handle = self.get_session_exit_handle();
+        let exit_handle = self.create_exit_handle();
         match exit_handle.trigger_exit_internal().await {
             Ok(()) => log::debug!("Internal session exit successful"),
             Err(e) => log::debug!("Internal session exit failed: {e:?}"),

@@ -51,7 +51,7 @@ async fn main() {
     let receiver = session
         .filtered_pub_receiver(TOPIC, true)
         .unwrap();
-    let exit_handle = session.get_session_exit_handle();
+    let exit_handle = session.create_exit_handle();
 
     // Send the created components to their respective tasks.
     tokio::spawn(receive_messages(pub_sub1, receiver));

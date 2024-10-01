@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubReceiver, MqttAck};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -926,7 +926,7 @@ mod tests {
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
     // TODO: This should return a mock ManagedClient instead
-    fn get_managed_client() -> SessionManagedClient {
+    fn create_managed_client() -> SessionManagedClient {
         // TODO: Make a real mock that implements ManagedClient
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
@@ -938,12 +938,12 @@ mod tests {
             .build()
             .unwrap();
         let session = Session::new(session_options).unwrap();
-        session.get_managed_client()
+        session.create_managed_client()
     }
 
     #[tokio::test]
     async fn test_new_defaults() {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
@@ -965,7 +965,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/{modelId}/request")
             .command_name("test_command_name")
@@ -994,7 +994,7 @@ mod tests {
     #[test_case(" "; "whitespace command name")]
     #[tokio::test]
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
@@ -1026,7 +1026,7 @@ mod tests {
     #[test_case("test/{commandName}/\u{0}/request"; "invalid request topic pattern")]
     #[tokio::test]
     async fn test_invalid_request_topic_string(request_topic: &str) {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
@@ -1058,7 +1058,7 @@ mod tests {
     #[test_case("test/\u{0}"; "invalid topic namespace")]
     #[tokio::test]
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
@@ -1088,7 +1088,7 @@ mod tests {
     #[test_case(Duration::from_secs(60); "cacheable duration positive")]
     #[tokio::test]
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
@@ -1104,7 +1104,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
-        let managed_client = get_managed_client();
+        let managed_client = create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")

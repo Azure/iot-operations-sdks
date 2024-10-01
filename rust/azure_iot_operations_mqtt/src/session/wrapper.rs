@@ -77,14 +77,14 @@ impl Session {
 
     /// Return an instance of [`SessionExitHandle`] that can be used to end
     /// this [`Session`]
-    pub fn get_session_exit_handle(&self) -> SessionExitHandle {
-        SessionExitHandle(self.0.get_session_exit_handle())
+    pub fn create_exit_handle(&self) -> SessionExitHandle {
+        SessionExitHandle(self.0.create_exit_handle())
     }
 
     /// Placeholder doc
     //TODO: doc
-    pub fn get_managed_client(&self) -> SessionManagedClient {
-        SessionManagedClient(self.0.get_managed_client())
+    pub fn create_managed_client(&self) -> SessionManagedClient {
+        SessionManagedClient(self.0.create_managed_client())
     }
 
     /// Begin running the [`Session`].

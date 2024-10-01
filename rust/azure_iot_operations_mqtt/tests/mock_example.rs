@@ -62,7 +62,7 @@ async fn mock_event_loop() {
     );
 
     let mut pub_receiver = session
-        .get_managed_client()
+        .create_managed_client()
         .filtered_pub_receiver("test/resp/topic", true)
         .unwrap();
 

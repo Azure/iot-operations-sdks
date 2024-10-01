@@ -42,9 +42,9 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
 
     // Create PubSubs to send, PubReceivers to receive, and an ExitHandle for exiting.
-    let managed_client1 = session.get_managed_client();
-    let managed_client2 = session.get_managed_client();
-    let exit_handle = session.get_session_exit_handle();
+    let managed_client1 = session.create_managed_client();
+    let managed_client2 = session.create_managed_client();
+    let exit_handle = session.create_exit_handle();
 
     // Send the created components to their respective tasks.
     tokio::spawn(receive_messages(managed_client1));
