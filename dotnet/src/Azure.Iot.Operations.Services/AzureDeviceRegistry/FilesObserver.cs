@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Runtime.Caching;
+using System.Diagnostics;
 using System.Security.Cryptography;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
@@ -10,14 +10,17 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
-        private Dictionary<string, byte[]> mostRecentContentsHash = new();
+        //private Dictionary<string, DateTime> _mostRecentWriteUpdate = new();
+        private Dictionary<string, byte[]> _mostRecentContentsHash = new();
         private List<string> _filePathsToObserve;
+        private TimeSpan _pollingInterval;
 
         internal event EventHandler? OnFileChanged;
 
-        internal FilesObserver(List<string> filePathsToObserve)
+        internal FilesObserver(List<string> filePathsToObserve, TimeSpan? pollingInterval = null)
         {
             _filePathsToObserve = filePathsToObserve;
+            _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
         internal void Start()
@@ -27,10 +30,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             foreach (string filePath in _filePathsToObserve)
             {
-                //TODO retry
-                mostRecentContentsHash.Add(filePath, SHA1.HashData(File.ReadAllBytes(filePath)));
+                _mostRecentContentsHash.Add(filePath, SHA1.HashData(FileUtilities.ReadFileWithRetry(filePath)));
+                //_mostRecentWriteUpdate.Add(filePath, File.GetLastWriteTimeUtc(filePath));
             }
-            
+
             // TODO monitoring lastWrite attribute hit the same problem as FileSystemWatcher in that it is updated
             // prior to the contents actually changing :/
             // Reading the file contents is more expensive and risks race conditions/IOExceptions
@@ -40,29 +43,36 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 {
                     while (!_observationTaskCancellationTokenSource.Token.IsCancellationRequested)
                     {
-                        try
+                        foreach (string filePath in _filePathsToObserve)
                         {
-                            foreach (string filePath in _filePathsToObserve)
+                            try
                             {
-                                byte[] contents = File.ReadAllBytes(filePath);
+                                //DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
+                                //if (lastWriteUpdate == _mostRecentWriteUpdate[filePath])
+                                //{
+                                    // File hasn't been updated recently. Skip reading this file's contents.
+                                //    continue;
+                                //}
+
+                                byte[] contents = FileUtilities.ReadFileWithRetry(filePath);
 
                                 byte[] contentsHash = SHA1.HashData(contents);
 
-                                if (!Enumerable.SequenceEqual(mostRecentContentsHash[filePath], contentsHash))
+                                if (!Enumerable.SequenceEqual(_mostRecentContentsHash[filePath], contentsHash))
                                 {
-                                    mostRecentContentsHash[filePath] = contentsHash;
-
+                                    _mostRecentContentsHash[filePath] = contentsHash;
+                                    //_mostRecentWriteUpdate[filePath] = lastWriteUpdate;
                                     OnFileChanged?.Invoke(this, new());
                                 }
                             }
-
-                            //TODO configurable
-                            await Task.Delay(TimeSpan.FromSeconds(1));
+                            catch (IOException e)
+                            {
+                                // File may have been accessed by another process. Ignore error and try again.
+                                Trace.TraceWarning("Failed to access file with path {0} due to error {1}", filePath, e);
+                            }
                         }
-                        catch (IOException)
-                        {
-                            // File may have been accessed by another process. Ignore error and try again.
-                        }
+                            
+                        await Task.Delay(_pollingInterval);
                     }
                 });
 
