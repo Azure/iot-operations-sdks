@@ -47,9 +47,7 @@ async fn main() {
 }
 
 /// Handle incoming increment command requests
-async fn executor_loop(
-    client: SessionManagedClient,
-) {
+async fn executor_loop(client: SessionManagedClient) {
     // Create a command executor for the increment command
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)

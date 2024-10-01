@@ -64,7 +64,7 @@ pub struct TelemetryReceiverOptions {
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _, _> = TelemetryReceiver::new(&mut mqtt_session, receiver_options).unwrap();
+/// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// # tokio_test::block_on(async {
 /// telemetry_receiver.start().await.unwrap();
 /// let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -91,7 +91,7 @@ where
     /// Creates a new [`TelemetryReceiver`].
     ///
     /// # Arguments
-    /// * `mqtt_provider` - [`MqttProvider`] to use for telemetry communication.
+    /// * `client` - [`ManagedClient`] to use for telemetry communication.
     /// * `options` - [`TelemetryReceiverOptions`] to configure the telemetry receiver.
     ///
     /// Returns Ok([`TelemetryReceiver`]) on success, otherwise returns[`AIOProtocolError`].

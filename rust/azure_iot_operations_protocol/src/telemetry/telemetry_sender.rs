@@ -68,7 +68,7 @@ pub struct TelemetrySenderOptions {
 ///   .topic_namespace("test_namespace")
 ///   .default_telemetry_timeout(Duration::from_secs(5))
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(&mqtt_session, sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
 ///   .payload(SamplePayload {})
 ///   .qos(QoS::AtLeastOnce)

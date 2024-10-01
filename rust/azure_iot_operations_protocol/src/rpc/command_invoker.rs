@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubReceiver, MqttAck};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, MqttPubReceiver};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -175,7 +175,7 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(&mut mqtt_session, invoker_options).unwrap();
+/// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
 ///   .payload(&SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
@@ -215,6 +215,10 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`CommandInvoker`].
+    ///
+    /// # Arguments
+    /// * `client` - The MQTT client to use for communication
+    /// * `invoker_options` - Configuration options
     ///
     /// Returns Ok([`CommandInvoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -946,7 +950,7 @@ mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{
-        Session, SessionManagedClient, SessionOptionsBuilder,
+        Session, SessionOptionsBuilder,
     };
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
@@ -961,9 +965,10 @@ mod tests {
     static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
     static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
 
-    // TODO: This should return a mock ManagedClient instead
-    fn create_managed_client() -> SessionManagedClient {
-        // TODO: Make a real mock that implements ManagedClient
+    // TODO: This should return a mock ManagedClient instead.
+    // Until that's possible, need to return a Session so that the Session doesn't go out of
+    // scope and render the ManagedClient unable to to be used correctly.
+    fn create_session() -> Session {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
             .client_id("test_client")
@@ -973,13 +978,13 @@ mod tests {
             .connection_settings(connection_settings)
             .build()
             .unwrap();
-        let session = Session::new(session_options).unwrap();
-        session.create_managed_client()
+        Session::new(session_options).unwrap()
     }
 
     #[tokio::test]
     async fn test_new_defaults() {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
@@ -1002,7 +1007,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{modelId}/{executorId}/request")
             .response_topic_pattern(
@@ -1044,7 +1050,8 @@ mod tests {
     #[test_case("response_topic_suffix", " "; "new_whitespace_response_topic_suffix")]
     #[tokio::test]
     async fn test_new_empty_args(property_name: &str, property_value: &str) {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
 
         let mut command_name = "test_command_name".to_string();
         let mut request_topic_pattern = "test/req/topic".to_string();
@@ -1111,7 +1118,8 @@ mod tests {
         response_topic_suffix: Option<String>,
         expected_response_topic_subscribe_pattern: &str,
     ) {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
 
         let command_name = "test_command_name".to_string();
         let request_topic_pattern = "test/req/topic".to_string();
@@ -1139,7 +1147,8 @@ mod tests {
     // If response pattern suffix is not specified, the default is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
 
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
@@ -1170,7 +1179,8 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1248,7 +1258,8 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1317,7 +1328,8 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
@@ -1392,7 +1404,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_executor_id_invalid_value() {
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
@@ -1437,7 +1450,8 @@ mod tests {
         // Get mutexes for checking static PayloadSerialize calls
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
 
-        let managed_client = create_managed_client();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")

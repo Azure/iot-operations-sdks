@@ -43,17 +43,17 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
 
     // Use the managed client to run command invocations in another task
-    tokio::task::spawn(invoke_loop(session.create_managed_client(), session.create_exit_handle()));
+    tokio::task::spawn(invoke_loop(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
 
     // Run the session
     session.run().await.unwrap();
 }
 
 /// Send 10 increment command requests and wait for their responses, then disconnect
-async fn invoke_loop(
-    client: SessionManagedClient,
-    exit_handle: SessionExitHandle,
-) {
+async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create a command invoker for the increment command
     let incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)

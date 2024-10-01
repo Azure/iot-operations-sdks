@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{num::ParseIntError, str::Utf8Error, time::Duration};
 use std::sync::{Arc, Mutex};
+use std::{num::ParseIntError, str::Utf8Error, time::Duration};
 
 use env_logger::Builder;
 use thiserror::Error;
@@ -40,9 +40,18 @@ async fn main() {
     let counter = Arc::new(Mutex::new(0));
 
     // Spawn tasks for the server features
-    tokio::spawn(read_executor(session.create_managed_client(), counter.clone()));
-    tokio::spawn(increment_executor(session.create_managed_client(), counter.clone()));
-    tokio::spawn(exit_timer(session.create_exit_handle(), Duration::from_secs(120)));
+    tokio::spawn(read_executor(
+        session.create_managed_client(),
+        counter.clone(),
+    ));
+    tokio::spawn(increment_executor(
+        session.create_managed_client(),
+        counter.clone(),
+    ));
+    tokio::spawn(exit_timer(
+        session.create_exit_handle(),
+        Duration::from_secs(120),
+    ));
 
     // Run the session
     session.run().await.unwrap();
@@ -62,7 +71,9 @@ async fn read_executor(client: SessionManagedClient, counter: Arc<Mutex<u64>>) {
     // Loop to handle requests
     loop {
         let request = read_executor.recv().await.unwrap();
-        let response = CounterResponse { counter_response: *counter.lock().unwrap()};
+        let response = CounterResponse {
+            counter_response: *counter.lock().unwrap(),
+        };
         tokio::time::sleep(Duration::from_secs(1)).await;
         let response = CommandResponseBuilder::default()
             .payload(&response)

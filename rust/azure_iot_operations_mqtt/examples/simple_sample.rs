@@ -44,7 +44,10 @@ async fn main() {
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.
     tokio::spawn(receive_messages(session.create_managed_client()));
-    tokio::spawn(send_messages(session.create_managed_client(), session.create_exit_handle()));
+    tokio::spawn(send_messages(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
 
     // Run the session. This blocks until the session is exited.
     session.run().await.unwrap();
