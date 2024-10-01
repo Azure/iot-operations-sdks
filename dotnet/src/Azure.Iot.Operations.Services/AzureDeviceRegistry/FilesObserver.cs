@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
-        //private Dictionary<string, DateTime> _mostRecentWriteUpdate = new();
+        private Dictionary<string, DateTime> _mostRecentWriteUpdate = new();
         private Dictionary<string, byte[]> _mostRecentContentsHash = new();
         private List<string> _filePathsToObserve;
         private TimeSpan _pollingInterval;
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             foreach (string filePath in _filePathsToObserve)
             {
                 _mostRecentContentsHash.Add(filePath, SHA1.HashData(FileUtilities.ReadFileWithRetry(filePath)));
-                //_mostRecentWriteUpdate.Add(filePath, File.GetLastWriteTimeUtc(filePath));
+                _mostRecentWriteUpdate.Add(filePath, File.GetLastWriteTimeUtc(filePath));
             }
 
             // TODO monitoring lastWrite attribute hit the same problem as FileSystemWatcher in that it is updated
@@ -47,12 +47,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                         {
                             try
                             {
-                                //DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
-                                //if (lastWriteUpdate == _mostRecentWriteUpdate[filePath])
-                                //{
+                                DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
+                                if (lastWriteUpdate == _mostRecentWriteUpdate[filePath])
+                                {
                                     // File hasn't been updated recently. Skip reading this file's contents.
-                                //    continue;
-                                //}
+                                    continue;
+                                }
 
                                 byte[] contents = FileUtilities.ReadFileWithRetry(filePath);
 
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                                 if (!Enumerable.SequenceEqual(_mostRecentContentsHash[filePath], contentsHash))
                                 {
                                     _mostRecentContentsHash[filePath] = contentsHash;
-                                    //_mostRecentWriteUpdate[filePath] = lastWriteUpdate;
+                                    _mostRecentWriteUpdate[filePath] = lastWriteUpdate;
                                     OnFileChanged?.Invoke(this, new());
                                 }
                             }
