@@ -28,18 +28,18 @@ func main() {
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	check(mqttClient.Connect(ctx))
 
-	client := must(statestore.New(mqttClient, statestore.WithLogger(log)))
+	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
 	done := must(client.Listen(ctx))
 	defer done()
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	set := must(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
+	set := must(client.Set(ctx, stateStoreKey, stateStoreValue))
 	log.Info("SET", "key", stateStoreKey, "value", set.Value, "version", set.Version)
 
 	get := must(client.Get(ctx, stateStoreKey))
-	log.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
+	log.Info("GET", "key", stateStoreKey, "value", get.Value, "version", get.Version)
 
 	del := must(client.Del(ctx, stateStoreKey))
 	log.Info("DEL", "key", stateStoreKey, "value", del.Value, "version", del.Version)
