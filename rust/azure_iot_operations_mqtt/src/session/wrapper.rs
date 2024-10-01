@@ -75,14 +75,12 @@ impl Session {
         )))
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end
-    /// this [`Session`]
+    /// Return an instance of [`SessionExitHandle`] that can be used to end this [`Session`]
     pub fn create_exit_handle(&self) -> SessionExitHandle {
         SessionExitHandle(self.0.create_exit_handle())
     }
 
-    /// Placeholder doc
-    //TODO: doc
+    /// Return an instance of [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient {
         SessionManagedClient(self.0.create_managed_client())
     }

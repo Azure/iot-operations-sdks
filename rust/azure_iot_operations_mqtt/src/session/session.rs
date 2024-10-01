@@ -87,8 +87,7 @@ where
         }
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end
-    /// this [`Session`]
+    /// Return an instance of [`SessionExitHandle`] that can be used to end this [`Session`]
     pub fn create_exit_handle(&self) -> SessionExitHandle<C> {
         SessionExitHandle {
             disconnector: self.client.clone(),
@@ -97,7 +96,7 @@ where
         }
     }
 
-    /// Return a [`SessionManagedClient`] that can be used to send and receive messages
+    /// Return an instance of [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient<C> {
         SessionManagedClient {
             client_id: self.client_id.clone(),
