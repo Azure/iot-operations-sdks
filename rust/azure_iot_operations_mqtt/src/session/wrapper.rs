@@ -9,7 +9,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{ManagedClient, PubReceiver, MqttAck, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
@@ -109,7 +109,8 @@ impl ManagedClient for SessionManagedClient {
         auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0.create_filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0
+                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
         ))
     }
 }

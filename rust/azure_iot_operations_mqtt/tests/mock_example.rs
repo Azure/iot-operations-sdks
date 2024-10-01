@@ -8,7 +8,7 @@ use tokio::select;
 
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::ConnectionError;
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttEventLoop};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttEventLoop, PubReceiver};
 use azure_iot_operations_mqtt::session::{
     reconnect_policy::ExponentialBackoffWithJitter, session::Session,
 };

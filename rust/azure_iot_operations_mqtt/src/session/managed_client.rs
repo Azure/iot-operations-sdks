@@ -15,7 +15,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{ManagedClient, PubReceiver, MqttAck, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::PubTracker;
 use crate::topic::{TopicFilter, TopicParseError};

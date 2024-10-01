@@ -152,7 +152,6 @@ pub trait ManagedClient: MqttPubSub {
     ) -> Result<Self::PubReceiver, TopicParseError>;
 }
 
-
 #[async_trait]
 /// Functionality for receiving an MQTT publish
 pub trait PubReceiver {
@@ -161,4 +160,3 @@ pub trait PubReceiver {
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
 }
-

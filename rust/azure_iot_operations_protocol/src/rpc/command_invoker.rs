@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttAck};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -949,9 +949,7 @@ mod tests {
 
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{
-        Session, SessionOptionsBuilder,
-    };
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
