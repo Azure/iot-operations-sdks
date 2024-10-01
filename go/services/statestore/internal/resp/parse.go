@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
 )
@@ -23,7 +24,7 @@ func parseStr(typ byte, data []byte) (arg string, idx int, err error) {
 
 	switch data[0] {
 	case '-':
-		return "", 0, errors.Response(arg)
+		return "", 0, errors.Service(strings.TrimPrefix(arg, "ERR "))
 	case typ:
 		return arg, idx, nil
 	default:
@@ -45,53 +46,55 @@ func parseNum(typ byte, data []byte) (num, idx int, err error) {
 	return num, idx, nil
 }
 
-func parseBlob(typ byte, data []byte) (blob []byte, idx int, err error) {
+func parseBlob[T Bytes](typ byte, data []byte) (blob T, idx int, err error) {
+	var zero T
+
 	n, idx, err := parseNum(typ, data)
 	if err != nil {
-		return nil, 0, err
+		return zero, 0, err
 	}
 
 	if n == -1 {
-		return nil, idx, nil
+		return zero, idx, nil
 	}
 
 	length := len(data) - idx - len(separator)
 	if length < n {
-		return nil, idx, PayloadError("insufficient data")
+		return zero, idx, PayloadError("insufficient data")
 	}
 
 	if data[idx+n] != separator[0] || data[idx+n+1] != separator[1] {
-		return nil, idx, PayloadError("missing separator")
+		return zero, idx, PayloadError("missing separator")
 	}
 
-	return data[idx : idx+n], idx + n + len(separator), nil
+	return T(data[idx : idx+n]), idx + n + len(separator), nil
 }
 
-func ParseString(data []byte) (string, error) {
+func String(data []byte) (string, error) {
 	str, _, err := parseStr('+', data)
 	return str, err
 }
 
-func ParseNumber(data []byte) (int, error) {
+func Number(data []byte) (int, error) {
 	num, _, err := parseNum(':', data)
 	return num, err
 }
 
-func ParseBlob(data []byte) ([]byte, error) {
-	blob, _, err := parseBlob('$', data)
+func Blob[T Bytes](data []byte) (T, error) {
+	blob, _, err := parseBlob[T]('$', data)
 	return blob, err
 }
 
-func ParseBlobArray(data []byte) ([][]byte, error) {
+func BlobArray[T Bytes](data []byte) ([]T, error) {
 	n, idx, err := parseNum('*', data)
 	if err != nil {
 		return nil, err
 	}
 
-	ary := make([][]byte, n)
+	ary := make([]T, n)
 	for i := 0; i < n; i++ {
 		data = data[idx:]
-		ary[i], idx, err = parseBlob('$', data)
+		ary[i], idx, err = parseBlob[T]('$', data)
 		if err != nil {
 			return nil, err
 		}
