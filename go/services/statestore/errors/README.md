@@ -15,18 +15,18 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
 - [type Payload](<#Payload>)
   - [func \(e Payload\) Error\(\) string](<#Payload.Error>)
   - [func \(Payload\) Unwrap\(\) error](<#Payload.Unwrap>)
-- [type Response](<#Response>)
-  - [func \(e Response\) Error\(\) string](<#Response.Error>)
-  - [func \(Response\) Unwrap\(\) error](<#Response.Unwrap>)
+- [type Service](<#Service>)
+  - [func \(e Service\) Error\(\) string](<#Service.Error>)
+  - [func \(Service\) Unwrap\(\) error](<#Service.Unwrap>)
 
 
 ## Variables
 
-<a name="ErrResponse"></a>
+<a name="ErrService"></a>
 
 ```go
 var (
-    ErrResponse = errors.New("error response")
+    ErrService  = errors.New("service error")
     ErrPayload  = errors.New("malformed payload")
     ErrArgument = errors.New("invalid argument")
 )
@@ -45,7 +45,7 @@ type Argument struct {
 ```
 
 <a name="Argument.Error"></a>
-### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L45>)
+### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L60>)
 
 ```go
 func (e Argument) Error() string
@@ -54,7 +54,7 @@ func (e Argument) Error() string
 
 
 <a name="Argument.Unwrap"></a>
-### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L49>)
+### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L64>)
 
 ```go
 func (Argument) Unwrap() error
@@ -72,7 +72,7 @@ type Payload string
 ```
 
 <a name="Payload.Error"></a>
-### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L37>)
+### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L52>)
 
 ```go
 func (e Payload) Error() string
@@ -81,7 +81,7 @@ func (e Payload) Error() string
 
 
 <a name="Payload.Unwrap"></a>
-### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L41>)
+### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L56>)
 
 ```go
 func (Payload) Unwrap() error
@@ -89,29 +89,48 @@ func (Payload) Unwrap() error
 
 
 
-<a name="Response"></a>
-## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L10>)
+<a name="Service"></a>
+## type [Service](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L10>)
 
-Response errors indicate an error returned from the state store.
+Service errors indicate an error returned from the state store.
 
 ```go
-type Response string
+type Service string
 ```
 
-<a name="Response.Error"></a>
-### func \(Response\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L29>)
+<a name="TimestampSkew"></a>
 
 ```go
-func (e Response) Error() string
+const (
+    TimestampSkew            Service = "the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    MissingFencingToken      Service = "a fencing token is required for this request"
+    FencingTokenSkew         Service = "the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    FencingTokenLowerVersion Service = "the requested fencing token is a lower version that the fencing token protecting the resource"
+    QuotaExceeded            Service = "the quota has been exceeded"
+    SyntaxError              Service = "syntax error"
+    NotAuthorized            Service = "not authorized"
+    UnknownCommand           Service = "unknown command"
+    WrongNumberOfArguments   Service = "wrong number of arguments"
+    TimestampMissing         Service = "missing timestamp"
+    TimestampMalformed       Service = "malformed timestamp"
+    KeyLengthZero            Service = "the key length is zero"
+)
+```
+
+<a name="Service.Error"></a>
+### func \(Service\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L44>)
+
+```go
+func (e Service) Error() string
 ```
 
 
 
-<a name="Response.Unwrap"></a>
-### func \(Response\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L33>)
+<a name="Service.Unwrap"></a>
+### func \(Service\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L48>)
 
 ```go
-func (Response) Unwrap() error
+func (Service) Unwrap() error
 ```
 
 
