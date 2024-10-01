@@ -60,24 +60,24 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile to retrieve.</param>
         /// <returns>The requested asset endpoint profile.</returns>
-        public Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
-            string? aepUsernameSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-            string? aepPasswordSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-            string? aepCertificateSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
-            string? aepUsernameSecretFileContents = GetMountedConfigurationValueAsString($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
-            byte[]? aepPasswordSecretFileContents = GetMountedConfigurationValue($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
-            string? aepCertFileContents = GetMountedConfigurationValueAsString($"{_aepCertMountPath}/{aepCertificateSecretName}");
+            string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
+            string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
+            string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
+            string? aepUsernameSecretFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
+            byte[]? aepPasswordSecretFileContents = await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
+            string? aepCertFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{aepCertificateSecretName}");
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
-            string aepTargetAddressFileContents = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string aepAuthenticationMethodFileContents = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string endpointProfileTypeFileContents = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string? aepAdditionalConfigurationFileContents = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
+            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
 
             JsonDocument? aepAdditionalConfigurationJson = null;
             if (aepAdditionalConfigurationFileContents != null)
@@ -92,11 +92,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 }
             }
 
-            return Task.FromResult(new AssetEndpointProfile(aepTargetAddressFileContents, aepAuthenticationMethodFileContents, endpointProfileTypeFileContents)
+            return new AssetEndpointProfile(aepTargetAddressFileContents, aepAuthenticationMethodFileContents, endpointProfileTypeFileContents)
             {
                 AdditionalConfiguration = aepAdditionalConfigurationJson,
                 Credentials = credentials,
-            });
+            };
         }
 
         /// <summary>
@@ -122,15 +122,15 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
-        public Task ObserveAssetEndpointProfileAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public async Task ObserveAssetEndpointProfileAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             if (!assetEndpointProfileFileObservers.ContainsKey(assetId))
             {
-                string? aepUsernameSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-                string? aepPasswordSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-                string? aepCertificateSecretName = GetMountedConfigurationValueAsString($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
+                string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
+                string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
+                string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
 
                 //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
                 var assetEndpointObserver = new FilesObserver(
@@ -147,12 +147,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
                 assetEndpointProfileFileObservers.Add(assetId, assetEndpointObserver);
 
-                assetEndpointObserver.Start();
+                await assetEndpointObserver.StartAsync();
 
                 assetEndpointObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
             }
-
-            return Task.CompletedTask;
         }
 
         private void OnAssetEndpointProfileFileChanged(object? sender, EventArgs e)
@@ -168,18 +166,16 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="assetId">The Id of the asset whose endpoint profile you want to unobserve.</param>
-        public Task UnobserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task UnobserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
             if (assetEndpointProfileFileObservers.ContainsKey(assetId))
             {
-                assetEndpointProfileFileObservers[assetId].Stop();
+                await assetEndpointProfileFileObservers[assetId].StopAsync();
                 assetEndpointProfileFileObservers.Remove(assetId);
             }
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -199,21 +195,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             return ValueTask.CompletedTask;
         }
 
-        private static string? GetMountedConfigurationValueAsString(string path)
+        private static async Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
         {
-            byte[]? bytesRead = GetMountedConfigurationValue(path);
+            byte[]? bytesRead = await GetMountedConfigurationValueAsync(path);
 
             return bytesRead != null ? Encoding.UTF8.GetString(bytesRead) : null;
         }
 
-        private static byte[]? GetMountedConfigurationValue(string path)
+        private static async Task<byte[]?> GetMountedConfigurationValueAsync(string path)
         {
             if (!File.Exists(path))
             {
                 return null;
             }
 
-            return FileUtilities.ReadFileWithRetry(path);
+            return await FileUtilities.ReadFileWithRetryAsync(path);
         }
     }
 }

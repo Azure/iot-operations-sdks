@@ -127,6 +127,47 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             }
         }
 
+        [Fact]
+        public async Task CanObserveAssetEndpointProfileAfterUnobserve()
+        {
+            SetupTestEnvironment();
+
+            await using var adrClient = new AzureDeviceRegistryClient();
+            try
+            {
+                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
+
+                TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
+                adrClient.AssetEndpointProfileChanged += (sender, assetEndpointProfile) =>
+                {
+                    assetEndpointProfileTcs.TrySetResult(assetEndpointProfile);
+                };
+
+                await adrClient.ObserveAssetEndpointProfileAsync("someAssetId", TimeSpan.FromMilliseconds(1000));
+
+                string expectedNewTargetAddress = Guid.NewGuid().ToString();
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
+                var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
+
+                await adrClient.UnobserveAssetEndpointProfileAsync("someAssetId");
+
+                await adrClient.ObserveAssetEndpointProfileAsync("someAssetId", TimeSpan.FromMilliseconds(1000));
+
+                assetEndpointProfileTcs = new();
+                string expectedNewTargetAddress2 = Guid.NewGuid().ToString();
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS", expectedNewTargetAddress2);
+                var updatedAssetEndpointProfile2 = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                Assert.Equal(expectedNewTargetAddress2, updatedAssetEndpointProfile2.TargetAddress);
+
+            }
+            finally
+            {
+                await adrClient.UnobserveAssetEndpointProfileAsync("someAssetId");
+                CleanupTestEnvironment();
+            }
+        }
+
         private void SetupTestEnvironment()
         {
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.ConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config");

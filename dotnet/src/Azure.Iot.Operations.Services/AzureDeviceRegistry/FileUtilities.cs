@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     internal class FileUtilities
     {
-        internal static byte[] ReadFileWithRetry(string path)
+        internal static async Task<byte[]> ReadFileWithRetryAsync(string path, int maxRetryCount = 10, TimeSpan? delayBetweenAttempts = null)
         {
+            TimeSpan delay = delayBetweenAttempts ?? TimeSpan.FromMilliseconds(100);
+
             int retryCount = 0;
             while (true)
             {
@@ -26,6 +25,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                     {
                         throw;
                     }
+
+                    await Task.Delay(delay);
                 }
             }
         }
