@@ -16,8 +16,8 @@ use crate::session::pub_tracker::PubTracker;
 use crate::topic::{TopicFilter, TopicParseError};
 use crate::CompletionToken;
 
-/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
-// TODO: MORE DOC
+/// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
+/// Can be used to send and receive messages.
 #[derive(Clone)]
 pub struct SessionManagedClient<PS>
 where

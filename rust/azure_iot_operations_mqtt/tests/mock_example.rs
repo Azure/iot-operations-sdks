@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::ConnectionError;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttEventLoop, MqttPubReceiver};
 use azure_iot_operations_mqtt::session::{
-    internal::Session, reconnect_policy::ExponentialBackoffWithJitter,
+    session::Session, reconnect_policy::ExponentialBackoffWithJitter,
 };
 use azure_iot_operations_mqtt::{Event, Incoming};
 

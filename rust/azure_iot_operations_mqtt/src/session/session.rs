@@ -97,8 +97,7 @@ where
         }
     }
 
-    /// Return a [`SessionManagedClient`] that can be used to do MQTT
-    //TODO: finish doc
+    /// Return a [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient<C> {
         SessionManagedClient {
             client_id: self.client_id.clone(),
