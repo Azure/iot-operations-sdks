@@ -43,6 +43,7 @@ pub async fn set(
       key: Vec<u8>,
       value: Vec<u8>,
       timeout: Duration,
+      fencing_token: Option<HybridLogicalClock>,
       options: SetOptions,
   ) -> Result<state_store::Response<bool>, StateStoreError>;
 
@@ -187,8 +188,6 @@ pub struct SetOptions {
     pub set_condition: SetCondition,
     /// How long the key should persist before it expires, in millisecond precision.
     pub expires: Option<Duration>,
-    /// Optional fencing token for the `Set` operation
-    pub fencing_token: Option<HybridLogicalClock>,
 }
 
 /// Condition for a `Set` Request
