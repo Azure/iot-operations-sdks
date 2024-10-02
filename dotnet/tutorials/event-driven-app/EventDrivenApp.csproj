@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-EventDrivenApp-49ae8d06-ee19-4bb6-922d-1afdc5d1f692</UserSecretsId>
+    <ContainerRepository>event-driven-app</ContainerRepository>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.5.0" />
+    <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.5.0" />
+    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.5.0" />
+    <PackageReference Include="KubernetesClient" Version="15.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>
