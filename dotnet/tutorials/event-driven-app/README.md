@@ -22,7 +22,7 @@ The OutputWorker performs the following steps:
 
 ## Prerequisites
 
-1. Follow the [Getting started](/#getting-started) guide to install Azure IoT Operations in Codespaces.
+1. Follow the [Getting started](/README.md#getting-started) guide to install Azure IoT Operations in Codespaces.
 
 > [!NOTE]
 > The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The Codespaces environment is already configured in this way.
