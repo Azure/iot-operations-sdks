@@ -6,8 +6,8 @@ import (
 )
 
 type (
-	// Response errors indicate an error returned from the state store.
-	Response string
+	// Service errors indicate an error returned from the state store.
+	Service string
 
 	// Payload errors indicate a malformed or unexpected payload returned from
 	// the state store.
@@ -21,17 +21,32 @@ type (
 )
 
 var (
-	ErrResponse = errors.New("error response")
+	ErrService  = errors.New("service error")
 	ErrPayload  = errors.New("malformed payload")
 	ErrArgument = errors.New("invalid argument")
 )
 
-func (e Response) Error() string {
-	return fmt.Sprintf("%s: %s", ErrResponse, string(e))
+const (
+	TimestampSkew            Service = "the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+	MissingFencingToken      Service = "a fencing token is required for this request"
+	FencingTokenSkew         Service = "the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+	FencingTokenLowerVersion Service = "the requested fencing token is a lower version that the fencing token protecting the resource"
+	QuotaExceeded            Service = "the quota has been exceeded"
+	SyntaxError              Service = "syntax error"
+	NotAuthorized            Service = "not authorized"
+	UnknownCommand           Service = "unknown command"
+	WrongNumberOfArguments   Service = "wrong number of arguments"
+	TimestampMissing         Service = "missing timestamp"
+	TimestampMalformed       Service = "malformed timestamp"
+	KeyLengthZero            Service = "the key length is zero"
+)
+
+func (e Service) Error() string {
+	return fmt.Sprintf("%s: %s", ErrService, string(e))
 }
 
-func (Response) Unwrap() error {
-	return ErrResponse
+func (Service) Unwrap() error {
+	return ErrService
 }
 
 func (e Payload) Error() string {

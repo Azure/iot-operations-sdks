@@ -102,15 +102,8 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                     return null;
                 }
 
-                LeaderElectionCandidate? lastKnownCandidate = null;
-                if (_leasedLockClient.MostRecentAcquireLockResponse.LastKnownOwner != null)
-                {
-                    lastKnownCandidate = new LeaderElectionCandidate(_leasedLockClient.MostRecentAcquireLockResponse.LastKnownOwner.Bytes);
-                }
-
                 return new CampaignResponse(
                     _leasedLockClient.MostRecentAcquireLockResponse.Success,
-                    lastKnownCandidate,
                     _leasedLockClient.MostRecentAcquireLockResponse.FencingToken);
             }
         }
@@ -194,15 +187,8 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                     acquireLockOptions,
                     cancellationToken).ConfigureAwait(false);
 
-            LeaderElectionCandidate? lastKnownCandidate = null;
-            if (acquireLockResponse.LastKnownOwner != null)
-            {
-                lastKnownCandidate = new LeaderElectionCandidate(acquireLockResponse.LastKnownOwner.Bytes);
-            }
-
             return new CampaignResponse(
                 acquireLockResponse.Success,
-                lastKnownCandidate,
                 acquireLockResponse.FencingToken);
         }
 
@@ -237,15 +223,8 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                     acquireLockOptions,
                     cancellationToken).ConfigureAwait(false);
 
-            LeaderElectionCandidate? lastKnownCandidate = null;
-            if (acquireLockResponse.LastKnownOwner != null)
-            {
-                lastKnownCandidate = new LeaderElectionCandidate(acquireLockResponse.LastKnownOwner.Bytes);
-            }
-
             return new CampaignResponse(
                 acquireLockResponse.Success,
-                lastKnownCandidate,
                 acquireLockResponse.FencingToken);
         }
 
