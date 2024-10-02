@@ -62,6 +62,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.UnitTests", "test\Azure.Iot.Operations.Mqtt.UnitTests\Azure.Iot.Operations.Mqtt.UnitTests.csproj", "{0636DA59-E153-4F22-9093-3E1E0702B190}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpConnectorWorkerService", "samples\ConnectorApp\HttpConnectorWorkerService.csproj", "{DAF8BA9B-3A50-4546-8505-724F63E94E72}"
 EndProject
 Global
