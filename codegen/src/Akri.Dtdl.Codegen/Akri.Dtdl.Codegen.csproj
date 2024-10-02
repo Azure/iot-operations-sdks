@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.1.14-preview-gb26a58377d" />
+		<PackageReference Include="DTDLParser" Version="1.1.15-preview-g16fa4a909c" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.9.1" />
