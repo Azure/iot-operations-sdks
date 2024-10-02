@@ -49,3 +49,40 @@ pub type Incoming = rumqttc::v5::Incoming;
 pub type Outgoing = rumqttc::Outgoing;
 
 //----------------------------------------------------------------------
+
+//format!
+//($file:expr $(,)?) => {{
+
+macro_rules! include_str_no_run {
+    ($file:expr) => {
+        {
+            let s = include_str!($file);
+            s
+            //format!("{}", s)
+        }
+        //include_str!($file).replace("```rust", "```rust, no_run")
+    }
+    // () => {
+    //     let mut s = include_str!("../README.md");
+    //     s
+    // };
+}
+
+// fn readme_norun() -> &'static str {
+//     let mut s = include_str!("../README.md");
+//     let s = s.replace("```rust", "```rust, no_run").as_str();
+//     s
+// }
+
+// fn readme_norun() -> String {
+//     let mut s = include_str!("../README.md");
+//     let s = s.replace("```rust", "```rust, no_run");
+//     s
+// }
+
+/// Import README when running doctest to prevent doc rot
+#[doc = include_str_no_run!("../README.md")]
+//#[doc = include_str!("../README.md")]
+//#[doc = readme_norun()]
+#[cfg(doctest)]
+struct ReadmeDoctests;
