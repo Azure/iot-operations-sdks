@@ -32,8 +32,9 @@ type (
 
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
-		Logger      *slog.Logger
 		Concurrency uint
+		ManualAck   bool
+		Logger      *slog.Logger
 	}
 
 	// Response represents a state store response, which will include a value
@@ -47,12 +48,6 @@ type (
 	ServiceError  = errors.Service
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
-
-	// This option is not used directly; see WithLogger below.
-	withLogger struct{ *slog.Logger }
-
-	// WithConcurrency indicates how many notifications can execute in parallel.
-	WithConcurrency uint
 )
 
 var (
@@ -195,9 +190,8 @@ func (o WithConcurrency) client(opt *ClientOptions) {
 	opt.Concurrency = uint(o)
 }
 
-// WithLogger enables logging with the provided slog logger.
-func WithLogger(logger *slog.Logger) ClientOption {
-	return withLogger{logger}
+func (o WithManualAck) client(opt *ClientOptions) {
+	opt.ManualAck = bool(o)
 }
 
 func (o withLogger) client(opt *ClientOptions) {
@@ -213,6 +207,7 @@ func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {
 func (o *ClientOptions) receiver() *protocol.TelemetryReceiverOptions {
 	return &protocol.TelemetryReceiverOptions{
 		Concurrency: o.Concurrency,
+		ManualAck:   o.ManualAck,
 		Logger:      o.Logger,
 	}
 }

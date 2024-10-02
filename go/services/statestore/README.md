@@ -49,6 +49,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type WithCondition](<#WithCondition>)
 - [type WithExpiry](<#WithExpiry>)
 - [type WithFencingToken](<#WithFencingToken>)
+- [type WithManualAck](<#WithManualAck>)
 - [type WithTimeout](<#WithTimeout>)
 
 
@@ -65,7 +66,7 @@ var (
 ```
 
 <a name="ArgumentError"></a>
-## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L49>)
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L50>)
 
 
 
@@ -96,7 +97,7 @@ type Client[K, V Bytes] struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L67-L70>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L62-L65>)
 
 ```go
 func New[K, V Bytes](client mqtt.Client, opt ...ClientOption) (*Client[K, V], error)
@@ -132,7 +133,7 @@ func (c *Client[K, V]) KeyNotify(ctx context.Context, key K, opt ...KeyNotifyOpt
 KeyNotify requests a notification channel for a key, starting notifications if necessary. It returns an object with the channel, which can be used to stop this notification request.
 
 <a name="Client[K, V].Listen"></a>
-### func \(\*Client\[K, V\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L115>)
+### func \(\*Client\[K, V\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L110>)
 
 ```go
 func (c *Client[K, V]) Listen(ctx context.Context) (func(), error)
@@ -170,7 +171,7 @@ type ClientOption interface {
 ```
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L199>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L60>)
 
 ```go
 func WithLogger(logger *slog.Logger) ClientOption
@@ -179,19 +180,20 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L34-L37>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L34-L38>)
 
 ClientOptions are the resolved options for the client.
 
 ```go
 type ClientOptions struct {
-    Logger      *slog.Logger
     Concurrency uint
+    ManualAck   bool
+    Logger      *slog.Logger
 }
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L172-L175>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L167-L170>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -200,7 +202,7 @@ func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
 Apply resolves the provided list of options.
 
 <a name="Condition"></a>
-## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L12>)
+## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L13>)
 
 Condition specifies the conditions under which the key will be set.
 
@@ -343,7 +345,7 @@ func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption
 Apply resolves the provided list of options.
 
 <a name="Notify"></a>
-## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12-L16>)
+## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12-L20>)
 
 Notify represents a notification event.
 
@@ -352,11 +354,15 @@ type Notify[K, V Bytes] struct {
     Key       K
     Operation string
     Value     V
+
+    // Ack provides a function to manually ack if enabled; it will be nil
+    // otherwise.
+    Ack func() error
 }
 ```
 
 <a name="PayloadError"></a>
-## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L48>)
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L49>)
 
 
 
@@ -365,7 +371,7 @@ type PayloadError = errors.Payload
 ```
 
 <a name="Response"></a>
-## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L42-L45>)
+## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L43-L46>)
 
 Response represents a state store response, which will include a value depending on the method and the stored version returned for the key \(if any\).
 
@@ -377,7 +383,7 @@ type Response[T any] struct {
 ```
 
 <a name="ServiceError"></a>
-## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L47>)
+## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L48>)
 
 
 
@@ -452,7 +458,7 @@ func (o *VDelOptions) Apply(opts []VDelOption, rest ...VDelOption)
 Apply resolves the provided list of options.
 
 <a name="WithConcurrency"></a>
-## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L55>)
+## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L31>)
 
 WithConcurrency indicates how many notifications can execute in parallel.
 
@@ -461,7 +467,7 @@ type WithConcurrency uint
 ```
 
 <a name="WithCondition"></a>
-## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L16>)
+## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L17>)
 
 WithCondition indicates that the key should only be set under the given conditions.
 
@@ -470,7 +476,7 @@ type WithCondition Condition
 ```
 
 <a name="WithExpiry"></a>
-## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L20>)
+## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L21>)
 
 WithExpiry indicates that the key should expire after the given duration \(with millisecond precision\).
 
@@ -479,7 +485,7 @@ type WithExpiry time.Duration
 ```
 
 <a name="WithFencingToken"></a>
-## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L24>)
+## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L25>)
 
 WithFencingToken adds a fencing token to the set request to provide lock ownership checking.
 
@@ -487,8 +493,17 @@ WithFencingToken adds a fencing token to the set request to provide lock ownersh
 type WithFencingToken hlc.HybridLogicalClock
 ```
 
+<a name="WithManualAck"></a>
+## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L34>)
+
+WithManualAck allows notifications to be manually acknowledged.
+
+```go
+type WithManualAck bool
+```
+
 <a name="WithTimeout"></a>
-## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L27>)
+## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L28>)
 
 WithTimeout adds a timeout to the request \(with second precision\).
 

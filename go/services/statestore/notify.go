@@ -13,6 +13,10 @@ type Notify[K, V Bytes] struct {
 	Key       K
 	Operation string
 	Value     V
+
+	// Ack provides a function to manually ack if enabled; it will be nil
+	// otherwise.
+	Ack func() error
 }
 
 // Receive a NOTIFY message.
@@ -44,6 +48,8 @@ func (c *Client[K, V]) notifyReceive(
 		return resp.PayloadError("invalid payload %q", string(msg.Payload))
 	}
 
+	key := K(bytKey)
+	op := string(data[1])
 	var val V
 	if hasValue {
 		val = V(data[3])
@@ -55,7 +61,7 @@ func (c *Client[K, V]) notifyReceive(
 
 	for _, kn := range c.notify[string(bytKey)] {
 		select {
-		case kn.C <- Notify[K, V]{K(bytKey), string(data[1]), val}:
+		case kn.C <- Notify[K, V]{key, op, val, msg.Ack}:
 		case <-kn.done:
 		case <-ctx.Done():
 		}
