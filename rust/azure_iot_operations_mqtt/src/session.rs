@@ -4,15 +4,19 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 
 mod dispatcher;
-#[doc(hidden)]
-pub mod internal; // TODO: Make this private and accessible via compile flags
+mod managed_client;
 mod pub_tracker;
 pub mod reconnect_policy;
+#[doc(hidden)]
+#[allow(clippy::module_inception)]
+// This isn't ideal naming, but it'd be inconsistent otherwise.
+pub mod session; // TODO: Make this private and accessible via compile flags
+mod state;
 mod wrapper;
 
 use thiserror::Error;
 
-use crate::error::ConnectionError;
+use crate::error::{ClientError, ConnectionError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
 
@@ -36,7 +40,27 @@ pub enum SessionErrorKind {
     /// Reconnect attempts were halted by the reconnect policy, ending the MQTT session
     #[error("reconnection halted by reconnect policy")]
     ReconnectHalted,
+    /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
+    #[error("session ended by force exit")]
+    ForceExit,
     /// The [`Session`] ended up in an invalid state.
     #[error("{0}")]
     InvalidState(String),
+}
+
+/// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
+#[derive(Error, Debug)]
+pub enum SessionExitError {
+    /// Session was dropped before it could be exited.
+    #[error("session dropped")]
+    Dropped(#[from] ClientError),
+    /// Session is not currently able to contact the broker for graceful exit.
+    #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
+    BrokerUnavailable {
+        /// Indicates if a disconnect attempt was made.
+        attempted: bool,
+    },
+    /// Attempt to exit the Session gracefully timed out.
+    #[error("exit attempt timed out")]
+    Timeout(#[from] tokio::time::error::Elapsed),
 }

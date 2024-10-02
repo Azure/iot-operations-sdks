@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -18,8 +19,8 @@ public class MqttConnectionSettings
 
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
-    private static readonly TimeSpan s_defaultConenctionTimeout = TimeSpan.FromSeconds(30);
-
+    private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
+    
     public string HostName { get; init; }
 
     public int TcpPort { get; set; } = DefaultTcpPort;
@@ -81,7 +82,7 @@ public class MqttConnectionSettings
             KeepAlive = GetTimeSpanValue(connectionSettings, nameof(KeepAlive), s_defaultKeepAlive);
             CleanStart = GetBooleanValue(connectionSettings, nameof(CleanStart), DefaultCleanStart);
             SessionExpiry = GetTimeSpanValue(connectionSettings, nameof(SessionExpiry), s_defaultSessionExpiry);
-            ConnectionTimeout = GetTimeSpanValue(connectionSettings, nameof(ConnectionTimeout), s_defaultConenctionTimeout);
+            ConnectionTimeout = GetTimeSpanValue(connectionSettings, nameof(ConnectionTimeout), s_defaultConnectionTimeout);
             TcpPort = GetPositiveIntValueOrDefault(connectionSettings, nameof(TcpPort), DefaultTcpPort);
             UseTls = GetBooleanValue(connectionSettings, nameof(UseTls), DefaultUseTls);
             CaFile = GetStringValue(connectionSettings, nameof(CaFile));
@@ -146,6 +147,84 @@ public class MqttConnectionSettings
             throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, Env(ex.ParamName!), "Invalid settings in provided Environment Variables: " + ex.Message, ex);
         }
     }
+
+    /// <summary>
+    /// This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
+    /// Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
+    /// MqttConnectionSettings are created from these settings to construct a session client.
+    /// This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
+    /// </summary>
+    public static MqttConnectionSettings FromFileMount()
+    {
+        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
+            ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
+        
+        string targetAddress;
+        bool useTls = false;
+        string satMountPath = string.Empty;
+        string tlsCaCertMountPath = string.Empty;
+
+        try
+        {
+            targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
+        }
+        catch (Exception ex)
+        {
+            throw AkriMqttException.GetConfigurationInvalidException("MQ_TARGET_ADDRESS", string.Empty, "Missing target address configuration file", ex);
+        }
+
+        try
+        {
+            useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
+        }
+        catch
+        {
+            throw AkriMqttException.GetConfigurationInvalidException("MQ_USE_TLS", string.Empty, "MQ_USE_TLS not set.");
+        }
+
+        try
+        {
+            satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
+        }
+        catch
+        {
+            Trace.TraceInformation("MQ_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
+        }
+
+        try
+        {
+            tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+        }
+        catch
+        {
+            Trace.TraceInformation("MQ_TLS_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
+        }
+
+        try
+        {
+            return new MqttConnectionSettings(targetAddress)
+            {
+                UseTls = useTls,
+                SatAuthFile = satMountPath,
+                CaFile = tlsCaCertMountPath,
+                CleanStart = false
+            };
+        }
+        catch (ArgumentException ex)
+        {
+            string paramValue = ex.ParamName switch
+            {
+                nameof(targetAddress) => targetAddress,
+                nameof(useTls) => useTls.ToString(),
+                nameof(satMountPath) => satMountPath,
+                nameof(tlsCaCertMountPath) => tlsCaCertMountPath,
+                _ => string.Empty
+            };
+
+            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue, "Invalid settings in provided configuration files: " + ex.Message, ex);
+        }
+    }
+
 
     public static MqttConnectionSettings FromConnectionString(string connectionString)
     {
