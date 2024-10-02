@@ -16,9 +16,9 @@ MQTT version 5.0 client library providing flexibility for decoupled asynchronous
 use std::str;
 use std::time::Duration;
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubReceiver, MqttPubSub};
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+    Session, SessionManagedClient, SessionExitHandle, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
@@ -45,26 +45,23 @@ async fn main() {
     // Create a new session.
     let mut session = Session::new(session_options).unwrap();
 
-    // Create PubSubs to send, PubReceivers to receive, and an ExitHandle for exiting.
-    let pub_sub1 = session.pub_sub();
-    let pub_sub2 = session.pub_sub();
-    let receiver = session
-        .filtered_pub_receiver(TOPIC, true)
-        .unwrap();
-    let exit_handle = session.get_session_exit_handle();
-
-    // Send the created components to their respective tasks.
-    tokio::spawn(receive_messages(pub_sub1, receiver));
-    tokio::spawn(send_messages(pub_sub2, exit_handle));
+    // Spawn tasks for sending and receiving messages using managed clients
+    // created from the session.
+    tokio::spawn(receive_messages(session.create_managed_client()));
+    tokio::spawn(send_messages(session.create_managed_client(), session.create_exit_handle()));
 
     // Run the session. This blocks until the session is exited.
     session.run().await.unwrap();
 }
 
 /// Indefinitely receive
-async fn receive_messages(pub_sub: SessionPubSub, mut receiver: SessionPubReceiver) {
+async fn receive_messages(client: SessionManagedClient) {
+    // Create a receiver from the SessionManagedClient and subscribe to the topic
+    let mut receiver = client.filtered_pub_receiver(TOPIC, true).unwrap();
     println!("Subscribing to {TOPIC}");
-    pub_sub.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
+    client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
+
+    // Receive indefinitely
     loop {
         let msg = receiver.recv().await.unwrap();
         println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
@@ -72,11 +69,11 @@ async fn receive_messages(pub_sub: SessionPubSub, mut receiver: SessionPubReceiv
 }
 
 /// Publish 10 messages, then exit
-async fn send_messages(pub_sub: SessionPubSub, exit_handler: SessionExitHandle) {
+async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHandle) {
     for i in 1..=10 {
         let payload = format!("Hello #{i}");
         println!("Sending: {payload}");
-        let comp_token = pub_sub
+        let comp_token = client
             .publish(TOPIC, QoS::AtLeastOnce, false, payload)
             .await
             .unwrap();
