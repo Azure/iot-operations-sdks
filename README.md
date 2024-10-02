@@ -62,7 +62,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Run the tutorial to build your first app:
 
-   * .NET - [Event Driven App](/dotnet/tutorial/event-driven-app)
+   * .NET - [Event Driven App](/dotnet/tutorials/event-driven-app)
 
 ## SDK Features
 
