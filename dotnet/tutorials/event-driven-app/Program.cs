@@ -4,8 +4,11 @@
 using EventDrivenApp;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<WindowFunctionWorker>();
-builder.Services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
 
-var host = builder.Build();
-host.Run();
+builder.Services
+    .AddSingleton(MqttClientFactoryProvider.MqttConnectionSettingsFactory)
+    .AddTransient(MqttClientFactoryProvider.MqttSessionClientFactory)
+    .AddHostedService<InputWorker>()
+    .AddHostedService<OutputWorker>();
+
+builder.Build().Run();

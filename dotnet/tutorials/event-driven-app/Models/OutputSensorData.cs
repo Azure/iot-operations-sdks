@@ -5,41 +5,38 @@ using Newtonsoft.Json;
 
 namespace EventDrivenApp;
 
-class InputSensorData
-{
-    [JsonProperty(propertyName: "sensor_id")]
-    required public string SensorId { get; set; }
-
-    [JsonProperty(propertyName: "timestamp")]
-    public DateTime Timestamp { get; set; }
-
-    [JsonProperty(propertyName: "temperature")]
-    public double Temperature { get; set; }
-
-    [JsonProperty(propertyName: "pressure")]
-    public double Pressure { get; set; }
-
-    [JsonProperty(propertyName: "vibration")]
-    public double Vibration { get; set; }
-
-    [JsonProperty(propertyName: "msg_number")]
-    public int MessageNumber { get; set; }
-}
-
 class OutputSensorData
 {
     public class AggregatedSensorData
     {
+        [JsonProperty(propertyName: "min")]
         public double Min { get; set; }
+
+        [JsonProperty(propertyName: "max")]
         public double Max { get; set; }
+
+        [JsonProperty(propertyName: "mean")]
         public double Mean { get; set; }
+
+        [JsonProperty(propertyName: "medium")]
         public double Medium { get; set; }
-        public double Count { get; set; }
+        
+        [JsonProperty(propertyName: "count")]
+        public int Count { get; set; }
     }
 
+    [JsonProperty(propertyName: "timestamp")]
     public DateTime Timestamp { get; set; }
+
+    [JsonProperty(propertyName: "window_size")]
     public int WindowSize { get; set; }
+
+    [JsonProperty(propertyName: "temperature")]
     public required AggregatedSensorData Temperature { get; set; }
+
+    [JsonProperty(propertyName: "pressure")]
     public required AggregatedSensorData Pressure { get; set; }
+
+    [JsonProperty(propertyName: "vibration")]
     public required AggregatedSensorData Vibration { get; set; }
 }
