@@ -49,3 +49,10 @@ pub type Incoming = rumqttc::v5::Incoming;
 pub type Outgoing = rumqttc::Outgoing;
 
 //----------------------------------------------------------------------
+
+// TODO: Add macro to check README.md during rustdoc generation / cargo test.
+// Not as simple as just using `include_str()`, since we need to prevent the code from actually
+// being run, since it won't work due to network usage. We just want to check compilation.
+// This is difficult since the `no_run` attribute has to be directly applied to the code block itself.
+// Furthermore, we can't simply add `no_run` to the code block in README.md, since that would prevent
+// the correct syntax highlighting.

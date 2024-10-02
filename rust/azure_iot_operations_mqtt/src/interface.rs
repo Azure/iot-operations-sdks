@@ -132,35 +132,31 @@ pub trait MqttEventLoop {
 
 // ---------- Higher level MQTT abstractions ----------
 
+/// An MQTT client that has it's connection state externally managed.
+/// Can be used to send messages and create receivers for incoming messages.
+pub trait ManagedClient: MqttPubSub {
+    /// The type of receiver used by this client
+    type PubReceiver: PubReceiver + MqttAck;
+
+    /// Get the client id for the MQTT connection
+    fn client_id(&self) -> &str;
+
+    /// Creates a new [`PubReceiver`] that receives messages on a specific topic
+    ///
+    /// # Errors
+    /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
+    fn create_filtered_pub_receiver(
+        &self,
+        topic_filter: &str,
+        auto_ack: bool,
+    ) -> Result<Self::PubReceiver, TopicParseError>;
+}
+
 #[async_trait]
-/// Functionality for receiving an MQTT publish
-pub trait MqttPubReceiver {
+/// Receiver for incoming MQTT messages.
+pub trait PubReceiver {
     /// Receives the next incoming publish.
     ///
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
-}
-
-// TODO: refactor into "ManagedClient"
-/// Spawns [`MqttPubSub`] and [`MqttPubReceiver`]
-pub trait MqttProvider<PS, PR>
-where
-    PS: MqttPubSub + Clone + Send + Sync,
-    PR: MqttPubReceiver + Send + Sync,
-{
-    /// Get the client id for the MQTT connection
-    fn client_id(&self) -> &str;
-
-    /// Get an [`MqttPubSub`] for this connection
-    fn pub_sub(&self) -> PS;
-
-    /// Get an [`MqttPubReceiver`] for a specific topic
-    ///
-    /// # Errors
-    /// Returns a [`TopicParseError`] if the pub receiver cannot be registered.
-    fn filtered_pub_receiver(
-        &mut self,
-        topic_filter: &str,
-        auto_ack: bool,
-    ) -> Result<PR, TopicParseError>;
 }
