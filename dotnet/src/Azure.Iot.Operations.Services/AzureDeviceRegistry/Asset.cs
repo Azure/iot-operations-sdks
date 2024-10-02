@@ -39,7 +39,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         /// <summary>
         /// A value that is incremented each time the resource is modified.
-
         /// </summary>
         public long? Version { get; init; }
 
