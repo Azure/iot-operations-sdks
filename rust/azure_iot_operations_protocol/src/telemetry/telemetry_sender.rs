@@ -84,7 +84,7 @@ where
     T: PayloadSerialize,
     C: ManagedClient,
 {
-    client: C,
+    mqtt_client: C,
     message_payload_type: PhantomData<T>,
     telemetry_name: Option<String>,
 }
@@ -106,7 +106,7 @@ where
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         Ok(Self {
-            client,
+            mqtt_client: client,
             message_payload_type: PhantomData,
             telemetry_name: sender_options.telemetry_name,
         })

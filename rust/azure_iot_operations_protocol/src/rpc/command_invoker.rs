@@ -193,7 +193,7 @@ where
     C: ManagedClient + Clone + Send + Sync,
 {
     // static properties of the invoker
-    client: C,
+    mqtt_client: C,
     command_name: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
@@ -332,7 +332,7 @@ where
         });
 
         Ok(Self {
-            client,
+            mqtt_client: client,
             command_name: invoker_options.command_name,
             request_topic_pattern,
             response_topic_pattern,
@@ -438,7 +438,7 @@ where
         let response_subscribe_topic = self.response_topic_pattern.as_subscribe_topic();
         // Send subscribe
         let subscribe_result = self
-            .client
+            .mqtt_client
             .subscribe(response_subscribe_topic, QoS::AtLeastOnce)
             .await;
         match subscribe_result {
@@ -512,7 +512,7 @@ where
         // Add internal user properties
         request.custom_user_data.push((
             UserProperty::CommandInvokerId.to_string(),
-            self.client.client_id().to_string(),
+            self.mqtt_client.client_id().to_string(),
         ));
         request.custom_user_data.push((
             UserProperty::Timestamp.to_string(),
@@ -552,7 +552,7 @@ where
 
         // Send publish
         let publish_result = self
-            .client
+            .mqtt_client
             .publish_with_properties(
                 request_topic,
                 QoS::AtLeastOnce,
@@ -632,8 +632,8 @@ where
         }
     }
 
-    async fn receive_response_loop<PR: PubReceiver + MqttAck + Send + Sync + 'static>(
-        mut mqtt_receiver: PR,
+    async fn receive_response_loop(
+        mut mqtt_receiver: C::PubReceiver,
         response_tx: Sender<Publish>,
         recv_cancellation_token: CancellationToken,
         command_name: String,

@@ -247,7 +247,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     // Static properties of the executor
-    client: C,
+    mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
     is_idempotent: bool,
     request_topic: String,
@@ -356,7 +356,7 @@ where
 
         // Create Command executor
         Ok(CommandExecutor {
-            client,
+            mqtt_client: client,
             mqtt_receiver,
             is_idempotent: executor_options.is_idempotent,
             request_topic,
@@ -377,7 +377,7 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.client.unsubscribe(&self.request_topic).await;
+        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.request_topic).await;
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
@@ -414,7 +414,7 @@ where
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
         if !self.is_subscribed {
             let subscribe_result = self
-                .client
+                .mqtt_client
                 .subscribe(&self.request_topic, QoS::AtLeastOnce)
                 .await;
 
@@ -665,7 +665,7 @@ where
                             // Check the command has not expired, if it has, we do not respond to the invoker.
                             if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
                                 self.pending_pubs.spawn({
-                                    let client_clone = self.client.clone();
+                                    let client_clone = self.mqtt_client.clone();
                                     let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
                                     let pkid = m.pkid;
                                     async move {
@@ -694,7 +694,7 @@ where
                         }
 
                         self.pending_pubs.spawn({
-                            let client_clone = self.client.clone();
+                            let client_clone = self.mqtt_client.clone();
                             let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
                             let pkid = m.pkid;
                             async move {

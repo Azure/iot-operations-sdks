@@ -77,7 +77,7 @@ where
     T: PayloadSerialize,
     C: ManagedClient,
 {
-    client: C,
+    mqtt_client: C,
     message_payload_type: PhantomData<T>,
     telemetry_name: Option<String>,
 }
@@ -100,7 +100,7 @@ where
     #[allow(unused)]
     pub fn new(client: C, options: TelemetryReceiverOptions) -> Result<Self, AIOProtocolError> {
         Ok(Self {
-            client,
+            mqtt_client: client,
             message_payload_type: PhantomData,
             telemetry_name: options.telemetry_name,
         })
