@@ -21,7 +21,7 @@ use crate::{CompletionToken, MqttConnectionSettings};
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
-/// the [`SessionManagedClient`] and [`SessionExitHandle`].
+/// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 
 /// Handle used to end an MQTT session.
@@ -33,7 +33,7 @@ pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlia
 pub struct SessionExitHandle(session::SessionExitHandle<adapter::ClientAlias>);
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`].
-/// Can be used to send and receive messages.
+/// Can be used to send messages and create receivers for incoming messages.
 #[derive(Clone)]
 pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
 
@@ -75,12 +75,12 @@ impl Session {
         )))
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end this [`Session`]
+    /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
     pub fn create_exit_handle(&self) -> SessionExitHandle {
         SessionExitHandle(self.0.create_exit_handle())
     }
 
-    /// Return an instance of [`SessionManagedClient`] that can be used to send and receive messages
+    /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient {
         SessionManagedClient(self.0.create_managed_client())
     }

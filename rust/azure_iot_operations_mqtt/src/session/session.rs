@@ -24,7 +24,7 @@ use crate::{Event, Incoming};
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
-/// the [`SessionManagedClient`] and [`SessionExitHandle`].
+/// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session<C, EL>
 where
     C: InternalClient + Clone + Send + Sync + 'static,
@@ -87,7 +87,7 @@ where
         }
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end this [`Session`]
+    /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
     pub fn create_exit_handle(&self) -> SessionExitHandle<C> {
         SessionExitHandle {
             disconnector: self.client.clone(),
@@ -96,7 +96,7 @@ where
         }
     }
 
-    /// Return an instance of [`SessionManagedClient`] that can be used to send and receive messages
+    /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient<C> {
         SessionManagedClient {
             client_id: self.client_id.clone(),

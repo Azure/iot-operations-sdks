@@ -22,13 +22,15 @@ use crate::topic::{TopicFilter, TopicParseError};
 use crate::CompletionToken;
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
-/// Can be used to send and receive messages.
+/// Can be used to send messages and create receivers for incoming messages.
 #[derive(Clone)]
 pub struct SessionManagedClient<PS>
 where
     PS: MqttPubSub + Clone + Send + Sync + 'static,
 {
+    // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
+    // PubSub for sending outgoing MQTT messages
     pub(crate) pub_sub: PS,
     /// Dispatcher for incoming publishes
     pub(crate) incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
