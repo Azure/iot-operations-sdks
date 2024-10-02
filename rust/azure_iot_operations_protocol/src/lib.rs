@@ -13,3 +13,9 @@ pub mod telemetry;
 
 #[macro_use]
 extern crate derive_builder;
+
+/// Include the README doc on a struct when running doctests to validate that the code in the
+/// README can compile to verify that it has not rotted.
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+struct ReadmeDoctests;
