@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Events;
-using System.Text;
-using k8s;
-using System.Text.Json;
 using Azure.Iot.Operations.Services.StateStore;
-//using System.Text.Json.Nodes;
-//using Newtonsoft.Json;
+using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol.Models;
+using k8s;
+using Newtonsoft.Json;
+using System.Collections.Concurrent;
+using System.Text;
 
 namespace EventDrivenApp;
 
@@ -20,32 +19,13 @@ public class WindowFunctionWorker(MqttSessionClient sessionClient, ILogger<Windo
     private const string PUBSUB_OUTPUT_TOPIC = "sensor/window_data";
     private const string STATESTORE_SENSOR_KEY = "event_app_sample";
 
-    private const string SENSOR_ID = "sensor_id";
-    private const string SENSOR_TIMESTAMP = "timestamp";
-    private const string SENSOR_TEMPERATURE = "temperature";
-    private const string SENSOR_PRESSURE = "pressure";
-    private const string SENSOR_VIBRATION = "vibration";
-    private const string MSG_NUMBER = "msg_number";
-
-    private const int WINDOW_SIZE = 30;
+    private const int WINDOW_SIZE = 60;
     private const int PUBLISH_INTERVAL = 10;
 
-    private HashSet<int> trackedSensor = new HashSet<int>();
-
-    public class SensorData
-    {
-        public int sensor_id { get; set; }
-        public DateTime timestamp { get; set; }
-        public double temperature { get; set; }
-        public double pressure { get; set; }
-        public double vibration { get; set; }
-        public int msg_number { get; set; }
-    }
+    private BlockingCollection<InputSensorData> incomingSensorData = [];
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        await Console.Out.WriteLineAsync("Starting");
-
         try
         {
             sessionClient.ApplicationMessageReceivedAsync += OnMessageReceived;
@@ -67,11 +47,16 @@ public class WindowFunctionWorker(MqttSessionClient sessionClient, ILogger<Windo
             await sessionClient.ConnectAsync(mcs, cancellationToken);
 
             // subscribe to a topic
-            var subscribe = new MqttClientSubscribeOptions("sensor/data", MqttQualityOfServiceLevel.AtLeastOnce);
+            var subscribe = new MqttClientSubscribeOptions(PUBSUB_INPUT_TOPIC, MqttQualityOfServiceLevel.AtLeastOnce);
             await sessionClient.SubscribeAsync(subscribe, cancellationToken);
 
             // enter the window function loop
-            await RunWindow(cancellationToken);
+            var tasks = new List<Task>
+            {
+                ProcessInputSensorData(cancellationToken),
+                ProcessWindow(cancellationToken)
+            };
+            await Task.WhenAll(tasks);
 
             await sessionClient.DisconnectAsync();
             Environment.Exit(0);
@@ -83,47 +68,63 @@ public class WindowFunctionWorker(MqttSessionClient sessionClient, ILogger<Windo
         }
     }
 
-    private async Task<SensorData[]> GetState(StateStoreClient stateStoreClient)
+    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs args)
     {
-        StateStoreGetResponse? response = await stateStoreClient.GetAsync(STATESTORE_SENSOR_KEY);
-        if (response.Value == null)
+        args.AutoAcknowledge = true;
+
+        try
         {
-            return JsonSerializer.Deserialize<SensorData[]>("[]")!;
+            // Ignore other topics
+            if (args.ApplicationMessage.Topic != PUBSUB_INPUT_TOPIC)
+            {
+                return Task.CompletedTask;
+            }
+
+            logger.LogInformation($"Received message on topic {args.ApplicationMessage.Topic}");
+
+            // Deserialize the incoming sensor data
+            var sensorData = JsonConvert.DeserializeObject<InputSensorData>(args.ApplicationMessage.ConvertPayloadToString()!);
+            if (sensorData == null)
+            {
+                logger.LogError("Failed to deserialize sensor payload");
+                return Task.CompletedTask;
+            }
+
+            // Add the sensor data to the incoming queue
+            incomingSensorData.Add(sensorData);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, ex.Message);
         }
 
-        return JsonSerializer.Deserialize<SensorData[]>(response.Value.GetString())!;
+        return Task.CompletedTask;
     }
 
-    private async Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs args)
+    private async Task ProcessInputSensorData(CancellationToken cancellationToken)
     {
         try
         {
-            using JsonDocument document = JsonDocument.Parse(args.ApplicationMessage.PayloadSegment);
+            while (!cancellationToken.IsCancellationRequested)
             {
-                await Console.Out.WriteLineAsync($"Received {document.RootElement.GetRawText()}");
+                var sensorData = incomingSensorData.Take(cancellationToken);
 
-                JsonElement root = document.RootElement;
-
-                // Extract timestamp
-                DateTime timestamp = root.GetProperty(SENSOR_TIMESTAMP).GetDateTime();
-
-                int msgNumber = root.GetProperty(MSG_NUMBER).GetInt32();
-
-                // Track the sensor for publishing window
-                trackedSensor.Add(root.GetProperty(SENSOR_ID).GetInt32());
-
-
-                await using StateStoreClient stateStoreClient = new StateStoreClient(sessionClient);
+                await using StateStoreClient stateStoreClient = new(sessionClient);
                 {
-                    SensorData[] sensors = await GetState(stateStoreClient);
-                    sensors.Append(JsonSerializer.Deserialize<SensorData>(root.GetRawText())!);
+                    // Fetch the past sensor data from the state store
+                    StateStoreGetResponse response = await stateStoreClient.GetAsync(STATESTORE_SENSOR_KEY);
+                    List<InputSensorData> data = [];
+                    if (response.Value != null)
+                    {
+                        data = JsonConvert.DeserializeObject<List<InputSensorData>>(response.Value.GetString()) ?? [];
+                    }
 
-                    // var state = await stateStoreClient.GetAsync(STATESTORE_SENSOR_KEY);
-                    // if (state.Value != null)
-                    // {
-                    //     var newState = state.Value.GetString() + root.GetRawText();
-                    //     await stateStoreClient.SetAsync(STATESTORE_SENSOR_KEY, newState);
-                    // }
+                    // Append the new sensor data
+                    data.Add(sensorData);
+
+                    // Set the sensor data back to the state store
+                    await stateStoreClient.SetAsync(STATESTORE_SENSOR_KEY, JsonConvert.SerializeObject(data), null, null, cancellationToken);
+                    logger.LogDebug($"State store contains {data.Count} items");
                 }
             }
         }
@@ -131,32 +132,101 @@ public class WindowFunctionWorker(MqttSessionClient sessionClient, ILogger<Windo
         {
             logger.LogError(ex, ex.Message);
         }
-
-        return;
     }
 
-    private async Task RunWindow(CancellationToken cancellationToken)
+    private async Task ProcessWindow(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            // Fetch state
+            var timeNow = DateTime.UtcNow;
+            var inputData = new List<InputSensorData>();
 
-            // Calculate window
+            try
+            {
+                logger.LogDebug("Processing window");
 
-            // Expire old data
+                // Wait for 10 seconds before processing the next window
+                await Task.Delay(PUBLISH_INTERVAL * 1000, cancellationToken);
 
-            // Set state
-
-            // Publish window
-            await sessionClient.PublishAsync(
-                new MqttApplicationMessage("sensor/window_data")
+                await using StateStoreClient stateStoreClient = new(sessionClient);
                 {
-                    PayloadSegment = Encoding.UTF8.GetBytes("hello"),
-                },
-                cancellationToken);
+                    // Fetch the past sensor data from the state store
+                    StateStoreGetResponse response = await stateStoreClient.GetAsync(STATESTORE_SENSOR_KEY);
+                    if (response.Value == null)
+                    {
+                        await Console.Out.WriteLineAsync("Sensor data not found in state store");
+                        throw new Exception("Sensor data not found in state store");
+                    }
 
-            // Wait for 10 seconds
-            await Task.Delay(10000, cancellationToken);
+                    // Deserialize the sensor data
+                    inputData = JsonConvert.DeserializeObject<List<InputSensorData>>(response.Value.GetString()) ?? [];
+
+                    // Discard old data by iterating over a copy of the list
+                    var discardCount = 0;
+                    foreach (InputSensorData sensor in inputData.ToList())
+                    {
+                        if (timeNow - sensor.Timestamp > TimeSpan.FromSeconds(WINDOW_SIZE))
+                        {
+                            inputData.Remove(sensor);
+                            ++discardCount;
+                        }
+                    }
+                    logger.LogDebug($"Discarded {discardCount} sensor data");
+
+                    // Store the pruned state back to the state store
+                    await stateStoreClient.SetAsync(STATESTORE_SENSOR_KEY, JsonConvert.SerializeObject(inputData));
+                }
+
+                if (inputData.Count == 0)
+                {
+                    continue;
+                }
+
+                // Calculate window aggregation
+                var outputData = new OutputSensorData()
+                {
+                    Timestamp = timeNow,
+                    WindowSize = WINDOW_SIZE,
+                    Temperature = new OutputSensorData.AggregatedSensorData
+                    {
+                        Min = inputData.Min(s => s.Temperature),
+                        Max = inputData.Max(s => s.Temperature),
+                        Mean = inputData.Average(s => s.Temperature),
+                        Medium = inputData.OrderBy(s => s.Temperature).ElementAt(inputData.Count / 2).Temperature,
+                        Count = inputData.Count
+                    },
+                    Pressure = new OutputSensorData.AggregatedSensorData
+                    {
+                        Min = inputData.Min(s => s.Pressure),
+                        Max = inputData.Max(s => s.Pressure),
+                        Mean = inputData.Average(s => s.Pressure),
+                        Medium = inputData.OrderBy(s => s.Pressure).ElementAt(inputData.Count / 2).Pressure,
+                        Count = inputData.Count
+                    },
+                    Vibration = new OutputSensorData.AggregatedSensorData
+                    {
+                        Min = inputData.Min(s => s.Vibration),
+                        Max = inputData.Max(s => s.Vibration),
+                        Mean = inputData.Average(s => s.Vibration),
+                        Medium = inputData.OrderBy(s => s.Vibration).ElementAt(inputData.Count / 2).Vibration,
+                        Count = inputData.Count
+                    }
+                };
+
+                // Publish window data
+                await sessionClient.PublishAsync(
+                    new MqttApplicationMessage(PUBSUB_OUTPUT_TOPIC)
+                    {
+                        PayloadSegment = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(outputData)),
+                    },
+                    cancellationToken);
+
+                logger.LogInformation($"Published window data: {JsonConvert.SerializeObject(outputData, Formatting.Indented)}");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+            }
         }
     }
 }

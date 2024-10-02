@@ -26,12 +26,10 @@ The application performs the following steps:
 
 The application can be run locally, by downloading a SAT, and the MQTT broker cert to the local development environment.
 
-1. Download the SAT and cert to the local environment:
+1. Regenerate the SAT and server cert if needed:
 
     ```bash
-    mkdir .session
-    kubectl create token default --namespace azure-iot-operations --duration=86400s --audience=aio-internal > .session/token.txt
-    kubectl get secret aio-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d > .session/broker-ca.crt    
+    ../../../tools/deployment/update-credentials.sh
     ```
 
 1. Run the application:
@@ -100,6 +98,13 @@ Simulate test data by deploying a simulator pod. It simulates a sensor by sendin
     Starting simulator
     Publishing 5 messages
     Publishing 10 messages
+    ```
+
+1. View the simulator output:
+
+    ```bash
+    export SESSION=$(git rev-parse --show-toplevel)/.session
+    mosquitto_sub -L mqtts://localhost:8884/sensor/data -V mqttv311 --cafile $SESSION/broker-ca.crt -u K8S-SAT -P $(cat $SESSION/token.txt)
     ```
 
 ## Verify the application output
