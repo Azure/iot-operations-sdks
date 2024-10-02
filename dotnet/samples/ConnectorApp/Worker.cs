@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using System.Text.Json;
 
 namespace DotnetHttpConnectorWorkerService
@@ -22,15 +23,12 @@ namespace DotnetHttpConnectorWorkerService
             while (!stoppingToken.IsCancellationRequested)
             {
                 // ADR client stub
-                string targetAddress = "";
-                string authenticationMethod = "";
-                string endpointProfileType = "";
+                AzureDeviceRegistryClient adrClient = new();
+                string assetId = "todo - doesn't matter yet";
+                AssetEndpointProfile aep = await adrClient.GetAssetEndpointProfileAsync(assetId);
                 JsonDocument? additionalConfiguration = null;
-                string? assetEndpointProfileUsername = "";
-                byte[]? assetEndpointProfilePassword = new byte[0];
-                string? assetEndpointProfileCertificate = "";
 
-                HttpDataRetriever httpDataRetriever = new(targetAddress, "todo", assetEndpointProfileUsername, assetEndpointProfilePassword);
+                HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, "todo", aep.Credentials?.Username ?? "", aep.Credentials?.Password ?? Array.Empty<byte>());
 
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;
