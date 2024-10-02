@@ -28,11 +28,11 @@ helm repo update
 
 if [ "$deploy_type" = "nightly" ]; then
     # install cert-manager
-    helm upgrade cert-manager jetstack/cert-manager --install --create-namespace --version v1.13 --set installCRDs=true --set extraArgs={--enable-certificate-owner-ref=true} --wait
+    helm upgrade cert-manager jetstack/cert-manager --install --create-namespace --version v1.15 --set crds.enabled=true --set extraArgs={--enable-certificate-owner-ref=true} --wait
 
     # install AIO Broker
     helm uninstall broker --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
+    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --values ./yaml/broker-values.yaml --wait
 fi
 
 # clean up any deployed Broker pieces

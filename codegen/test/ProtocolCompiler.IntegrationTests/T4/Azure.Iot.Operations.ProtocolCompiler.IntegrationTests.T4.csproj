@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dotnet\t4\DotNetClientShim.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetClientShim.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetEnumTokenizer.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetEnumTokenizer.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetLibraryCsProj.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetLibraryCsProj.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetServiceShim.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetServiceShim.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetStandaloneCsProj.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetStandaloneCsProj.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetStandaloneTest.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetStandaloneTest.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="dotnet\t4\DotNetClientShim.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetClientShim.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetEnumTokenizer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetEnumTokenizer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetLibraryCsProj.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetLibraryCsProj.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetServiceShim.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetServiceShim.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetStandaloneCsProj.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetStandaloneCsProj.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetStandaloneTest.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetStandaloneTest.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
