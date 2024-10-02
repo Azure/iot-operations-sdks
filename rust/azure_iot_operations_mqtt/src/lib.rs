@@ -53,20 +53,20 @@ pub type Outgoing = rumqttc::Outgoing;
 //format!
 //($file:expr $(,)?) => {{
 
-macro_rules! include_str_no_run {
-    ($file:expr) => {
-        {
-            let s = include_str!($file);
-            s
-            //format!("{}", s)
-        }
-        //include_str!($file).replace("```rust", "```rust, no_run")
-    }
-    // () => {
-    //     let mut s = include_str!("../README.md");
-    //     s
-    // };
-}
+//macro_rules! include_str_no_run {
+//     ($file:expr) => {
+//         {
+//             let s = include_str!($file);
+//             s
+//             //format!("{}", s)
+//         }
+//         //include_str!($file).replace("```rust", "```rust, no_run")
+//     }
+//     // () => {
+//     //     let mut s = include_str!("../README.md");
+//     //     s
+//     // };
+// }
 
 // fn readme_norun() -> &'static str {
 //     let mut s = include_str!("../README.md");
@@ -81,8 +81,8 @@ macro_rules! include_str_no_run {
 // }
 
 /// Import README when running doctest to prevent doc rot
-#[doc = include_str_no_run!("../README.md")]
-//#[doc = include_str!("../README.md")]
+//#[doc = include_str_no_run!("../README.md")]
+#[doc = include_str!("../README.md")]
 //#[doc = readme_norun()]
 #[cfg(doctest)]
 struct ReadmeDoctests;
