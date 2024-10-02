@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProtocolCompiler.IntegrationTests.SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
-    <ProjectReference Include="..\ProtocolCompiler.IntegrationTests.T4\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4.csproj" />
+    <ProjectReference Include="..\SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
+    <ProjectReference Include="..\T4\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4.csproj" />
   </ItemGroup>
 
   <ItemGroup>

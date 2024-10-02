@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
+    <ProjectReference Include="..\SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
