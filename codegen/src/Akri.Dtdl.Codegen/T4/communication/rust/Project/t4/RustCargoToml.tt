@@ -5,9 +5,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-futures = "0.3.28"
-paho-mqtt = { version = "0.12", default-features=false, features=["bundled"] }
-tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_repr = "0.1"
 <# foreach (var packageVersion in this.packageVersions) { #>
@@ -15,6 +12,11 @@ serde_repr = "0.1"
 <# } #>
 chrono = { version = "0.4.31", features = ["serde", "alloc"] }
 iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }
+bytes = "1.5.0"
+base64 = "0.22.1"
+time = { version = "0.3", features = ["serde", "formatting", "parsing"] }
+uuid = { version = "1.8.0", features = ["serde", "v4"] }
 lazy_static = "1.4.0"
-akri_mqtt = { path = "<#=this.sdkPath#>/rust/src/akri_mqtt" }
-akri_mqtt_attributes = { path = "<#=this.sdkPath#>/rust/src/akri_mqtt_attributes" }
+derive_builder = "0.20"
+azure_iot_operations_mqtt = { path = "<#=this.sdkPath#>/azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { path = "<#=this.sdkPath#>/azure_iot_operations_protocol" }

@@ -42,7 +42,7 @@
             switch (schemaType)
             {
                 case ArrayType arrayType:
-                    AddSchemaImports(schemaImports, arrayType.ElementSchmema);
+                    AddSchemaImports(schemaImports, arrayType.ElementSchema);
                     break;
                 case MapType mapType:
                     AddSchemaImports(schemaImports, mapType.ValueSchema);

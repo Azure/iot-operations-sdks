@@ -8,7 +8,7 @@ namespace Akri.Dtdl.Codegen
             string optRef = isRequired ? string.Empty : "*";
             return schemaType switch
             {
-                ArrayType arrayType => $"[]{GetType(arrayType.ElementSchmema, true)}",
+                ArrayType arrayType => $"[]{GetType(arrayType.ElementSchema, true)}",
                 MapType mapType => $"map[string]{GetType(mapType.ValueSchema, true)}",
                 ObjectType objectType => $"{optRef}{objectType.SchemaName}",
                 EnumType enumType => $"{optRef}{enumType.SchemaName}",
@@ -17,6 +17,12 @@ namespace Akri.Dtdl.Codegen
                 FloatType _ => $"{optRef}float32",
                 IntegerType _ => $"{optRef}int32",
                 LongType _ => $"{optRef}int64",
+                ByteType _ => $"{optRef}int8",
+                ShortType _ => $"{optRef}int16",
+                UnsignedIntegerType _ => $"{optRef}uint32",
+                UnsignedLongType _ => $"{optRef}uint64",
+                UnsignedByteType _ => $"{optRef}uint8",
+                UnsignedShortType _ => $"{optRef}uint16",
                 DateType _ => $"{optRef}iso.Time",
                 DateTimeType _ => $"{optRef}iso.Time",
                 TimeType _ => $"{optRef}iso.Time",

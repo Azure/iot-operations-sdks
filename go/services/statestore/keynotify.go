@@ -5,16 +5,17 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
 type (
 	// KeyNotify represents a registered notification request.
-	KeyNotify struct {
-		Key string
-		C   chan Notify
+	KeyNotify[K, V Bytes] struct {
+		Key K
+		C   chan Notify[K, V]
 
 		done   chan struct{}
-		client *Client
+		client *Client[K, V]
 		index  int
 	}
 
@@ -30,36 +31,40 @@ type (
 // KeyNotify requests a notification channel for a key, starting notifications
 // if necessary. It returns an object with the channel, which can be used to
 // stop this notification request.
-func (c *Client) KeyNotify(
+func (c *Client[K, V]) KeyNotify(
 	ctx context.Context,
-	key string,
+	key K,
 	opt ...KeyNotifyOption,
-) (*KeyNotify, error) {
+) (*KeyNotify[K, V], error) {
 	c.notifyMu.Lock()
 	defer c.notifyMu.Unlock()
 
-	if len(c.notify[key]) == 0 {
+	k := string(key)
+	if len(c.notify[k]) == 0 {
 		if err := c.keyNotify(ctx, key, true, opt...); err != nil {
 			return nil, err
 		}
 	}
 
 	// Give the channel a buffer of 1 so we can iterate through them quickly.
-	kn := &KeyNotify{
+	kn := &KeyNotify[K, V]{
 		Key:    key,
-		C:      make(chan Notify, 1),
+		C:      make(chan Notify[K, V], 1),
 		done:   make(chan struct{}),
 		client: c,
-		index:  len(c.notify[key]),
+		index:  len(c.notify[k]),
 	}
-	c.notify[key] = append(c.notify[key], kn)
+	c.notify[k] = append(c.notify[k], kn)
 
 	return kn, nil
 }
 
 // Stop removes this notification and stops notifications for this key if no
 // other notifications are registered.
-func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error {
+func (kn *KeyNotify[K, V]) Stop(
+	ctx context.Context,
+	opt ...KeyNotifyOption,
+) error {
 	// Stop needs to be thread-safe with other keys, but not with itself, and we
 	// need to close the done channel outside of the lock to guarantee that the
 	// notify loop will unblock (and eventually free the lock).
@@ -68,22 +73,24 @@ func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error {
 	}
 
 	c := kn.client
+	k := string(kn.Key)
+
 	c.notifyMu.Lock()
 	defer c.notifyMu.Unlock()
 
 	if kn.index >= 0 {
 		// Order doesn't matter, so remove this index quickly by swapping.
-		last := len(c.notify[kn.Key]) - 1
-		c.notify[kn.Key][kn.index] = c.notify[kn.Key][last]
-		c.notify[kn.Key][kn.index].index = kn.index
-		c.notify[kn.Key] = c.notify[kn.Key][:last]
+		last := len(c.notify[k]) - 1
+		c.notify[k][kn.index] = c.notify[k][last]
+		c.notify[k][kn.index].index = kn.index
+		c.notify[k] = c.notify[k][:last]
 
 		kn.index = -1
 		close(kn.C)
 	}
 
-	if len(c.notify[kn.Key]) == 0 {
-		delete(c.notify, kn.Key)
+	if len(c.notify[k]) == 0 {
+		delete(c.notify, k)
 		if err := c.keyNotify(ctx, kn.Key, false, opt...); err != nil {
 			return err
 		}
@@ -93,22 +100,22 @@ func (kn *KeyNotify) Stop(ctx context.Context, opt ...KeyNotifyOption) error {
 }
 
 // KEYNOTIFY invoke shorthand.
-func (c *Client) keyNotify(
+func (c *Client[K, V]) keyNotify(
 	ctx context.Context,
-	key string,
+	key K,
 	run bool,
 	opt ...KeyNotifyOption,
 ) error {
-	var args []string
+	var data []byte
 	if run {
-		args = []string{"KEYNOTIFY", key}
+		data = resp.OpK("KEYNOTIFY", key)
 	} else {
-		args = []string{"KEYNOTIFY", key, "STOP"}
+		data = resp.OpK("KEYNOTIFY", key, "STOP")
 	}
 
 	var opts KeyNotifyOptions
 	opts.Apply(opt)
-	_, err := invoke(ctx, c.invoker, parseOK, &opts, args...)
+	_, err := invoke(ctx, c.invoker, parseOK, &opts, data)
 	return err
 }
 

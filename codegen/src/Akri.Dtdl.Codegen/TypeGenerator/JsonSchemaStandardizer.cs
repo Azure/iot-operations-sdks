@@ -71,21 +71,31 @@
                     return new MapType(GetSchemaTypeFromJsonElement(schemaElt.GetProperty("additionalProperties")));
                 case "boolean":
                     return new BooleanType();
-                default:
+                case "number":
+                    return schemaElt.GetProperty("format").GetString() == "float" ? new FloatType() : new DoubleType();
+                case "integer":
+                    return schemaElt.GetProperty("maximum").GetUInt64() switch
+                    {
+                        < 128 => new ByteType(),
+                        < 256 => new UnsignedByteType(),
+                        < 32768 => new ShortType(),
+                        < 65536 => new UnsignedShortType(),
+                        < 2147483648 => new IntegerType(),
+                        < 4294967296 => new UnsignedIntegerType(),
+                        < 9223372036854775808 => new LongType(),
+                        _ => new UnsignedLongType(),
+                    };
+                case "string":
                     if (schemaElt.TryGetProperty("format", out JsonElement formatElt))
                     {
                         return formatElt.GetString() switch
                         {
-                            "double" => new DoubleType(),
-                            "float" => new FloatType(),
-                            "int32" => new IntegerType(),
-                            "int64" => new LongType(),
                             "date" => new DateType(),
                             "date-time" => new DateTimeType(),
                             "time" => new TimeType(),
                             "duration" => new DurationType(),
                             "uuid" => new UuidType(),
-                            _ => throw new Exception($"unrecognized schema (format = {formatElt.GetString()})"),
+                            _ => throw new Exception($"unrecognized 'string' schema (format = {formatElt.GetString()})"),
                         };
                     }
 
@@ -94,11 +104,13 @@
                         return encodingElt.GetString() switch
                         {
                             "base64" => new BytesType(),
-                            _ => throw new Exception($"unrecognized schema (contentEncoding = {encodingElt.GetString()})"),
+                            _ => throw new Exception($"unrecognized 'string' schema (contentEncoding = {encodingElt.GetString()})"),
                         };
                     }
 
                     return new StringType();
+                default:
+                    throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
             }
         }
     }

@@ -54,12 +54,12 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.T4
                     };
                 case ArrayTypeInfo arrayType:
                     iter = GetIter();
-                    return $"new JArray({varName}.Select({iter} => {JTokenFromSchemaValue(iter, arrayType.ElementSchmema)}))";
+                    return $"new JArray({varName}.Select({iter} => {JTokenFromSchemaValue(iter, arrayType.ElementSchema)}))";
                 case ObjectTypeInfo objectType:
                     return $"new JObject(new List<JProperty> {{ {string.Join(", ", objectType.FieldSchemas.Select(f => $"new JProperty(\"{f.Key}\", {JTokenFromSchemaValue($"{varName}.{Capitalize(f.Key)}", f.Value)})"))} }})";
                 case MapTypeInfo mapType:
                     iter = GetIter();
-                    return $"new JObject({varName}.Select({iter} => new JProperty({iter}.Key, {JTokenFromSchemaValue($"{iter}.Value", mapType.ValueSchmema)})))";
+                    return $"new JObject({varName}.Select({iter} => new JProperty({iter}.Key, {JTokenFromSchemaValue($"{iter}.Value", mapType.ValueSchema)})))";
                 case EnumTypeInfo enumType:
                     return $"{schemaType.SchemaName}_Tokenizer.EnumToJToken({varName})";
                 default: throw new Exception($"inappropriate schema type {schemaType.GetType()}");
@@ -88,12 +88,12 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.T4
                     };
                 case ArrayTypeInfo arrayType:
                     iter = GetIter();
-                    return $"((JArray){varName}).Select({iter} => {SchemaValueFromJToken(iter, arrayType.ElementSchmema)}).ToList()";
+                    return $"((JArray){varName}).Select({iter} => {SchemaValueFromJToken(iter, arrayType.ElementSchema)}).ToList()";
                 case ObjectTypeInfo objectType:
                     return $"new {objectType.SchemaName} {{ {string.Join(", ", objectType.FieldSchemas.Select(f => $"{Capitalize(f.Key)} = {SchemaValueFromJToken($"((JObject){varName})[\"{f.Key}\"]", f.Value)}"))} }}";
                 case MapTypeInfo mapType:
                     iter = GetIter();
-                    return $"((JObject){varName}).Properties().ToDictionary({iter} => {iter}.Name, {iter} => {SchemaValueFromJToken($"{iter}.Value", mapType.ValueSchmema)})";
+                    return $"((JObject){varName}).Properties().ToDictionary({iter} => {iter}.Name, {iter} => {SchemaValueFromJToken($"{iter}.Value", mapType.ValueSchema)})";
                 case EnumTypeInfo enumType:
                     return $"{enumType.SchemaName}_Tokenizer.JTokenToEnum({varName})";
                 default: throw new Exception($"inappropriate schema type {schemaType.GetType()}");

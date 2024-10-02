@@ -5,16 +5,12 @@ namespace Akri.Dtdl.Codegen
     {
         private readonly string? telemetryName;
         private readonly string genNamespace;
-        private readonly string serializerSubNamespace;
-        private readonly string serializerClassName;
         private readonly string schemaClassName;
 
-        public RustTelemetryReceiver(string? telemetryName, string genNamespace, string serializerSubNamespace, string serializerClassName, string schemaClassName)
+        public RustTelemetryReceiver(string? telemetryName, string genNamespace, string schemaClassName)
         {
             this.telemetryName = telemetryName;
             this.genNamespace = genNamespace;
-            this.serializerSubNamespace = serializerSubNamespace;
-            this.serializerClassName = string.Format(serializerClassName, string.Empty);
             this.schemaClassName = schemaClassName == "" ? "byte[]" : schemaClassName;
         }
 

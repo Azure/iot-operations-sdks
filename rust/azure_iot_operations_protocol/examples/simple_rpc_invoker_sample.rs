@@ -5,12 +5,10 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadSerialize, SerializerError,
-};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
@@ -29,6 +27,7 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
+    // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .host_name(HOST)
@@ -37,34 +36,35 @@ async fn main() {
         .use_tls(false)
         .build()
         .unwrap();
-
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
         .unwrap();
-
     let mut session = Session::new(session_options).unwrap();
-    let exit_handle = session.get_session_exit_handle();
 
-    let rpc_incr_invoker_options = CommandInvokerOptionsBuilder::default()
+    // Use the managed client to run command invocations in another task
+    tokio::task::spawn(invoke_loop(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
+
+    // Run the session
+    session.run().await.unwrap();
+}
+
+/// Send 10 increment command requests and wait for their responses, then disconnect
+async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+    // Create a command invoker for the increment command
+    let incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .response_topic_pattern(RESPONSE_TOPIC_PATTERN.to_string())
         .command_name("increment")
         .build()
         .unwrap();
-    let rpc_incr_invoker: CommandInvoker<IncrRequest, IncrResponse, _> =
-        CommandInvoker::new(&mut session, rpc_incr_invoker_options).unwrap();
+    let incr_invoker: CommandInvoker<IncrRequest, IncrResponse, _> =
+        CommandInvoker::new(client, incr_invoker_options).unwrap();
 
-    tokio::task::spawn(rpc_loop(rpc_incr_invoker, exit_handle));
-
-    session.run().await.unwrap();
-}
-
-/// Send 10 increment command requests and wait for their responses, then disconnect
-async fn rpc_loop(
-    rpc_invoker: CommandInvoker<IncrRequest, IncrResponse, SessionPubSub>,
-    exit_handle: SessionExitHandle,
-) {
+    // Send 10 increment requests
     for i in 1..10 {
         let payload = CommandRequestBuilder::default()
             .payload(&IncrRequest::default())
@@ -73,11 +73,12 @@ async fn rpc_loop(
             .executor_id(None)
             .build()
             .unwrap();
-        let response = rpc_invoker.invoke(payload).await;
+        let response = incr_invoker.invoke(payload).await;
         log::info!("Response {}: {:?}", i, response);
     }
 
-    exit_handle.exit_session().await.unwrap();
+    // End the session
+    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]
@@ -89,6 +90,7 @@ pub struct IncrResponse {
 }
 
 impl PayloadSerialize for IncrRequest {
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -97,16 +99,17 @@ impl PayloadSerialize for IncrRequest {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, String> {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequest, SerializerError> {
+    fn deserialize(_payload: &[u8]) -> Result<IncrRequest, String> {
         Ok(IncrRequest {})
     }
 }
 
 impl PayloadSerialize for IncrResponse {
+    type Error = String;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -114,11 +117,11 @@ impl PayloadSerialize for IncrResponse {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, SerializerError> {
+    fn serialize(&self) -> Result<Vec<u8>, String> {
         Ok(String::new().into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponse, SerializerError> {
+    fn deserialize(payload: &[u8]) -> Result<IncrResponse, String> {
         let payload = String::from_utf8(payload.to_vec()).unwrap();
         let counter_response = payload.parse::<i32>().unwrap();
         Ok(IncrResponse { counter_response })

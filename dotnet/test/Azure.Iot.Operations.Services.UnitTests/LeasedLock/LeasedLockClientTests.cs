@@ -19,10 +19,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             var fencingToken = new HybridLogicalClock();
             var expectedPreviousValue = new StateStoreValue("somePreviousValue");
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true)
-            {
-                PreviousValue = expectedPreviousValue,
-            };
+            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -58,8 +55,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             Assert.Equal(fencingToken, lockResponse.FencingToken);
             Assert.True(lockResponse.Success);
-            Assert.NotNull(lockResponse.LastKnownOwner);
-            Assert.Equal(expectedPreviousValue.GetString(), lockResponse.LastKnownOwner.GetString());
 
             await leasedLockClient.DisposeAsync();
         }
@@ -124,11 +119,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
             var fencingToken = new HybridLogicalClock();
-            var expectedPreviousValue = new StateStoreValue("somePreviousValue");
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true)
-            {
-                PreviousValue = expectedPreviousValue,
-            };
+            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -159,8 +150,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             Assert.Equal(fencingToken, lockResponse.FencingToken);
             Assert.True(lockResponse.Success);
-            Assert.NotNull(lockResponse.LastKnownOwner);
-            Assert.Equal(expectedPreviousValue.GetString(), lockResponse.LastKnownOwner.GetString());
 
             await leasedLockClient.DisposeAsync();
         }

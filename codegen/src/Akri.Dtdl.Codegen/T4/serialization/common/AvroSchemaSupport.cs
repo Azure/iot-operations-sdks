@@ -15,7 +15,7 @@ namespace Akri.Dtdl.Codegen
 
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
-                var templateTransform = new ObjectAvroSchema(dtmiToSchemaName(dtSchema.Id, "Object"), ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema)).ToList(), dtmiToSchemaName, indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new ObjectAvroSchema(dtmiToSchemaName(dtSchema.Id, "Object"), ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), dtmiToSchemaName, indent + (nestNamedType ? 2 : 0));
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
@@ -50,11 +50,19 @@ namespace Akri.Dtdl.Codegen
                 "dtmi:dtdl:instance:Schema:float;2" => $"{it}\"type\": \"float\"",
                 "dtmi:dtdl:instance:Schema:integer;2" => $"{it}\"type\": \"int\"",
                 "dtmi:dtdl:instance:Schema:long;2" => $"{it}\"type\": \"long\"",
+                "dtmi:dtdl:instance:Schema:byte;4" => $"{it}\"type\": \"int\"",
+                "dtmi:dtdl:instance:Schema:short;4" => $"{it}\"type\": \"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedInteger;4" => $"{it}\"type\": \"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedLong;4" => $"{it}\"type\": \"long\"",
+                "dtmi:dtdl:instance:Schema:unsignedByte;4" => $"{it}\"type\": \"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedShort;4" => $"{it}\"type\": \"int\"",
                 "dtmi:dtdl:instance:Schema:date;2" => $"{it}\"type\": \"int\",\r\n{it}\"logicalType\": \"date\"",
                 "dtmi:dtdl:instance:Schema:dateTime;2" => $"{it}\"type\": \"long\",\r\n{it}\"logicalType\": \"timestamp-millis\"",
                 "dtmi:dtdl:instance:Schema:time;2" => $"{it}\"type\": \"int\",\r\n{it}\"logicalType\": \"time-millis\"",
                 "dtmi:dtdl:instance:Schema:duration;2" => $"{it}\"type\": \"string\"",
                 "dtmi:dtdl:instance:Schema:string;2" => $"{it}\"type\": \"string\"",
+                "dtmi:dtdl:instance:Schema:uuid;4" => $"{it}\"type\": \"string\"",
+                "dtmi:dtdl:instance:Schema:bytes;4" => $"{it}\"type\": \"bytes\"",
                 _ => string.Empty,
             };
         }
@@ -63,6 +71,11 @@ namespace Akri.Dtdl.Codegen
         {
             string indentation = new string(' ', indent);
             return $"{indentation}\"type\": {{\r\n{code}\r\n{indentation}}}";
+        }
+
+        private static bool IsRequired(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
         }
     }
 }

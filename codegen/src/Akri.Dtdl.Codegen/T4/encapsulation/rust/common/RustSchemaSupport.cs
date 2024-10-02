@@ -8,7 +8,7 @@ namespace Akri.Dtdl.Codegen
         {
             string innerType = schemaType switch
             {
-                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchmema, true)}>",
+                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, true)}>",
                 MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, true)}>",
                 ObjectType objectType => objectType.SchemaName,
                 EnumType enumType => enumType.SchemaName,
@@ -17,13 +17,19 @@ namespace Akri.Dtdl.Codegen
                 FloatType _ => "f32",
                 IntegerType _ => "i32",
                 LongType _ => "i64",
+                ByteType _ => "i8",
+                ShortType _ => "i16",
+                UnsignedIntegerType _ => "u32",
+                UnsignedLongType _ => "u64",
+                UnsignedByteType _ => "u8",
+                UnsignedShortType _ => "u16",
                 DateType _ => "Date",
                 DateTimeType _ => "DateTime<Utc>",
                 TimeType _ => "Time",
                 DurationType _ => "Duration",
-                UuidType _ => "placeholder for proper Rust uuid type",
+                UuidType _ => "Uuid",
                 StringType _ => "String",
-                BytesType _ => "placeholder for proper Rust bytes type",
+                BytesType _ => "Bytes",
                 ReferenceType referenceType => referenceType.SchemaName,
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };

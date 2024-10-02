@@ -30,5 +30,5 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     }
 }
 <#+
-    private string TypeParams() => $"<{this.reqSchema ?? serialzerEmptyType}, {this.respSchema ?? serialzerEmptyType}>";
+    private string TypeParams() => $"<{this.reqSchema ?? serializerEmptyType}, {this.respSchema ?? serializerEmptyType}>";
 #>

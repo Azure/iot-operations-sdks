@@ -27,7 +27,7 @@ func main() {
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	check(mqttClient.Connect(ctx))
 
-	client := must(statestore.New(mqttClient, statestore.WithLogger(log)))
+	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
 	done := must(client.Listen(ctx))
 	defer done()
 
@@ -37,16 +37,16 @@ func main() {
 	kn := must(client.KeyNotify(ctx, stateStoreKey))
 	defer func() { check(kn.Stop(ctx)) }()
 
-	must(client.Set(ctx, stateStoreKey, []byte(stateStoreValue)))
+	must(client.Set(ctx, stateStoreKey, stateStoreValue))
 	n := <-kn.C
-	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
+	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 
 	get := must(client.Get(ctx, stateStoreKey))
-	log.Info("GET", "key", stateStoreKey, "value", string(get.Value), "version", get.Version)
+	log.Info("GET", "key", stateStoreKey, "value", get.Value, "version", get.Version)
 
 	must(client.Del(ctx, stateStoreKey))
 	n = <-kn.C
-	log.Info(n.Operation, "key", n.Key, "value", string(n.Value))
+	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 }
 
 func check(e error) {

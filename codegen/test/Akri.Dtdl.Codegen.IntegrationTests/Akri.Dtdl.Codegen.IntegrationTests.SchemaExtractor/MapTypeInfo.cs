@@ -2,12 +2,12 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.SchemaExtractor
 {
     public class MapTypeInfo : SchemaTypeInfo
     {
-        public MapTypeInfo(string schemaName, SchemaTypeInfo valueSchmema)
+        public MapTypeInfo(string schemaName, SchemaTypeInfo valueSchema)
             : base(schemaName)
         {
-            ValueSchmema = valueSchmema;
+            ValueSchema = valueSchema;
         }
 
-        public SchemaTypeInfo ValueSchmema { get; set; }
+        public SchemaTypeInfo ValueSchema { get; set; }
     }
 }

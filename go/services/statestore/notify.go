@@ -9,14 +9,14 @@ import (
 )
 
 // Notify represents a notification event.
-type Notify struct {
-	Key       string
+type Notify[K, V Bytes] struct {
+	Key       K
 	Operation string
-	Value     []byte
+	Value     V
 }
 
 // Receive a NOTIFY message.
-func (c *Client) notifyReceive(
+func (c *Client[K, V]) notifyReceive(
 	ctx context.Context,
 	msg *protocol.TelemetryMessage[[]byte],
 ) error {
@@ -30,7 +30,7 @@ func (c *Client) notifyReceive(
 		return resp.PayloadError("invalid key name %q", hexKey)
 	}
 
-	data, err := resp.ParseBlobArray(msg.Payload)
+	data, err := resp.BlobArray[[]byte](msg.Payload)
 	if err != nil {
 		return err
 	}
@@ -44,20 +44,18 @@ func (c *Client) notifyReceive(
 		return resp.PayloadError("invalid payload %q", string(msg.Payload))
 	}
 
-	key := string(bytKey)
-	op := string(data[1])
-	var val []byte
+	var val V
 	if hasValue {
-		val = data[3]
+		val = V(data[3])
 	}
 
 	// TODO: Lock less globally if possible, but keep it simple for now.
 	c.notifyMu.RLock()
 	defer c.notifyMu.RUnlock()
 
-	for _, kn := range c.notify[key] {
+	for _, kn := range c.notify[string(bytKey)] {
 		select {
-		case kn.C <- Notify{key, op, val}:
+		case kn.C <- Notify[K, V]{K(bytKey), string(data[1]), val}:
 		case <-kn.done:
 		case <-ctx.Done():
 		}

@@ -9,16 +9,14 @@ namespace Akri.Dtdl.Codegen
 
     public static class EnvoyTransformFactory
     {
-        private static readonly string[] SupportedLanguages = { "csharp", "go", "java", "python", "c" };
-
         private static readonly Dictionary<string, SerializerValues> formatSerializers = new()
         {
-            { PayloadFormat.Avro, new SerializerValues("AVRO", "AvroSerializer{0}", "EmptyAvro", isSchematized: true) },
-            { PayloadFormat.Cbor, new SerializerValues("CBOR", "CborSerializer", "EmptyCbor", isSchematized: false) },
-            { PayloadFormat.Json, new SerializerValues("JSON", "Utf8JsonSerializer", "EmptyJson", isSchematized: false) },
-            { PayloadFormat.Proto2, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty", isSchematized: true) },
-            { PayloadFormat.Proto3, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty", isSchematized: true) },
-            { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", "", isSchematized: false) },
+            { PayloadFormat.Avro, new SerializerValues("AVRO", "AvroSerializer{0}", "EmptyAvro") },
+            { PayloadFormat.Cbor, new SerializerValues("CBOR", "CborSerializer", "EmptyCbor") },
+            { PayloadFormat.Json, new SerializerValues("JSON", "Utf8JsonSerializer", "EmptyJson") },
+            { PayloadFormat.Proto2, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty") },
+            { PayloadFormat.Proto3, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty") },
+            { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", "") },
         };
 
         public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, HashSet<string> sourceFilePaths)
@@ -64,19 +62,19 @@ namespace Akri.Dtdl.Codegen
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(modelId, language, projectName, genNamespace, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, commandTopic, normalizedVersionSuffix, workingPath, schemaTypes))
+                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(modelId, language, projectName, genNamespace, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes))
                     {
                         yield return templateTransform;
                     }
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, syncApi))
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, sourceFilePaths, syncApi))
             {
                 yield return templateTransform;
             }
 
-            foreach (ITemplateTransform templateTransform in GetSerializerTransforms(language, projectName, genFormat))
+            foreach (ITemplateTransform templateTransform in GetResourceTransforms(language, projectName, genFormat))
             {
                 yield return templateTransform;
             }
@@ -90,8 +88,8 @@ namespace Akri.Dtdl.Codegen
         private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serializerlClassName = formatSerializers[genFormat].ClassName;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerClassName = formatSerializers[genFormat].ClassName;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             string? telemetryName = telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() : null;
             string schemaClass = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
@@ -99,28 +97,28 @@ namespace Akri.Dtdl.Codegen
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, schemaClass);
-                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, schemaClass);
+                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
                     break;
                 case "go":
                     yield return new GoTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
                     yield return new GoTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
                     break;
                 case "java":
-                    yield return new JavaTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
-                    yield return new JavaTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
+                    yield return new JavaTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                    yield return new JavaTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
                     break;
                 case "python":
-                    yield return new PythonTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
-                    yield return new PythonTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
+                    yield return new PythonTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                    yield return new PythonTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
                     break;
                 case "rust":
-                    yield return new RustTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
-                    yield return new RustTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerlClassName, schemaClass);
+                    yield return new RustTelemetrySender(telemetryName, genNamespace, schemaClass);
+                    yield return new RustTelemetryReceiver(telemetryName, genNamespace, schemaClass);
                     if (schemaClass != string.Empty)
                     {
                         schemaTypes.Add(schemaClass);
-                        yield return new RustSchema(genNamespace, schemaClass, workingPath);
+                        yield return new RustSerialization(genNamespace, genFormat, schemaClass, workingPath);
                     }
                     break;
                 case "c":
@@ -132,12 +130,12 @@ namespace Akri.Dtdl.Codegen
             telemSchemas.Add(schemaClass);
         }
 
-        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string modelId, string language, string projectName, string genNamespace, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string requestTopicName, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string modelId, string language, string projectName, string genNamespace, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serializerlClassName = formatSerializers[genFormat].ClassName;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerClassName = formatSerializers[genFormat].ClassName;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             string commandName = cmdElt.GetProperty(AnnexFileProperties.CommandName).GetString()!;
             string? reqSchemaClass = cmdElt.GetProperty(AnnexFileProperties.CmdRequestSchema).GetString();
@@ -148,38 +146,38 @@ namespace Akri.Dtdl.Codegen
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, reqSchemaClass, respSchemaClass);
-                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, serialzerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     break;
                 case "go":
                     yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
                     yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     break;
                 case "java":
-                    yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
-                    yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
+                    yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                    yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
                     break;
                 case "python":
-                    yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
-                    yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
+                    yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                    yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
                     break;
                 case "rust":
-                    yield return new RustCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
-                    yield return new RustCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass);
+                    yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
+                    yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     if (reqSchemaClass != null && reqSchemaClass != string.Empty)
                     {
                         schemaTypes.Add(reqSchemaClass);
-                        yield return new RustSchema(genNamespace, reqSchemaClass, workingPath);
+                        yield return new RustSerialization(genNamespace, genFormat, reqSchemaClass, workingPath);
                     }
                     if (respSchemaClass != null && respSchemaClass != string.Empty)
                     {
                         schemaTypes.Add(respSchemaClass);
-                        yield return new RustSchema(genNamespace, respSchemaClass, workingPath);
+                        yield return new RustSerialization(genNamespace, genFormat, respSchemaClass, workingPath);
                     }
                     break;
                 case "c":
-                    yield return new CCommandInvoker(modelId, commandName, requestTopicName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
-                    yield return new CCommandExecutor(modelId, commandName, requestTopicName, genNamespace, serviceName, serializerSubNamespace, serializerlClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                    yield return new CCommandInvoker(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                    yield return new CCommandExecutor(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
                     break;
                 default:
                     throw GetLanguageNotRecognizedException(language);
@@ -188,18 +186,18 @@ namespace Akri.Dtdl.Codegen
             cmdNameReqResps.Add((commandName, reqSchemaClass, respSchemaClass));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, bool syncApi)
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, HashSet<string> sourceFilePaths, bool syncApi)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
             bool doesTelemetryTargetService = DoesTopicReferToService(telemetryTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serialzerEmptyType = formatSerializers[genFormat].EmptyType;
+            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serialzerEmptyType, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
+                    yield return new DotNetService(projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
                     break;
                 case "go":
                     yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi);
@@ -211,7 +209,7 @@ namespace Akri.Dtdl.Codegen
                     yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
-                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, sourceFilePaths);
                     break;
                 case "c":
                     break;
@@ -222,9 +220,6 @@ namespace Akri.Dtdl.Codegen
 
         private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, string genNamespace, string genFormat, string? sdkPath, HashSet<string> sourceFilePaths, List<string> schemaTypes)
         {
-            string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            bool isSchematized = formatSerializers[genFormat].IsSchematized;
-
             switch (language)
             {
                 case "csharp":
@@ -237,14 +232,8 @@ namespace Akri.Dtdl.Codegen
                 case "python":
                     break;
                 case "rust":
-                    yield return new RustNamespace(genNamespace, sourceFilePaths);
                     yield return new RustLib(genNamespace);
-                    yield return new RustSerialization(serializerSubNamespace, isSchematized);
                     yield return new RustCargoToml(projectName, genFormat, sdkPath);
-                    if (RustSchemata.TryCreate(genNamespace, genFormat, schemaTypes, out RustSchemata? rustSchemata))
-                    {
-                        yield return rustSchemata!;
-                    }
                     break;
                 case "c":
                     break;
@@ -253,7 +242,7 @@ namespace Akri.Dtdl.Codegen
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetSerializerTransforms(string language, string projectName, string genFormat)
+        private static IEnumerable<ITemplateTransform> GetResourceTransforms(string language, string projectName, string genFormat)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
 
@@ -268,18 +257,22 @@ namespace Akri.Dtdl.Codegen
                 _ => throw GetLanguageNotRecognizedException(language)
             };
 
-            foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
+            foreach (string subNamespace in new List<string> { "common", serializerSubNamespace })
             {
-                Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceNames.SerializerFolder}\\.({serializerSubNamespace})(?:\\.(\\w+))?\\.{ext}$", RegexOptions.IgnoreCase);
-                Match? match = rx.Match(resourceName);
-                if (match.Success)
+                foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
                 {
-                    string serializationFormat = match.Groups[1].Captures[0].Value;
-                    string? serializationComponent = match.Groups[2].Captures.Count > 0 ? match.Groups[2].Captures[0].Value : null;
+                    Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceNames.LanguageResourcesFolder}\\.{language}\\.({subNamespace})(?:\\.(\\w+(?:\\.\\w+)*))?\\.(\\w+)\\.{ext}$", RegexOptions.IgnoreCase);
+                    Match? match = rx.Match(resourceName);
+                    if (match.Success)
+                    {
+                        string subFolder = match.Groups[1].Captures[0].Value;
+                        string resourcePath = match.Groups[2].Captures.Count > 0 ? match.Groups[2].Captures[0].Value : string.Empty;
+                        string resourceFile = match.Groups[3].Captures[0].Value;
 
-                    StreamReader resourceReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)!);
+                        StreamReader resourceReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)!);
 
-                    yield return new SerializerTransform(language, projectName, serializationFormat, serializationComponent, ext, resourceReader.ReadToEnd());
+                        yield return new ResourceTransform(language, projectName, subFolder, resourcePath, resourceFile, ext, resourceReader.ReadToEnd());
+                    }
                 }
             }
         }
@@ -296,23 +289,21 @@ namespace Akri.Dtdl.Codegen
 
         private static Exception GetLanguageNotRecognizedException(string language)
         {
-            return new Exception($"language '{language}' not recognized; must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
+            return new Exception($"language '{language}' not recognized");
         }
 
         private readonly struct SerializerValues
         {
-            public SerializerValues(string subNamespace, string className, string emptyType, bool isSchematized)
+            public SerializerValues(string subNamespace, string className, string emptyType)
             {
                 SubNamespace = subNamespace;
                 ClassName = className;
                 EmptyType = emptyType;
-                IsSchematized = isSchematized;
             }
 
             public readonly string SubNamespace;
             public readonly string ClassName;
             public readonly string EmptyType;
-            public readonly bool IsSchematized;
         }
     }
 }
