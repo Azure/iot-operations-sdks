@@ -11,7 +11,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: aio-broker-external-ca
-  namespace: default
+  namespace: azure-iot-operations
 spec:
   isCA: true
   secretName: aio-broker-external-ca
@@ -30,7 +30,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: aio-broker-external
-  namespace: default
+  namespace: azure-iot-operations
 spec:
   ca:
     secretName: aio-broker-external-ca
