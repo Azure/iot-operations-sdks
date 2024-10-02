@@ -355,7 +355,7 @@ namespace Akri.Dtdl.Codegen
 
     private string CallAsyncType((string, string, string) cmdNameReqResp) => $"RpcCallAsync<{this.SchemaType(cmdNameReqResp.Item3)}>";
 
-    private string SchemaType(string schema) => schema == null ? this.serialzerEmptyType : schema == "" ? "byte[]" : schema;
+    private string SchemaType(string schema) => schema == null ? this.serializerEmptyType : schema == "" ? "byte[]" : schema;
 
     private string ExecParam() => this.doesCommandTargetExecutor ? "string executorId, " : "";
 

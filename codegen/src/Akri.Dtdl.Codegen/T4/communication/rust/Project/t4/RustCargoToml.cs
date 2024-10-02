@@ -24,30 +24,27 @@ namespace Akri.Dtdl.Codegen
         {
             this.Write("[package]\r\nname = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.projectName));
-            this.Write(@"""
-version = ""0.1.0""
-edition = ""2021""
-
-[dependencies]
-futures = ""0.3.28""
-paho-mqtt = { version = ""0.12"", default-features=false, features=[""bundled""] }
-tokio = { version = ""1"", features = [""full""] }
-serde = { version = ""1.0"", features = [""derive""] }
-serde_repr = ""0.1""
-");
+            this.Write("\"\r\nversion = \"0.1.0\"\r\nedition = \"2021\"\r\n\r\n[dependencies]\r\nserde = { version = \"1." +
+                    "0\", features = [\"derive\"] }\r\nserde_repr = \"0.1\"\r\n");
  foreach (var packageVersion in this.packageVersions) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(packageVersion.Item1));
             this.Write(" = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(packageVersion.Item2));
             this.Write("\"\r\n");
  } 
-            this.Write("chrono = { version = \"0.4.31\", features = [\"serde\", \"alloc\"] }\r\niso8601-duration " +
-                    "= { version = \"0.2\", features = [\"serde\", \"chrono\"] }\r\nlazy_static = \"1.4.0\"\r\nak" +
-                    "ri_mqtt = { path = \"");
+            this.Write(@"chrono = { version = ""0.4.31"", features = [""serde"", ""alloc""] }
+iso8601-duration = { version = ""0.2"", features = [""serde"", ""chrono""] }
+bytes = ""1.5.0""
+base64 = ""0.22.1""
+time = { version = ""0.3"", features = [""serde"", ""formatting"", ""parsing""] }
+uuid = { version = ""1.8.0"", features = [""serde"", ""v4""] }
+lazy_static = ""1.4.0""
+derive_builder = ""0.20""
+azure_iot_operations_mqtt = { path = """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.sdkPath));
-            this.Write("/rust/src/akri_mqtt\" }\r\nakri_mqtt_attributes = { path = \"");
+            this.Write("/azure_iot_operations_mqtt\" }\r\nazure_iot_operations_protocol = { path = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.sdkPath));
-            this.Write("/rust/src/akri_mqtt_attributes\" }\r\n");
+            this.Write("/azure_iot_operations_protocol\" }\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

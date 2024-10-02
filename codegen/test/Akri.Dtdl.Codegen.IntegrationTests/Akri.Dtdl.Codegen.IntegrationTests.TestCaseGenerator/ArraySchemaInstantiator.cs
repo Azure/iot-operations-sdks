@@ -32,7 +32,7 @@ namespace Akri.Dtdl.Codegen.IntegrationTests.TestCaseGenerator
 
             for (int l = 0; l < length; ++l)
             {
-                schemaInstantiator.InstantiateSchema(jsonWriter, arrayType.ElementSchmema);
+                schemaInstantiator.InstantiateSchema(jsonWriter, arrayType.ElementSchema);
             }
 
             jsonWriter.WriteEndArray();

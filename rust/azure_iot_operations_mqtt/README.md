@@ -12,7 +12,7 @@ MQTT version 5.0 client library providing flexibility for decoupled asynchronous
 
 ## Simple Send and Receive
 
-```rust
+```rust, no_run
 use std::str;
 use std::time::Duration;
 use azure_iot_operations_mqtt::control_packet::QoS;

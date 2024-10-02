@@ -75,7 +75,7 @@ namespace Akri.Dtdl.Codegen
             return this.GenerationEnvironment.ToString();
         }
 
-    private string TypeParams() => $"<{this.reqSchema ?? this.serialzerEmptyType}, {this.respSchema ?? this.serialzerEmptyType}>";
+    private string TypeParams() => $"<{this.reqSchema ?? this.serializerEmptyType}, {this.respSchema ?? this.serializerEmptyType}>";
 
     }
     #region Base class

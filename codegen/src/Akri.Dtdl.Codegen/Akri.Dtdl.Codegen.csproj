@@ -170,19 +170,9 @@
 		  <LastGenOutput>RustLib.cs</LastGenOutput>
 		  <CustomToolNamespace>Akri.Dtdl.Codegen</CustomToolNamespace>
 		</None>
-		<None Update="T4\communication\rust\Project\t4\RustSchemata.tt">
-		  <Generator>TextTemplatingFilePreprocessor</Generator>
-		  <LastGenOutput>RustSchemata.cs</LastGenOutput>
-		  <CustomToolNamespace>Akri.Dtdl.Codegen</CustomToolNamespace>
-		</None>
-		<None Update="T4\communication\rust\Project\t4\RustSerialization.tt">
+		<None Update="T4\communication\rust\Serialization\t4\RustSerialization.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
 		  <LastGenOutput>RustSerialization.cs</LastGenOutput>
-		  <CustomToolNamespace>Akri.Dtdl.Codegen</CustomToolNamespace>
-		</None>
-		<None Update="T4\communication\rust\Schema\t4\RustSchema.tt">
-		  <Generator>TextTemplatingFilePreprocessor</Generator>
-		  <LastGenOutput>RustSchema.cs</LastGenOutput>
 		  <CustomToolNamespace>Akri.Dtdl.Codegen</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\rust\Service\t4\RustService.tt">
@@ -532,20 +522,10 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>RustLib.tt</DependentUpon>
 		</Compile>
-		<Compile Update="T4\communication\rust\Project\t4\RustSchemata.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>RustSchemata.tt</DependentUpon>
-		</Compile>
-		<Compile Update="T4\communication\rust\Project\t4\RustSerialization.cs">
+		<Compile Update="T4\communication\rust\Serialization\t4\RustSerialization.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>RustSerialization.tt</DependentUpon>
-		</Compile>
-		<Compile Update="T4\communication\rust\Schema\t4\RustSchema.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>RustSchema.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\rust\Service\t4\RustService.cs">
 			<DesignTime>True</DesignTime>
@@ -741,10 +721,10 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
-			<Link>Serializers\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<Link>LanguageResources\csharp\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
-		<EmbeddedResource Include="..\..\..\..\lib\rust\src\akri_mqtt\tests\serialization\**\*.rs">
-			<Link>Serializers\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		<EmbeddedResource Include="..\..\res\rust\**\*.rs">
+			<Link>LanguageResources\rust\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Include="..\..\include\**\*.proto">
 			<Link>Schemas\%(RecursiveDir)%(Filename)%(Extension)</Link>

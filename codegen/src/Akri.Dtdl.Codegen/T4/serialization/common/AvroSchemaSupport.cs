@@ -61,6 +61,8 @@ namespace Akri.Dtdl.Codegen
                 "dtmi:dtdl:instance:Schema:time;2" => $"{it}\"type\": \"int\",\r\n{it}\"logicalType\": \"time-millis\"",
                 "dtmi:dtdl:instance:Schema:duration;2" => $"{it}\"type\": \"string\"",
                 "dtmi:dtdl:instance:Schema:string;2" => $"{it}\"type\": \"string\"",
+                "dtmi:dtdl:instance:Schema:uuid;4" => $"{it}\"type\": \"string\"",
+                "dtmi:dtdl:instance:Schema:bytes;4" => $"{it}\"type\": \"bytes\"",
                 _ => string.Empty,
             };
         }

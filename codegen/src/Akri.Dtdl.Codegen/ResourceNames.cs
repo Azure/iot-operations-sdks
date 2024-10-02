@@ -2,7 +2,7 @@
 {
     public static class ResourceNames
     {
-        public const string SerializerFolder = "Serializers";
+        public const string LanguageResourcesFolder = "LanguageResources";
 
         public const string SchemaFolder = "Schemas";
 

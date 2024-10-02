@@ -8,7 +8,7 @@ namespace Akri.Dtdl.Codegen
             string optRef = isRequired ? string.Empty : "*";
             return schemaType switch
             {
-                ArrayType arrayType => $"[]{GetType(arrayType.ElementSchmema, true)}",
+                ArrayType arrayType => $"[]{GetType(arrayType.ElementSchema, true)}",
                 MapType mapType => $"map[string]{GetType(mapType.ValueSchema, true)}",
                 ObjectType objectType => $"{optRef}{objectType.SchemaName}",
                 EnumType enumType => $"{optRef}{enumType.SchemaName}",

@@ -12,14 +12,14 @@ namespace Akri.Dtdl.Codegen
         private readonly string serializerClassName;
         private readonly string schemaClassName;
 
-        public DotNetTelemetryReceiver(string? telemetryName, string projectName, string genNamespace, string serviceName, string serializerSubNamespace, string serializerClassName, string serialzerEmptyType, string schemaClassName)
+        public DotNetTelemetryReceiver(string? telemetryName, string projectName, string genNamespace, string serviceName, string serializerSubNamespace, string serializerClassName, string serializerEmptyType, string schemaClassName)
         {
             this.telemetryName = telemetryName;
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
-            this.serializerClassName = string.Format(serializerClassName, $"<{schemaClassName}, {serialzerEmptyType}>");
+            this.serializerClassName = string.Format(serializerClassName, $"<{schemaClassName}, {serializerEmptyType}>");
             this.schemaClassName = schemaClassName == "" ? "byte[]" : schemaClassName;
         }
 
