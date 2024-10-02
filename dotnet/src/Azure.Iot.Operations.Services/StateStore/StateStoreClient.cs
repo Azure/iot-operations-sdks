@@ -108,7 +108,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 //TODO where to get previous value? Support added later?
-                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(version, notification.Key, notification.KeyState);
+                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState);
                 keyChangeArgs.NewValue = notification.Value;
                 if (KeyChangeMessageReceivedAsync != null)
                 {

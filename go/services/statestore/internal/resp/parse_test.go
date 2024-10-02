@@ -10,42 +10,37 @@ import (
 )
 
 func TestParseError(t *testing.T) {
-	_, err := resp.ParseString([]byte("-ERR syntax error\r\n"))
-	require.Equal(t, "error response: ERR syntax error", err.Error())
-	require.True(t, errors.Is(err, statestore.ErrResponse))
+	_, err := resp.String([]byte("-ERR syntax error\r\n"))
+	require.Equal(t, "service error: syntax error", err.Error())
+	require.True(t, errors.Is(err, statestore.ErrService))
 }
 
 func TestParseString(t *testing.T) {
-	str, err := resp.ParseString([]byte("+OK\r\n"))
+	str, err := resp.String([]byte("+OK\r\n"))
 	require.NoError(t, err)
 	require.Equal(t, "OK", str)
 }
 
 func TestParseNumber(t *testing.T) {
-	num, err := resp.ParseNumber([]byte(":1\r\n"))
+	num, err := resp.Number([]byte(":1\r\n"))
 	require.NoError(t, err)
 	require.Equal(t, 1, num)
 }
 
 func TestParseBlob(t *testing.T) {
-	blob, err := resp.ParseBlob([]byte("$-1\r\n"))
+	blob, err := resp.Blob[[]byte]([]byte("$-1\r\n"))
 	require.NoError(t, err)
 	require.Nil(t, blob)
 
-	blob, err = resp.ParseBlob([]byte("$4\r\n1234\r\n"))
+	str, err := resp.Blob[string]([]byte("$4\r\n1234\r\n"))
 	require.NoError(t, err)
-	require.Equal(t, []byte("1234"), blob)
+	require.Equal(t, "1234", str)
 }
 
 func TestParseBlobArray(t *testing.T) {
-	ary, err := resp.ParseBlobArray([]byte(
+	ary, err := resp.BlobArray[string]([]byte(
 		"*4\r\n$6\r\nNOTIFY\r\n$3\r\nSET\r\n$5\r\nVALUE\r\n$3\r\nabc\r\n",
 	))
 	require.NoError(t, err)
-	require.Equal(t, [][]byte{
-		[]byte("NOTIFY"),
-		[]byte("SET"),
-		[]byte("VALUE"),
-		[]byte("abc"),
-	}, ary)
+	require.Equal(t, []string{"NOTIFY", "SET", "VALUE", "abc"}, ary)
 }

@@ -5,14 +5,14 @@
   "name": "<#=this.schema#>",
   "type": "record",
   "fields": [
-<# foreach (var nameDescSchemaIndex in this.nameDescSchemaIndices) { #>
+<# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
     {
-      "name": "<#=nameDescSchemaIndex.Item1#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndex.Item3, this.dtmiToSchemaName, indent: 6, nullable: true, nestNamedType: true)#>
-    }<#=this.IsLast(nameDescSchemaIndex) ? "" : ","#>
+      "name": "<#=nameDescSchemaRequiredIndex.Item1#>",
+<#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName, indent: 6, nullable: !nameDescSchemaRequiredIndex.Item4, nestNamedType: true)#>
+    }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   ]
 }
 <#+
-    private bool IsLast((string, string, DTSchemaInfo, int) nameDescSchemaIndex) => nameDescSchemaIndex.Item1 == this.nameDescSchemaIndices.Last().Item1;
+    private bool IsLast((string, string, DTSchemaInfo, bool, int) nameDescSchemaRequiredIndex) => nameDescSchemaRequiredIndex.Item1 == this.nameDescSchemaRequiredIndices.Last().Item1;
 #>
