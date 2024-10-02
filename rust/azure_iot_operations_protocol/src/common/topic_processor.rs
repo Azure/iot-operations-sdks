@@ -777,8 +777,8 @@ mod tests {
     #[test_case("{executorId}", "id", "test/id/other", false; "prefix nonexistent id match suffix nonexistent")]
     #[test_case("test/{executorId}", "+", "test/id/other", false; "prefix match wildcard match suffix nonexistent")]
     #[test_case("{executorId}/test", "+", "test/id/other", false; "wildcard match suffix no match prefix nonexistent")]
-    #[test_case("{executorId}/test/{executorId}", "+", "id/test/id", true; "wildcard match suffix wildcard match suffix")]
-    #[test_case("{executorId}/test/{executorId}", "+", "id/test/other/id", false; "wildcard match suffix wildcard match suffix no match")]
+    #[test_case("{executorId}/test/{executorId}", "+", "id/test/id", true; "prefix match wildcard suffix match wildcard")]
+    #[test_case("{executorId}/test/{executorId}", "+", "id/test/other/id", false; "prefix match wildcard suffix match wildcard no match")]
     fn test_topic_processor_match(
         pattern: &str,
         id_or_wildcard: &str,
