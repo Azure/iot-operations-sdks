@@ -4,10 +4,13 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 
 mod dispatcher;
-#[doc(hidden)]
-pub mod internal; // TODO: Make this private and accessible via compile flags
+mod managed_client;
 mod pub_tracker;
 pub mod reconnect_policy;
+#[doc(hidden)]
+#[allow(clippy::module_inception)]
+// This isn't ideal naming, but it'd be inconsistent otherwise.
+pub mod session; // TODO: Make this private and accessible via compile flags
 mod state;
 mod wrapper;
 

@@ -1,0 +1,174 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor" #>
+/* This is an auto-generated file.  Do not modify. */
+
+namespace <#=this.testName#>.Library
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.RPC;
+    using Azure.Iot.Operations.Protocol.Telemetry;
+    using Azure.Iot.Operations.Protocol.UnitTests.Serializers.<#=this.projectComponentName#>;
+    using Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.STK;
+    using MQTTnet.Client;
+    using Newtonsoft.Json.Linq;
+<# foreach (string additionalUsing in this.additionalUsings) { #>
+    using <#=additionalUsing#>;
+<# } #>
+    using <#=this.genNamespace#>;
+
+    public class <#=this.serviceName#>ClientShim : <#=this.serviceName#>.Client, IClientShim
+    {
+        private string remoteAssetId;
+
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+        private Action<string, JToken> <#=Decapitalize(telemNameSchema.Item2.SchemaName)#>Handler;
+
+<# } #>
+        public <#=this.serviceName#>ClientShim(IMqttClient mqttClient, string remoteAssetId)
+            : base(mqttClient)
+        {
+            this.remoteAssetId = remoteAssetId;
+            this.ClearHandlers();
+        }
+
+        public void ClearHandlers()
+        {
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+            this.<#=Decapitalize(telemNameSchema.Item2.SchemaName)#>Handler = null;
+<# } #>
+        }
+
+        public void RegisterHandler(string telemetryName, Action<string, JToken> handler)
+        {
+            switch (telemetryName)
+            {
+<# if (!this.telemNameSchemas.Any(t => t.Item1 == null)) { #>
+                case "":
+                    throw new Exception($"Unnamed telemetry is not supported by this model");
+<# } #>
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                case "<#=telemNameSchema.Item1 ?? string.Empty#>":
+                    this.<#=Decapitalize(telemNameSchema.Item2.SchemaName)#>Handler = handler;
+                    return;
+<# } #>
+                default:
+                    throw new Exception($"Unrecognized telemetry '{telemetryName}'");
+            }
+        }
+
+        public Task<JToken> InvokeCommand(string commandName, JToken requestToken, TimeSpan commandTimeout)
+        {
+            switch (commandName)
+            {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+                case "<#=cmdNameReqResp.Item1#>":
+                    return this.Invoke_<#=cmdNameReqResp.Item1#>(requestToken, commandTimeout);
+<# } #>
+                default:
+                    throw new Exception($"Unrecognized command '{commandName}'");
+            }
+        }
+
+        public RpcCallAsync<JToken> InvokeCommand(string commandName, JToken requestToken, CommandRequestMetadata requestMetadata, TimeSpan commandTimeout)
+        {
+            switch (commandName)
+            {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+                case "<#=cmdNameReqResp.Item1#>":
+                    return this.Invoke_<#=cmdNameReqResp.Item1#>(requestToken, requestMetadata, commandTimeout);
+<# } #>
+                default:
+                    throw new Exception($"Unrecognized command '{commandName}'");
+            }
+        }
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+
+        public override void ReceiveTelemetry(string senderId, <#=telemNameSchema.Item2.SchemaName#> telemetry)
+        {
+            this.CheckHandler("<#=telemNameSchema.Item1 ?? string.Empty#>", this.<#=Decapitalize(telemNameSchema.Item2.SchemaName)#>Handler);
+
+            JObject telemObj = new();
+<# foreach (KeyValuePair<string, SchemaTypeInfo> fieldSchema in ((ObjectTypeInfo)telemNameSchema.Item2).FieldSchemas) { #>
+
+            if (<#=this.transcoder.CheckPresence("telemetry", fieldSchema.Key, fieldSchema.Value)#>)
+            {
+                telemObj["<#=fieldSchema.Key#>"] = <#=this.transcoder.JTokenFromSchemaField("telemetry", fieldSchema.Key, fieldSchema.Value)#>;
+            }
+<# } #>
+
+            this.<#=Decapitalize(telemNameSchema.Item2.SchemaName)#>Handler(senderId, telemObj);
+        }
+<# } #>
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+        public async Task<JToken> Invoke_<#=cmdNameReqResp.Item1#>(JToken requestToken, TimeSpan commandTimeout)
+        {
+<# if (cmdNameReqResp.Item2 != null) { #>
+            <#=cmdNameReqResp.Item2.SchemaName#> request = <#=this.transcoder.SchemaValueFromJToken($"requestToken", cmdNameReqResp.Item2)#>;
+<# } #>
+<# if (cmdNameReqResp.Item3 != null) { #>
+            <#=cmdNameReqResp.Item3.SchemaName#> response = await this.<#=Capitalize(cmdNameReqResp.Item1)#>(<#=this.doesCommandTargetExecutor ? "this.remoteAssetId, " : ""#><#=cmdNameReqResp.Item2 != null ? "request, " : ""#>commandTimeout: commandTimeout);
+            return <#=this.transcoder.JTokenFromSchemaValue("response", cmdNameReqResp.Item3)#>;
+<# } else { #>
+            await this.<#=Capitalize(cmdNameReqResp.Item1)#>(<#=this.doesCommandTargetExecutor ? "this.remoteAssetId, " : ""#><#=cmdNameReqResp.Item2 != null ? "request, " : ""#>commandTimeout: commandTimeout);
+            return JValue.CreateNull();
+<# } #>
+        }
+<# } #>
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+        public RpcCallAsync<JToken> Invoke_<#=cmdNameReqResp.Item1#>(JToken requestToken, CommandRequestMetadata requestMetadata, TimeSpan commandTimeout)
+        {
+<# if (cmdNameReqResp.Item2 != null) { #>
+            <#=cmdNameReqResp.Item2.SchemaName#> request = <#=this.transcoder.SchemaValueFromJToken($"requestToken", cmdNameReqResp.Item2)#>;
+<# } #>
+            ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>> extended = this.<#=Capitalize(cmdNameReqResp.Item1)#>(<#=this.doesCommandTargetExecutor ? "this.remoteAssetId, " : ""#><#=cmdNameReqResp.Item2 != null ? "request, " : ""#>requestMetadata, commandTimeout).WithMetadata().Result;
+            return new RpcCallAsync<JToken>(Task.FromResult(new ExtendedResponse<JToken> { Response = <#=cmdNameReqResp.Item3 != null ? this.transcoder.JTokenFromSchemaValue("extended.Response", cmdNameReqResp.Item3) : "JValue.CreateNull()"#>, ResponseMetadata = extended.ResponseMetadata }), (Guid)extended.ResponseMetadata.CorrelationData);
+        }
+<# } #>
+<# if (!this.telemNameSchemas.Any()) { #>
+
+        public Task StartAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+<# } #>
+<# if (this.telemNameSchemas.Any()) { #>
+
+        private void CheckHandler(string telemetryName, Action<string, JToken> handler)
+        {
+            if (handler == null)
+            {
+                throw new Exception($"No handler registered for {(telemetryName != string.Empty ? $"telemetry '{telemetryName}'" : "unnamed telemetry")}");
+            }
+        }
+<# } #>
+<# if (this.transcoder.CapitalizerNeeded) { #>
+
+        private static string Capitalize(string value)
+        {
+            return char.ToUpperInvariant(value[0]) + value.Substring(1);
+        }
+<# } #>
+<# if (this.transcoder.DecapitalizerNeeded) { #>
+
+        private static string Decapitalize(string value)
+        {
+            return char.ToLowerInvariant(value[0]) + value.Substring(1);
+        }
+<# } #>
+    }
+}
+<#+
+    private string SchemaType(SchemaTypeInfo schema) => schema == null ? this.transcoder.EmptySchemaType : schema.SchemaName;
+
+    public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
+
+    public static string Decapitalize(string inString) => char.ToLowerInvariant(inString[0]) + inString.Substring(1);
+#>

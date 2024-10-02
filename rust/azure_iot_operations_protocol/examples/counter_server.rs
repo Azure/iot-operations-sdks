@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::sync::{Arc, Mutex};
 use std::{num::ParseIntError, str::Utf8Error, time::Duration};
 
 use env_logger::Builder;
 use thiserror::Error;
-use tokio::time::Instant;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
@@ -26,95 +26,95 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
+    // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::from_environment()
         .build()
         .unwrap();
-
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
         .unwrap();
-
     let mut session = Session::new(session_options).unwrap();
-    let exit_handle = session.get_session_exit_handle();
 
-    let rpc_read_executor_options = CommandExecutorOptionsBuilder::default()
+    // The counter value for the server
+    let counter = Arc::new(Mutex::new(0));
+
+    // Spawn tasks for the server features
+    tokio::spawn(read_executor(
+        session.create_managed_client(),
+        counter.clone(),
+    ));
+    tokio::spawn(increment_executor(
+        session.create_managed_client(),
+        counter.clone(),
+    ));
+    tokio::spawn(exit_timer(
+        session.create_exit_handle(),
+        Duration::from_secs(120),
+    ));
+
+    // Run the session
+    session.run().await.unwrap();
+}
+
+/// Run an RPC command executor that responds to requests to read the counter value.
+async fn read_executor(client: SessionManagedClient, counter: Arc<Mutex<u64>>) {
+    // Create a command executor for the readCounter command
+    let read_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("readCounter")
         .build()
         .unwrap();
-    let rpc_read_executor: CommandExecutor<CounterRequest, CounterResponse, _, _> =
-        CommandExecutor::new(&mut session, rpc_read_executor_options).unwrap();
+    let mut read_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+        CommandExecutor::new(client, read_executor_options).unwrap();
 
-    let rpc_incr_executor_options = CommandExecutorOptionsBuilder::default()
+    // Loop to handle requests
+    loop {
+        let request = read_executor.recv().await.unwrap();
+        let response = CounterResponse {
+            counter_response: *counter.lock().unwrap(),
+        };
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        let response = CommandResponseBuilder::default()
+            .payload(&response)
+            .unwrap()
+            .build()
+            .unwrap();
+        request.complete(response).unwrap();
+    }
+}
+
+/// Run an RPC command executor that responds to requests to increment the counter value.
+async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<u64>>) {
+    // Create a command executor for the increment command
+    let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
         .build()
         .unwrap();
-    let rpc_incr_executor: CommandExecutor<CounterRequest, CounterResponse, _, _> =
-        CommandExecutor::new(&mut session, rpc_incr_executor_options).unwrap();
+    let mut incr_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+        CommandExecutor::new(client, incr_executor_options).unwrap();
 
-    tokio::task::spawn(rpc_loop(rpc_read_executor, rpc_incr_executor, exit_handle));
-
-    session.run().await.unwrap();
+    // Loop to handle requests
+    loop {
+        let request = incr_executor.recv().await.unwrap();
+        *counter.lock().unwrap() += 1;
+        let response = CounterResponse {
+            counter_response: *counter.lock().unwrap(),
+        };
+        let response = CommandResponseBuilder::default()
+            .payload(&response)
+            .unwrap()
+            .build()
+            .unwrap();
+        request.complete(response).unwrap();
+    }
 }
 
-async fn rpc_loop(
-    mut rpc_read_executor: CommandExecutor<
-        CounterRequest,
-        CounterResponse,
-        SessionPubSub,
-        SessionPubReceiver,
-    >,
-    mut rpc_incr_executor: CommandExecutor<
-        CounterRequest,
-        CounterResponse,
-        SessionPubSub,
-        SessionPubReceiver,
-    >,
-    exit_handle: SessionExitHandle,
-) {
-    log::info!("Starting counter executor");
-
-    // Create timer to expect responses for two minutes
-    let exit_time = Instant::now() + Duration::from_secs(120);
-
-    let mut counter = 0;
-    loop {
-        if !exit_time.elapsed().is_zero() {
-            log::info!("Exiting counter executor");
-            exit_handle.try_exit().await.unwrap();
-            break;
-        }
-        tokio::select! {
-            read_request = rpc_read_executor.recv() => {
-                let request = read_request.unwrap();
-                let response = CounterResponse {
-                    counter_response: counter,
-                };
-                tokio::time::sleep(Duration::from_secs(1)).await;
-                let response = CommandResponseBuilder::default()
-                    .payload(&response)
-                    .unwrap()
-                    .build()
-                    .unwrap();
-                request.complete(response).unwrap();
-            },
-            incr_request = rpc_incr_executor.recv() => {
-                let request = incr_request.unwrap();
-                counter += 1;
-                let response = CounterResponse {
-                    counter_response: counter,
-                };
-                let response = CommandResponseBuilder::default()
-                    .payload(&response)
-                    .unwrap()
-                    .build()
-                    .unwrap();
-                request.complete(response).unwrap();
-            },
-        }
-    }
+/// Exit the session after a delay.
+async fn exit_timer(exit_handle: SessionExitHandle, exit_after: Duration) {
+    tokio::time::sleep(exit_after).await;
+    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]
