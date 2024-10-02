@@ -6,6 +6,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
 type (
@@ -19,17 +20,23 @@ type (
 	}
 )
 
-// Del deletes the value of the given key. If the key was present, it returns
-// true and the stored version of the key; otherwise, it returns false and a
-// zero version.
-func (c *Client) Del(
+const del = "DEL"
+
+// Del deletes the given key. It returns the number of keys deleted
+// (typically 0 or 1).
+func (c *Client[K, V]) Del(
 	ctx context.Context,
-	key string,
+	key K,
 	opt ...DelOption,
-) (*Response[bool], error) {
+) (*Response[int], error) {
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
+	}
+
 	var opts DelOptions
 	opts.Apply(opt)
-	return invoke(ctx, c.invoker, parseBool, &opts, "DEL", key)
+
+	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpK(del, key))
 }
 
 // Apply resolves the provided list of options.

@@ -12,6 +12,12 @@ namespace Akri.Dtdl.Codegen
             "dtmi:dtdl:instance:Schema:float;2",
             "dtmi:dtdl:instance:Schema:integer;2",
             "dtmi:dtdl:instance:Schema:long;2",
+            "dtmi:dtdl:instance:Schema:byte;4",
+            "dtmi:dtdl:instance:Schema:short;4",
+            "dtmi:dtdl:instance:Schema:unsignedInteger;4",
+            "dtmi:dtdl:instance:Schema:unsignedLong;4",
+            "dtmi:dtdl:instance:Schema:unsignedByte;4",
+            "dtmi:dtdl:instance:Schema:unsignedShort;4",
         };
 
         public static string GetType(DTSchemaInfo dtSchema, DtmiToSchemaName dtmiToSchemaName)
@@ -23,6 +29,12 @@ namespace Akri.Dtdl.Codegen
                 "dtmi:dtdl:instance:Schema:float;2" => "float",
                 "dtmi:dtdl:instance:Schema:integer;2" => "sint32",
                 "dtmi:dtdl:instance:Schema:long;2" => "sint64",
+                "dtmi:dtdl:instance:Schema:byte;4" => "sint32",
+                "dtmi:dtdl:instance:Schema:short;4" => "sint32",
+                "dtmi:dtdl:instance:Schema:unsignedInteger;4" => "uint32",
+                "dtmi:dtdl:instance:Schema:unsignedLong;4" => "uint64",
+                "dtmi:dtdl:instance:Schema:unsignedByte;4" => "uint32",
+                "dtmi:dtdl:instance:Schema:unsignedShort;4" => "uint32",
                 "dtmi:dtdl:instance:Schema:date;2" => "google.protobuf.Timestamp", // google.type.Date not supported in Java
                 "dtmi:dtdl:instance:Schema:dateTime;2" => "google.protobuf.Timestamp",
                 "dtmi:dtdl:instance:Schema:time;2" => "google.protobuf.Timestamp", // google.type.TimeOfDay not supported in Java
