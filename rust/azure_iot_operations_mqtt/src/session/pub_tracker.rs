@@ -72,6 +72,11 @@ impl PubTracker {
         manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
+        if publish.pkid == 0 {
+            // NOTE: This is a special case. A PKID of 0 is reserved for QoS 0 messages, which are not
+            // tracked by the `PubTracker`. Thus, we can safely ignore this case.
+            return Ok(());
+        }
         let mut pending = self.pending.lock().unwrap();
         // Check for existing registration (invalid)
         if pending.iter().any(|pending| pending.pkid == publish.pkid) {
@@ -119,6 +124,12 @@ impl PubTracker {
         reason: ManualAckReason,
         reason_string: Option<String>,
     ) -> Result<(), AckError> {
+        if publish.pkid == 0 {
+            // NOTE: This is a special case. A PKID of 0 is reserved for QoS 0 messages, which are not
+            // tracked by the `PubTracker`. Thus, we can safely ignore this case.
+            return Ok(());
+        }
+
         loop {
             // First, check if there is a matching PendingPub.
             // NOTE: Do this in a new scope so as not to hold the lock longer than necessary.
