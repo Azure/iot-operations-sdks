@@ -9,10 +9,11 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
-use crate::session::internal;
+use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
+use crate::session::session;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::{CompletionToken, MqttConnectionSettings};
@@ -20,23 +21,24 @@ use crate::{CompletionToken, MqttConnectionSettings};
 /// Client that manages connections over a single MQTT session.
 ///
 /// Use this centrally in an application to control the session and to create
-/// any necessary [`SessionPubSub`], [`SessionPubReceiver`] and [`SessionExitHandle`].
-pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
+/// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
+pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 
-#[derive(Clone)]
 /// Handle used to end an MQTT session.
 ///
 /// PLEASE NOTE WELL
 /// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
 /// However, this is not actually possible right now due to a bug in underlying MQTT library.
-pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
-
-/// Send outgoing MQTT messages for publish, subscribe and unsubscribe.
 #[derive(Clone)]
-pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
+pub struct SessionExitHandle(session::SessionExitHandle<adapter::ClientAlias>);
+
+/// An MQTT client that has it's connection state externally managed by a [`Session`].
+/// Can be used to send messages and create receivers for incoming messages.
+#[derive(Clone)]
+pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
 
 /// Receive and acknowledge incoming MQTT messages.
-pub struct SessionPubReceiver(internal::SessionPubReceiver);
+pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
@@ -63,7 +65,7 @@ impl Session {
         // TODO: capacities have been hardcoded to 100. Will make these settable in the future.
         let (client, event_loop) = adapter::client(options.connection_settings, 100, true)
             .map_err(SessionErrorKind::from)?;
-        Ok(Session(internal::Session::new_from_injection(
+        Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
             options.reconnect_policy,
@@ -73,10 +75,14 @@ impl Session {
         )))
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end
-    /// this [`Session`]
-    pub fn get_session_exit_handle(&self) -> SessionExitHandle {
-        SessionExitHandle(self.0.get_session_exit_handle())
+    /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
+    pub fn create_exit_handle(&self) -> SessionExitHandle {
+        SessionExitHandle(self.0.create_exit_handle())
+    }
+
+    /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
+    pub fn create_managed_client(&self) -> SessionManagedClient {
+        SessionManagedClient(self.0.create_managed_client())
     }
 
     /// Begin running the [`Session`].
@@ -90,28 +96,27 @@ impl Session {
     }
 }
 
-impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
+impl ManagedClient for SessionManagedClient {
+    type PubReceiver = SessionPubReceiver;
+
     fn client_id(&self) -> &str {
         self.0.client_id()
     }
 
-    fn pub_sub(&self) -> SessionPubSub {
-        SessionPubSub(self.0.pub_sub())
-    }
-
-    fn filtered_pub_receiver(
-        &mut self,
+    fn create_filtered_pub_receiver(
+        &self,
         topic_filter: &str,
         auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0
+                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
         ))
     }
 }
 
 #[async_trait]
-impl MqttPubSub for SessionPubSub {
+impl MqttPubSub for SessionManagedClient {
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -171,7 +176,7 @@ impl MqttPubSub for SessionPubSub {
 }
 
 #[async_trait]
-impl MqttPubReceiver for SessionPubReceiver {
+impl PubReceiver for SessionPubReceiver {
     async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
     }
