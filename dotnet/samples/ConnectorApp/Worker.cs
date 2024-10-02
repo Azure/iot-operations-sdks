@@ -19,13 +19,6 @@ namespace DotnetHttpConnectorWorkerService
         }
     }
 
-    public class StringTelemetryReceiver : TelemetryReceiver<string>
-    {
-        public StringTelemetryReceiver(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "test", new Utf8JsonSerializer())
-        {
-        }
-    }
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
@@ -56,15 +49,6 @@ namespace DotnetHttpConnectorWorkerService
                 {
                     // Read data from the 3rd party asset
                     string httpData = await httpDataRetriever.RetrieveDataAsync();
-                    
-                    var receiver = new StringTelemetryReceiver(sessionClient)
-                    {
-                        TopicPattern = "sample",
-                        OnTelemetryReceived = (string _, string response, IncomingTelemetryMetadata data) =>
-                        {
-                            return Task.CompletedTask;
-                        },
-                    };
 
                     var sender = new StringTelemetrySender(sessionClient)
                     {
@@ -72,16 +56,10 @@ namespace DotnetHttpConnectorWorkerService
                         ModelId = "someModel",
                     };
 
-                    await receiver.StartAsync();
-
                     for (int i = 0; i < 5; i++)
                     {
                         await sender.SendTelemetryAsync(httpData);
                     }
-
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-
-                    await receiver.StopAsync();
 
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
