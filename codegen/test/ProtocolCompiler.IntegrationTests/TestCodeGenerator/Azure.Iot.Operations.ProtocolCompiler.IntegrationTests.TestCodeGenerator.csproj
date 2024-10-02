@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj" />
+    <ProjectReference Include="..\T4\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\src\Azure.Iot.Operations.ProtocolCompiler\SchemaGenerator\MqttTopicTokens.cs" />
+    <Compile Include="..\..\..\src\Azure.Iot.Operations.ProtocolCompiler\T4\PayloadFormat.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\input\templates\*.tt" />
+  </ItemGroup>
+
+</Project>

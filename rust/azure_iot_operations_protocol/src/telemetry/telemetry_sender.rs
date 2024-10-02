@@ -3,7 +3,7 @@
 
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::ManagedClient;
 
 use super::TelemetryMessage;
 use crate::common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize};
@@ -68,7 +68,7 @@ pub struct TelemetrySenderOptions {
 ///   .topic_namespace("test_namespace")
 ///   .default_telemetry_timeout(Duration::from_secs(5))
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(&mqtt_session, sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
 ///   .payload(SamplePayload {})
 ///   .qos(QoS::AtLeastOnce)
@@ -79,35 +79,34 @@ pub struct TelemetrySenderOptions {
 /// ```
 ///
 #[allow(unused)]
-pub struct TelemetrySender<T, PS>
+pub struct TelemetrySender<T, C>
 where
-    // TODO: Remove unnecessary PR bound here
     T: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    C: ManagedClient,
 {
-    pub_sub: PS,
+    mqtt_client: C,
     message_payload_type: PhantomData<T>,
     telemetry_name: Option<String>,
 }
 
 /// Implementation of Telemetry Sender
 #[allow(unused)]
-impl<T, PS> TelemetrySender<T, PS>
+impl<T, C> TelemetrySender<T, C>
 where
     T: PayloadSerialize,
-    PS: MqttPubSub + Clone + Send + Sync,
+    C: ManagedClient,
 {
     /// Creates a new [`TelemetrySender`].
     ///
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// TODO: Add errors
-    pub fn new<PR: MqttPubReceiver + MqttAck + Send + Sync + 'static>(
-        mqtt_provider: &impl MqttProvider<PS, PR>,
+    pub fn new(
+        client: C,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         Ok(Self {
-            pub_sub: mqtt_provider.pub_sub(),
+            mqtt_client: client,
             message_payload_type: PhantomData,
             telemetry_name: sender_options.telemetry_name,
         })
