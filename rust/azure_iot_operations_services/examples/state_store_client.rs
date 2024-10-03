@@ -58,7 +58,10 @@ async fn state_store_operations(
             state_store_value.to_vec(),
             timeout,
             None,
-            SetOptions::default(),
+            SetOptions {
+                expires: Some(Duration::from_secs(60)),
+                ..SetOptions::default()
+            },
         )
         .await
         .unwrap();
