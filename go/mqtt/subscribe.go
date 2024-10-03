@@ -3,6 +3,7 @@ package mqtt
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
@@ -14,32 +15,33 @@ type incomingPublish struct {
 	packet *paho.Publish
 	// Enables manual acks on this PUBLISH and returns a function that is called to send the ack. If this is called,
 	// the session client will not automatically ack the message, so acks MUST be manually sent.
-	enableManualAck func() func()
+	ack func() error
 }
 
 // Creates the single callback to register to the underlying Paho client for incoming PUBLISH packets
 func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
-		var manualAckEnabled bool
 		var ackOnce sync.Once
 
-		enableManualAck := func() func() {
-			manualAckEnabled = true
-			return func() {
-				ackOnce.Do(func() {
-					pahoClient, currConnCount := func() (PahoClient, uint64) {
-						c.pahoClientMu.RLock()
-						defer c.pahoClientMu.RUnlock()
-						return c.pahoClient, c.connCount
-					}()
-
-					if pahoClient == nil || connCount != currConnCount {
-						// if any disconnections occurred since receiving this PUBLISH, discard the ack.
-						return
-					}
-					pahoClient.Ack(publishReceived.Packet)
-				})
+		ack := func() error {
+			if publishReceived.Packet.QoS == 0 {
+				return fmt.Errorf("only QoS 1 messages may be acked")
 			}
+
+			ackOnce.Do(func() {
+				pahoClient, currConnCount := func() (PahoClient, uint64) {
+					c.pahoClientMu.RLock()
+					defer c.pahoClientMu.RUnlock()
+					return c.pahoClient, c.connCount
+				}()
+
+				if pahoClient == nil || connCount != currConnCount {
+					// if any disconnections occurred since receiving this PUBLISH, discard the ack.
+					return
+				}
+				pahoClient.Ack(publishReceived.Packet)
+			})
+			return nil
 		}
 
 		func() {
@@ -48,17 +50,12 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 			for _, handler := range c.incomingPublishHandlers {
 				handler(
 					incomingPublish{
-						packet:          publishReceived.Packet,
-						enableManualAck: enableManualAck,
+						packet: publishReceived.Packet,
+						ack:    ack,
 					},
 				)
 			}
 		}()
-
-		// automatically ack the message if none of the handlers requested manual acks
-		if !manualAckEnabled {
-			enableManualAck()()
-		}
 
 		// NOTE: this return value doesn't really mean anything because this is the only OnPublishReceivedHandler on this Paho instance
 		return true, nil
@@ -290,7 +287,7 @@ func (c *SessionClient) buildMessage(p incomingPublish) *mqtt.Message {
 			Retain:          p.packet.Retain,
 			UserProperties:  userPropertiesToMap(p.packet.Properties.User),
 		},
-		Ack: p.enableManualAck,
+		Ack: p.ack,
 	}
 	if p.packet.Properties.MessageExpiry != nil {
 		msg.MessageExpiry = *p.packet.Properties.MessageExpiry
