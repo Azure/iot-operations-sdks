@@ -68,10 +68,16 @@
             Reason = reason;
         }
 
-        public StateStoreOperationException(string message)
+        public StateStoreOperationException(string message, StateStoreExceptionReason reason)
             : base(message)
         {
             Reason = reason;
+        }
+
+        public StateStoreOperationException(string message)
+            : base(message)
+        {
+            Reason = StateStoreExceptionReason.Unknown;
         }
     }
 }
