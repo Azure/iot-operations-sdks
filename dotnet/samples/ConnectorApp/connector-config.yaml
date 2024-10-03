@@ -6,6 +6,6 @@ metadata:
 spec:
   replicas: 1
   endpointProfileType: http-dss
-  image: http-connector-worker-service:latest
+  image: httpconnectorworkerservice:latest
   imagePullPolicy: Never # This forces docker to use the locally built image
   mqTargetAddress: aio-broker-external.azure-iot-operations.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)

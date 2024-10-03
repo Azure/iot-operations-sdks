@@ -9,7 +9,7 @@ helm install adrcommonprp --version 0.3.0 oci://azureadr.azurecr.io/helm/adr/com
 
 # Build connector image
 dotnet publish /t:PublishContainer
-k3d image import http-connector-worker-service:latest -c k3s-default
+k3d image import httpconnectorworkerservice:latest -c k3s-default
 
 # Deploy connector config
 kubectl apply -f ./connector-config.yaml
@@ -23,10 +23,10 @@ k3d image import http-server:latest -c k3s-default
 kubectl apply -f ./SampleHttpServer/http-server.yaml
 
 # Deploy HTTP connector secrets
-kubectl apply -f ./htt-connector-secrets.yaml
+kubectl apply -f ./http-connector-secrets.yaml
 
 # Deploy HTTP server AEP
 kubectl apply -f ./http-server-aep.yaml
 
 # Deploy Operator helm chart
-helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241003.2-buddy -n azure-iot-operations
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241003.2-buddy -n azure-iot-operations -f operator-helm-values.yaml
