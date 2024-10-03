@@ -62,16 +62,16 @@
     public class StateStoreOperationException : Exception
     {
         public StateStoreExceptionReason Reason { get; }
-        public StateStoreOperationException(string message, StateStoreExceptionReason reason, Exception innerException)
+        public StateStoreOperationException(string message, Exception innerException, StateStoreExceptionReason reason)
             : base(message, innerException)
         {
             Reason = reason;
         }
 
-        public StateStoreOperationException(string message, StateStoreExceptionReason reason)
-            : base(message)
+        public StateStoreOperationException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            Reason = reason;
+            Reason = StateStoreExceptionReason.Unknown;
         }
 
         public StateStoreOperationException(string message)
