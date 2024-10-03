@@ -59,7 +59,8 @@ impl PubTracker {
     /// to ack back to the server with the provided [`ManualAck`].
     ///
     /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
-    /// QoS 0 messages, which do not require acknowledgement. This is not considered an error.
+    /// Quality of Service 0 messages, which do not require acknowledgement.
+    /// This is not considered an error.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to register as pending
@@ -121,7 +122,8 @@ impl PubTracker {
     /// Note that if there are multiple required acks, the eventual reported reason code will be the
     /// last one provided.
     ///
-    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
     /// which do not require acknowledgement.
     ///
     /// # Arguments
