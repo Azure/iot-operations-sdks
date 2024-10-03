@@ -868,6 +868,21 @@ mod tests {
         ));
     }
 
+    #[tokio::test]
+    async fn pkid_0() {
+        let tracker = PubTracker::default();
+        let (publish, manual_ack) = create_publish("test", "pub1", 0);
+
+        // Registration succeeds, but does not actually register anything
+        assert!(tracker.register_pending(&publish, manual_ack, 1).is_ok());
+        assert!(!tracker.contains(&publish));
+
+        // Acknowledging the publish does nothing
+        assert!(tracker.ack(&publish).await.is_ok());
+        assert!(!tracker.contains(&publish));
+        assert!(matches!(tracker.try_next_ready().err(), Some(TryNextReadyError::Empty)));
+    }
+
     // TODO: tests for clear and ack_rc.
     // Clear is not yet implemented properly, and ack_rc can't be tested without ManualAck changes.
 }
