@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_protocol"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "MIT"
 description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
@@ -12,7 +12,7 @@ readme = "README.md"
 publish = false
 
 [dependencies]
-azure_iot_operations_mqtt = { version = "0.2", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
 bytes = "1.5.0"
 derive_builder = "0.20"
 log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
