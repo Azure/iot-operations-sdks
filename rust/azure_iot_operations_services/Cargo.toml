@@ -2,30 +2,25 @@
 # Licensed under the MIT License.
 
 [package]
-name = "azure_iot_operations_protocol"
-version = "0.3.0"
+name = "azure_iot_operations_services"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
-description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
+description = "Azure IoT Operations Services"
 repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
 publish = false
 
 [dependencies]
+azure_iot_operations_protocol = { version = "0.3", path = "../azure_iot_operations_protocol" }
 azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
-bytes.workspace = true
-derive_builder.workspace = true
-log.workspace = true
-tokio.workspace = true
-tokio-util.workspace = true
-uuid = { version = "1.8.0", features = ["v4"] }
+thiserror.workspace = true
 
 [dev-dependencies]
 env_logger.workspace = true
-mockall = "0.12.1"
 test-case.workspace = true
-tokio-test.workspace = true
-thiserror.workspace = true 
+log.workspace = true
+tokio.workspace = true
 
 [lints]
 workspace = true
