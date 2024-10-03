@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dotnet build -c Debug src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj 
+dotnet build -c Debug src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj 
 
 pushd /; dotnet tool install --global Apache.Avro.Tools; popd
 

@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Inverse demultiplexing of publishes previously distributed to multiple receivers, in original receiving order.
+
 use std::collections::VecDeque;
 use std::sync::Mutex;
 
@@ -50,14 +53,6 @@ pub struct PubTracker {
 }
 
 impl PubTracker {
-    pub fn new() -> PubTracker {
-        PubTracker {
-            pending: Mutex::new(VecDeque::new()),
-            registration_notify: Notify::new(),
-            ready_notify: Notify::new(),
-        }
-    }
-
     /// Register a [`Publish`] as pending.
     ///
     /// When it is acked the required number of times on this tracker, it will be considered ready
@@ -235,6 +230,16 @@ impl PubTracker {
     }
 }
 
+impl Default for PubTracker {
+    fn default() -> Self {
+        PubTracker {
+            pending: Mutex::new(VecDeque::new()),
+            registration_notify: Notify::new(),
+            ready_notify: Notify::new(),
+        }
+    }
+}
+
 // TODO: deal with that Session re-use case
 // TODO: send some kind of signal through `next_ready` to indicate drop/shutdown?
 
@@ -268,7 +273,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_single_ack_ordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -338,7 +343,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_single_ack_unordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -412,7 +417,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_multi_ack_ordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -489,7 +494,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_multi_ack_unordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -585,7 +590,7 @@ mod tests {
     #[tokio::test]
     async fn next_ready(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -639,7 +644,7 @@ mod tests {
     #[tokio::test]
     async fn early_ack(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = Arc::new(PubTracker::new());
+        let tracker = Arc::new(PubTracker::default());
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -750,7 +755,7 @@ mod tests {
     #[tokio::test]
     async fn contains() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
 
         // Newly created publish is not inside the tracker
@@ -782,7 +787,7 @@ mod tests {
     #[tokio::test]
     async fn next_ready_errors() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
         assert!(matches!(
             tracker.try_next_ready().err(),
@@ -833,7 +838,7 @@ mod tests {
     #[tokio::test]
     async fn ack_overflow() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
         assert!(matches!(
             tracker.try_next_ready().err(),

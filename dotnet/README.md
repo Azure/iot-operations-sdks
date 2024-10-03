@@ -4,7 +4,7 @@ This folder contains the source code, tests, and sample code for the **Azure IoT
 
 ## Getting started
 
-Follow the [Getting Started](./README.md#getting-started) guide to bring up an environment in CodeSpaces.
+Follow the [Getting Started](/README.md#getting-started) guide to bring up an environment in CodeSpaces.
 
 ## Packaging
 
@@ -12,9 +12,9 @@ The following Azure IoT Operations packages are available:
 
 | Name | Package | Description |
 |-|-|-|
-| [**Protocol**](../doc#protocol) | `Azure.Iot.Operations.Protocol` | MQTT fundamentals such as telemetry, RPC, connection settings |
-| [**Services**](../doc#services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
-| [**Mqtt**](../doc#mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT fundamentals such as telemetry, RPC, connection settings |
+| [**Protocol**](/doc/README.md#protocol) | `Azure.Iot.Operations.Protocol` | Protocol implementations built on MQTT5 such as telemetry and RPC |
+| [**Mqtt**](/doc/README.md#mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT5 fundamentals such as session management including connections and authentication |
+| [**Services**](/doc/README.md#services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
 
 ### Installing
 

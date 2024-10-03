@@ -1,0 +1,25 @@
+# MQTT related words used across the entire codebase
+acked
+acker
+acking
+acks
+cafile
+clientid
+CONNACK
+KEYNOTIFY
+MQTT
+mqttbytes
+mqtts
+paho
+PINGREQ
+PINGRESP
+PUBACK
+PUBACKs
+rumqttc
+SUBACK
+tcpport
+unacked
+UNSUBACK
+unsubs
+usetls
+unsubscription

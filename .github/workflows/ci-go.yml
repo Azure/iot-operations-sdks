@@ -96,6 +96,13 @@ jobs:
         args: civerify
         workdir: ./go/mqtt
 
+    - name: Verify Go services module
+      uses: magefile/mage-action@v3
+      with:
+        version: latest
+        args: civerify
+        workdir: ./go/services
+
     - name: Verify Go protocol tests
       uses: magefile/mage-action@v3
       with:
@@ -104,7 +111,7 @@ jobs:
         workdir: ./go/test/protocol
 
     - name: Build codegen
-      run: dotnet build codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
+      run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
 
     - name: Codegen counter for Go
       working-directory: ./go/samples/counter/envoy

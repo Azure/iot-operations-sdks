@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! MQTT topic name and topic filter utilities
+
 use std::cmp::{Eq, PartialEq};
 use std::fmt;
 use std::hash::{Hash, Hasher};
@@ -17,14 +20,19 @@ const MULTI_LEVEL_WILDCARD: &str = "#";
 /// MQTT topic single-level wildcard
 const SINGLE_LEVEL_WILDCARD: &str = "+";
 
+/// Error when parsing a topic name or topic filter
 #[derive(Error, Debug)]
 pub enum TopicParseError {
+    /// The topic name or topic filter is empty
     #[error("must be at least one character long")]
     Empty,
+    /// The topic name contains a wildcard character (# or +)
     #[error("wildcard characters not allowed in topic name: {0}")]
     WildcardInTopicName(String),
+    /// A wildcard character (# or +) does not occupy an entire level of the topic filter
     #[error("wildcard characters must occupy an entire level of the topic filter: {0}")]
     WildcardNotAlone(String),
+    /// A multi-level wildcard (#) is not the last character of the topic filter
     #[error("multi-level wildcard must be the last character specified: {0}")]
     WildcardNotLast(String),
 }

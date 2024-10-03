@@ -1,0 +1,13 @@
+# Dictionary for Go language files
+bintool
+Failf
+golangci
+golines
+gomarkdoc
+mageutil
+mochi
+nolint
+nosec
+segmentio
+shellcmd
+stretchr

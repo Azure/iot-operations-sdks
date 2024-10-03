@@ -1,0 +1,26 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.intfBareId#>:_<#=this.schema#><#=this.versionSuffix#>",
+  "title": "<#=this.schema#>",
+  "type": "object",
+  "additionalProperties": false,
+<# if (this.nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item4)) { #>
+  "required": [ <#=string.Join(", ", this.nameDescSchemaRequiredIndices.Where(ndsri => ndsri.Item4).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
+<# } #>
+  "properties": {
+<# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
+    "<#=nameDescSchemaRequiredIndex.Item1#>": {
+      "description": "<#=nameDescSchemaRequiredIndex.Item2#>",
+<# if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { #>
+      "index": <#=nameDescSchemaRequiredIndex.Item5#>,
+<# } #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)#>
+    }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
+<# } #>
+  }
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, bool, int) nameDescSchemaRequiredIndex) => nameDescSchemaRequiredIndex.Item1 == this.nameDescSchemaRequiredIndices.Last().Item1;
+#>

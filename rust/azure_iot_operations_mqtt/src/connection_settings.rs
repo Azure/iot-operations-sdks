@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Generic MQTT connection settings implementations
+
 use std::env;
 use std::time::Duration;
 
+/// All the settings required to establish an MQTT connection.
 #[derive(Builder, Clone)]
 #[builder(pattern = "owned", setter(into), build_fn(validate = "Self::validate"))]
 pub struct MqttConnectionSettings {

@@ -150,11 +150,12 @@ func NewCommandInvoker[Req, Res any](
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		client:   ci.client,
-		encoding: responseEncoding,
-		topic:    resTF,
-		logger:   log.Wrap(options.Logger),
-		handler:  ci,
+		client:         ci.client,
+		encoding:       responseEncoding,
+		topic:          resTF,
+		reqCorrelation: true,
+		logger:         log.Wrap(options.Logger),
+		handler:        ci,
 	}
 
 	return ci, nil
@@ -303,6 +304,12 @@ func (ci *CommandInvoker[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
+	// If we received a version error from the listener implementation rather
+	// than the response message, it indicates a version *we* don't support.
+	if e, ok := err.(*errors.Error); ok &&
+		e.Kind == errors.UnsupportedRequestVersion {
+		e.Kind = errors.UnsupportedResponseVersion
+	}
 	return ci.sendPending(ctx, pub, nil, err)
 }
 

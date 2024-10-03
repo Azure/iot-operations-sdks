@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 )
@@ -21,13 +22,14 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client      mqtt.Client
-		encoding    Encoding[T]
-		topic       string
-		shareName   string
-		concurrency uint
-		logger      log.Logger
-		handler     interface {
+		client         mqtt.Client
+		encoding       Encoding[T]
+		topic          string
+		shareName      string
+		concurrency    uint
+		reqCorrelation bool
+		logger         log.Logger
+		handler        interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
@@ -71,7 +73,20 @@ func (l *listener[T]) listen(ctx context.Context) (func(), error) {
 func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	msg := &Message[T]{}
 
-	if len(pub.CorrelationData) == 0 {
+	// The very first check must be the version, because if we don't support it,
+	// nothing else is trustworthy.
+	ver := pub.UserProperties[constants.ProtocolVersion]
+	if !version.IsSupported(ver) {
+		l.error(ctx, pub, &errors.Error{
+			Message:                        "unsupported version",
+			Kind:                           errors.UnsupportedRequestVersion,
+			ProtocolVersion:                ver,
+			SupportedMajorProtocolVersions: version.Supported,
+		})
+		return
+	}
+
+	if l.reqCorrelation && len(pub.CorrelationData) == 0 {
 		l.error(ctx, pub, &errors.Error{
 			Message:    "correlation data missing",
 			Kind:       errors.HeaderMissing,
@@ -79,26 +94,27 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		})
 		return
 	}
-	correlationData, err := uuid.FromBytes(pub.CorrelationData)
-	if err != nil {
-		l.error(ctx, pub, &errors.Error{
-			Message:    "correlation data is not a valid UUID",
-			Kind:       errors.HeaderInvalid,
-			HeaderName: constants.CorrelationData,
-		})
-		return
+	if len(pub.CorrelationData) != 0 {
+		correlationData, err := uuid.FromBytes(pub.CorrelationData)
+		if err != nil {
+			l.error(ctx, pub, &errors.Error{
+				Message:    "correlation data is not a valid UUID",
+				Kind:       errors.HeaderInvalid,
+				HeaderName: constants.CorrelationData,
+			})
+			return
+		}
+		msg.CorrelationData = correlationData.String()
 	}
-	msg.CorrelationData = correlationData.String()
 
 	ts := pub.UserProperties[constants.Timestamp]
 	if ts != "" {
+		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
-	} else {
-		msg.Timestamp, err = hlc.Get()
-	}
-	if err != nil {
-		l.error(ctx, pub, err)
-		return
+		if err != nil {
+			l.error(ctx, pub, err)
+			return
+		}
 	}
 
 	msg.Metadata = internal.PropToMetadata(pub.UserProperties)

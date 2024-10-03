@@ -19,6 +19,9 @@ type (
 		PropertyName  string
 		PropertyValue any
 
+		ProtocolVersion                string
+		SupportedMajorProtocolVersions []int
+
 		// The following will be set automatically by the library and should not
 		// be updated manually.
 
@@ -47,6 +50,8 @@ const (
 	InvocationException
 	ExecutionException
 	MqttError
+	UnsupportedRequestVersion
+	UnsupportedResponseVersion
 )
 
 // Error returns the error as a string.

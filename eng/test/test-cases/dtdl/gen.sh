@@ -1,4 +1,4 @@
-gen=../../../tools/codegen/src/Akri.Dtdl.Codegen/bin/Debug/net8.0/Akri.Dtdl.Codegen 
+gen=../../../tools/codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
 
 $gen --modelFile TestModel.json --outDir TestModel
 

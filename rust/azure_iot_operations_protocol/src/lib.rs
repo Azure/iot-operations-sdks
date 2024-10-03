@@ -1,17 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! Utilities for using the Azure IoT Operations Protocol over MQTT.
+
+#![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
-//! APIs for Azure IoT Operations Protocols to address the following scenarios: RPC Command, Telemetry, and Serialization.
-
-/// This module contains common utilities.
 pub mod common;
-
-/// This module contains the command APIs.
 pub mod rpc;
-
-/// This module contains the telemetry APIs.
+#[doc(hidden)]
 pub mod telemetry;
 
 #[macro_use]
 extern crate derive_builder;
+
+/// Include the README doc on a struct when running doctests to validate that the code in the
+/// README can compile to verify that it has not rotted.
+/// Note that any code that requires network or environment setup will not be able to run,
+/// and thus should be annotated by "no_run" in the README.
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+struct ReadmeDoctests;

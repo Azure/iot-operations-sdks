@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//! Structures representing MQTT control packets.
+
 // TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
 
 /// Quality of Service
@@ -17,6 +19,9 @@ pub type PublishProperties = rumqttc::v5::mqttbytes::v5::PublishProperties;
 pub type SubscribeProperties = rumqttc::v5::mqttbytes::v5::SubscribeProperties;
 /// Properties for a UNSUBSCRIBE packet
 pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperties;
+/// Properties for an AUTH packet
+pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
 
 #[cfg(test)]
+/// PUBACK data. Internal/testing use only.
 pub type PubAck = rumqttc::v5::mqttbytes::v5::PubAck;

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+use std::time::Duration;
 
 use async_trait::async_trait;
 use bytes::Bytes;
@@ -8,25 +9,42 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
-use crate::session::internal;
+use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
-use crate::session::{SessionError, SessionErrorKind};
+use crate::session::session;
+use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::{CompletionToken, MqttConnectionSettings};
 
-pub struct Session(internal::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
-#[derive(Clone)]
-pub struct SessionExitHandle(internal::SessionExitHandle<adapter::ClientAlias>);
-#[derive(Clone)]
-pub struct SessionPubSub(internal::SessionPubSub<adapter::ClientAlias>);
-pub struct SessionPubReceiver(internal::SessionPubReceiver);
+/// Client that manages connections over a single MQTT session.
+///
+/// Use this centrally in an application to control the session and to create
+/// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
+pub struct Session(session::Session<adapter::ClientAlias, adapter::EventLoopAlias>);
 
+/// Handle used to end an MQTT session.
+///
+/// PLEASE NOTE WELL
+/// This struct's API is designed around negotiating a graceful exit with the MQTT broker.
+/// However, this is not actually possible right now due to a bug in underlying MQTT library.
+#[derive(Clone)]
+pub struct SessionExitHandle(session::SessionExitHandle<adapter::ClientAlias>);
+
+/// An MQTT client that has it's connection state externally managed by a [`Session`].
+/// Can be used to send messages and create receivers for incoming messages.
+#[derive(Clone)]
+pub struct SessionManagedClient(managed_client::SessionManagedClient<adapter::ClientAlias>);
+
+/// Receive and acknowledge incoming MQTT messages.
+pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
+
+/// Options for configuring a new [`Session`]
 #[derive(Builder)]
 #[builder(pattern = "owned", setter(into))]
 pub struct SessionOptions {
-    /// MQTT Connection Settings for configuring the `Session`
+    /// MQTT Connection Settings for configuring the [`Session`]
     pub connection_settings: MqttConnectionSettings,
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     /// Reconnect Policy to by used by the `Session`
@@ -47,7 +65,7 @@ impl Session {
         // TODO: capacities have been hardcoded to 100. Will make these settable in the future.
         let (client, event_loop) = adapter::client(options.connection_settings, 100, true)
             .map_err(SessionErrorKind::from)?;
-        Ok(Session(internal::Session::new_from_injection(
+        Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
             options.reconnect_policy,
@@ -57,10 +75,14 @@ impl Session {
         )))
     }
 
-    /// Return an instance of [`SessionExitHandle`] that can be used to end
-    /// this [`Session`]
-    pub fn get_session_exit_handle(&self) -> SessionExitHandle {
-        SessionExitHandle(self.0.get_session_exit_handle())
+    /// Return a new instance of [`SessionExitHandle`] that can be used to end this [`Session`]
+    pub fn create_exit_handle(&self) -> SessionExitHandle {
+        SessionExitHandle(self.0.create_exit_handle())
+    }
+
+    /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
+    pub fn create_managed_client(&self) -> SessionManagedClient {
+        SessionManagedClient(self.0.create_managed_client())
     }
 
     /// Begin running the [`Session`].
@@ -74,32 +96,27 @@ impl Session {
     }
 }
 
-impl MqttProvider<SessionPubSub, SessionPubReceiver> for Session {
+impl ManagedClient for SessionManagedClient {
+    type PubReceiver = SessionPubReceiver;
+
     fn client_id(&self) -> &str {
         self.0.client_id()
     }
 
-    fn pub_sub(&self) -> SessionPubSub {
-        SessionPubSub(self.0.pub_sub())
-    }
-
-    fn filtered_pub_receiver(
-        &mut self,
+    fn create_filtered_pub_receiver(
+        &self,
         topic_filter: &str,
         auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0.filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0
+                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
         ))
     }
 }
 
 #[async_trait]
-impl MqttPubSub for SessionPubSub {
-    /// MQTT Publish
-    ///
-    /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
+impl MqttPubSub for SessionManagedClient {
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -110,10 +127,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.publish(topic, qos, retain, payload).await
     }
 
-    // MQTT Publish
-    ///
-    /// If connection is unavailable, publish will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn publish_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -127,10 +140,6 @@ impl MqttPubSub for SessionPubSub {
             .await
     }
 
-    // MQTT Subscribe
-    ///
-    /// If connection is unavailable, subscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
@@ -139,10 +148,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.subscribe(topic, qos).await
     }
 
-    // MQTT Subscribe
-    ///
-    /// If connection is unavailable, subscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn subscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -154,10 +159,6 @@ impl MqttPubSub for SessionPubSub {
             .await
     }
 
-    // MQTT Unsubscribe
-    ///
-    /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
@@ -165,10 +166,6 @@ impl MqttPubSub for SessionPubSub {
         self.0.unsubscribe(topic).await
     }
 
-    // MQTT Unsubscribe
-    ///
-    /// If connection is unavailable, unsubscribe will be queued and delivered when connection is re-established.
-    /// Blocks if at capacity for queueing.
     async fn unsubscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -179,7 +176,7 @@ impl MqttPubSub for SessionPubSub {
 }
 
 #[async_trait]
-impl MqttPubReceiver for SessionPubReceiver {
+impl PubReceiver for SessionPubReceiver {
     async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
     }
@@ -193,12 +190,55 @@ impl MqttAck for SessionPubReceiver {
 }
 
 impl SessionExitHandle {
-    /// End the session running in the [`Session`] that created this handle.
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
     ///
     /// # Errors
-    /// Returns `ClientError` if there is a failure ending the session.
-    /// This should not happen.
-    pub async fn exit_session(&self) -> Result<(), ClientError> {
-        self.0.exit_session().await
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    pub async fn try_exit(&self) -> Result<(), SessionExitError> {
+        self.0.try_exit().await
+    }
+
+    /// Attempt to gracefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// Note that a graceful exit requires the [`Session`] to be connected to the broker.
+    /// If the [`Session`] is not connected, this method will return an error.
+    /// If the [`Session`] connection has been recently lost, the [`Session`] may not yet realize this,
+    /// and it can take until up to the keep-alive interval for the [`Session`] to realize it is disconnected,
+    /// after which point this method will return an error. Under this circumstance, the attempt was still made,
+    /// and may eventually succeed even if this method returns the error
+    /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
+    /// will return an error indicating such.
+    ///
+    /// # Arguments
+    /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
+    ///
+    /// # Errors
+    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
+    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
+        self.0.try_exit_timeout(timeout).await
+    }
+
+    /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
+    /// This will cause the [`Session::run()`] method to return.
+    ///
+    /// The [`Session`] will be granted a period of 1 second to attempt a graceful exit before
+    /// forcing the exit. If the exit is forced, the broker will not be aware the MQTT session
+    /// has ended.
+    ///
+    /// Returns true if the exit was graceful, and false if the exit was forced.
+    pub async fn exit_force(&self) -> bool {
+        self.0.exit_force().await
     }
 }

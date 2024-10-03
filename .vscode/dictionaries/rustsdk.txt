@@ -1,0 +1,8 @@
+# Dictionary for Rust language files
+nanos
+pemfile
+pkey
+println
+rustls
+webpki
+protobuf

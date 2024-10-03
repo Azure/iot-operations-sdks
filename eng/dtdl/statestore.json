@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+  ],
+  "@id": "dtmi:ms:aio:mq:StateStore;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke",
+  "payloadFormat": "raw/0",
+  "schemas": [],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "invoke",
+      "request": {
+        "name": "invoke",
+        "schema": "bytes"
+      },
+      "response": {
+        "name": "invoke",
+        "schema": "bytes"
+      }
+    }
+  ]
+}
