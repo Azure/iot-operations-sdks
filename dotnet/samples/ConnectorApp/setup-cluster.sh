@@ -22,6 +22,9 @@ k3d image import http-server:latest -c k3s-default
 # Deploy HTTP server (as an asset)
 kubectl apply -f ./SampleHttpServer/http-server.yaml
 
+# Deploy HTTP connector secrets
+kubectl apply -f ./htt-connector-secrets.yaml
+
 # Deploy HTTP server AEP
 kubectl apply -f ./http-server-aep.yaml
 
