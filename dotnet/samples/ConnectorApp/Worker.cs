@@ -2,13 +2,23 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
-using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry;
 using System.Text.Json;
 
 namespace DotnetHttpConnectorWorkerService
 {
+    public class StringTelemetrySender : TelemetrySender<string>
+    {
+        public StringTelemetrySender(IMqttPubSubClient mqttClient)
+            : base(mqttClient, "test", new Utf8JsonSerializer())
+        {
+        }
+    }
+
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
@@ -39,9 +49,17 @@ namespace DotnetHttpConnectorWorkerService
                 {
                     // Read data from the 3rd party asset
                     string httpData = await httpDataRetriever.RetrieveDataAsync();
-                    
-                    // Send that data to the Azure IoT Operations broker
-                    await sessionClient.PublishAsync(new MqttApplicationMessage("todo"));
+
+                    var sender = new StringTelemetrySender(sessionClient)
+                    {
+                        TopicPattern = "sample",
+                        ModelId = "someModel",
+                    };
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        await sender.SendTelemetryAsync(httpData);
+                    }
 
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
