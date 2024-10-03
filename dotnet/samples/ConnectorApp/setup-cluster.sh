@@ -29,4 +29,4 @@ kubectl apply -f ./http-connector-secrets.yaml
 kubectl apply -f ./http-server-aep.yaml
 
 # Deploy Operator helm chart
-helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241003.2-buddy -n azure-iot-operations -f operator-helm-values.yaml
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241003.2-buddy -n azure-iot-operations
