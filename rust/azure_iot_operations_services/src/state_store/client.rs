@@ -3,9 +3,9 @@
 
 //! Client for State Store operations.
 
-use std::{marker::PhantomData, time::Duration};
+use std::time::Duration;
 
-use azure_iot_operations_mqtt::interface::{MqttAck, MqttProvider, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::{
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
@@ -19,20 +19,19 @@ const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
 const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
 
-pub struct Client<PS, PR>
+pub struct Client<C>
 where
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
-    PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync,
 {
-    command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, PS>,
-    pr_placeholder: PhantomData<PR>,
-    // notification_receiver: TelemetryReceiver<state_store::resp3::Operation, PS, PR>,
+    command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+    // notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
 }
 
-impl<PS, PR> Client<PS, PR>
+impl<C> Client<C>
 where
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
-    PR: MqttPubReceiver + MqttAck + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
 {
     /// Create a new State Store Client
     /// # Errors
@@ -42,7 +41,7 @@ where
     /// # Panics
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
-    pub fn new(mqtt_provider: &mut impl MqttProvider<PS, PR>) -> Result<Self, StateStoreError> {
+    pub fn new(client: C) -> Result<Self, StateStoreError> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -55,13 +54,12 @@ where
         let command_invoker: CommandInvoker<
             state_store::resp3::Request,
             state_store::resp3::Response,
-            PS,
-        > = CommandInvoker::new(mqtt_provider, command_invoker_options)
+            C,
+        > = CommandInvoker::new(client, command_invoker_options)
             .map_err(StateStoreErrorKind::from)?;
 
         Ok(Self {
             command_invoker,
-            pr_placeholder: PhantomData,
             // notification_receiver,
         })
     }
@@ -270,8 +268,10 @@ mod tests {
 
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
-    // TODO: This should return a mock MqttProvider instead
-    fn get_mqtt_provider() -> Session {
+    // TODO: This should return a mock ManagedClient instead.
+    // Until that's possible, need to return a Session so that the Session doesn't go out of
+    // scope and render the ManagedClient unable to to be used correctly.
+    fn create_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
@@ -287,8 +287,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_set_empty_key() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .set(
                 vec![],
@@ -306,8 +307,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_get_empty_key() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
         assert!(matches!(
             response.unwrap_err(),
@@ -317,8 +319,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_del_empty_key() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .del(vec![], None, Duration::from_secs(1))
             .await;
@@ -330,8 +333,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_vdel_empty_key() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .vdel(vec![], b"testValue".to_vec(), None, Duration::from_secs(1))
             .await;
@@ -343,8 +347,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_set_invalid_timeout() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .set(
                 b"testKey".to_vec(),
@@ -362,8 +367,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_get_invalid_timeout() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .get(b"testKey".to_vec(), Duration::from_nanos(50))
             .await;
@@ -375,8 +381,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_del_invalid_timeout() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .del(b"testKey".to_vec(), None, Duration::from_nanos(50))
             .await;
@@ -388,8 +395,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_vdel_invalid_timeout() {
-        let mut mqtt_provider = get_mqtt_provider();
-        let state_store_client = super::Client::new(&mut mqtt_provider).unwrap();
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(managed_client).unwrap();
         let response = state_store_client
             .vdel(
                 b"testKey".to_vec(),

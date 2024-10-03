@@ -188,14 +188,8 @@ fn try_custom_token_replacement(
 /// Represents a topic pattern for Azure IoT Operations Protocol topics
 #[derive(Debug)]
 pub struct TopicPattern {
-    /// Denotes whether the first level has been added
-    first_added: bool,
-    /// Denotes whether the pattern contains a wildcard
-    contains_wildcard: bool,
-    /// Contains the levels before the wildcard, empty if wildcard is the first level
-    prefix: String,
-    /// Contains the levels after the wildcard, empty if no wildcard
-    suffix: String,
+    /// Contains the levels
+    levels: Vec<String>,
     /// Command name - used for errors
     command_name: Option<String>,
 }
@@ -203,38 +197,17 @@ pub struct TopicPattern {
 impl TopicPattern {
     fn new() -> Self {
         Self {
-            first_added: false,
-            contains_wildcard: false,
-            prefix: String::new(),
-            suffix: String::new(),
+            levels: Vec::new(),
             command_name: None,
         }
     }
 
     /// Add a level to the topic pattern
     ///
-    /// Adds the level to the prefix if a wildcard is not present, otherwise adds the level to the
-    /// suffix. e.g. in a topic like "command/commandName/+/test", the prefix would be
-    /// "command/commandName/" and the suffix would be "/test".
-    ///
     /// # Arguments
     /// * `level` - A string slice representing the level to add
     pub fn add(&mut self, level: &str) {
-        if self.contains_wildcard {
-            self.suffix.push('/');
-            self.suffix.push_str(level);
-        } else {
-            if self.first_added {
-                self.prefix.push('/');
-            } else {
-                self.first_added = true;
-            }
-            if level == WILDCARD {
-                self.contains_wildcard = true;
-            } else {
-                self.prefix.push_str(level);
-            }
-        }
+        self.levels.push(level.to_string());
     }
 
     // Convenience function to create a no replacement error
@@ -246,23 +219,6 @@ impl TopicPattern {
             Value::String(String::new()),
             Some(format!(
                 "MQTT topic pattern contains token '{token}', but no replacement value provided",
-            )),
-            command_name,
-        )
-    }
-
-    // Convenience function to create a duplicate token error
-    fn duplicate_token_error(
-        pattern: &str,
-        token: &str,
-        command_name: Option<String>,
-    ) -> AIOProtocolError {
-        AIOProtocolError::new_configuration_invalid_error(
-            None,
-            "pattern",
-            Value::String(pattern.to_string()),
-            Some(format!(
-                "Token '{token}' in MQTT topic pattern can only be used once",
             )),
             command_name,
         )
@@ -336,11 +292,6 @@ impl TopicPattern {
             topic_pattern.add(topic_namespace);
         }
 
-        let mut replaced_model_id = false;
-        let mut replaced_command_name = false;
-        let mut replaced_executor_id = false;
-        let mut replaced_invoker_id = false;
-
         let pattern_split = pattern.split('/');
         for pattern_level in pattern_split {
             if pattern_level.trim().is_empty() {
@@ -365,13 +316,6 @@ impl TopicPattern {
                 } else {
                     match pattern_level {
                         MODEL_ID => {
-                            if replaced_model_id {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    MODEL_ID,
-                                    Some(command_name.to_string()),
-                                ));
-                            }
                             if let Some(model_id) = model_id {
                                 validate_token_replacement(
                                     pattern_level,
@@ -379,7 +323,6 @@ impl TopicPattern {
                                     Some(command_name.to_string()),
                                 )?;
                                 topic_pattern.add(model_id);
-                                replaced_model_id = true;
                             } else {
                                 return Err(Self::no_replacement_error(
                                     MODEL_ID,
@@ -388,52 +331,28 @@ impl TopicPattern {
                             }
                         }
                         COMMAND_NAME => {
-                            if replaced_command_name {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    COMMAND_NAME,
-                                    Some(command_name.to_string()),
-                                ));
-                            }
                             validate_token_replacement(
                                 pattern_level,
                                 command_name,
                                 Some(command_name.to_string()),
                             )?;
                             topic_pattern.add(command_name);
-                            replaced_command_name = true;
                         }
                         COMMAND_EXECUTOR_ID => {
-                            if replaced_executor_id {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    COMMAND_EXECUTOR_ID,
-                                    Some(command_name.to_string()),
-                                ));
-                            }
                             validate_token_replacement(
                                 pattern_level,
                                 executor_id,
                                 Some(command_name.to_string()),
                             )?;
                             topic_pattern.add(executor_id);
-                            replaced_executor_id = true;
                         }
                         COMMAND_INVOKER_ID => {
-                            if replaced_invoker_id {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    COMMAND_INVOKER_ID,
-                                    Some(command_name.to_string()),
-                                ));
-                            }
                             validate_token_replacement(
                                 pattern_level,
                                 invoker_id,
                                 Some(command_name.to_string()),
                             )?;
                             topic_pattern.add(invoker_id);
-                            replaced_invoker_id = true;
                         }
                         _ => {
                             return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -521,10 +440,6 @@ impl TopicPattern {
             topic_pattern.add(topic_namespace);
         }
 
-        let mut replaced_model_id = false;
-        let mut replaced_telemetry_name = false;
-        let mut replaced_sender_id = false;
-
         let pattern_split = pattern.split('/');
         for pattern_level in pattern_split {
             if pattern_level.trim().is_empty() {
@@ -549,42 +464,24 @@ impl TopicPattern {
                 } else {
                     match pattern_level {
                         MODEL_ID => {
-                            if replaced_model_id {
-                                return Err(Self::duplicate_token_error(pattern, MODEL_ID, None));
-                            } else if let Some(model_id) = model_id {
+                            if let Some(model_id) = model_id {
                                 validate_token_replacement(pattern_level, model_id, None)?;
                                 topic_pattern.add(model_id);
-                                replaced_model_id = true;
                             } else {
                                 return Err(Self::no_replacement_error(MODEL_ID, None));
                             }
                         }
                         TELEMETRY_NAME => {
-                            if replaced_telemetry_name {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    TELEMETRY_NAME,
-                                    None,
-                                ));
-                            } else if let Some(telemetry_name) = telemetry_name {
+                            if let Some(telemetry_name) = telemetry_name {
                                 validate_token_replacement(pattern_level, telemetry_name, None)?;
                                 topic_pattern.add(telemetry_name);
-                                replaced_telemetry_name = true;
                             } else {
                                 return Err(Self::no_replacement_error(TELEMETRY_NAME, None));
                             }
                         }
                         TELEMETRY_SENDER_ID => {
-                            if replaced_sender_id {
-                                return Err(Self::duplicate_token_error(
-                                    pattern,
-                                    TELEMETRY_SENDER_ID,
-                                    None,
-                                ));
-                            }
                             validate_token_replacement(pattern_level, sender_id, None)?;
                             topic_pattern.add(sender_id);
-                            replaced_sender_id = true;
                         }
                         _ => {
                             return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -621,12 +518,7 @@ impl TopicPattern {
     /// Returns the subscribe topic for the pattern
     #[must_use]
     pub fn as_subscribe_topic(&self) -> String {
-        let mut topic = self.prefix.clone();
-        if self.contains_wildcard {
-            topic.push_str(WILDCARD);
-            topic.push_str(self.suffix.as_str());
-        }
-        topic
+        self.levels.join("/")
     }
 
     /// Get the publish topic for the pattern
@@ -644,41 +536,53 @@ impl TopicPattern {
     /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the topic
     /// contains a wildcard and `id` is `None`, the wildcard value, or invalid
     pub fn as_publish_topic(&self, executor_id: Option<&str>) -> Result<String, AIOProtocolError> {
-        let mut topic = self.prefix.clone();
-        if self.contains_wildcard {
-            // Executor ID is the only token that can be replaced
+        // Executor ID is the only token that can be replaced
+        if self.levels.contains(&WILDCARD.to_string()) {
             let param_name = COMMAND_EXECUTOR_ID
                 .trim_start_matches('{')
                 .trim_end_matches('}');
             if let Some(id) = executor_id {
                 if id == WILDCARD {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
-                        None,
-                        param_name,
-                        Value::String(id.to_string()),
-                        Some(format!("Token '{COMMAND_EXECUTOR_ID}' in MQTT topic pattern has replacement value '{id}' that is not valid"),
-                        ),
-                        self.command_name.clone()
-                    ));
-                }
-                validate_token_replacement(COMMAND_EXECUTOR_ID, id, self.command_name.clone())?;
-                topic.push_str(id);
-                topic.push_str(self.suffix.as_str());
-            } else {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     param_name,
-                    Value::String(String::new()),
-                    Some(format!("MQTT topic pattern contains token '{COMMAND_EXECUTOR_ID}', but no replacement value provided"),
+                    Value::String(id.to_string()),
+                    Some(format!("Token '{COMMAND_EXECUTOR_ID}' in MQTT topic pattern has replacement value '{id}' that is not valid"),
                     ),
                     self.command_name.clone()
                 ));
+                }
+                validate_token_replacement(COMMAND_EXECUTOR_ID, id, self.command_name.clone())?;
+
+                let mut result = String::new();
+                for (i, level) in self.levels.iter().enumerate() {
+                    if level == WILDCARD {
+                        result.push_str(id);
+                    } else {
+                        result.push_str(level);
+                    }
+                    if i < self.levels.len() - 1 {
+                        result.push('/');
+                    }
+                }
+
+                Ok(result)
+            } else {
+                Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                param_name,
+                Value::String(String::new()),
+                Some(format!("MQTT topic pattern contains token '{COMMAND_EXECUTOR_ID}', but no replacement value provided"),
+                ),
+                self.command_name.clone()
+            ))
             }
+        } else {
+            Ok(self.levels.join("/"))
         }
-        Ok(topic)
     }
 
-    // TODO: Remove this function. It's functionality is covered by crate::mqtt::topic
+    // TODO: Remove this function. It's functionality is covered by crate::mqtt::topic, keeping for testing purposes for now
     /// Check if a topic string matches the pattern
     ///
     /// This is a simple implementation that checks against a topic filter with a single wildcard.
@@ -691,25 +595,19 @@ impl TopicPattern {
     /// * `topic` - A string slice representing the topic to check
     #[must_use]
     pub fn is_match(&self, topic: &str) -> bool {
-        let topic = if topic.starts_with(self.prefix.as_str()) {
-            &topic[self.prefix.len()..]
-        } else {
-            return false;
-        };
+        let recv_levels = topic.split('/').collect::<Vec<&str>>();
 
-        let topic = if topic.ends_with(self.suffix.as_str()) {
-            &topic[..topic.len() - self.suffix.len()]
-        } else {
+        if recv_levels.len() != self.levels.len() {
             return false;
-        };
+        }
 
-        if self.contains_wildcard {
-            // validates that a wildcard corresponds to a single level
-            if topic.contains('/') {
+        for (pattern_level, recv_level) in self.levels.iter().zip(recv_levels.iter()) {
+            if pattern_level == WILDCARD {
+                continue;
+            }
+            if pattern_level != recv_level {
                 return false;
             }
-        } else if !topic.is_empty() {
-            return false;
         }
 
         true
@@ -817,7 +715,6 @@ mod tests {
     #[test_case("invalid\u{0000}pattern/{modelId}"; "pattern contains non ASCII character")]
     #[test_case(" "; "pattern contains only space")]
     #[test_case(""; "pattern is empty")]
-    #[test_case("test/{modelId}/test/{modelId}"; "pattern contains duplicate token")]
     fn test_topic_processor_pattern_invalid(pattern: &str) {
         let custom_token_map = HashMap::new();
         let err = TopicPattern::new_command_pattern(
@@ -881,6 +778,8 @@ mod tests {
     #[test_case("{executorId}", "id", "test/id/other", false; "prefix nonexistent id match suffix nonexistent")]
     #[test_case("test/{executorId}", "+", "test/id/other", false; "prefix match wildcard match suffix nonexistent")]
     #[test_case("{executorId}/test", "+", "test/id/other", false; "wildcard match suffix no match prefix nonexistent")]
+    #[test_case("{executorId}/test/{executorId}", "+", "id/test/id", true; "prefix match wildcard suffix match wildcard")]
+    #[test_case("{executorId}/test/{executorId}", "+", "id/test/other/id", false; "prefix match wildcard suffix match wildcard no match")]
     fn test_topic_processor_match(
         pattern: &str,
         id_or_wildcard: &str,
@@ -960,7 +859,8 @@ mod tests {
 
     #[test]
     fn test_topic_processor_executor_pattern_valid() {
-        let executor_pattern = "command/{commandName}/{executorId}/{invokerClientId}/{modelId}";
+        let executor_pattern =
+            "command/{commandName}/{executorId}/{invokerClientId}/{executorId}/{modelId}/{invokerClientId}";
         let custom_token_map = HashMap::new();
 
         let executor_pattern = TopicPattern::new_command_pattern(
@@ -975,18 +875,20 @@ mod tests {
         .unwrap();
 
         let expected_match = format!(
-            "command/{TEST_COMMAND_NAME}/{TEST_EXECUTOR_ID}/{TEST_INVOKER_ID}/{TEST_MODEL_ID}"
+            "command/{TEST_COMMAND_NAME}/{TEST_EXECUTOR_ID}/{TEST_INVOKER_ID}/{TEST_EXECUTOR_ID}/{TEST_MODEL_ID}/{TEST_INVOKER_ID}"
         );
         assert!(executor_pattern.is_match(&expected_match));
 
         let expected_no_match =
-            format!("command/{TEST_COMMAND_NAME}/otherExecutor/{TEST_INVOKER_ID}/{TEST_MODEL_ID}");
+            format!("command/{TEST_COMMAND_NAME}/otherExecutor/{TEST_INVOKER_ID}/otherExecutor/{TEST_MODEL_ID}/{TEST_INVOKER_ID}");
         assert!(!executor_pattern.is_match(&expected_no_match));
 
         let subscribe_request_topic = executor_pattern.as_subscribe_topic();
         assert_eq!(
             subscribe_request_topic,
-            format!("command/{TEST_COMMAND_NAME}/{TEST_EXECUTOR_ID}/+/testModel")
+            format!(
+                "command/{TEST_COMMAND_NAME}/{TEST_EXECUTOR_ID}/+/{TEST_EXECUTOR_ID}/testModel/+"
+            )
         );
     }
 

@@ -253,11 +253,14 @@ impl PayloadSerialize for Response {
             _ if payload.starts_with(Self::RESPONSE_LENGTH_PREFIX) => Ok(Response::Value(
                 parse_value(payload, Self::RESPONSE_LENGTH_PREFIX)?,
             )),
-            _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => Ok(Response::ValuesDeleted(
-                parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?
-                    .try_into()
-                    .unwrap(), // TODO: to error
-            )),
+            _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => {
+                match parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?.try_into() {
+                    Ok(n) => Ok(Response::ValuesDeleted(n)),
+                    Err(e) => Err(format!(
+                        "Error parsing number of keys deleted: {e}. Payload: {payload:?}"
+                    )),
+                }
+            }
             _ => Err(format!("Unknown response: {payload:?}")),
         }
     }
