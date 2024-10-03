@@ -1,0 +1,6 @@
+operator:
+  enabled: true
+  image:
+    registry: ""
+    tag: "httpconnectorworkerservice:latest"
+    pullPolicy: "never"
