@@ -2,12 +2,10 @@ apiVersion: akri.microsoft.com/v1  # This is spec.group/versions.name from conne
 kind: ConnectorConfig
 metadata:
   name: http-connector-app-config
-  namespace: default
+  namespace: azure-iot-operations
 spec:
   replicas: 1
   endpointProfileType: http-dss
   image: http-connector-worker-service:latest
   imagePullPolicy: Never # This forces docker to use the locally built image
   mqTargetAddress: aio-broker-external.azure-iot-operations.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)
-  mqTls:
-    enabled: false

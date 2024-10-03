@@ -2,7 +2,7 @@ apiVersion: deviceregistry.microsoft.com/v1beta2 # This is spec.group/versions.n
 kind: AssetEndpointProfile
 metadata:
   name: my-http-dss-aep
-  namespace: default
+  namespace: azure-iot-operations
 spec:
   additionalConfiguration: '{"DataSourceType": "Http", "HttpPath": "contexts/quality", "RequestIntervalInSeconds":15, "DssKey": "quality", "MqttClientId": "myHttpDssClient"}'
   authentication:
