@@ -71,13 +71,25 @@
         public StateStoreOperationException(string message, Exception innerException)
             : base(message, innerException)
         {
-            Reason = StateStoreExceptionReason.Unknown;
+            Reason = ReasonFromMessage(message);
         }
 
         public StateStoreOperationException(string message)
             : base(message)
         {
-            Reason = StateStoreExceptionReason.Unknown;
+            Reason = ReasonFromMessage(message);
+        }
+
+        private StateStoreExceptionReason ReasonFromMessage(string message)
+        {
+            foreach (StateStoreExceptionReason reason in Enum.GetValues(typeof(StateStoreExceptionReason)))
+            {
+                if (message.Contains(reason.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return reason;
+                }
+            }
+            return StateStoreExceptionReason.Unknown;
         }
     }
 }
