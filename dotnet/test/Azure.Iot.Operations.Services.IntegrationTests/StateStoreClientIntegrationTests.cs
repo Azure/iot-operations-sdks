@@ -193,7 +193,8 @@ public class StateStoreClientIntegrationTests
 
         await stateStoreClient.ObserveAsync(key);
 
-        Assert.True((await stateStoreClient.SetAsync(key, Guid.NewGuid().ToString())).Success);
+        var value = Guid.NewGuid().ToString();
+        Assert.True((await stateStoreClient.SetAsync(key, value)).Success);
 
         try
         {
@@ -207,6 +208,8 @@ public class StateStoreClientIntegrationTests
 
         Assert.NotNull(mostRecentKeyChange);
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.NewValue);
+        Assert.Equal(value, mostRecentKeyChange.NewValue.GetString());
         onKeyChange = new TaskCompletionSource(); // create new TCS so that we can wait for another key change later
 
         Assert.Equal(1, (await stateStoreClient.DeleteAsync(key)).DeletedItemsCount);
