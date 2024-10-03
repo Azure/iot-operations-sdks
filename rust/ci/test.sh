@@ -39,6 +39,12 @@ run_tests() {
             --features "${FEATURES:-}" \
             ${COMMON_FLAGS}
     fi
+
+    # Need to do a separate test run for doc because of a known issue with cargo
+    # https://github.com/rust-lang/cargo/issues/6669
+    cargo test --manifest-path="${MANIFEST}" \
+        --features "${FEATURES:-}" \
+        --doc
 }
 
 REPOSITORY_ROOT="$(git rev-parse --show-toplevel)"
