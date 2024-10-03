@@ -57,7 +57,7 @@ impl PubTracker {
     ///
     /// When it is acked the required number of times on this tracker, it will be considered ready
     /// to ack back to the server with the provided [`ManualAck`].
-    /// 
+    ///
     /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
     /// QoS 0 messages, which do not require acknowledgement. This is not considered an error.
     ///
@@ -104,7 +104,7 @@ impl PubTracker {
     /// Acknowledge a pending [`Publish`].
     ///
     /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
-    /// 
+    ///
     /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
     /// which do not require acknowledgement.
     ///
@@ -120,7 +120,7 @@ impl PubTracker {
     /// Adds the provided reason code to the pending [`Publish`] and will return the information when ready.
     /// Note that if there are multiple required acks, the eventual reported reason code will be the
     /// last one provided.
-    /// 
+    ///
     /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
     /// which do not require acknowledgement.
     ///
