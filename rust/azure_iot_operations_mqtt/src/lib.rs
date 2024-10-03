@@ -50,9 +50,10 @@ pub type Outgoing = rumqttc::Outgoing;
 
 //----------------------------------------------------------------------
 
-// TODO: Add macro to check README.md during rustdoc generation / cargo test.
-// Not as simple as just using `include_str()`, since we need to prevent the code from actually
-// being run, since it won't work due to network usage. We just want to check compilation.
-// This is difficult since the `no_run` attribute has to be directly applied to the code block itself.
-// Furthermore, we can't simply add `no_run` to the code block in README.md, since that would prevent
-// the correct syntax highlighting.
+/// Include the README doc on a struct when running doctests to validate that the code in the
+/// README can compile to verify that it has not rotted.
+/// Note that any code that requires network or environment setup will not be able to run,
+/// and thus should be annotated by "no_run" in the README.
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+struct ReadmeDoctests;
