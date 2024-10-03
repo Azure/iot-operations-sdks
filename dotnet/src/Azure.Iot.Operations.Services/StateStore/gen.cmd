@@ -1,4 +1,4 @@
-set codegen="..\..\..\..\..\tools\codegen\src\Akri.Dtdl.Codegen\bin\Debug\net8.0\Akri.Dtdl.Codegen.exe"
+set codegen="..\..\..\..\..\tools\codegen\src\Azure.Iot.Operations.ProtocolCompiler\bin\Debug\net8.0\Azure.Iot.Operations.ProtocolCompiler.exe"
 %codegen% --modelFile dss.json --lang csharp --outDir %TEMP%\Azure.Iot.Operations.Services.StateStore.Gen
 rmdir StateStoreGen /q /s
 mkdir StateStoreGen

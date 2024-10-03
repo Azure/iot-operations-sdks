@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
 type (
@@ -22,33 +23,40 @@ type (
 	}
 )
 
+const (
+	set = "SET"
+	px  = "PX"
+)
+
 // Set the value of the given key. If the key is successfully set, it returns
 // true and the new or updated version; if the key is not set due to the
 // specified condition, it returns false and the stored version.
-func (c *Client) Set(
+func (c *Client[K, V]) Set(
 	ctx context.Context,
-	key string,
-	val []byte,
+	key K,
+	val V,
 	opt ...SetOption,
 ) (*Response[bool], error) {
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
+	}
+
 	var opts SetOptions
 	opts.Apply(opt)
 
-	args := []string{"SET", key, string(val)}
-
+	var rest []string
 	if opts.Condition != Always {
-		args = append(args, string(opts.Condition))
+		rest = append(rest, string(opts.Condition))
 	}
-
 	switch {
 	case opts.Expiry < 0:
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
-		exp := strconv.Itoa(int(opts.Expiry.Milliseconds()))
-		args = append(args, "PX", exp)
+		rest = append(rest, px, strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
-	return invoke(ctx, c.invoker, parseOK, &opts, args...)
+	req := resp.OpKV(set, key, val, rest...)
+	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 
 // Apply resolves the provided list of options.
