@@ -412,31 +412,3 @@ mod tests {
         ));
     }
 }
-
-// TODO: Live network tests
-//     - set("somekey", "somevalue", timeout, SetOptions::default())
-//         - default setOptions
-//             - valid new key/value
-//             - valid existing key/value
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required
-//         - with expires set (wait and then validate key can no longer be gotten?)
-//         - setCondition OnlyIfDoesNotExist where key doesn't exist
-//         - setCondition OnlyIfDoesNotExist where key exists
-//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and is equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and isn't equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and is equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and isn't equal
-//    - get("somekey", timeout) where "somekey" exists
-//         - non-existent key
-//    - del
-//         - valid key
-//         - non-existent key
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required
-//     - vdel
-//         - valid key/value
-//         - non-existent key
-//         - value doesn't match
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required

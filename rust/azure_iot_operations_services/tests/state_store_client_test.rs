@@ -4,7 +4,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
@@ -35,12 +35,14 @@ async fn main() {
         .unwrap();
 
     let mut session = Session::new(session_options).unwrap();
-    let exit_handle = session.get_session_exit_handle();
 
-    let state_store_client: state_store::Client<_, _> =
-        state_store::Client::new(&mut session).unwrap();
+    let state_store_client: state_store::Client<_> =
+        state_store::Client::new(session.create_managed_client()).unwrap();
 
-    tokio::task::spawn(state_store_tests(state_store_client, exit_handle));
+    tokio::task::spawn(state_store_tests(
+        state_store_client,
+        session.create_exit_handle(),
+    ));
 
     session.run().await.unwrap();
 }
@@ -76,7 +78,7 @@ async fn main() {
 //    24. without fencing token where fencing_token required (expect error)
 //    25. without fencing token where fencing_token not required
 async fn state_store_tests(
-    state_store_client: state_store::Client<SessionPubSub, SessionPubReceiver>,
+    state_store_client: state_store::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let timeout = Duration::from_secs(10);
