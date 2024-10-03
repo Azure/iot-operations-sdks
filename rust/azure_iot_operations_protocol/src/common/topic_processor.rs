@@ -553,19 +553,20 @@ impl TopicPattern {
                 ));
                 }
                 validate_token_replacement(COMMAND_EXECUTOR_ID, id, self.command_name.clone())?;
-                Ok(self
-                    .levels
-                    .clone()
-                    .into_iter()
-                    .map(|level| {
-                        if level == WILDCARD {
-                            id.to_string()
-                        } else {
-                            level.clone()
-                        }
-                    })
-                    .collect::<Vec<String>>()
-                    .join("/"))
+
+                let mut result = String::new();
+                for (i, level) in self.levels.iter().enumerate() {
+                    if level == WILDCARD {
+                        result.push_str(id);
+                    } else {
+                        result.push_str(level);
+                    }
+                    if i < self.levels.len() - 1 {
+                        result.push('/');
+                    }
+                }
+
+                Ok(result)
             } else {
                 Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
