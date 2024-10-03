@@ -65,13 +65,13 @@
         public StateStoreOperationException(string message, StateStoreExceptionReason reason, Exception innerException)
             : base(message, innerException)
         {
-            Reason = reason
+            Reason = reason;
         }
 
         public StateStoreOperationException(string message)
             : base(message)
         {
-            Reason = reason
+            Reason = reason;
         }
     }
 }
