@@ -880,7 +880,10 @@ mod tests {
         // Acknowledging the publish does nothing
         assert!(tracker.ack(&publish).await.is_ok());
         assert!(!tracker.contains(&publish));
-        assert!(matches!(tracker.try_next_ready().err(), Some(TryNextReadyError::Empty)));
+        assert!(matches!(
+            tracker.try_next_ready().err(),
+            Some(TryNextReadyError::Empty)
+        ));
     }
 
     // TODO: tests for clear and ack_rc.

@@ -273,8 +273,6 @@ where
                                     }
                                 }
                             }
-
-                            
                         }
                         Err(e) => {
                             // TODO: This should be an error log. Change this once there is a better path for
