@@ -3,10 +3,8 @@ package mqtt
 import (
 	"context"
 	"errors"
-	"fmt"
 	"sync"
 
-	protocolErrors "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
@@ -29,10 +27,11 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 			manualAckEnabled = true
 			return func() {
 				ackOnce.Do(func() {
-					c.pahoClientMu.RLock()
-					pahoClient := c.pahoClient
-					currConnCount := c.connCount
-					c.pahoClientMu.RUnlock()
+					pahoClient, currConnCount := func() (PahoClient, uint64) {
+						c.pahoClientMu.RLock()
+						defer c.pahoClientMu.RUnlock()
+						return c.pahoClient, c.connCount
+					}()
 
 					if pahoClient == nil || connCount != currConnCount {
 						// if any disconnections occurred since receiving this PUBLISH, discard the ack.
@@ -105,7 +104,7 @@ func (c *SessionClient) Subscribe(
 	opts ...mqtt.SubscribeOption,
 ) (mqtt.Subscription, error) {
 	if !c.sessionStarted.Load() {
-		return nil, fmt.Errorf("Run() must be called before starting this operation")
+		return nil, &RunNotCalledError{}
 	}
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
@@ -121,29 +120,32 @@ func (c *SessionClient) Subscribe(
 	})
 
 	for {
-		c.pahoClientMu.RLock()
-		pahoClient := c.pahoClient
-		connUp := c.connUp
-		connDown := c.connDown
-		c.pahoClientMu.RUnlock()
+		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
+			c.pahoClientMu.RLock()
+			defer c.pahoClientMu.RUnlock()
+			return c.pahoClient, c.connUp, c.connDown
+		}()
 
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
 				removeHandlerFunc()
-				return nil, fmt.Errorf("session client is shutting down")
+				return nil, &SessionClientShuttingDownError{}
 			case <-ctx.Done():
 				removeHandlerFunc()
-				return nil, fmt.Errorf("context cancelled: %w", ctx.Err())
+				return nil, ctx.Err()
 			case <-connUp:
 			}
 			continue
 		}
-		// TODO: figure out what to do with suback
+
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			removeHandlerFunc()
-			return nil, fmt.Errorf("invalid arguments in subscribe options: %w", err)
+			return nil, &InvalidValueError{
+				WrappedError: err,
+				message:      "invalid arguments in Subscribe() options",
+			}
 		}
 		if suback != nil {
 			return &subscription{
@@ -157,10 +159,10 @@ func (c *SessionClient) Subscribe(
 		select {
 		case <-ctx.Done():
 			removeHandlerFunc()
-			return nil, fmt.Errorf("context cancelled: %w", ctx.Err())
+			return nil, ctx.Err()
 		case <-c.shutdown:
 			removeHandlerFunc()
-			return nil, fmt.Errorf("session client is shutting down")
+			return nil, &SessionClientShuttingDownError{}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and retry
 		}
@@ -185,26 +187,29 @@ func (s *subscription) Unsubscribe(
 	}
 
 	for {
-		c.pahoClientMu.RLock()
-		pahoClient := c.pahoClient
-		connUp := c.connUp
-		connDown := c.connDown
-		c.pahoClientMu.RUnlock()
+		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
+			c.pahoClientMu.RLock()
+			defer c.pahoClientMu.RUnlock()
+			return c.pahoClient, c.connUp, c.connDown
+		}()
 
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
-				return fmt.Errorf("session client is shutting down")
+				return &SessionClientShuttingDownError{}
 			case <-ctx.Done():
-				return fmt.Errorf("context cancelled: %w", ctx.Err())
+				return ctx.Err()
 			case <-connUp:
 			}
 			continue
 		}
-		// TODO: figure out what to do with unsuback
+
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
-			return fmt.Errorf("invalid arguments in unsubscribe options: %w", err)
+			return &InvalidValueError{
+				WrappedError: err,
+				message:      "invalid arguments in Unsubscribe() options",
+			}
 		}
 		if unsuback != nil {
 			s.removeHandlerFunc()
@@ -214,9 +219,9 @@ func (s *subscription) Unsubscribe(
 		// If we get here, the UNSUBSCRIBE failed because the connection is down or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
-			return fmt.Errorf("context cancelled: %w", ctx.Err())
+			return ctx.Err()
 		case <-c.shutdown:
-			return fmt.Errorf("session client is shutting down")
+			return &SessionClientShuttingDownError{}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and retry
 		}
@@ -232,12 +237,7 @@ func buildSubscribe(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return nil, &protocolErrors.Error{
-			Kind:          protocolErrors.ConfigurationInvalid,
-			Message:       "unsupported QoS",
-			PropertyName:  "QoS",
-			PropertyValue: opt.QoS,
-		}
+		return nil, &InvalidValueError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
 	}
 
 	// Build MQTT subscribe packet.
