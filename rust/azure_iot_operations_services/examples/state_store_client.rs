@@ -4,7 +4,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionOptionsBuilder, SessionPubReceiver, SessionPubSub,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
@@ -18,6 +18,7 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
+    // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("someClientId")
         .host_name("localhost")
@@ -26,25 +27,25 @@ async fn main() {
         .use_tls(false)
         .build()
         .unwrap();
-
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
         .unwrap();
-
     let mut session = Session::new(session_options).unwrap();
-    let exit_handle = session.get_session_exit_handle();
 
-    let state_store_client: state_store::Client<_, _> =
-        state_store::Client::new(&mut session).unwrap();
+    let state_store_client: state_store::Client<_> =
+        state_store::Client::new(session.create_managed_client()).unwrap();
 
-    tokio::task::spawn(state_store_loop(state_store_client, exit_handle));
+    tokio::task::spawn(state_store_operations(
+        state_store_client,
+        session.create_exit_handle(),
+    ));
 
     session.run().await.unwrap();
 }
 
-async fn state_store_loop(
-    state_store_client: state_store::Client<SessionPubSub, SessionPubReceiver>,
+async fn state_store_operations(
+    state_store_client: state_store::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let state_store_key = b"someKey";
