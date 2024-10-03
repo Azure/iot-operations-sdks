@@ -57,11 +57,7 @@ async fn main() {
 /// Indefinitely receive
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-<<<<<<< HEAD
-    let mut receiver = client.filtered_pub_receiver(TOPIC, true).unwrap();
-=======
     let mut receiver = client.create_filtered_pub_receiver(TOPIC, true).unwrap();
->>>>>>> main
     println!("Subscribing to {TOPIC}");
     client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
 
