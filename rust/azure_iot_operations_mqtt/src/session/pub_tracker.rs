@@ -106,7 +106,8 @@ impl PubTracker {
     ///
     /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
     ///
-    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
     /// which do not require acknowledgement.
     ///
     /// # Arguments
