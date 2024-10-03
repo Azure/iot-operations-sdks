@@ -57,6 +57,9 @@ impl PubTracker {
     ///
     /// When it is acked the required number of times on this tracker, it will be considered ready
     /// to ack back to the server with the provided [`ManualAck`].
+    /// 
+    /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
+    /// QoS 0 messages, which do not require acknowledgement. This is not considered an error.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to register as pending
@@ -72,9 +75,8 @@ impl PubTracker {
         manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
         if publish.pkid == 0 {
-            // NOTE: This is a special case. A PKID of 0 is reserved for QoS 0 messages, which are not
-            // tracked by the `PubTracker`. Thus, we can safely ignore this case.
             return Ok(());
         }
         let mut pending = self.pending.lock().unwrap();
@@ -102,6 +104,9 @@ impl PubTracker {
     /// Acknowledge a pending [`Publish`].
     ///
     /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
+    /// 
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
+    /// which do not require acknowledgement.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
@@ -115,6 +120,9 @@ impl PubTracker {
     /// Adds the provided reason code to the pending [`Publish`] and will return the information when ready.
     /// Note that if there are multiple required acks, the eventual reported reason code will be the
     /// last one provided.
+    /// 
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for QoS 0 messages
+    /// which do not require acknowledgement.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
@@ -124,9 +132,8 @@ impl PubTracker {
         reason: ManualAckReason,
         reason_string: Option<String>,
     ) -> Result<(), AckError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
         if publish.pkid == 0 {
-            // NOTE: This is a special case. A PKID of 0 is reserved for QoS 0 messages, which are not
-            // tracked by the `PubTracker`. Thus, we can safely ignore this case.
             return Ok(());
         }
 
