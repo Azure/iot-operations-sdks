@@ -5,14 +5,11 @@
 ../../../tools/deployment/deploy-aio.sh nightly
 
 # Deploy ADR
-helm install adrcommonprp --version 0.3.0 oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp -n default
+helm install adrcommonprp --version 0.3.0 oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp -n default --wait
 
 # Build connector image
 dotnet publish /t:PublishContainer
 k3d image import httpconnectorworkerservice:latest -c k3s-default
-
-# Deploy connector config
-kubectl apply -f ./connector-config.yaml
 
 # Build HTTP server docker image
 docker build -t http-server:latest ./SampleHttpServer
@@ -29,4 +26,10 @@ kubectl apply -f ./http-connector-secrets.yaml
 kubectl apply -f ./http-server-aep.yaml
 
 # Deploy Operator helm chart
-helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241004.2-buddy -n default
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241004.2-buddy -n default --wait
+
+# TODO this should be part of the above helm chart. Sync w/ Abhipsa/Daniel
+kubectl apply -f ./connector_config_crd.yaml
+
+# Deploy connector config
+kubectl apply -f ./connector-config.yaml

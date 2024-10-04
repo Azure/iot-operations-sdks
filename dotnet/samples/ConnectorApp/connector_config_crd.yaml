@@ -1,0 +1,93 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  #name = must match the spec field and should be in the form <plural>.<group>
+  name: connectorconfigs.akri.microsoft.com
+  namespace: default
+spec:
+  group: akri.microsoft.com
+  names:
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: ConnectorConfig
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: connectorconfigs
+    # singular name to be used as an alias on the CLI and for display
+    singular: connectorconfig
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - connectorconfig
+  scope: Namespaced
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                replicas:
+                  type: integer
+                  format: int32
+                endpointProfileType:
+                  type: string
+                image:
+                  type: string
+                mqTargetAddress:
+                  type: string
+                mqTls:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    caCertSecretName:
+                      type: string
+                mqAuthentication:
+                  type: object
+                  properties:
+                    audience:
+                      type: string
+                logging:
+                  properties:
+                    enabled:
+                      type: boolean
+                    level:
+                      enum:
+                        - Trace
+                        - Debug
+                        - Info
+                        - Warning
+                        - Error
+                      type: string
+                  type: object
+              required:
+              - replicas
+              - endpointProfileType
+              - image
+              - mqTargetAddress
+              - mqTls
+            status:
+              type: object
+              properties:
+                lastUpdateStatus:
+                  type: string
+                  enum:
+                    - Pending
+                    - Deployed
+                    - Failed
+                lastUpdateMessage:
+                  type: string
+                lastUpdateTimestamp:
+                  type: string
+                  format: date-time
+              required:
+              - lastUpdateStatus
+              - lastUpdateTimestamp
+              - lastUpdateMessage
+      # Each version can be enabled/disabled by Served flag. Served = K8s API server can accept objects of this version
+      served: true
+      # One and only one version must be marked as the storage version. Stored = K8s API server can store objects "as" this version in etcd
+      storage: true
+      subresources:
+        status: {}
