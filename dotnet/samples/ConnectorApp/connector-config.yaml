@@ -7,5 +7,10 @@ spec:
   replicas: 1
   endpointProfileType: http-dss
   image: httpconnectorworkerservice:latest
-  imagePullPolicy: Never # This forces docker to use the locally built image
+  #imagePullPolicy: Never # This forces docker to use the locally built image
   mqTargetAddress: aio-broker-external.default.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)
+  mqTls:
+    enabled: true
+    caCertSecretName: selfsigned-test-ca-secret
+  mqAuthentication:
+    audience: aio-mq
