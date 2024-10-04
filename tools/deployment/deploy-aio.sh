@@ -32,24 +32,24 @@ if [ "$deploy_type" = "nightly" ]; then
 
     # install AIO Broker
     helm uninstall broker --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
+    helm install broker --atomic --create-namespace -n default --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 fi
 
 # clean up any deployed Broker pieces
-kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore-not-found
-kubectl delete BrokerAuthentication -n azure-iot-operations --all
-kubectl delete BrokerListener -n azure-iot-operations --all
-kubectl delete Broker -n azure-iot-operations --all
+kubectl delete configmap client-ca-trust-bundle -n default --ignore-not-found
+kubectl delete BrokerAuthentication -n default --all
+kubectl delete BrokerListener -n default --all
+kubectl delete Broker -n default --all
 
-# install trust-manager with azure-iot-operations as the trusted domain
-helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n azure-iot-operations --set app.trust.namespace=azure-iot-operations --wait
+# install trust-manager with default as the trusted domain
+helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n default --set app.trust.namespace=default --wait
 
 # install cert issuers and trust bundle
 kubectl apply -f yaml/certificates.yaml
 
 # Wait for CA trust bundle to be generated (for external connections to the MQTT Broker) and then push to a local file
-kubectl wait --for=create --timeout=30s secret/aio-broker-external-ca -n azure-iot-operations
-kubectl get secret aio-broker-external-ca -n azure-iot-operations -o jsonpath='{.data.ca\.crt}' | base64 -d > $session_dir/broker-ca.crt
+kubectl wait --for=create --timeout=30s secret/aio-broker-external-ca -n default
+kubectl get secret aio-broker-external-ca -n default -o jsonpath='{.data.ca\.crt}' | base64 -d > $session_dir/broker-ca.crt
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable
 echo "my-ca-password" > /tmp/password.txt
@@ -74,11 +74,11 @@ step certificate create client $session_dir/client.crt $session_dir/client.key \
 
 # create client trust bundle used to validate x509 client connections to the broker
 kubectl create configmap client-ca-trust-bundle \
-    -n azure-iot-operations \
+    -n default \
     --from-literal=client_ca.pem="$(cat ~/.step/certs/intermediate_ca.crt ~/.step/certs/root_ca.crt)"
 
 # Create a SAT auth file for local testing
-kubectl create token default --namespace azure-iot-operations --duration=86400s --audience=aio-internal > $session_dir/token.txt
+kubectl create token default --namespace default --duration=86400s --audience=aio-internal > $session_dir/token.txt
 
 # setup new Broker
 kubectl apply -f yaml/aio-$deploy_type.yaml

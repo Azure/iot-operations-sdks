@@ -2,7 +2,7 @@ apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: Broker
 metadata:
   name: broker
-  namespace: azure-iot-operations
+  namespace: default
 spec:
   generateResourceLimits:
     cpu: disabled
@@ -18,7 +18,7 @@ apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerListener
 metadata:
   name: listener
-  namespace: azure-iot-operations
+  namespace: default
 spec:
   brokerRef: broker
   serviceName: aio-broker
@@ -41,7 +41,7 @@ apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerListener
 metadata:
   name: listener-external
-  namespace: azure-iot-operations
+  namespace: default
 spec:
   brokerRef: broker
   serviceName: aio-broker-external
@@ -81,7 +81,7 @@ apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerAuthentication
 metadata:
   name: sat-auth
-  namespace: azure-iot-operations
+  namespace: default
 spec:
   authenticationMethods:
     - method: serviceAccountToken
@@ -92,7 +92,7 @@ apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerAuthentication
 metadata:
   name: x509-auth
-  namespace: azure-iot-operations
+  namespace: default
 spec:
   authenticationMethods:
     - method: x509Certificate

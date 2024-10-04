@@ -25,5 +25,5 @@ k3d cluster create \
     --registry-create k3d-registry.localhost:127.0.0.1:5000 \
     --wait
 
-# Set the default context / namespace to azure-iot-operations
-kubectl config set-context k3d-k3s-default --namespace=azure-iot-operations
+# Set the default context / namespace to default
+kubectl config set-context k3d-k3s-default --namespace=default
