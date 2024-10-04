@@ -24,7 +24,6 @@ type outgoingPublish struct {
 func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 	var nextOutgoingPublish *outgoingPublish
 
-connection:
 	for {
 		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
 			c.pahoClientMu.RLock()
@@ -38,59 +37,67 @@ connection:
 				return
 			case <-connUp:
 			}
-			continue connection
+			continue
 		}
 
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case <-connDown:
-				continue connection
-			case nextOutgoingPublish = <-func() chan *outgoingPublish {
-				// NOTE: This function either returns a nil channel (for which a
-				// read from blocks indefinitely) or c.outgoingPublishes
-				// depending on whether we are retrying the PUBLISH from the
-				// previous iteration or whether we are pulling in a new
-				// PUBLISH.
-				if nextOutgoingPublish != nil {
-					// We already have a PUBLISH we need to send, so don't read
-					// the next PUBLISH from c.outgoingPublishes.
-					return nil
+		waitForNextConnection := func() bool {
+			for {
+				select {
+				case <-ctx.Done():
+					return false
+				case <-connDown:
+					return true
+				case nextOutgoingPublish = <-func() chan *outgoingPublish {
+					// NOTE: This function either returns a nil channel (for
+					// which a read from blocks indefinitely) or
+					// c.outgoingPublishes depending on whether we are retrying
+					// the PUBLISH from the previous iteration or whether we are
+					// pulling in a new PUBLISH.
+					if nextOutgoingPublish != nil {
+						// We already have a PUBLISH we need to send, so don't
+						// read the next PUBLISH from c.outgoingPublishes.
+						return nil
+					}
+					return c.outgoingPublishes
+				}():
 				}
-				return c.outgoingPublishes
-			}():
-			}
 
-			// NOTE: we cannot get back the PUBACK on this due to a limitation
-			// in Paho (see https://github.com/eclipse/paho.golang/issues/216).
-			// We should consider submitting a PR to Paho to address this gap.
-			_, err := pahoClient.PublishWithOptions(ctx, nextOutgoingPublish.packet, paho.PublishOptions{Method: paho.PublishMethod_AsyncSend})
-			var result *publishResult
-			if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
-				// Paho has accepted control of the PUBLISH (i.e., either the
-				// PUBLISH was sent or the PUBLISH was stored in Paho's session
-				// tracker), so we relinquish control of the PUBLISH.
-				result = &publishResult{
-					// TODO: put the PUBACK in here when the Paho limitation is
-					// addressed
+				// NOTE: we cannot get back the PUBACK on this due to a
+				// limitation in Paho (see
+				// https://github.com/eclipse/paho.golang/issues/216). We should
+				// consider submitting a PR to Paho to address this gap.
+				_, err := pahoClient.PublishWithOptions(ctx, nextOutgoingPublish.packet, paho.PublishOptions{Method: paho.PublishMethod_AsyncSend})
+				var result *publishResult
+				if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
+					// Paho has accepted control of the PUBLISH (i.e., either
+					// the PUBLISH was sent or the PUBLISH was stored in Paho's
+					// session tracker), so we relinquish control of the
+					// PUBLISH.
+					result = &publishResult{
+						// TODO: put the PUBACK in here when the Paho limitation
+						// is addressed.
+					}
+				} else if errors.Is(err, paho.ErrInvalidArguments) {
+					// Paho says the PUBLISH is invalid (likely due to an MQTT
+					// spec violation). There is no hope of this PUBLISH
+					// succeeding, so we will give up on this PUBLISH and notify
+					// the application.
+					result = &publishResult{
+						err: &InvalidArgumentError{
+							wrappedError: err,
+							message:      "invalid arguments in Publish() options",
+						},
+					}
 				}
-			} else if errors.Is(err, paho.ErrInvalidArguments) {
-				// Paho says the PUBLISH is invalid (likely due to an MQTT spec
-				// violation). There is no hope of this PUBLISH succeeding, so
-				// we will give up on this PUBLISH and notify the application.
-				result = &publishResult{
-					err: &InvalidArgumentError{
-						wrappedError: err,
-						message:      "invalid arguments in Publish() options",
-					},
+				if result != nil {
+					// should never block because it should be buffered by 1
+					nextOutgoingPublish.resultChan <- result
+					nextOutgoingPublish = nil
 				}
 			}
-			if result != nil {
-				// this should never block because it should be buffered by 1
-				nextOutgoingPublish.resultChan <- result
-				nextOutgoingPublish = nil
-			}
+		}()
+		if !waitForNextConnection {
+			return
 		}
 	}
 }
