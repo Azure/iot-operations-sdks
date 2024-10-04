@@ -17,34 +17,39 @@ implemented using the protocol SDKs.
 Topic patterns will be generalized at the protocol SDK level, allowing them to
 function with existing external MQTT topics. They will be structured as follows:
 
--   A topic pattern is a sequence of labels separated by `/`
+-   A **topic pattern** is a sequence of labels separated by `/`
 -   Each label is one of:
     -   A string of printable ASCII characters not including space, `"`, `+`,
         `#`, `{`, `}`, or `/`
-    -   A token which takes the form `{name}`, where the token name follows the
-        same character rules as above
+    -   A **token** which takes the form `{name}`, where the token name follows
+        the same character rules as above
 -   The first label must not start with `$`
 
 Topic patterns will be used in all of the protocol constructors in order to
 generate the final MQTT topic names and filters used by the SDK. The tokens in
 the patterns will be utilized as follows:
 
--   All token values must be a single label, as described above.
 -   A map of token values may be provided to all constructors for tokens that
     are not necessarily known at compile time but are constant for the life of
-    the envoy (e.g. the client ID). These tokens will always be static in the
-    resulting topic names/filters (e.g. they will not be turned into wildcards).
--   For senders/invokers, a map of token values may be provided to the send call
-    for fully dynamic tokens. These token values will be substituted into the
-    pattern in order to generate the actual topic name (and response topic name,
-    if applicable) used in the MQTT publish; if any unresolved tokens remain
-    after substitution, this should be considered user error.
+    the envoy (e.g. the client ID). These values will be substituted for their
+    tokens before any other processing (e.g. they will not be turned into
+    wildcards).
+-   For senders/invokers, any token values not provided to the constructor may
+    be provided at runtime to the send/invoke method. These token values will be
+    similarly substituted into the pattern in order to generate the actual topic
+    name (and response topic name, if applicable) used in the MQTT publish. If a
+    topic name contains any remaining tokens that have not been substituted at
+    time of publish, it should be considered user error.
 -   For receivers/executors, any tokens not provided to the constructor will be
     turned into MQTT `+` wildcards to generate the MQTT topic filter used in the
     subscription. When an MQTT publish is received, the receiver will parse the
     incoming topic name in order to extract a map of resolved token values to
     provide to the handler (which should include the tokens provided to the
     constructor for user convenience).
+-   All token values must be a single label, as described above.
+-   Providing values for tokens not present in a topic pattern is _not_
+    considered an error. This allows consumers like the protocol compiler to
+    provide well-known token values without needing to parse the pattern.
 
 Libraries which wrap the protocol SDKs (e.g. the protocol compiler and service
 libraries) may still provide and/or require well-known tokens, since they are
@@ -61,6 +66,8 @@ built to communicate with known endpoints.
 -   Behavioral differences dependent on the presence or absence of particular
     topic tokens (e.g. caching decisions based on `{executorId}`) do not mesh
     well with this design and will need to be reconsidered.
+-   Topic patterns no longer require particular tokens (e.g. `{senderId}` in
+    telemetry topics).
 
 ## Open Questions
 
@@ -79,6 +86,6 @@ frameworks (e.g. [express][3] or [axum][4]).
 [1]:
     https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md
 [2]:
-    https://learn.microsoft.com/en-us/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol
-[3]: https://expressjs.com/en/guide/routing.html
+    https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol
+[3]: https://expressjs.com/guide/routing.html
 [4]: https://docs.rs/axum/latest/axum/struct.Router.html#captures
