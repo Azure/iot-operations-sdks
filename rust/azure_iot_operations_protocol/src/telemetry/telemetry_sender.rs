@@ -5,8 +5,16 @@ use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 
-use super::TelemetryMessage;
 use crate::common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize};
+
+/// Telemetry message struct
+/// Used by the telemetry sender.
+pub struct TelemetryMessage<T>
+where
+    T: PayloadSerialize,
+{
+    payload: PhantomData<T>,
+}
 
 /// Telemetry Sender Options struct
 #[derive(Builder, Clone)]

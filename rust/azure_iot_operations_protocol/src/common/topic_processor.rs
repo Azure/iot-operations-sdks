@@ -582,6 +582,24 @@ impl TopicPattern {
         }
     }
 
+    /// Parse a topic string to extract the wildcard value
+    ///
+    /// Returns a string slice representing the wildcard value, or `None` if the topic does not
+    /// have a wildcard
+    #[must_use]
+    pub fn parse_wildcard(&self, topic: &str) -> Option<String> {
+        let topic_levels = topic.split('/').collect::<Vec<&str>>();
+        if topic_levels.len() != self.levels.len() {
+            return None;
+        }
+        for (pattern_level, topic_level) in self.levels.iter().zip(topic_levels.iter()) {
+            if pattern_level == WILDCARD {
+                return Some((*topic_level).to_string());
+            }
+        }
+        None
+    }
+
     // TODO: Remove this function. It's functionality is covered by crate::mqtt::topic, keeping for testing purposes for now
     /// Check if a topic string matches the pattern
     ///
@@ -998,6 +1016,11 @@ mod tests {
             telemetry_subscribe_topic,
             format!("test/telemetry/{TEST_TELEMETRY_NAME}/+/{TEST_MODEL_ID}")
         );
+
+        let telemetry_publish_topic =
+            format!("test/telemetry/{TEST_TELEMETRY_NAME}/{TEST_SENDER_ID}/{TEST_MODEL_ID}");
+        let extracted_sender_id = telemetry_topic_pattern.parse_wildcard(&telemetry_publish_topic);
+        assert_eq!(extracted_sender_id, Some(TEST_SENDER_ID.to_string()));
     }
 
     #[test]
