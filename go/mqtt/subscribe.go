@@ -139,7 +139,7 @@ func (c *SessionClient) Subscribe(
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			removeHandlerFunc()
-			return nil, &InvalidValueError{
+			return nil, &InvalidArgumentError{
 				WrappedError: err,
 				message:      "invalid arguments in Subscribe() options",
 			}
@@ -203,7 +203,7 @@ func (s *subscription) Unsubscribe(
 
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
-			return &InvalidValueError{
+			return &InvalidArgumentError{
 				WrappedError: err,
 				message:      "invalid arguments in Unsubscribe() options",
 			}
@@ -234,7 +234,7 @@ func buildSubscribe(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return nil, &InvalidValueError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
+		return nil, &InvalidArgumentError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
 	}
 
 	// Build MQTT subscribe packet.

@@ -35,7 +35,7 @@ func buildNetConn(
 	case "wss":
 		conn, err = buildWebsocketConnection(ctx, tlsConfig, u)
 	default:
-		return nil, &InvalidValueError{message: "unsupported URL scheme"}
+		return nil, &InvalidArgumentError{message: "unsupported URL scheme"}
 	}
 
 	if err != nil {

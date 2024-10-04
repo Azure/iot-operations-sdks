@@ -85,24 +85,24 @@ func (e *RetryFailureError) Unwrap() error {
 	return e.LastError
 }
 
-/* InvalidValueError */
+/* InvalidArgumentError */
 
-// InvalidValueError is used to indicate when the user has provided an invalid value for an option.
-type InvalidValueError struct {
+// InvalidArgumentError is used to indicate when the user has provided an invalid value for an option.
+type InvalidArgumentError struct {
 	// May or may not be set depending on whether there is actually an error to wrap
 	WrappedError error
 	// Must be set
 	message string
 }
 
-func (e *InvalidValueError) Error() string {
+func (e *InvalidArgumentError) Error() string {
 	if e.WrappedError != nil {
 		return fmt.Sprintf("%s: %v", e.message, e.WrappedError)
 	}
 	return e.message
 }
 
-func (e *InvalidValueError) Unwrap() error {
+func (e *InvalidArgumentError) Unwrap() error {
 	return e.WrappedError
 }
 

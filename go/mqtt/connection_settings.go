@@ -83,11 +83,11 @@ func (cs *connectionSettings) applySettingsMap(
 	// }
 
 	if settingsMap["hostname"] == "" {
-		return &InvalidValueError{message: "HostName must not be empty"}
+		return &InvalidArgumentError{message: "HostName must not be empty"}
 	}
 
 	if settingsMap["tcpport"] == "" {
-		return &InvalidValueError{message: "TcpPort must not be empty"}
+		return &InvalidArgumentError{message: "TcpPort must not be empty"}
 	}
 
 	if settingsMap["usetls"] == "true" {
@@ -130,7 +130,7 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["keepalive"]; exists {
 		keepAlive, err := duration.Parse(value)
 		if err != nil {
-			return &InvalidValueError{
+			return &InvalidArgumentError{
 				message:      "invalid KeepAlive in connection string",
 				WrappedError: err,
 			}
@@ -141,7 +141,7 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["sessionexpiry"]; exists {
 		sessionExpiry, err := duration.Parse(value)
 		if err != nil {
-			return &InvalidValueError{
+			return &InvalidArgumentError{
 				message:      "invalid SessionExpiry in connection string",
 				WrappedError: err,
 			}
@@ -152,7 +152,7 @@ func (cs *connectionSettings) applySettingsMap(
 	// if value, exists := settingsMap["authinterval"]; exists {
 	// 	authinterval, err := duration.Parse(value)
 	// 	if err != nil {
-	// 		return &InvalidValueError{
+	// 		return &InvalidArgumentError{
 	// 			message: "invalid AuthInterval in connection string",
 	// 			WrappedError: err,
 	// 		}
@@ -163,7 +163,7 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["receivemaximum"]; exists {
 		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
 		if err != nil {
-			return &InvalidValueError{
+			return &InvalidArgumentError{
 				message:      "invalid ReceiveMaximum in connection string",
 				WrappedError: err,
 			}
@@ -174,7 +174,7 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["connectiontimeout"]; exists {
 		connectionTimeout, err := duration.Parse(value)
 		if err != nil {
-			return &InvalidValueError{
+			return &InvalidArgumentError{
 				message:      "invalid ConnectionTimeout in connection string",
 				WrappedError: err,
 			}
@@ -203,14 +203,14 @@ func (cs *connectionSettings) applySettingsMap(
 // validate validates connection config after the client is set up.
 func (cs *connectionSettings) validate() error {
 	if _, err := url.Parse(cs.serverURL); err != nil {
-		return &InvalidValueError{
+		return &InvalidArgumentError{
 			message:      "server URL is not valid",
 			WrappedError: err,
 		}
 	}
 
 	if cs.keepAlive.Seconds() > float64(maxKeepAlive) {
-		return &InvalidValueError{
+		return &InvalidArgumentError{
 			message: fmt.Sprintf(
 				"keepAlive cannot be more than %d seconds",
 				maxKeepAlive,
@@ -219,7 +219,7 @@ func (cs *connectionSettings) validate() error {
 	}
 
 	if cs.sessionExpiry.Seconds() > float64(maxSessionExpiry) {
-		return &InvalidValueError{
+		return &InvalidArgumentError{
 			message: fmt.Sprintf(
 				"sessionExpiry cannot be more than %d seconds",
 				maxSessionExpiry,
@@ -230,7 +230,7 @@ func (cs *connectionSettings) validate() error {
 	// if cs.authOptions.SatAuthFile != "" {
 	// 	data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
 	// 	if err != nil {
-	// 		return &InvalidValueError{
+	// 		return &InvalidArgumentError{
 	// 			message:      "cannot read auth data from SatAuthFile",
 	// 			WrappedError: err,
 	// 		}
@@ -272,7 +272,7 @@ func (cs *connectionSettings) validateTLS() error {
 			}
 
 			if err != nil {
-				return &InvalidValueError{
+				return &InvalidArgumentError{
 					message:      "X509 key pair cannot be loaded",
 					WrappedError: err,
 				}
@@ -284,7 +284,7 @@ func (cs *connectionSettings) validateTLS() error {
 		if cs.caFile != "" {
 			caCertPool, err := loadCACertPool(cs.caFile)
 			if err != nil {
-				return &InvalidValueError{
+				return &InvalidArgumentError{
 					message:      "cannot load a CA certificate pool from caFile",
 					WrappedError: err,
 				}
@@ -296,7 +296,7 @@ func (cs *connectionSettings) validateTLS() error {
 		cs.keyFile != "" ||
 		cs.caFile != "" ||
 		cs.tlsConfig != nil {
-		return &InvalidValueError{message: "TLS should not be set when useTLS flag is disabled"}
+		return &InvalidArgumentError{message: "TLS should not be set when useTLS flag is disabled"}
 	}
 
 	return nil

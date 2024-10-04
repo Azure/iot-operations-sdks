@@ -68,7 +68,7 @@ connection:
 			} else if errors.Is(err, paho.ErrInvalidArguments) {
 				// Paho says the PUBLISH is invalid (likely due to an MQTT spec violation). There is no hope of this PUBLISH succeeding, so we will give up on this PUBLISH and notify the application.
 				result = &publishResult{
-					err: &InvalidValueError{
+					err: &InvalidArgumentError{
 						WrappedError: err,
 						message:      "invalid arguments in Publish() options",
 					},
@@ -97,10 +97,10 @@ func (c *SessionClient) Publish(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return &InvalidValueError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
+		return &InvalidArgumentError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
 	}
 	if opt.PayloadFormat >= 2 {
-		return &InvalidValueError{message: "Invalid payload format indicator. Supported values are 0 and 1"}
+		return &InvalidArgumentError{message: "Invalid payload format indicator. Supported values are 0 and 1"}
 	}
 
 	payloadFormat := byte(opt.PayloadFormat)
