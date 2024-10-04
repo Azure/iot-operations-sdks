@@ -26,11 +26,11 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 
 connection:
 	for {
-		c.pahoClientMu.RLock()
-		pahoClient := c.pahoClient
-		connUp := c.connUp
-		connDown := c.connDown
-		c.pahoClientMu.RUnlock()
+		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
+			c.pahoClientMu.RLock()
+			defer c.pahoClientMu.RUnlock()
+			return c.pahoClient, c.connUp, c.connDown
+		}()
 
 		if pahoClient == nil {
 			select {
