@@ -6,8 +6,8 @@ using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Newtonsoft.Json;
 using System.Collections.Concurrent;
+using System.Text.Json;
 
 namespace EventDrivenApp;
 
@@ -26,7 +26,7 @@ public class InputWorker(MqttSessionClient sessionClient, MqttConnectionSettings
             await sessionClient.ConnectAsync(connectionSettings, cancellationToken);
 
             // subscribe to a topic
-            var subscribe = new MqttClientSubscribeOptions(Constants.InputTopic, MqttQualityOfServiceLevel.AtLeastOnce);
+            MqttClientSubscribeOptions subscribe = new(Constants.InputTopic, MqttQualityOfServiceLevel.AtLeastOnce);
             await sessionClient.SubscribeAsync(subscribe, cancellationToken);
 
             // enter the process input loop
@@ -57,7 +57,7 @@ public class InputWorker(MqttSessionClient sessionClient, MqttConnectionSettings
         try
         {
             // Deserialize the incoming sensor data
-            var sensorData = JsonConvert.DeserializeObject<InputSensorData>(args.ApplicationMessage.ConvertPayloadToString()!);
+            InputSensorData? sensorData = JsonSerializer.Deserialize<InputSensorData>(args.ApplicationMessage.ConvertPayloadToString()!);
             if (sensorData == null)
             {
                 logger.LogError("Failed to deserialize sensor payload");
@@ -79,24 +79,33 @@ public class InputWorker(MqttSessionClient sessionClient, MqttConnectionSettings
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            try
-            {
-                var sensorData = incomingSensorData.Take(cancellationToken);
+            InputSensorData sensorData = incomingSensorData.Take(cancellationToken);
 
-                await using StateStoreClient stateStoreClient = new(sessionClient);
+            await using StateStoreClient stateStoreClient = new(sessionClient);
+            {
+                List<InputSensorData> data = [];
+
+                try
                 {
                     // Fetch the historical sensor data from the state store
                     StateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey, null, cancellationToken);
-                    List<InputSensorData> data = [];
                     if (response.Value != null)
                     {
-                        data = JsonConvert.DeserializeObject<List<InputSensorData>>(response.Value.GetString()) ?? [];
+                        data = JsonSerializer.Deserialize<List<InputSensorData>>(response.Value.GetString()) ?? [];
                     }
 
                     // Discard old data
-                    var timeNow = DateTime.UtcNow;
+                    DateTime timeNow = DateTime.UtcNow;
                     data.RemoveAll(d => timeNow - d.Timestamp > TimeSpan.FromSeconds(Constants.WindowSize));
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "State store contained invalid data, deleting the key");
+                    await stateStoreClient.DeleteAsync(Constants.StateStoreSensorKey, null, null, cancellationToken);
+                }
 
+                try
+                {
                     // Drain the incoming queue
                     do
                     {
@@ -104,13 +113,13 @@ public class InputWorker(MqttSessionClient sessionClient, MqttConnectionSettings
                     } while (incomingSensorData.TryTake(out sensorData));
 
                     // Push the sensor data back to the state store
-                    await stateStoreClient.SetAsync(Constants.StateStoreSensorKey, JsonConvert.SerializeObject(data), null, null, cancellationToken);
+                    await stateStoreClient.SetAsync(Constants.StateStoreSensorKey, JsonSerializer.Serialize(data), null, null, cancellationToken);
                     logger.LogDebug("State store contains {count} items", data.Count);
                 }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message);
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, ex.Message);
+                }
             }
         }
     }

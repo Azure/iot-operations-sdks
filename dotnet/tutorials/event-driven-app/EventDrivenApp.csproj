@@ -14,6 +14,5 @@
     <PackageReference Include="Azure.Iot.Operations.Services" Version="0.5.0" />
     <PackageReference Include="KubernetesClient" Version="15.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

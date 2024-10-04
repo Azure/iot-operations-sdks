@@ -5,8 +5,8 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
-using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace EventDrivenApp;
 
@@ -35,15 +35,17 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
 
     private async Task ProcessWindow(CancellationToken cancellationToken)
     {
+        JsonSerializerOptions serializeOptions = new() { WriteIndented = true };
+
         while (!cancellationToken.IsCancellationRequested)
         {
-            var timeNow = DateTime.UtcNow;
-            var inputData = new List<InputSensorData>();
+            logger.LogDebug("Processing window");
+
+            DateTime timeNow = DateTime.UtcNow;
+            List<InputSensorData> inputData = [];
 
             try
             {
-                logger.LogDebug("Processing window");
-
                 // Wait before processing the next window
                 await Task.Delay(Constants.PublishInterval * 1000, cancellationToken);
 
@@ -58,19 +60,18 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
                     }
 
                     // Deserialize the sensor data
-                    inputData = JsonConvert.DeserializeObject<List<InputSensorData>>(response.Value.GetString()) ?? [];
+                    inputData = JsonSerializer.Deserialize<List<InputSensorData>>(response.Value.GetString()) ?? [];
                 }
 
                 // Remove older data
                 inputData.RemoveAll(d => timeNow - d.Timestamp > TimeSpan.FromSeconds(Constants.WindowSize));
-
                 if (inputData.Count == 0)
                 {
                     continue;
                 }
 
                 // Calculate window aggregation
-                var outputData = new OutputSensorData()
+                OutputSensorData outputData = new()
                 {
                     Timestamp = timeNow,
                     WindowSize = Constants.WindowSize,
@@ -104,11 +105,11 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
                 await sessionClient.PublishAsync(
                     new MqttApplicationMessage(Constants.OutputTopic)
                     {
-                        PayloadSegment = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(outputData, Formatting.Indented)),
+                        PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outputData, serializeOptions)),
                     },
                     cancellationToken);
 
-                logger.LogInformation("Published window data: {data}", JsonConvert.SerializeObject(outputData, Formatting.Indented));
+                logger.LogInformation("Published window data: {data}", JsonSerializer.Serialize(outputData, serializeOptions));
             }
             catch (Exception ex)
             {

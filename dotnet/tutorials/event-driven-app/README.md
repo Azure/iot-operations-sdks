@@ -113,28 +113,28 @@ The application can also be deployed to the cluster by building a container and 
 
     ```json
     {
-        "timestamp": "2024-10-02T22:43:12.4756119Z",
-        "window_size": 60,
-        "temperature": {
-            "min": 553.024,
-            "max": 598.907,
-            "mean": 576.4647857142858,
-            "median": 577.4905,
-            "count": 20
+        "Timestamp": "2024-10-02T22:43:12.4756119Z",
+        "WindowSize": 60,
+        "Temperature": {
+            "Min": 553.024,
+            "Max": 598.907,
+            "Mean": 576.4647857142858,
+            "Median": 577.4905,
+            "Count": 20
         },
-        "pressure": {
-            "min": 290.605,
-            "max": 299.781,
-            "mean": 295.521,
-            "median": 295.648,
-            "count": 20
+        "Pressure": {
+            "Min": 290.605,
+            "Max": 299.781,
+            "Mean": 295.521,
+            "Median": 295.648,
+            "Count": 20
         },
-        "vibration": {
-            "min": 0.00124192,
-            "max": 0.00491257,
-            "mean": 0.0031171810714285715,
-            "median": 0.003199235,
-            "count": 20
+        "Vibration": {
+            "Min": 0.00124192,
+            "Max": 0.00491257,
+            "Mean": 0.0031171810714285715,
+            "Median": 0.003199235,
+            "Count": 20
         }
     }
     ```

@@ -54,13 +54,13 @@ spec:
               echo "Starting simulator"
               while true; do
                 DATA="{
-                    \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",
-                    \"sensor_id\": \"Sensor-$(hostname)-$$\",
-                    \"msg_number\": $MSG_COUNT,
-                    \"temperature\": $(awk -v min=550 -v max=600 'BEGIN{srand(); print min+rand()*(max-min)}'),
-                    \"pressure\": $(awk -v min=290 -v max=300 'BEGIN{srand(); print min+rand()*(max-min)}'),
-                    \"vibration\": $(awk -v min=0.001 -v max=0.005 'BEGIN{srand(); print min+rand()*(max-min)}')
-                  }"
+                    \"Timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",
+                    \"SensorId\": \"Sensor-$(hostname)-$$\",
+                    \"MsgNumber\": $MSG_COUNT,
+                    \"Temperature\": $(awk -v min=550 -v max=600 'BEGIN{srand(); print min+rand()*(max-min)}'),
+                    \"Pressure\": $(awk -v min=290 -v max=300 'BEGIN{srand(); print min+rand()*(max-min)}'),
+                    \"Vibration\": $(awk -v min=0.001 -v max=0.005 'BEGIN{srand(); print min+rand()*(max-min)}')
+                }"
 
                 mosquitto_pub -V mqttv311 -i mqtt-simulator -q 1 -L mqtts://aio-broker/sensor/data -m "$DATA" -u K8S-SAT -P $(cat /var/run/secrets/tokens/mqtt-client-token) --cafile /var/run/certs/aio-ca/ca.crt
                 if [ $? -eq 0 ]; then
