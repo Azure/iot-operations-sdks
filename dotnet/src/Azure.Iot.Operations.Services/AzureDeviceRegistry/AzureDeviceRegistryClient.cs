@@ -28,9 +28,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         private Dictionary<string, FilesObserver> assetEndpointProfileFileObservers = new();
 
         private string _configMapMountPath;
-        private string _aepUsernameSecretMountPath;
-        private string _aepPasswordSecretMountPath;
-        private string _aepCertMountPath;
+        private string? _aepUsernameSecretMountPath;
+        private string? _aepPasswordSecretMountPath;
+        private string? _aepCertMountPath;
 
 #pragma warning disable CS0067 // Unused for now
         public event EventHandler<Asset>? AssetChanged;
@@ -40,9 +40,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public AzureDeviceRegistryClient()
         {
             _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the config map mount path environment variable");
-            _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar) ?? throw new InvalidOperationException("Missing the username secret mount path environment variable");
-            _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar) ?? throw new InvalidOperationException("Missing the password secret mount path environment variable");
-            _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar) ?? throw new InvalidOperationException("Missing the certificate secret mount path environment variable");
+            _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
+            _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
+            _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
             string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
             string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
-            string? aepUsernameSecretFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
-            byte[]? aepPasswordSecretFileContents = await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
-            string? aepCertFileContents = await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{aepCertificateSecretName}");
+            string? aepUsernameSecretFileContents = _aepUsernameSecretMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}") : null;
+            byte[]? aepPasswordSecretFileContents = _aepPasswordSecretMountPath != null ? await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}") : null;
+            string? aepCertFileContents = _aepCertMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{aepCertificateSecretName}"): null;
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
@@ -135,22 +135,36 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             if (!assetEndpointProfileFileObservers.ContainsKey(assetId))
             {
-                string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
-                string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
-                string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
-
                 //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
                 var assetEndpointObserver = new FilesObserver(
                     new(){
                         $"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}",
                         $"{_configMapMountPath}/{AepAuthenticationMethodRelativeMountPath}",
                         $"{_configMapMountPath}/{EndpointProfileTypeRelativeMountPath}",
-                        $"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}",
-                        $"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}",
-                        $"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}",
-                        $"{_aepCertMountPath}/{aepCertificateSecretName}",
+                        $"{_configMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}"
                     }, 
                     pollingInterval);
+
+                if (_aepUsernameSecretMountPath != null)
+                {
+                    string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
+                    Debug.Assert(aepUsernameSecretName != null);
+                    assetEndpointObserver.ObserveAdditionalFilePath($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
+                }
+
+                if (_aepPasswordSecretMountPath != null)
+                {
+                    string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
+                    Debug.Assert(aepPasswordSecretName != null);
+                    assetEndpointObserver.ObserveAdditionalFilePath($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
+                }
+
+                if (_aepCertMountPath != null)
+                {
+                    string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
+                    Debug.Assert(aepCertificateSecretName != null);
+                    assetEndpointObserver.ObserveAdditionalFilePath($"{_aepCertMountPath}/{aepCertificateSecretName}");
+                }
 
                 assetEndpointProfileFileObservers.Add(assetId, assetEndpointObserver);
 
