@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::time::Duration;
+use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -13,12 +13,17 @@ use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
 #[test]
-async fn main() {
+async fn state_store_network_tests() {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
         .init();
+    if env::var("ENABLE_NETWORK_TESTS").is_err() {
+        log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
+        return;
+    }
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("state-store-client-rust")
@@ -36,11 +41,8 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
-    let state_store_client: state_store::Client<_> =
-        state_store::Client::new(session.create_managed_client()).unwrap();
-
     tokio::task::spawn(state_store_tests(
-        state_store_client,
+        state_store::Client::new(session.create_managed_client()).unwrap(),
         session.create_exit_handle(),
     ));
 
