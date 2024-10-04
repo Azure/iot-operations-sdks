@@ -61,13 +61,13 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: CommandInvoker<IncrRequest, IncrResponse, _> =
+    let incr_invoker: CommandInvoker<IncrRequestPayload, IncrResponsePayload, _> =
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
     for i in 1..10 {
         let payload = CommandRequestBuilder::default()
-            .payload(&IncrRequest::default())
+            .payload(&IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
             .executor_id(None)
@@ -82,14 +82,14 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct IncrRequest {}
+pub struct IncrRequestPayload {}
 
 #[derive(Clone, Debug, Default)]
-pub struct IncrResponse {
+pub struct IncrResponsePayload {
     pub counter_response: i32,
 }
 
-impl PayloadSerialize for IncrRequest {
+impl PayloadSerialize for IncrRequestPayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/json"
@@ -103,12 +103,12 @@ impl PayloadSerialize for IncrRequest {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequest, String> {
-        Ok(IncrRequest {})
+    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, String> {
+        Ok(IncrRequestPayload {})
     }
 }
 
-impl PayloadSerialize for IncrResponse {
+impl PayloadSerialize for IncrResponsePayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/json"
@@ -121,9 +121,9 @@ impl PayloadSerialize for IncrResponse {
         Ok(String::new().into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponse, String> {
+    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, String> {
         let payload = String::from_utf8(payload.to_vec()).unwrap();
         let counter_response = payload.parse::<i32>().unwrap();
-        Ok(IncrResponse { counter_response })
+        Ok(IncrResponsePayload { counter_response })
     }
 }
