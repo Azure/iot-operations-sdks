@@ -2,35 +2,38 @@ package mqtt
 
 import "fmt"
 
-/* RunAlreadyCalledError */
+/* ClientStateError */
 
-// RunAlreadyCalledError is returned by Run() if Run() was already called on
-// that instance of SessionClient previously.
-type RunAlreadyCalledError struct{}
+const (
+	// Run() has not yet been called on this SessionClient instance
+	NotStarted = iota
+	// Run() has been called on this SessionClient instance and it has not been
+	// shut down
+	Started
+	// This SessionClient instance ran but was shut down due the user's request
+	// or due to a fatal error
+	ShutDown
+)
 
-func (e *RunAlreadyCalledError) Error() string {
-	return "Run() already called on this SessionClient instance"
+// ClientStateError is returned when the operation cannot proceed due to the
+// state of the SessionClient.
+type ClientStateError struct {
+	// Must be NotStarted, Started, or ShutDown
+	State int
 }
 
-/* RunNotCalledError */
-
-// RunNotCalledError is returned by Publish(), Subscribe(), and Unsubscribe() if
-// they are called on a SessionClient before Run() was called.
-type RunNotCalledError struct{}
-
-func (e *RunNotCalledError) Error() string {
-	return "Run() not yet called on this SessionClient instance"
-}
-
-/* SessionClientShuttingDownError */
-
-// SessionClientShuttingDownError is returned by Publish(), Subscribe(), and
-// Unsubscribe() if the SessionClient is shutting down
-// while the operation is in flight.
-type SessionClientShuttingDownError struct{}
-
-func (e *SessionClientShuttingDownError) Error() string {
-	return "SessionClient shutting down"
+func (e *ClientStateError) Error() string {
+	switch e.State {
+	case NotStarted:
+		return "Run() not yet called on this SessionClient instance"
+	case Started:
+		return "Run() already called on this SessionClient instance"
+	case ShutDown:
+		return "SessionClient has shut down"
+	default:
+		// it should not be possible to get here
+		return ""
+	}
 }
 
 /* FatalDisconnectError */

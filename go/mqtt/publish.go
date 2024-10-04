@@ -102,7 +102,7 @@ func (c *SessionClient) Publish(
 	opts ...mqtt.PublishOption,
 ) error {
 	if !c.sessionStarted.Load() {
-		return &RunNotCalledError{}
+		return &ClientStateError{State: NotStarted}
 	}
 
 	var opt mqtt.PublishOptions
@@ -159,7 +159,7 @@ func (c *SessionClient) Publish(
 	case <-ctx.Done():
 		return ctx.Err()
 	case <-c.shutdown:
-		return &SessionClientShuttingDownError{}
+		return &ClientStateError{State: ShutDown}
 	}
 
 	return result.err

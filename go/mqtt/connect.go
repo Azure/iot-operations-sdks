@@ -15,7 +15,7 @@ import (
 // instance may only be run once.
 func (c *SessionClient) Run(ctx context.Context) error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
-		return &RunAlreadyCalledError{}
+		return &ClientStateError{State: Started}
 	}
 
 	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())

@@ -105,7 +105,7 @@ func (c *SessionClient) Subscribe(
 	opts ...mqtt.SubscribeOption,
 ) (mqtt.Subscription, error) {
 	if !c.sessionStarted.Load() {
-		return nil, &RunNotCalledError{}
+		return nil, &ClientStateError{NotStarted}
 	}
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
@@ -131,7 +131,7 @@ func (c *SessionClient) Subscribe(
 			select {
 			case <-c.shutdown:
 				removeHandlerFunc()
-				return nil, &SessionClientShuttingDownError{}
+				return nil, &ClientStateError{State: ShutDown}
 			case <-ctx.Done():
 				removeHandlerFunc()
 				return nil, ctx.Err()
@@ -164,7 +164,7 @@ func (c *SessionClient) Subscribe(
 			return nil, ctx.Err()
 		case <-c.shutdown:
 			removeHandlerFunc()
-			return nil, &SessionClientShuttingDownError{}
+			return nil, &ClientStateError{State: ShutDown}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and
 			// retry
@@ -199,7 +199,7 @@ func (s *subscription) Unsubscribe(
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
-				return &SessionClientShuttingDownError{}
+				return &ClientStateError{State: ShutDown}
 			case <-ctx.Done():
 				return ctx.Err()
 			case <-connUp:
@@ -225,7 +225,7 @@ func (s *subscription) Unsubscribe(
 		case <-ctx.Done():
 			return ctx.Err()
 		case <-c.shutdown:
-			return &SessionClientShuttingDownError{}
+			return &ClientStateError{State: ShutDown}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and
 			// retry
