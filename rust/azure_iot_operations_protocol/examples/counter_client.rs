@@ -157,12 +157,12 @@ impl PayloadSerialize for CounterResponsePayload {
         FormatIndicator::Utf8EncodedCharacterData
     }
     fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
-        Ok(format!("{{\"CounterResponsePayload\":{}}}", self.counter_response).into())
+        Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
     }
 
     fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
         log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
-        if payload.starts_with(b"{\"CounterResponsePayload\":") && payload.ends_with(b"}") {
+        if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
             match std::str::from_utf8(&payload[19..payload.len() - 1]) {
                 Ok(s) => match s.parse::<u64>() {
                     Ok(n) => Ok(CounterResponsePayload {
