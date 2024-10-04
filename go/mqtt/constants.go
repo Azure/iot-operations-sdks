@@ -2,25 +2,17 @@ package mqtt
 
 import (
 	"math"
-	"time"
 )
 
 type reasonCode byte
 
 const (
-	defaultReceiveMaximum    uint16        = math.MaxUint16
-	maxKeepAlive             uint16        = math.MaxUint16
-	maxSessionExpiry         uint32        = math.MaxUint32
-	maxPacketQueueSize       int           = math.MaxUint16
-	maxInitialConnectRetries int           = 5
-	defaultAuthInterval      time.Duration = 20 * time.Minute
-	aesGcmNonce              int           = 12
-)
-
-const (
-	subscribePacket   string = "subscribe"
-	unsubscribePacket string = "unsubscribe"
-	publishPacket     string = "publish"
+	defaultReceiveMaximum    uint16 = math.MaxUint16
+	maxKeepAlive             uint16 = math.MaxUint16
+	maxSessionExpiry         uint32 = math.MaxUint32
+	maxPacketQueueSize       int    = math.MaxUint16
+	maxInitialConnectRetries int    = 5
+	aesGcmNonce              int    = 12
 )
 
 // CONNACK reason codes.
@@ -66,10 +58,4 @@ const (
 	disconnectSharedSubscriptionsNotSupported     reasonCode = 0x9E
 	disconnectSubscriptionIdentifiersNotSupported reasonCode = 0xA1
 	disconnectWildcardSubscriptionsNotSupported   reasonCode = 0xA2
-)
-
-// AUTH reason codes.
-const (
-	continueAuthentication reasonCode = 0x18
-	reauthenticate         reasonCode = 0x19
 )

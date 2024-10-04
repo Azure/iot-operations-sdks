@@ -6,7 +6,6 @@ import (
 	"net"
 	"net/url"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/packets"
 	"github.com/gorilla/websocket"
 )
@@ -35,20 +34,13 @@ func buildNetConn(
 	case "wss":
 		conn, err = buildWebsocketConnection(ctx, tlsConfig, u)
 	default:
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "unsupported URL scheme",
-			PropertyName:  "serverURL",
-			PropertyValue: serverURL,
-		}
+		return nil, &InvalidArgumentError{message: "unsupported URL scheme"}
 	}
 
 	if err != nil {
-		return nil, retryableErr{&errors.Error{
-			Kind:        errors.UnknownError,
-			Message:     "MQTT network connection error",
-			NestedError: err,
-		}}
+		// We are assuming all errors associated with opening the network
+		// connection are retryable
+		return nil, retryableErr{err}
 	}
 	return conn, nil
 }
@@ -58,7 +50,14 @@ func buildTCPConnection(
 	address string,
 ) (net.Conn, error) {
 	var d net.Dialer
-	return d.DialContext(ctx, "tcp", address)
+	conn, err := d.DialContext(ctx, "tcp", address)
+	if err != nil {
+		return nil, &ConnectionError{
+			message:      "error creating TCP connection",
+			wrappedError: err,
+		}
+	}
+	return conn, nil
 }
 
 func buildTLSConnection(
@@ -70,7 +69,13 @@ func buildTLSConnection(
 		Config: tlsCfg,
 	}
 	conn, err := d.DialContext(ctx, "tcp", address)
-	return packets.NewThreadSafeConn(conn), err
+	if err != nil {
+		return nil, &ConnectionError{
+			message:      "error creating TLS connection",
+			wrappedError: err,
+		}
+	}
+	return packets.NewThreadSafeConn(conn), nil
 }
 
 func buildWebsocketConnection(
@@ -86,6 +91,11 @@ func buildWebsocketConnection(
 	d.Subprotocols = []string{"mqtt"}
 
 	conn, _, err := d.DialContext(ctx, serverURL.String(), nil)
-
-	return conn.NetConn(), err
+	if err != nil {
+		return nil, &ConnectionError{
+			message:      "error creating websocket connection",
+			wrappedError: err,
+		}
+	}
+	return conn.NetConn(), nil
 }

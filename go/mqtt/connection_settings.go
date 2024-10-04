@@ -8,9 +8,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/sosodev/duration"
 )
+
+// TODO: Uncomment and adjust auth-related connection settings code once the
+// auth interfaces in the session client are determined.
 
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
@@ -77,24 +79,16 @@ func (cs *connectionSettings) applySettingsMap(
 	if cs == nil {
 		cs = &connectionSettings{}
 	}
-	if cs.authOptions == nil {
-		cs.authOptions = &AuthOptions{}
-	}
+	// if cs.authOptions == nil {
+	// 	cs.authOptions = &AuthOptions{}
+	// }
 
 	if settingsMap["hostname"] == "" {
-		return &errors.Error{
-			Kind:         errors.ConfigurationInvalid,
-			Message:      "HostName must not be empty",
-			PropertyName: "HostName",
-		}
+		return &InvalidArgumentError{message: "HostName must not be empty"}
 	}
 
 	if settingsMap["tcpport"] == "" {
-		return &errors.Error{
-			Kind:         errors.ConfigurationInvalid,
-			Message:      "TcpPort must not be empty",
-			PropertyName: "TcpPort",
-		}
+		return &InvalidArgumentError{message: "TcpPort must not be empty"}
 	}
 
 	if settingsMap["usetls"] == "true" {
@@ -118,18 +112,18 @@ func (cs *connectionSettings) applySettingsMap(
 	assignIfExists(settingsMap, "keyfilepassword", &cs.keyFilePassword)
 	assignIfExists(settingsMap, "cafile", &cs.caFile)
 
-	if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
-		assignIfExists(
-			settingsMap,
-			"authmethod",
-			&cs.authOptions.AuthMethod,
-		)
-		assignIfExists(
-			settingsMap,
-			"satauthfile",
-			&cs.authOptions.SatAuthFile,
-		)
-	}
+	// if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
+	// 	assignIfExists(
+	// 		settingsMap,
+	// 		"authmethod",
+	// 		&cs.authOptions.AuthMethod,
+	// 	)
+	// 	assignIfExists(
+	// 		settingsMap,
+	// 		"satauthfile",
+	// 		&cs.authOptions.SatAuthFile,
+	// 	)
+	// }
 
 	cs.caRequireRevocationCheck = settingsMap["carequirerevocationcheck"] ==
 		"true"
@@ -137,11 +131,9 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["keepalive"]; exists {
 		keepAlive, err := duration.Parse(value)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid KeepAlive in connection string",
-				PropertyName:  "KeepAlive",
-				PropertyValue: keepAlive,
+			return &InvalidArgumentError{
+				message:      "invalid KeepAlive in connection string",
+				wrappedError: err,
 			}
 		}
 		cs.keepAlive = keepAlive.ToTimeDuration()
@@ -150,37 +142,31 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["sessionexpiry"]; exists {
 		sessionExpiry, err := duration.Parse(value)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid SessionExpiry in connection string",
-				PropertyName:  "SessionExpiry",
-				PropertyValue: sessionExpiry,
+			return &InvalidArgumentError{
+				message:      "invalid SessionExpiry in connection string",
+				wrappedError: err,
 			}
 		}
 		cs.sessionExpiry = sessionExpiry.ToTimeDuration()
 	}
 
-	if value, exists := settingsMap["authinterval"]; exists {
-		authinterval, err := duration.Parse(value)
-		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid AuthInterval in connection string",
-				PropertyName:  "AuthInterval",
-				PropertyValue: authinterval,
-			}
-		}
-		cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
-	}
+	// if value, exists := settingsMap["authinterval"]; exists {
+	// 	authinterval, err := duration.Parse(value)
+	// 	if err != nil {
+	// 		return &InvalidArgumentError{
+	// 			message: "invalid AuthInterval in connection string",
+	// 			WrappedError: err,
+	// 		}
+	// 	}
+	// 	cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
+	// }
 
 	if value, exists := settingsMap["receivemaximum"]; exists {
 		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid ReceiveMaximum in connection string",
-				PropertyName:  "ReceiveMaximum",
-				PropertyValue: receiveMaximum,
+			return &InvalidArgumentError{
+				message:      "invalid ReceiveMaximum in connection string",
+				wrappedError: err,
 			}
 		}
 		cs.receiveMaximum = uint16(receiveMaximum)
@@ -189,11 +175,9 @@ func (cs *connectionSettings) applySettingsMap(
 	if value, exists := settingsMap["connectiontimeout"]; exists {
 		connectionTimeout, err := duration.Parse(value)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid ConnectionTimeout in connection string",
-				PropertyName:  "ConnectionTimeout",
-				PropertyValue: connectionTimeout,
+			return &InvalidArgumentError{
+				message:      "invalid ConnectionTimeout in connection string",
+				wrappedError: err,
 			}
 		}
 		cs.connectionTimeout = connectionTimeout.ToTimeDuration()
@@ -210,9 +194,9 @@ func (cs *connectionSettings) applySettingsMap(
 	}
 
 	// Ensure AuthInterval is set correctly.
-	if cs.authOptions.AuthInterval == 0 {
-		cs.authOptions.AuthInterval = defaultAuthInterval
-	}
+	// if cs.authOptions.AuthInterval == 0 {
+	// 	cs.authOptions.AuthInterval = defaultAuthInterval
+	// }
 
 	return nil
 }
@@ -220,52 +204,41 @@ func (cs *connectionSettings) applySettingsMap(
 // validate validates connection config after the client is set up.
 func (cs *connectionSettings) validate() error {
 	if _, err := url.Parse(cs.serverURL); err != nil {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "server URL is not valid",
-			PropertyName:  "serverURL",
-			PropertyValue: cs.serverURL,
+		return &InvalidArgumentError{
+			message:      "server URL is not valid",
+			wrappedError: err,
 		}
 	}
 
 	if cs.keepAlive.Seconds() > float64(maxKeepAlive) {
-		return &errors.Error{
-			Kind: errors.ConfigurationInvalid,
-			Message: fmt.Sprintf(
+		return &InvalidArgumentError{
+			message: fmt.Sprintf(
 				"keepAlive cannot be more than %d seconds",
 				maxKeepAlive,
 			),
-			PropertyName:  "keepAlive",
-			PropertyValue: cs.keepAlive,
 		}
 	}
 
 	if cs.sessionExpiry.Seconds() > float64(maxSessionExpiry) {
-		return &errors.Error{
-			Kind: errors.ConfigurationInvalid,
-			Message: fmt.Sprintf(
+		return &InvalidArgumentError{
+			message: fmt.Sprintf(
 				"sessionExpiry cannot be more than %d seconds",
 				maxSessionExpiry,
 			),
-			PropertyName:  "sessionExpiry",
-			PropertyValue: cs.sessionExpiry,
 		}
 	}
 
-	if cs.authOptions.SatAuthFile != "" {
-		data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
-		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "cannot read auth data from SatAuthFile",
-				PropertyName:  "SatAuthFile",
-				PropertyValue: cs.authOptions.SatAuthFile,
-				NestedError:   err,
-			}
-		}
+	// if cs.authOptions.SatAuthFile != "" {
+	// 	data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
+	// 	if err != nil {
+	// 		return &InvalidArgumentError{
+	// 			message:      "cannot read auth data from SatAuthFile",
+	// 			WrappedError: err,
+	// 		}
+	// 	}
 
-		cs.authOptions.AuthData = data
-	}
+	// 	cs.authOptions.AuthData = data
+	// }
 
 	return cs.validateTLS()
 }
@@ -300,11 +273,9 @@ func (cs *connectionSettings) validateTLS() error {
 			}
 
 			if err != nil {
-				return &errors.Error{
-					Kind:         errors.ConfigurationInvalid,
-					Message:      "X509 key pair cannot be loaded",
-					PropertyName: "certFile/keyFile",
-					NestedError:  err,
+				return &InvalidArgumentError{
+					message:      "X509 key pair cannot be loaded",
+					wrappedError: err,
 				}
 			}
 
@@ -314,13 +285,9 @@ func (cs *connectionSettings) validateTLS() error {
 		if cs.caFile != "" {
 			caCertPool, err := loadCACertPool(cs.caFile)
 			if err != nil {
-				return &errors.Error{
-					Kind: errors.ConfigurationInvalid,
-					Message: "cannot load a CA certificate pool " +
-						"from caFile",
-					PropertyName:  "caFile",
-					PropertyValue: cs.caFile,
-					NestedError:   err,
+				return &InvalidArgumentError{
+					message:      "cannot load a CA certificate pool from caFile",
+					wrappedError: err,
 				}
 			}
 			// Set RootCAs for server verification.
@@ -330,11 +297,8 @@ func (cs *connectionSettings) validateTLS() error {
 		cs.keyFile != "" ||
 		cs.caFile != "" ||
 		cs.tlsConfig != nil {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "TLS should not be set when useTLS flag is disabled",
-			PropertyName:  "useTLS",
-			PropertyValue: cs.useTLS,
+		return &InvalidArgumentError{
+			message: "TLS should not be set when useTLS flag is disabled",
 		}
 	}
 

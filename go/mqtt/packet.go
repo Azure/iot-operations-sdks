@@ -9,11 +9,8 @@ func buildConnectPacket(
 	connSettings *connectionSettings,
 	isInitialConn bool,
 ) *paho.Connect {
-	// TODO: Update connection options such as username, password
-	// during connection up.
-
-	// Bound checks have already been performed
-	// during the connection settings initialization.
+	// Bound checks have already been performed during the connection settings
+	//initialization.
 	sessionExpiryInterval := uint32(connSettings.sessionExpiry.Seconds())
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
@@ -24,12 +21,6 @@ func buildConnectPacket(
 		User: mapToUserProperties(
 			connSettings.userProperties,
 		),
-	}
-
-	// Enhanced Authentication.
-	if connSettings.authOptions.AuthMethod != "" {
-		properties.AuthMethod = connSettings.authOptions.AuthMethod
-		properties.AuthData = connSettings.authOptions.AuthData
 	}
 
 	// LWT.
@@ -66,14 +57,9 @@ func buildConnectPacket(
 		}
 	}
 
-	// Only apply user setting for initial connection.
-	cleanStart := connSettings.cleanStart
-	if !isInitialConn {
-		cleanStart = false
-	}
 	return &paho.Connect{
 		ClientID:       clientID,
-		CleanStart:     cleanStart,
+		CleanStart:     isInitialConn,
 		Username:       connSettings.username,
 		UsernameFlag:   connSettings.username != "",
 		Password:       connSettings.password,
@@ -82,45 +68,5 @@ func buildConnectPacket(
 		WillMessage:    willMessage,
 		WillProperties: willProperties,
 		Properties:     &properties,
-	}
-}
-
-func buildDisconnectPacket(
-	reasonCode reasonCode,
-	reasonString string,
-) *paho.Disconnect {
-	endSession := uint32(0)
-	return &paho.Disconnect{
-		ReasonCode: byte(reasonCode),
-		Properties: &paho.DisconnectProperties{
-			// Informs the server that the session is complete
-			// and can be safely deleted on the server's end.
-			SessionExpiryInterval: &endSession,
-			ReasonString:          reasonString,
-		},
-	}
-}
-
-// packetType gets the string name of a paho packet.
-func (qp *queuedPacket) packetType() string {
-	switch qp.packet.(type) {
-	case *paho.Subscribe:
-		return subscribePacket
-	case *paho.Unsubscribe:
-		return unsubscribePacket
-	case *paho.Publish:
-		return publishPacket
-	default:
-		return "unknown packet"
-	}
-}
-
-// handleError will pass errors from executed operations to error channel.
-func (qp *queuedPacket) handleError(err error) {
-	if err != nil {
-		qp.errC <- err
-	} else {
-		// No errors returned; close the channel to indicate exit.
-		close(qp.errC)
 	}
 }

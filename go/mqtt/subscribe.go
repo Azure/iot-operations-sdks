@@ -2,13 +2,102 @@ package mqtt
 
 import (
 	"context"
-	"fmt"
-	"sync/atomic"
+	"errors"
+	"sync"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
+
+type incomingPublish struct {
+	// The incoming PUBLISH packet
+	packet *paho.Publish
+	// Manually acks this PUBLISH. Note that automatic acks are not currently
+	// supported, so this MUST be called.
+	ack func() error
+}
+
+// Creates the single callback to register to the underlying Paho client for
+// incoming PUBLISH packets
+func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
+	return func(publishReceived paho.PublishReceived) (bool, error) {
+		var ackOnce sync.Once
+
+		ack := func() error {
+			if publishReceived.Packet.QoS == 0 {
+				return &InvalidOperationError{
+					message: "only QoS 1 messages may be acked",
+				}
+			}
+
+			ackOnce.Do(func() {
+				pahoClient, currConnCount := func() (PahoClient, uint64) {
+					c.pahoClientMu.RLock()
+					defer c.pahoClientMu.RUnlock()
+					return c.pahoClient, c.connCount
+				}()
+
+				if pahoClient == nil || connCount != currConnCount {
+					// if any disconnections occurred since receiving this
+					// PUBLISH, discard the ack.
+					return
+				}
+				pahoClient.Ack(publishReceived.Packet)
+			})
+			return nil
+		}
+
+		func() {
+			c.incomingPublishHandlerMu.Lock()
+			defer c.incomingPublishHandlerMu.Unlock()
+			for _, handler := range c.incomingPublishHandlers {
+				handler(
+					incomingPublish{
+						packet: publishReceived.Packet,
+						ack:    ack,
+					},
+				)
+			}
+		}()
+
+		// NOTE: this return value doesn't really mean anything because this is
+		// the only OnPublishReceivedHandler on this Paho instance
+		return true, nil
+	}
+}
+
+// Registers a handler to a list of handlers that a called sychronously in order
+// whenever a PUBLISH is received. Returns a function which removes the handler
+// from the list when called.
+func (c *SessionClient) registerIncomingPublishHandler(handler func(incomingPublish)) func() {
+	c.incomingPublishHandlerMu.Lock()
+	defer c.incomingPublishHandlerMu.Unlock()
+	var currID uint64
+ID:
+	for ; ; currID++ {
+		for _, existingID := range c.incomingPublishHandlerIDs {
+			if currID == existingID {
+				continue ID
+			}
+		}
+		break
+	}
+
+	c.incomingPublishHandlers = append(c.incomingPublishHandlers, handler)
+	c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs, currID)
+
+	return func() {
+		c.incomingPublishHandlerMu.Lock()
+		defer c.incomingPublishHandlerMu.Unlock()
+		for i, existingID := range c.incomingPublishHandlerIDs {
+			if currID == existingID {
+				c.incomingPublishHandlers = append(c.incomingPublishHandlers[:i], c.incomingPublishHandlers[i+1:]...)
+				c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs[:i], c.incomingPublishHandlerIDs[i+1:]...)
+				return
+			}
+		}
+	}
+}
 
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
@@ -16,159 +105,133 @@ func (c *SessionClient) Subscribe(
 	handler mqtt.MessageHandler,
 	opts ...mqtt.SubscribeOption,
 ) (mqtt.Subscription, error) {
-	if err := c.prepare(ctx); err != nil {
-		return nil, err
+	if !c.sessionStarted.Load() {
+		return nil, &ClientStateError{NotStarted}
 	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := c.subscriptions[topic]; ok {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "cannot subscribe to existing topic",
-			PropertyName:  "topic",
-			PropertyValue: topic,
-		}
-	}
-
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	s := &subscription{c, topic, handler, nil}
-
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		if err := c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub, subscription: s},
-		); err != nil {
-			return nil, err
+	removeHandlerFunc := c.registerIncomingPublishHandler(func(incoming incomingPublish) {
+		if !isTopicFilterMatch(topic, incoming.packet.Topic) {
+			return
 		}
-		return s, nil
-	}
+		msg := c.buildMessage(incoming)
+		handler(context.TODO(), msg)
+	})
 
-	// Execute the subscribe.
-	c.logSubscribe(sub)
-	s.register(ctx)
-	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
-		s.done()
-		return nil, err
-	}
+	for {
+		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
+			c.pahoClientMu.RLock()
+			defer c.pahoClientMu.RUnlock()
+			return c.pahoClient, c.connUp, c.connDown
+		}()
 
-	c.subscriptions[topic] = s
-
-	return s, nil
-}
-
-// Register the handler to process messages received on the target topic.
-// AddOnPublishReceived returns a callback for removing message handler
-// so we assign it to 'done' for unregistering handler afterwards.
-func (s *subscription) register(ctx context.Context) {
-	s.info(fmt.Sprintf("registering callback for %s", s.topic))
-	s.done = s.pahoClient.AddOnPublishReceived(
-		func(pb paho.PublishReceived) (bool, error) {
-			if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
-				msg := s.buildMessage(pb.Packet)
-				if err := s.handler(ctx, msg); err != nil {
-					s.error(fmt.Sprintf(
-						"failed to execute the handler on message: %s",
-						err.Error(),
-					))
-					return false, err
-				}
-				return true, nil
+		if pahoClient == nil {
+			select {
+			case <-c.shutdown:
+				removeHandlerFunc()
+				return nil, &ClientStateError{State: ShutDown}
+			case <-ctx.Done():
+				removeHandlerFunc()
+				return nil, ctx.Err()
+			case <-connUp:
 			}
-			return false, nil
-		},
-	)
-}
+			continue
+		}
 
-// Helper function for user to update subscribe options.
-func (s *subscription) Update(
-	ctx context.Context,
-	opts ...mqtt.SubscribeOption,
-) error {
-	c := s.SessionClient
+		suback, err := pahoClient.Subscribe(ctx, sub)
+		if errors.Is(err, paho.ErrInvalidArguments) {
+			removeHandlerFunc()
+			return nil, &InvalidArgumentError{
+				wrappedError: err,
+				message:      "invalid arguments in Subscribe() options",
+			}
+		}
+		if suback != nil {
+			return &subscription{
+				SessionClient:     c,
+				topic:             topic,
+				removeHandlerFunc: sync.OnceFunc(removeHandlerFunc),
+			}, nil
+		}
 
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := s.subscriptions[s.topic]; !ok {
-		return &errors.Error{
-			Kind:          errors.StateInvalid,
-			Message:       "cannot update unsubscribed topic",
-			PropertyName:  "topic",
-			PropertyValue: s.topic,
+		// If we get here, the SUBSCRIBE failed because the connection is down
+		// or because ctx was cancelled.
+		select {
+		case <-ctx.Done():
+			removeHandlerFunc()
+			return nil, ctx.Err()
+		case <-c.shutdown:
+			removeHandlerFunc()
+			return nil, &ClientStateError{State: ShutDown}
+		case <-connDown:
+			// Connection is down, wait for the connection to come back up and
+			// retry
 		}
 	}
-
-	sub, err := buildSubscribe(s.topic, opts...)
-	if err != nil {
-		return err
-	}
-
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub},
-		)
-	}
-
-	c.logPacket(sub)
-	return pahoSub(ctx, c.pahoClient, sub)
 }
 
-// Helper function for user to unsubscribe topic.
+type subscription struct {
+	*SessionClient
+	topic             string
+	removeHandlerFunc func()
+}
+
 func (s *subscription) Unsubscribe(
 	ctx context.Context,
 	opts ...mqtt.UnsubscribeOption,
 ) error {
 	c := s.SessionClient
 
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
 	unsub, err := buildUnsubscribe(s.topic, opts...)
 	if err != nil {
 		return err
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: unsub},
-		)
+	for {
+		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
+			c.pahoClientMu.RLock()
+			defer c.pahoClientMu.RUnlock()
+			return c.pahoClient, c.connUp, c.connDown
+		}()
+
+		if pahoClient == nil {
+			select {
+			case <-c.shutdown:
+				return &ClientStateError{State: ShutDown}
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-connUp:
+			}
+			continue
+		}
+
+		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
+		if errors.Is(err, paho.ErrInvalidArguments) {
+			return &InvalidArgumentError{
+				wrappedError: err,
+				message:      "invalid arguments in Unsubscribe() options",
+			}
+		}
+		if unsuback != nil {
+			s.removeHandlerFunc()
+			return nil
+		}
+
+		// If we get here, the UNSUBSCRIBE failed because the connection is down
+		// or because ctx was cancelled.
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-c.shutdown:
+			return &ClientStateError{State: ShutDown}
+		case <-connDown:
+			// Connection is down, wait for the connection to come back up and
+			// retry
+		}
 	}
-
-	c.logPacket(unsub)
-	if err := pahoUnsub(ctx, c.pahoClient, unsub); err != nil {
-		return err
-	}
-
-	// Remove subscribed topic and callback.
-	delete(s.subscriptions, s.topic)
-	s.done()
-
-	return nil
 }
 
 func buildSubscribe(
@@ -180,11 +243,8 @@ func buildSubscribe(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "unsupported QoS",
-			PropertyName:  "QoS",
-			PropertyValue: opt.QoS,
+		return nil, &InvalidArgumentError{
+			message: "Invalid QoS. Supported QoS value are 0 and 1",
 		}
 	}
 
@@ -226,57 +286,25 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
-	// TODO: MQTT server is allowed to send multiple copies if there are
-	// multiple topic filter matches a message, thus if we see same message
-	// multiple times, we need to check their QoS before send the Ack().
-	var acked bool
-	connCount := atomic.LoadInt64(&c.connCount)
+func (c *SessionClient) buildMessage(p incomingPublish) *mqtt.Message {
 	msg := &mqtt.Message{
-		Topic:   p.Topic,
-		Payload: p.Payload,
+		Topic:   p.packet.Topic,
+		Payload: p.packet.Payload,
 		PublishOptions: mqtt.PublishOptions{
-			ContentType:     p.Properties.ContentType,
-			CorrelationData: p.Properties.CorrelationData,
-			QoS:             mqtt.QoS(p.QoS),
-			ResponseTopic:   p.Properties.ResponseTopic,
-			Retain:          p.Retain,
-			UserProperties:  userPropertiesToMap(p.Properties.User),
+			ContentType:     p.packet.Properties.ContentType,
+			CorrelationData: p.packet.Properties.CorrelationData,
+			QoS:             mqtt.QoS(p.packet.QoS),
+			ResponseTopic:   p.packet.Properties.ResponseTopic,
+			Retain:          p.packet.Retain,
+			UserProperties:  userPropertiesToMap(p.packet.Properties.User),
 		},
-		Ack: func() error {
-			// More than one ack is a no-op.
-			if acked {
-				return nil
-			}
-
-			if p.QoS == 0 {
-				return &errors.Error{
-					Kind:    errors.ExecutionException,
-					Message: "cannot ack a QoS 0 message",
-				}
-			}
-
-			if connCount != atomic.LoadInt64(&c.connCount) {
-				return &errors.Error{
-					Kind:    errors.ExecutionException,
-					Message: "connection lost before ack",
-				}
-			}
-
-			c.logAck(p)
-			if err := pahoAck(c.pahoClient, p); err != nil {
-				return err
-			}
-
-			acked = true
-			return nil
-		},
+		Ack: p.ack,
 	}
-	if p.Properties.MessageExpiry != nil {
-		msg.MessageExpiry = *p.Properties.MessageExpiry
+	if p.packet.Properties.MessageExpiry != nil {
+		msg.MessageExpiry = *p.packet.Properties.MessageExpiry
 	}
-	if p.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = mqtt.PayloadFormat(*p.Properties.PayloadFormat)
+	if p.packet.Properties.PayloadFormat != nil {
+		msg.PayloadFormat = mqtt.PayloadFormat(*p.packet.Properties.PayloadFormat)
 	}
 	return msg
 }
