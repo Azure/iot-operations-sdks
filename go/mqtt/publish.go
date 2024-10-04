@@ -81,7 +81,7 @@ connection:
 				// we will give up on this PUBLISH and notify the application.
 				result = &publishResult{
 					err: &InvalidArgumentError{
-						WrappedError: err,
+						wrappedError: err,
 						message:      "invalid arguments in Publish() options",
 					},
 				}

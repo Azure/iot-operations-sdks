@@ -3,7 +3,6 @@ package mqtt
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"net"
 	"net/url"
 
@@ -39,7 +38,9 @@ func buildNetConn(
 	}
 
 	if err != nil {
-		return nil, retryableErr{fmt.Errorf("MQTT network connection error: %w", err)}
+		// We are assuming all errors associated with opening the network
+		// connection are retryable
+		return nil, retryableErr{err}
 	}
 	return conn, nil
 }
@@ -51,7 +52,10 @@ func buildTCPConnection(
 	var d net.Dialer
 	conn, err := d.DialContext(ctx, "tcp", address)
 	if err != nil {
-		return nil, fmt.Errorf("error creating TCP connection: %w", err)
+		return nil, &ConnectionError{
+			message:      "error creating TCP connection",
+			wrappedError: err,
+		}
 	}
 	return conn, nil
 }
@@ -66,7 +70,10 @@ func buildTLSConnection(
 	}
 	conn, err := d.DialContext(ctx, "tcp", address)
 	if err != nil {
-		return nil, fmt.Errorf("error creating TLS connection: %w", err)
+		return nil, &ConnectionError{
+			message:      "error creating TLS connection",
+			wrappedError: err,
+		}
 	}
 	return packets.NewThreadSafeConn(conn), nil
 }
@@ -85,7 +92,10 @@ func buildWebsocketConnection(
 
 	conn, _, err := d.DialContext(ctx, serverURL.String(), nil)
 	if err != nil {
-		return nil, fmt.Errorf("error creating websocket connection: %w", err)
+		return nil, &ConnectionError{
+			message:      "error creating websocket connection",
+			wrappedError: err,
+		}
 	}
 	return conn.NetConn(), nil
 }

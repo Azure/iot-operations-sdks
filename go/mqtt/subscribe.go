@@ -3,7 +3,6 @@ package mqtt
 import (
 	"context"
 	"errors"
-	"fmt"
 	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
@@ -26,7 +25,9 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 
 		ack := func() error {
 			if publishReceived.Packet.QoS == 0 {
-				return fmt.Errorf("only QoS 1 messages may be acked")
+				return &InvalidOperationError{
+					message: "only QoS 1 messages may be acked",
+				}
 			}
 
 			ackOnce.Do(func() {
@@ -144,7 +145,7 @@ func (c *SessionClient) Subscribe(
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			removeHandlerFunc()
 			return nil, &InvalidArgumentError{
-				WrappedError: err,
+				wrappedError: err,
 				message:      "invalid arguments in Subscribe() options",
 			}
 		}
@@ -210,7 +211,7 @@ func (s *subscription) Unsubscribe(
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return &InvalidArgumentError{
-				WrappedError: err,
+				wrappedError: err,
 				message:      "invalid arguments in Unsubscribe() options",
 			}
 		}

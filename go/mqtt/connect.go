@@ -113,7 +113,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			},
 		)
 		if err != nil {
-			return &RetryFailureError{LastError: err}
+			return &RetryFailureError{lastError: err}
 		}
 		signalConnection(pahoClient)
 
