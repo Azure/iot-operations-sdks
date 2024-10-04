@@ -460,6 +460,7 @@ where
 
         loop {
             tokio::select! {
+                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
                 Some(pending_pub) = self.pending_pubs.join_next() => {
                     match pending_pub {
                         Ok(pending_pub) => {

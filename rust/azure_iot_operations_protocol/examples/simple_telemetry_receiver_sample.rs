@@ -75,6 +75,27 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
                     message.sender_id, message.payload
                 );
 
+                // Parse cloud event
+                if let Some(cloud_event) = message.cloud_event {
+                    println!(
+                        "CloudEvent: \n\
+                        id: {} \n\
+                        source: {} \n\
+                        event_type: {} \n\
+                        subject: {:?} \n\
+                        data_schema: {:?} \n\
+                        data_content_type: {:?} \n\
+                        time: {}",
+                        cloud_event.id,
+                        cloud_event.source,
+                        cloud_event.event_type,
+                        cloud_event.subject,
+                        cloud_event.data_schema,
+                        cloud_event.data_content_type,
+                        cloud_event.time
+                    );
+                }
+
                 // Acknowledge the message
                 if let Some(ack_token) = ack_token {
                     ack_token.ack();

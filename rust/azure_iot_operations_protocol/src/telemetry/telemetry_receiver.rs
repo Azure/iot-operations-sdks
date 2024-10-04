@@ -87,7 +87,6 @@ pub struct TelemetryReceiverOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-///
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -107,7 +106,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/{senderId}/telemetry")
+///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -123,7 +122,7 @@ where
     mqtt_receiver: C::PubReceiver,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    // Described state
+    // Describes state
     is_subscribed: bool,
     // Information to manage state
     pending_pubs: JoinSet<Publish>, // TODO: Remove need for this
@@ -237,7 +236,7 @@ where
     ///
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
-    ///     - If the message is received with QoS 1 and manual ack is enabled, an [`AckToken`] is returned.
+    ///     - If the message is received with QoS 1 an [`AckToken`] is returned.
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
@@ -479,9 +478,9 @@ mod tests {
 
     const MODEL_ID: &str = "test_model";
 
-    // TODO: This should return a mock MqttProvider instead
+    // TODO: This should return a mock Session instead
     fn get_session() -> Session {
-        // TODO: Make a real mock that implements MqttProvider
+        // TODO: Make a real mock that implements Session
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .host_name("localhost")
             .client_id("test_server")
