@@ -3,17 +3,20 @@
 
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::{control_packet::QoS, interface::ManagedClient};
 
 use crate::common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize};
 
 /// Telemetry message struct
 /// Used by the telemetry sender.
+#[derive(Builder, Clone)]
+#[allow(unused)]
 pub struct TelemetryMessage<T>
 where
     T: PayloadSerialize,
 {
-    payload: PhantomData<T>,
+    payload: T,
+    qos: QoS,
 }
 
 /// Telemetry Sender Options struct
@@ -48,8 +51,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::control_packet::QoS;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetrySenderOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::TelemetryMessageBuilder;
+/// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
