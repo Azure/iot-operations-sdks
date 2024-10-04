@@ -13,12 +13,13 @@ import (
 type incomingPublish struct {
 	// The incoming PUBLISH packet
 	packet *paho.Publish
-	// Enables manual acks on this PUBLISH and returns a function that is called to send the ack. If this is called,
-	// the session client will not automatically ack the message, so acks MUST be manually sent.
+	// Manually acks this PUBLISH. Note that automatic acks are not currently
+	// supported, so this MUST be called.
 	ack func() error
 }
 
-// Creates the single callback to register to the underlying Paho client for incoming PUBLISH packets
+// Creates the single callback to register to the underlying Paho client for
+// incoming PUBLISH packets
 func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
 		var ackOnce sync.Once
@@ -36,7 +37,8 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 				}()
 
 				if pahoClient == nil || connCount != currConnCount {
-					// if any disconnections occurred since receiving this PUBLISH, discard the ack.
+					// if any disconnections occurred since receiving this
+					// PUBLISH, discard the ack.
 					return
 				}
 				pahoClient.Ack(publishReceived.Packet)
@@ -57,13 +59,15 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 			}
 		}()
 
-		// NOTE: this return value doesn't really mean anything because this is the only OnPublishReceivedHandler on this Paho instance
+		// NOTE: this return value doesn't really mean anything because this is
+		// the only OnPublishReceivedHandler on this Paho instance
 		return true, nil
 	}
 }
 
-// Registers a handler to a list of handlers that a called sychronously in order whenever a PUBLISH is received.
-// Returns a function which removes the handler from the list when called.
+// Registers a handler to a list of handlers that a called sychronously in order
+// whenever a PUBLISH is received. Returns a function which removes the handler
+// from the list when called.
 func (c *SessionClient) registerIncomingPublishHandler(handler func(incomingPublish)) func() {
 	c.incomingPublishHandlerMu.Lock()
 	defer c.incomingPublishHandlerMu.Unlock()
@@ -152,7 +156,8 @@ func (c *SessionClient) Subscribe(
 			}, nil
 		}
 
-		// If we get here, the SUBSCRIBE failed because the connection is down or because ctx was cancelled.
+		// If we get here, the SUBSCRIBE failed because the connection is down
+		// or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
 			removeHandlerFunc()
@@ -161,7 +166,8 @@ func (c *SessionClient) Subscribe(
 			removeHandlerFunc()
 			return nil, &SessionClientShuttingDownError{}
 		case <-connDown:
-			// Connection is down, wait for the connection to come back up and retry
+			// Connection is down, wait for the connection to come back up and
+			// retry
 		}
 	}
 }
@@ -213,14 +219,16 @@ func (s *subscription) Unsubscribe(
 			return nil
 		}
 
-		// If we get here, the UNSUBSCRIBE failed because the connection is down or because ctx was cancelled.
+		// If we get here, the UNSUBSCRIBE failed because the connection is down
+		// or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
 		case <-c.shutdown:
 			return &SessionClientShuttingDownError{}
 		case <-connDown:
-			// Connection is down, wait for the connection to come back up and retry
+			// Connection is down, wait for the connection to come back up and
+			// retry
 		}
 	}
 }
@@ -234,7 +242,9 @@ func buildSubscribe(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return nil, &InvalidArgumentError{message: "Invalid QoS. Supported QoS value are 0 and 1"}
+		return nil, &InvalidArgumentError{
+			message: "Invalid QoS. Supported QoS value are 0 and 1",
+		}
 	}
 
 	// Build MQTT subscribe packet.

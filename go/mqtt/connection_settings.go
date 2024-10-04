@@ -11,7 +11,8 @@ import (
 	"github.com/sosodev/duration"
 )
 
-// TODO: Uncomment and adjust auth-related connection settings code once the auth interfaces in the session client are determined.
+// TODO: Uncomment and adjust auth-related connection settings code once the
+// auth interfaces in the session client are determined.
 
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
@@ -296,7 +297,9 @@ func (cs *connectionSettings) validateTLS() error {
 		cs.keyFile != "" ||
 		cs.caFile != "" ||
 		cs.tlsConfig != nil {
-		return &InvalidArgumentError{message: "TLS should not be set when useTLS flag is disabled"}
+		return &InvalidArgumentError{
+			message: "TLS should not be set when useTLS flag is disabled",
+		}
 	}
 
 	return nil

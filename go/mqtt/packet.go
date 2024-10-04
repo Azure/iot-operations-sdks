@@ -9,11 +9,8 @@ func buildConnectPacket(
 	connSettings *connectionSettings,
 	isInitialConn bool,
 ) *paho.Connect {
-	// TODO: Update connection options such as username, password
-	// during connection up.
-
-	// Bound checks have already been performed
-	// during the connection settings initialization.
+	// Bound checks have already been performed during the connection settings
+	//initialization.
 	sessionExpiryInterval := uint32(connSettings.sessionExpiry.Seconds())
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,

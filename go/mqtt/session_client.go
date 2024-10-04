@@ -15,38 +15,46 @@ import (
 )
 
 type (
-	// SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1.
-	// TODO: make sure the initialization is valid.
+	// SessionClient implements an MQTT Session client supporting MQTT v5 with
+	// QoS 0 and QoS 1 support.
 	SessionClient struct {
 		// Used to ensure that the SessionClient does not leak goroutines
 		wg sync.WaitGroup
 
-		// Used to ensure Connect() is called only once and that user
-		// operations are only started after Connect() is called
-		// TODO: actually use this
+		// Used to ensure Connect() is called only once and that user operations
+		// are only started after Connect() is called
 		sessionStarted atomic.Bool
 
-		// Used to internally to signal client shutdown for cleaning up background goroutines.
+		// Used to internally to signal client shutdown for cleaning up
+		// background goroutines
 		shutdown chan struct{}
 
 		// RWMutex to protect pahoClient, connUp, connDown, and connCount
 		pahoClientMu sync.RWMutex
-		// Instance of a Paho client. Underlying implmentation may be an instance of a real paho.Client or it may be a stub client used for testing.
+		// Instance of a Paho client. Underlying implmentation may be an
+		// instance of a real paho.Client or it may be a stub client used for
+		// testing
 		pahoClient PahoClient
-		// Channel that is closed when the connection is up (i.e., a new Paho client instance is created and connected to the server with a successful CONNACK),
-		// used to notify goroutines that are waiting on a connection to be re-establised.
+		// Channel that is closed when the connection is up (i.e., a new Paho
+		// client instance is created and connected to the server with a
+		// successful CONNACK), used to notify goroutines that are waiting on a
+		// connection to be re-establised
 		connUp chan struct{}
-		// Channel that is closed when the the connection is down (i.e., when a goroutine sees an error from the current Paho client instance and expects a disconnection to occur),
-		// used to notify goroutines that the connection management goroutine has detected a disconnection and is attempting to start a new connection.
+		// Channel that is closed when the the connection is down. Used to
+		// notify goroutines that expect the connection to go down that the
+		// manageConnection() goroutine has detected the disconnection and is
+		//attempting to start a new connection
 		connDown chan struct{}
-		// The number of successful connections that have ocurred on the session client, up to and including the current Paho client instance.
+		// The number of successful connections that have ocurred on the session
+		// client, up to and including the current Paho client instance
 		connCount uint64
 
 		// Mutex used to protect publishHandlers and publishHandlerTracker
 		incomingPublishHandlerMu sync.Mutex
 		// A slice of functions that listen for incoming publishes
 		incomingPublishHandlers []func(incomingPublish)
-		// A slice of unique IDs corresponding to the functions in incomingPublishHandlers, used to track handlers for removal.
+		// A slice of unique IDs corresponding to the functions in
+		// incomingPublishHandlers, used to track handlers for removal
 		incomingPublishHandlerIDs []uint64
 
 		// Buffered channel containing the PUBLISH packets to be sent
@@ -187,7 +195,8 @@ func (c *SessionClient) initialize() {
 	c.shutdown = make(chan struct{})
 	c.connUp = make(chan struct{})
 	c.connDown = make(chan struct{})
-	// immediately close connDown to maintain the invariant that c.connDown is closed iff the session client is disconnected
+	// immediately close connDown to maintain the invariant that c.connDown is
+	// closed iff the session client is disconnected
 	close(c.connDown)
 
 	// TODO: make this queue size configurable

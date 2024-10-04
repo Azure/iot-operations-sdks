@@ -208,7 +208,8 @@ func ensureWillProperties(c *SessionClient) *WillProperties {
 	return c.connSettings.willProperties
 }
 
-// WithWillPropertiesPayloadFormat sets the PayloadFormat for the WillProperties.
+// WithWillPropertiesPayloadFormat sets the PayloadFormat for the
+// WillProperties.
 func WithWillPropertiesPayloadFormat(
 	payloadFormat mqtt.PayloadFormat,
 ) SessionClientOption {
