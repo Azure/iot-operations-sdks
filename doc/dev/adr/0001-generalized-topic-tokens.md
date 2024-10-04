@@ -26,25 +26,25 @@ function with existing external MQTT topics. They will be structured as follows:
 -   The first label must not start with `$`
 
 Topic patterns will be used in all of the protocol constructors in order to
-generate the final MQTT topics and topic filters used by the SDK. The tokens in
+generate the final MQTT topic names and filters used by the SDK. The tokens in
 the patterns will be utilized as follows:
 
 -   All token values must be a single label, as described above.
 -   A map of token values may be provided to all constructors for tokens that
     are not necessarily known at compile time but are constant for the life of
     the envoy (e.g. the client ID). These tokens will always be static in the
-    resulting topics/filters (e.g. they will not be turned into wildcards).
+    resulting topic names/filters (e.g. they will not be turned into wildcards).
 -   For senders/invokers, a map of token values may be provided to the send call
     for fully dynamic tokens. These token values will be substituted into the
-    pattern in order to generate the actual topic used in the MQTT publish; if
-    any unresolved tokens remain after substitution, this should be considered
-    user error.
+    pattern in order to generate the actual topic name (and response topic name,
+    if applicable) used in the MQTT publish; if any unresolved tokens remain
+    after substitution, this should be considered user error.
 -   For receivers/executors, any tokens not provided to the constructor will be
     turned into MQTT `+` wildcards to generate the MQTT topic filter used in the
     subscription. When an MQTT publish is received, the receiver will parse the
-    incoming topic in order to extract a map of resolved token values to provide
-    to the handler (which should include the tokens provided to the constructor
-    for user convenience).
+    incoming topic name in order to extract a map of resolved token values to
+    provide to the handler (which should include the tokens provided to the
+    constructor for user convenience).
 
 Libraries which wrap the protocol SDKs (e.g. the protocol compiler and service
 libraries) may still provide and/or require well-known tokens, since they are
