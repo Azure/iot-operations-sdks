@@ -4,4 +4,4 @@ The SDKs in this repository are built on open standards wherever possible, such 
 
 | Topic | Description | File |
 |-|-|-|
-| [MQTT Connection Settings](mqtt-connection-settings.md) | Describes the parameters of MQTT settings long with the associated environment variables and default value | [mqtt-connection.settings.md](mqtt-connection-settings.md)
+| [Connection Settings](connection-settings.md) | Describes the parameters of MQTT settings long with the associated environment variables and default value | [mqtt-connection.settings.md](mqtt-connection-settings.md)
