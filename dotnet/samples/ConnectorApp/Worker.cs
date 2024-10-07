@@ -29,9 +29,9 @@ namespace DotnetHttpConnectorWorkerService
             _logger = logger;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 // ADR client stub
                 AzureDeviceRegistryClient adrClient = new();
@@ -42,50 +42,7 @@ namespace DotnetHttpConnectorWorkerService
 
                 // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
                 //Asset httpServerAsset = await adrClient.GetAssetAsync(assetId);
-
-                // This is where we define which local paths to fetch data from the HTTP endpoint and what topic their telemetry should be published
-                // to.
-                Asset httpServerAsset = new()
-                {
-                    Datasets = new Dataset[]
-                    {
-                        new Dataset()
-                        {
-                            Name = "dataset1",
-                            DataPoints = new DataPoint[]
-                            {
-                                new DataPoint()
-                                {
-                                    Name = "machine_id",
-                                    DataSource = "GET /api/machine/status/machine_id", //TODO seperate out GET for parsing purposes?
-                                },
-                                new DataPoint()
-                                {
-                                    Name = "status",
-                                    DataSource = "GET /api/machine/status/status",
-                                    ObservabilityMode = "Log"
-                                },
-                                new DataPoint()
-                                {
-                                    Name = "temperature",
-                                    DataSource = "GET /api/machine/status/temperature",
-                                    DataPointConfiguration = "{\"publishingInterval\": 300, \"samplingInterval\": 500, \"queueSize\": 20}" //TODO why string?
-                                },
-                                new DataPoint()
-                                {
-                                    Name = "last_maintenance",
-                                    DataSource = "GET /api/machine/status/last_maintenance",
-                                }
-                            },
-                            DatasetConfiguration = "{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }",
-                            Topic = new()
-                            { 
-                                Path = "/path/dataset1",
-                                Retain = "Keep",
-                            }
-                        }
-                    }
-                };
+                Asset httpServerAsset = GetStubAsset(assetId);
 
                 Console.WriteLine("Successfully retrieved asset endpoint profile");
 
@@ -130,6 +87,51 @@ namespace DotnetHttpConnectorWorkerService
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
             }
+        }
+
+        private Asset GetStubAsset(string assetId)
+        {
+            return new()
+            {
+                Datasets = new Dataset[]
+                {
+                    new Dataset()
+                    {
+                        Name = "dataset1",
+                        DataPoints = new DataPoint[]
+                        {
+                            new DataPoint()
+                            {
+                                Name = "machine_id",
+                                DataSource = "GET /api/machine/status/machine_id", //TODO seperate out GET for parsing purposes?
+                            },
+                            new DataPoint()
+                            {
+                                Name = "status",
+                                DataSource = "GET /api/machine/status/status",
+                                ObservabilityMode = "Log"
+                            },
+                            new DataPoint()
+                            {
+                                Name = "temperature",
+                                DataSource = "GET /api/machine/status/temperature",
+                                DataPointConfiguration = "{\"publishingInterval\": 300, \"samplingInterval\": 500, \"queueSize\": 20}" //TODO why string?
+                            },
+                            new DataPoint()
+                            {
+                                Name = "last_maintenance",
+                                DataSource = "GET /api/machine/status/last_maintenance",
+                            }
+                        },
+                        DatasetConfiguration = "{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }",
+                        Topic = new()
+                        {
+                            Path = "/path/dataset1",
+                            Retain = "Keep",
+                        }
+                    }
+                }
+            };
         }
     }
 }

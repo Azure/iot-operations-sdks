@@ -1,0 +1,36 @@
+apiVersion: deviceregistry.microsoft.com/v1beta2
+kind: Asset
+metadata:
+  name: REST-sample
+  namespace: azure-iot-operations
+spec:
+  displayName: REST Sample Asset 1
+  description: A sample for an Asset modeling a device with REST endpoint
+  assetEndpointProfileRef: {{ .Values.endpointProfile }}
+  datasetsConfiguration: |-
+   {
+      "publishingInterval": 200,
+      "samplingInterval": 400,
+      "queueSize": 14
+    }
+  topic:
+    path: /path/dataset1
+    retain: Keep         
+  datasets:
+    - name: dataset1
+      dataPoints:
+        - dataSource: GET /api/machine/status/machine_id
+          name: machine_id
+        - dataSource: GET /api/machine/status/status
+          name: status
+          observabilityMode: Log
+        - dataSource: GET /api/machine/status/temperature
+          name: temperature
+          dataPointConfiguration: |-
+           {
+              "publishingInterval": 300,
+              "samplingInterval": 500,
+              "queueSize": 20
+            }
+        - dataSource: GET /api/machine/status/last_maintenance
+          name: last_maintenance        
