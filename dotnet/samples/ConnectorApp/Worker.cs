@@ -7,6 +7,7 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using System.Text;
 using System.Text.Json;
 
 namespace DotnetHttpConnectorWorkerService
@@ -40,30 +41,28 @@ namespace DotnetHttpConnectorWorkerService
                 AssetEndpointProfile aep = await adrClient.GetAssetEndpointProfileAsync(assetId);
                 Console.WriteLine("Successfully retrieved asset endpoint profile");
 
-                JsonDocument? additionalConfiguration = null;
+                if (aep.AdditionalConfiguration == null)
+                {
+                    throw new InvalidOperationException("Expected some additional configuration field in the asset endpoint profile");
+                }
 
-                HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, "todo", aep.Credentials?.Username ?? "", aep.Credentials?.Password ?? Array.Empty<byte>());
+                string httpPath = aep.AdditionalConfiguration!.RootElement.GetProperty("HttpPath")!.GetString()!;
 
-                MqttConnectionSettings mqttConnectionSettings = null;
-                MqttSessionClient sessionClient = null;
+                if (aep.Credentials == null || aep.Credentials.Username == null || aep.Credentials.Password == null)
+                { 
+                    throw new InvalidOperationException("Expected an asset endpoint username and password.");
+                }
 
-                await sessionClient.ConnectAsync(mqttConnectionSettings);
+                HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, httpPath, aep.Credentials.Username, aep.Credentials.Password);
 
                 while (true)
                 {
                     // Read data from the 3rd party asset
                     string httpData = await httpDataRetriever.RetrieveDataAsync();
 
-                    var sender = new StringTelemetrySender(sessionClient)
-                    {
-                        TopicPattern = "sample",
-                        ModelId = "someModel",
-                    };
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        await sender.SendTelemetryAsync(httpData);
-                    }
+                    Console.WriteLine("Read data from http asset endpoint:");
+                    Console.WriteLine(httpData);
+                    Console.WriteLine();
 
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
