@@ -65,7 +65,7 @@ namespace DotnetHttpConnectorWorkerService
 
                 HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerRequestPath = httpServerDataPoint.DataSource;
-                HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
+                using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;

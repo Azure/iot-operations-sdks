@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace DotnetHttpConnectorWorkerService
 {
-    internal class HttpDataRetriever
+    internal class HttpDataRetriever : IDisposable
     {
         private readonly HttpClient _httpClient;
         private readonly string _httpPath;
@@ -18,6 +18,8 @@ namespace DotnetHttpConnectorWorkerService
 
         public HttpDataRetriever(string httpServerAddress, string httpPath, HttpMethod httpMethod, string httpServerUsername, byte[] httpServerPassword)
         {
+            // In a more complex sample, this class would support doing put/post/delete/etc but logic for handling that has been omitted
+            // for brevity.
             if (httpMethod != HttpMethod.Get)
             {
                 throw new NotSupportedException("Unexpected HTTP method configured. Only GET is supported in this sample");
