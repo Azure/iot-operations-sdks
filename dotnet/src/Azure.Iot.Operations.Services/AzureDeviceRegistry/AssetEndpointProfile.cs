@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -35,7 +36,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Optional application-layer configurations to reference when communicating with the asset endpoint.
         /// </summary>
-        public JsonDocument? AdditionalConfiguration { get; set; }
+        public JsonObject? AdditionalConfiguration { get; set; }
 
         /// <summary>
         /// The credentials to use when connecting to the asset endpoint.

@@ -23,7 +23,7 @@ kubectl apply -f ./SampleHttpServer/http-server.yaml
 kubectl apply -f ./http-connector-secrets.yaml
 
 # Deploy HTTP server AEP
-kubectl apply -f ./http-server-aep.yaml
+kubectl apply -f ./http-server-asset-endpoint-profile-definition.yaml
 
 # Deploy Operator helm chart
 helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241007.3-buddy -n azure-iot-operations --wait

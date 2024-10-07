@@ -9,6 +9,7 @@ using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace DotnetHttpConnectorWorkerService
 {
@@ -51,14 +52,21 @@ namespace DotnetHttpConnectorWorkerService
                     throw new InvalidOperationException("Expected some additional configuration field in the asset endpoint profile");
                 }
 
-                string httpPath = httpServerAssetEndpointProfile.AdditionalConfiguration!.RootElement.GetProperty("HttpPath")!.GetString()!;
-
                 if (httpServerAssetEndpointProfile.Credentials == null || httpServerAssetEndpointProfile.Credentials.Username == null || httpServerAssetEndpointProfile.Credentials.Password == null)
                 { 
                     throw new InvalidOperationException("Expected an asset endpoint username and password.");
                 }
 
-                HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpPath, httpServerAssetEndpointProfile.Credentials.Username, httpServerAssetEndpointProfile.Credentials.Password);
+                foreach (Dataset httpServerDataset in httpServerAsset.Datasets)
+                {
+                    foreach (DataPoint httpServerDataPoint in httpServerDataset.DataPoints)
+                    {
+                        HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                        string httpServerRequestPath = httpServerDataPoint.DataSource;
+                        HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpServerAssetEndpointProfile.Credentials.Username, httpServerAssetEndpointProfile.Credentials.Password);
+
+                    }
+                }
 
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;
@@ -103,27 +111,18 @@ namespace DotnetHttpConnectorWorkerService
                             new DataPoint()
                             {
                                 Name = "machine_id",
-                                DataSource = "GET /api/machine/status/machine_id", //TODO seperate out GET for parsing purposes?
+                                DataSource = "/api/machine/status/machine_id",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                             },
                             new DataPoint()
                             {
                                 Name = "status",
-                                DataSource = "GET /api/machine/status/status",
+                                DataSource = "/api/machine/status/status",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                                 ObservabilityMode = "Log"
                             },
-                            new DataPoint()
-                            {
-                                Name = "temperature",
-                                DataSource = "GET /api/machine/status/temperature",
-                                DataPointConfiguration = "{\"publishingInterval\": 300, \"samplingInterval\": 500, \"queueSize\": 20}" //TODO why string?
-                            },
-                            new DataPoint()
-                            {
-                                Name = "last_maintenance",
-                                DataSource = "GET /api/machine/status/last_maintenance",
-                            }
                         },
-                        DatasetConfiguration = "{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }",
+                        DatasetConfiguration = JsonDocument.Parse("{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }"),
                         Topic = new()
                         {
                             Path = "/path/dataset1",
