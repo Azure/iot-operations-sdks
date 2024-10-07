@@ -70,7 +70,7 @@ namespace DotnetHttpConnectorWorkerService
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;
 
-                await sessionClient.ConnectAsync(mqttConnectionSettings);
+                //await sessionClient.ConnectAsync(mqttConnectionSettings);
 
                 while (true)
                 {
@@ -79,7 +79,7 @@ namespace DotnetHttpConnectorWorkerService
 
                     Console.WriteLine("Read data from http asset endpoint:");
                     Console.WriteLine(httpData + "\n");
-
+                    /*
                     var sender = new StringTelemetrySender(sessionClient)
                     {
                         TopicPattern = "sample",
@@ -90,6 +90,7 @@ namespace DotnetHttpConnectorWorkerService
                     {
                         await sender.SendTelemetryAsync(httpData);
                     }
+                    */
 
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
