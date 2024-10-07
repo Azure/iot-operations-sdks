@@ -241,10 +241,10 @@ pub struct CommandExecutorOptions {
 #[allow(unused)]
 pub struct CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
-    TResp: PayloadSerialize + Send,
+    TReq: PayloadSerialize + Send + 'static,
+    TResp: PayloadSerialize + Send + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
+    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the executor
     mqtt_client: C,
@@ -265,10 +265,10 @@ where
 /// Implementation of Command Executor.
 impl<TReq, TResp, C> CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
+    TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     /// Create a new [`CommandExecutor`].
     ///
@@ -905,10 +905,10 @@ where
 
 impl<TReq, TResp, C> Drop for CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
-    TResp: PayloadSerialize + Send,
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
+    TReq: PayloadSerialize + Send + 'static,
+    TResp: PayloadSerialize + Send + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {}
 }
