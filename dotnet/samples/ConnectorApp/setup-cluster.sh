@@ -26,10 +26,7 @@ kubectl apply -f ./http-connector-secrets.yaml
 kubectl apply -f ./http-server-aep.yaml
 
 # Deploy Operator helm chart
-helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241004.2-buddy -n azure-iot-operations --wait
-
-# TODO this should be part of the above helm chart. Sync w/ Abhipsa/Daniel
-kubectl apply -f ./connector_config_crd.yaml
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241007.3-buddy -n azure-iot-operations --wait
 
 # Deploy connector config
 kubectl apply -f ./connector-config.yaml
