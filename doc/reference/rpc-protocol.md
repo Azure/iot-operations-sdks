@@ -10,21 +10,24 @@ This document contains details for implementing RPC as described here [Command A
 ## Design
 
 MQTT Semantics:
+
 * Invoker and executor use Persistent sessions and QoS1 for the MQTT communications. 
 * They use delayed ACK model - they ACK the PUBLISH only after it has been fully processed. This allows them to be protected from disconnections on the other side - if the executor drops the connection, the invoker doesn't need to worry about it. The executor will receive the request PUBLISH again, without the invoker having to resend it. 
 * Because of QoS1 (at-least-once) semantics, there could be duplicates in the system. Both invoker and executor will have dedup logic to handle duplicates. 
 * The topics used for request and responses will be as per the [topic structure](topic-structure.md).
 
 Invoker behavior:
+
 * Each invocation request is tied to a task that will complete once the response is available.
 * If a message is received (on the invoker's topic) which doesn't have a corresponding task awaited, the message is logged and then discarded.
   
 Executor behavior:
+
 * Threading: Executor allows application to specify number of threads to use to execute the requests.
 * Request identification: The correlation ID is used as the request identifier - 2 requests with the same correlation ID are expected to be identical. The executor will return the same response for 2 requests with the same correlation ID, without processing the payload of the request. 
  
 Caching:
-* The RPC implementation uses MQTT with QoS1 (at-least-once) semantics. This implies that in certain scenarios (like disconnects), there will be duplicates in the system - this is in-line with MQTT QoS1 semantics. To avoid the customer applications on the invoker and the execurot side to have to deal with the duplicates, we will have caches on both sides which will help de-dup the requests from the system. The caches will use correlation ID as the key and will use a "sliding-window" mechanism, for a configurable period of time (5 mins default). This also protects against non-idempotent operations on the executor. 
+* The RPC implementation uses MQTT with QoS1 (at-least-once) semantics. This implies that in certain scenarios (like disconnects), there will be duplicates in the system - this is in-line with MQTT QoS1 semantics. To avoid the customer applications on the invoker and the executor side to have to deal with the duplicates, we will have caches on both sides which will help de-dup the requests from the system. The caches will use correlation ID as the key and will use a "sliding-window" mechanism, for a configurable period of time (5 mins default). This also protects against non-idempotent operations on the executor. 
 
 ## Scenarios
 
