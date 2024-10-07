@@ -9,28 +9,18 @@ spec:
   assetEndpointProfileRef: {{ .Values.endpointProfile }}
   datasetsConfiguration: |-
    {
-      "publishingInterval": 200,
       "samplingInterval": 400,
-      "queueSize": 14
     }
   topic:
-    path: /path/dataset1
+    path: /mqtt/machine/status
     retain: Keep         
   datasets:
-    - name: dataset1
+    - name: machine_status
       dataPoints:
-        - dataSource: GET /api/machine/status/machine_id
-          name: machine_id
-        - dataSource: GET /api/machine/status/status
+        - dataSource: /api/machine/status
           name: status
-          observabilityMode: Log
-        - dataSource: GET /api/machine/status/temperature
-          name: temperature
           dataPointConfiguration: |-
            {
-              "publishingInterval": 300,
-              "samplingInterval": 500,
-              "queueSize": 20
-            }
-        - dataSource: GET /api/machine/status/last_maintenance
-          name: last_maintenance        
+              "HttpRequestMethod": "GET",
+           }
+          observabilityMode: Log

@@ -57,16 +57,15 @@ namespace DotnetHttpConnectorWorkerService
                     throw new InvalidOperationException("Expected an asset endpoint username and password.");
                 }
 
-                foreach (Dataset httpServerDataset in httpServerAsset.Datasets)
-                {
-                    foreach (DataPoint httpServerDataPoint in httpServerDataset.DataPoints)
-                    {
-                        HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                        string httpServerRequestPath = httpServerDataPoint.DataSource;
-                        HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpServerAssetEndpointProfile.Credentials.Username, httpServerAssetEndpointProfile.Credentials.Password);
+                string httpServerUsername = httpServerAssetEndpointProfile.Credentials.Username;
+                byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials.Password;
 
-                    }
-                }
+                Dataset httpServerDataset = httpServerAsset.Datasets[0];
+                DataPoint httpServerDataPoint = httpServerDataset.DataPoints[0];
+
+                HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerRequestPath = httpServerDataPoint.DataSource;
+                HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;
@@ -105,27 +104,20 @@ namespace DotnetHttpConnectorWorkerService
                 {
                     new Dataset()
                     {
-                        Name = "dataset1",
+                        Name = "machine_status",
                         DataPoints = new DataPoint[]
                         {
                             new DataPoint()
                             {
-                                Name = "machine_id",
-                                DataSource = "/api/machine/status/machine_id",
-                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                            },
-                            new DataPoint()
-                            {
                                 Name = "status",
-                                DataSource = "/api/machine/status/status",
+                                DataSource = "/api/machine/status",
                                 DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                ObservabilityMode = "Log"
                             },
                         },
-                        DatasetConfiguration = JsonDocument.Parse("{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }"),
+                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
                         Topic = new()
                         {
-                            Path = "/path/dataset1",
+                            Path = "mqtt/machine/status",
                             Retain = "Keep",
                         }
                     }

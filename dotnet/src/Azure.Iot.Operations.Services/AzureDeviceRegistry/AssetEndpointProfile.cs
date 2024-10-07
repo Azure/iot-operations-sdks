@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Optional application-layer configurations to reference when communicating with the asset endpoint.
         /// </summary>
-        public JsonObject? AdditionalConfiguration { get; set; }
+        public JsonDocument? AdditionalConfiguration { get; set; }
 
         /// <summary>
         /// The credentials to use when connecting to the asset endpoint.
