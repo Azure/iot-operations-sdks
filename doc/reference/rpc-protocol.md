@@ -3,28 +3,28 @@
 This document contains details for implementing RPC as described here [Command API](command-api.md), when using MQTT protocol/broker as the underlying messaging plane. It lists the interactions of the RPC invokers with the RPC Executors in different scenarios.
 
 > [!NOTE] 
-> - The sequence diagrams below omit some details (like parameters such as message expiry, HLCs, etc.) and skip some steps when not relevant, for brevity. 
-> - This currently includes only the basic RPC scenarios. It does not including streaming, sending commands to multiple receivers, etc. Those will be added soon.
-> - We use PlantUML diagrams here for simplicity, as they were moved from another repo. These will be converted to mermaid to align with the rest of the docs soon. 
+> * The sequence diagrams below omit some details (like parameters such as message expiry, HLCs, etc.) and skip some steps when not relevant, for brevity. 
+> * This currently includes only the basic RPC scenarios. It does not including streaming, sending commands to multiple receivers, etc. Those will be added soon.
+> * We use PlantUML diagrams here for simplicity, as they were moved from another repo. These will be converted to mermaid to align with the rest of the docs soon. 
 
 ## Design
 
-MQTT Semantics: 
-- Invoker and executor use Persistent sessions and QoS1 for the MQTT communications. 
-- They use delayed ACK model - they ACK the PUBLISH only after it has been fully processed. This allows them to be protected from disconnections on the other side - if the executor drops the connection, the invoker doesn't need to worry about it. The executor will receive the request PUBLISH again, without the invoker having to resend it. 
-- Because of QoS1 (at-least-once) semantics, there could be duplicates in the system. Both invoker and executor will have dedup logic to handle duplicates. 
-- The topics used for request and responses will be as per the [topic structure](topic-structure.md).
+MQTT Semantics:
+* Invoker and executor use Persistent sessions and QoS1 for the MQTT communications. 
+* They use delayed ACK model - they ACK the PUBLISH only after it has been fully processed. This allows them to be protected from disconnections on the other side - if the executor drops the connection, the invoker doesn't need to worry about it. The executor will receive the request PUBLISH again, without the invoker having to resend it. 
+* Because of QoS1 (at-least-once) semantics, there could be duplicates in the system. Both invoker and executor will have dedup logic to handle duplicates. 
+* The topics used for request and responses will be as per the [topic structure](topic-structure.md).
 
 Invoker behavior:
-- Each invocation request is tied to a task that will complete once the response is available.
-- If a message is received (on the invoker's topic) which doesn't have a corresponding task awaited, the message is logged and then discarded.
+* Each invocation request is tied to a task that will complete once the response is available.
+* If a message is received (on the invoker's topic) which doesn't have a corresponding task awaited, the message is logged and then discarded.
   
-Executor behavior: 
-- Threading: Executor allows application to specify number of threads to use to execute the requests.
-- Request identification: The correlation ID is used as the request identifier - 2 requests with the same correlation ID are expected to be identical. The executor will return the same response for 2 requests with the same correlation ID, without processing the payload of the request. 
+Executor behavior:
+* Threading: Executor allows application to specify number of threads to use to execute the requests.
+* Request identification: The correlation ID is used as the request identifier - 2 requests with the same correlation ID are expected to be identical. The executor will return the same response for 2 requests with the same correlation ID, without processing the payload of the request. 
  
-Caching: 
-- The RPC implementation uses MQTT with QoS1 (at-least-once) semantics. This implies that in certain scenarios (like disconnects), there will be duplicates in the system - this is in-line with MQTT QoS1 semantics. To avoid the customer applications on the invoker and the execurot side to have to deal with the duplicates, we will have caches on both sides which will help de-dup the requests from the system. The caches will use correlation ID as the key and will use a "sliding-window" mechanism, for a configurable period of time (5 mins default). This also protects against non-idempotent operations on the executor. 
+Caching:
+* The RPC implementation uses MQTT with QoS1 (at-least-once) semantics. This implies that in certain scenarios (like disconnects), there will be duplicates in the system - this is in-line with MQTT QoS1 semantics. To avoid the customer applications on the invoker and the execurot side to have to deal with the duplicates, we will have caches on both sides which will help de-dup the requests from the system. The caches will use correlation ID as the key and will use a "sliding-window" mechanism, for a configurable period of time (5 mins default). This also protects against non-idempotent operations on the executor. 
 
 ## Scenarios
 
@@ -94,7 +94,7 @@ This scenario works similar to the one above. Once the connection is re-establis
 
 In this scenario, the executor discards a stale invoke request, based on the message expiry. 
 
-Scenario: 
+Scenario:
 * The application on the invoker sets request expiry to 5s. The invoker sets the message expiry to the same value (5s). That is because typical broker latency is negligible (~10ms).
 * The message expiry is updated by the broker when forwarding to the executor (to 3s, assuming it takes the broker 2s to process the message, just as an example). 
 * The executor checks the message expiry before starting the request execution. Based on a user set flag, the expired message is discarded without execution and no response is sent back. The default behavior will be to not discard expired messages, and let application on the executor side handle that logic. 
