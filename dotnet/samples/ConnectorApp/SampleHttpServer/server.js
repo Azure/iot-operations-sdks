@@ -27,7 +27,7 @@ const authenticate = (req, res, next) => {
 // Apply the authentication middleware to all routes
 app.use(authenticate);
 
-app.get("/api/machine/status/status", (req, res) => {
+app.get("/api/machine/status", (req, res) => {
     const contextList = [
         {
             status: "running",
