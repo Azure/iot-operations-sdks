@@ -60,12 +60,12 @@ namespace DotnetHttpConnectorWorkerService
                 string httpServerUsername = httpServerAssetEndpointProfile.Credentials.Username;
                 byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials.Password;
 
-                Dataset httpServerDataset = httpServerAsset.Datasets[0];
-                TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration.RootElement.GetProperty("samplingInterval").GetInt16());
-                DataPoint httpServerDataPoint = httpServerDataset.DataPoints[0];
+                Dataset httpServerDataset = httpServerAsset.Datasets![0];
+                TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
+                DataPoint httpServerDataPoint = httpServerDataset.DataPoints![0];
 
                 HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerRequestPath = httpServerDataPoint.DataSource;
+                string httpServerRequestPath = httpServerDataPoint.DataSource!;
                 using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
                 MqttConnectionSettings mqttConnectionSettings = null;
