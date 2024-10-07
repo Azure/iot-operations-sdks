@@ -55,14 +55,29 @@ namespace DotnetHttpConnectorWorkerService
 
                 HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, httpPath, aep.Credentials.Username, aep.Credentials.Password);
 
+                MqttConnectionSettings mqttConnectionSettings = null;
+                MqttSessionClient sessionClient = null;
+
+                await sessionClient.ConnectAsync(mqttConnectionSettings);
+
                 while (true)
                 {
                     // Read data from the 3rd party asset
                     string httpData = await httpDataRetriever.RetrieveDataAsync();
 
                     Console.WriteLine("Read data from http asset endpoint:");
-                    Console.WriteLine(httpData);
-                    Console.WriteLine();
+                    Console.WriteLine(httpData + "\n");
+
+                    var sender = new StringTelemetrySender(sessionClient)
+                    {
+                        TopicPattern = "sample",
+                        ModelId = "someModel",
+                    };
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        await sender.SendTelemetryAsync(httpData);
+                    }
 
                     await Task.Delay(TimeSpan.FromSeconds(5));
                 }
