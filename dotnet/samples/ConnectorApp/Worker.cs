@@ -38,22 +38,70 @@ namespace DotnetHttpConnectorWorkerService
                 Console.WriteLine("Successfully created ADR client");
 
                 string assetId = "todo - doesn't matter yet";
-                AssetEndpointProfile aep = await adrClient.GetAssetEndpointProfileAsync(assetId);
+                AssetEndpointProfile httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
+
+                // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
+                //Asset httpServerAsset = await adrClient.GetAssetAsync(assetId);
+
+                // This is where we define which local paths to fetch data from the HTTP endpoint and what topic their telemetry should be published
+                // to.
+                Asset httpServerAsset = new()
+                {
+                    Datasets = new Dataset[]
+                    {
+                        new Dataset()
+                        {
+                            Name = "dataset1",
+                            DataPoints = new DataPoint[]
+                            {
+                                new DataPoint()
+                                {
+                                    Name = "machine_id",
+                                    DataSource = "GET /api/machine/status/machine_id", //TODO seperate out GET for parsing purposes?
+                                },
+                                new DataPoint()
+                                {
+                                    Name = "status",
+                                    DataSource = "GET /api/machine/status/status",
+                                    ObservabilityMode = "Log"
+                                },
+                                new DataPoint()
+                                {
+                                    Name = "temperature",
+                                    DataSource = "GET /api/machine/status/temperature",
+                                    DataPointConfiguration = "{\"publishingInterval\": 300, \"samplingInterval\": 500, \"queueSize\": 20}" //TODO why string?
+                                },
+                                new DataPoint()
+                                {
+                                    Name = "last_maintenance",
+                                    DataSource = "GET /api/machine/status/last_maintenance",
+                                }
+                            },
+                            DatasetConfiguration = "{\"publishingInterval\": 200, \"samplingInterval\": 400, \"queueSize\": 14 }",
+                            Topic = new()
+                            { 
+                                Path = "/path/dataset1",
+                                Retain = "Keep",
+                            }
+                        }
+                    }
+                };
+
                 Console.WriteLine("Successfully retrieved asset endpoint profile");
 
-                if (aep.AdditionalConfiguration == null)
+                if (httpServerAssetEndpointProfile.AdditionalConfiguration == null)
                 {
                     throw new InvalidOperationException("Expected some additional configuration field in the asset endpoint profile");
                 }
 
-                string httpPath = aep.AdditionalConfiguration!.RootElement.GetProperty("HttpPath")!.GetString()!;
+                string httpPath = httpServerAssetEndpointProfile.AdditionalConfiguration!.RootElement.GetProperty("HttpPath")!.GetString()!;
 
-                if (aep.Credentials == null || aep.Credentials.Username == null || aep.Credentials.Password == null)
+                if (httpServerAssetEndpointProfile.Credentials == null || httpServerAssetEndpointProfile.Credentials.Username == null || httpServerAssetEndpointProfile.Credentials.Password == null)
                 { 
                     throw new InvalidOperationException("Expected an asset endpoint username and password.");
                 }
 
-                HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, httpPath, aep.Credentials.Username, aep.Credentials.Password);
+                HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpPath, httpServerAssetEndpointProfile.Credentials.Username, httpServerAssetEndpointProfile.Credentials.Password);
 
                 MqttConnectionSettings mqttConnectionSettings = null;
                 MqttSessionClient sessionClient = null;
