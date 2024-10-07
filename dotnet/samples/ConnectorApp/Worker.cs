@@ -61,6 +61,7 @@ namespace DotnetHttpConnectorWorkerService
                 byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials.Password;
 
                 Dataset httpServerDataset = httpServerAsset.Datasets[0];
+                TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration.RootElement.GetProperty("samplingInterval").GetInt16());
                 DataPoint httpServerDataPoint = httpServerDataset.DataPoints[0];
 
                 HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
@@ -91,7 +92,7 @@ namespace DotnetHttpConnectorWorkerService
                         await sender.SendTelemetryAsync(httpData);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    await Task.Delay(samplingInterval);
                 }
             }
         }
