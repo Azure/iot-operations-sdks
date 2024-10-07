@@ -44,9 +44,9 @@ namespace DotnetHttpConnectorWorkerService
 
                 HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, "todo", aep.Credentials?.Username ?? "", aep.Credentials?.Password ?? Array.Empty<byte>());
 
-                MqttConnectionSettings mqttConnectionSettings = null;
-                MqttSessionClient sessionClient = null;
-
+                // Create MQTT client from credentials provided by the operator
+                MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
+                MqttSessionClient sessionClient = new();
                 await sessionClient.ConnectAsync(mqttConnectionSettings);
 
                 while (true)
