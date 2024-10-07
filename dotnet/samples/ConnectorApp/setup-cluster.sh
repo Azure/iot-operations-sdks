@@ -1,16 +1,15 @@
 # Create k3d cluster with local image registry
-k3d cluster delete
-k3d cluster create -p '1883:1883@loadbalancer' -p '8883:8883@loadbalancer'
+../../../tools/deployment/initialize-cluster.sh
 
 # Deploy Broker
-helm install broker --atomic oci://mqbuilds.azurecr.io/helm/aio-broker --version 0.7.0-nightly
-kubectl apply -f ./broker.yaml 
-
-# Deploy Operator helm chart
-# TODO the helm chart for this isn't available yet
+../../../tools/deployment/deploy-aio.sh nightly
 
 # Deploy ADR
-helm install adrcommonprp --version 0.3.0 oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp
+helm install adrcommonprp --version 0.3.0 oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp -n azure-iot-operations --wait
+
+# Build connector image
+dotnet publish /t:PublishContainer
+k3d image import httpconnectorworkerservice:latest -c k3s-default
 
 # Build HTTP server docker image
 docker build -t http-server:latest ./SampleHttpServer
@@ -19,3 +18,19 @@ k3d image import http-server:latest -c k3s-default
 
 # Deploy HTTP server (as an asset)
 kubectl apply -f ./SampleHttpServer/http-server.yaml
+
+# Deploy HTTP connector secrets
+kubectl apply -f ./http-connector-secrets.yaml
+
+# Deploy HTTP server AEP
+kubectl apply -f ./http-server-aep.yaml
+
+# Deploy Operator helm chart
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241004.2-buddy -n azure-iot-operations --wait
+
+# TODO this should be part of the above helm chart. Sync w/ Abhipsa/Daniel
+kubectl apply -f ./connector_config_crd.yaml
+
+# Deploy connector config
+kubectl apply -f ./connector-config.yaml
+

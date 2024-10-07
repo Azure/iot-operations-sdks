@@ -1,0 +1,12 @@
+apiVersion: akri.microsoft.com/v1  # This is spec.group/versions.name from connector_config_crd.yaml
+kind: ConnectorConfig
+metadata:
+  name: http-connector-app-config
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  endpointProfileType: http-dss
+  image: httpconnectorworkerservice:latest
+  mqTargetAddress: aio-broker-external.default.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)
+  mqTls:
+    enabled: false

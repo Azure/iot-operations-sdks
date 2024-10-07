@@ -34,6 +34,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
+        internal void ObserveAdditionalFilePath(string filePathToObserve)
+        {
+            _filePathsToObserve.Add(filePathToObserve);
+        }
+
         internal async Task StartAsync()
         {
             if (_startedObserving)

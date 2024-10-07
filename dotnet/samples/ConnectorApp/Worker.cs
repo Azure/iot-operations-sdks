@@ -34,8 +34,12 @@ namespace DotnetHttpConnectorWorkerService
             {
                 // ADR client stub
                 AzureDeviceRegistryClient adrClient = new();
+                Console.WriteLine("Successfully created ADR client");
+
                 string assetId = "todo - doesn't matter yet";
                 AssetEndpointProfile aep = await adrClient.GetAssetEndpointProfileAsync(assetId);
+                Console.WriteLine("Successfully retrieved asset endpoint profile");
+
                 JsonDocument? additionalConfiguration = null;
 
                 HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, "todo", aep.Credentials?.Username ?? "", aep.Credentials?.Password ?? Array.Empty<byte>());

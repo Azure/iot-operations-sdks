@@ -4,7 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-DotnetHttpConnectorWorkerService-f92de3d0-6bc7-4088-95ad-c0922aa17d90</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
