@@ -53,18 +53,14 @@ pub struct PubTracker {
 }
 
 impl PubTracker {
-    pub fn new() -> PubTracker {
-        PubTracker {
-            pending: Mutex::new(VecDeque::new()),
-            registration_notify: Notify::new(),
-            ready_notify: Notify::new(),
-        }
-    }
-
     /// Register a [`Publish`] as pending.
     ///
     /// When it is acked the required number of times on this tracker, it will be considered ready
     /// to ack back to the server with the provided [`ManualAck`].
+    ///
+    /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages, which do not require acknowledgement.
+    /// This is not considered an error.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to register as pending
@@ -80,6 +76,10 @@ impl PubTracker {
         manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
+        if publish.pkid == 0 {
+            return Ok(());
+        }
         let mut pending = self.pending.lock().unwrap();
         // Check for existing registration (invalid)
         if pending.iter().any(|pending| pending.pkid == publish.pkid) {
@@ -106,6 +106,10 @@ impl PubTracker {
     ///
     /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
     ///
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
+    /// which do not require acknowledgement.
+    ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
@@ -119,6 +123,10 @@ impl PubTracker {
     /// Note that if there are multiple required acks, the eventual reported reason code will be the
     /// last one provided.
     ///
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
+    /// which do not require acknowledgement.
+    ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack_rc(
@@ -127,6 +135,11 @@ impl PubTracker {
         reason: ManualAckReason,
         reason_string: Option<String>,
     ) -> Result<(), AckError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
+        if publish.pkid == 0 {
+            return Ok(());
+        }
+
         loop {
             // First, check if there is a matching PendingPub.
             // NOTE: Do this in a new scope so as not to hold the lock longer than necessary.
@@ -238,6 +251,16 @@ impl PubTracker {
     }
 }
 
+impl Default for PubTracker {
+    fn default() -> Self {
+        PubTracker {
+            pending: Mutex::new(VecDeque::new()),
+            registration_notify: Notify::new(),
+            ready_notify: Notify::new(),
+        }
+    }
+}
+
 // TODO: deal with that Session re-use case
 // TODO: send some kind of signal through `next_ready` to indicate drop/shutdown?
 
@@ -271,7 +294,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_single_ack_ordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -341,7 +364,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_single_ack_unordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -415,7 +438,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_multi_ack_ordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -492,7 +515,7 @@ mod tests {
     #[tokio::test]
     async fn register_and_multi_ack_unordered(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -588,7 +611,7 @@ mod tests {
     #[tokio::test]
     async fn next_ready(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -642,7 +665,7 @@ mod tests {
     #[tokio::test]
     async fn early_ack(pub1_pkid: u16, pub2_pkid: u16, pub3_pkid: u16) {
         // Created empty
-        let tracker = Arc::new(PubTracker::new());
+        let tracker = Arc::new(PubTracker::default());
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -753,7 +776,7 @@ mod tests {
     #[tokio::test]
     async fn contains() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
 
         // Newly created publish is not inside the tracker
@@ -785,7 +808,7 @@ mod tests {
     #[tokio::test]
     async fn next_ready_errors() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
         assert!(matches!(
             tracker.try_next_ready().err(),
@@ -836,7 +859,7 @@ mod tests {
     #[tokio::test]
     async fn ack_overflow() {
         // Created empty
-        let tracker = PubTracker::new();
+        let tracker = PubTracker::default();
         assert!(tracker.pending.lock().unwrap().is_empty());
         assert!(matches!(
             tracker.try_next_ready().err(),
@@ -852,6 +875,24 @@ mod tests {
         assert!(matches!(
             tracker.ack(&publish).await,
             Err(AckError::AckOverflow)
+        ));
+    }
+
+    #[tokio::test]
+    async fn pkid_0() {
+        let tracker = PubTracker::default();
+        let (publish, manual_ack) = create_publish("test", "pub1", 0);
+
+        // Registration succeeds, but does not actually register anything
+        assert!(tracker.register_pending(&publish, manual_ack, 1).is_ok());
+        assert!(!tracker.contains(&publish));
+
+        // Acknowledging the publish does nothing
+        assert!(tracker.ack(&publish).await.is_ok());
+        assert!(!tracker.contains(&publish));
+        assert!(matches!(
+            tracker.try_next_ready().err(),
+            Some(TryNextReadyError::Empty)
         ));
     }
 

@@ -5,6 +5,7 @@
 members = [
   "azure_iot_operations_mqtt",
   "azure_iot_operations_protocol",
+  "azure_iot_operations_services",
 ]
 
 resolver = "2"
@@ -17,3 +18,15 @@ all = { level = "warn", priority = -1 }
 pedantic = { level = "warn", priority = -1 }
 too_many_lines = "allow"
 module_name_repetitions = "allow"
+
+[workspace.dependencies]
+bytes = "1.5.0"
+derive_builder = "0.20"
+log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
+thiserror = "1.0.63"
+tokio = { version = "1.36", features = ["full"] }                       # TODO: Remove full
+tokio-util = "0.7.11"
+# dev dependenvies
+env_logger = "0.11.3"
+test-case = "3.3.1"
+tokio-test = "0.4.4"

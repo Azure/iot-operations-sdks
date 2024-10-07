@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_protocol"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "MIT"
 description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
@@ -12,20 +12,20 @@ readme = "README.md"
 publish = false
 
 [dependencies]
-azure_iot_operations_mqtt = { version = "0.2", path = "../azure_iot_operations_mqtt" }
-bytes = "1.5.0"
-derive_builder = "0.20"
-log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
-tokio = { version = "1.36", features = ["full"] }                       # TODO: Remove full
-tokio-util = "0.7.11"
+azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
+bytes.workspace = true
+derive_builder.workspace = true
+log.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4"] }
 
 [dev-dependencies]
-env_logger = "0.11.3"
+env_logger.workspace = true
 mockall = "0.12.1"
-test-case = "3.3.1"
-tokio-test = "0.4.4"
-thiserror = "1.0.63"  
+test-case.workspace = true
+tokio-test.workspace = true
+thiserror.workspace = true 
 
 [lints]
 workspace = true
