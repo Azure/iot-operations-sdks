@@ -18,6 +18,7 @@ const CLIENT_ID: &str = "myReceiver";
 const HOST: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "akri/samples/{modelId}/{senderId}/new";
+const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -59,7 +60,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .model_id("dtmi:akri:samples:oven;1")
+        .model_id(MODEL_ID)
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
@@ -67,7 +68,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
 
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
-            // Handle the telemetry message
+            // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             // For auto-acknowledgement: Ok((message, _))
             Ok((message, ack_token)) => {
                 println!(
@@ -77,26 +78,10 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
 
                 // Parse cloud event
                 if let Some(cloud_event) = message.cloud_event {
-                    println!(
-                        "CloudEvent: \n\
-                        id: {} \n\
-                        source: {} \n\
-                        event_type: {} \n\
-                        subject: {:?} \n\
-                        data_schema: {:?} \n\
-                        data_content_type: {:?} \n\
-                        time: {}",
-                        cloud_event.id,
-                        cloud_event.source,
-                        cloud_event.event_type,
-                        cloud_event.subject,
-                        cloud_event.data_schema,
-                        cloud_event.data_content_type,
-                        cloud_event.time
-                    );
+                    println!("Received cloud event: \n{cloud_event}");
                 }
 
-                // Acknowledge the message
+                // Acknowledge the message if ack_token is present
                 if let Some(ack_token) = ack_token {
                     ack_token.ack();
                 }
@@ -108,7 +93,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         }
     }
 
-    // End the session if there are no more messages
+    // End the session if there will be no more messages
     exit_handle.try_exit().await.unwrap();
 }
 

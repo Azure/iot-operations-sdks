@@ -6,6 +6,7 @@ use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
     interface::{ManagedClient, MqttAck, PubReceiver},
 };
+use chrono::DateTime;
 use tokio::{sync::oneshot, task::JoinSet};
 
 use crate::{
@@ -57,7 +58,6 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
 /// Telemetry Receiver Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
-#[allow(unused)]
 pub struct TelemetryReceiverOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
@@ -75,6 +75,7 @@ pub struct TelemetryReceiverOptions {
     #[builder(default)]
     custom_topic_token_map: HashMap<String, String>,
     /// Service group ID
+    #[allow(unused)]
     #[builder(default = "None")]
     service_group_id: Option<String>,
 }
@@ -113,9 +114,9 @@ pub struct TelemetryReceiverOptions {
 /// ```
 pub struct TelemetryReceiver<T, C>
 where
-    T: PayloadSerialize + Send,
+    T: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
+    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the receiver
     mqtt_client: C,
@@ -131,9 +132,9 @@ where
 /// Implementation of a Telemetry Sender
 impl<T, C> TelemetryReceiver<T, C>
 where
-    T: PayloadSerialize + Send,
+    T: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
+    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`TelemetryReceiver`].
     ///
@@ -152,12 +153,11 @@ where
     ///   or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](TelemetryReceiverOptions::custom_topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
-    ///
     pub fn new(
         client: C,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
-        // Validate function parameters, validation for topic pattern and related options done in
+        // Validation for topic pattern and related options done in
         // [`TopicPattern::new_telemetry_pattern`]
         let topic_pattern = TopicPattern::new_telemetry_pattern(
             &receiver_options.topic_pattern,
@@ -221,9 +221,9 @@ where
                 }
             },
             Err(e) => {
-                log::error!("Subscribe error: {e}");
+                log::error!("Client error while subscribing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT error on telemetry receiver subscribe".to_string()),
+                    Some("Client error on telemetry receiver subscribe".to_string()),
                     Box::new(e),
                     None,
                 ));
@@ -232,8 +232,8 @@ where
         Ok(())
     }
 
-    /// Receives a telemetry message or [`None`] if there are no more messages.
-    ///
+    /// Receives a telemetry message or [`None`] if there will be no more changes.
+    /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
     ///     - If the message is received with QoS 1 an [`AckToken`] is returned.
@@ -243,8 +243,6 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
-    ///
-    #[allow(clippy::unused_async)]
     pub async fn recv(
         &mut self,
     ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
@@ -253,7 +251,7 @@ where
             match self.try_subscribe().await {
                 Ok(()) => {
                     /* Success */
-                    println!("Subscribed to telemetry topic");
+                    log::info!("Subscribed to telemetry topic");
                 }
                 Err(e) => {
                     return Some(Err(e));
@@ -284,102 +282,108 @@ where
                 message = self.mqtt_receiver.recv() => {
                     // Process the received message
                     if let Some(m) = message {
-                        log::info!("[pkid: {}]Received message", m.pkid);
+                        log::info!("[pkid: {}] Received message", m.pkid);
 
                         'process_message: {
                             // Clone properties
-                            let properties = match &m.properties {
-                                Some(properties) => properties.clone(),
-                                None => {
-                                    log::error!("[pkid: {}] Properties missing", m.pkid);
-                                    break 'process_message;
-                                }
-                            };
 
-                            // Get content type
-                            if let Some(content_type) = &properties.content_type {
-                                if T::content_type() != content_type {
-                                    log::error!(
-                                        "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
-                                    );
-                                    break 'process_message;
-                                }
-                            }
+                            let properties = m.properties.clone();
 
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
-                            let mut cloud_event_present = false;
-                            let mut cloud_event_builder = CloudEventBuilder::default();
-                            for (key, value) in properties.user_properties {
-                                match UserProperty::from_str(&key) {
-                                    Ok(UserProperty::Timestamp) => {
-                                        match HybridLogicalClock::from_str(&value) {
-                                            Ok(ts) => {
-                                                timestamp = Some(ts);
+                            let mut cloud_event = None;
+
+                            if let Some(properties) = properties {
+                                // Get content type
+                                if let Some(content_type) = &properties.content_type {
+                                    if T::content_type() != content_type {
+                                        log::error!(
+                                            "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
+                                        );
+                                        break 'process_message;
+                                    }
+                                }
+
+                                let mut cloud_event_present = false;
+                                let mut cloud_event_builder = CloudEventBuilder::default();
+                                let mut cloud_event_time_valid = true;
+                                for (key, value) in properties.user_properties {
+                                    match UserProperty::from_str(&key) {
+                                        Ok(UserProperty::Timestamp) => {
+                                            match HybridLogicalClock::from_str(&value) {
+                                                Ok(ts) => {
+                                                    timestamp = Some(ts);
+                                                }
+                                                Err(e) => {
+                                                    log::error!(
+                                                        "[pkid: {}] Invalid timestamp {value}: {e}",
+                                                        m.pkid
+                                                    );
+                                                    break 'process_message;
+                                                }
                                             }
-                                            Err(e) => {
-                                                log::error!(
-                                                    "[pkid: {}] Invalid timestamp {value}: {e}",
-                                                    m.pkid
-                                                );
-                                                break 'process_message;
+                                        },
+                                        Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
+                                            // TODO: Implement protocol version check
+                                        },
+                                        Ok(UserProperty::CloudEventId) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.id(value);
+                                        },
+                                        Ok(UserProperty::CloudEventSource) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.source(value);
+                                        },
+                                        Ok(UserProperty::CloudEventSpecVersion) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.spec_version(value);
+                                        },
+                                        Ok(UserProperty::CloudEventType) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.event_type(value);
+                                        },
+                                        Ok(UserProperty::CloudEventSubject) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.subject(value);
+                                        },
+                                        Ok(UserProperty::CloudEventDataSchema) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.data_schema(Some(value));
+                                        },
+                                        Ok(UserProperty::CloudEventDataContentType) => {
+                                            cloud_event_present = true;
+                                            cloud_event_builder.data_content_type(value);
+                                        },
+                                        Ok(UserProperty::CloudEventTime) => {
+                                            cloud_event_present = true;
+                                            match DateTime::parse_from_rfc3339(&value) {
+                                                Ok(time) => {
+                                                    cloud_event_builder.time(time);
+                                                },
+                                                Err(e) => {
+                                                    log::error!("[pkid: {}] Invalid cloud event time {value}: {e}", m.pkid);
+                                                    cloud_event_time_valid = false;
+                                                }
+                                            }
+                                        },
+                                        Err(()) => {
+                                            if key.starts_with(RESERVED_PREFIX) {
+                                                log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
+                                            } else {
+                                                custom_user_data.push((key, value));
                                             }
                                         }
-                                    },
-                                    Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
-                                        // TODO: Implement protocol version check
-                                    },
-                                    Ok(UserProperty::CloudEventId) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.id(value);
-                                    },
-                                    Ok(UserProperty::CloudEventSource) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.source(value);
-                                    },
-                                    Ok(UserProperty::CloudEventSpecVersion) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.spec_version(value);
-                                    },
-                                    Ok(UserProperty::CloudEventType) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.event_type(value);
-                                    },
-                                    Ok(UserProperty::CloudEventSubject) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.subject(value);
-                                    },
-                                    Ok(UserProperty::CloudEventDataSchema) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.data_schema(Some(value));
-                                    },
-                                    Ok(UserProperty::CloudEventDataContentType) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.data_content_type(value);
-                                    },
-                                    Ok(UserProperty::CloudEventTime) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.time(value);
-                                    },
-                                    Err(()) => {
-                                        if key.starts_with(RESERVED_PREFIX) {
-                                            log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                        } else {
-                                            custom_user_data.push((key, value));
+                                        _ => {
+                                            log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
                                         }
                                     }
-                                    _ => {
-                                        log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
-                                     }
                                 }
-                            }
-
-                            let mut cloud_event = None;
-                            if cloud_event_present {
-                                if let Ok(ce) = cloud_event_builder.build() {
-                                    cloud_event = Some(ce);
-                                } else {
-                                    log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
+                                if cloud_event_present && cloud_event_time_valid {
+                                    if let Ok(ce) = cloud_event_builder.build() {
+                                        cloud_event = Some(ce);
+                                    } else {
+                                        log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
+                                    }
                                 }
                             }
 
@@ -411,7 +415,7 @@ where
                                 cloud_event,
                             };
 
-                            // If the telemetry message is ackable, return telemetry message with ack token
+                            // If the telemetry message needs ack, return telemetry message with ack token
                             if m.qos == QoS::AtLeastOnce {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
@@ -455,9 +459,9 @@ where
 
 impl<T, C> Drop for TelemetryReceiver<T, C>
 where
-    T: PayloadSerialize + Send,
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
+    T: PayloadSerialize + Send + Sync + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {}
 }
@@ -570,7 +574,6 @@ mod tests {
 //   if properties are missing, the message is not processed and is acked
 //   if content type is not supported by the payload type, the message is not processed and is acked
 //   if timestamp is invalid, the message is not processed and is acked
-//   if sender ID is not found in the topic, the message is not processed and is acked
 //   if payload deserialization fails, the message is not processed and is acked
 //
 // Test cases for telemetry message processing

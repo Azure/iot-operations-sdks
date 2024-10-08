@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 //! Envoys for Telemetry operations.
-use std::time::SystemTime;
+use std::fmt::Display;
 
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, FixedOffset};
 
 use crate::common::user_properties::UserProperty;
 
@@ -24,7 +24,6 @@ const DEFAULT_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.telemetry";
 #[derive(Builder, Clone)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct CloudEvent {
-    // Required fields
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
     /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
     /// id. Consumers MAY assume that Events with identical source and id are duplicates.
@@ -44,7 +43,6 @@ pub struct CloudEvent {
     /// this is producer defined and might include information such as the version of the type.
     #[builder(default = "DEFAULT_CLOUD_EVENT_EVENT_TYPE.to_string()")]
     pub event_type: String,
-    // Optional fields
     /// Identifies the subject of the event in the context of the event producer (identified by
     /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
     /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
@@ -64,8 +62,8 @@ pub struct CloudEvent {
     /// the cloud event producer, however all producers for the same source MUST be consistent in
     /// this respect. In other words, either they all use the actual time of the occurrence or they
     /// all use the same algorithm to determine the value used.
-    #[builder(default = "(DateTime::<Utc>::from(SystemTime::now())).to_rfc3339()")]
-    pub time: String, // This is optional per spec, but we will always add it
+    #[builder(default = "None")]
+    pub time: Option<DateTime<FixedOffset>>, // This is optional per spec, but we will always add it
 }
 
 impl CloudEventBuilder {
@@ -93,11 +91,6 @@ impl CloudEventBuilder {
                     return Err("event_type cannot be empty".to_string());
                 }
             }
-            if let Some(time) = &self.time {
-                if let Err(e) = DateTime::parse_from_rfc3339(time) {
-                    return Err(format!("Invalid time: {e}"));
-                }
-            }
         } else {
             return Err("Invalid spec_version".to_string());
         }
@@ -109,30 +102,53 @@ impl CloudEvent {
     /// Get Cloud Event as headers for MQTT message
     /// Per spec, `subject` and `data_content_type` are optional, but we will always include them
     #[must_use]
-    pub fn to_headers(
-        self,
-        id: String,
-        subject: String,
-        data_content_type: String,
-    ) -> Vec<(String, String)> {
+    pub fn to_headers(self) -> Vec<(String, String)> {
         let mut headers = vec![
-            (UserProperty::CloudEventId.to_string(), id),
+            (UserProperty::CloudEventId.to_string(), self.id),
             (UserProperty::CloudEventSource.to_string(), self.source),
             (
                 UserProperty::CloudEventSpecVersion.to_string(),
                 self.spec_version,
             ),
             (UserProperty::CloudEventType.to_string(), self.event_type),
-            (UserProperty::CloudEventTime.to_string(), self.time),
-            (UserProperty::CloudEventSubject.to_string(), subject),
-            (
-                UserProperty::CloudEventDataContentType.to_string(),
-                data_content_type,
-            ),
         ];
+        if let Some(subject) = self.subject {
+            headers.push((UserProperty::CloudEventSubject.to_string(), subject));
+        }
         if let Some(data_schema) = self.data_schema {
             headers.push((UserProperty::CloudEventDataSchema.to_string(), data_schema));
         }
+        if let Some(data_content_type) = self.data_content_type {
+            headers.push((
+                UserProperty::CloudEventDataContentType.to_string(),
+                data_content_type,
+            ));
+        }
+        if let Some(time) = self.time {
+            headers.push((UserProperty::CloudEventTime.to_string(), time.to_rfc3339()));
+        }
         headers
+    }
+}
+
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "id: {} \n\
+            source: {} \n\
+            event_type: {} \n\
+            subject: {:?} \n\
+            data_schema: {:?} \n\
+            data_content_type: {:?} \n\
+            time: {:?}",
+            self.id,
+            self.source,
+            self.event_type,
+            self.subject,
+            self.data_schema,
+            self.data_content_type,
+            self.time
+        )
     }
 }

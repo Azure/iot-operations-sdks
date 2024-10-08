@@ -582,21 +582,26 @@ impl TopicPattern {
         }
     }
 
-    /// Parse a topic string to extract the wildcard value
+    /// Compare an MQTT topic name to the [`TopicPattern`], identifying the wildcard level in the
+    /// pattern, and returning the corresponding value in the MQTT topic name.
     ///
-    /// Returns a string slice representing the wildcard value, or `None` if the topic does not
-    /// have a wildcard
+    /// Returns value corresponding to the wildcard level in the pattern, or `None` if the topic
+    /// does not match the pattern or the pattern does not contain a wildcard.
     #[must_use]
     pub fn parse_wildcard(&self, topic: &str) -> Option<String> {
-        let topic_levels = topic.split('/').collect::<Vec<&str>>();
-        if topic_levels.len() != self.levels.len() {
-            return None;
-        }
-        for (pattern_level, topic_level) in self.levels.iter().zip(topic_levels.iter()) {
-            if pattern_level == WILDCARD {
-                return Some((*topic_level).to_string());
+        let mut topic_iter = topic.split('/');
+
+        for pattern_level in &self.levels {
+            match topic_iter.next() {
+                Some(topic_level) => {
+                    if pattern_level == WILDCARD {
+                        return Some(topic_level.to_string());
+                    }
+                }
+                None => return None,
             }
         }
+
         None
     }
 
