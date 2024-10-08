@@ -266,7 +266,7 @@ func isRetryableError(err error) bool {
 }
 
 // Retryable reason codes for CONNACK.
-var retryableConnackCodes = map[reasonCode]bool{
+var retryableConnackCodes = map[byte]bool{
 	connackServerUnavailable:           true,
 	connackServerBusy:                  true,
 	connackQuotaExceeded:               true,
@@ -285,7 +285,7 @@ var retryableConnackCodes = map[reasonCode]bool{
 }
 
 // Retryable reason codes for DISCONNECT.
-var retryableDisconnectCodes = map[reasonCode]bool{
+var retryableDisconnectCodes = map[byte]bool{
 	disconnectServerUnavailable:                   true,
 	disconnectServerBusy:                          true,
 	disconnectQuotaExceeded:                       true,
@@ -309,7 +309,7 @@ var retryableDisconnectCodes = map[reasonCode]bool{
 }
 
 // isRetryableConnack checks if the reason code in Connack is retryable.
-func isRetryableConnack(reasonCode reasonCode) bool {
+func isRetryableConnack(reasonCode byte) bool {
 	if retryable, exists := retryableConnackCodes[reasonCode]; exists {
 		return retryable
 	}
@@ -317,7 +317,7 @@ func isRetryableConnack(reasonCode reasonCode) bool {
 }
 
 // isRetryableDisconnect checks if the reason code in Disconnect is retryable.
-func isRetryableDisconnect(reasonCode reasonCode) bool {
+func isRetryableDisconnect(reasonCode byte) bool {
 	if retryable, exists := retryableDisconnectCodes[reasonCode]; exists {
 		return retryable
 	}

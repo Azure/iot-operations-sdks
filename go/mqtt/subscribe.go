@@ -66,21 +66,27 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 	}
 }
 
-// Registers a handler to a list of handlers that a called sychronously in order
-// whenever a PUBLISH is received. Returns a function which removes the handler
-// from the list when called.
+// Registers a handler to a list of handlers that are called sychronously in
+// registration order whenever a PUBLISH is received. Returns a function which
+// removes the handler from the list.
 func (c *SessionClient) registerIncomingPublishHandler(handler func(incomingPublish)) func() {
 	c.incomingPublishHandlerMu.Lock()
 	defer c.incomingPublishHandlerMu.Unlock()
-	var currID uint64
-ID:
-	for ; ; currID++ {
+
+	IDExists := func(ID uint64) bool {
 		for _, existingID := range c.incomingPublishHandlerIDs {
-			if currID == existingID {
-				continue ID
+			if ID == existingID {
+				return true
 			}
 		}
-		break
+		return false
+	}
+
+	var currID uint64
+	for ; ; currID++ {
+		if !IDExists(currID) {
+			break
+		}
 	}
 
 	c.incomingPublishHandlers = append(c.incomingPublishHandlers, handler)

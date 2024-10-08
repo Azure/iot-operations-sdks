@@ -57,6 +57,26 @@ type (
 		// incomingPublishHandlers, used to track handlers for removal
 		incomingPublishHandlerIDs []uint64
 
+		// Mutex used to protect connectNotificationHandlers and
+		// connectNotificationHandlersTracker
+		connectNotificationHandlerMu sync.Mutex
+		// A slice of functions that are called to notify the user of successful
+		// MQTT connections
+		connectNotificationHandlers []ConnectNotificationHandler
+		// A slice of unique IDs corresponding to the functions in
+		// connectNotificationHandlers, used to track handlers for removal
+		connectNotificationHandlerIDs []uint64
+
+		// Mutex used to protect disconnectNotificationHandlers and
+		// disconnectNotificationHandlersTracker
+		disconnectNotificationHandlerMu sync.Mutex
+		// A slice of functions that are called to notify the user of a
+		// disconnection from the MQTT server.
+		disconnectNotificationHandlers []DisconnectNotificationHandler
+		// A slice of unique IDs corresponding to the functions in
+		// disconnectNotificationHandlers, used to track handlers for removal
+		disconnectNotificationHandlerIDs []uint64
+
 		// Buffered channel containing the PUBLISH packets to be sent
 		outgoingPublishes chan *outgoingPublish
 
