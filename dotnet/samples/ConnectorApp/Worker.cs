@@ -47,18 +47,8 @@ namespace DotnetHttpConnectorWorkerService
 
                 Console.WriteLine("Successfully retrieved asset endpoint profile");
 
-                if (httpServerAssetEndpointProfile.AdditionalConfiguration == null)
-                {
-                    throw new InvalidOperationException("Expected some additional configuration field in the asset endpoint profile");
-                }
-
-                if (httpServerAssetEndpointProfile.Credentials == null || httpServerAssetEndpointProfile.Credentials.Username == null || httpServerAssetEndpointProfile.Credentials.Password == null)
-                { 
-                    throw new InvalidOperationException("Expected an asset endpoint username and password.");
-                }
-
-                string httpServerUsername = httpServerAssetEndpointProfile.Credentials.Username;
-                byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials.Password;
+                string httpServerUsername = httpServerAssetEndpointProfile.Credentials!.Username!;
+                byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials!.Password!;
 
                 Dataset httpServerDataset = httpServerAsset.Datasets![0];
                 TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
