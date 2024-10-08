@@ -12,6 +12,7 @@ import (
 type MQTTConnackPacket struct {
 	ReasonCode byte
 	// NOTE: more fields may be added later
+	// NOTE: this may be moved to the common module once we create it
 }
 type ConnectEvent struct {
 	// Values from the CONNACK packet received from the MQTT server
@@ -22,6 +23,7 @@ type ConnectNotificationHandler func(*ConnectEvent)
 type MQTTDisconnectPacket struct {
 	ReasonCode byte
 	// NOTE: more fields may be added later
+	// NOTE: this may be moved to the common module once we create it
 }
 type DisconnectEvent struct {
 	// Values from the DISCONNECT packet received from the MQTT server. May be
