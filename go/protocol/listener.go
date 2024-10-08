@@ -33,10 +33,16 @@ type (
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
+
+		sub  mqtt.Subscription
+		done func()
 	}
 )
 
-func (l *listener[T]) listen(ctx context.Context) (func(), error) {
+func (l *listener[T]) register() error {
+	// TODO: The goroutines from this will leak if Listen is never called. We
+	// probably need to change to a Close() method pattern rather than a done
+	// callback pattern for the listeners.
 	handle, done := internal.Concurrent(l.concurrency, l.handle)
 
 	// Make the subscription shared if specified.
@@ -45,28 +51,40 @@ func (l *listener[T]) listen(ctx context.Context) (func(), error) {
 		filter = "$share/" + l.shareName + "/" + filter
 	}
 
-	sub, err := l.client.Subscribe(
-		ctx,
+	sub, err := l.client.Register(
 		filter,
 		func(ctx context.Context, pub *mqtt.Message) error {
 			handle(ctx, pub)
 			return nil
 		},
-		mqtt.WithQoS(1),
-		mqtt.WithNoLocal(l.shareName == ""),
 	)
 	if err != nil {
 		done()
+		return err
+	}
+
+	l.sub = sub
+	l.done = done
+	return nil
+}
+
+func (l *listener[T]) listen(ctx context.Context) (func(), error) {
+	if err := l.sub.Update(
+		ctx,
+		mqtt.WithQoS(1),
+		mqtt.WithNoLocal(l.shareName == ""),
+	); err != nil {
+		l.done()
 		return nil, err
 	}
 
 	return func() {
-		if err := sub.Unsubscribe(ctx); err != nil {
+		if err := l.sub.Unsubscribe(ctx); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
 			l.logger.Err(ctx, err)
 		}
-		done()
+		l.done()
 	}, nil
 }
 
