@@ -28,11 +28,10 @@ const authenticate = (req, res, next) => {
 app.use(authenticate);
 
 app.get("/api/machine/status", (req, res) => {
-    const contextList = [
-        {
-            status: "running",
-        }
-    ];
+    const contextList = {
+        status: "running",
+    };
+    
     res.json(contextList);
 });
 
