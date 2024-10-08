@@ -9,7 +9,7 @@ MQTT messages will include some system and user properties to define metadata va
 |Property|Required|Type|Key|Description|
 |--------|--------|----|---|-----------|
 |`ContentType`|no|system||String value to specify the binary format used in the payload, e.g., `application/json` or `application/protobuf`. When deserializing the message it must match the configured serializer.|
-|`FormatIndicator`|yes|system|| 1 for character data (as JSON), 0 for unespecified.|
+|`FormatIndicator`|yes|system|| 1 for character data (as JSON), 0 for unspecified.|
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`CorrelationData`|no|system||A unique identifier for the message, must be GUID represented as a `byte[16]`|
 |`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 1.0 is assumed by the telemetry receiver. |

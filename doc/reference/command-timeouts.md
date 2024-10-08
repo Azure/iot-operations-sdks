@@ -12,7 +12,7 @@ There are two values that are available to the CommandExecutor when a request is
 If a request does not include a `message expiry` value in its metadata, the request must be rejected as invalid.
 This is necessary for proper caching.
 For the cache to deduplicate requests correctly, it must store a computed response for the entire time in which a duplicate request can be received.
-Responses can be trimmed from the chache only after the `message expiry` time has elapsed, which would never occur for a request that contains no `message expiry` value.
+Responses can be trimmed from the cache only after the `message expiry` time has elapsed, which would never occur for a request that contains no `message expiry` value.
 
 ## Computed value
 

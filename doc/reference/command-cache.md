@@ -9,9 +9,10 @@ Command cache is also useful for reusing a previously computed cacheable respons
 ## Assumptions
 
 1. Methods are attributed with idempotency when established into a RPC service. Idempotency should be an immutable property of a method.
-1. Reponses of idempotent methods have a time-To-Live (TTL) which is indicated by the server when producing a response for a request. TTL may or may not be a DTDL property, and may or may not be immutable.
+1. Responses of idempotent methods have a time-To-Live (TTL) which is indicated by the server when producing a response for a request. TTL may or may not be a DTDL property, and may or may not be immutable.
 
-_NOTE:  considerations on a method idempotency and TTL related to DTDL modeling are irrelevant for this discussion and will be addressed in a separate doc_.
+> [!NOTE]
+> Considerations on a method idempotency and TTL related to DTDL modeling are irrelevant for this discussion and will be addressed in a separate doc_.
 
 ### _Duplicate_ request and _equivalent_ request
 

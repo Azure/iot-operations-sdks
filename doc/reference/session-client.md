@@ -2,28 +2,21 @@
 
 ## Problem statement
 
-Within an Azure IoT Operations ecosystem, there are various components that need to establish and maintain a reasonably stable MQTT session with an MQTT broker.
-Currently, every simple component (such as an RPC client or a DSS client) assumes this MQTT session is being maintained for them. This means that users 
-of these components would need to write application-level logic to ensure that their connection and desired session state is maintained. While some users may prefer owning this logic, some would prefer if our client handled this for them.
+Within an Azure IoT Operations ecosystem, there are various components that need to establish and maintain a reasonably stable MQTT session with an MQTT broker. Currently, every simple component (such as an RPC client or a DSS client) assumes this MQTT session is being maintained for them. This means that users of these components would need to write application-level logic to ensure that their connection and desired session state is maintained. While some users may prefer owning this logic, some would prefer if our client handled this for them.
 
-While there are some managed clients that already exist in the respective MQTT client repos that meet some of our requirements, most of them have 
-problems that would prevent us from taking a dependency on them as they currently are. For details on what those problems are for each language, 
-see the appendix.
+While there are some managed clients that already exist in the respective MQTT client repos that meet some of our requirements, most of them have problems that would prevent us from taking a dependency on them as they currently are. For details on what those problems are for each language, see the appendix.
 
 ## Proposal
 
 Create a new `IMqttClientPubSub` interface for all binders/envoys/RPC/DSS clients to accept instead of the current `IMqttClient` interface from the underlying MQTT library.
 
-Create an `MqttSessionClient` concrete class that wraps our current languages' respective MQTT clients and manages the connection for the user while implementing the above 
-`IMqttClientPubSub` interface. 
+Create an `MqttSessionClient` concrete class that wraps our current languages' respective MQTT clients and manages the connection for the user while implementing the above `IMqttClientPubSub` interface. 
 
-This `MqttSessionClient` would then be dependency injected into all the various components such as RPC clients and DSS clients and these clients would simply perform their 
-publish/subscribe/unsubscribe operations without regarding the connection state.
+This `MqttSessionClient` would then be dependency injected into all the various components such as RPC clients and DSS clients and these clients would simply perform their publish/subscribe/unsubscribe operations without regarding the connection state.
 
 This `MqttSessionClient` would allow us to not have to write duplicate connection management code in all our different clients. Finally, it would give us the opportunity to unify the MQTT client interface across languages via the `IMqttClientPubSub` interface that we define.
 
-The primary goal for this session client is to meet our connection and session management needs in the various binders and RPC clients. 
-We will consider trying to merge these session clients into the the respective MQTT client libraries, but only as a secondary goal.
+The primary goal for this session client is to meet our connection and session management needs in the various binders and RPC clients. We will consider trying to merge these session clients into the the respective MQTT client libraries, but only as a secondary goal.
 
 ## Test Strategy
 
@@ -33,9 +26,7 @@ For details on the proposed test strategy for this new `MqttSessionClient`, see 
 
 ### Core async interfaces  - Publish, Subscribe, Unsubscribe
 
-The proposed MQTT Pub/Sub interface leverages the existing interface from the underlying unmanaged MQTT client. 
-The interface includes `publish`, `subscribe` and `unsubscribe` operations, but omits `connect` and `Disconnect`.
-The reason for this omission is that any library that takes in an ```IMqttPubSubClient``` should rely on a different layer to connect/disconnect/handle disconnections.
+The proposed MQTT Pub/Sub interface leverages the existing interface from the underlying unmanaged MQTT client. The interface includes `publish`, `subscribe` and `unsubscribe` operations, but omits `connect` and `Disconnect`. The reason for this omission is that any library that takes in an `IMqttPubSubClient` should rely on a different layer to connect/disconnect/handle disconnections.
 
 For example:
 
@@ -250,16 +241,15 @@ public class MqttSessionClient : IMqttPubSubClient
 
 ### Object Lifespans
 
-Given that a particular application may have more than one binder/RPC/DSS/etc that share a single implementation of the ```IMqttPubSubClient``` interface, the designed lifespan of each
-of these objects in relation to each other should follow these rules:
+Given that a particular application may have more than one binder/RPC/DSS/etc that share a single implementation of the `IMqttPubSubClient` interface, the designed lifespan of each of these objects in relation to each other should follow these rules:
 
-- The interface for the ```IMqttPubSubClient``` should contain a "Dispose" type method that disconnects and disposes the MQTT client.
-- The concrete class for the session client should contain a "Dispose" type method if applicable for the language.
-  - When disposing the session client, the underlying MQTT client should be disposed as well.
-    - The user will **not** have access to the underlying MQTT client.
-- Binders/DSS clients/RPC clients should accept an instance of the ```IMqttPubSubClient``` and should **not** require the IMqttClient interface from the underlying MQTT library nor the `MqttSessionClient` concrete class.
-- Binders/DSS clients/RPC clients cannot and should not try to dispose the ```IMqttPubSubClient``` instance given to them.
-- `MqttSessionClient` instances should only be disposed by the application layer that created them 
+* The interface for the `IMqttPubSubClient` should contain a "Dispose" type method that disconnects and disposes the MQTT client.
+* The concrete class for the session client should contain a "Dispose" type method if applicable for the language.
+    * When disposing the session client, the underlying MQTT client should be disposed as well.
+        * The user will **not** have access to the underlying MQTT client.
+* Binders/DSS clients/RPC clients should accept an instance of the `IMqttPubSubClient` and should **not** require the IMqttClient interface from the underlying MQTT library nor the `MqttSessionClient` concrete class.
+* Binders/DSS clients/RPC clients cannot and should not try to dispose the `IMqttPubSubClient` instance given to them.
+* `MqttSessionClient` instances should only be disposed by the application layer that created them 
 
 In addition, a particular MQTT session client should handle the lifetime of only one MQTT session. If a session client cannot resume the session (i.e., it expected the server to have a session but received a CONNACK with session present false), the session client should notify the user that the session was lost, notify the user about any pending publishes, subscribes and unsubscribes that were not sent, and disconnect from the broker.
 

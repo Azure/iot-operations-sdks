@@ -26,9 +26,9 @@ The client should expose an event to inform about disconnection events. Each eve
 
 There are different cases for connection lost.
 
-1. TCP Connection is alive, and the server terminates the connection (eg, on pod restart). In this case the client is notified immediately)
-2. TCP connection is alive, and the server closes the connection (eg. because a protocol error). In this case the client is notified immediately)
-3. TCP connection is not available, eg. poor network quality or wifi reconnects), In this case the client will only be notified when sending the PINGREQ -configurable via KEEPALIVE-, or when trying to publish (PUBACK, PUBREC, PUBREL, or PUBCOMP).
+1. TCP Connection is alive, and the server terminates the connection (eg, on pod restart). In this case the client is notified immediately.
+2. TCP connection is alive, and the server closes the connection (eg. because a protocol error). In this case the client is notified immediately.
+3. TCP connection is not available, eg. poor network quality or WiFi reconnects. In this case the client will only be notified when sending the PINGREQ -configurable via KEEPALIVE-, or when trying to publish (PUBACK, PUBREC, PUBREL, or PUBCOMP).
 
 Each case might require different _reconnection strategies_.
 

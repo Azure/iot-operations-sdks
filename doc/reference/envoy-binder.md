@@ -131,8 +131,7 @@ sequenceDiagram;
 
 ### RPC CommandExecutor
 
-- **CommandExecutor** The CommandExecutor Binder listens to the Request Topic, deserializes the request and triggers an event that can be implemented by the user app to implement the command. Like the receiver binder, it may be configured to listen to different topics with _wildcards_. Once the command has been executed, the response will be serialized and published to the response topic. The CommandExecutor always uses QoS1, persistent sessions, and _delayed ACKs_ to take advantage of the broker capabilities with persistent sessions and implement guaranteed delivery of method invokations.
-
+- **CommandExecutor** The CommandExecutor Binder listens to the Request Topic, deserializes the request and triggers an event that can be implemented by the user app to implement the command. Like the receiver binder, it may be configured to listen to different topics with _wildcards_. Once the command has been executed, the response will be serialized and published to the response topic. The CommandExecutor always uses QoS1, persistent sessions, and _delayed ACKs_ to take advantage of the broker capabilities with persistent sessions and implement guaranteed delivery of method invocations.
 
 ```mermaid
 sequenceDiagram;
@@ -170,7 +169,6 @@ sequenceDiagram;
 
 ### RPC CommandInvoker
 
-
 - **CommandInvoker** This binder is initiated by the user (as the Telemetry Sender), it will subscribe to the Response Topic, Serialize the Request and publish a message to the Request Topic. Since the response is not guaranteed, it should be configured with a Timeout. Once the response is received, it will be deserialized and sent back to the client. A command invoker uses QoS1, persistent session and _delayed_ ACKs to guarantee delivery of request and response.
 
 ```mermaid
@@ -179,7 +177,6 @@ sequenceDiagram;
     participant CommandInvoker
     participant Broker
 
-    
     App ->> CommandInvoker: Invoke( Request, Timeout )
     CommandInvoker ->>+ Broker: SUBSCRIBE( ResponseTopic )
     Broker -->>+ CommandInvoker: SUBACK
@@ -198,5 +195,4 @@ sequenceDiagram;
     App ->>+ App: Process( Result )
 
     CommandInvoker -->> Broker: delayed PUBACK( ResponseBytes )
-
 ```
