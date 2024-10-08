@@ -188,9 +188,10 @@ pub struct CommandInvokerOptions {
 #[allow(unused)] // TODO: remove once drop is implemented
 pub struct CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     // static properties of the invoker
     mqtt_client: C,
@@ -209,9 +210,9 @@ where
 /// Implementation of Command Invoker.
 impl<TReq, TResp, C> CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`CommandInvoker`].
@@ -936,9 +937,10 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
 
 impl<TReq, TResp, C> Drop for CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {}
 }

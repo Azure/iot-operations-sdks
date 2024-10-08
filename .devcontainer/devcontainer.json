@@ -9,7 +9,9 @@
         "storage": "64gb"
     },
     "features": {
+        "ghcr.io/devcontainers/features/dotnet:2": {},
         "ghcr.io/devcontainers/features/rust:1": {},
+        "ghcr.io/devcontainers/features/go:1": {},
         "ghcr.io/devcontainers/features/azure-cli:1": {
             "extensions": "connectedk8s,k8s-extension,azure-iot-ops"
         }
@@ -19,10 +21,7 @@
             "extensions": [
                 "vsciot-vscode.vscode-dtdl",
                 "ms-azuretools.vscode-docker",
-                "ms-kubernetes-tools.vscode-kubernetes-tools",
-                "ms-dotnettools.csdevkit",
-                "rust-lang.rust-analyzer",
-                "golang.go"
+                "ms-kubernetes-tools.vscode-kubernetes-tools"
             ]
         },
         "settings": {
