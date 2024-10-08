@@ -7,16 +7,23 @@ using System.Text.Json;
 
 namespace DotnetHttpConnectorWorkerService
 {
-    internal class HttpDataRetriever
+    internal class HttpDataRetriever : IDisposable
     {
         private readonly HttpClient _httpClient;
         private readonly string _httpPath;
         private readonly string _httpServerUsername;
         private readonly byte[] _httpServerPassword;
         private static readonly TimeSpan _defaultOperationTimeout = TimeSpan.FromSeconds(100);
-        private bool _disposed = false;
-        public HttpDataRetriever(string httpServerAddress, string httpPath, string httpServerUsername, byte[] httpServerPassword)
+
+        public HttpDataRetriever(string httpServerAddress, string httpPath, HttpMethod httpMethod, string httpServerUsername, byte[] httpServerPassword)
         {
+            // In a more complex sample, this class would support doing put/post/delete/etc but logic for handling that has been omitted
+            // for brevity.
+            if (httpMethod != HttpMethod.Get)
+            {
+                throw new NotSupportedException("Unexpected HTTP method configured. Only GET is supported in this sample");
+            }
+
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(httpServerAddress),
@@ -34,18 +41,6 @@ namespace DotnetHttpConnectorWorkerService
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
         }
 
-        /*
-        // The output will look something like this:
-        country: uk
-        viscosity: 0.51
-        sweetness: 0.81
-        particle_size: 0.71
-
-        country: uk
-        viscosity: 0.52
-        sweetness: 0.82
-        particle_size: 0.72
-        */
         public async Task<string> RetrieveDataAsync()
         {
             // Implement HTTP data retrieval logic
@@ -53,46 +48,12 @@ namespace DotnetHttpConnectorWorkerService
             var response = await _httpClient.GetAsync(_httpPath);
             if (response.IsSuccessStatusCode)
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                List<string> formattedRecords = new List<string>();
-
-                using (JsonDocument document = JsonDocument.Parse(responseBody))
-                {
-                    JsonElement root = document.RootElement;
-
-                    foreach (JsonElement record in root.EnumerateArray())
-                    {
-                        string formattedRecord = FormatRecord(record);
-                        formattedRecords.Add(formattedRecord);
-                    }
-                }
-
-                // Join all formatted records with double newlines
-                return string.Join("\n\n", formattedRecords);
+                return await response.Content.ReadAsStringAsync();
             }
             else
             {
                 throw new HttpRequestException($"Request to {_httpClient.BaseAddress} failed with status code {response.StatusCode}");
             }
-        }
-
-        private static string FormatRecord(JsonElement record)
-        {
-            return string.Join("\n",
-                record.EnumerateObject()
-                    .Take(4)  // Limit to 4 properties as per requirement
-                    .Select(prop => $"{prop.Name}: {FormatValue(prop.Value)}"));
-        }
-
-        private static string FormatValue(JsonElement value)
-        {
-            return value.ValueKind switch
-            {
-                JsonValueKind.String => value.GetString() ?? string.Empty, // Provide a default value
-                JsonValueKind.Number => value.GetDouble().ToString(),
-                _ => value.ToString()
-            };
         }
 
         public void Dispose()

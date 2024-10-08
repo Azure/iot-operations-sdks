@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
-        public JsonObject? Attributes { get; init; }
+        public JsonDocument? Attributes { get; init; }
 
         /// <summary>
         /// Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.
@@ -95,12 +95,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
         /// </summary>
-        public string? DefaultDatasetsConfiguration { get; init; }
+        public JsonDocument? DefaultDatasetsConfiguration { get; init; }
 
         /// <summary>
         /// Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.
         /// </summary>
-        public string? DefaultEventsConfiguration { get; init; }
+        public JsonDocument? DefaultEventsConfiguration { get; init; }
 
         /// <summary>
         /// Object that describes the topic information.
@@ -126,11 +126,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Provisioning state of the resource.
         /// </summary>
         public string? ProvisioningState { get; init; }
-
-        /// <summary>
-        /// Internal metadata populated by UserRP service and not visible to the clients.
-        /// </summary>
-        public InternalMetadata? InternalMetadata { get; init; }
     }
 
     public record Dataset
@@ -143,7 +138,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific JSON string that describes configuration for the specific dataset.
         /// </summary>
-        public string? DatasetConfiguration { get; init; }
+        public JsonDocument? DatasetConfiguration { get; init; }
 
         /// <summary>
         /// Object that describes the topic information.
@@ -176,7 +171,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
-        public string? DataPointConfiguration { get; init; }
+        public JsonDocument? DataPointConfiguration { get; init; }
     }
 
     public record Event
@@ -199,7 +194,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
-        public string? EventConfiguration { get; init; }
+        public JsonDocument? EventConfiguration { get; init; }
 
         /// <summary>
         /// Object that describes the topic information.
@@ -299,23 +294,4 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// </summary>
         public string? SchemaVersion { get; init; }
     }
-
-    public record InternalMetadata
-    {
-        /// <summary>
-        /// Internal metadata: AssetEndpointProfileRef field
-        /// </summary>
-        public string? AssetEndpointProfileRef { get; init; }
-
-        /// <summary>
-        /// Internal metadata: Enabled field.
-        /// </summary>
-        public bool? Enabled { get; init; }
-
-        /// <summary>
-        /// Internal metadata: ExternalAssetId field.
-        /// </summary>
-        public string? ExternalAssetId { get; init; }
-    }
-
 }

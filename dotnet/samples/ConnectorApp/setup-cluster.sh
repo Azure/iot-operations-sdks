@@ -29,4 +29,4 @@ kubectl apply -f ./http-connector-secrets.yaml
 kubectl apply -f ./SampleHttpServer/http-server.yaml
 
 # Deploy HTTP server AEP
-kubectl apply -f ./http-server-aep.yaml
+kubectl apply -f ./http-server-asset-endpoint-profile-definition.yaml
