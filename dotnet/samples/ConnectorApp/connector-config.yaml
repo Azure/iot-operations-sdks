@@ -7,6 +7,6 @@ spec:
   replicas: 1
   endpointProfileType: http-dss
   image: httpconnectorworkerservice:latest
-  mqTargetAddress: aio-broker-external.default.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)
+  mqTargetAddress: aio-broker-external.azure-iot-operations.svc.cluster.local  # TODO why is this the external service? Shouldn't it be internal # kubectl get services => type = clusterIp~~Loadbalancer~~ => (<name>.<namespace>.svc.cluster.local)
   mqTls:
     enabled: false
