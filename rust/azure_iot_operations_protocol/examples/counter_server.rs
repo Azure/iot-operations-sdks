@@ -65,13 +65,13 @@ async fn read_executor(client: SessionManagedClient, counter: Arc<Mutex<u64>>) {
         .command_name("readCounter")
         .build()
         .unwrap();
-    let mut read_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+    let mut read_executor: CommandExecutor<CounterRequestPayload, CounterResponsePayload, _> =
         CommandExecutor::new(client, read_executor_options).unwrap();
 
     // Loop to handle requests
     loop {
         let request = read_executor.recv().await.unwrap();
-        let response = CounterResponse {
+        let response = CounterResponsePayload {
             counter_response: *counter.lock().unwrap(),
         };
         tokio::time::sleep(Duration::from_secs(1)).await;
@@ -92,14 +92,14 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<u64
         .command_name("increment")
         .build()
         .unwrap();
-    let mut incr_executor: CommandExecutor<CounterRequest, CounterResponse, _> =
+    let mut incr_executor: CommandExecutor<CounterRequestPayload, CounterResponsePayload, _> =
         CommandExecutor::new(client, incr_executor_options).unwrap();
 
     // Loop to handle requests
     loop {
         let request = incr_executor.recv().await.unwrap();
         *counter.lock().unwrap() += 1;
-        let response = CounterResponse {
+        let response = CounterResponsePayload {
             counter_response: *counter.lock().unwrap(),
         };
         let response = CommandResponseBuilder::default()
@@ -118,10 +118,10 @@ async fn exit_timer(exit_handle: SessionExitHandle, exit_after: Duration) {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct CounterRequest {}
+pub struct CounterRequestPayload {}
 
 #[derive(Clone, Debug, Default)]
-pub struct CounterResponse {
+pub struct CounterResponsePayload {
     counter_response: u64,
 }
 
@@ -135,7 +135,7 @@ pub enum CounterSerializerError {
     Utf8Error(#[from] Utf8Error),
 }
 
-impl PayloadSerialize for CounterRequest {
+impl PayloadSerialize for CounterRequestPayload {
     type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
@@ -149,12 +149,12 @@ impl PayloadSerialize for CounterRequest {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<CounterRequest, CounterSerializerError> {
-        Ok(CounterRequest {})
+    fn deserialize(_payload: &[u8]) -> Result<CounterRequestPayload, CounterSerializerError> {
+        Ok(CounterRequestPayload {})
     }
 }
 
-impl PayloadSerialize for CounterResponse {
+impl PayloadSerialize for CounterResponsePayload {
     type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
@@ -167,14 +167,14 @@ impl PayloadSerialize for CounterResponse {
         Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<CounterResponse, CounterSerializerError> {
+    fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
         log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
         if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
             match std::str::from_utf8(&payload[19..payload.len() - 1]) {
                 Ok(s) => {
                     log::info!("s: {:?}", s);
                     match s.parse::<u64>() {
-                        Ok(n) => Ok(CounterResponse {
+                        Ok(n) => Ok(CounterResponsePayload {
                             counter_response: n,
                         }),
                         Err(e) => Err(CounterSerializerError::ParseIntError(e)),

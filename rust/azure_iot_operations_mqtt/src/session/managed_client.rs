@@ -26,7 +26,7 @@ use crate::CompletionToken;
 #[derive(Clone)]
 pub struct SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
+    PS: MqttPubSub + Clone + Send + Sync,
 {
     // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
@@ -40,7 +40,7 @@ where
 
 impl<PS> ManagedClient for SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
+    PS: MqttPubSub + Clone + Send + Sync,
 {
     type PubReceiver = SessionPubReceiver;
 
@@ -70,7 +70,7 @@ where
 #[async_trait]
 impl<PS> MqttPubSub for SessionManagedClient<PS>
 where
-    PS: MqttPubSub + Clone + Send + Sync + 'static,
+    PS: MqttPubSub + Clone + Send + Sync,
 {
     async fn publish(
         &self,
