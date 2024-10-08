@@ -14,7 +14,6 @@ namespace DotnetHttpConnectorWorkerService
         private readonly string _httpServerUsername;
         private readonly byte[] _httpServerPassword;
         private static readonly TimeSpan _defaultOperationTimeout = TimeSpan.FromSeconds(100);
-        private bool _disposed = false;
 
         public HttpDataRetriever(string httpServerAddress, string httpPath, HttpMethod httpMethod, string httpServerUsername, byte[] httpServerPassword)
         {
