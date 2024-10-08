@@ -7,8 +7,6 @@ spec:
   replicas: 1
   endpointProfileType: http-dss
   image: httpconnectorworkerservice:latest
-  # changing both works?
-  #changing just namespace seems fine
-  mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = Loadbalancer => (<name>.<namespace>.svc.cluster.local)
+  mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = clusterIP => (<name>.<namespace>.svc.cluster.local)
   mqTls:
     enabled: false
