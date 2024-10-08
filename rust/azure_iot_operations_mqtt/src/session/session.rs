@@ -10,7 +10,7 @@ use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
-use crate::control_packet::AuthProperties;
+use crate::control_packet::{AuthProperties, QoS};
 use crate::error::ConnectionError;
 use crate::interface::{InternalClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
@@ -244,24 +244,33 @@ where
                         Ok(num_dispatches) => {
                             log::debug!("Dispatched PUB to {num_dispatches} receivers");
                             let manual_ack = self.client.get_manual_ack(&publish);
-                            // Register the dispatched publish to track the acks
-                            match self.unacked_pubs.register_pending(
-                                &publish,
-                                manual_ack,
-                                num_dispatches,
-                            ) {
-                                Ok(()) => {
-                                    log::debug!(
-                                        "Registered PUB. Waiting for {num_dispatches} acks"
-                                    );
+
+                            match publish.qos {
+                                QoS::AtMostOnce => {
+                                    log::debug!("No ack required for QoS 0 PUB");
                                 }
-                                Err(RegisterError::AlreadyRegistered(_)) => {
-                                    // Technically this could be reachable if some other thread were manipulating the
-                                    // pub tracker registrations, but at that point, everything is broken.
-                                    // Perhaps panic is more idiomatic? If such scenario occurs, acking is now completely
-                                    // broken, and it is likely that no further acks will be possible, so a panic seems
-                                    // appropriate. Or perhaps exiting the session with failure is preferable?
-                                    unreachable!("Already checked that the pub tracker does not contain the publish");
+                                // QoS 1 or 2
+                                _ => {
+                                    // Register the dispatched publish to track the acks
+                                    match self.unacked_pubs.register_pending(
+                                        &publish,
+                                        manual_ack,
+                                        num_dispatches,
+                                    ) {
+                                        Ok(()) => {
+                                            log::debug!(
+                                                "Registered PUB. Waiting for {num_dispatches} acks"
+                                            );
+                                        }
+                                        Err(RegisterError::AlreadyRegistered(_)) => {
+                                            // Technically this could be reachable if some other thread were manipulating the
+                                            // pub tracker registrations, but at that point, everything is broken.
+                                            // Perhaps panic is more idiomatic? If such scenario occurs, acking is now completely
+                                            // broken, and it is likely that no further acks will be possible, so a panic seems
+                                            // appropriate. Or perhaps exiting the session with failure is preferable?
+                                            unreachable!("Already checked that the pub tracker does not contain the publish");
+                                        }
+                                    }
                                 }
                             }
                         }
