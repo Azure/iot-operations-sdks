@@ -17,6 +17,8 @@ pub mod telemetry_receiver;
 const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
 const DEFAULT_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.telemetry";
 
+// TODO: Separate for receiver and sender
+// TODO: Validate user properties that match the Cloud Event enum
 /// Cloud Event struct
 ///
 /// Implements the cloud event spec 1.0.

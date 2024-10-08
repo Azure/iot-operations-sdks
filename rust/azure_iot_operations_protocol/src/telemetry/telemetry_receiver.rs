@@ -121,6 +121,7 @@ where
     // Static properties of the receiver
     mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
+    telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
@@ -130,6 +131,7 @@ where
 }
 
 /// Implementation of a Telemetry Sender
+#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetryReceiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
@@ -168,6 +170,7 @@ where
             &receiver_options.custom_topic_token_map,
         )?;
 
+        // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
 
         let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic, false) {
@@ -186,11 +189,48 @@ where
         Ok(Self {
             mqtt_client: client,
             mqtt_receiver,
+            telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
             is_subscribed: false,
             pending_pubs: JoinSet::new(),
         })
+    }
+
+    // TODO: Finish implementing shutdown logic
+    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    /// # Errors
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
+        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+
+        match unsubscribe_result {
+            Ok(unsub_ct) => {
+                match unsub_ct.wait().await {
+                    Ok(()) => { /* Success */ }
+                    Err(e) => {
+                        log::error!("Unsuback error: {e}");
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver unsuback".to_string()),
+                            Box::new(e),
+                            None,
+                        ));
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!("Client error while unsubscribing: {e}");
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on telemetry receiver unsubscribe".to_string()),
+                    Box::new(e),
+                    None,
+                ));
+            }
+        }
+        log::info!("Stopped");
+        Ok(())
     }
 
     /// Subscribe to the telemetry topic if not already subscribed.
@@ -199,11 +239,9 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        let telemetry_topic = self.topic_pattern.as_subscribe_topic();
-
         let subscribe_result = self
             .mqtt_client
-            .subscribe(telemetry_topic, QoS::AtLeastOnce)
+            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
             .await;
 
         match subscribe_result {
@@ -236,7 +274,7 @@ where
     /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
-    ///     - If the message is received with QoS 1 an [`AckToken`] is returned.
+    ///     - If the message is received with Quality of Service 1 an [`AckToken`] is returned.
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
