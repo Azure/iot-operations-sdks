@@ -58,10 +58,10 @@ namespace DotnetHttpConnectorWorkerService
                 string httpServerRequestPath = httpServerDataPoint.DataSource!;
                 using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
-                MqttConnectionSettings mqttConnectionSettings = null;
-                MqttSessionClient sessionClient = null;
+                //MqttConnectionSettings mqttConnectionSettings = null;
+                //MqttSessionClient sessionClient = null;
 
-                await sessionClient.ConnectAsync(mqttConnectionSettings);
+                //await sessionClient.ConnectAsync(mqttConnectionSettings);
 
                 while (true)
                 {
@@ -71,7 +71,7 @@ namespace DotnetHttpConnectorWorkerService
                     Console.WriteLine("Read data from http asset endpoint:");
                     Console.WriteLine(httpData + "\n");
                     
-                    var sender = new StringTelemetrySender(sessionClient)
+                    /*var sender = new StringTelemetrySender(sessionClient)
                     {
                         TopicPattern = "sample",
                         ModelId = "someModel",
@@ -81,7 +81,7 @@ namespace DotnetHttpConnectorWorkerService
                     {
                         await sender.SendTelemetryAsync(httpData);
                     }
-
+                    */
                     await Task.Delay(samplingInterval);
                 }
             }
