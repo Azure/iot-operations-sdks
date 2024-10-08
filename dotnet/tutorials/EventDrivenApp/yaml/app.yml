@@ -30,7 +30,7 @@ spec:
                   expirationSeconds: 86400
         - name: aio-ca-trust-bundle
           configMap:
-            name: aio-ca-trust-bundle-test-only
+            name: azure-iot-operations-aio-ca-trust-bundle
 
       containers:
         - name: event-driven-app
@@ -45,7 +45,7 @@ spec:
             - name: MQTT_HOST_NAME
               value: "aio-broker"
             - name: MQTT_TCP_PORT
-              value: "8883"
+              value: "18883"
             - name: MQTT_USE_TLS
               value: "true"
             - name: MQTT_CA_FILE
