@@ -21,8 +21,9 @@ function with existing external MQTT topics. They will be structured as follows:
 -   Each label is one of:
     -   A string of printable ASCII characters not including space, `"`, `+`,
         `#`, `{`, `}`, or `/`
-    -   A **token** which takes the form `{name}`, where the token name follows
-        the same character rules as above
+    -   A **token** which takes the form `{NAME}`, where the string "NAME" is a
+        documentation stand-in for a specific token name which follows the same
+        character rules as above (e.g. `{clientId}`)
 -   The first label must not start with `$`
 
 Topic patterns will be used in all of the protocol constructors in order to
@@ -77,6 +78,10 @@ built to communicate with known endpoints.
     (`/`, `+`, and `#`). Do we want to loosten our definition to support this?
 -   Do we want to include common/recommended topic tokens (e.g. `{clientId}`) as
     defaults that the library provides (but can be overridden)?
+-   The prior specification uses the prefix `ex:` to distinguish user-provided
+    tokens, where the user-provided value map only includes the portion of the
+    names following the prefix. Should this be supported at the protocol level,
+    and if so, how (which may be language-specific)?
 
 ## References
 
