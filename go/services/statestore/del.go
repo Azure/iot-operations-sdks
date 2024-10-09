@@ -72,7 +72,7 @@ func (o WithTimeout) del(opt *DelOptions) {
 
 func (o *DelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
+		MessageExpiry: o.Timeout,
 		FencingToken:  o.FencingToken,
 	}
 }

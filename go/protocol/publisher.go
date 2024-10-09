@@ -1,7 +1,7 @@
 package protocol
 
 import (
-	"github.com/google/uuid"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/google/uuid"
 )
 
 // Provide the shared implementation details for the MQTT publishers.
@@ -18,13 +19,13 @@ type publisher[T any] struct {
 }
 
 // DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
-// is specified (10 seconds).
-const DefaultMessageExpiry = 10
+// is specified.
+const DefaultMessageExpiry = 10 * time.Second
 
 func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
-	expiry uint32,
+	expiry time.Duration,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
@@ -40,7 +41,7 @@ func (p *publisher[T]) build(
 
 	pub.PublishOptions = mqtt.PublishOptions{
 		QoS:           1,
-		MessageExpiry: expiry,
+		MessageExpiry: uint32(expiry.Seconds()),
 	}
 
 	if msg != nil {

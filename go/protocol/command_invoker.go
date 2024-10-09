@@ -3,6 +3,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -46,7 +47,7 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry uint32
+		MessageExpiry time.Duration
 		TopicTokens   map[string]string
 		Metadata      map[string]string
 	}

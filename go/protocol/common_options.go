@@ -15,8 +15,8 @@ type (
 	// WithShareName connects this listener to a shared MQTT subscription.
 	WithShareName string
 
-	// WithMessageExpiry applies an MQTT message expiry (in seconds).
-	WithMessageExpiry uint32
+	// WithMessageExpiry applies an MQTT message expiry (with second precision).
+	WithMessageExpiry time.Duration
 
 	// WithTopicTokens specifies topic token values.
 	WithTopicTokens map[string]string
@@ -69,11 +69,11 @@ func (o WithShareName) telemetryReceiver(opt *TelemetryReceiverOptions) {
 }
 
 func (o WithMessageExpiry) invoke(opt *InvokeOptions) {
-	opt.MessageExpiry = uint32(o)
+	opt.MessageExpiry = time.Duration(o)
 }
 
 func (o WithMessageExpiry) send(opt *SendOptions) {
-	opt.MessageExpiry = uint32(o)
+	opt.MessageExpiry = time.Duration(o)
 }
 
 func (o WithTopicNamespace) commandExecutor(opt *CommandExecutorOptions) {

@@ -3,6 +3,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -36,7 +37,7 @@ type (
 	SendOptions struct {
 		Retain bool
 
-		MessageExpiry uint32
+		MessageExpiry time.Duration
 		TopicTokens   map[string]string
 		Metadata      map[string]string
 	}
