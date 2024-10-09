@@ -1,13 +1,15 @@
-# DssCLI
+# State Store CLI
 
-Command line tool (based on .NET tool) to interact with the IoT Mqtt Broker State Store.
+Command line tool to interact with the State Store.
 
-## Install
+## Pre-requesites
 
-> Requires .NET8
+* [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+
+## Installation
 
 ```bash
-dotnet tool install Azure.Iot.Operations.Services.DssCli --prerelease --global --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json
+dotnet tool install Azure.Iot.Operations.Services.DssCli --prerelease --global --add-source https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json
 ```
 
 ## Usage
