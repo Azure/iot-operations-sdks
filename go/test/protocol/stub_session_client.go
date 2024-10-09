@@ -5,10 +5,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/eclipse/paho.golang/paho"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/eclipse/paho.golang/paho"
 )
 
 type StubSessionClient struct {

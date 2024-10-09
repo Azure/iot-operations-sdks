@@ -6,10 +6,9 @@ import (
 	"log/slog"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 )
 
 type Mock struct {

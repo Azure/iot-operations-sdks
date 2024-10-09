@@ -1,9 +1,8 @@
 package errutil
 
 import (
-	"github.com/google/uuid"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/google/uuid"
 )
 
 type noReturn struct{ error }
