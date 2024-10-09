@@ -7,7 +7,9 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace DotnetHttpConnectorWorkerService
 {
@@ -28,21 +30,33 @@ namespace DotnetHttpConnectorWorkerService
             _logger = logger;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 // ADR client stub
                 AzureDeviceRegistryClient adrClient = new();
                 Console.WriteLine("Successfully created ADR client");
 
                 string assetId = "todo - doesn't matter yet";
-                AssetEndpointProfile aep = await adrClient.GetAssetEndpointProfileAsync(assetId);
+                AssetEndpointProfile httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
+
+                // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
+                //Asset httpServerAsset = await adrClient.GetAssetAsync(assetId);
+                Asset httpServerAsset = GetStubAsset(assetId);
+
                 Console.WriteLine("Successfully retrieved asset endpoint profile");
 
-                JsonDocument? additionalConfiguration = null;
+                string httpServerUsername = httpServerAssetEndpointProfile.Credentials!.Username!;
+                byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials!.Password!;
 
-                HttpDataRetriever httpDataRetriever = new(aep.TargetAddress, "todo", aep.Credentials?.Username ?? "", aep.Credentials?.Password ?? Array.Empty<byte>());
+                Dataset httpServerDataset = httpServerAsset.Datasets![0];
+                TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
+                DataPoint httpServerDataPoint = httpServerDataset.DataPoints![0];
+
+                HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerRequestPath = httpServerDataPoint.DataSource!;
+                using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
@@ -54,7 +68,10 @@ namespace DotnetHttpConnectorWorkerService
                     // Read data from the 3rd party asset
                     string httpData = await httpDataRetriever.RetrieveDataAsync();
 
-                    var sender = new StringTelemetrySender(sessionClient)
+                    Console.WriteLine("Read data from http asset endpoint:");
+                    Console.WriteLine(httpData + "\n");
+                    
+                    /*var sender = new StringTelemetrySender(sessionClient)
                     {
                         TopicPattern = "sample",
                         ModelId = "someModel",
@@ -64,10 +81,39 @@ namespace DotnetHttpConnectorWorkerService
                     {
                         await sender.SendTelemetryAsync(httpData);
                     }
-
-                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    */
+                    await Task.Delay(samplingInterval);
                 }
             }
+        }
+
+        private Asset GetStubAsset(string assetId)
+        {
+            return new()
+            {
+                Datasets = new Dataset[]
+                {
+                    new Dataset()
+                    {
+                        Name = "machine_status",
+                        DataPoints = new DataPoint[]
+                        {
+                            new DataPoint()
+                            {
+                                Name = "status",
+                                DataSource = "/api/machine/status",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                            },
+                        },
+                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
+                        Topic = new()
+                        {
+                            Path = "mqtt/machine/status",
+                            Retain = "Keep",
+                        }
+                    }
+                }
+            };
         }
     }
 }

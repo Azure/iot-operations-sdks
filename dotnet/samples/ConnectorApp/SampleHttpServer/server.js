@@ -27,38 +27,11 @@ const authenticate = (req, res, next) => {
 // Apply the authentication middleware to all routes
 app.use(authenticate);
 
-app.get("/contexts/:key", (req, res) => {
-    const key = req.params.key;
-    const contextList = [
-        {
-            country: "us",
-            viscosity: 0.5,
-            sweetness: 0.8,
-            particle_size: 0.7,
-            overall: 0.4
-        },
-        {
-            country: "fr",
-            viscosity: 0.6,
-            sweetness: 0.85,
-            particle_size: 0.75,
-            overall: 0.45
-        },
-        {
-            country: "jp",
-            viscosity: 0.53,
-            sweetness: 0.83,
-            particle_size: 0.73,
-            overall: 0.43
-        },
-        {
-            country: "uk",
-            viscosity: 0.51,
-            sweetness: 0.81,
-            particle_size: 0.71,
-            overall: 0.41
-        }
-    ];
+app.get("/api/machine/status", (req, res) => {
+    const contextList = {
+        status: "running",
+    };
+    
     res.json(contextList);
 });
 
