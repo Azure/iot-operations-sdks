@@ -6,11 +6,11 @@ APPROVED
 
 ## Context
 
-The current well-known topic tokens ([internal document][1]) are not necessarily
-applicable to the topic structure of existing services, most notably the [MQTT
-broker state store protocol][2]. Having them integrated into the protocol SDKs
-limits the SDKs' ability to interface with services that were not also
-implemented using the protocol SDKs.
+The current well-known topic tokens are not necessarily applicable to the topic
+structure of existing services, most notably the [MQTT broker state store
+protocol][1]. Having them integrated into the protocol SDKs limits the SDKs'
+ability to interface with services that were not also implemented using the
+protocol SDKs.
 
 ## Decision
 
@@ -86,11 +86,9 @@ built to communicate with known endpoints.
 ## References
 
 This pattern aligns with the "URL parameter" concept found in many HTTP
-frameworks (e.g. [express][3] or [axum][4]).
+frameworks (e.g. [express][2] or [axum][3]).
 
 [1]:
-    https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md
-[2]:
     https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol
-[3]: https://expressjs.com/guide/routing.html
-[4]: https://docs.rs/axum/latest/axum/struct.Router.html#captures
+[2]: https://expressjs.com/guide/routing.html
+[3]: https://docs.rs/axum/latest/axum/struct.Router.html#captures
