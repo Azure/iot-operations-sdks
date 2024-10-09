@@ -460,7 +460,7 @@ where
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
-                            if !self.auto_ack && m.qos == QoS::AtLeastOnce  {
+                            if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce)  {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
 
@@ -483,7 +483,7 @@ where
                         }
 
                         // Occurs on an error processing the message, ack to prevent redelivery
-                        if !self.auto_ack && m.qos == QoS::AtLeastOnce {
+                        if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce) {
                             match self.mqtt_receiver.ack(&m).await {
                                 Ok(()) => { /* Success */ }
                                 Err(e) => {
