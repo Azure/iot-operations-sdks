@@ -74,6 +74,8 @@ pub struct TelemetryReceiverOptions {
     /// Custom topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
     custom_topic_token_map: HashMap<String, String>,
+    /// If true, telemetry messages are auto-acknowledged
+    auto_ack: bool,
     /// Service group ID
     #[allow(unused)]
     #[builder(default = "None")]
@@ -124,6 +126,7 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
+    auto_ack: bool,
     // Describes state
     is_subscribed: bool,
     // Information to manage state
@@ -173,7 +176,9 @@ where
         // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
 
-        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic, false) {
+        let mqtt_receiver = match client
+            .create_filtered_pub_receiver(&telemetry_topic, receiver_options.auto_ack)
+        {
             Ok(receiver) => receiver,
             Err(e) => {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -192,6 +197,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
+            auto_ack: receiver_options.auto_ack,
             is_subscribed: false,
             pending_pubs: JoinSet::new(),
         })
@@ -454,7 +460,7 @@ where
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
-                            if m.qos == QoS::AtLeastOnce {
+                            if !self.auto_ack && m.qos == QoS::AtLeastOnce  {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
 
@@ -477,7 +483,7 @@ where
                         }
 
                         // Occurs on an error processing the message, ack to prevent redelivery
-                        if m.qos == QoS::AtLeastOnce {
+                        if !self.auto_ack && m.qos == QoS::AtLeastOnce {
                             match self.mqtt_receiver.ack(&m).await {
                                 Ok(()) => { /* Success */ }
                                 Err(e) => {
