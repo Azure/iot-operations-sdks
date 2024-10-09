@@ -50,9 +50,7 @@ func (p *publisher[T]) build(
 		}
 
 		pub.ContentType = p.encoding.ContentType()
-		if p.encoding.IsUTF8() {
-			pub.PayloadFormat = 1
-		}
+		pub.PayloadFormat = mqtt.PayloadFormat(p.encoding.PayloadFormat())
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)

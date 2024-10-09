@@ -39,7 +39,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Empty](<#Empty>)
   - [func \(Empty\) ContentType\(\) string](<#Empty.ContentType>)
   - [func \(Empty\) Deserialize\(data \[\]byte\) \(any, error\)](<#Empty.Deserialize>)
-  - [func \(Empty\) IsUTF8\(\) bool](<#Empty.IsUTF8>)
+  - [func \(Empty\) PayloadFormat\(\) byte](<#Empty.PayloadFormat>)
   - [func \(Empty\) Serialize\(t any\) \(\[\]byte, error\)](<#Empty.Serialize>)
 - [type Encoding](<#Encoding>)
 - [type InvocationError](<#InvocationError>)
@@ -50,7 +50,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type JSON](<#JSON>)
   - [func \(JSON\[T\]\) ContentType\(\) string](<#JSON[T].ContentType>)
   - [func \(JSON\[T\]\) Deserialize\(data \[\]byte\) \(T, error\)](<#JSON[T].Deserialize>)
-  - [func \(JSON\[T\]\) IsUTF8\(\) bool](<#JSON[T].IsUTF8>)
+  - [func \(JSON\[T\]\) PayloadFormat\(\) byte](<#JSON[T].PayloadFormat>)
   - [func \(JSON\[T\]\) Serialize\(t T\) \(\[\]byte, error\)](<#JSON[T].Serialize>)
 - [type Listener](<#Listener>)
 - [type Message](<#Message>)
@@ -58,7 +58,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Raw](<#Raw>)
   - [func \(Raw\) ContentType\(\) string](<#Raw.ContentType>)
   - [func \(Raw\) Deserialize\(data \[\]byte\) \(\[\]byte, error\)](<#Raw.Deserialize>)
-  - [func \(Raw\) IsUTF8\(\) bool](<#Raw.IsUTF8>)
+  - [func \(Raw\) PayloadFormat\(\) byte](<#Raw.PayloadFormat>)
   - [func \(Raw\) Serialize\(t \[\]byte\) \(\[\]byte, error\)](<#Raw.Serialize>)
 - [type RespondOption](<#RespondOption>)
 - [type RespondOptions](<#RespondOptions>)
@@ -365,14 +365,14 @@ func (Empty) Deserialize(data []byte) (any, error)
 
 Deserialize validates that the payload is empty.
 
-<a name="Empty.IsUTF8"></a>
-### func \(Empty\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L87>)
+<a name="Empty.PayloadFormat"></a>
+### func \(Empty\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L87>)
 
 ```go
-func (Empty) IsUTF8() bool
+func (Empty) PayloadFormat() byte
 ```
 
-IsUTF8 indicates that empty is not \(meaningfully\) valid UTF8.
+PayloadFormat indicates that empty is not \(meaningfully\) valid UTF8.
 
 <a name="Empty.Serialize"></a>
 ### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L92>)
@@ -391,7 +391,7 @@ Encoding is a translation between a concrete Go type T and byte data. All method
 ```go
 type Encoding[T any] interface {
     ContentType() string
-    IsUTF8() bool
+    PayloadFormat() byte
     Serialize(T) ([]byte, error)
     Deserialize([]byte) (T, error)
 }
@@ -481,14 +481,14 @@ func (JSON[T]) Deserialize(data []byte) (T, error)
 
 Deserialize translates JSON bytes into the Go type T.
 
-<a name="JSON[T].IsUTF8"></a>
-### func \(JSON\[T\]\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L65>)
+<a name="JSON[T].PayloadFormat"></a>
+### func \(JSON\[T\]\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L65>)
 
 ```go
-func (JSON[T]) IsUTF8() bool
+func (JSON[T]) PayloadFormat() byte
 ```
 
-IsUTF8 indicates that JSON is valid UTF8.
+PayloadFormat indicates that JSON is valid UTF8.
 
 <a name="JSON[T].Serialize"></a>
 ### func \(JSON\[T\]\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L70>)
@@ -573,14 +573,14 @@ func (Raw) Deserialize(data []byte) ([]byte, error)
 
 Deserialize returns the bytes unchanged.
 
-<a name="Raw.IsUTF8"></a>
-### func \(Raw\) [IsUTF8](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L119>)
+<a name="Raw.PayloadFormat"></a>
+### func \(Raw\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L119>)
 
 ```go
-func (Raw) IsUTF8() bool
+func (Raw) PayloadFormat() byte
 ```
 
-IsUTF8 indicates that raw is not known to be valid UTF8.
+PayloadFormat indicates that raw is not known to be valid UTF8.
 
 <a name="Raw.Serialize"></a>
 ### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L124>)
