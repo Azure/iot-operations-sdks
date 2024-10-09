@@ -612,8 +612,10 @@ mod tests {
 //   if cloud event properties are present, they are successfully parsed
 //   if user properties are present, they don't start with reserved prefix
 //   if timestamp is present, it is successfully parsed
-//   if telemetry message is ackable (QoS 1), an ack token is returned
-//   if telemetry message is not ackable (QoS 0), no ack token is returned
+//   if telemetry message is ackable (QoS 1) and auto-ack is disabled, an ack token is returned
+//   if telemetry message is ackable (QoS 1) and auto-ack is enabled, no ack token is returned
+//   if telemetry message is not ackable (QoS 0) and auto-ack is disabled, no ack token is returned
+//   if telemetry message is not ackable (QoS 0) and auto-ack is enabled, no ack token is returned
 // Tests failure:
 //   if properties are missing, the message is not processed and is acked
 //   if content type is not supported by the payload type, the message is not processed and is acked
