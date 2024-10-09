@@ -19,6 +19,7 @@ log.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4"] }
+chrono = "0.4"
 
 [dev-dependencies]
 env_logger.workspace = true
