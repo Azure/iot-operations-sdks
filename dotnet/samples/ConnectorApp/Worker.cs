@@ -58,10 +58,10 @@ namespace DotnetHttpConnectorWorkerService
                 string httpServerRequestPath = httpServerDataPoint.DataSource!;
                 using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
-                //MqttConnectionSettings mqttConnectionSettings = null;
-                //MqttSessionClient sessionClient = null;
-
-                //await sessionClient.ConnectAsync(mqttConnectionSettings);
+                // Create MQTT client from credentials provided by the operator
+                MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
+                MqttSessionClient sessionClient = new();
+                await sessionClient.ConnectAsync(mqttConnectionSettings);
 
                 while (true)
                 {

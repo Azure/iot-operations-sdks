@@ -9,4 +9,7 @@ spec:
   image: httpconnectorworkerservice:latest
   mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = clusterIP => (<name>.<namespace>.svc.cluster.local)
   mqTls:
-    enabled: false
+    enabled: true
+    caCertSecretName: aio-broker-external-ca
+  mqAuthentication:
+    audience: aio-internal
