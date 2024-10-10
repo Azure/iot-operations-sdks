@@ -30,9 +30,9 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	check(mqttClient.Connect(ctx))
-
 	client := must(envoy.NewGreeterClient(mqttClient))
+
+	check(mqttClient.Connect(ctx))
 	done := must(client.Listen(ctx))
 	defer done()
 
