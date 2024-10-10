@@ -180,6 +180,9 @@ func NewCommandExecutor[Req, Res any](
 		topic:    internal.TopicPattern{Pattern: "-"},
 	}
 
+	if err := ce.listener.register(); err != nil {
+		return nil, err
+	}
 	return ce, nil
 }
 

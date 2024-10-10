@@ -23,6 +23,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(c \*SessionClient\) Disconnect\(\) error](<#SessionClient.Disconnect>)
   - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...mqtt.PublishOption\) error](<#SessionClient.Publish>)
   - [func \(c \*SessionClient\) Reauthenticate\(ctx context.Context, opts ...AuthOption\) error](<#SessionClient.Reauthenticate>)
+  - [func \(c \*SessionClient\) Register\(topic string, handler mqtt.MessageHandler\) \(mqtt.Subscription, error\)](<#SessionClient.Register>)
   - [func \(c \*SessionClient\) Subscribe\(ctx context.Context, topic string, handler mqtt.MessageHandler, opts ...mqtt.SubscribeOption\) \(mqtt.Subscription, error\)](<#SessionClient.Subscribe>)
 - [type SessionClientOption](<#SessionClientOption>)
   - [func WithAuthData\(authData \[\]byte\) SessionClientOption](<#WithAuthData>)
@@ -266,6 +267,15 @@ func (c *SessionClient) Reauthenticate(ctx context.Context, opts ...AuthOption) 
 ```
 
 Reauthenticate initiates credential reauthentication with the server. It sends the initial Auth packet to start reauthentication, then relies on the user's AuthHandler to manage further requests from the server until a successful Auth packet is passed back or a Disconnect is received.
+
+<a name="SessionClient.Register"></a>
+### func \(\*SessionClient\) [Register](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L66-L69>)
+
+```go
+func (c *SessionClient) Register(topic string, handler mqtt.MessageHandler) (mqtt.Subscription, error)
+```
+
+
 
 <a name="SessionClient.Subscribe"></a>
 ### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L13-L18>)

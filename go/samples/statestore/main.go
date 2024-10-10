@@ -26,9 +26,9 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	check(mqttClient.Connect(ctx))
-
 	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
+
+	check(mqttClient.Connect(ctx))
 	done := must(client.Listen(ctx))
 	defer done()
 

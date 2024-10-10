@@ -5,22 +5,12 @@ import (
 	"testing"
 )
 
-func TestCommandInvokerStandalone(t *testing.T) {
+func TestCommandInvoker(t *testing.T) {
 	fmt.Printf("Running TestCommandInvoker\n")
-	RunCommandInvokerTests(t, false)
+	RunCommandInvokerTests(t)
 }
 
-func TestCommandInvokerWithSessionClient(t *testing.T) {
-	fmt.Printf("Running TestCommandInvoker\n")
-	RunCommandInvokerTests(t, true)
-}
-
-func TestCommandExecutorStandalone(t *testing.T) {
+func TestCommandExecutor(t *testing.T) {
 	fmt.Printf("Running TestCommandExecutor\n")
-	RunCommandExecutorTests(t, false)
-}
-
-func TestCommandExecutorWithSessionClient(t *testing.T) {
-	fmt.Printf("Running TestCommandExecutor\n")
-	RunCommandExecutorTests(t, true)
+	RunCommandExecutorTests(t)
 }

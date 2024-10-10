@@ -75,6 +75,7 @@ pub struct TelemetryReceiverOptions {
     #[builder(default)]
     custom_topic_token_map: HashMap<String, String>,
     /// If true, telemetry messages are auto-acknowledged
+    #[builder(default = "true")]
     auto_ack: bool,
     /// Service group ID
     #[allow(unused)]
