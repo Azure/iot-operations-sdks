@@ -39,39 +39,7 @@ type DisconnectNotificationHandler func(*DisconnectEvent)
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
 func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) func() {
-	c.connectNotificationHandlerMu.Lock()
-	defer c.connectNotificationHandlerMu.Unlock()
-
-	IDExists := func(ID uint64) bool {
-		for _, existingID := range c.connectNotificationHandlerIDs {
-			if ID == existingID {
-				return true
-			}
-		}
-		return false
-	}
-
-	var currID uint64
-	for ; ; currID++ {
-		if !IDExists(currID) {
-			break
-		}
-	}
-
-	c.connectNotificationHandlers = append(c.connectNotificationHandlers, handler)
-	c.connectNotificationHandlerIDs = append(c.connectNotificationHandlerIDs, currID)
-
-	return func() {
-		c.connectNotificationHandlerMu.Lock()
-		defer c.connectNotificationHandlerMu.Unlock()
-		for i, existingID := range c.incomingPublishHandlerIDs {
-			if currID == existingID {
-				c.connectNotificationHandlers = append(c.connectNotificationHandlers[:i], c.connectNotificationHandlers[i+1:]...)
-				c.connectNotificationHandlerIDs = append(c.connectNotificationHandlerIDs[:i], c.connectNotificationHandlerIDs[i+1:]...)
-				return
-			}
-		}
-	}
+	return c.connectNotificationHandlers.AppendEntry(handler)
 }
 
 // RegisterDisconnectNotificationHandler registers a handler to a list of
@@ -80,39 +48,7 @@ func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotifi
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
 func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) func() {
-	c.disconnectNotificationHandlerMu.Lock()
-	defer c.disconnectNotificationHandlerMu.Unlock()
-
-	IDExists := func(ID uint64) bool {
-		for _, existingID := range c.disconnectNotificationHandlerIDs {
-			if ID == existingID {
-				return true
-			}
-		}
-		return false
-	}
-
-	var currID uint64
-	for ; ; currID++ {
-		if !IDExists(currID) {
-			break
-		}
-	}
-
-	c.disconnectNotificationHandlers = append(c.disconnectNotificationHandlers, handler)
-	c.disconnectNotificationHandlerIDs = append(c.disconnectNotificationHandlerIDs, currID)
-
-	return func() {
-		c.disconnectNotificationHandlerMu.Lock()
-		defer c.disconnectNotificationHandlerMu.Unlock()
-		for i, existingID := range c.incomingPublishHandlerIDs {
-			if currID == existingID {
-				c.disconnectNotificationHandlers = append(c.disconnectNotificationHandlers[:i], c.disconnectNotificationHandlers[i+1:]...)
-				c.disconnectNotificationHandlerIDs = append(c.disconnectNotificationHandlerIDs[:i], c.disconnectNotificationHandlerIDs[i+1:]...)
-				return
-			}
-		}
-	}
+	return c.disconnectNotificationHandlers.AppendEntry(handler)
 }
 
 // Run starts the SessionClient and blocks until the SessionClient has stopped.
@@ -174,18 +110,15 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			c.connDown = make(chan struct{})
 			c.connCount++
 		}()
-		func() {
-			c.connectNotificationHandlerMu.Lock()
-			defer c.connectNotificationHandlerMu.Unlock()
-			connectEvent := ConnectEvent{
-				ConnackPacket: &MQTTConnackPacket{
-					ReasonCode: reasonCode,
-				},
-			}
-			for _, handler := range c.connectNotificationHandlers {
-				handler(&connectEvent)
-			}
-		}()
+
+		connectEvent := ConnectEvent{
+			ConnackPacket: &MQTTConnackPacket{
+				ReasonCode: reasonCode,
+			},
+		}
+		for handler := range c.connectNotificationHandlers.Iterator() {
+			handler(&connectEvent)
+		}
 	}
 
 	signalDisconnection := func(reasonCode *byte) {
@@ -197,20 +130,17 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			c.connUp = make(chan struct{})
 			close(c.connDown)
 		}()
-		func() {
-			c.disconnectNotificationHandlerMu.Lock()
-			defer c.disconnectNotificationHandlerMu.Unlock()
-			disconnectEvent := DisconnectEvent{}
-			if reasonCode != nil {
-				disconnectEvent.DisconnectPacket = &MQTTDisconnectPacket{
-					ReasonCode: *reasonCode,
-				}
-			}
 
-			for _, handler := range c.disconnectNotificationHandlers {
-				handler(&disconnectEvent)
+		disconnectEvent := DisconnectEvent{}
+		if reasonCode != nil {
+			disconnectEvent.DisconnectPacket = &MQTTDisconnectPacket{
+				ReasonCode: *reasonCode,
 			}
-		}()
+		}
+
+		for handler := range c.disconnectNotificationHandlers.Iterator() {
+			handler(&disconnectEvent)
+		}
 	}
 
 	// On cleanup, send a DISCONNECT packet if possible and signal a

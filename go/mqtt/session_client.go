@@ -11,6 +11,7 @@ import (
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 )
 
@@ -49,33 +50,16 @@ type (
 		// client, up to and including the current Paho client instance
 		connCount uint64
 
-		// Mutex used to protect publishHandlers and publishHandlerTracker
-		incomingPublishHandlerMu sync.Mutex
-		// A slice of functions that listen for incoming publishes
-		incomingPublishHandlers []func(incomingPublish)
-		// A slice of unique IDs corresponding to the functions in
-		// incomingPublishHandlers, used to track handlers for removal
-		incomingPublishHandlerIDs []uint64
+		// A list of functions that listen for incoming publishes
+		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish)]
 
-		// Mutex used to protect connectNotificationHandlers and
-		// connectNotificationHandlersTracker
-		connectNotificationHandlerMu sync.Mutex
-		// A slice of functions that are called to notify the user of successful
-		// MQTT connections
-		connectNotificationHandlers []ConnectNotificationHandler
-		// A slice of unique IDs corresponding to the functions in
-		// connectNotificationHandlers, used to track handlers for removal
-		connectNotificationHandlerIDs []uint64
+		// A list of functions that are called in order to notify the user of
+		//successful MQTT connections
+		connectNotificationHandlers *internal.AppendableListWithRemoval[ConnectNotificationHandler]
 
-		// Mutex used to protect disconnectNotificationHandlers and
-		// disconnectNotificationHandlersTracker
-		disconnectNotificationHandlerMu sync.Mutex
-		// A slice of functions that are called to notify the user of a
+		// A list of functions that are called in order to notify the user of a
 		// disconnection from the MQTT server.
-		disconnectNotificationHandlers []DisconnectNotificationHandler
-		// A slice of unique IDs corresponding to the functions in
-		// disconnectNotificationHandlers, used to track handlers for removal
-		disconnectNotificationHandlerIDs []uint64
+		disconnectNotificationHandlers *internal.AppendableListWithRemoval[DisconnectNotificationHandler]
 
 		// Buffered channel containing the PUBLISH packets to be sent
 		outgoingPublishes chan *outgoingPublish
@@ -218,6 +202,10 @@ func (c *SessionClient) initialize() {
 	// immediately close connDown to maintain the invariant that c.connDown is
 	// closed iff the session client is disconnected
 	close(c.connDown)
+
+	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(incomingPublish)]()
+	c.connectNotificationHandlers = internal.NewAppendableListWithRemoval[ConnectNotificationHandler]()
+	c.disconnectNotificationHandlers = internal.NewAppendableListWithRemoval[DisconnectNotificationHandler]()
 
 	// TODO: make this queue size configurable
 	c.outgoingPublishes = make(chan *outgoingPublish, math.MaxUint16)

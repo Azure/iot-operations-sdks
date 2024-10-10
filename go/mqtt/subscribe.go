@@ -47,61 +47,18 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 			return nil
 		}
 
-		func() {
-			c.incomingPublishHandlerMu.Lock()
-			defer c.incomingPublishHandlerMu.Unlock()
-			for _, handler := range c.incomingPublishHandlers {
-				handler(
-					incomingPublish{
-						packet: publishReceived.Packet,
-						ack:    ack,
-					},
-				)
-			}
-		}()
+		for handler := range c.incomingPublishHandlers.Iterator() {
+			handler(
+				incomingPublish{
+					packet: publishReceived.Packet,
+					ack:    ack,
+				},
+			)
+		}
 
 		// NOTE: this return value doesn't really mean anything because this is
 		// the only OnPublishReceivedHandler on this Paho instance
 		return true, nil
-	}
-}
-
-// Registers a handler to a list of handlers that are called sychronously in
-// registration order whenever a PUBLISH is received. Returns a function which
-// removes the handler from the list.
-func (c *SessionClient) registerIncomingPublishHandler(handler func(incomingPublish)) func() {
-	c.incomingPublishHandlerMu.Lock()
-	defer c.incomingPublishHandlerMu.Unlock()
-
-	IDExists := func(ID uint64) bool {
-		for _, existingID := range c.incomingPublishHandlerIDs {
-			if ID == existingID {
-				return true
-			}
-		}
-		return false
-	}
-
-	var currID uint64
-	for ; ; currID++ {
-		if !IDExists(currID) {
-			break
-		}
-	}
-
-	c.incomingPublishHandlers = append(c.incomingPublishHandlers, handler)
-	c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs, currID)
-
-	return func() {
-		c.incomingPublishHandlerMu.Lock()
-		defer c.incomingPublishHandlerMu.Unlock()
-		for i, existingID := range c.incomingPublishHandlerIDs {
-			if currID == existingID {
-				c.incomingPublishHandlers = append(c.incomingPublishHandlers[:i], c.incomingPublishHandlers[i+1:]...)
-				c.incomingPublishHandlerIDs = append(c.incomingPublishHandlerIDs[:i], c.incomingPublishHandlerIDs[i+1:]...)
-				return
-			}
-		}
 	}
 }
 
@@ -119,7 +76,7 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	removeHandlerFunc := c.registerIncomingPublishHandler(func(incoming incomingPublish) {
+	removeHandlerFunc := c.incomingPublishHandlers.AppendEntry(func(incoming incomingPublish) {
 		if !isTopicFilterMatch(topic, incoming.packet.Topic) {
 			return
 		}
