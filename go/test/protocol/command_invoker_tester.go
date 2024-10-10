@@ -11,13 +11,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
 func RunCommandInvokerTests(t *testing.T) {

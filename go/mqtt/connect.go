@@ -7,12 +7,11 @@ import (
 	"io"
 	"sync/atomic"
 
-	"github.com/eclipse/paho.golang/paho"
-	"github.com/eclipse/paho.golang/paho/session/state"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
 // Connect establishes a connection for the session client.

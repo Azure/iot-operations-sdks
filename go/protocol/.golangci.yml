@@ -1,6 +1,7 @@
 linters:
   enable:
     - forcetypeassert
+    - gci
     - gocritic
     - godot
     - gofmt

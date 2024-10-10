@@ -5,11 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eclipse/paho.golang/paho"
-	"github.com/stretchr/testify/require"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
+	"github.com/eclipse/paho.golang/paho"
+	"github.com/stretchr/testify/require"
 )
 
 func getStubAndSessionClient(

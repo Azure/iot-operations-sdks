@@ -150,7 +150,7 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	switch pub.PayloadFormat {
 	case 0: // Do nothing; always valid.
 	case 1:
-		if !l.encoding.IsUTF8() {
+		if l.encoding.PayloadFormat() == 0 {
 			return zero, &errors.Error{
 				Message:     "payload format indicator mismatch",
 				Kind:        errors.HeaderInvalid,
