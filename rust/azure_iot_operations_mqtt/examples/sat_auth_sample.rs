@@ -41,8 +41,8 @@ async fn main() {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .host_name(HOST)
-        .ca_file(CA_FILE.to_string()) // Path to the CA file.
-        .sat_auth_file(SAT_AUTH_FILE.to_string()) // Path to the SAT auth file.
+        .ca_file(CA_FILE.to_string())
+        .sat_auth_file(SAT_AUTH_FILE.to_string())
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
