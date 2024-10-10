@@ -12,8 +12,8 @@ type (
 	// KeyNotify represents a registered notification request.
 	KeyNotify[K, V Bytes] struct {
 		Key K
-		C   chan Notify[K, V]
 
+		c      chan Notify[K, V]
 		done   chan struct{}
 		client *Client[K, V]
 		index  int
@@ -49,7 +49,7 @@ func (c *Client[K, V]) KeyNotify(
 	// Give the channel a buffer of 1 so we can iterate through them quickly.
 	kn := &KeyNotify[K, V]{
 		Key:    key,
-		C:      make(chan Notify[K, V], 1),
+		c:      make(chan Notify[K, V], 1),
 		done:   make(chan struct{}),
 		client: c,
 		index:  len(c.notify[k]),
@@ -57,6 +57,11 @@ func (c *Client[K, V]) KeyNotify(
 	c.notify[k] = append(c.notify[k], kn)
 
 	return kn, nil
+}
+
+// C returns the channel used to receive notifications for this key.
+func (kn *KeyNotify[K, V]) C() <-chan Notify[K, V] {
+	return kn.c
 }
 
 // Stop removes this notification and stops notifications for this key if no
@@ -86,7 +91,7 @@ func (kn *KeyNotify[K, V]) Stop(
 		c.notify[k] = c.notify[k][:last]
 
 		kn.index = -1
-		close(kn.C)
+		close(kn.c)
 	}
 
 	if len(c.notify[k]) == 0 {

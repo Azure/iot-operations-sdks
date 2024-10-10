@@ -31,6 +31,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type GetOptions](<#GetOptions>)
   - [func \(o \*GetOptions\) Apply\(opts \[\]GetOption, rest ...GetOption\)](<#GetOptions.Apply>)
 - [type KeyNotify](<#KeyNotify>)
+  - [func \(kn \*KeyNotify\[K, V\]\) C\(\) \<\-chan Notify\[K, V\]](<#KeyNotify[K, V].C>)
   - [func \(kn \*KeyNotify\[K, V\]\) Stop\(ctx context.Context, opt ...KeyNotifyOption\) error](<#KeyNotify[K, V].Stop>)
 - [type KeyNotifyOption](<#KeyNotifyOption>)
 - [type KeyNotifyOptions](<#KeyNotifyOptions>)
@@ -299,13 +300,21 @@ KeyNotify represents a registered notification request.
 ```go
 type KeyNotify[K, V Bytes] struct {
     Key K
-    C   chan Notify[K, V]
     // contains filtered or unexported fields
 }
 ```
 
+<a name="KeyNotify[K, V].C"></a>
+### func \(\*KeyNotify\[K, V\]\) [C](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L63>)
+
+```go
+func (kn *KeyNotify[K, V]) C() <-chan Notify[K, V]
+```
+
+C returns the channel used to receive notifications for this key.
+
 <a name="KeyNotify[K, V].Stop"></a>
-### func \(\*KeyNotify\[K, V\]\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L64-L67>)
+### func \(\*KeyNotify\[K, V\]\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L69-L72>)
 
 ```go
 func (kn *KeyNotify[K, V]) Stop(ctx context.Context, opt ...KeyNotifyOption) error
@@ -336,7 +345,7 @@ type KeyNotifyOptions struct {
 ```
 
 <a name="KeyNotifyOptions.Apply"></a>
-### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L123-L126>)
+### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L128-L131>)
 
 ```go
 func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption)

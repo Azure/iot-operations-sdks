@@ -61,7 +61,7 @@ func (c *Client[K, V]) notifyReceive(
 
 	for _, kn := range c.notify[string(bytKey)] {
 		select {
-		case kn.C <- Notify[K, V]{key, op, val, msg.Ack}:
+		case kn.c <- Notify[K, V]{key, op, val, msg.Ack}:
 		case <-kn.done:
 		case <-ctx.Done():
 		}

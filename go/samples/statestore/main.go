@@ -38,14 +38,14 @@ func main() {
 	defer func() { check(kn.Stop(ctx)) }()
 
 	must(client.Set(ctx, stateStoreKey, stateStoreValue))
-	n := <-kn.C
+	n := <-kn.C()
 	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 
 	get := must(client.Get(ctx, stateStoreKey))
 	log.Info("GET", "key", stateStoreKey, "value", get.Value, "version", get.Version)
 
 	must(client.Del(ctx, stateStoreKey))
-	n = <-kn.C
+	n = <-kn.C()
 	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 }
 
