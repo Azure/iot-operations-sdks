@@ -11,7 +11,6 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
-use crate::Event;
 
 // TODO: restrict the visibility of these to match InternalClient
 /// Data for acking a publish. Currently internal use only.
@@ -33,13 +32,22 @@ impl std::future::Future for CompletionToken {
         self: std::pin::Pin<&mut Self>,
         cx: &mut std::task::Context<'_>,
     ) -> std::task::Poll<Self::Output> {
-        //self.0.as_mut().poll(cx)
-        // let inner = self.0.as_mut();
-        // inner.poll(cx)
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
     }
 }
+
+// Re-export rumqttc types to avoid user code taking the dependency.
+// TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
+// Only once there are non-rumqttc implementations of these can we allow non-rumqttc compilations
+
+/// Event yielded by the event loop
+pub type Event = rumqttc::v5::Event;
+/// Incoming data on the event loop
+pub type Incoming = rumqttc::v5::Incoming;
+/// Outgoing data on the event loop
+pub type Outgoing = rumqttc::Outgoing;
+
 
 // ---------- Lower level MQTT abstractions ----------
 

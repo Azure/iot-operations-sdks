@@ -23,19 +23,6 @@ extern crate derive_builder;
 
 //----------------------------------------------------------------------
 
-// Re-export rumqttc types to avoid user code taking the dependency.
-// TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
-// Only once there are non-rumqttc implementations of these can we allow non-rumqttc compilations
-
-/// Event yielded by the event loop
-pub type Event = rumqttc::v5::Event;
-/// Incoming data on the event loop
-pub type Incoming = rumqttc::v5::Incoming;
-/// Outgoing data on the event loop
-pub type Outgoing = rumqttc::Outgoing;
-
-//----------------------------------------------------------------------
-
 /// Include the README doc on a struct when running doctests to validate that the code in the
 /// README can compile to verify that it has not rotted.
 /// Note that any code that requires network or environment setup will not be able to run,
