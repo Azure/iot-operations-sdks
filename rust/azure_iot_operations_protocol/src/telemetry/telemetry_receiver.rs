@@ -214,7 +214,7 @@ where
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
-                match unsub_ct.wait().await {
+                match unsub_ct.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("Unsuback error: {e}");
@@ -251,7 +251,7 @@ where
             .await;
 
         match subscribe_result {
-            Ok(sub_ct) => match sub_ct.wait().await {
+            Ok(sub_ct) => match sub_ct.await {
                 Ok(()) => {
                     self.is_subscribed = true;
                 }
