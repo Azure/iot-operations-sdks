@@ -177,7 +177,6 @@ func NewCommandExecutor[Req, Res any](
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,
-		topic:    internal.TopicPattern{Pattern: "-"},
 	}
 
 	if err := ce.listener.register(); err != nil {

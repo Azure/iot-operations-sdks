@@ -24,7 +24,7 @@ type (
 	listener[T any] struct {
 		client         mqtt.Client
 		encoding       Encoding[T]
-		topic          string
+		topic          *internal.TopicFilter
 		shareName      string
 		concurrency    uint
 		reqCorrelation bool
@@ -46,7 +46,7 @@ func (l *listener[T]) register() error {
 	handle, done := internal.Concurrent(l.concurrency, l.handle)
 
 	// Make the subscription shared if specified.
-	filter := l.topic
+	filter := l.topic.Filter()
 	if l.shareName != "" {
 		filter = "$share/" + l.shareName + "/" + filter
 	}
@@ -136,6 +136,7 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	}
 
 	msg.Metadata = internal.PropToMetadata(pub.UserProperties)
+	msg.TopicTokens = l.topic.Tokens(pub.Topic)
 
 	if err := l.handler.onMsg(ctx, pub, msg); err != nil {
 		l.error(ctx, pub, err)
