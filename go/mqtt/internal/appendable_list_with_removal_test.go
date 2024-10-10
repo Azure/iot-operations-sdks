@@ -110,7 +110,7 @@ func TestIterateRandomRemoval(t *testing.T) {
 		list := NewAppendableListWithRemoval[int]()
 		var removalFuncs []func()
 
-		// append integers in the range [0, 4)
+		// append integers in the range [0, 10)
 		for i := range 10 {
 			removalFuncs = append(removalFuncs, list.AppendEntry(i))
 		}
