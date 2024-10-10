@@ -16,6 +16,7 @@
         private string genNamespace;
         private string? telemetryTopic;
         private string? commandTopic;
+        private string? serviceGroupId;
         private bool separateTelemetries;
 
         public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
@@ -60,6 +61,20 @@
             telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? (string)telemTopicObj : null;
             commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;
             separateTelemetries = telemetryTopic?.Contains(MqttTopicTokens.TelemetryName) ?? false;
+
+            bool doesCommandTargetExecutor = commandTopic != null && commandTopic.Contains(MqttTopicTokens.CommandExecutorId);
+            if (mqttVersion == 1)
+            {
+                serviceGroupId = doesCommandTargetExecutor ? "MyServiceGroup" : null;
+            }
+            else
+            {
+                serviceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.ServiceGroupIdPropertyFormat, mqttVersion), out object? serviceGroupIdObj) ? (string)serviceGroupIdObj : null;
+                if (doesCommandTargetExecutor && serviceGroupId != null)
+                {
+                    throw new Exception($"Model must not specify 'serviceGroupId' property when 'commandTopic' includes token '{MqttTopicTokens.CommandExecutorId}'");
+                }
+            }
         }
 
         public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
@@ -73,7 +88,7 @@
 
             List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c), GetResponseSchema(c), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
 
-            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemNameSchemas, cmdNameReqRespIdemStales);
+            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, serviceGroupId, telemNameSchemas, cmdNameReqRespIdemStales);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
         }
 

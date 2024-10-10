@@ -23,6 +23,8 @@
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";
 
+        public static readonly string ServiceGroupIdPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:serviceGroupId";
+
         public static readonly string IndexPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed:index";
 
         public static readonly string PayloadFormatPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:payloadFormat";
