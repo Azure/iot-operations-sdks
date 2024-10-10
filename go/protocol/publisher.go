@@ -1,8 +1,6 @@
 package protocol
 
 import (
-	"maps"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
@@ -16,7 +14,6 @@ import (
 type publisher[T any] struct {
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
-	metadata map[string]string
 }
 
 // DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
@@ -47,11 +44,6 @@ func (p *publisher[T]) build(
 		MessageExpiry: expiry,
 	}
 
-	metadata := maps.Clone(p.metadata)
-	if metadata == nil {
-		metadata = map[string]string{}
-	}
-
 	if msg != nil {
 		pub.Payload, err = serialize(p.encoding, msg.Payload)
 		if err != nil {
@@ -72,12 +64,12 @@ func (p *publisher[T]) build(
 			pub.CorrelationData = correlationData[:]
 		}
 
-		maps.Copy(metadata, msg.Metadata)
-	}
-
-	pub.UserProperties, err = internal.MetadataToProp(metadata)
-	if err != nil {
-		return nil, err
+		pub.UserProperties, err = internal.MetadataToProp(msg.Metadata)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		pub.UserProperties = map[string]string{}
 	}
 
 	ts, err := hlc.Get()

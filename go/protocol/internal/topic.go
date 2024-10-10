@@ -64,6 +64,7 @@ func NewTopicPattern(
 		}
 		pattern = namespace + `/` + pattern
 	}
+
 	if !matchPattern.MatchString(pattern) {
 		return nil, &errors.Error{
 			Message:       "invalid topic pattern",

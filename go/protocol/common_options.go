@@ -178,29 +178,15 @@ func (o WithMetadata) apply(values map[string]string) map[string]string {
 	return values
 }
 
-func (o WithMetadata) commandExecutor(opt *CommandExecutorOptions) {
-	opt.Metadata = o.apply(opt.Metadata)
-}
-
-func (o WithMetadata) commandInvoker(opt *CommandInvokerOptions) {
-	opt.Metadata = o.apply(opt.Metadata)
-}
-
 func (o WithMetadata) invoke(opt *InvokeOptions) {
 	opt.Metadata = o.apply(opt.Metadata)
 }
-
-func (WithMetadata) option() {}
 
 func (o WithMetadata) send(opt *SendOptions) {
 	opt.Metadata = o.apply(opt.Metadata)
 }
 
 func (o WithMetadata) respond(opt *RespondOptions) {
-	opt.Metadata = o.apply(opt.Metadata)
-}
-
-func (o WithMetadata) telemetrySender(opt *TelemetrySenderOptions) {
 	opt.Metadata = o.apply(opt.Metadata)
 }
 

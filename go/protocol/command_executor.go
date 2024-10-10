@@ -43,7 +43,6 @@ type (
 
 		TopicNamespace string
 		TopicTokens    map[string]string
-		Metadata       map[string]string
 		Logger         *slog.Logger
 	}
 
@@ -178,7 +177,6 @@ func NewCommandExecutor[Req, Res any](
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,
-		metadata: options.Metadata,
 	}
 
 	if err := ce.listener.register(); err != nil {
