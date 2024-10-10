@@ -84,8 +84,6 @@ Based on the communication patterns identified so far, there are 4 types of Bind
 - **Telemetry Sender.** A sender binder implements a communication pattern where an application sends data to a broker topic, independently and unaware of who may be listening. 
 This is a one of the most typical broker communication pattern with brokers, and in MQTT can be implemented with QoS0 or QoS1, depending on whether the application wants to have any guarantees that the message will be delivered to any listing subscribers, i.e., the message has been delivered to the broker. When using QoS0, the application is sending data in "Fire and Forget" fashion.
 
-**<span style="color:red"><TBD: Update to reflect reality of current SDK>**
-
 ```mermaid
 sequenceDiagram;
     participant App

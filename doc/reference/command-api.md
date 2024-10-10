@@ -15,11 +15,11 @@ In typical systems, RPC is a point-to-point communication pattern. With MQTT, th
 
 The MQTT RPC protocol is the basis for:
 
-1. All control-plane pattern for Akri Framework.
+1. All control-plane pattern for Azure IoT Operations SDKs.
 1. All messaging patterns that cannot be resolved using Telemetry pattern.
 1. A few built-in service for the Azure IoT Operations ecosystem.
 
-Specifically for 2., we need the RPC protocol to create Akri Connectors (a.k.a. connectors or adapters) for external data sources that require complex interaction (e.g., Authentication) and caching. Caching specifically is a common requirement that allows an Akri connector to efficiently act as an intermediary between on cluster workloads that participate in pipelined data processing and external data sources that are used to augment the data, e.g., as in the case of data contextualization in manufacturing environments.
+Specifically for 2., we need the RPC protocol to create connectors (a.k.a. connectors or adapters) for external data sources that require complex interaction (e.g., Authentication) and caching. Caching specifically is a common requirement that allows an connector to efficiently act as an intermediary between on cluster workloads that participate in pipelined data processing and external data sources that are used to augment the data, e.g., as in the case of data contextualization in manufacturing environments.
 
 The RPC protocol needs to be both dependable and efficient.
 
@@ -31,8 +31,7 @@ QoS2 differs from QoS1 in which QoS2 guarantees an only-once delivery semantic. 
 
 For this reason, we elect to utilize QoS1 with a client-provided timeout and a server-side cache to:
 
-1. de-duplicate requests from the point-of-view of the executor
-!. re-play the same response for request that have already been served within the timeout window.
+1. De-duplicate requests from the point-of-view of the executor!. Replay the same response for request that have already been served within the timeout window.
 
 These are the immediate needs for RPC service. The cache will be later extended with a concept of freshness along the lines of CoAP caching model descripted in RFC 7252 - The Constrained Application Protocol (CoAP) (https://www.rfc-editor.org/rfc/rfc7252.html#page-42).
 
@@ -42,55 +41,7 @@ Please note that CoAP also adopts the concept of _idempotent methods_, defined a
 
 Idempotent methods have special guarantees with regards to cached response data. If a method is idempotent, the response for invoking such method SHOULD always come from data cache. For idempotent methods, it make sense to cache for longer time than the request timeout, because such methods take full advantage of caching for the sake of optimizing performance. For non-idempotent methods instead the cache MUST only serve teh purpose of de-duplicating requests, because for this methods the cache is a helper to achieve QoS2-like guarantees over the timeout window of the client request.
 
-## The Command Invoker API
-
-```csharp
-[ModelId]
-[RequestTopicPattern("topic/{withTokens}")]
-[ResponsetopicPattern()] //optional
-public abstract class CommandInvoker<TReq, TResp>
-    where TReq : class
-    where TResp : class
-{
-    public CommandInvoker(
-                    IMqttClient mqttClient, 
-                    IPayloadSerializer serializer, 
-                    string commandName = default);
-
-        public async RpcAsyncCall<TResp> InvokeCommandAsync(
-                            TReq request, 
-                            string executorId = default, 
-                            CallOptions options = default, 
-                            CancellationToken cancellationToken = default);
-}
-```
-
-## The Command Executor API
-
-```csharp
-public abstract class CommandExecutor<TReq, TResp>
-{   
-    protected CommandExecutor(
-                    IMqttClient mqttClient, 
-                    IPayloadSerializer serializer, 
-                    string name = default, 
-                    int timeoutInMs = default);
-
-    public Func<TReq, ServerlCallContext, Task<TResp>> OnCommandReceived { get; init; }
-    
-    public Task StartAsync();
-    public Task StopAsync();
-}
-```
-
-### API Notes
-
-* The server can be _protected_ of unbound long runs by exposing a `timeoutInMS`, this applies to the allocated time to the working thread to process the command.
-* OnCommandReceived has to be dispatched with thread guarantees
-* By using the `init` initializer, we can ensure that the delegate can only be set at construction time, and only once, making the delegate immutable.
-* StartAsync and StopAsync are used to manage the Cache lifetime
-
-## Sequence Diagram
+## Command Sequence
 
 ```mermaid
 sequenceDiagram;
@@ -145,7 +96,3 @@ sequenceDiagram;
 
 > [!NOTE]
 > The PUBACK for the request from broker to executor is sent as a delayed ACK, once the command execution has completed and response has been PUBLISHED to the broker, and ACK has been received.
-
-## Services
-
-Services are a collaction of `CommandExectors`. One Service can be entirely described with a DTDL interface.
