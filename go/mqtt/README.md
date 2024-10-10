@@ -23,6 +23,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(c \*SessionClient\) Disconnect\(\) error](<#SessionClient.Disconnect>)
   - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...mqtt.PublishOption\) error](<#SessionClient.Publish>)
   - [func \(c \*SessionClient\) Reauthenticate\(ctx context.Context, opts ...AuthOption\) error](<#SessionClient.Reauthenticate>)
+  - [func \(c \*SessionClient\) Register\(topic string, handler mqtt.MessageHandler\) \(mqtt.Subscription, error\)](<#SessionClient.Register>)
   - [func \(c \*SessionClient\) Subscribe\(ctx context.Context, topic string, handler mqtt.MessageHandler, opts ...mqtt.SubscribeOption\) \(mqtt.Subscription, error\)](<#SessionClient.Subscribe>)
 - [type SessionClientOption](<#SessionClientOption>)
   - [func WithAuthData\(authData \[\]byte\) SessionClientOption](<#WithAuthData>)
@@ -196,7 +197,7 @@ type SessionClient struct {
 ```
 
 <a name="NewSessionClient"></a>
-### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L169-L172>)
+### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L168-L171>)
 
 ```go
 func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionClient, error)
@@ -205,7 +206,7 @@ func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionCl
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromConnectionString"></a>
-### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L196-L198>)
+### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L195-L197>)
 
 ```go
 func NewSessionClientFromConnectionString(connStr string) (*SessionClient, error)
@@ -214,7 +215,7 @@ func NewSessionClientFromConnectionString(connStr string) (*SessionClient, error
 NewSessionClientFromConnectionString constructs a new session client from an user\-defined connection string.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L216>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L215>)
 
 ```go
 func NewSessionClientFromEnv() (*SessionClient, error)
@@ -223,7 +224,7 @@ func NewSessionClientFromEnv() (*SessionClient, error)
 NewSessionClientFromEnv constructs a new session client from user's environment variables.
 
 <a name="SessionClient.ClientID"></a>
-### func \(\*SessionClient\) [ClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L232>)
+### func \(\*SessionClient\) [ClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L231>)
 
 ```go
 func (c *SessionClient) ClientID() string
@@ -266,6 +267,15 @@ func (c *SessionClient) Reauthenticate(ctx context.Context, opts ...AuthOption) 
 ```
 
 Reauthenticate initiates credential reauthentication with the server. It sends the initial Auth packet to start reauthentication, then relies on the user's AuthHandler to manage further requests from the server until a successful Auth packet is passed back or a Disconnect is received.
+
+<a name="SessionClient.Register"></a>
+### func \(\*SessionClient\) [Register](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L66-L69>)
+
+```go
+func (c *SessionClient) Register(topic string, handler mqtt.MessageHandler) (mqtt.Subscription, error)
+```
+
+
 
 <a name="SessionClient.Subscribe"></a>
 ### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L13-L18>)

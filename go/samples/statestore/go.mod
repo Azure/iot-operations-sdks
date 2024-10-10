@@ -3,13 +3,13 @@ module github.com/Azure/iot-operations-sdks/go/samples/statestore
 go 1.21.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1
 	github.com/Azure/iot-operations-sdks/go/services v0.0.0
 	github.com/lmittmann/tint v1.0.5
 )
 
 require (
-	github.com/Azure/iot-operations-sdks/go/protocol v0.1.0 // indirect
+	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.5 // indirect
 	github.com/eclipse/paho.golang v0.21.0 // indirect
