@@ -1,34 +1,30 @@
-# Azure IoT Operations - MQTT
-MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
-
-[API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt) |
-[Examples](examples) |
-[Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fmqtt&expanded=true)
-
-## Overview
-* Easily send and receive messages over MQTT from different tasks in asynchronous applications.
-* Automatic reconnect and connection management (with customizable policy)
-* Enables you to create decoupled components without the need for considering connection state.
-
-## Simple Send and Receive
-
-```rust, no_run
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 use std::str;
 use std::time::Duration;
+
+use env_logger::Builder;
+
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionExitHandle, SessionOptionsBuilder,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-const HOST: &str = "localhost";
+const HOST: &str = "test.mosquitto.org";
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
+    Builder::new()
+        .filter_level(log::LevelFilter::Warn)
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .init();
+
     // Build the options and settings for the session.
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
@@ -48,7 +44,10 @@ async fn main() {
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.
     tokio::spawn(receive_messages(session.create_managed_client()));
-    tokio::spawn(send_messages(session.create_managed_client(), session.create_exit_handle()));
+    tokio::spawn(send_messages(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
 
     // Run the session. This blocks until the session is exited.
     session.run().await.unwrap();
@@ -83,4 +82,3 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
 
     exit_handler.try_exit().await.unwrap();
 }
-```

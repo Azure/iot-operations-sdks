@@ -381,7 +381,7 @@ where
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
-                match unsub_ct.wait().await {
+                match unsub_ct.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("[{}] Unsuback error: {e}", self.command_name);
@@ -419,7 +419,7 @@ where
                 .await;
 
             match subscribe_result {
-                Ok(sub_ct) => match sub_ct.wait().await {
+                Ok(sub_ct) => match sub_ct.await {
                     Ok(()) => {
                         self.is_subscribed = true;
                     }
@@ -881,7 +881,7 @@ where
         {
             Ok(publish_completion_token) => {
                 // Wait and handle puback
-                match publish_completion_token.wait().await {
+                match publish_completion_token.await {
                     Ok(()) => {}
                     Err(e) => {
                         log::error!(
