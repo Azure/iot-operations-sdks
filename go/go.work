@@ -21,6 +21,6 @@ use (
 // * Changing these versions will trigger a release.                    *
 // **********************************************************************
 replace (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.0 => ./mqtt
-	github.com/Azure/iot-operations-sdks/go/protocol v0.1.0 => ./protocol
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1 => ./mqtt
+	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1 => ./protocol
 )

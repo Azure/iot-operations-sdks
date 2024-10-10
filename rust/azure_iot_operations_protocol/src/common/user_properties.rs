@@ -20,7 +20,7 @@ pub enum UserProperty {
     Status,
     /// User Property indicating a human-readable status message; used when Status != 200 (OK).
     StatusMessage,
-    /// User property indicating if a non-200 Status is an application-level error.
+    /// User property indicating if a non-200 <see cref="Status"/> is an application-level error.
     IsApplicationError,
     /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
     CommandInvokerId,
@@ -28,6 +28,43 @@ pub enum UserProperty {
     InvalidPropertyName,
     /// The value of an MQTT property in a request header that is invalid.
     InvalidPropertyValue,
+    /// User property that indicates the protocol version of an RPC/telemetry request.
+    ProtocolVersion,
+    /// User property indicating which major versions the command executor supports. The value of
+    /// this property is a space-separated list of integers like "1 2 3".
+    SupportedMajorVersions,
+    /// User Property indicating the MQTT Client ID of a [`TelemetrySender`](crate::telemetry::telemetry_sender::TelemetrySender).
+    SenderClientId,
+    /// Unique identifier of the message, produced by the [`TelemetrySender`](crate::telemetry::telemetry_sender::TelemetrySender) as a Guid
+    CloudEventSpecVersion,
+    /// Describes the type of event related to the originating occurrence.
+    /// Often this attribute is used for routing, observability, policy enforcement, etc.
+    /// The format of this is producer defined and might include information such as the version of the type
+    CloudEventType,
+    /// Identifies the context in which an event happened.
+    /// Often this will include information such as the type of the event source,
+    /// the organization publishing the event or the process that produced the event.
+    /// The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
+    CloudEventSource,
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct event.
+    ///  If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id.
+    ///  Consumers MAY assume that Events with identical source and id are duplicates.
+    CloudEventId,
+    /// Identifies the subject of the event in the context of the event producer (identified by source).
+    /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
+    /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
+    CloudEventSubject,
+    /// Timestamp of when the occurrence happened.
+    /// If the time of the occurrence cannot be determined then this attribute MAY be set to some other time (such as the current time)
+    /// by the `CloudEvents` producer,
+    /// however all producers for the same source MUST be consistent in this respect.
+    CloudEventTime,
+    ///  Content type of data value. This attribute enables data to carry any type of content,
+    ///  whereby format and encoding might differ from that of the chosen event format.
+    CloudEventDataContentType,
+    ///  Identifies the schema that data adheres to.
+    ///  Incompatible changes to the schema SHOULD be reflected by a different URI.
+    CloudEventDataSchema,
 }
 
 impl Display for UserProperty {
@@ -42,6 +79,17 @@ impl Display for UserProperty {
             UserProperty::CommandInvokerId => write!(f, "__invId"),
             UserProperty::InvalidPropertyName => write!(f, "__propName"),
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
+            UserProperty::ProtocolVersion => write!(f, "__protVer"),
+            UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
+            UserProperty::SenderClientId => write!(f, "__sndId"),
+            UserProperty::CloudEventSpecVersion => write!(f, "specversion"),
+            UserProperty::CloudEventType => write!(f, "type"),
+            UserProperty::CloudEventSource => write!(f, "source"),
+            UserProperty::CloudEventId => write!(f, "id"),
+            UserProperty::CloudEventSubject => write!(f, "subject"),
+            UserProperty::CloudEventTime => write!(f, "time"),
+            UserProperty::CloudEventDataContentType => write!(f, "datacontenttype"),
+            UserProperty::CloudEventDataSchema => write!(f, "dataschema"),
         }
     }
 }
@@ -59,6 +107,17 @@ impl FromStr for UserProperty {
             "__invId" => Ok(UserProperty::CommandInvokerId),
             "__propName" => Ok(UserProperty::InvalidPropertyName),
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
+            "__protVer" => Ok(UserProperty::ProtocolVersion),
+            "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
+            "__sndId" => Ok(UserProperty::SenderClientId),
+            "id" => Ok(UserProperty::CloudEventId),
+            "source" => Ok(UserProperty::CloudEventSource),
+            "specversion" => Ok(UserProperty::CloudEventSpecVersion),
+            "type" => Ok(UserProperty::CloudEventType),
+            "subject" => Ok(UserProperty::CloudEventSubject),
+            "dataschema" => Ok(UserProperty::CloudEventDataSchema),
+            "datacontenttype" => Ok(UserProperty::CloudEventDataContentType),
+            "time" => Ok(UserProperty::CloudEventTime),
             _ => Err(()),
         }
     }
@@ -103,6 +162,17 @@ mod tests {
     #[test_case(UserProperty::CommandInvokerId; "command_invoker_id")]
     #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
+    #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
+    #[test_case(UserProperty::SupportedMajorVersions; "supported_major_versions")]
+    #[test_case(UserProperty::SenderClientId; "sender_client_id")]
+    #[test_case(UserProperty::CloudEventSpecVersion; "cloud_event_spec_version")]
+    #[test_case(UserProperty::CloudEventType; "cloud_event_type")]
+    #[test_case(UserProperty::CloudEventSource; "cloud_event_source")]
+    #[test_case(UserProperty::CloudEventId; "cloud_event_id")]
+    #[test_case(UserProperty::CloudEventSubject; "cloud_event_subject")]
+    #[test_case(UserProperty::CloudEventTime; "cloud_event_time")]
+    #[test_case(UserProperty::CloudEventDataContentType; "cloud_event_data_content_type")]
+    #[test_case(UserProperty::CloudEventDataSchema; "cloud_event_data_schema")]
     fn test_to_from_string(prop: UserProperty) {
         assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
     }
