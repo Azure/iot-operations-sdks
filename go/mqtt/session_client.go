@@ -46,7 +46,7 @@ type (
 		// **Management**
 		// Subscriptions by topic filter.
 		subscriptions   map[string]*subscription
-		subscriptionsMu sync.Mutex
+		subscriptionsMu sync.RWMutex
 
 		// Queue for storing pending packets when the connection fails.
 		pendingPackets *internal.Queue[queuedPacket]
@@ -151,7 +151,6 @@ type (
 		*SessionClient
 		topic   string
 		handler mqtt.MessageHandler
-		done    func()
 	}
 
 	// queuedPacket would hold packets such as

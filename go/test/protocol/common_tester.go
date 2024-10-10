@@ -15,30 +15,24 @@ import (
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-	useRealSession bool,
-) (stubClient StubClient, sessionClient mqtt.Client) {
-	if useRealSession {
-		mqttClient := MakeStubMqttClient(clientID)
-		stubClient = &mqttClient
-		sessionClientRaw, err := mqtt.NewSessionClient(
-			"tcp://localhost:1234",
-			mqtt.WithPahoClientFactory(
-				func(*paho.ClientConfig) mqtt.PahoClient {
-					return &mqttClient
-				},
-			),
-			mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
-			mqtt.WithClientID(clientID),
-		)
-		require.NoError(t, err)
-		err = sessionClientRaw.Connect(context.Background())
-		require.NoError(t, err)
-		sessionClient = sessionClientRaw
-	} else {
-		mqttClient := MakeStubSessionClient(clientID)
-		stubClient = &mqttClient
-		sessionClient = &mqttClient
-	}
+) (StubClient, mqtt.Client) {
+	mqttClient := MakeStubMqttClient(clientID)
+	stubClient := &mqttClient
+	sessionClient, err := mqtt.NewSessionClient(
+		"tcp://localhost:1234",
+		mqtt.WithPahoClientFactory(
+			func(cfg *paho.ClientConfig) mqtt.PahoClient {
+				c := &mqttClient
+				c.onPublishReceived = cfg.OnPublishReceived
+				return c
+			},
+		),
+		mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
+		mqtt.WithClientID(clientID),
+	)
+	require.NoError(t, err)
+	err = sessionClient.Connect(context.Background())
+	require.NoError(t, err)
 
 	return stubClient, sessionClient
 }

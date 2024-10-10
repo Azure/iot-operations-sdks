@@ -1,8 +1,8 @@
 module github.com/Azure/iot-operations-sdks/go/samples/counter/envoy
 
-go 1.21.0
+go 1.23.0
 
-require github.com/Azure/iot-operations-sdks/go/protocol v0.1.0
+require github.com/Azure/iot-operations-sdks/go/protocol v0.1.1
 
 require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
