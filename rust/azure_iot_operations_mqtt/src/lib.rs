@@ -21,22 +21,6 @@ mod rumqttc_adapter;
 #[macro_use]
 extern crate derive_builder;
 
-/// Awaitable token indicating completion of MQTT message delivery.
-pub struct CompletionToken(pub rumqttc::NoticeFuture);
-
-// NOTE: Ideally, this would impl Future instead, but the rumqttc NoticeFuture does not implement Future
-impl CompletionToken {
-    /// Wait for the ack to be received
-    ///
-    /// # Errors
-    /// Returns a [`CompletionError`](error::CompletionError) if the response indicates the operation failed.
-    pub async fn wait(self) -> Result<(), error::CompletionError> {
-        self.0.wait_async().await
-    }
-}
-
-
-
 //----------------------------------------------------------------------
 
 // Re-export rumqttc types to avoid user code taking the dependency.

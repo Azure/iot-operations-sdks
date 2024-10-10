@@ -9,15 +9,76 @@ use bytes::Bytes;
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, ConnectionError};
+use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
-use crate::{CompletionToken, Event};
+use crate::Event;
 
 // TODO: restrict the visibility of these to match InternalClient
 /// Data for acking a publish. Currently internal use only.
 pub type ManualAck = rumqttc::v5::ManualAck;
 /// Reason Code for ack. Currently internal use only.
 pub type ManualAckReason = rumqttc::v5::ManualAckReason;
+
+// ---------- Concrete Types ----------
+
+/// Awaitable token indicating completion of MQTT message delivery.
+pub struct CompletionToken(pub rumqttc::NoticeFuture);
+
+// NOTE: Ideally, this would impl Future instead, but the rumqttc NoticeFuture does not implement Future
+impl CompletionToken {
+    /// Wait for the ack to be received
+    ///
+    /// # Errors
+    /// Returns a [`CompletionError`](error::CompletionError) if the response indicates the operation failed.
+    pub async fn wait(self) -> Result<(), CompletionError> {
+        self.0.wait_async().await
+    }
+}
+
+// pub struct BoxCompletionToken {
+//     inner: Box<dyn std::future::Future<Output = Result<(), error::CompletionError>> + Send>,
+// }
+
+// impl std::future::Future for BoxCompletionToken {
+//     type Output = Result<(), error::CompletionError>;
+
+//     fn poll(self: std::pin::Pin<&mut Self>, cx: &mut std::task::Context<'_>) -> std::task::Poll<Self::Output> {
+//         //self.inner.as_mut().poll(cx)
+//         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.inner)};
+//         inner.poll(cx)
+//     }
+// }
+
+// pub struct MyPubSub {
+//     client: rumqttc::v5::AsyncClient,
+// }
+
+// use crate::control_packet::QoS;
+// use crate::error::ClientError;
+// use bytes::Bytes;
+// impl MyPubSub {
+//     pub async fn publish(&self, topic: String, qos: QoS, retain: bool, payload: Bytes) -> Result<BoxCompletionToken, ClientError>{
+//         //let r = self.client.publish(topic, qos, retain, payload).await?;
+//         let nf = self.client.publish(topic, qos, retain, payload).await?;
+//         let bnf = Box::new(nf.wait_async());
+//         let ct = BoxCompletionToken {
+//             inner: bnf,
+//         };
+//         Ok(ct)
+//     }
+// }
+
+// pub struct NewCompletionToken {
+
+// }
+
+// impl std::future::Future for NewCompletionToken {
+//     type Output = Result<(), error::CompletionError>;
+
+//     fn poll(self: std::pin::Pin<&mut Self>, cx: &mut std::task::Context<'_>) -> std::task::Poll<Self::Output> {
+//         std::task::Poll::Ready(Ok(()))
+//     }
+// }
 
 // ---------- Lower level MQTT abstractions ----------
 
