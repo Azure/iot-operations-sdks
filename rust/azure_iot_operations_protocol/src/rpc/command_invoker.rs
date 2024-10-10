@@ -458,9 +458,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] subscribe error: {e}");
+                log::error!("[ERROR] client error while subscribing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoker subscribe".to_string()),
+                    Some("Client error on command invoker subscribe".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -580,9 +580,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] publish error: {e}");
+                log::error!("[ERROR] client error while publishing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoke publish".to_string()),
+                    Some("Client error on command invoker request publish".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
