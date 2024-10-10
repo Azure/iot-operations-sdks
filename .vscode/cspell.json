@@ -42,16 +42,10 @@
     ],    
     "languageSettings": [
         {
-            // markdown is case sensative
+            // markdown is case sensative and ignore comment blocks
             "languageId": "markdown",
+            "ignoreRegExpList": [ "/^```[\\s\\S]*?```/gm" ],
             "caseSensitive": true
-        },
-        {
-            // markdown code blocks not case sensative and include additional dictionaries
-            "languageId": "markdown",
-            "includeRegExpList": [ "/^```[\\s\\S]*?```/gm" ],
-            "dictionaries": ["bash"],
-            "caseSensitive": false
         },
         {
             // go specific words

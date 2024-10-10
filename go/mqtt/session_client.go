@@ -8,14 +8,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/eclipse/paho.golang/paho"
-	"github.com/eclipse/paho.golang/paho/session"
-	"github.com/eclipse/paho.golang/paho/session/state"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/paho/session"
+	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
 type (
@@ -46,7 +45,7 @@ type (
 		// **Management**
 		// Subscriptions by topic filter.
 		subscriptions   map[string]*subscription
-		subscriptionsMu sync.Mutex
+		subscriptionsMu sync.RWMutex
 
 		// Queue for storing pending packets when the connection fails.
 		pendingPackets *internal.Queue[queuedPacket]
@@ -151,7 +150,6 @@ type (
 		*SessionClient
 		topic   string
 		handler mqtt.MessageHandler
-		done    func()
 	}
 
 	// queuedPacket would hold packets such as

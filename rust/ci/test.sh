@@ -16,11 +16,12 @@
 set -eux
 
 run_tests() {
-    # NOTE: Word splitting is required since "COMMON_FLAGS" contains an
+    # NOTE: Word splitting is required since "COMMON_OPTIONS" contains an
     # array of flags.
     cargo clippy --all --manifest-path="${MANIFEST}" \
         --features "${FEATURES:-}" \
-        ${COMMON_FLAGS} \
+        ${COMMON_TARGETS} \
+        ${COMMON_OPTIONS} \
         -- --deny=warnings
 
     if [ -n "${INSTRUMENTED:+_}" ]; then
@@ -31,14 +32,23 @@ run_tests() {
             --features "${FEATURES:-}" \
             --no-report \
             --verbose \
-            ${COMMON_FLAGS} \
+            ${COMMON_TARGETS} \
+            ${COMMON_OPTIONS} \
             test
     else
         # shellcheck disable=SC2086
         cargo test --manifest-path="${MANIFEST}" \
             --features "${FEATURES:-}" \
-            ${COMMON_FLAGS}
+            ${COMMON_TARGETS} \
+            ${COMMON_OPTIONS}
     fi
+
+    # Need to do a separate test run for doc because of a known issue with cargo
+    # https://github.com/rust-lang/cargo/issues/6669
+    cargo test --manifest-path="${MANIFEST}" \
+        --features "${FEATURES:-}" \
+        --doc \
+        ${COMMON_OPTIONS}
 }
 
 REPOSITORY_ROOT="$(git rev-parse --show-toplevel)"
@@ -58,12 +68,14 @@ MANIFEST="$(
         --message-format=plain
 )"
 
-COMMON_FLAGS="--tests --examples"
+COMMON_TARGETS="--tests --examples"
+
+COMMON_OPTIONS=""
 if [ "${CI:-}" = "true" ]; then
-    COMMON_FLAGS="${COMMON_FLAGS} --verbose"
+    COMMON_OPTIONS="${COMMON_OPTIONS} --verbose"
     if [ -e "Cargo.lock" ]; then
         # NOTE: If `Cargo.lock` exists, ensure it is up-to-date.
-        COMMON_FLAGS="${COMMON_FLAGS} --locked"
+        COMMON_OPTIONS="${COMMON_OPTIONS} --locked"
     fi
 fi
 

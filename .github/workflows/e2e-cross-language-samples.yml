@@ -46,11 +46,11 @@ jobs:
           go-version: 1.22.4
 
       # - name: Install Codegen tool from dev feed
-      #   run: (pushd /; dotnet tool install -g Akri.Dtdl.CodeGen --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
+      #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
       - name: CodeGen all Counter samples
         run: |
-          dotnet build -c Release codegen/src/Akri.Dtdl.Codegen/Akri.Dtdl.Codegen.csproj
-          codegen=$(realpath codegen/src/Akri.Dtdl.Codegen/bin/Release/net8.0/Akri.Dtdl.Codegen)
+          dotnet build -c Release codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
+          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
           (pushd go/samples/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
         #  (pushd samples/rust/counter/counter_envoy; $codegen --modelFile ../../../counter.json --sdkPath ../../../../lib --lang rust; cargo fmt; popd)

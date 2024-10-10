@@ -241,10 +241,10 @@ pub struct CommandExecutorOptions {
 #[allow(unused)]
 pub struct CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
-    TResp: PayloadSerialize + Send,
+    TReq: PayloadSerialize + Send + 'static,
+    TResp: PayloadSerialize + Send + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
+    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the executor
     mqtt_client: C,
@@ -265,10 +265,10 @@ where
 /// Implementation of Command Executor.
 impl<TReq, TResp, C> CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
+    TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     /// Create a new [`CommandExecutor`].
     ///
@@ -394,9 +394,12 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[{}] Unsubscribe error: {e}", self.command_name);
+                log::error!(
+                    "[{}] Client error while unsubscribing: {e}",
+                    self.command_name
+                );
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT error on command executor unsubscribe".to_string()),
+                    Some("Client error on command executor unsubscribe".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -433,9 +436,12 @@ where
                     }
                 },
                 Err(e) => {
-                    log::error!("[{}] Subscribe error: {e}", self.command_name);
+                    log::error!(
+                        "[{}] Client error while subscribing: {e}",
+                        self.command_name
+                    );
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on command executor subscribe".to_string()),
+                        Some("Client error on command executor subscribe".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
@@ -460,6 +466,7 @@ where
 
         loop {
             tokio::select! {
+                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
                 Some(pending_pub) = self.pending_pubs.join_next() => {
                     match pending_pub {
                         Ok(pending_pub) => {
@@ -894,7 +901,7 @@ where
             }
             Err(e) => {
                 log::error!(
-                    "[{}][pkid: {}] Publish error: {e}",
+                    "[{}][pkid: {}] Client error on command executor response publish: {e}",
                     response_arguments.command_name,
                     pkid
                 );
@@ -905,10 +912,10 @@ where
 
 impl<TReq, TResp, C> Drop for CommandExecutor<TReq, TResp, C>
 where
-    TReq: PayloadSerialize + Send,
-    TResp: PayloadSerialize + Send,
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
+    TReq: PayloadSerialize + Send + 'static,
+    TResp: PayloadSerialize + Send + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {}
 }

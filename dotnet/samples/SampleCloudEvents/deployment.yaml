@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: samplecloudevents
-  namespace: default
+  namespace: azure-iot-operations
 spec:
   replicas: 1
   selector:

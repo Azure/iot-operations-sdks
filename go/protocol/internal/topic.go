@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"fmt"
+	"maps"
 	"regexp"
 	"strings"
 
@@ -19,24 +19,31 @@ type (
 	// Structure to provide a topic filter that can parse out its named tokens.
 	TopicFilter struct {
 		filter string
-		regexp *regexp.Regexp
-		tokens []string
+		regex  *regexp.Regexp
+		names  []string
+		tokens map[string]string
 	}
 )
 
-var (
-	topicLabel = `[^ +#{}/]+`
-	topicToken = fmt.Sprintf(`{%s}`, topicLabel)
-	topicLevel = fmt.Sprintf(`(%s|%s)`, topicLabel, topicToken)
-	topicMatch = fmt.Sprintf(`(%s)`, topicLabel)
+const (
+	topicLabel = `[^ "+#{}/]+`
+	topicToken = `\{` + topicLabel + `\}`
+	topicLevel = `(` + topicLabel + `|` + topicToken + `)`
+	topicMatch = `(` + topicLabel + `)`
+)
 
-	matchLabel = regexp.MustCompile(fmt.Sprintf(`^%s$`, topicLabel))
-	matchToken = regexp.MustCompile(topicToken) // Used for replace.
+var (
+	matchLabel = regexp.MustCompile(
+		`^` + topicLabel + `$`,
+	)
+	matchToken = regexp.MustCompile(
+		topicToken, // Lacks anchors because it is used for replacements.
+	)
 	matchTopic = regexp.MustCompile(
-		fmt.Sprintf(`^%s(/%s)*$`, topicLabel, topicLabel),
+		`^` + topicLabel + `(/` + topicLabel + `)*$`,
 	)
 	matchPattern = regexp.MustCompile(
-		fmt.Sprintf(`^%s(/%s)*$`, topicLevel, topicLevel),
+		`^` + topicLevel + `(/` + topicLevel + `)*$`,
 	)
 )
 
@@ -55,7 +62,7 @@ func NewTopicPattern(
 				PropertyValue: namespace,
 			}
 		}
-		pattern = namespace + "/" + pattern
+		pattern = namespace + `/` + pattern
 	}
 	if !matchPattern.MatchString(pattern) {
 		return nil, &errors.Error{
@@ -65,24 +72,26 @@ func NewTopicPattern(
 			PropertyValue: pattern,
 		}
 	}
+
 	if err := validateTokens(errors.ConfigurationInvalid, tokens); err != nil {
 		return nil, err
 	}
+	for token, value := range tokens {
+		pattern = strings.ReplaceAll(pattern, `{`+token+`}`, value)
+	}
+
 	return &TopicPattern{name, pattern, tokens}, nil
 }
 
 // Fully resolve a topic pattern for publishing.
 func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
+	topic := tp.pattern
+
 	if err := validateTokens(errors.ArgumentInvalid, tokens); err != nil {
 		return "", err
 	}
-
-	topic := tp.pattern
 	for token, value := range tokens {
-		topic = strings.ReplaceAll(topic, "{"+token+"}", value)
-	}
-	for token, value := range tp.tokens {
-		topic = strings.ReplaceAll(topic, "{"+token+"}", value)
+		topic = strings.ReplaceAll(topic, `{`+token+`}`, value)
 	}
 
 	if !ValidTopic(topic) {
@@ -99,29 +108,26 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 // Generate a filter for subscribing. Unresolved tokens are treated as "+"
 // wildcards for this purpose.
 func (tp *TopicPattern) Filter() (*TopicFilter, error) {
-	// Build a regexp matching all tokens
-	rx, err := regexp.Compile(
-		matchToken.ReplaceAllString(tp.pattern, topicMatch),
-	)
+	// Get the remaining token names.
+	names := matchToken.FindAllString(tp.pattern, -1)
+	for i, token := range names {
+		names[i] = token[1 : len(token)-1]
+	}
+
+	// Build a regexp matching all remaining tokens.
+	escaped := regexp.QuoteMeta(tp.pattern)
+	for _, token := range names {
+		escaped = strings.ReplaceAll(escaped, `\{`+token+`\}`, topicMatch)
+	}
+	regex, err := regexp.Compile(escaped)
 	if err != nil {
 		return nil, err
 	}
 
-	// Get the token names.
-	tok := matchToken.FindAllString(tp.pattern, -1)
-	tokens := make([]string, len(tok))
-	for i, t := range tok {
-		tokens[i] = t[1 : len(t)-1]
-	}
+	// Replace remaining tokens with "+".
+	filter := matchToken.ReplaceAllString(tp.pattern, `+`)
 
-	// Resolve specified tokens and replace the remainder with "+".
-	filter := tp.pattern
-	for token, value := range tp.tokens {
-		filter = strings.ReplaceAll(filter, "{"+token+"}", value)
-	}
-	filter = matchToken.ReplaceAllString(filter, "+")
-
-	return &TopicFilter{filter, rx, tokens}, nil
+	return &TopicFilter{filter, regex, names, tp.tokens}, nil
 }
 
 // Filter provides the MQTT topic filter string.
@@ -131,11 +137,11 @@ func (tf *TopicFilter) Filter() string {
 
 // Tokens resolves the topic tokens from the topic.
 func (tf *TopicFilter) Tokens(topic string) map[string]string {
-	values := tf.regexp.FindStringSubmatch(topic)[1:]
-	tokens := make(map[string]string, len(values))
-	for i, val := range values {
-		tokens[tf.tokens[i]] = val
+	tokens := make(map[string]string, len(tf.names)+len(tf.tokens))
+	for i, val := range tf.regex.FindStringSubmatch(topic)[1:] {
+		tokens[tf.names[i]] = val
 	}
+	maps.Copy(tokens, tf.tokens)
 	return tokens
 }
 

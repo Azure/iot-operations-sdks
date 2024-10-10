@@ -21,7 +21,7 @@ public class MqttConnectionSettings
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
     private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
     
-    public string HostName { get; init; }
+    public string HostName { get; set; }
 
     public int TcpPort { get; set; } = DefaultTcpPort;
 
@@ -31,11 +31,11 @@ public class MqttConnectionSettings
 
     public bool CaRequireRevocationCheck { get; set; } = DefaultCaRequireRevocationCheck;
 
-    public bool CleanStart { get; init; } = DefaultCleanStart;
+    public bool CleanStart { get; set; } = DefaultCleanStart;
 
-    public TimeSpan KeepAlive { get; init; } = s_defaultKeepAlive;
+    public TimeSpan KeepAlive { get; set; } = s_defaultKeepAlive;
 
-    public string? ClientId { get; init; }
+    public string? ClientId { get; set; }
 
     public TimeSpan SessionExpiry { get; set; } = s_defaultSessionExpiry;
 
@@ -57,7 +57,7 @@ public class MqttConnectionSettings
 
     public X509Certificate2Collection? TrustChain { get; set; }
 
-    public string? ModelId { get; init; }
+    public string? ModelId { get; set; }
 
     public string? SatAuthFile { get; set; }
 

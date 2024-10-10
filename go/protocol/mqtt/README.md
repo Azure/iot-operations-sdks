@@ -37,19 +37,18 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L8-L29>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L8-L28>)
 
 Client represents the underlying MQTT client utilized by the protocol library.
 
 ```go
 type Client interface {
-    // Subscribe sends a subscription request to the MQTT broker. It returns
-    // a subscription object which can be used to unsubscribe.
-    Subscribe(
-        ctx context.Context,
+    // Register a topic subscription with a message handler on the client.
+    // Update must be called on the returned subscription to actually send
+    // the subscription to the MQTT broker.
+    Register(
         topic string,
         handler MessageHandler,
-        opts ...SubscribeOption,
     ) (Subscription, error)
 
     // Publish sends a publish request to the MQTT broker.
@@ -67,7 +66,7 @@ type Client interface {
 ```
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L33-L38>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L32-L37>)
 
 Message represents a received message. The client implementation must support manual ack, since acks are managed by the protocol.
 
@@ -81,7 +80,7 @@ type Message struct {
 ```
 
 <a name="MessageHandler"></a>
-## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L42>)
+## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L41>)
 
 MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic.
 
@@ -112,7 +111,7 @@ const (
 ```
 
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L83>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L85>)
 
 PublishOption represents a single publish option.
 
@@ -123,7 +122,7 @@ type PublishOption interface {
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L71-L80>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L73-L82>)
 
 PublishOptions are the resolved publish options.
 
@@ -205,7 +204,7 @@ const (
 ```
 
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L60>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L62>)
 
 SubscribeOption represents a single subscribe option.
 
@@ -216,7 +215,7 @@ type SubscribeOption interface {
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L51-L57>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L53-L59>)
 
 SubscribeOptions are the resolved subscribe options.
 
@@ -240,7 +239,7 @@ func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption
 Apply resolves the provided list of options.
 
 <a name="Subscription"></a>
-## type [Subscription](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L45-L48>)
+## type [Subscription](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L44-L50>)
 
 Subscription represents an open subscription.
 
@@ -248,11 +247,14 @@ Subscription represents an open subscription.
 type Subscription interface {
     // Unsubscribe this subscription.
     Unsubscribe(context.Context, ...UnsubscribeOption) error
+
+    // Update or initialize the actual underlying MQTT subscription.
+    Update(context.Context, ...SubscribeOption) error
 }
 ```
 
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L68>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L70>)
 
 UnsubscribeOption represents a single unsubscribe option.
 
@@ -263,7 +265,7 @@ type UnsubscribeOption interface {
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L63-L65>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/mqtt/types.go#L65-L67>)
 
 UnsubscribeOptions are the resolve unsubscribe options.
 

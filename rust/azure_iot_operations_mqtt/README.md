@@ -16,7 +16,7 @@ MQTT version 5.0 client library providing flexibility for decoupled asynchronous
 use std::str;
 use std::time::Duration;
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubReceiver, MqttPubSub};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttPubSub};
 use azure_iot_operations_mqtt::session::{
     Session, SessionManagedClient, SessionExitHandle, SessionOptionsBuilder,
 };
@@ -57,7 +57,7 @@ async fn main() {
 /// Indefinitely receive
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.filtered_pub_receiver(TOPIC, true).unwrap();
+    let mut receiver = client.create_filtered_pub_receiver(TOPIC, true).unwrap();
     println!("Subscribing to {TOPIC}");
     client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
 

@@ -181,6 +181,9 @@ func NewCommandExecutor[Req, Res any](
 		metadata: options.Metadata,
 	}
 
+	if err := ce.listener.register(); err != nil {
+		return nil, err
+	}
 	return ce, nil
 }
 
