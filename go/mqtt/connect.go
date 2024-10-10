@@ -116,7 +116,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				ReasonCode: reasonCode,
 			},
 		}
-		for handler := range c.connectNotificationHandlers.Iterator() {
+		for handler := range c.connectNotificationHandlers.All() {
 			handler(&connectEvent)
 		}
 	}
@@ -138,7 +138,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			}
 		}
 
-		for handler := range c.disconnectNotificationHandlers.Iterator() {
+		for handler := range c.disconnectNotificationHandlers.All() {
 			handler(&disconnectEvent)
 		}
 	}

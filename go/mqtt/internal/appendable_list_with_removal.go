@@ -61,7 +61,7 @@ func (l *AppendableListWithRemoval[T]) AppendEntry(value T) (removeEntry func())
 	}
 }
 
-func (l *AppendableListWithRemoval[T]) Iterator() iter.Seq[T] {
+func (l *AppendableListWithRemoval[T]) All() iter.Seq[T] {
 	return func(yield func(T) bool) {
 		l.mu.RLock()
 		defer l.mu.RUnlock()

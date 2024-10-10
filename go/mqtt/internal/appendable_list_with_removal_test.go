@@ -16,7 +16,7 @@ func TestIterateInOrder(t *testing.T) {
 
 	// retrieve values from list and put them into a slice
 	var actual []int
-	for v := range list.Iterator() {
+	for v := range list.All() {
 		actual = append(actual, v)
 	}
 
@@ -38,7 +38,7 @@ func TestRemoveAtEnd(t *testing.T) {
 
 	// retrieve values from list and put them into a slice
 	var actual []int
-	for v := range list.Iterator() {
+	for v := range list.All() {
 		actual = append(actual, v)
 	}
 
@@ -60,7 +60,7 @@ func TestRemoveAtBeginning(t *testing.T) {
 
 	// retrieve values from list and put them into a slice
 	var actual []int
-	for v := range list.Iterator() {
+	for v := range list.All() {
 		actual = append(actual, v)
 	}
 
@@ -83,7 +83,7 @@ func TestRemoveInMiddle(t *testing.T) {
 
 	// retrieve values from list and put them into a slice
 	actual := []int{}
-	for v := range list.Iterator() {
+	for v := range list.All() {
 		actual = append(actual, v)
 	}
 
@@ -93,7 +93,7 @@ func TestRemoveInMiddle(t *testing.T) {
 
 func TestIterateEmpty(t *testing.T) {
 	list := NewAppendableListWithRemoval[int]()
-	for _ = range list.Iterator() {
+	for _ = range list.All() {
 		t.Error("iterator unexpectedly yielded a value")
 		break
 	}
@@ -120,7 +120,7 @@ func TestIterateRandomRemoval(t *testing.T) {
 			removalFuncs[shuffleIdx]()
 		}
 
-		for _ = range list.Iterator() {
+		for _ = range list.All() {
 			t.Error("iterator unexpectedly yielded a value")
 			break
 		}

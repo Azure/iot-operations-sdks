@@ -47,7 +47,7 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 			return nil
 		}
 
-		for handler := range c.incomingPublishHandlers.Iterator() {
+		for handler := range c.incomingPublishHandlers.All() {
 			handler(
 				incomingPublish{
 					packet: publishReceived.Packet,
