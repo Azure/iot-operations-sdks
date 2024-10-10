@@ -48,7 +48,6 @@ pub type Incoming = rumqttc::v5::Incoming;
 /// Outgoing data on the event loop
 pub type Outgoing = rumqttc::Outgoing;
 
-
 // ---------- Lower level MQTT abstractions ----------
 
 /// MQTT publish, subscribe and unsubscribe functionality
