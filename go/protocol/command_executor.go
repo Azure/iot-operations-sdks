@@ -179,6 +179,9 @@ func NewCommandExecutor[Req, Res any](
 		encoding: responseEncoding,
 	}
 
+	if err := ce.listener.register(); err != nil {
+		return nil, err
+	}
 	return ce, nil
 }
 

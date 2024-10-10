@@ -1,8 +1,6 @@
 module TelemetryAndCommandAsJson
 
-go 1.21.0
-
-toolchain go1.21.4
+go 1.23.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/protocol v0.0.0

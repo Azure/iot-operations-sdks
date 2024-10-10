@@ -158,6 +158,9 @@ func NewCommandInvoker[Req, Res any](
 		handler:        ci,
 	}
 
+	if err := ci.listener.register(); err != nil {
+		return nil, err
+	}
 	return ci, nil
 }
 
