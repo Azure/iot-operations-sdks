@@ -43,7 +43,7 @@ func (e *ClientStateError) Error() string {
 // deemed to be fatal.
 type FatalDisconnectError struct {
 	// Must be set
-	ReasonCode reasonCode
+	ReasonCode byte
 }
 
 func (e *FatalDisconnectError) Error() string {
@@ -117,7 +117,7 @@ func (e *ConnectionError) Unwrap() error {
 // standard library.
 type ConnackError struct {
 	// Must be set
-	ReasonCode reasonCode
+	ReasonCode byte
 }
 
 func (e *ConnackError) Error() string {

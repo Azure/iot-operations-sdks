@@ -9,6 +9,48 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 )
 
+type MQTTConnackPacket struct {
+	ReasonCode byte
+	// NOTE: more fields may be added later
+	// NOTE: this may be moved to the common module once we create it
+}
+type ConnectEvent struct {
+	// Values from the CONNACK packet received from the MQTT server
+	ConnackPacket *MQTTConnackPacket
+}
+type ConnectNotificationHandler func(*ConnectEvent)
+
+type MQTTDisconnectPacket struct {
+	ReasonCode byte
+	// NOTE: more fields may be added later
+	// NOTE: this may be moved to the common module once we create it
+}
+type DisconnectEvent struct {
+	// Values from the DISCONNECT packet received from the MQTT server. May be
+	// nil if the disconnection ocurred without receiving a DISCONNECT packet
+	// from the server.
+	DisconnectPacket *MQTTDisconnectPacket
+}
+type DisconnectNotificationHandler func(*DisconnectEvent)
+
+// RegisterConnectNotificationHandler registers a handler to a list of handlers
+// that are called synchronously in registration order whenever the
+// SessionClient successfully establishes an MQTT connection. Note that since
+// the handler gets called synchronously, handlers should not block for an
+// extended period of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) func() {
+	return c.connectNotificationHandlers.AppendEntry(handler)
+}
+
+// RegisterDisconnectNotificationHandler registers a handler to a list of
+// handlers that are called synchronously in registration order whenever the
+// SessionClient detects a disconnection from the MQTT server. Note that since
+// the handler gets called synchronously, handlers should not block for an
+// extended period of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) func() {
+	return c.disconnectNotificationHandlers.AppendEntry(handler)
+}
+
 // Run starts the SessionClient and blocks until the SessionClient has stopped.
 // ctx cancellation is used to stop the SessionClient. If the SessionClient
 // terminates due to an error, an error will be be returned. A SessionClient
@@ -58,23 +100,47 @@ type pahoClientDisconnectedEvent struct {
 // reconnections. Blocks until the ctx is cancelled or the connection can no
 // longer be maintained (due to a fatal error or retry policy exhaustion)
 func (c *SessionClient) manageConnection(ctx context.Context) error {
-	signalConnection := func(client PahoClient) {
-		c.pahoClientMu.Lock()
-		defer c.pahoClientMu.Unlock()
+	signalConnection := func(client PahoClient, reasonCode byte) {
+		func() {
+			c.pahoClientMu.Lock()
+			defer c.pahoClientMu.Unlock()
 
-		c.pahoClient = client
-		close(c.connUp)
-		c.connDown = make(chan struct{})
-		c.connCount++
+			c.pahoClient = client
+			close(c.connUp)
+			c.connDown = make(chan struct{})
+			c.connCount++
+		}()
+
+		connectEvent := ConnectEvent{
+			ConnackPacket: &MQTTConnackPacket{
+				ReasonCode: reasonCode,
+			},
+		}
+		for handler := range c.connectNotificationHandlers.All() {
+			handler(&connectEvent)
+		}
 	}
 
-	signalDisconnection := func() {
-		c.pahoClientMu.Lock()
-		defer c.pahoClientMu.Unlock()
+	signalDisconnection := func(reasonCode *byte) {
+		func() {
+			c.pahoClientMu.Lock()
+			defer c.pahoClientMu.Unlock()
 
-		c.pahoClient = nil
-		c.connUp = make(chan struct{})
-		close(c.connDown)
+			c.pahoClient = nil
+			c.connUp = make(chan struct{})
+			close(c.connDown)
+		}()
+
+		disconnectEvent := DisconnectEvent{}
+		if reasonCode != nil {
+			disconnectEvent.DisconnectPacket = &MQTTDisconnectPacket{
+				ReasonCode: *reasonCode,
+			}
+		}
+
+		for handler := range c.disconnectNotificationHandlers.All() {
+			handler(&disconnectEvent)
+		}
 	}
 
 	// On cleanup, send a DISCONNECT packet if possible and signal a
@@ -88,17 +154,18 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		}
 		immediateSessionExpiry := uint32(0)
 		_ = c.pahoClient.Disconnect(&paho.Disconnect{
-			ReasonCode: byte(disconnectNormalDisconnection),
+			ReasonCode: disconnectNormalDisconnection,
 			Properties: &paho.DisconnectProperties{
 				SessionExpiryInterval: &immediateSessionExpiry,
 			},
 		})
-		signalDisconnection()
+		signalDisconnection(nil)
 	}()
 
 	for {
 		var pahoClient PahoClient
 		var disconnected <-chan *pahoClientDisconnectedEvent
+		var connectReasonCode *byte
 		err := c.connRetry.Start(
 			ctx,
 			c.info,
@@ -106,7 +173,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				Name: "connect",
 				Exec: func(ctx context.Context) error {
 					var err error
-					pahoClient, disconnected, err = c.buildPahoClient(ctx, c.connCount)
+					pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(ctx, c.connCount)
 					return err
 				},
 				Cond: isRetryableError,
@@ -115,7 +182,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		if err != nil {
 			return &RetryFailureError{lastError: err}
 		}
-		signalConnection(pahoClient)
+		signalConnection(pahoClient, *connectReasonCode)
 
 		var disconnectEvent *pahoClientDisconnectedEvent
 		select {
@@ -126,14 +193,16 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			return nil
 		}
 
-		disconnectPacket := disconnectEvent.disconnectPacket
-		if disconnectPacket != nil && !isRetryableDisconnect(reasonCode(disconnectPacket.ReasonCode)) {
-			return &FatalDisconnectError{
-				ReasonCode: reasonCode(disconnectPacket.ReasonCode),
-			}
-
+		var disconnectReasonCode *byte
+		if disconnectEvent.disconnectPacket != nil {
+			disconnectReasonCode = &disconnectEvent.disconnectPacket.ReasonCode
 		}
-		signalDisconnection()
+		signalDisconnection(disconnectReasonCode)
+		if disconnectReasonCode != nil && !isRetryableDisconnect(*disconnectReasonCode) {
+			return &FatalDisconnectError{
+				ReasonCode: *disconnectReasonCode,
+			}
+		}
 
 		// if we get here, a reconnection will be attempted
 	}
@@ -143,7 +212,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 // it to the MQTT server. If the client is successfully connected, the client
 // instance is returned along with a channel to be notified when the connection
 // on that client instance goes down.
-func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (PahoClient, <-chan *pahoClientDisconnectedEvent, error) {
+func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (PahoClient, *byte, <-chan *pahoClientDisconnectedEvent, error) {
 	isInitialConn := connCount == 0
 
 	// Refresh TLS config for new connection.
@@ -151,7 +220,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		// TODO: this currently returns immediately if refreshing TLS config
 		// fails. Do we want to instead attempt to connect with the stale TLS
 		// config?
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
 	conn, err := buildNetConn(
@@ -161,7 +230,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 	)
 	if err != nil {
 		// buildNetConn will wrap the error in retryableErr if it's retryable
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
 	// buffer the channel by 1 to avoid hanging a goroutine in the case where
@@ -204,17 +273,22 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
 	connack, err := pahoClient.Connect(ctx, cp)
 
-	if connack != nil && connack.ReasonCode >= 0x80 && !isRetryableConnack(reasonCode(connack.ReasonCode)) {
-		return nil, nil, err
-	}
-	if err != nil {
+	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method
 		// without a CONNACK are retryable.
-		return nil, nil, retryableErr{err}
-	}
-	if !isInitialConn && !connack.SessionPresent {
-		return nil, nil, &SessionLostError{}
+		return nil, nil, nil, retryableErr{err}
 	}
 
-	return pahoClient, disconnected, nil
+	if connack.ReasonCode >= 80 {
+		var connackError error = &ConnackError{ReasonCode: connack.ReasonCode}
+		if isRetryableConnack(connack.ReasonCode) {
+			connackError = retryableErr{connackError}
+		}
+		return nil, &connack.ReasonCode, nil, connackError
+	}
+	if !isInitialConn && !connack.SessionPresent {
+		return nil, &connack.ReasonCode, nil, &SessionLostError{}
+	}
+
+	return pahoClient, &connack.ReasonCode, disconnected, nil
 }

@@ -4,8 +4,6 @@ import (
 	"math"
 )
 
-type reasonCode byte
-
 const (
 	defaultReceiveMaximum    uint16 = math.MaxUint16
 	maxKeepAlive             uint16 = math.MaxUint16
@@ -17,45 +15,45 @@ const (
 
 // CONNACK reason codes.
 const (
-	connackSuccess                     reasonCode = 0x00
-	connackNotAuthorized               reasonCode = 0x87
-	connackServerUnavailable           reasonCode = 0x88
-	connackServerBusy                  reasonCode = 0x89
-	connackQuotaExceeded               reasonCode = 0x97
-	connackConnectionRateExceeded      reasonCode = 0x9F
-	connackMalformedPacket             reasonCode = 0x81
-	connackProtocolError               reasonCode = 0x82
-	connackImplementationSpecificError reasonCode = 0x83
-	connackUnsupportedProtocolVersion  reasonCode = 0x84
-	connackBadAuthenticationMethod     reasonCode = 0x8C
-	connackClientIdentifierNotValid    reasonCode = 0x85
-	connackBadUserNameOrPassword       reasonCode = 0x86
-	connackBanned                      reasonCode = 0x8A
-	connackUseAnotherServer            reasonCode = 0x93
-	connackReauthenticate              reasonCode = 0x19
+	connackSuccess                     byte = 0x00
+	connackNotAuthorized               byte = 0x87
+	connackServerUnavailable           byte = 0x88
+	connackServerBusy                  byte = 0x89
+	connackQuotaExceeded               byte = 0x97
+	connackConnectionRateExceeded      byte = 0x9F
+	connackMalformedPacket             byte = 0x81
+	connackProtocolError               byte = 0x82
+	connackImplementationSpecificError byte = 0x83
+	connackUnsupportedProtocolVersion  byte = 0x84
+	connackBadAuthenticationMethod     byte = 0x8C
+	connackClientIdentifierNotValid    byte = 0x85
+	connackBadUserNameOrPassword       byte = 0x86
+	connackBanned                      byte = 0x8A
+	connackUseAnotherServer            byte = 0x93
+	connackReauthenticate              byte = 0x19
 )
 
 // DISCONNECT reason codes.
 const (
-	disconnectNormalDisconnection                 reasonCode = 0x00
-	disconnectNotAuthorized                       reasonCode = 0x87
-	disconnectServerUnavailable                   reasonCode = 0x88
-	disconnectServerBusy                          reasonCode = 0x89
-	disconnectQuotaExceeded                       reasonCode = 0x97
-	disconnectConnectionRateExceeded              reasonCode = 0x9F
-	disconnectMalformedPacket                     reasonCode = 0x81
-	disconnectProtocolError                       reasonCode = 0x82
-	disconnectBadAuthenticationMethod             reasonCode = 0x8C
-	disconnectSessionTakenOver                    reasonCode = 0x8D
-	disconnectTopicFilterInvalid                  reasonCode = 0x8E
-	disconnectTopicNameInvalid                    reasonCode = 0x8F
-	disconnectTopicAliasInvalid                   reasonCode = 0x90
-	disconnectPacketTooLarge                      reasonCode = 0x95
-	disconnectPayloadFormatInvalid                reasonCode = 0x99
-	disconnectRetainNotSupported                  reasonCode = 0x9A
-	disconnectQoSNotSupported                     reasonCode = 0x9B
-	disconnectServerMoved                         reasonCode = 0x9D
-	disconnectSharedSubscriptionsNotSupported     reasonCode = 0x9E
-	disconnectSubscriptionIdentifiersNotSupported reasonCode = 0xA1
-	disconnectWildcardSubscriptionsNotSupported   reasonCode = 0xA2
+	disconnectNormalDisconnection                 byte = 0x00
+	disconnectNotAuthorized                       byte = 0x87
+	disconnectServerUnavailable                   byte = 0x88
+	disconnectServerBusy                          byte = 0x89
+	disconnectQuotaExceeded                       byte = 0x97
+	disconnectConnectionRateExceeded              byte = 0x9F
+	disconnectMalformedPacket                     byte = 0x81
+	disconnectProtocolError                       byte = 0x82
+	disconnectBadAuthenticationMethod             byte = 0x8C
+	disconnectSessionTakenOver                    byte = 0x8D
+	disconnectTopicFilterInvalid                  byte = 0x8E
+	disconnectTopicNameInvalid                    byte = 0x8F
+	disconnectTopicAliasInvalid                   byte = 0x90
+	disconnectPacketTooLarge                      byte = 0x95
+	disconnectPayloadFormatInvalid                byte = 0x99
+	disconnectRetainNotSupported                  byte = 0x9A
+	disconnectQoSNotSupported                     byte = 0x9B
+	disconnectServerMoved                         byte = 0x9D
+	disconnectSharedSubscriptionsNotSupported     byte = 0x9E
+	disconnectSubscriptionIdentifiersNotSupported byte = 0xA1
+	disconnectWildcardSubscriptionsNotSupported   byte = 0xA2
 )
