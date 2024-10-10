@@ -20,7 +20,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-func RunCommandInvokerTests(t *testing.T, useRealSession bool) {
+func RunCommandInvokerTests(t *testing.T) {
 	var commandInvokerDefaultInfo DefaultTestCase
 
 	_, err := toml.DecodeFile(
@@ -45,7 +45,7 @@ func RunCommandInvokerTests(t *testing.T, useRealSession bool) {
 	for ix, f := range files {
 		testName, _ := strings.CutSuffix(filepath.Base(f), ".yaml")
 		t.Run(testName, func(t *testing.T) {
-			runOneCommandInvokerTest(t, ix, testName, f, useRealSession)
+			runOneCommandInvokerTest(t, ix, testName, f)
 		})
 	}
 }
@@ -55,7 +55,6 @@ func runOneCommandInvokerTest(
 	testCaseIndex int,
 	testName string,
 	fileName string,
-	useRealSession bool,
 ) {
 	pendingTestCases := []string{}
 
@@ -73,8 +72,6 @@ func runOneCommandInvokerTest(
 	}
 
 	if slices.Contains(testCase.Requires, Unobtanium) ||
-		slices.Contains(testCase.Requires, AckOrdering) && !useRealSession ||
-		slices.Contains(testCase.Requires, Reconnection) && !useRealSession ||
 		slices.Contains(testCase.Requires, ExplicitDefault) {
 		t.Skipf(
 			"Skipping test %s because it requires an unavailable feature",
@@ -96,11 +93,7 @@ func runOneCommandInvokerTest(
 		mqttClientID = fmt.Sprintf("InvokerTestClient%d", testCaseIndex)
 	}
 
-	stubClient, sessionClient := getStubAndSessionClient(
-		t,
-		mqttClientID,
-		useRealSession,
-	)
+	stubClient, sessionClient := getStubAndSessionClient(t, mqttClientID)
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Publish {
 		stubClient.enqueuePubAck(ackKind)
