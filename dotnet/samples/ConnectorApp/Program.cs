@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using DotnetHttpConnectorWorkerService;
+using HttpConnectorWorkerService;
 
-var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
+        services.AddHostedService<Worker>();
+    })
+    .Build();
 
-var host = builder.Build();
 host.Run();

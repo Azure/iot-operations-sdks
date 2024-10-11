@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 }
                 catch (IOException)
                 {
-                    if (retryCount > 10)
+                    if (retryCount > maxRetryCount)
                     {
                         throw;
                     }

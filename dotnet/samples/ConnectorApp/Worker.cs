@@ -7,23 +7,24 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
-using HttpConnectorWorkerService;
-using System.Reflection;
 using System.Text.Json;
 
-namespace DotnetHttpConnectorWorkerService
+namespace HttpConnectorWorkerService
 {
-    public class MachineStatusTelemetrySender : TelemetrySender<MachineStatus>
+    //TODO sample only works if you assume some aspects of the asset + AEP don't change such as sampling interval, http paths, datasets in general, etc. Probably want to document this somehow
+    // Sample also assumes the order of asset datasets + datapoints which feels bad. Name key on each isn't specifically unique, so can't key off of that, right? Ask ADR folks. I may be able
+    // to make it so that it is a map instead of an array so that each sampling function only needs the name to key off of and doesn't assume ordering
+    public class ThermostatStatusTelemetrySender : TelemetrySender<ThermostatStatus>
     {
-        public MachineStatusTelemetrySender(IMqttPubSubClient mqttClient)
+        public ThermostatStatusTelemetrySender(IMqttPubSubClient mqttClient)
             : base(mqttClient, null, new Utf8JsonSerializer())
         {
         }
     }
 
-    public class MachineLastMaintenanceTelemetrySender : TelemetrySender<MachineLastMaintenance>
+    public class ThermostatLastMaintenanceTelemetrySender : TelemetrySender<MachineLastMaintenance>
     {
-        public MachineLastMaintenanceTelemetrySender(IMqttPubSubClient mqttClient)
+        public ThermostatLastMaintenanceTelemetrySender(IMqttPubSubClient mqttClient)
             : base(mqttClient, null, new Utf8JsonSerializer())
         {
         }
@@ -32,108 +33,169 @@ namespace DotnetHttpConnectorWorkerService
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private MqttSessionClient _sessionClient;
 
-        public Worker(ILogger<Worker> logger)
+        private Asset? _httpServerAsset;
+        private AssetEndpointProfile? _httpServerAssetEndpointProfile;
+
+        public Worker(ILogger<Worker> logger, MqttSessionClient mqttSessionClient)
         {
             _logger = logger;
+            _sessionClient = mqttSessionClient;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                AzureDeviceRegistryClient adrClient = new();
-                Console.WriteLine("Successfully created ADR client");
+            AzureDeviceRegistryClient adrClient = new();
+            _logger.LogInformation("Successfully created ADR client");
+            
+            string assetId = "todo - doesn't matter yet";
 
-                string assetId = "todo - doesn't matter yet";
-                AssetEndpointProfile httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
+            try
+            {
+                _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
 
                 // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
-                //Asset httpServerAsset = await adrClient.GetAssetAsync(assetId);
-                Asset httpServerAsset = GetStubAsset(assetId);
+                //_httpServerAsset = await _adrClient.GetAssetAsync(assetId);
+                _httpServerAsset = GetStubAsset();
 
-                Console.WriteLine("Successfully retrieved asset endpoint profile");
+                adrClient.AssetChanged += (sender, newAsset) =>
+                {
+                    _logger.LogInformation("Recieved a notification that the asset has changed.");
+                    _httpServerAsset = newAsset;
+                };
 
-                string httpServerUsername = httpServerAssetEndpointProfile.Credentials!.Username!;
-                byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials!.Password!;
+                adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
+                {
+                    _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
+                    _httpServerAssetEndpointProfile = newAssetEndpointProfile;
+                };
 
-                Dataset httpServerStatusDataset = httpServerAsset.Datasets![0];
-                Dataset httpServerLastMaintenanceDataset = httpServerAsset.Datasets![1];
-                TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(httpServerAsset.DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
+                await adrClient.ObserveAssetAsync(assetId);
+                await adrClient.ObserveAssetEndpointProfileAsync(assetId);
 
-                DataPoint httpServerMachineIdDataPoint = httpServerDataset.DataPoints![0];
-                HttpMethod httpServerMachineIdHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerMachineIdRequestPath = httpServerMachineIdDataPoint.DataSource!;
-                using HttpDataRetriever httpServerMachineIdDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerMachineIdRequestPath, httpServerMachineIdHttpMethod, httpServerUsername, httpServerPassword);
+                _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
-                DataPoint httpServerStatusDataPoint = httpServerDataset.DataPoints![0];
-                HttpMethod httpServerStatusHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerStatusRequestPath = httpServerMachineIdDataPoint.DataSource!;
-                using HttpDataRetriever httpServerStatusDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerStatusRequestPath, httpServerStatusHttpMethod, httpServerUsername, httpServerPassword);
-
-                DataPoint httpServerMachineIdDataPoint = httpServerDataset.DataPoints![1];
-                HttpMethod httpServerMachineIdHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerMachineIdRequestPath = httpServerMachineIdDataPoint.DataSource!;
-                using HttpDataRetriever httpServerMachineIdDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerMachineIdRequestPath, httpServerMachineIdHttpMethod, httpServerUsername, httpServerPassword);
-
-                DataPoint httpServerLastMaintenanceDataPoint = httpServerDataset.DataPoints![1];
-                HttpMethod httpServerStatusHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerStatusRequestPath = httpServerMachineIdDataPoint.DataSource!;
-                using HttpDataRetriever httpServerStatusDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerStatusRequestPath, httpServerStatusHttpMethod, httpServerUsername, httpServerPassword);
+                TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(_httpServerAsset.DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
 
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
-                MqttSessionClient sessionClient = new();
-                await sessionClient.ConnectAsync(mqttConnectionSettings);
 
-                await using var sender = new MachineStatusTelemetrySender(sessionClient)
+                _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
+
+                await _sessionClient.ConnectAsync(mqttConnectionSettings);
+
+                _logger.LogInformation($"Successfully connected to MQTT broker");
+
+                Timer[] datasetSamplingTimers = new Timer[_httpServerAsset.Datasets!.Length];
+                for (int datasetIndex = 0; datasetIndex < _httpServerAsset.Datasets.Length; datasetIndex++)
                 {
-                    TopicPattern = httpServerAsset.Datasets[0].Topic!.Path!,
-                    //TODO retain?
-                };
+                    Dataset thermostatDataset = _httpServerAsset.Datasets[datasetIndex];
+                    TimeSpan samplingInterval = defaultSamplingInterval;
+                    if (thermostatDataset.DatasetConfiguration != null
+                        && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
+                    {
+                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
+                    }
 
-                while (true)
-                {
-
-
-                    await Task.Delay(samplingInterval);
+                    Timer datasetSamplingTimer = new(SampleAsync, datasetIndex, 0, (int)samplingInterval.TotalMilliseconds);
+                    datasetSamplingTimers[datasetIndex] = datasetSamplingTimer;
                 }
+
+                // Wait until the worker is cancelled
+                await Task.Delay(TimeSpan.MaxValue, cancellationToken);
+            }
+            finally
+            {
+                _logger.LogInformation("Shutting down sample...");
+
+                await adrClient.UnobserveAssetAsync(assetId);
+                await adrClient.UnobserveAssetEndpointProfileAsync(assetId);
             }
         }
 
-        private async Task GetMachineStatus(MachineStatusTelemetrySender telemetrySender, HttpDataRetriever httpServerMachineIdDataRetriever, HttpDataRetriever httpServerStatusDataRetriever)
+        private async void SampleAsync(object? state)
         {
-            // Read data from the 3rd party asset
-            string httpDataMachineId = await httpServerMachineIdDataRetriever.RetrieveDataAsync();
-            string httpDataStatus = await httpServerStatusDataRetriever.RetrieveDataAsync();
-
-            string machineId = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerMachineIdDataPoint.Name!).GetString()!;
-            string status = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerStatusDataPoint.Name!).GetString()!;
-
-            MachineStatus machineStatus = new(machineId, status);
-
-            await telemetrySender.SendTelemetryAsync(machineStatus);
+            //TODO mapping via name instead would be a lot better
+            int datasetIndex = (int)state!;
+            if (datasetIndex == 1)
+            {
+                await ForwardThermostatStatus();
+            }
+            else
+            {
+                await ForwardThermostatLastMaintenance();
+            }
         }
 
-        private async Task GetMachineLastMaintenance(MachineLastMaintenanceTelemetrySender telemetrySender, HttpDataRetriever httpServerMachineIdDataRetriever)
+        private async Task ForwardThermostatStatus()
         {
-            // Read data from the 3rd party asset
-            string httpDataMachineId = await httpServerMachineIdDataRetriever.RetrieveDataAsync();
-            string httpDataStatus = await httpServerStatusDataRetriever.RetrieveDataAsync();
+            // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
+            //Asset httpServerAsset = await _adrClient.GetAssetAsync(assetId);
+            Asset httpServerAsset = GetStubAsset();
+            Dataset httpServerStatusDataset = httpServerAsset.Datasets![0];
 
-            string machineId = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerMachineIdDataPoint.Name!).GetString()!;
-            string lastMaintenance = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerStatusDataPoint.Name!).GetString()!;
+            await using var thermostateStatusSender = new ThermostatStatusTelemetrySender(_sessionClient)
+            {
+                TopicPattern = httpServerStatusDataset.Topic!.Path!,
+                //TODO retain? Asset docs say it is a topic level attribute, but doesn't match MQTT spec which says it is message-level
+            };
 
-            MachineLastMaintenance machineLastMaintenance = new(machineId, lastMaintenance);
+            string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
+            byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
-            await telemetrySender.SendTelemetryAsync(machineLastMaintenance);
+            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints![0];
+            HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+            string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
+            using HttpDataRetriever httpServerDesiredTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerDesiredTemperatureRequestPath, httpServerDesiredTemperatureHttpMethod, httpServerUsername, httpServerPassword);
+
+            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints![1];
+            HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+            string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
+            using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
+
+            _logger.LogInformation($"Reading thermostat status from HTTP server asset");
+            string desiredTemperatureValue = await httpServerDesiredTemperatureDataRetriever.RetrieveDataAsync(httpServerDesiredTemperatureDataPoint.Name);
+            string actualTemperatureValue = await httpServerActualTemperatureDataRetriever.RetrieveDataAsync(httpServerActualTemperatureDataPoint.Name);
+
+            var thermostatStatus = new ThermostatStatus(desiredTemperatureValue, actualTemperatureValue);
+            _logger.LogInformation($"Successfully read thermostat status from HTTP server asset: {thermostatStatus}");
+
+            _logger.LogInformation($"Sending thermostat status to MQTT broker");
+            await thermostateStatusSender.SendTelemetryAsync(thermostatStatus);
         }
 
-        private Asset GetStubAsset(string assetId)
+        private async Task ForwardThermostatLastMaintenance()
+        {
+            Dataset httpServerLastMaintenanceDataset = _httpServerAsset!.Datasets![1];
+            await using var lastMaintenanceSender = new ThermostatLastMaintenanceTelemetrySender(_sessionClient)
+            {
+                TopicPattern = httpServerLastMaintenanceDataset.Topic!.Path!,
+                //TODO retain? Asset docs say it is a topic level attribute, but doesn't match MQTT spec which says it is message-level
+            };
+
+            string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
+            byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
+
+            DataPoint httpServerMaintenanceDataPoint = httpServerLastMaintenanceDataset.DataPoints![0];
+            HttpMethod httpServerMaintenanceHttpMethod = HttpMethod.Parse(httpServerMaintenanceDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+            string httpServerMaintenanceRequestPath = httpServerMaintenanceDataPoint.DataSource!;
+            using HttpDataRetriever httpServerMaintenanceDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerMaintenanceRequestPath, httpServerMaintenanceHttpMethod, httpServerUsername, httpServerPassword);
+
+            _logger.LogInformation($"Reading thermostat's last maintenance from HTTP server asset");
+            var lastMaintenance = new MachineLastMaintenance(await httpServerMaintenanceDataRetriever.RetrieveDataAsync(httpServerMaintenanceDataPoint.Name));
+
+            _logger.LogInformation($"Successfully read thermostat last maintenance from HTTP server asset: {lastMaintenance}");
+
+            _logger.LogInformation($"Sending thermostat last maintenance to MQTT broker");
+            await lastMaintenanceSender.SendTelemetryAsync(lastMaintenance);
+        }
+
+        private Asset GetStubAsset()
         {
             return new()
             {
-                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
+                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
                 Datasets = new Dataset[]
                 {
                     new Dataset()
@@ -143,21 +205,20 @@ namespace DotnetHttpConnectorWorkerService
                         {
                             new DataPoint()
                             {
-                                Name = "machine_id",
-                                DataSource = "/api/machine/id",
+                                Name = "actual_temperature",
+                                DataSource = "/api/machine/my_thermostat_1/status",
                                 DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                             },
                             new DataPoint()
                             {
-                                Name = "status",
-                                DataSource = "/api/machine/status",
+                                Name = "desired_temperature",
+                                DataSource = "/api/machine/my_thermostat_1/status",
                                 DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                             },
                         },
-                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
                         Topic = new()
                         {
-                            Path = "mqtt/machine/status",
+                            Path = "mqtt/machine/my_thermostat_1/status",
                             Retain = "Keep",
                         }
                     },
@@ -168,21 +229,15 @@ namespace DotnetHttpConnectorWorkerService
                         {
                             new DataPoint()
                             {
-                                Name = "machine_id",
-                                DataSource = "/api/machine/id",
-                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                            },
-                            new DataPoint()
-                            {
                                 Name = "last_maintenance",
-                                DataSource = "/api/machine/maintenance",
+                                DataSource = "/api/machine/my_thermostat_1/maintenance",
                                 DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                             },
                         },
                         DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
                         Topic = new()
                         {
-                            Path = "mqtt/machine/last_maintenance",
+                            Path = "mqtt/machine/my_thermostat_1/last_maintenance",
                             Retain = "Keep",
                         }
                     }

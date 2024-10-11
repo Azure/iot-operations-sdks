@@ -17,8 +17,14 @@ spec:
   datasets:
     - name: machine_status
       dataPoints:
-        - dataSource: /api/machine/my_machine_1/temperature
-          name: temperature
+        - dataSource: /api/machine/my_machine_1/status
+          name: actual_temperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: /api/machine/my_machine_1/status
+          name: desired_temperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
