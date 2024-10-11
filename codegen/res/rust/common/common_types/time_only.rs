@@ -1,12 +1,13 @@
 /* This file will be copied into the folder for generated code. */
 
 use std::ops::{Deref, DerefMut};
-use serde::{ser, de, Deserialize, Serialize, Deserializer, Serializer};
+
 use chrono::{TimeZone, Utc};
+use serde::{de, ser, Deserialize, Deserializer, Serialize, Serializer};
 use time::{self, format_description::well_known::Rfc3339};
 
 #[derive(Clone, Debug)]
-pub struct Time (time::Time);
+pub struct Time(time::Time);
 
 impl Deref for Time {
     type Target = time::Time;
@@ -23,23 +24,42 @@ impl DerefMut for Time {
 }
 
 impl Serialize for Time {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error> where S: Serializer {
-        s.serialize_str(time_to_rfc3339(self).map_err(|m| ser::Error::custom(m))?.as_str())
+    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        s.serialize_str(time_to_rfc3339(self).map_err(ser::Error::custom)?.as_str())
     }
 }
 
 impl<'de> Deserialize<'de> for Time {
-    fn deserialize<D>(deserializer: D) -> Result<Time, D::Error> where D: Deserializer<'de> {
+    fn deserialize<D>(deserializer: D) -> Result<Time, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
         let s: String = String::deserialize(deserializer)?;
-        Ok(rfc3339_to_time(&s).map_err(|m| de::Error::custom(m))?)
+        rfc3339_to_time(&s).map_err(de::Error::custom)
     }
 }
 
 fn time_to_rfc3339(time: &Time) -> Result<String, &'static str> {
-    let date_time = Utc.with_ymd_and_hms(0, 1, 1, time.hour() as u32, time.minute() as u32, time.second() as u32).unwrap();
+    let date_time = Utc
+        .with_ymd_and_hms(
+            0,
+            1,
+            1,
+            time.hour() as u32,
+            time.minute() as u32,
+            time.second() as u32,
+        )
+        .unwrap();
     let date_time_string = date_time.to_rfc3339();
-    let t_ix = date_time_string.find('T').ok_or("error serializing Time to RFC 3339 format")?;
-    let plus_ix = date_time_string.find('+').ok_or("error serializing Time to RFC 3339 format")?;
+    let t_ix = date_time_string
+        .find('T')
+        .ok_or("error serializing Time to RFC 3339 format")?;
+    let plus_ix = date_time_string
+        .find('+')
+        .ok_or("error serializing Time to RFC 3339 format")?;
     let time_str = &date_time_string[t_ix + 1..plus_ix];
     let mut time_string = time_str.to_string();
     time_string.push('Z');
@@ -47,5 +67,8 @@ fn time_to_rfc3339(time: &Time) -> Result<String, &'static str> {
 }
 
 fn rfc3339_to_time(time_str: &str) -> Result<Time, &'static str> {
-    Ok(Time(time::Time::parse(format!("0000-01-01T{}", time_str).as_str(), &Rfc3339).map_err(|_| { "error deserializing Time from RFC 3339 format" })?))
+    Ok(Time(
+        time::Time::parse(format!("0000-01-01T{}", time_str).as_str(), &Rfc3339)
+            .map_err(|_| "error deserializing Time from RFC 3339 format")?,
+    ))
 }
