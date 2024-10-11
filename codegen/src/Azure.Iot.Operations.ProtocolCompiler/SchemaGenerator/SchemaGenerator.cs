@@ -41,7 +41,7 @@
 
             schemaFiles = new List<string>();
             schemaGenerator.GenerateTelemetrySchemas(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
-            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName, schemaFiles));
+            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
             schemaGenerator.GenerateObjects(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
             schemaGenerator.GenerateEnums(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
             schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName, schemaFiles));
@@ -85,7 +85,7 @@
                 separateTelemetries ? dtInterface.Telemetries.Select(t => ((string?)t.Key, SchemaNames.GetTelemSchema(t.Key))).ToList() :
                 new() { (null, SchemaNames.AggregateTelemSchema) };
 
-            List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c), GetResponseSchema(c), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
+            List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c, mqttVersion), GetResponseSchema(c, mqttVersion), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
 
             ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, serviceGroupId, telemNameSchemas, cmdNameReqRespIdemStales);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
@@ -114,14 +114,14 @@
             }
         }
 
-        public void GenerateCommandSchemas(Action<string, string, string> acceptor)
+        public void GenerateCommandSchemas(Action<string, string, string> acceptor, int mqttVersion)
         {
             foreach (KeyValuePair<string, DTCommandInfo> dtCommand in dtInterface.Commands)
             {
                 string? reqSchema = null;
-                if (dtCommand.Value.Request != null)
+                if (dtCommand.Value.Request != null && !IsCommandPayloadTransparent(dtCommand.Value.Request, mqttVersion))
                 {
-                    reqSchema = GetRequestSchema(dtCommand.Value);
+                    reqSchema = GetRequestSchema(dtCommand.Value, mqttVersion);
 
                     foreach (ITemplateTransform reqSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
                         payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema!, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, dtCommand.Value.Request.Nullable, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
@@ -131,9 +131,9 @@
                 }
 
                 string? respSchema = null;
-                if (dtCommand.Value.Response != null)
+                if (dtCommand.Value.Response != null && !IsCommandPayloadTransparent(dtCommand.Value.Response, mqttVersion))
                 {
-                    respSchema = GetResponseSchema(dtCommand.Value);
+                    respSchema = GetResponseSchema(dtCommand.Value, mqttVersion);
 
                     foreach (ITemplateTransform respSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
                         payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema!, dtCommand.Key, "response", dtCommand.Value.Response.Name, dtCommand.Value.Response.Schema, dtCommand.Value.Response.Nullable, NameFormatter.DtmiToNamespace(dtInterface.Id), NameFormatter.GetLanguageSafeString(dtInterface.Id.CompleteVersion.ToString())))
@@ -236,17 +236,19 @@
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
         }
 
-        private string? GetRequestSchema(DTCommandInfo dtCommand)
+        private string? GetRequestSchema(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.Request == null ? null :
                 payloadFormat == PayloadFormat.Raw ? "" :
+                IsCommandPayloadTransparent(dtCommand.Request, mqttVersion) ? NameFormatter.DtmiToSchemaName(dtCommand.Request.Schema.Id, dtInterface.Id, "Object") :
                 SchemaNames.GetCmdReqSchema(dtCommand.Name);
         }
 
-        private string? GetResponseSchema(DTCommandInfo dtCommand)
+        private string? GetResponseSchema(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.Response == null ? null :
                 payloadFormat == PayloadFormat.Raw ? "" :
+                IsCommandPayloadTransparent(dtCommand.Response, mqttVersion) ? NameFormatter.DtmiToSchemaName(dtCommand.Response.Schema.Id, dtInterface.Id, "Object") :
                 SchemaNames.GetCmdRespSchema(dtCommand.Name);
         }
 
@@ -258,6 +260,11 @@
         private static string? GetTtl(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.CacheableAdjunctTypeFormat, mqttVersion))) ? XmlConvert.ToString((TimeSpan)dtCommand.SupplementalProperties[string.Format(DtdlMqttExtensionValues.TtlPropertyFormat, mqttVersion)]) : null;
+        }
+
+        private static bool IsCommandPayloadTransparent(DTCommandPayloadInfo dtCommandPayload, int mqttVersion)
+        {
+            return dtCommandPayload.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.TransparentAdjunctTypeFormat, mqttVersion)));
         }
 
         private static Action<string, string, string> GetWriter(string parentPath, List<string>? fileNames = null)
