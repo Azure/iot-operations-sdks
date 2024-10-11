@@ -1,20 +1,19 @@
 package protocol
 
 import (
-	"github.com/google/uuid"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/google/uuid"
 )
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
 	encoding Encoding[T]
-	topic    internal.TopicPattern
+	topic    *internal.TopicPattern
 }
 
 // DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
@@ -29,9 +28,11 @@ func (p *publisher[T]) build(
 	pub := &mqtt.Message{}
 	var err error
 
-	pub.Topic, err = p.topic.Topic(topicTokens)
-	if err != nil {
-		return nil, err
+	if p.topic != nil {
+		pub.Topic, err = p.topic.Topic(topicTokens)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	if expiry == 0 {
@@ -50,9 +51,7 @@ func (p *publisher[T]) build(
 		}
 
 		pub.ContentType = p.encoding.ContentType()
-		if p.encoding.IsUTF8() {
-			pub.PayloadFormat = 1
-		}
+		pub.PayloadFormat = mqtt.PayloadFormat(p.encoding.PayloadFormat())
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)

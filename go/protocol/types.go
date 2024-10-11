@@ -18,6 +18,9 @@ type (
 		// The timestamp of when the message was sent.
 		Timestamp hlc.HybridLogicalClock
 
+		// All topic tokens resolved from the incoming topic.
+		TopicTokens map[string]string
+
 		// Any user-provided metadata values.
 		Metadata map[string]string
 	}

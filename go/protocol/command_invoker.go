@@ -20,7 +20,7 @@ type (
 		client        mqtt.Client
 		publisher     *publisher[Req]
 		listener      *listener[Res]
-		responseTopic internal.TopicPattern
+		responseTopic *internal.TopicPattern
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}

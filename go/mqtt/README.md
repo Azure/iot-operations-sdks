@@ -186,7 +186,7 @@ type PahoClient interface {
 ```
 
 <a name="SessionClient"></a>
-## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L25-L98>)
+## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L24-L97>)
 
 SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1. TODO: Add support for QoS 2.
 
@@ -197,7 +197,7 @@ type SessionClient struct {
 ```
 
 <a name="NewSessionClient"></a>
-### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L168-L171>)
+### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L167-L170>)
 
 ```go
 func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionClient, error)
@@ -206,7 +206,7 @@ func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionCl
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromConnectionString"></a>
-### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L195-L197>)
+### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L194-L196>)
 
 ```go
 func NewSessionClientFromConnectionString(connStr string) (*SessionClient, error)
@@ -215,7 +215,7 @@ func NewSessionClientFromConnectionString(connStr string) (*SessionClient, error
 NewSessionClientFromConnectionString constructs a new session client from an user\-defined connection string.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L215>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L214>)
 
 ```go
 func NewSessionClientFromEnv() (*SessionClient, error)
@@ -224,7 +224,7 @@ func NewSessionClientFromEnv() (*SessionClient, error)
 NewSessionClientFromEnv constructs a new session client from user's environment variables.
 
 <a name="SessionClient.ClientID"></a>
-### func \(\*SessionClient\) [ClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L231>)
+### func \(\*SessionClient\) [ClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L230>)
 
 ```go
 func (c *SessionClient) ClientID() string
@@ -233,7 +233,7 @@ func (c *SessionClient) ClientID() string
 
 
 <a name="SessionClient.Connect"></a>
-### func \(\*SessionClient\) [Connect](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L19>)
+### func \(\*SessionClient\) [Connect](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L18>)
 
 ```go
 func (c *SessionClient) Connect(ctx context.Context) error
@@ -242,7 +242,7 @@ func (c *SessionClient) Connect(ctx context.Context) error
 Connect establishes a connection for the session client.
 
 <a name="SessionClient.Disconnect"></a>
-### func \(\*SessionClient\) [Disconnect](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L45>)
+### func \(\*SessionClient\) [Disconnect](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L44>)
 
 ```go
 func (c *SessionClient) Disconnect() error
