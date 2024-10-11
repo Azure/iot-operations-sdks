@@ -62,15 +62,14 @@
             commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;
             separateTelemetries = telemetryTopic?.Contains(MqttTopicTokens.TelemetryName) ?? false;
 
-            bool doesCommandTargetExecutor = commandTopic != null && commandTopic.Contains(MqttTopicTokens.CommandExecutorId);
             if (mqttVersion == 1)
             {
-                serviceGroupId = doesCommandTargetExecutor ? "MyServiceGroup" : null;
+                serviceGroupId = commandTopic != null && !commandTopic.Contains(MqttTopicTokens.CommandExecutorId) ? "MyServiceGroup" : null;
             }
             else
             {
                 serviceGroupId = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.ServiceGroupIdPropertyFormat, mqttVersion), out object? serviceGroupIdObj) ? (string)serviceGroupIdObj : null;
-                if (doesCommandTargetExecutor && serviceGroupId != null)
+                if (commandTopic != null && commandTopic.Contains(MqttTopicTokens.CommandExecutorId) && serviceGroupId != null)
                 {
                     throw new Exception($"Model must not specify 'serviceGroupId' property when 'commandTopic' includes token '{MqttTopicTokens.CommandExecutorId}'");
                 }
