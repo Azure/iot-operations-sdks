@@ -2,7 +2,7 @@
 
 In this tutorial, you deploy an application to the cluster. The application consumes simulated MQTT data from the MQTT broker, applies a windowing function, and then publishes the result back to MQTT broker. The published output shows how high volume data can be aggregated on the edge to reduce message frequency and size. The application is stateless, and uses the state store to cache values needed for the window calculations.
 
-## The application structure
+## What does it do?
 
 The application consists of two workers (input and output) that together perform a sliding window calculation over the past 60 seconds.
 
@@ -14,7 +14,7 @@ The **InputWorker** performs the following steps:
 1. Appends the new data to the list
 1. Pushes the updated list to the state store
 
-The OutputWorker performs the following steps:
+The **OutputWorker** performs the following steps:
 
 1. Every **10 seconds**, data is fetched from the state store
 1. Calculations are performed on the data timestamped in the last **60 seconds**
@@ -25,34 +25,7 @@ The OutputWorker performs the following steps:
 1. Follow the [Getting started](/README.md#getting-started) guide to install Azure IoT Operations in Codespaces.
 
 > [!NOTE]
-> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The Codespaces environment is already configured in this way.
-
-## Deploy the simulator
-
-Create test data by deploying a simulator. It emulates a sensor by sending sample temperature, vibration, and pressure readings to the MQTT broker on the `sensor/data` topic every 10 seconds.
-
-1. Deploy the simulator:
-
-    ```bash
-    kubectl apply -f yaml/simulator.yml
-    ```
-
-1. Confirm the simulator is running correctly by subscribing to its publishes:
-
-    ```bash
-    kubectl logs -l app=mqtt-simulator -n azure-iot-operations -f
-    ```
-
-    Output:
-
-    ```output
-    fetch https://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/APKINDEX.tar.gz
-    fetch https://dl-cdn.alpinelinux.org/alpine/v3.20/community/x86_64/APKINDEX.tar.gz
-    ...
-    Starting simulator
-    Publishing 5 messages
-    Publishing 10 messages
-    ```
+> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The codespace environment already provides this configuration.
 
 ## Run the application locally
 
@@ -70,7 +43,7 @@ The application can be run locally by fetching a SAT and broker cert from the cl
     dotnet run
     ```
 
-## Deploy the application to the cluster
+## Run the application on cluster
 
 The application can also be deployed to the cluster by building a container and applying the `app.yml` file:
 
@@ -98,6 +71,33 @@ The application can also be deployed to the cluster by building a container and 
     ```output
     NAME                   READY   STATUS              RESTARTS   AGE
     event-driven-app-xxx   1/1     Running             0          10s
+    ```
+
+## Deploy the simulator
+
+Create test data by deploying a simulator. It emulates a sensor by sending sample temperature, vibration, and pressure readings to the MQTT broker on the `sensor/data` topic every 10 seconds.
+
+1. Deploy the simulator:
+
+    ```bash
+    kubectl apply -f yaml/simulator.yml
+    ```
+
+1. Confirm the simulator is running correctly by subscribing to its publishes:
+
+    ```bash
+    kubectl logs -l app=mqtt-simulator -n azure-iot-operations -f
+    ```
+
+    Output:
+
+    ```output
+    fetch https://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/APKINDEX.tar.gz
+    fetch https://dl-cdn.alpinelinux.org/alpine/v3.20/community/x86_64/APKINDEX.tar.gz
+    ...
+    Starting simulator
+    Publishing 5 messages
+    Publishing 10 messages
     ```
 
 ## Verify the application output

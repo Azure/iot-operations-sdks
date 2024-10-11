@@ -20,6 +20,7 @@
         "vscode": {
             "extensions": [
                 "vsciot-vscode.vscode-dtdl",
+                "ms-azuretools.vscode-bicep",
                 "ms-azuretools.vscode-docker",
                 "ms-kubernetes-tools.vscode-kubernetes-tools"
             ]
