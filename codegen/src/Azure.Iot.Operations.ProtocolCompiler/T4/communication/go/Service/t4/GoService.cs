@@ -83,8 +83,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
  } 
             this.Write("\topts ...protocol.Option,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceName));
-            this.Write("Service, error) {\r\n\tvar err error\r\n\r\n\tserverOpts := []protocol.Option{\r\n\t\tprotoco" +
-                    "l.WithTopicTokenNamespace(\"ex:\"),\r\n\t\tprotocol.WithTopicTokens{\r\n");
+            this.Write("Service, error) {\r\n\tvar err error\r\n\r\n\tserverOpts := []protocol.Option{\r\n");
+ if (this.serviceGroupId != null) { 
+            this.Write("\t\tprotocol.WithShareName(\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceGroupId));
+            this.Write("\"),\r\n");
+ } 
+            this.Write("\t\tprotocol.WithTopicTokenNamespace(\"ex:\"),\r\n\t\tprotocol.WithTopicTokens{\r\n");
  if (this.doesCommandTargetService || this.doesTelemetryTargetService) { 
             this.Write("\t\t\t\"modelId\":    ModelID,\r\n");
  } 
