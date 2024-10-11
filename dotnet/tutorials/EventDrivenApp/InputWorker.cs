@@ -110,7 +110,7 @@ public class InputWorker(MqttSessionClient sessionClient, MqttConnectionSettings
                     do
                     {
                         data.Add(sensorData);
-                    } while (incomingSensorData.TryTake(out sensorData));
+                    } while (incomingSensorData.TryTake(out sensorData!));
 
                     // Push the sensor data back to the state store
                     await stateStoreClient.SetAsync(Constants.StateStoreSensorKey, JsonSerializer.Serialize(data), null, null, cancellationToken);

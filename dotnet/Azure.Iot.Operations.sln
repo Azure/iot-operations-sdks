@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Mqtt.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenApp", "tutorials\event-driven-app\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
