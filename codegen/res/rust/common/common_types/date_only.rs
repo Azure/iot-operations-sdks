@@ -1,8 +1,9 @@
 /* This file will be copied into the folder for generated code. */
 
+use std::ops::{Deref, DerefMut};
+
 use chrono::{TimeZone, Utc};
 use serde::{de, ser, Deserialize, Deserializer, Serialize, Serializer};
-use std::ops::{Deref, DerefMut};
 use time::{self, format_description::well_known::Rfc3339};
 
 #[derive(Clone, Debug)]

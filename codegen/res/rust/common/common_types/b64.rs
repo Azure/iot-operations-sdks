@@ -1,9 +1,10 @@
 /* This file will be copied into the folder for generated code. */
 
+use std::ops::{Deref, DerefMut};
+
 use base64::prelude::*;
 use bytes;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
-use std::ops::{Deref, DerefMut};
 
 #[derive(Clone, Debug)]
 pub struct Bytes(bytes::Bytes);

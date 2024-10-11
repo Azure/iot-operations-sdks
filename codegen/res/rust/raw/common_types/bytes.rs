@@ -1,7 +1,8 @@
 /* This file will be copied into the folder for generated code. */
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use std::ops::{Deref, DerefMut};
+
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use bytes;
 
 #[derive(Clone, Debug)]

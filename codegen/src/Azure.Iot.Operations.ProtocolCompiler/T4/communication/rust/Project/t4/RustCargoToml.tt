@@ -25,4 +25,3 @@ azure_iot_operations_protocol = { path = "<#=this.sdkPath#>/azure_iot_operations
 azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git" }
 azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git" }
 <# } #>
-thiserror = "1.0.63"

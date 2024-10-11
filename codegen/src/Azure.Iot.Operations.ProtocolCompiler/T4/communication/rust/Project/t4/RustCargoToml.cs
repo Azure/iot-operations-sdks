@@ -52,7 +52,6 @@ derive_builder = ""0.20""
                     ".git\" }\r\nazure_iot_operations_protocol = { git = \"https://github.com/Azure/iot-o" +
                     "perations-sdks.git\" }\r\n");
  } 
-            this.Write("thiserror = \"1.0.63\"\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

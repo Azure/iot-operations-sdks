@@ -11,9 +11,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Json, "serde_json" },
         };
 
-        private static readonly Dictionary<string, List<string>> formatHeaders = new()
+        private static readonly Dictionary<string, List<string>> formatStdHeaders = new()
         {
-            { PayloadFormat.Avro, new List<string> { "use std::io::Cursor;", "use lazy_static;", "use apache_avro;" } },
+            { PayloadFormat.Avro, new List<string> { "use std::io::Cursor;" } },
+            { PayloadFormat.Json, new List<string> { } },
+        };
+
+        private static readonly Dictionary<string, List<string>> formatExtHeaders = new()
+        {
+            { PayloadFormat.Avro, new List<string> { "use apache_avro;", "use lazy_static;" } },
             { PayloadFormat.Json, new List<string> { "use serde_json;" } },
         };
 
@@ -69,7 +75,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string schemaClassName;
         private readonly string schemaText;
         private readonly string? serdeLib;
-        private readonly List<string> headers;
+        private readonly List<string> stdHeaders;
+        private readonly List<string> extHeaders;
         private readonly string? schemaCode;
         private readonly string? contentType;
         private readonly string? formatIndicator;
@@ -84,7 +91,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.schemaText = string.Empty;
 
             this.serdeLib = serdeLibs.GetValueOrDefault(genFormat);
-            this.headers = formatHeaders.GetValueOrDefault(genFormat) ?? new List<string>();
+            this.stdHeaders = formatStdHeaders.GetValueOrDefault(genFormat) ?? new List<string>();
+            this.extHeaders = formatExtHeaders.GetValueOrDefault(genFormat) ?? new List<string>();
             this.schemaCode = formatSchemaCode.GetValueOrDefault(genFormat);
             this.contentType = formatContentType.GetValueOrDefault(genFormat);
             this.formatIndicator = formatFormatIndicator.GetValueOrDefault(genFormat);

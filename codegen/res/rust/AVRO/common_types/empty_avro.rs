@@ -1,10 +1,11 @@
 /* This file will be copied into the folder for generated code. */
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
-use serde::{Deserialize, Serialize};
 use std::io::Cursor;
-use lazy_static;
+
 use apache_avro;
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use lazy_static;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmptyAvro {

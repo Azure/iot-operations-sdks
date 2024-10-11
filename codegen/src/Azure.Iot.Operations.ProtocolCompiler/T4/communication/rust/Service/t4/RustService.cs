@@ -31,8 +31,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.Write(";\r\n");
  } 
             this.Write("\r\npub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolE" +
-                    "rror;\r\npub use crate::common_types::common_options::CommonOptions;\r\n\r\npub const " +
-                    "MODEL_ID: &str = \"");
+                    "rror;\r\n\r\npub use crate::common_types::common_options::CommonOptions;\r\n\r\npub cons" +
+                    "t MODEL_ID: &str = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
             this.Write("\";\r\n");
  if (this.commandTopic != null) { 

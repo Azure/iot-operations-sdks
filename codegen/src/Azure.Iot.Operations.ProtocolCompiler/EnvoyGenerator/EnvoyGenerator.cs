@@ -1,6 +1,8 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text.Json;
@@ -39,6 +41,19 @@
                     File.WriteAllText(envoyFilePath, templateTransform.TransformText());
                     Console.WriteLine($"  generated {envoyFilePath}");
                     sourceFilePaths.Add(envoyFilePath);
+                }
+            }
+
+            if (language == "rust")
+            {
+                try
+                {
+                    Console.WriteLine($"cargo fmt {outDir.FullName}");
+                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+                }
+                catch (Win32Exception)
+                {
+                    Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
                 }
             }
         }
