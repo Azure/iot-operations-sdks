@@ -20,7 +20,7 @@ The following table illustrates, for each possible error condition in a request 
 (For all conditions in this table, IsApplicationError is omitted or false.)
 The table also illustrates which Akri.Mqtt error kind the `CommandInvoker` should map this respose to.
 If a request message has multiple error conditions, the `CommandExecutor` is free to select from among the appropriate responses.
-For comprehensivess, the table includes rows illustrating conditions that are not considered to be errors; these requests should be processed as normal.
+For comprehensiveness, the table includes rows illustrating conditions that are not considered to be errors; these requests should be processed as normal.
 
 | Condition | Error? | Status | InvalidPropertyName | InvalidPropertyValue | Error Kind |
 | --- | --- | --- | --- | --- | --- |

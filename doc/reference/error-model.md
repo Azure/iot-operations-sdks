@@ -251,7 +251,7 @@ Following this recommendation, the current proposal uses an *unchecked exception
 Specifically, since Java `Error` is generally not used for custom types but only for core system errors (such as `StackOverflowError` and `OutOfMemoryError`) the Akri.Mqtt error type inherits from `RuntimeException`.
 
 Furthermore, in accordance with [Requirement](#requirements-and-desiderata) 8 above, all Java checked exceptions must be caught by the SDK.
-If the SDK is unable to thoughtfully deal with the exception, it must encapsulate the caught exception inside its own unchecked exeception type.
+If the SDK is unable to thoughtfully deal with the exception, it must encapsulate the caught exception inside its own unchecked exception type.
 The kind can be "unknown error" if no more appropriate kind is apparent.
 
 Java casing conventions specify that type names are PascalCase, field names are camelCase, and enum values are SCREAMING_SNAKE_CASE.

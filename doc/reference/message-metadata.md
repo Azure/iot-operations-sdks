@@ -33,7 +33,6 @@ We will use the next properties
 |`datacontenttype`|no|application/json| The content type of the message, obtained from the serializer|
 |`dataschema`|no|sr://fabrikam-schemas/123123123234234234234234#1.0.0| Uri to resolve the schema|
 
-
 ## Command Metadata
 
 ### Request Message

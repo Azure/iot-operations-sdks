@@ -1,4 +1,4 @@
-# Command Cache Behavior
+# Command Cache
 
 The command cache is used for de-duplicating both idempotent and non-idempotent requests, e.g., when broker replays requests because client disconnected. This is necessary when methods are not idempotent, or else the same method would be invoked twice, which is incorrect.
 

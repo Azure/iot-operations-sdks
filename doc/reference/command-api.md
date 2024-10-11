@@ -19,7 +19,7 @@ The MQTT RPC protocol is the basis for:
 1. All messaging patterns that cannot be resolved using Telemetry pattern.
 1. A few built-in service for the Azure IoT Operations ecosystem.
 
-Specifically for 2., we need the RPC protocol to create connectors (a.k.a. connectors or adapters) for external data sources that require complex interaction (e.g., Authentication) and caching. Caching specifically is a common requirement that allows an connector to efficiently act as an intermediary between on cluster workloads that participate in pipelined data processing and external data sources that are used to augment the data, e.g., as in the case of data contextualization in manufacturing environments.
+Specifically for 2, we need the RPC protocol to create connectors (a.k.a. connectors or adapters) for external data sources that require complex interaction (e.g., Authentication) and caching. Caching specifically is a common requirement that allows an connector to efficiently act as an intermediary between on cluster workloads that participate in pipelined data processing and external data sources that are used to augment the data, e.g., as in the case of data contextualization in manufacturing environments.
 
 The RPC protocol needs to be both dependable and efficient.
 

@@ -80,7 +80,7 @@ There are different types of applications with different networking constraints:
 
 For Cloud Native applications running in a cluster, the network layer is guaranteed, and it should embrace the probing/readiness flags provided by K8s.
 
-For connections established network without quality guarantees such as WiFi or WAN, the connection management becomes criticial to avoid crashing the hosting application.
+For connections established network without quality guarantees such as WiFi or WAN, the connection management becomes critical to avoid crashing the hosting application.
 
 ## Storing/Draining messages
 
@@ -96,17 +96,3 @@ Based on the application type there might be different requirements per each app
 - The application create Envoy/Binders injecting the connection
 - The connection can be managed outside of the Binders
 - The lifetime of the connection instance is decoupled from the lifetime of the binder instance
-
-```cs
-var client = new MqttFactory().CreateClientWithRetry(new DefaultRetryPolicy() { MaxNumRetries = 10})
-var connAck = await client.ConnectAsync(new MqttConnectionSettings("hostname") { CleanStart = false, ClientId = Environment.MachineName });
-var commandClient = new InvokerBinder(client);
-var response = await commandClient.EchoAsync(new EchoRequest {Message = "hola" });
-
-await client.DisconnectAsync();
-await client.ReconnectAsync();
-```
-
-## Queuing messages in memory when the connection is not available
-
-TBD

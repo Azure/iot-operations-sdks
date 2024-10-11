@@ -1,6 +1,6 @@
 # Envoy with Binders
 
-## Intro
+## Introdution
 
 Pub/Sub applications enable to decouple the publisher from the consumer, hence there is a need to establish a contract defining the message sent to a given topic.
 
