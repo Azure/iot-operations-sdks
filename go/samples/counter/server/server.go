@@ -24,11 +24,11 @@ func main() {
 	fmt.Printf("Starting counter server with clientId %s\n", clientID)
 	mqttClient := must(mqtt.NewSessionClientFromEnv())
 
-	check(mqttClient.Connect(ctx))
-
 	fmt.Println("Connected to MQTT broker.")
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(mqttClient, ReadCounter, Increment, Reset))
+
+	check(mqttClient.Connect(ctx))
 	done := must(server.Listen(ctx))
 	defer done()
 

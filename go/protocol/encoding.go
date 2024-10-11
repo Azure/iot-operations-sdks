@@ -11,7 +11,7 @@ type (
 	// All methods *must* be thread-safe.
 	Encoding[T any] interface {
 		ContentType() string
-		IsUTF8() bool
+		PayloadFormat() byte
 		Serialize(T) ([]byte, error)
 		Deserialize([]byte) (T, error)
 	}
@@ -61,9 +61,9 @@ func (JSON[T]) ContentType() string {
 	return "application/json"
 }
 
-// IsUTF8 indicates that JSON is valid UTF8.
-func (JSON[T]) IsUTF8() bool {
-	return true
+// PayloadFormat indicates that JSON is valid UTF8.
+func (JSON[T]) PayloadFormat() byte {
+	return 1
 }
 
 // Serialize translates the Go type T into JSON bytes.
@@ -83,9 +83,9 @@ func (Empty) ContentType() string {
 	return ""
 }
 
-// IsUTF8 indicates that empty is not (meaningfully) valid UTF8.
-func (Empty) IsUTF8() bool {
-	return false
+// PayloadFormat indicates that empty is not (meaningfully) valid UTF8.
+func (Empty) PayloadFormat() byte {
+	return 0
 }
 
 // Serialize validates that the payload is empty.
@@ -115,9 +115,9 @@ func (Raw) ContentType() string {
 	return "application/octet-stream"
 }
 
-// IsUTF8 indicates that raw is not known to be valid UTF8.
-func (Raw) IsUTF8() bool {
-	return false
+// PayloadFormat indicates that raw is not known to be valid UTF8.
+func (Raw) PayloadFormat() byte {
+	return 0
 }
 
 // Serialize returns the bytes unchanged.

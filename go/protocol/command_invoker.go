@@ -20,7 +20,7 @@ type (
 		client        mqtt.Client
 		publisher     *publisher[Req]
 		listener      *listener[Res]
-		responseTopic internal.TopicPattern
+		responseTopic *internal.TopicPattern
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}
@@ -158,6 +158,9 @@ func NewCommandInvoker[Req, Res any](
 		handler:        ci,
 	}
 
+	if err := ci.listener.register(); err != nil {
+		return nil, err
+	}
 	return ci, nil
 }
 

@@ -1,9 +1,8 @@
 package protocol
 
 import (
-	"gopkg.in/yaml.v3"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"gopkg.in/yaml.v3"
 )
 
 const (

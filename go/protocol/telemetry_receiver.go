@@ -126,6 +126,9 @@ func NewTelemetryReceiver[T any](
 		handler:     tr,
 	}
 
+	if err := tr.listener.register(); err != nil {
+		return nil, err
+	}
 	return tr, nil
 }
 
