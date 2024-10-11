@@ -431,29 +431,15 @@ func (o *CommandExecutorOptions) Apply(
 	opts []CommandExecutorOption,
 	rest ...CommandExecutorOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.commandExecutor(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.commandExecutor(o)
-		}
+	for opt := range internal.Apply[CommandExecutorOption](opts, rest...) {
+		opt.commandExecutor(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *CommandExecutorOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(CommandExecutorOption); ok {
-			op.commandExecutor(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(CommandExecutorOption); ok {
-			op.commandExecutor(o)
-		}
+	for opt := range internal.Apply[CommandExecutorOption](opts, rest...) {
+		opt.commandExecutor(o)
 	}
 }
 
@@ -482,15 +468,8 @@ func (o *RespondOptions) Apply(
 	opts []RespondOption,
 	rest ...RespondOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.respond(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.respond(o)
-		}
+	for opt := range internal.Apply[RespondOption](opts, rest...) {
+		opt.respond(o)
 	}
 }
 
