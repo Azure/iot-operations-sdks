@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 )
 
 type (

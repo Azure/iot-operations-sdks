@@ -11,6 +11,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 - [func Context\(ctx context.Context, msg string\) error](<#Context>)
 - [func Normalize\(err error, msg string\) error](<#Normalize>)
 - [type Error](<#Error>)
+  - [func \(e \*Error\) Attrs\(\) \[\]slog.Attr](<#Error.Attrs>)
   - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
 - [type Kind](<#Kind>)
 
@@ -63,6 +64,15 @@ type Error struct {
     HTTPStatusCode int
 }
 ```
+
+<a name="Error.Attrs"></a>
+### func \(\*Error\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L6>)
+
+```go
+func (e *Error) Attrs() []slog.Attr
+```
+
+Attrs returns additional error attributes for slog.
 
 <a name="Error.Error"></a>
 ### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L58>)

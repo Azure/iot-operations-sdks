@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
@@ -90,13 +90,11 @@ func newClientStub(
 						ContentType:     prop.ContentType,
 						CorrelationData: prop.CorrelationData,
 						MessageExpiry:   *prop.MessageExpiry,
-						PayloadFormat: mqtt.PayloadFormat(
-							*prop.PayloadFormat,
-						),
-						QoS:            mqtt.QoS(p.QoS),
-						ResponseTopic:  prop.ResponseTopic,
-						Retain:         p.Retain,
-						UserProperties: userPropertiesToMap(prop.User),
+						PayloadFormat:   *prop.PayloadFormat,
+						QoS:             p.QoS,
+						ResponseTopic:   prop.ResponseTopic,
+						Retain:          p.Retain,
+						UserProperties:  userPropertiesToMap(prop.User),
 					},
 					Ack: func() error { return c.client.Ack(p) },
 				}
@@ -141,10 +139,8 @@ func (c *clientStub) Publish(
 	var o mqtt.PublishOptions
 	o.Apply(opts)
 
-	payloadFormat := byte(o.PayloadFormat)
-
 	_, err := c.client.Publish(ctx, &paho.Publish{
-		QoS:     byte(o.QoS),
+		QoS:     o.QoS,
 		Retain:  o.Retain,
 		Topic:   topic,
 		Payload: payload,
@@ -152,7 +148,7 @@ func (c *clientStub) Publish(
 			CorrelationData: o.CorrelationData,
 			ContentType:     o.ContentType,
 			ResponseTopic:   o.ResponseTopic,
-			PayloadFormat:   &payloadFormat,
+			PayloadFormat:   &o.PayloadFormat,
 			MessageExpiry:   &o.MessageExpiry,
 			User:            mapToUserProperties(o.UserProperties),
 		},
@@ -177,8 +173,8 @@ func (s subStub) Update(
 		},
 		Subscriptions: []paho.SubscribeOptions{{
 			Topic:             s.topic,
-			QoS:               byte(o.QoS),
-			RetainHandling:    byte(o.RetainHandling),
+			QoS:               o.QoS,
+			RetainHandling:    o.RetainHandling,
 			NoLocal:           o.NoLocal,
 			RetainAsPublished: o.Retain,
 		}},

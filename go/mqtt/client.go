@@ -4,13 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
 type (
-	Client = mqtt.Client
-
 	// AuthOptions are the resolved options for enhanced authentication.
 	AuthOptions struct {
 		AuthMethod string
@@ -45,7 +42,7 @@ type (
 	// be sent with the Connect packet.
 	WillMessage struct {
 		Retain  bool
-		QoS     mqtt.QoS
+		QoS     byte
 		Topic   string
 		Payload []byte
 	}
@@ -53,7 +50,7 @@ type (
 	// WillProperties is a struct of the properties
 	// that can be set for a Will in a Connect packet.
 	WillProperties struct {
-		PayloadFormat     mqtt.PayloadFormat
+		PayloadFormat     byte
 		WillDelayInterval time.Duration
 		MessageExpiry     time.Duration
 		ContentType       string

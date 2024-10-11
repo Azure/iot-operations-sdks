@@ -6,7 +6,6 @@ import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type <#=this.serviceName#>Service struct {
@@ -40,7 +39,7 @@ const (
 )
 
 func New<#=this.serviceName#>Service(
-	client mqtt.Client,
+	client protocol.Client,
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=this.AsSchema(cmdNameReqResp.Item2)#>, <#=this.AsSchema(cmdNameReqResp.Item3)#>],
 <# } #>
@@ -116,7 +115,7 @@ func (service *<#=this.serviceName#>Service) Listen(
 }
 
 func New<#=this.serviceName#>Client(
-	client mqtt.Client,
+	client protocol.Client,
 <# foreach (string telemSchema in this.telemSchemas) { #>
 	<#=this.AsLower(telemSchema)#>Handler protocol.TelemetryHandler[<#=telemSchema#>],
 <# } #>

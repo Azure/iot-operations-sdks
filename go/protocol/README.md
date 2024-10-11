@@ -17,8 +17,9 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
     TelemetryReceiverOption
     TelemetrySenderOption
 \}](<#WithLogger>)
+- [type Client](<#Client>)
 - [type CommandExecutor](<#CommandExecutor>)
-  - [func NewCommandExecutor\[Req, Res any\]\(client mqtt.Client, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopic string, handler CommandHandler\[Req, Res\], opt ...CommandExecutorOption\) \(ce \*CommandExecutor\[Req, Res\], err error\)](<#NewCommandExecutor>)
+  - [func NewCommandExecutor\[Req, Res any\]\(client Client, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopic string, handler CommandHandler\[Req, Res\], opt ...CommandExecutorOption\) \(ce \*CommandExecutor\[Req, Res\], err error\)](<#NewCommandExecutor>)
   - [func \(ce \*CommandExecutor\[Req, Res\]\) Listen\(ctx context.Context\) \(func\(\), error\)](<#CommandExecutor[Req, Res].Listen>)
 - [type CommandExecutorOption](<#CommandExecutorOption>)
 - [type CommandExecutorOptions](<#CommandExecutorOptions>)
@@ -26,7 +27,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
   - [func \(o \*CommandExecutorOptions\) ApplyOptions\(opts \[\]Option, rest ...Option\)](<#CommandExecutorOptions.ApplyOptions>)
 - [type CommandHandler](<#CommandHandler>)
 - [type CommandInvoker](<#CommandInvoker>)
-  - [func NewCommandInvoker\[Req, Res any\]\(client mqtt.Client, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopic string, opt ...CommandInvokerOption\) \(ci \*CommandInvoker\[Req, Res\], err error\)](<#NewCommandInvoker>)
+  - [func NewCommandInvoker\[Req, Res any\]\(client Client, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopic string, opt ...CommandInvokerOption\) \(ci \*CommandInvoker\[Req, Res\], err error\)](<#NewCommandInvoker>)
   - [func \(ci \*CommandInvoker\[Req, Res\]\) Invoke\(ctx context.Context, req Req, opt ...InvokeOption\) \(res \*CommandResponse\[Res\], err error\)](<#CommandInvoker[Req, Res].Invoke>)
   - [func \(ci \*CommandInvoker\[Req, Res\]\) Listen\(ctx context.Context\) \(func\(\), error\)](<#CommandInvoker[Req, Res].Listen>)
 - [type CommandInvokerOption](<#CommandInvokerOption>)
@@ -69,14 +70,14 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type TelemetryHandler](<#TelemetryHandler>)
 - [type TelemetryMessage](<#TelemetryMessage>)
 - [type TelemetryReceiver](<#TelemetryReceiver>)
-  - [func NewTelemetryReceiver\[T any\]\(client mqtt.Client, encoding Encoding\[T\], topic string, handler TelemetryHandler\[T\], opt ...TelemetryReceiverOption\) \(tr \*TelemetryReceiver\[T\], err error\)](<#NewTelemetryReceiver>)
+  - [func NewTelemetryReceiver\[T any\]\(client Client, encoding Encoding\[T\], topic string, handler TelemetryHandler\[T\], opt ...TelemetryReceiverOption\) \(tr \*TelemetryReceiver\[T\], err error\)](<#NewTelemetryReceiver>)
   - [func \(tr \*TelemetryReceiver\[T\]\) Listen\(ctx context.Context\) \(func\(\), error\)](<#TelemetryReceiver[T].Listen>)
 - [type TelemetryReceiverOption](<#TelemetryReceiverOption>)
 - [type TelemetryReceiverOptions](<#TelemetryReceiverOptions>)
   - [func \(o \*TelemetryReceiverOptions\) Apply\(opts \[\]TelemetryReceiverOption, rest ...TelemetryReceiverOption\)](<#TelemetryReceiverOptions.Apply>)
   - [func \(o \*TelemetryReceiverOptions\) ApplyOptions\(opts \[\]Option, rest ...Option\)](<#TelemetryReceiverOptions.ApplyOptions>)
 - [type TelemetrySender](<#TelemetrySender>)
-  - [func NewTelemetrySender\[T any\]\(client mqtt.Client, encoding Encoding\[T\], topic string, opt ...TelemetrySenderOption\) \(ts \*TelemetrySender\[T\], err error\)](<#NewTelemetrySender>)
+  - [func NewTelemetrySender\[T any\]\(client Client, encoding Encoding\[T\], topic string, opt ...TelemetrySenderOption\) \(ts \*TelemetrySender\[T\], err error\)](<#NewTelemetrySender>)
   - [func \(ts \*TelemetrySender\[T\]\) Send\(ctx context.Context, val T, opt ...SendOption\) \(err error\)](<#TelemetrySender[T].Send>)
 - [type TelemetrySenderOption](<#TelemetrySenderOption>)
 - [type TelemetrySenderOptions](<#TelemetrySenderOptions>)
@@ -132,8 +133,17 @@ func WithLogger(logger *slog.Logger) interface {
 
 WithLogger enables logging with the provided slog logger.
 
+<a name="Client"></a>
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L10>)
+
+Client is the client used for the underlying MQTT connection.
+
+```go
+type Client = mqtt.Client
+```
+
 <a name="CommandExecutor"></a>
-## type [CommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L22-L30>)
+## type [CommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L23-L30>)
 
 CommandExecutor provides the ability to execute a single command.
 
@@ -147,13 +157,13 @@ type CommandExecutor[Req any, Res any] struct {
 ### func [NewCommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L90-L97>)
 
 ```go
-func NewCommandExecutor[Req, Res any](client mqtt.Client, requestEncoding Encoding[Req], responseEncoding Encoding[Res], requestTopic string, handler CommandHandler[Req, Res], opt ...CommandExecutorOption) (ce *CommandExecutor[Req, Res], err error)
+func NewCommandExecutor[Req, Res any](client Client, requestEncoding Encoding[Req], responseEncoding Encoding[Res], requestTopic string, handler CommandHandler[Req, Res], opt ...CommandExecutorOption) (ce *CommandExecutor[Req, Res], err error)
 ```
 
 NewCommandExecutor creates a new command executor.
 
 <a name="CommandExecutor[Req, Res].Listen"></a>
-### func \(\*CommandExecutor\[Req, Res\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L190-L192>)
+### func \(\*CommandExecutor\[Req, Res\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L189-L191>)
 
 ```go
 func (ce *CommandExecutor[Req, Res]) Listen(ctx context.Context) (func(), error)
@@ -193,7 +203,7 @@ type CommandExecutorOptions struct {
 ```
 
 <a name="CommandExecutorOptions.Apply"></a>
-### func \(\*CommandExecutorOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L430-L433>)
+### func \(\*CommandExecutorOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L429-L432>)
 
 ```go
 func (o *CommandExecutorOptions) Apply(opts []CommandExecutorOption, rest ...CommandExecutorOption)
@@ -202,7 +212,7 @@ func (o *CommandExecutorOptions) Apply(opts []CommandExecutorOption, rest ...Com
 Apply resolves the provided list of options.
 
 <a name="CommandExecutorOptions.ApplyOptions"></a>
-### func \(\*CommandExecutorOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L440>)
+### func \(\*CommandExecutorOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L439>)
 
 ```go
 func (o *CommandExecutorOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -223,7 +233,7 @@ type CommandHandler[Req any, Res any] func(
 ```
 
 <a name="CommandInvoker"></a>
-## type [CommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L19-L26>)
+## type [CommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L20-L27>)
 
 CommandInvoker provides the ability to invoke a single command.
 
@@ -234,16 +244,16 @@ type CommandInvoker[Req any, Res any] struct {
 ```
 
 <a name="NewCommandInvoker"></a>
-### func [NewCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L85-L91>)
+### func [NewCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L86-L92>)
 
 ```go
-func NewCommandInvoker[Req, Res any](client mqtt.Client, requestEncoding Encoding[Req], responseEncoding Encoding[Res], requestTopic string, opt ...CommandInvokerOption) (ci *CommandInvoker[Req, Res], err error)
+func NewCommandInvoker[Req, Res any](client Client, requestEncoding Encoding[Req], responseEncoding Encoding[Res], requestTopic string, opt ...CommandInvokerOption) (ci *CommandInvoker[Req, Res], err error)
 ```
 
 NewCommandInvoker creates a new command invoker.
 
 <a name="CommandInvoker[Req, Res].Invoke"></a>
-### func \(\*CommandInvoker\[Req, Res\]\) [Invoke](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L170-L174>)
+### func \(\*CommandInvoker\[Req, Res\]\) [Invoke](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L171-L175>)
 
 ```go
 func (ci *CommandInvoker[Req, Res]) Invoke(ctx context.Context, req Req, opt ...InvokeOption) (res *CommandResponse[Res], err error)
@@ -252,7 +262,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(ctx context.Context, req Req, opt ...
 Invoke calls the command. This call will block until the command returns; any desired parallelism between invocations should be handled by the caller using normal Go constructs.
 
 <a name="CommandInvoker[Req, Res].Listen"></a>
-### func \(\*CommandInvoker\[Req, Res\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L279-L281>)
+### func \(\*CommandInvoker\[Req, Res\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L276-L278>)
 
 ```go
 func (ci *CommandInvoker[Req, Res]) Listen(ctx context.Context) (func(), error)
@@ -261,7 +271,7 @@ func (ci *CommandInvoker[Req, Res]) Listen(ctx context.Context) (func(), error)
 Listen to the response topic\(s\). Returns a function to stop listening. Must be called before any calls to Invoke. Note that cancelling this context will cause the unsubscribe call to fail.
 
 <a name="CommandInvokerOption"></a>
-## type [CommandInvokerOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L29>)
+## type [CommandInvokerOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L30>)
 
 CommandInvokerOption represents a single command invoker option.
 
@@ -272,7 +282,7 @@ type CommandInvokerOption interface {
 ```
 
 <a name="CommandInvokerOptions"></a>
-## type [CommandInvokerOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L32-L40>)
+## type [CommandInvokerOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L33-L41>)
 
 CommandInvokerOptions are the resolved command invoker options.
 
@@ -289,7 +299,7 @@ type CommandInvokerOptions struct {
 ```
 
 <a name="CommandInvokerOptions.Apply"></a>
-### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L320-L323>)
+### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L317-L320>)
 
 ```go
 func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...CommandInvokerOption)
@@ -298,7 +308,7 @@ func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...Comma
 Apply resolves the provided list of options.
 
 <a name="CommandInvokerOptions.ApplyOptions"></a>
-### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L330>)
+### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L327>)
 
 ```go
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -330,7 +340,7 @@ type CommandResponse[Res any] struct {
 ```
 
 <a name="Respond"></a>
-### func [Respond](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L413-L416>)
+### func [Respond](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L412-L415>)
 
 ```go
 func Respond[Res any](payload Res, opt ...RespondOption) (*CommandResponse[Res], error)
@@ -398,7 +408,7 @@ type Encoding[T any] interface {
 ```
 
 <a name="InvocationError"></a>
-## type [InvocationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L30-L34>)
+## type [InvocationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L36-L40>)
 
 InvocationError represents an error intentionally returned by a handler to indicate incorrect invocation.
 
@@ -411,7 +421,7 @@ type InvocationError struct {
 ```
 
 <a name="InvocationError.Error"></a>
-### func \(InvocationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L42>)
+### func \(InvocationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L48>)
 
 ```go
 func (e InvocationError) Error() string
@@ -420,7 +430,7 @@ func (e InvocationError) Error() string
 Error returns the invocation error as a string.
 
 <a name="InvokeOption"></a>
-## type [InvokeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L43>)
+## type [InvokeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L44>)
 
 InvokeOption represent a single per\-invoke option.
 
@@ -431,7 +441,7 @@ type InvokeOption interface {
 ```
 
 <a name="InvokeOptions"></a>
-## type [InvokeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L46-L52>)
+## type [InvokeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L47-L53>)
 
 InvokeOptions are the resolved per\-invoke options.
 
@@ -446,7 +456,7 @@ type InvokeOptions struct {
 ```
 
 <a name="InvokeOptions.Apply"></a>
-### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L363-L366>)
+### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L360-L363>)
 
 ```go
 func (o *InvokeOptions) Apply(opts []InvokeOption, rest ...InvokeOption)
@@ -511,7 +521,7 @@ type Listener interface {
 ```
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L7-L26>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L13-L32>)
 
 Message contains common message data that is exposed to message handlers.
 
@@ -539,7 +549,7 @@ type Message[T any] struct {
 ```
 
 <a name="Option"></a>
-## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L38>)
+## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L44>)
 
 Option represents any of the option types, and can be filtered and applied by the ApplyOptions methods on the option structs.
 
@@ -617,7 +627,7 @@ type RespondOptions struct {
 ```
 
 <a name="RespondOptions.Apply"></a>
-### func \(\*RespondOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L467-L470>)
+### func \(\*RespondOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L466-L469>)
 
 ```go
 func (o *RespondOptions) Apply(opts []RespondOption, rest ...RespondOption)
@@ -626,7 +636,7 @@ func (o *RespondOptions) Apply(opts []RespondOption, rest ...RespondOption)
 Apply resolves the provided list of options.
 
 <a name="SendOption"></a>
-## type [SendOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L33>)
+## type [SendOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L34>)
 
 SendOption represent a single per\-send option.
 
@@ -637,7 +647,7 @@ type SendOption interface {
 ```
 
 <a name="SendOptions"></a>
-## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L36-L42>)
+## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L37-L43>)
 
 SendOptions are the resolved per\-send options.
 
@@ -652,7 +662,7 @@ type SendOptions struct {
 ```
 
 <a name="SendOptions.Apply"></a>
-### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L153-L156>)
+### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L150-L153>)
 
 ```go
 func (o *SendOptions) Apply(opts []SendOption, rest ...SendOption)
@@ -661,7 +671,7 @@ func (o *SendOptions) Apply(opts []SendOption, rest ...SendOption)
 Apply resolves the provided list of options.
 
 <a name="TelemetryHandler"></a>
-## type [TelemetryHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L48>)
+## type [TelemetryHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L49>)
 
 TelemetryHandler is the user\-provided implementation of a single telemetry event handler. It is treated as blocking; all parallelism is handled by the library. This \*must\* be thread\-safe.
 
@@ -670,7 +680,7 @@ type TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
 ```
 
 <a name="TelemetryMessage"></a>
-## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L52-L58>)
+## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L53-L59>)
 
 TelemetryMessage contains per\-message data and methods that are exposed to the telemetry handlers.
 
@@ -685,7 +695,7 @@ type TelemetryMessage[T any] struct {
 ```
 
 <a name="TelemetryReceiver"></a>
-## type [TelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L20-L25>)
+## type [TelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L21-L26>)
 
 TelemetryReceiver provides the ability to handle the receipt of a single telemetry.
 
@@ -696,16 +706,16 @@ type TelemetryReceiver[T any] struct {
 ```
 
 <a name="NewTelemetryReceiver"></a>
-### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L68-L74>)
+### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L69-L75>)
 
 ```go
-func NewTelemetryReceiver[T any](client mqtt.Client, encoding Encoding[T], topic string, handler TelemetryHandler[T], opt ...TelemetryReceiverOption) (tr *TelemetryReceiver[T], err error)
+func NewTelemetryReceiver[T any](client Client, encoding Encoding[T], topic string, handler TelemetryHandler[T], opt ...TelemetryReceiverOption) (tr *TelemetryReceiver[T], err error)
 ```
 
 NewTelemetryReceiver creates a new telemetry receiver.
 
 <a name="TelemetryReceiver[T].Listen"></a>
-### func \(\*TelemetryReceiver\[T\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L137-L139>)
+### func \(\*TelemetryReceiver\[T\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L138-L140>)
 
 ```go
 func (tr *TelemetryReceiver[T]) Listen(ctx context.Context) (func(), error)
@@ -714,7 +724,7 @@ func (tr *TelemetryReceiver[T]) Listen(ctx context.Context) (func(), error)
 Listen to the MQTT telemetry topic. Returns a function to stop listening. Note that cancelling this context will cause the unsubscribe call to fail.
 
 <a name="TelemetryReceiverOption"></a>
-## type [TelemetryReceiverOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L28-L30>)
+## type [TelemetryReceiverOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L29-L31>)
 
 TelemetryReceiverOption represents a single telemetry receiver option.
 
@@ -725,7 +735,7 @@ type TelemetryReceiverOption interface {
 ```
 
 <a name="TelemetryReceiverOptions"></a>
-## type [TelemetryReceiverOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L33-L43>)
+## type [TelemetryReceiverOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L34-L44>)
 
 TelemetryReceiverOptions are the resolved telemetry receiver options.
 
@@ -744,7 +754,7 @@ type TelemetryReceiverOptions struct {
 ```
 
 <a name="TelemetryReceiverOptions.Apply"></a>
-### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L245-L248>)
+### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L246-L249>)
 
 ```go
 func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ...TelemetryReceiverOption)
@@ -753,7 +763,7 @@ func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ..
 Apply resolves the provided list of options.
 
 <a name="TelemetryReceiverOptions.ApplyOptions"></a>
-### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L255>)
+### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L256>)
 
 ```go
 func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -762,7 +772,7 @@ func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option)
 ApplyOptions filters and resolves the provided list of options.
 
 <a name="TelemetrySender"></a>
-## type [TelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L15-L18>)
+## type [TelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L16-L19>)
 
 TelemetrySender provides the ability to send a single telemetry.
 
@@ -773,16 +783,16 @@ type TelemetrySender[T any] struct {
 ```
 
 <a name="NewTelemetrySender"></a>
-### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L50-L55>)
+### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L51-L56>)
 
 ```go
-func NewTelemetrySender[T any](client mqtt.Client, encoding Encoding[T], topic string, opt ...TelemetrySenderOption) (ts *TelemetrySender[T], err error)
+func NewTelemetrySender[T any](client Client, encoding Encoding[T], topic string, opt ...TelemetrySenderOption) (ts *TelemetrySender[T], err error)
 ```
 
 NewTelemetrySender creates a new telemetry sender.
 
 <a name="TelemetrySender[T].Send"></a>
-### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L90-L94>)
+### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L91-L95>)
 
 ```go
 func (ts *TelemetrySender[T]) Send(ctx context.Context, val T, opt ...SendOption) (err error)
@@ -791,7 +801,7 @@ func (ts *TelemetrySender[T]) Send(ctx context.Context, val T, opt ...SendOption
 Send emits the telemetry. This will block until the message is ack'd.
 
 <a name="TelemetrySenderOption"></a>
-## type [TelemetrySenderOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L21-L23>)
+## type [TelemetrySenderOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L22-L24>)
 
 TelemetrySenderOption represents a single telemetry sender option.
 
@@ -802,7 +812,7 @@ type TelemetrySenderOption interface {
 ```
 
 <a name="TelemetrySenderOptions"></a>
-## type [TelemetrySenderOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L26-L30>)
+## type [TelemetrySenderOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L27-L31>)
 
 TelemetrySenderOptions are the resolved telemetry sender options.
 
@@ -815,7 +825,7 @@ type TelemetrySenderOptions struct {
 ```
 
 <a name="TelemetrySenderOptions.Apply"></a>
-### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L128-L131>)
+### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L125-L128>)
 
 ```go
 func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...TelemetrySenderOption)
@@ -824,7 +834,7 @@ func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...Tel
 Apply resolves the provided list of options.
 
 <a name="TelemetrySenderOptions.ApplyOptions"></a>
-### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L138>)
+### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L135>)
 
 ```go
 func (o *TelemetrySenderOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -860,7 +870,7 @@ type WithExecutionTimeout time.Duration
 ```
 
 <a name="WithFencingToken"></a>
-## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L66>)
+## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L67>)
 
 WithFencingToken provides a fencing token to be used by the executor.
 
@@ -878,7 +888,7 @@ type WithIdempotent bool
 ```
 
 <a name="WithManualAck"></a>
-## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L62>)
+## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L63>)
 
 WithManualAck indicates that the handler is responsible for manually acking the telemetry message.
 
@@ -905,7 +915,7 @@ type WithMetadata map[string]string
 ```
 
 <a name="WithResponseTopic"></a>
-## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L57>)
+## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L58>)
 
 WithResponseTopic specifies a translation function from the request topic to the response topic. Note that this overrides any provided response topic prefix or suffix.
 
@@ -914,7 +924,7 @@ type WithResponseTopic func(string) string
 ```
 
 <a name="WithResponseTopicPrefix"></a>
-## type [WithResponseTopicPrefix](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L60>)
+## type [WithResponseTopicPrefix](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L61>)
 
 WithResponseTopicPrefix specifies a custom prefix for the response topic.
 
@@ -923,7 +933,7 @@ type WithResponseTopicPrefix string
 ```
 
 <a name="WithResponseTopicSuffix"></a>
-## type [WithResponseTopicSuffix](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L63>)
+## type [WithResponseTopicSuffix](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L64>)
 
 WithResponseTopicSuffix specifies a custom suffix for the response topic.
 
@@ -932,7 +942,7 @@ type WithResponseTopicSuffix string
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L46>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L47>)
 
 WithRetain indicates that the telemetry event should be retained by the broker.
 

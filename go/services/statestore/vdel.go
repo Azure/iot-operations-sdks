@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -42,19 +43,9 @@ func (c *Client[K, V]) VDel(
 }
 
 // Apply resolves the provided list of options.
-func (o *VDelOptions) Apply(
-	opts []VDelOption,
-	rest ...VDelOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.vdel(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.vdel(o)
-		}
+func (o *VDelOptions) Apply(opts []VDelOption, rest ...VDelOption) {
+	for opt := range options.Apply[VDelOption](opts, rest...) {
+		opt.vdel(o)
 	}
 }
 

@@ -5,7 +5,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -99,7 +98,7 @@ func pahoPub(
 	// TODO: There is a bug (https://github.com/eclipse/paho.golang/pull/255)
 	// in Paho, which could send (nil, nil) for QoS 0.
 	// It has been fixed in Paho but not yet released in version 0.21.
-	if p.QoS == byte(mqtt.QoS0) && res == nil && err == nil {
+	if p.QoS == 0 && res == nil && err == nil {
 		return nil
 	}
 

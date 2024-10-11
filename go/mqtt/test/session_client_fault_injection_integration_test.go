@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )
@@ -62,8 +61,8 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	_, err = client.Subscribe(
 		context.Background(),
 		"test-topic",
-		func(context.Context, *protocol.Message) error { return nil },
-		protocol.WithUserProperties{
+		func(context.Context, *mqtt.Message) error { return nil },
+		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),
@@ -87,7 +86,7 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	subscription, err := client.Subscribe(
 		context.Background(),
 		"test-topic",
-		func(context.Context, *protocol.Message) error { return nil },
+		func(context.Context, *mqtt.Message) error { return nil },
 	)
 	require.NoError(t, err)
 
@@ -97,7 +96,7 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 
 	err = subscription.Unsubscribe(
 		context.Background(),
-		protocol.WithUserProperties{
+		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),

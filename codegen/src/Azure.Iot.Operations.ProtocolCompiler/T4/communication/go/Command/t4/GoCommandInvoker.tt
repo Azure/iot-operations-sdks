@@ -6,7 +6,6 @@ import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type <#=this.capitalizedCommandName#>CommandInvoker struct {
@@ -14,7 +13,7 @@ type <#=this.capitalizedCommandName#>CommandInvoker struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandInvoker(
-	client mqtt.Client,
+	client protocol.Client,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
 ) (*<#=this.capitalizedCommandName#>CommandInvoker, error) {

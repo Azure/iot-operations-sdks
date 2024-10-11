@@ -6,7 +6,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
@@ -54,7 +53,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client mqtt.Client,
+	client protocol.Client,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{}

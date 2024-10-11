@@ -1,8 +1,14 @@
 package protocol
 
-import "github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+import (
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+)
 
 type (
+	// Client is the client used for the underlying MQTT connection.
+	Client = mqtt.Client
+
 	// Message contains common message data that is exposed to message handlers.
 	Message[T any] struct {
 		// The message payload.
