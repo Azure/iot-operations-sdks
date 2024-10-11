@@ -7,16 +7,24 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
-using System.Text;
+using HttpConnectorWorkerService;
+using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace DotnetHttpConnectorWorkerService
 {
-    public class StringTelemetrySender : TelemetrySender<string>
+    public class MachineStatusTelemetrySender : TelemetrySender<MachineStatus>
     {
-        public StringTelemetrySender(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "test", new Utf8JsonSerializer())
+        public MachineStatusTelemetrySender(IMqttPubSubClient mqttClient)
+            : base(mqttClient, null, new Utf8JsonSerializer())
+        {
+        }
+    }
+
+    public class MachineLastMaintenanceTelemetrySender : TelemetrySender<MachineLastMaintenance>
+    {
+        public MachineLastMaintenanceTelemetrySender(IMqttPubSubClient mqttClient)
+            : base(mqttClient, null, new Utf8JsonSerializer())
         {
         }
     }
@@ -34,7 +42,6 @@ namespace DotnetHttpConnectorWorkerService
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                // ADR client stub
                 AzureDeviceRegistryClient adrClient = new();
                 Console.WriteLine("Successfully created ADR client");
 
@@ -50,47 +57,83 @@ namespace DotnetHttpConnectorWorkerService
                 string httpServerUsername = httpServerAssetEndpointProfile.Credentials!.Username!;
                 byte[] httpServerPassword = httpServerAssetEndpointProfile.Credentials!.Password!;
 
-                Dataset httpServerDataset = httpServerAsset.Datasets![0];
-                TimeSpan samplingInterval = TimeSpan.FromMilliseconds(httpServerDataset.DatasetConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
-                DataPoint httpServerDataPoint = httpServerDataset.DataPoints![0];
+                Dataset httpServerStatusDataset = httpServerAsset.Datasets![0];
+                Dataset httpServerLastMaintenanceDataset = httpServerAsset.Datasets![1];
+                TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(httpServerAsset.DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
 
-                HttpMethod httpMethod = HttpMethod.Parse(httpServerDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-                string httpServerRequestPath = httpServerDataPoint.DataSource!;
-                using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
+                DataPoint httpServerMachineIdDataPoint = httpServerDataset.DataPoints![0];
+                HttpMethod httpServerMachineIdHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerMachineIdRequestPath = httpServerMachineIdDataPoint.DataSource!;
+                using HttpDataRetriever httpServerMachineIdDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerMachineIdRequestPath, httpServerMachineIdHttpMethod, httpServerUsername, httpServerPassword);
+
+                DataPoint httpServerStatusDataPoint = httpServerDataset.DataPoints![0];
+                HttpMethod httpServerStatusHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerStatusRequestPath = httpServerMachineIdDataPoint.DataSource!;
+                using HttpDataRetriever httpServerStatusDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerStatusRequestPath, httpServerStatusHttpMethod, httpServerUsername, httpServerPassword);
+
+                DataPoint httpServerMachineIdDataPoint = httpServerDataset.DataPoints![1];
+                HttpMethod httpServerMachineIdHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerMachineIdRequestPath = httpServerMachineIdDataPoint.DataSource!;
+                using HttpDataRetriever httpServerMachineIdDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerMachineIdRequestPath, httpServerMachineIdHttpMethod, httpServerUsername, httpServerPassword);
+
+                DataPoint httpServerLastMaintenanceDataPoint = httpServerDataset.DataPoints![1];
+                HttpMethod httpServerStatusHttpMethod = HttpMethod.Parse(httpServerMachineIdDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerStatusRequestPath = httpServerMachineIdDataPoint.DataSource!;
+                using HttpDataRetriever httpServerStatusDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerStatusRequestPath, httpServerStatusHttpMethod, httpServerUsername, httpServerPassword);
 
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
                 MqttSessionClient sessionClient = new();
                 await sessionClient.ConnectAsync(mqttConnectionSettings);
 
+                await using var sender = new MachineStatusTelemetrySender(sessionClient)
+                {
+                    TopicPattern = httpServerAsset.Datasets[0].Topic!.Path!,
+                    //TODO retain?
+                };
+
                 while (true)
                 {
-                    // Read data from the 3rd party asset
-                    string httpData = await httpDataRetriever.RetrieveDataAsync();
 
-                    Console.WriteLine("Read data from http asset endpoint:");
-                    Console.WriteLine(httpData + "\n");
-                    
-                    /*var sender = new StringTelemetrySender(sessionClient)
-                    {
-                        TopicPattern = "sample",
-                        ModelId = "someModel",
-                    };
 
-                    for (int i = 0; i < 5; i++)
-                    {
-                        await sender.SendTelemetryAsync(httpData);
-                    }
-                    */
                     await Task.Delay(samplingInterval);
                 }
             }
+        }
+
+        private async Task GetMachineStatus(MachineStatusTelemetrySender telemetrySender, HttpDataRetriever httpServerMachineIdDataRetriever, HttpDataRetriever httpServerStatusDataRetriever)
+        {
+            // Read data from the 3rd party asset
+            string httpDataMachineId = await httpServerMachineIdDataRetriever.RetrieveDataAsync();
+            string httpDataStatus = await httpServerStatusDataRetriever.RetrieveDataAsync();
+
+            string machineId = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerMachineIdDataPoint.Name!).GetString()!;
+            string status = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerStatusDataPoint.Name!).GetString()!;
+
+            MachineStatus machineStatus = new(machineId, status);
+
+            await telemetrySender.SendTelemetryAsync(machineStatus);
+        }
+
+        private async Task GetMachineLastMaintenance(MachineLastMaintenanceTelemetrySender telemetrySender, HttpDataRetriever httpServerMachineIdDataRetriever)
+        {
+            // Read data from the 3rd party asset
+            string httpDataMachineId = await httpServerMachineIdDataRetriever.RetrieveDataAsync();
+            string httpDataStatus = await httpServerStatusDataRetriever.RetrieveDataAsync();
+
+            string machineId = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerMachineIdDataPoint.Name!).GetString()!;
+            string lastMaintenance = JsonDocument.Parse(httpDataMachineId).RootElement.GetProperty(httpServerStatusDataPoint.Name!).GetString()!;
+
+            MachineLastMaintenance machineLastMaintenance = new(machineId, lastMaintenance);
+
+            await telemetrySender.SendTelemetryAsync(machineLastMaintenance);
         }
 
         private Asset GetStubAsset(string assetId)
         {
             return new()
             {
+                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
                 Datasets = new Dataset[]
                 {
                     new Dataset()
@@ -98,6 +141,12 @@ namespace DotnetHttpConnectorWorkerService
                         Name = "machine_status",
                         DataPoints = new DataPoint[]
                         {
+                            new DataPoint()
+                            {
+                                Name = "machine_id",
+                                DataSource = "/api/machine/id",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                            },
                             new DataPoint()
                             {
                                 Name = "status",
@@ -109,6 +158,31 @@ namespace DotnetHttpConnectorWorkerService
                         Topic = new()
                         {
                             Path = "mqtt/machine/status",
+                            Retain = "Keep",
+                        }
+                    },
+                    new Dataset()
+                    {
+                        Name = "last_maintenance",
+                        DataPoints = new DataPoint[]
+                        {
+                            new DataPoint()
+                            {
+                                Name = "machine_id",
+                                DataSource = "/api/machine/id",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                            },
+                            new DataPoint()
+                            {
+                                Name = "last_maintenance",
+                                DataSource = "/api/machine/maintenance",
+                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                            },
+                        },
+                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
+                        Topic = new()
+                        {
+                            Path = "mqtt/machine/last_maintenance",
                             Retain = "Keep",
                         }
                     }

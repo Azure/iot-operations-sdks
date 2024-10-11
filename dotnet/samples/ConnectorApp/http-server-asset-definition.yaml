@@ -10,17 +10,28 @@ spec:
   datasetsConfiguration: |-
    {
       "samplingInterval": 400,
-    }
+   }
   topic:
     path: /mqtt/machine/status
     retain: Keep         
   datasets:
     - name: machine_status
       dataPoints:
-        - dataSource: /api/machine/status
-          name: status
+        - dataSource: /api/machine/my_machine_1/temperature
+          name: temperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-          observabilityMode: Log
+    - name: last_maintenance
+      dataPoints:
+        - dataSource: /api/machine/my_machine_1/maintenance
+          name: last_maintenance
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+      datasetConfiguration: |-
+       {
+          "samplingInterval": 10000,
+       }

@@ -35,6 +35,22 @@ app.get("/api/machine/status", (req, res) => {
     res.json(contextList);
 });
 
+app.get("/api/machine/id", (req, res) => {
+    const contextList = {
+        machine_id: "some_machine_id",
+    };
+
+    res.json(contextList);
+});
+
+app.get("/api/machine/maintenance", (req, res) => {
+    const contextList = {
+        machine_id: "1/1/2000  12:15:12 PM",
+    };
+
+    res.json(contextList);
+});
+
 app.listen(80, () => {
     console.log(`Server running on port ${port}`);
 });
