@@ -27,8 +27,12 @@ type (
 		sessionStarted atomic.Bool
 
 		// Used to internally to signal client shutdown for cleaning up
-		// background goroutines
+		// background goroutines and inflight operations
 		shutdown chan struct{}
+
+		// Used internally to signal that the user has requested to stop the
+		// client
+		userStop chan struct{}
 
 		// RWMutex to protect pahoClient, connUp, connDown, and connCount
 		pahoClientMu sync.RWMutex
@@ -60,6 +64,10 @@ type (
 		// A list of functions that are called in order to notify the user of a
 		// disconnection from the MQTT server.
 		disconnectNotificationHandlers *internal.AppendableListWithRemoval[DisconnectNotificationHandler]
+
+		// A list of functions that are called in goroutines to notify the user
+		// of a SessionClient termination due to a fatal error.
+		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
 
 		// Buffered channel containing the PUBLISH packets to be sent
 		outgoingPublishes chan *outgoingPublish
@@ -197,6 +205,7 @@ func (c *SessionClient) ClientID() string {
 // to ensure the SessionClient is properly initialized.
 func (c *SessionClient) initialize() {
 	c.shutdown = make(chan struct{})
+	c.userStop = make(chan struct{})
 	c.connUp = make(chan struct{})
 	c.connDown = make(chan struct{})
 	// immediately close connDown to maintain the invariant that c.connDown is
