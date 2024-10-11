@@ -54,7 +54,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
    ./tools/deployment/deploy-aio.sh release
    ```
 
-1. Run through a [tutorial or sample](/tutorials) to get started with developing!
+1. Run through a [tutorial or sample](/samples) to get started with developing!
 
 ## SDK Features
 

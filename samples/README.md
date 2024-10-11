@@ -1,4 +1,4 @@
-# Tutorials and Samples
+# Samples and Tutorials
 
 ## Developer Environment Setup
 
@@ -6,12 +6,11 @@ Refer to the [Getting Started](/README.md#getting-started) for setting up your d
 
 ## Tutorials
 
-The tutorials listed below are step-by-step instructions to deploy a fully functioning example to a cluster and observer the output.
+The tutorials listed below are step-by-step instructions to deploy a fully functioning application to a cluster and observer the functioning output.
 
 | Tutorial | Language | Description |
 |-|-|-|
 | [Event Driven Application](/dotnet/tutorials/EventDrivenApp) | .NET | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. |
-
 
 ## Samples
 
