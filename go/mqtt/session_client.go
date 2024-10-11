@@ -215,6 +215,7 @@ func (c *SessionClient) initialize() {
 	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(incomingPublish)]()
 	c.connectNotificationHandlers = internal.NewAppendableListWithRemoval[ConnectNotificationHandler]()
 	c.disconnectNotificationHandlers = internal.NewAppendableListWithRemoval[DisconnectNotificationHandler]()
+	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
 
 	// TODO: make this queue size configurable
 	c.outgoingPublishes = make(chan *outgoingPublish, math.MaxUint16)
