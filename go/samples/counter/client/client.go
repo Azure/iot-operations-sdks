@@ -26,10 +26,10 @@ func main() {
 	fmt.Printf("Connected to MQTT broker, calling to %s\n", counterServer)
 
 	client := must(dtmi_com_example_Counter__1.NewCounterClient(mqttClient, protocol.WithResponseTopicPrefix("response")))
+	defer client.Close()
 
 	check(mqttClient.Connect(ctx))
-	done := must(client.Listen(ctx))
-	defer done()
+	check(client.Start(ctx))
 
 	resp := must(client.ReadCounter(ctx, counterServer))
 

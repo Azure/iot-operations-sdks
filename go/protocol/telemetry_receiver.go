@@ -132,12 +132,14 @@ func NewTelemetryReceiver[T any](
 	return tr, nil
 }
 
-// Listen to the MQTT telemetry topic. Returns a function to stop listening.
-// Note that cancelling this context will cause the unsubscribe call to fail.
-func (tr *TelemetryReceiver[T]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the MQTT telemetry topic.
+func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
 	return tr.listener.listen(ctx)
+}
+
+// Close the telemetry receiver to free its resources.
+func (tr *TelemetryReceiver[T]) Close() {
+	tr.listener.close()
 }
 
 func (tr *TelemetryReceiver[T]) onMsg(

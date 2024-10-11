@@ -273,13 +273,15 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	}
 }
 
-// Listen to the response topic(s). Returns a function to stop listening. Must
-// be called before any calls to Invoke. Note that cancelling this context will
-// cause the unsubscribe call to fail.
-func (ci *CommandInvoker[Req, Res]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the response topic(s). Must be called before any calls to
+// Invoke.
+func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
 	return ci.listener.listen(ctx)
+}
+
+// Close the command invoker to free its resources.
+func (ci *CommandInvoker[Req, Res]) Close() {
+	ci.listener.close()
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(

@@ -3,6 +3,7 @@ package protocol
 import (
 	"context"
 	"fmt"
+	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -17,8 +18,12 @@ import (
 type (
 	// Listener represents an object which will listen to a MQTT topic.
 	Listener interface {
-		Listen(context.Context) (func(), error)
+		Start(context.Context) error
+		Close()
 	}
+
+	// Listeners represents a collection of MQTT listeners.
+	Listeners []Listener
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
@@ -34,15 +39,13 @@ type (
 			onErr(context.Context, *mqtt.Message, error) error
 		}
 
-		sub  mqtt.Subscription
-		done func()
+		sub    mqtt.Subscription
+		done   func()
+		active atomic.Bool
 	}
 )
 
 func (l *listener[T]) register() error {
-	// TODO: The goroutines from this will leak if Listen is never called. We
-	// probably need to change to a Close() method pattern rather than a done
-	// callback pattern for the listeners.
 	handle, done := internal.Concurrent(l.concurrency, l.handle)
 
 	// Make the subscription shared if specified.
@@ -68,24 +71,27 @@ func (l *listener[T]) register() error {
 	return nil
 }
 
-func (l *listener[T]) listen(ctx context.Context) (func(), error) {
-	if err := l.sub.Update(
-		ctx,
-		mqtt.WithQoS(1),
-		mqtt.WithNoLocal(l.shareName == ""),
-	); err != nil {
-		l.done()
-		return nil, err
+func (l *listener[T]) listen(ctx context.Context) error {
+	if l.active.CompareAndSwap(false, true) {
+		return l.sub.Update(
+			ctx,
+			mqtt.WithQoS(1),
+			mqtt.WithNoLocal(l.shareName == ""),
+		)
 	}
+	return nil
+}
 
-	return func() {
+func (l *listener[T]) close() {
+	if l.active.CompareAndSwap(true, false) {
+		ctx := context.Background()
 		if err := l.sub.Unsubscribe(ctx); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
 			l.logger.Err(ctx, err)
 		}
-		l.done()
-	}, nil
+	}
+	l.done()
 }
 
 func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
@@ -199,22 +205,19 @@ func (l *listener[T]) drop(ctx context.Context, _ *mqtt.Message, err error) {
 	l.logger.Err(ctx, err)
 }
 
-// Listen starts all of the provided listeners.
-func Listen(ctx context.Context, listeners ...Listener) (func(), error) {
-	done := make([]func(), 0, len(listeners))
-	for _, l := range listeners {
-		c, err := l.Listen(ctx)
-		if err != nil {
-			for _, fn := range done {
-				fn()
-			}
-			return nil, err
+// Start listening to all underlying MQTT topics.
+func (ls Listeners) Start(ctx context.Context) error {
+	for _, l := range ls {
+		if err := l.Start(ctx); err != nil {
+			return err
 		}
-		done = append(done, c)
 	}
-	return func() {
-		for _, fn := range done {
-			fn()
-		}
-	}, nil
+	return nil
+}
+
+// Close all underlying MQTT topics and free resources.
+func (ls Listeners) Close() {
+	for _, l := range ls {
+		l.Close()
+	}
 }

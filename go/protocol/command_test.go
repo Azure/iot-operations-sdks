@@ -14,6 +14,9 @@ func TestCommand(t *testing.T) {
 	stub := setupMqtt(ctx, t, 1885)
 	defer stub.Broker.Close()
 
+	var listeners protocol.Listeners
+	defer listeners.Close()
+
 	enc := protocol.JSON[string]{}
 	topic := "prefix/{ex:token}/suffix"
 	value := "test"
@@ -31,6 +34,7 @@ func TestCommand(t *testing.T) {
 		protocol.WithTopicNamespace("ns"),
 	)
 	require.NoError(t, err)
+	listeners = append(listeners, executor)
 
 	invoker, err := protocol.NewCommandInvoker(stub.Client, enc, enc, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
@@ -39,10 +43,10 @@ func TestCommand(t *testing.T) {
 		protocol.WithTopicTokenNamespace("ex:"),
 	)
 	require.NoError(t, err)
+	listeners = append(listeners, invoker)
 
-	done, err := protocol.Listen(ctx, executor, invoker)
+	err = listeners.Start(ctx)
 	require.NoError(t, err)
-	defer done()
 
 	res, err := invoker.Invoke(ctx, value,
 		protocol.WithTopicTokens{"executorId": stub.Server.ClientID()},
@@ -63,6 +67,9 @@ func TestCommandError(t *testing.T) {
 	stub := setupMqtt(ctx, t, 1885)
 	defer stub.Broker.Close()
 
+	var listeners protocol.Listeners
+	defer listeners.Close()
+
 	req := protocol.Empty{}
 	res := protocol.JSON[string]{}
 	topic := "topic"
@@ -76,15 +83,16 @@ func TestCommandError(t *testing.T) {
 		},
 	)
 	require.NoError(t, err)
+	listeners = append(listeners, executor)
 
 	invoker, err := protocol.NewCommandInvoker(stub.Client, req, res, topic,
 		protocol.WithResponseTopicSuffix("response"),
 	)
 	require.NoError(t, err)
+	listeners = append(listeners, invoker)
 
-	done, err := protocol.Listen(ctx, executor, invoker)
+	err = listeners.Start(ctx)
 	require.NoError(t, err)
-	defer done()
 
 	_, err = invoker.Invoke(ctx, nil)
 	require.Error(t, err)

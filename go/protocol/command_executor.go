@@ -185,12 +185,14 @@ func NewCommandExecutor[Req, Res any](
 	return ce, nil
 }
 
-// Listen to the MQTT request topic. Returns a function to stop listening. Note
-// that cancelling this context will cause the unsubscribe call to fail.
-func (ce *CommandExecutor[Req, Res]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the MQTT request topic.
+func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 	return ce.listener.listen(ctx)
+}
+
+// Close the command executor to free its resources.
+func (ce *CommandExecutor[Req, Res]) Close() {
+	ce.listener.close()
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
