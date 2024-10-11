@@ -4,6 +4,12 @@
 
 The goals of the Azure IoT Operations SDKS is to provide an application framework to abstract the MQTT concepts, with a clean API, that can also be consumed using _Codegen_ from DTDL models.
 
+The SDKs can be used to build highly available applications at the edge, that interact with Azure IoT Operations to perform operations such as asset discovery, protocol translation and data transformation.
+
+## Language support
+
+Multiple languages are supported, with each language provides an SDK (collectively known as the *Azure IoT Operations SDKs*) with the same level of features and support available in each. The languages supported today are C#, Go and Rust, however additional languages will be added based on customer demand.
+
 ## Benefits
 
 The SDKs provide a number of benefits compared to utilizing the MQTT client directly:
@@ -32,4 +38,3 @@ The Azure IoT Operations SDKs provide a number of layers for a customer to engag
 
 ## Language Support
 
-Multiple languages are support, with each language provides an SDK (collectively known as the Azure IoT Operations SDKs) with the same level of features and support available in each. The languages supported today are C#, Go and Rust, however additional languages will be added based on customer demand.
