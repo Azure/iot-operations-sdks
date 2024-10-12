@@ -208,7 +208,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			disconnectReasonCode = &disconnectEvent.disconnectPacket.ReasonCode
 		}
 		signalDisconnection(disconnectReasonCode)
-		if disconnectReasonCode != nil && !isRetryableDisconnect(*disconnectReasonCode) {
+		if disconnectReasonCode != nil && isFatalDisconnectReasonCode(*disconnectReasonCode) {
 			return &FatalDisconnectError{
 				ReasonCode: *disconnectReasonCode,
 			}
@@ -291,7 +291,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 
 	if connack.ReasonCode >= 80 {
 		var connackError error = &ConnackError{ReasonCode: connack.ReasonCode}
-		if isRetryableConnack(connack.ReasonCode) {
+		if !isFatalConnackReasonCode(connack.ReasonCode) {
 			connackError = retryableErr{connackError}
 		}
 		return nil, &connack.ReasonCode, nil, connackError
