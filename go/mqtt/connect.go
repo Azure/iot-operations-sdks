@@ -65,73 +65,40 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	c.wg.Add(1)
+	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
+
 	go func() {
-		defer c.wg.Done()
-		c.run()
+		defer clientShutdownFunc()
+		defer close(c.shutdown)
+		select {
+		case <-clientShutdownCtx.Done():
+		case <-c.userStop:
+		}
 	}()
+
+	go func() {
+		defer clientShutdownFunc()
+		err := c.manageConnection(clientShutdownCtx)
+		if err != nil {
+			for handler := range c.fatalErrorHandlers.All() {
+				go handler(err)
+			}
+		}
+	}()
+
+	go c.manageOutgoingPublishes(clientShutdownCtx)
 
 	return nil
 }
 
 // Stop stops the SessionClient, terminating any pending operations and cleaning
-// up background goroutines. Blocks until cleanup has finished, unless ctx is
-// cancelled.
-func (c *SessionClient) Stop(ctx context.Context) error {
+// up background goroutines.
+func (c *SessionClient) Stop() error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}
 	}
-	close(c.userStop)
-
-	wgChan := make(chan struct{})
-	go func() {
-		c.wg.Wait()
-		close(wgChan)
-	}()
-
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-wgChan:
-		return nil
-	}
-}
-
-// run starts the SessionClient and blocks until the SessionClient encounters
-// a fatal error or the user requests the SessionClient to stop.
-func (c *SessionClient) run() {
-	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
-
-	// buffered by 1 to ensure the SessionClient doesn't hang if
-	// manageConnection produces an error after c.userStop is closed.
-	errChan := make(chan error, 1)
-
-	c.wg.Add(1)
-	go func() {
-		defer c.wg.Done()
-		errChan <- c.manageConnection(clientShutdownCtx)
-	}()
-
-	c.wg.Add(1)
-	go func() {
-		defer c.wg.Done()
-		c.manageOutgoingPublishes(clientShutdownCtx)
-	}()
-
-	var err error
-	select {
-	case <-c.userStop:
-	case err = <-errChan:
-	}
-
-	close(c.shutdown)
-	clientShutdownFunc()
-
-	if err != nil {
-		for handler := range c.fatalErrorHandlers.All() {
-			go handler(err)
-		}
-	}
+	c.closeUserStopOnce.Do(func() { close(c.userStop) })
+	return nil
 }
 
 type pahoClientDisconnectedEvent struct {

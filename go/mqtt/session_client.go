@@ -19,9 +19,6 @@ type (
 	// SessionClient implements an MQTT Session client supporting MQTT v5 with
 	// QoS 0 and QoS 1 support.
 	SessionClient struct {
-		// Used to ensure that the SessionClient does not leak goroutines
-		wg sync.WaitGroup
-
 		// Used to ensure Connect() is called only once and that user operations
 		// are only started after Connect() is called
 		sessionStarted atomic.Bool
@@ -32,7 +29,8 @@ type (
 
 		// Used internally to signal that the user has requested to stop the
 		// client
-		userStop chan struct{}
+		userStop          chan struct{}
+		closeUserStopOnce sync.Once
 
 		// RWMutex to protect pahoClient, connUp, connDown, and connCount
 		pahoClientMu sync.RWMutex
