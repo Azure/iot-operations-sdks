@@ -19,16 +19,18 @@ type (
 	// SessionClient implements an MQTT Session client supporting MQTT v5 with
 	// QoS 0 and QoS 1 support.
 	SessionClient struct {
-		// Used to ensure that the SessionClient does not leak goroutines
-		wg sync.WaitGroup
-
 		// Used to ensure Connect() is called only once and that user operations
 		// are only started after Connect() is called
 		sessionStarted atomic.Bool
 
 		// Used to internally to signal client shutdown for cleaning up
-		// background goroutines
+		// background goroutines and inflight operations
 		shutdown chan struct{}
+
+		// Used internally to signal that the user has requested to stop the
+		// client
+		userStop          chan struct{}
+		closeUserStopOnce sync.Once
 
 		// RWMutex to protect pahoClient, connUp, connDown, and connCount
 		pahoClientMu sync.RWMutex
@@ -60,6 +62,10 @@ type (
 		// A list of functions that are called in order to notify the user of a
 		// disconnection from the MQTT server.
 		disconnectNotificationHandlers *internal.AppendableListWithRemoval[DisconnectNotificationHandler]
+
+		// A list of functions that are called in goroutines to notify the user
+		// of a SessionClient termination due to a fatal error.
+		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
 
 		// Buffered channel containing the PUBLISH packets to be sent
 		outgoingPublishes chan *outgoingPublish
@@ -197,6 +203,7 @@ func (c *SessionClient) ClientID() string {
 // to ensure the SessionClient is properly initialized.
 func (c *SessionClient) initialize() {
 	c.shutdown = make(chan struct{})
+	c.userStop = make(chan struct{})
 	c.connUp = make(chan struct{})
 	c.connDown = make(chan struct{})
 	// immediately close connDown to maintain the invariant that c.connDown is
@@ -206,6 +213,7 @@ func (c *SessionClient) initialize() {
 	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(incomingPublish)]()
 	c.connectNotificationHandlers = internal.NewAppendableListWithRemoval[ConnectNotificationHandler]()
 	c.disconnectNotificationHandlers = internal.NewAppendableListWithRemoval[DisconnectNotificationHandler]()
+	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
 
 	// TODO: make this queue size configurable
 	c.outgoingPublishes = make(chan *outgoingPublish, math.MaxUint16)

@@ -38,7 +38,7 @@ type DisconnectNotificationHandler func(*DisconnectEvent)
 // SessionClient successfully establishes an MQTT connection. Note that since
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) func() {
+func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) (unregisterHandler func()) {
 	return c.connectNotificationHandlers.AppendEntry(handler)
 }
 
@@ -47,48 +47,58 @@ func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotifi
 // SessionClient detects a disconnection from the MQTT server. Note that since
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) func() {
+func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) (unregisterHandler func()) {
 	return c.disconnectNotificationHandlers.AppendEntry(handler)
 }
 
-// Run starts the SessionClient and blocks until the SessionClient has stopped.
-// ctx cancellation is used to stop the SessionClient. If the SessionClient
-// terminates due to an error, an error will be be returned. A SessionClient
-// instance may only be run once.
-func (c *SessionClient) Run(ctx context.Context) error {
+// RegisterFatalErrorHandler registers a handler that is called in a goroutine
+// if the SessionClient terminates due to a fatal error.
+func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregisterHandler func()) {
+	return c.fatalErrorHandlers.AppendEntry(handler)
+}
+
+// Start starts the SessionClient, spawning any necessary background goroutines.
+// In order to terminate the SessionClient and clean up any running goroutines,
+// Stop() must be called after calling Start()
+func (c *SessionClient) Start() error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
 		return &ClientStateError{State: Started}
 	}
 
 	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
 
-	// buffered by 1 to ensure the SessionClient doesn't hang if
-	// manageConnection produces an error after ctx is cancelled
-	errChan := make(chan error, 1)
-
-	c.wg.Add(1)
 	go func() {
-		errChan <- c.manageConnection(clientShutdownCtx)
-		c.wg.Done()
+		defer clientShutdownFunc()
+		defer close(c.shutdown)
+		select {
+		case <-clientShutdownCtx.Done():
+		case <-c.userStop:
+		}
 	}()
 
-	c.wg.Add(1)
 	go func() {
-		c.manageOutgoingPublishes(clientShutdownCtx)
-		c.wg.Done()
+		defer clientShutdownFunc()
+		err := c.manageConnection(clientShutdownCtx)
+		if err != nil {
+			for handler := range c.fatalErrorHandlers.All() {
+				go handler(err)
+			}
+		}
 	}()
 
-	var err error
-	select {
-	case <-ctx.Done():
-	case err = <-errChan:
+	go c.manageOutgoingPublishes(clientShutdownCtx)
+
+	return nil
+}
+
+// Stop stops the SessionClient, terminating any pending operations and cleaning
+// up background goroutines.
+func (c *SessionClient) Stop() error {
+	if !c.sessionStarted.Load() {
+		return &ClientStateError{State: NotStarted}
 	}
-
-	close(c.shutdown)
-	clientShutdownFunc()
-	c.wg.Wait()
-
-	return err
+	c.closeUserStopOnce.Do(func() { close(c.userStop) })
+	return nil
 }
 
 type pahoClientDisconnectedEvent struct {
