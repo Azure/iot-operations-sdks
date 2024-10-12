@@ -281,19 +281,16 @@ var retryableConnackCodes = map[byte]bool{
 	connackImplementationSpecificError: false,
 	connackUseAnotherServer:            false,
 	connackUnsupportedProtocolVersion:  false,
-	connackReauthenticate:              false,
 }
 
 // Retryable reason codes for DISCONNECT.
 var retryableDisconnectCodes = map[byte]bool{
-	disconnectServerUnavailable:                   true,
 	disconnectServerBusy:                          true,
 	disconnectQuotaExceeded:                       true,
 	disconnectConnectionRateExceeded:              true,
 	disconnectNotAuthorized:                       false,
 	disconnectMalformedPacket:                     false,
 	disconnectProtocolError:                       false,
-	disconnectBadAuthenticationMethod:             false,
 	disconnectSessionTakenOver:                    false,
 	disconnectTopicFilterInvalid:                  false,
 	disconnectTopicNameInvalid:                    false,
