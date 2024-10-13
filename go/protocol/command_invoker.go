@@ -239,9 +239,9 @@ func (ci *CommandInvoker[Req, Res]) initPending(
 ) (<-chan commandReturn[Res], func()) {
 	ret := make(chan commandReturn[Res])
 	done := make(chan struct{})
-	ci.pending.Store(correlation, commandPending[Res]{ret, done})
+	ci.pending.Set(correlation, commandPending[Res]{ret, done})
 	return ret, func() {
-		ci.pending.Delete(correlation)
+		ci.pending.Del(correlation)
 		close(done)
 	}
 }
@@ -256,7 +256,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	defer ci.listener.ack(ctx, pub)
 
 	cdata := string(pub.CorrelationData)
-	if pending, ok := ci.pending.Load(cdata); ok {
+	if pending, ok := ci.pending.Get(cdata); ok {
 		select {
 		case pending.ret <- commandReturn[Res]{res, err}:
 		case <-pending.done:
@@ -321,29 +321,15 @@ func (o *CommandInvokerOptions) Apply(
 	opts []CommandInvokerOption,
 	rest ...CommandInvokerOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.commandInvoker(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.commandInvoker(o)
-		}
+	for opt := range internal.Apply[CommandInvokerOption](opts, rest...) {
+		opt.commandInvoker(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(CommandInvokerOption); ok {
-			op.commandInvoker(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(CommandInvokerOption); ok {
-			op.commandInvoker(o)
-		}
+	for opt := range internal.Apply[CommandInvokerOption](opts, rest...) {
+		opt.commandInvoker(o)
 	}
 }
 
@@ -378,15 +364,8 @@ func (o *InvokeOptions) Apply(
 	opts []InvokeOption,
 	rest ...InvokeOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.invoke(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.invoke(o)
-		}
+	for opt := range internal.Apply[InvokeOption](opts, rest...) {
+		opt.invoke(o)
 	}
 }
 

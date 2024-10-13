@@ -35,7 +35,7 @@ func main() {
 
 	fmt.Println("Counter value:", resp.Payload.CounterResponse)
 
-	for i := 0; i < 15; i++ {
+	for range 15 {
 		respIncr := must(client.Increment(ctx, counterServer))
 		fmt.Println("Counter value after increment:", respIncr.Payload.CounterResponse)
 	}

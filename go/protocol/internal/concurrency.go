@@ -24,7 +24,7 @@ func Concurrent[T any](
 	// If a maximum concurrency was specified, spin up a number of goroutines
 	// equal to that value to handle dispatched messages.
 	dispatch := make(chan args)
-	for i := uint(0); i < concurrency; i++ {
+	for range concurrency {
 		go func() {
 			for a := range dispatch {
 				handler(a.ctx, a.val)

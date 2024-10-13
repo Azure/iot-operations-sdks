@@ -49,6 +49,9 @@ func New<#=this.serviceName#>Service(
 	var err error
 
 	serverOpts := []protocol.Option{
+<# if (this.serviceGroupId != null) { #>
+		protocol.WithShareName("<#=this.serviceGroupId#>"),
+<# } #>
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 <# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>

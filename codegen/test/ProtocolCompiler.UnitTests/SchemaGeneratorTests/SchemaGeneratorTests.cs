@@ -149,7 +149,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
 
-            schemaGenerator.GenerateCommandSchemas(ValidateAvroSchema);
+            schemaGenerator.GenerateCommandSchemas(ValidateAvroSchema, mqttVersion);
         }
 
         [Theory]
@@ -180,7 +180,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
 
-            schemaGenerator.GenerateCommandSchemas(ValidateJsonSchema);
+            schemaGenerator.GenerateCommandSchemas(ValidateJsonSchema, mqttVersion);
         }
 
         [Theory]

@@ -129,29 +129,15 @@ func (o *TelemetrySenderOptions) Apply(
 	opts []TelemetrySenderOption,
 	rest ...TelemetrySenderOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.telemetrySender(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.telemetrySender(o)
-		}
+	for opt := range internal.Apply[TelemetrySenderOption](opts, rest...) {
+		opt.telemetrySender(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *TelemetrySenderOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(TelemetrySenderOption); ok {
-			op.telemetrySender(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(TelemetrySenderOption); ok {
-			op.telemetrySender(o)
-		}
+	for opt := range internal.Apply[TelemetrySenderOption](opts, rest...) {
+		opt.telemetrySender(o)
 	}
 }
 
@@ -168,15 +154,8 @@ func (o *SendOptions) Apply(
 	opts []SendOption,
 	rest ...SendOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.send(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.send(o)
-		}
+	for opt := range internal.Apply[SendOption](opts, rest...) {
+		opt.send(o)
 	}
 }
 

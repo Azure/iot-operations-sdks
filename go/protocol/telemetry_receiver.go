@@ -246,29 +246,15 @@ func (o *TelemetryReceiverOptions) Apply(
 	opts []TelemetryReceiverOption,
 	rest ...TelemetryReceiverOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.telemetryReceiver(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.telemetryReceiver(o)
-		}
+	for opt := range internal.Apply[TelemetryReceiverOption](opts, rest...) {
+		opt.telemetryReceiver(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(TelemetryReceiverOption); ok {
-			op.telemetryReceiver(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(TelemetryReceiverOption); ok {
-			op.telemetryReceiver(o)
-		}
+	for opt := range internal.Apply[TelemetryReceiverOption](opts, rest...) {
+		opt.telemetryReceiver(o)
 	}
 }
 
