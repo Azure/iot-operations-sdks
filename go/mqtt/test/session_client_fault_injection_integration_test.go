@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	faultInjectableBrokerURL                 string = "mqtt://172.26.0.1:1884"
+	faultInjectableBrokerURL                 string = "mqtt://localhost:1884"
 	rejectConnectFault                       string = "fault:rejectconnect"
 	disconnectFault                          string = "fault:disconnect"
 	faultRequestID                           string = "fault:requestid"
