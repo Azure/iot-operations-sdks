@@ -88,7 +88,7 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
             .publish(TOPIC, QoS::AtLeastOnce, false, payload)
             .await
             .unwrap();
-        comp_token.wait().await.unwrap();
+        comp_token.await.unwrap();
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
 
