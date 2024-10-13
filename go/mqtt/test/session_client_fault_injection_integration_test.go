@@ -6,6 +6,7 @@ package test
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"testing"
 	"time"
@@ -17,13 +18,54 @@ import (
 )
 
 const (
-	faultInjectableBrokerURL                 string = "mqtt://localhost:1884"
+	faultInjectableBrokerURL                 string = "mqtt://172.26.0.1:1884"
 	rejectConnectFault                       string = "fault:rejectconnect"
 	disconnectFault                          string = "fault:disconnect"
 	faultRequestID                           string = "fault:requestid"
+	delayFault                               string = "fault:delay"
 	connectReasonCodeServerBusy              byte   = 0x89
 	disconnectReasonCodeAdministrativeAction byte   = 0x98
 )
+
+func TestSessionConnectionDisconnectionHandler(t *testing.T) {
+	client, err := mqtt.NewSessionClient(
+		faultInjectableBrokerURL,
+		mqtt.WithClientID("TestSessionConnectionDisconnectionHandler"),
+	)
+
+	clientConnectedChan := make(chan struct{})
+	clientDisconnectedChan := make(chan *mqtt.DisconnectEvent)
+	connectEventFunc := func(*mqtt.ConnectEvent) { close(clientConnectedChan) }
+	disconnectEventFunc := func(disconnect *mqtt.DisconnectEvent) {
+		clientDisconnectedChan <- disconnect
+	}
+	removeConnectEventFunc := client.RegisterConnectNotificationHandler(connectEventFunc)
+	removeDisconnectEventFunc := client.RegisterDisconnectNotificationHandler(disconnectEventFunc)
+	defer removeConnectEventFunc()
+	defer removeDisconnectEventFunc()
+
+	require.NoError(t, err)
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
+
+	<-clientConnectedChan
+
+	fmt.Println(strconv.Itoa(int(disconnectReasonCodeAdministrativeAction)))
+
+	err = client.Publish(
+		context.Background(),
+		"foo",
+		[]byte("foo"),
+		protocol.WithUserProperties{
+			disconnectFault: strconv.Itoa(int(disconnectReasonCodeAdministrativeAction)),
+			delayFault:      "1",
+		},
+	)
+	require.NoError(t, err)
+
+	disconnectEvent := <-clientDisconnectedChan
+	require.Equal(t, disconnectReasonCodeAdministrativeAction, disconnectEvent.DisconnectPacket.ReasonCode)
+}
 
 func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
 	uuidInstance, err := uuid.NewV7()
