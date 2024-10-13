@@ -3,107 +3,118 @@
 package test
 
 // TODO: add publish tests when the session client is able to retrieve the publish result when a publish operation spans multiple network connections
-// TODO: refactor and uncomment these tests
 
-// import (
-// 	"context"
-// 	"strconv"
-// 	"testing"
+import (
+	"context"
+	"strconv"
+	"testing"
+	"time"
 
-// 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-// 	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-// 	"github.com/google/uuid"
-// 	"github.com/stretchr/testify/require"
-// )
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/require"
+)
 
-// const (
-// 	faultInjectableBrokerURL                 string = "mqtt://localhost:1884"
-// 	rejectConnectFault                       string = "fault:rejectconnect"
-// 	disconnectFault                          string = "fault:disconnect"
-// 	faultRequestID                           string = "fault:requestid"
-// 	connectReasonCodeServerBusy              byte   = 0x89
-// 	disconnectReasonCodeAdministrativeAction byte   = 0x98
-// )
+const (
+	faultInjectableBrokerURL                 string = "mqtt://localhost:1884"
+	rejectConnectFault                       string = "fault:rejectconnect"
+	disconnectFault                          string = "fault:disconnect"
+	faultRequestID                           string = "fault:requestid"
+	connectReasonCodeServerBusy              byte   = 0x89
+	disconnectReasonCodeAdministrativeAction byte   = 0x98
+)
 
-// func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
-// 	uuidInstance, err := uuid.NewV7()
-// 	require.NoError(t, err)
-// 	uuidString := uuidInstance.String()
+func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
+	uuidInstance, err := uuid.NewV7()
+	require.NoError(t, err)
+	uuidString := uuidInstance.String()
 
-// 	userProperties := map[string]string{
-// 		rejectConnectFault: strconv.Itoa(
-// 			int(connectReasonCodeServerBusy),
-// 		), // TODO: ensure base 10 representation is correct.
-// 		faultRequestID: uuidString,
-// 	}
+	userProperties := map[string]string{
+		rejectConnectFault: strconv.Itoa(
+			int(connectReasonCodeServerBusy),
+		),
+		faultRequestID: uuidString,
+	}
 
-// 	client, err := mqtt.NewSessionClient(
-// 		faultInjectableBrokerURL,
-// 		mqtt.WithConnectPropertiesUser(userProperties),
-// 	)
-// 	require.NoError(t, err)
-// 	require.NoError(t, client.Connect(context.Background()))
-// 	_ = client.Disconnect()
-// }
+	client, err := mqtt.NewSessionClient(
+		faultInjectableBrokerURL,
+		mqtt.WithClientID("TestSessionClientHandlesFailedConnackDuringConnect"),
+		mqtt.WithConnectPropertiesUser(userProperties),
+	)
 
-// func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
-// 	t.Skip(
-// 		"session client currently fails this test with error message 'MQTT subscribe timed out'",
-// 	)
-// 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
-// 	require.NoError(t, err)
+	clientConnectedChan := make(chan struct{})
+	connectEventFunc := func(*mqtt.ConnectEvent) { close(clientConnectedChan) }
+	client.RegisterConnectNotificationHandler(connectEventFunc)
 
-// 	require.NoError(t, client.Connect(context.Background()))
-// 	defer func() { _ = client.Disconnect() }()
+	require.NoError(t, err)
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
-// 	uuidInstance, err := uuid.NewV7()
-// 	require.NoError(t, err)
-// 	uuidString := uuidInstance.String()
+	<-clientConnectedChan
 
-// 	_, err = client.Subscribe(
-// 		context.Background(),
-// 		"test-topic",
-// 		func(context.Context, *protocol.Message) error { return nil },
-// 		protocol.WithUserProperties{
-// 			disconnectFault: strconv.Itoa(
-// 				int(disconnectReasonCodeAdministrativeAction),
-// 			),
-// 			faultRequestID: uuidString,
-// 		},
-// 	)
-// 	require.NoError(t, err)
-// }
+	// If we get here, we successfully connected despite the fault injection.
+}
 
-// func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
-// 	t.Skip(
-// 		"session client currently fails this test with error message 'MQTT unsubscribe timed out'",
-// 	)
+func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
+	client, err := mqtt.NewSessionClient(
+		faultInjectableBrokerURL,
+		mqtt.WithClientID("TestSessionClientHandlesDisconnectDuringSubscribe"),
+		mqtt.WithKeepAlive(10*time.Second),
+	)
+	require.NoError(t, err)
 
-// 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
-// 	require.NoError(t, err)
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
-// 	require.NoError(t, client.Connect(context.Background()))
-// 	defer func() { _ = client.Disconnect() }()
+	uuidInstance, err := uuid.NewV7()
+	require.NoError(t, err)
+	uuidString := uuidInstance.String()
 
-// 	subscription, err := client.Subscribe(
-// 		context.Background(),
-// 		"test-topic",
-// 		func(context.Context, *protocol.Message) error { return nil },
-// 	)
-// 	require.NoError(t, err)
+	_, err = client.Subscribe(
+		context.Background(),
+		"test-topic",
+		func(context.Context, *protocol.Message) error { return nil },
+		protocol.WithUserProperties{
+			disconnectFault: strconv.Itoa(
+				int(disconnectReasonCodeAdministrativeAction),
+			),
+			faultRequestID: uuidString,
+		},
+	)
+	require.NoError(t, err)
+}
 
-// 	uuidInstance, err := uuid.NewV7()
-// 	require.NoError(t, err)
-// 	uuidString := uuidInstance.String()
+func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
+	client, err := mqtt.NewSessionClient(
+		faultInjectableBrokerURL,
+		mqtt.WithClientID("TestSessionClientHandlesDisconnectDuringUnsubscribe"),
+		mqtt.WithKeepAlive(10*time.Second),
+	)
+	require.NoError(t, err)
 
-// 	err = subscription.Unsubscribe(
-// 		context.Background(),
-// 		protocol.WithUserProperties{
-// 			disconnectFault: strconv.Itoa(
-// 				int(disconnectReasonCodeAdministrativeAction),
-// 			),
-// 			faultRequestID: uuidString,
-// 		},
-// 	)
-// 	require.NoError(t, err)
-// }
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
+
+	subscription, err := client.Subscribe(
+		context.Background(),
+		"test-topic",
+		func(context.Context, *protocol.Message) error { return nil },
+	)
+	require.NoError(t, err)
+
+	uuidInstance, err := uuid.NewV7()
+	require.NoError(t, err)
+	uuidString := uuidInstance.String()
+
+	err = subscription.Unsubscribe(
+		context.Background(),
+		protocol.WithUserProperties{
+			disconnectFault: strconv.Itoa(
+				int(disconnectReasonCodeAdministrativeAction),
+			),
+			faultRequestID: uuidString,
+		},
+	)
+	require.NoError(t, err)
+}
