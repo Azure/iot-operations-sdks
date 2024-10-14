@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
-using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
