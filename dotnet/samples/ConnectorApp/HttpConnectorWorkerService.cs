@@ -99,7 +99,8 @@ namespace HttpConnectorWorkerService
                         samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                     }
 
-                    Timer datasetSamplingTimer = new(SampleAsync, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
+                    _logger.LogInformation($"Will sample dataset with name {0} at a rate of once per {1} milliseconds", datasetName, (int)samplingInterval.TotalMilliseconds);
+                    using Timer datasetSamplingTimer = new(SampleAsync, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
                     datasetSamplingTimers[datasetName] = datasetSamplingTimer;
                 }
 
