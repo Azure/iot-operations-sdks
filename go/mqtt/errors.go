@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import "fmt"
@@ -5,13 +7,13 @@ import "fmt"
 /* ClientStateError */
 
 const (
-	// Run() has not yet been called on this SessionClient instance
+	// Run() has not yet been called on this SessionClient instance.
 	NotStarted = iota
 	// Run() has been called on this SessionClient instance and it has not been
-	// shut down
+	// shut down.
 	Started
 	// This SessionClient instance ran but was shut down due the user's request
-	// or due to a fatal error
+	// or due to a fatal error.
 	ShutDown
 )
 
@@ -47,7 +49,10 @@ type FatalDisconnectError struct {
 }
 
 func (e *FatalDisconnectError) Error() string {
-	return fmt.Sprintf("received DISCONNECT packet with fatal reason code %X", e.ReasonCode)
+	return fmt.Sprintf(
+		"received DISCONNECT packet with fatal reason code %X",
+		e.ReasonCode,
+	)
 }
 
 /* SessionLostError */
@@ -57,7 +62,7 @@ func (e *FatalDisconnectError) Error() string {
 // reconnecting.
 type SessionLostError struct{}
 
-func (e *SessionLostError) Error() string {
+func (*SessionLostError) Error() string {
 	return "expected server have session information, but received a CONNACK packet with session present false"
 }
 
@@ -72,7 +77,10 @@ type RetryFailureError struct {
 }
 
 func (e *RetryFailureError) Error() string {
-	return fmt.Sprintf("retries failed according to retry policy. last seen error: %v", e.lastError)
+	return fmt.Sprintf(
+		"retries failed according to retry policy. last seen error: %v",
+		e.lastError,
+	)
 }
 
 func (e *RetryFailureError) Unwrap() error {
@@ -121,7 +129,10 @@ type ConnackError struct {
 }
 
 func (e *ConnackError) Error() string {
-	return fmt.Sprintf("received CONNACK packet with error reason code %x", e.ReasonCode)
+	return fmt.Sprintf(
+		"received CONNACK packet with error reason code %x",
+		e.ReasonCode,
+	)
 }
 
 /* InvalidArgumentError */
@@ -157,14 +168,14 @@ func (e *InvalidArgumentError) Unwrap() error {
 // rate than can be handled by the SessionClient or broker.
 type PublishQueueFullError struct{}
 
-func (e *PublishQueueFullError) Error() string {
+func (*PublishQueueFullError) Error() string {
 	return "publish queue full"
 }
 
 /* InvalidOperationError */
 
 // InvalidOperationError is returned if the user attempts to make a function
-// call that is invalid (e.g., attempting to ack a QoS 0 message)
+// call that is invalid (e.g., attempting to ack a QoS 0 message).
 type InvalidOperationError struct {
 	message string
 }

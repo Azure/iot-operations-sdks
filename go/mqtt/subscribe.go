@@ -19,34 +19,32 @@ type incomingPublish struct {
 }
 
 // Creates the single callback to register to the underlying Paho client for
-// incoming PUBLISH packets
-func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.PublishReceived) (bool, error) {
+// incoming PUBLISH packets.
+func (c *SessionClient) makeOnPublishReceived(
+	connCount uint64,
+) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
-		var ackOnce sync.Once
-
-		ack := func() error {
+		ack := sync.OnceValue(func() error {
 			if publishReceived.Packet.QoS == 0 {
 				return &InvalidOperationError{
 					message: "only QoS 1 messages may be acked",
 				}
 			}
 
-			ackOnce.Do(func() {
-				pahoClient, currConnCount := func() (PahoClient, uint64) {
-					c.pahoClientMu.RLock()
-					defer c.pahoClientMu.RUnlock()
-					return c.pahoClient, c.connCount
-				}()
+			pahoClient, currConnCount := func() (PahoClient, uint64) {
+				c.pahoClientMu.RLock()
+				defer c.pahoClientMu.RUnlock()
+				return c.pahoClient, c.connCount
+			}()
 
-				if pahoClient == nil || connCount != currConnCount {
-					// if any disconnections occurred since receiving this
-					// PUBLISH, discard the ack.
-					return
-				}
-				pahoClient.Ack(publishReceived.Packet)
-			})
-			return nil
-		}
+			if pahoClient == nil || connCount != currConnCount {
+				// if any disconnections occurred since receiving this
+				// PUBLISH, discard the ack.
+				return nil
+			}
+
+			return pahoClient.Ack(publishReceived.Packet)
+		})
 
 		for handler := range c.incomingPublishHandlers.All() {
 			handler(
@@ -69,7 +67,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 	done := c.incomingPublishHandlers.AppendEntry(
 		func(incoming incomingPublish) {
-			handler(ctx, c.buildMessage(incoming))
+			handler(ctx, buildMessage(incoming))
 		},
 	)
 	return sync.OnceFunc(func() {
@@ -239,7 +237,7 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p incomingPublish) *Message {
+func buildMessage(p incomingPublish) *Message {
 	msg := &Message{
 		Topic:   p.packet.Topic,
 		Payload: p.packet.Payload,

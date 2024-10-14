@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package internal
 
 import (
@@ -23,7 +25,9 @@ func NewAppendableListWithRemoval[T any]() *AppendableListWithRemoval[T] {
 	return &AppendableListWithRemoval[T]{}
 }
 
-func (l *AppendableListWithRemoval[T]) AppendEntry(value T) (removeEntry func()) {
+func (l *AppendableListWithRemoval[T]) AppendEntry(
+	value T,
+) (removeEntry func()) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 

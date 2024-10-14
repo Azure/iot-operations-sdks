@@ -10,7 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TODO: Uncomment and adjust auth-related connection settings test code once the auth interfaces in the session client are determined.
+// TODO: Replace auth-related connection settings test code once the auth
+// interfaces in the session client are determined.
 
 func TestFromConnectionString(t *testing.T) {
 	tests := []struct {

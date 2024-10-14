@@ -67,9 +67,14 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 				// limitation in Paho (see
 				// https://github.com/eclipse/paho.golang/issues/216). We should
 				// consider submitting a PR to Paho to address this gap.
-				_, err := pahoClient.PublishWithOptions(ctx, nextOutgoingPublish.packet, paho.PublishOptions{Method: paho.PublishMethod_AsyncSend})
+				_, err := pahoClient.PublishWithOptions(
+					ctx,
+					nextOutgoingPublish.packet,
+					paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
+				)
 				var result *publishResult
-				if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
+				if err == nil ||
+					errors.Is(err, paho.ErrNetworkErrorAfterStored) {
 					// Paho has accepted control of the PUBLISH (i.e., either
 					// the PUBLISH was sent or the PUBLISH was stored in Paho's
 					// session tracker), so we relinquish control of the

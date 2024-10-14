@@ -12,7 +12,7 @@ func buildConnectPacket(
 	isInitialConn bool,
 ) *paho.Connect {
 	// Bound checks have already been performed during the connection settings
-	//initialization.
+	// initialization.
 	sessionExpiryInterval := uint32(connSettings.sessionExpiry.Seconds())
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
