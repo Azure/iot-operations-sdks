@@ -92,7 +92,7 @@ func BlobArray[T Bytes](data []byte) ([]T, error) {
 	}
 
 	ary := make([]T, n)
-	for i := 0; i < n; i++ {
+	for i := range n {
 		data = data[idx:]
 		ary[i], idx, err = parseBlob[T]('$', data)
 		if err != nil {

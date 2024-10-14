@@ -1,5 +1,7 @@
 package mqtt
 
+import "github.com/Azure/iot-operations-sdks/go/protocol/internal"
+
 type (
 	// WithContentType sets the content type for the publish.
 	WithContentType string
@@ -105,15 +107,8 @@ func (o *SubscribeOptions) Apply(
 	opts []SubscribeOption,
 	rest ...SubscribeOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.subscribe(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.subscribe(o)
-		}
+	for opt := range internal.Apply[SubscribeOption](opts, rest...) {
+		opt.subscribe(o)
 	}
 }
 
@@ -129,15 +124,8 @@ func (o *UnsubscribeOptions) Apply(
 	opts []UnsubscribeOption,
 	rest ...UnsubscribeOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.unsubscribe(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.unsubscribe(o)
-		}
+	for opt := range internal.Apply[UnsubscribeOption](opts, rest...) {
+		opt.unsubscribe(o)
 	}
 }
 
@@ -153,15 +141,8 @@ func (o *PublishOptions) Apply(
 	opts []PublishOption,
 	rest ...PublishOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.publish(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.publish(o)
-		}
+	for opt := range internal.Apply[PublishOption](opts, rest...) {
+		opt.publish(o)
 	}
 }
 

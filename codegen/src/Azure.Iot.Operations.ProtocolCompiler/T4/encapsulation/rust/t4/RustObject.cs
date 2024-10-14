@@ -27,11 +27,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 #![allow(unused_imports)]
 
 use std::collections::HashMap;
+
 use chrono::{DateTime, Utc};
 use iso8601_duration::Duration;
-use uuid::Uuid;
 use serde::{Deserialize, Serialize};
-use super::super::common_types::{b64::Bytes, date_only::Date, time_only::Time};
+use uuid::Uuid;
 
 ");
  foreach (var referencedSchema in this.referencedSchemaNames) { 
@@ -41,7 +41,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, time_only::Time};
             this.Write(this.ToStringHelper.ToStringWithCulture(referencedSchema));
             this.Write(";\r\n");
  } 
-            this.Write("\r\n");
+            this.Write("use crate::common_types::{b64::Bytes, date_only::Date, time_only::Time};\r\n\r\n");
  if (this.objectType.Description != null) { 
             this.Write("// ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectType.Description));
@@ -50,27 +50,29 @@ use super::super::common_types::{b64::Bytes, date_only::Date, time_only::Time};
             this.Write("#[derive(Serialize, Deserialize, Debug, Clone)]\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectType.SchemaName));
             this.Write(" {\r\n");
- foreach (var fieldInfo in this.objectType.FieldInfos) { 
+ bool firstField = true; foreach (var fieldInfo in this.objectType.FieldInfos) { 
+ if (!firstField) { 
             this.Write("\r\n");
+ } 
  if (fieldInfo.Value.Description != null) { 
             this.Write("    // ");
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldInfo.Value.Description));
             this.Write("\r\n");
  } 
  if (NamingSupport.ToSnakeCase(fieldInfo.Key) != fieldInfo.Key) { 
-            this.Write("    #[serde(rename=\"");
+            this.Write("    #[serde(rename = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldInfo.Key));
             this.Write("\")]\r\n");
  } 
  if (!fieldInfo.Value.IsRequired) { 
-            this.Write("    #[serde(skip_serializing_if=\"Option::is_none\")]\r\n");
+            this.Write("    #[serde(skip_serializing_if = \"Option::is_none\")]\r\n");
  } 
             this.Write("    pub ");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(fieldInfo.Key)));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsRequired)));
             this.Write(",\r\n");
- } 
+ firstField = false; } 
             this.Write("}\r\n");
             return this.GenerationEnvironment.ToString();
         }
