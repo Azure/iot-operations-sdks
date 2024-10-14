@@ -56,7 +56,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client protocol.Client,
+	client protocol.MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{}

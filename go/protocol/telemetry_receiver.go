@@ -69,7 +69,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
-	client Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	handler TelemetryHandler[T],

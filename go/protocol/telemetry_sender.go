@@ -15,7 +15,7 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    Client
+		client    MqttClient
 		publisher *publisher[T]
 	}
 
@@ -50,7 +50,7 @@ type (
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
-	client Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	opt ...TelemetrySenderOption,

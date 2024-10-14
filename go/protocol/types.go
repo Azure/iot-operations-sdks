@@ -10,11 +10,11 @@ import (
 )
 
 type (
-	// Client is the client used for the underlying MQTT connection.
-	Client interface {
+	// MqttClient is the client used for the underlying MQTT connection.
+	MqttClient interface {
 		ClientID() string
 		Publish(context.Context, string, []byte, ...mqtt.PublishOption) error
-		Register(mqtt.MessageHandler) func()
+		RegisterMessageHandler(mqtt.MessageHandler) func()
 		Subscribe(context.Context, string, ...mqtt.SubscribeOption) error
 		Unsubscribe(context.Context, string, ...mqtt.UnsubscribeOption) error
 	}

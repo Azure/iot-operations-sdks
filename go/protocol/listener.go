@@ -29,7 +29,7 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client         Client
+		client         MqttClient
 		encoding       Encoding[T]
 		topic          *internal.TopicFilter
 		shareName      string
@@ -48,7 +48,7 @@ type (
 
 func (l *listener[T]) register() {
 	handle, stop := internal.Concurrent(l.concurrency, l.handle)
-	done := l.client.Register(handle)
+	done := l.client.RegisterMessageHandler(handle)
 	l.done = func() {
 		done()
 		stop()

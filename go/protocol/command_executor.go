@@ -23,7 +23,7 @@ import (
 type (
 	// CommandExecutor provides the ability to execute a single command.
 	CommandExecutor[Req any, Res any] struct {
-		client    Client
+		client    MqttClient
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
@@ -90,7 +90,7 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
-	client Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopic string,

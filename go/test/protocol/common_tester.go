@@ -3,7 +3,6 @@
 package protocol
 
 import (
-	"context"
 	"testing"
 	"time"
 
@@ -17,7 +16,7 @@ import (
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-) (StubClient, protocol.Client) {
+) (StubClient, protocol.MqttClient) {
 	mqttClient := MakeStubMqttClient(clientID)
 	stubClient := &mqttClient
 	sessionClient, err := mqtt.NewSessionClient(
@@ -33,7 +32,7 @@ func getStubAndSessionClient(
 		mqtt.WithClientID(clientID),
 	)
 	require.NoError(t, err)
-	err = sessionClient.Start(context.Background())
+	err = sessionClient.Start()
 	require.NoError(t, err)
 
 	return stubClient, sessionClient

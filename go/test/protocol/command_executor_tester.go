@@ -225,7 +225,7 @@ func runOneCommandExecutorTest(
 
 func getCommandExecutor(
 	t *testing.T,
-	sessionClient protocol.Client,
+	sessionClient protocol.MqttClient,
 	tce *TestCaseExecutor,
 	countdownEvents map[string]*CountdownEvent,
 	catch *TestCaseCatch,

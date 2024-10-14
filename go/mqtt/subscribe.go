@@ -63,9 +63,9 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 	}
 }
 
-// Register a message handler on this client. Returns a function to remove the
-// message handler.
-func (c *SessionClient) Register(handler MessageHandler) func() {
+// RegisterMessageHandler registers a message handler on this client. Returns a
+// callback to remove the message handler.
+func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	return sync.OnceFunc(c.incomingPublishHandlers.AppendEntry(
 		func(incoming incomingPublish) {
 			handler(context.TODO(), c.buildMessage(incoming))

@@ -33,8 +33,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.respSchema)));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandInvoker(\r\n\tclient protocol.Client,\r\n\trequestTopic string,\r\n\topt ...protoco" +
-                    "l.CommandInvokerOption,\r\n) (*");
+            this.Write("CommandInvoker(\r\n\tclient protocol.MqttClient,\r\n\trequestTopic string,\r\n\topt ...pro" +
+                    "tocol.CommandInvokerOption,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker, error) {\r\n\tvar err error\r\n\tinvoker := &");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));

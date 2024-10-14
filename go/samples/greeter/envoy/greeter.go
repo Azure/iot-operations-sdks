@@ -71,7 +71,7 @@ var (
 )
 
 func NewGreeterServer(
-	client protocol.Client,
+	client protocol.MqttClient,
 	handlers GreeterHandlers,
 	opts ...protocol.CommandExecutorOption,
 ) (*GreeterServer, error) {
@@ -118,7 +118,7 @@ func NewGreeterServer(
 }
 
 func NewGreeterClient(
-	client protocol.Client,
+	client protocol.MqttClient,
 	opts ...protocol.CommandInvokerOption,
 ) (*GreeterClient, error) {
 	c := &GreeterClient{}

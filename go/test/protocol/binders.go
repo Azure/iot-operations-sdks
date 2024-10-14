@@ -25,7 +25,7 @@ type (
 )
 
 func NewTestingCommandInvoker(
-	client protocol.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	modelID *string,
@@ -83,7 +83,7 @@ func NewTestingCommandInvoker(
 }
 
 func NewTestingCommandExecutor(
-	client protocol.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	handler func(context.Context, *protocol.CommandRequest[string], *sync.Map) (*protocol.CommandResponse[string], error),

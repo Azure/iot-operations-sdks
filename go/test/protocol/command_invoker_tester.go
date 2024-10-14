@@ -202,7 +202,7 @@ func runOneCommandInvokerTest(
 
 func getCommandInvoker(
 	t *testing.T,
-	sessionClient protocol.Client,
+	sessionClient protocol.MqttClient,
 	tci TestCaseInvoker,
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {

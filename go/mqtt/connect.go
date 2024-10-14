@@ -62,12 +62,12 @@ func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregist
 // Start starts the SessionClient, spawning any necessary background goroutines.
 // In order to terminate the SessionClient and clean up any running goroutines,
 // Stop() must be called after calling Start()
-func (c *SessionClient) Start(ctx context.Context) error {
+func (c *SessionClient) Start() error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
 		return &ClientStateError{State: Started}
 	}
 
-	clientShutdownCtx, clientShutdownFunc := context.WithCancel(ctx)
+	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
 
 	go func() {
 		defer clientShutdownFunc()

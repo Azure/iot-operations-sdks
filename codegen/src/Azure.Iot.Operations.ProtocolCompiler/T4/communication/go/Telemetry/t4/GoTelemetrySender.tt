@@ -13,7 +13,7 @@ type <#=this.schemaClassName#>Sender struct {
 }
 
 func New<#=this.schemaClassName#>Sender(
-	client protocol.Client,
+	client protocol.MqttClient,
 	topic string,
 	opt ...protocol.TelemetrySenderOption,
 ) (*<#=this.schemaClassName#>Sender, error) {

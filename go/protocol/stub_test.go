@@ -20,8 +20,8 @@ import (
 
 type (
 	mqttStub struct {
-		Client protocol.Client
-		Server protocol.Client
+		Client protocol.MqttClient
+		Server protocol.MqttClient
 		Broker *mochi.Server
 	}
 
@@ -62,7 +62,7 @@ func newClientStub(
 	t *testing.T,
 	id string,
 	cfg listeners.Config,
-) protocol.Client {
+) protocol.MqttClient {
 	var d net.Dialer
 	conn, err := d.DialContext(ctx, cfg.Type, cfg.Address)
 	require.NoError(t, err)
@@ -114,7 +114,9 @@ func newClientStub(
 	return c
 }
 
-func (c *clientStub) Register(handler mqtt.MessageHandler) func() {
+func (c *clientStub) RegisterMessageHandler(
+	handler mqtt.MessageHandler,
+) func() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.handlers = append(c.handlers, handler)
