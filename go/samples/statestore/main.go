@@ -29,7 +29,7 @@ func main() {
 	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start(ctx))
 	check(client.Start(ctx))
 
 	stateStoreKey := "someKey"

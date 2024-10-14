@@ -20,7 +20,7 @@ import (
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        mqtt.Client
+		client        Client
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -161,9 +161,7 @@ func NewCommandInvoker[Req, Res any](
 		handler:        ci,
 	}
 
-	if err := ci.listener.register(); err != nil {
-		return nil, err
-	}
+	ci.listener.register()
 	return ci, nil
 }
 

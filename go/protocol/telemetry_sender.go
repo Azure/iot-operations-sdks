@@ -6,7 +6,6 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -16,7 +15,7 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    mqtt.Client
+		client    Client
 		publisher *publisher[T]
 	}
 

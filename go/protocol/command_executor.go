@@ -23,7 +23,7 @@ import (
 type (
 	// CommandExecutor provides the ability to execute a single command.
 	CommandExecutor[Req any, Res any] struct {
-		client    mqtt.Client
+		client    Client
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
@@ -180,9 +180,7 @@ func NewCommandExecutor[Req, Res any](
 		encoding: responseEncoding,
 	}
 
-	if err := ce.listener.register(); err != nil {
-		return nil, err
-	}
+	ce.listener.register()
 	return ce, nil
 }
 

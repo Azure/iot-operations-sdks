@@ -29,7 +29,7 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client         mqtt.Client
+		client         Client
 		encoding       Encoding[T]
 		topic          *internal.TopicFilter
 		shareName      string
@@ -41,42 +41,33 @@ type (
 			onErr(context.Context, *mqtt.Message, error) error
 		}
 
-		sub    mqtt.Subscription
 		done   func()
 		active atomic.Bool
 	}
 )
 
-func (l *listener[T]) register() error {
-	handle, done := internal.Concurrent(l.concurrency, l.handle)
-
-	// Make the subscription shared if specified.
-	filter := l.topic.Filter()
-	if l.shareName != "" {
-		filter = "$share/" + l.shareName + "/" + filter
-	}
-
-	sub, err := l.client.Register(
-		filter,
-		func(ctx context.Context, pub *mqtt.Message) error {
-			handle(ctx, pub)
-			return nil
-		},
-	)
-	if err != nil {
+func (l *listener[T]) register() {
+	handle, stop := internal.Concurrent(l.concurrency, l.handle)
+	done := l.client.Register(handle)
+	l.done = func() {
 		done()
-		return err
+		stop()
 	}
+}
 
-	l.sub = sub
-	l.done = done
-	return nil
+func (l *listener[T]) filter() string {
+	// Make the subscription shared if specified.
+	if l.shareName != "" {
+		return "$share/" + l.shareName + "/" + l.topic.Filter()
+	}
+	return l.topic.Filter()
 }
 
 func (l *listener[T]) listen(ctx context.Context) error {
 	if l.active.CompareAndSwap(false, true) {
-		return l.sub.Update(
+		return l.client.Subscribe(
 			ctx,
+			l.filter(),
 			mqtt.WithQoS(1),
 			mqtt.WithNoLocal(l.shareName == ""),
 		)
@@ -87,7 +78,7 @@ func (l *listener[T]) listen(ctx context.Context) error {
 func (l *listener[T]) close() {
 	if l.active.CompareAndSwap(true, false) {
 		ctx := context.Background()
-		if err := l.sub.Unsubscribe(ctx); err != nil {
+		if err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
 			l.logger.Err(ctx, err)
@@ -98,6 +89,12 @@ func (l *listener[T]) close() {
 
 func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	msg := &Message[T]{}
+
+	var match bool
+	msg.TopicTokens, match = l.topic.Tokens(pub.Topic)
+	if !match {
+		return
+	}
 
 	// The very first check must be the version, because if we don't support it,
 	// nothing else is trustworthy.
@@ -144,7 +141,6 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 	}
 
 	msg.Metadata = internal.PropToMetadata(pub.UserProperties)
-	msg.TopicTokens = l.topic.Tokens(pub.Topic)
 
 	if err := l.handler.onMsg(ctx, pub, msg); err != nil {
 		l.error(ctx, pub, err)
