@@ -16,6 +16,7 @@ type (
 
 	// Client represents a client of the state store.
 	Client[K, V Bytes] struct {
+		protocol.Listeners
 		invoker *protocol.CommandInvoker[[]byte, []byte]
 	}
 
@@ -73,17 +74,12 @@ func New[K, V Bytes](
 		protocol.WithTopicTokens{"clientId": client.ClientID()},
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.invoker)
 
 	return c, nil
-}
-
-// Listen to the response topic(s). Returns a function to stop listening. Must
-// be called before any state store methods. Note that cancelling this context
-// will cause the unsubscribe call to fail.
-func (c *Client[K, V]) Listen(ctx context.Context) (func(), error) {
-	return c.invoker.Listen(ctx)
 }
 
 // Shorthand to invoke and parse.

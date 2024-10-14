@@ -265,7 +265,7 @@ func getCommandExecutor(
 		options...)
 
 	if err == nil {
-		_, err = executor.base.Listen(context.Background())
+		err = executor.base.Start(context.Background())
 	}
 
 	if catch == nil {

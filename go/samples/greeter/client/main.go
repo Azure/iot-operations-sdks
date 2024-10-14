@@ -31,10 +31,10 @@ func main() {
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	client := must(envoy.NewGreeterClient(mqttClient))
+	defer client.Close()
 
 	check(mqttClient.Connect(ctx))
-	done := must(client.Listen(ctx))
-	defer done()
+	check(client.Start(ctx))
 
 	n := flag.String("n", "User", "the name to greet (default: User)")
 	d := flag.String("d", "", "how long to delay (in Go duration format)")

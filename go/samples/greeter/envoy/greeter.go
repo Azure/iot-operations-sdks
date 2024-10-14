@@ -35,6 +35,7 @@ type (
 	}
 
 	GreeterServer struct {
+		protocol.Listeners
 		sayHelloExecutor *protocol.CommandExecutor[
 			HelloRequest,
 			HelloResponse,
@@ -46,6 +47,7 @@ type (
 	}
 
 	GreeterClient struct {
+		protocol.Listeners
 		sayHelloInvoker *protocol.CommandInvoker[
 			HelloRequest,
 			HelloResponse,
@@ -90,8 +92,10 @@ func NewGreeterServer(
 		&opt,
 	)
 	if err != nil {
+		s.Close()
 		return nil, err
 	}
+	s.Listeners = append(s.Listeners, s.sayHelloExecutor)
 
 	s.sayHelloWithDelayExecutor, err = protocol.NewCommandExecutor(
 		client,
@@ -105,14 +109,12 @@ func NewGreeterServer(
 		protocol.WithExecutionTimeout(30*time.Second),
 	)
 	if err != nil {
+		s.Close()
 		return nil, err
 	}
+	s.Listeners = append(s.Listeners, s.sayHelloWithDelayExecutor)
 
 	return s, nil
-}
-
-func (s *GreeterServer) Listen(ctx context.Context) (func(), error) {
-	return protocol.Listen(ctx, s.sayHelloExecutor, s.sayHelloWithDelayExecutor)
 }
 
 func NewGreeterClient(
@@ -154,10 +156,6 @@ func NewGreeterClient(
 	}
 
 	return c, nil
-}
-
-func (c *GreeterClient) Listen(ctx context.Context) (func(), error) {
-	return protocol.Listen(ctx, c.sayHelloInvoker, c.sayHelloWithDelayInvoker)
 }
 
 func (c *GreeterClient) SayHello(

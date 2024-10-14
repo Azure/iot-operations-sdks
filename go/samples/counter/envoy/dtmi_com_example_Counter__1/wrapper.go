@@ -2,18 +2,18 @@
 package dtmi_com_example_Counter__1
 
 import (
-	"context"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
 type CounterService struct {
+	protocol.Listeners
 	*ReadCounterCommandExecutor
 	*IncrementCommandExecutor
 	*ResetCommandExecutor
 }
 
 type CounterClient struct {
+	protocol.Listeners
 	*ReadCounterCommandInvoker
 	*IncrementCommandInvoker
 	*ResetCommandInvoker
@@ -51,8 +51,10 @@ func NewCounterService(
 		&executorOpts,
 	)
 	if err != nil {
+		counterService.Close()
 		return nil, err
 	}
+	counterService.Listeners = append(counterService.Listeners, counterService.ReadCounterCommandExecutor)
 
 	counterService.IncrementCommandExecutor, err = NewIncrementCommandExecutor(
 		client,
@@ -61,8 +63,10 @@ func NewCounterService(
 		&executorOpts,
 	)
 	if err != nil {
+		counterService.Close()
 		return nil, err
 	}
+	counterService.Listeners = append(counterService.Listeners, counterService.IncrementCommandExecutor)
 
 	counterService.ResetCommandExecutor, err = NewResetCommandExecutor(
 		client,
@@ -71,21 +75,12 @@ func NewCounterService(
 		&executorOpts,
 	)
 	if err != nil {
+		counterService.Close()
 		return nil, err
 	}
+	counterService.Listeners = append(counterService.Listeners, counterService.ResetCommandExecutor)
 
 	return counterService, nil
-}
-
-func (service *CounterService) Listen(
-	ctx context.Context,
-) (func(), error) {
-	return protocol.Listen(
-		ctx,
-		service.ReadCounterCommandExecutor,
-		service.IncrementCommandExecutor,
-		service.ResetCommandExecutor,
-	)
 }
 
 func NewCounterClient(
@@ -112,8 +107,10 @@ func NewCounterClient(
 		&invokerOpts,
 	)
 	if err != nil {
+		counterClient.Close()
 		return nil, err
 	}
+	counterClient.Listeners = append(counterClient.Listeners, counterClient.ReadCounterCommandInvoker)
 
 	counterClient.IncrementCommandInvoker, err = NewIncrementCommandInvoker(
 		client,
@@ -121,8 +118,10 @@ func NewCounterClient(
 		&invokerOpts,
 	)
 	if err != nil {
+		counterClient.Close()
 		return nil, err
 	}
+	counterClient.Listeners = append(counterClient.Listeners, counterClient.IncrementCommandInvoker)
 
 	counterClient.ResetCommandInvoker, err = NewResetCommandInvoker(
 		client,
@@ -130,19 +129,10 @@ func NewCounterClient(
 		&invokerOpts,
 	)
 	if err != nil {
+		counterClient.Close()
 		return nil, err
 	}
+	counterClient.Listeners = append(counterClient.Listeners, counterClient.ResetCommandInvoker)
 
 	return counterClient, nil
-}
-
-func (client *CounterClient) Listen(
-	ctx context.Context,
-) (func(), error) {
-	return protocol.Listen(
-		ctx,
-		client.ReadCounterCommandInvoker,
-		client.IncrementCommandInvoker,
-		client.ResetCommandInvoker,
-	)
 }

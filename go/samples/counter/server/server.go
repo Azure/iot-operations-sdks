@@ -27,10 +27,10 @@ func main() {
 	fmt.Println("Connected to MQTT broker.")
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(mqttClient, ReadCounter, Increment, Reset))
+	defer server.Close()
 
 	check(mqttClient.Connect(ctx))
-	done := must(server.Listen(ctx))
-	defer done()
+	check(server.Start(ctx))
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)

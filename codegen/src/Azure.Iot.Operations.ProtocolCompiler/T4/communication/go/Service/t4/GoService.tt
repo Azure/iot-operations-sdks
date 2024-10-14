@@ -3,12 +3,11 @@
 package <#=this.genNamespace#>
 
 import (
-	"context"
-
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
 type <#=this.serviceName#>Service struct {
+	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor
 <# } #>
@@ -18,6 +17,7 @@ type <#=this.serviceName#>Service struct {
 }
 
 type <#=this.serviceName#>Client struct {
+	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker
 <# } #>
@@ -85,8 +85,10 @@ func New<#=this.serviceName#>Service(
 		&executorOpts,
 	)
 	if err != nil {
+		<#=this.AsLower(this.serviceName)#>Service.Close()
 		return nil, err
 	}
+	<#=this.AsLower(this.serviceName)#>Service.Listeners = append(<#=this.AsLower(this.serviceName)#>Service.Listeners, <#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor)
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
 
@@ -96,22 +98,12 @@ func New<#=this.serviceName#>Service(
 		&senderOpts,
 	)
 	if err != nil {
+		<#=this.AsLower(this.serviceName)#>Service.Close()
 		return nil, err
 	}
 <# } #>
 
 	return <#=this.AsLower(this.serviceName)#>Service, nil
-}
-
-func (service *<#=this.serviceName#>Service) Listen(
-	ctx context.Context,
-) (func(), error) {
-	return protocol.Listen(
-		ctx,
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-		service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor,
-<# } #>
-	)
 }
 
 func New<#=this.serviceName#>Client(
@@ -154,8 +146,10 @@ func New<#=this.serviceName#>Client(
 		&invokerOpts,
 	)
 	if err != nil {
+		<#=this.AsLower(this.serviceName)#>Client.Close()
 		return nil, err
 	}
+	<#=this.AsLower(this.serviceName)#>Client.Listeners = append(<#=this.AsLower(this.serviceName)#>Client.Listeners, <#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker)
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
 
@@ -166,25 +160,13 @@ func New<#=this.serviceName#>Client(
 		&receiverOpts,
 	)
 	if err != nil {
+		<#=this.AsLower(this.serviceName)#>Client.Close()
 		return nil, err
 	}
+	<#=this.AsLower(this.serviceName)#>Client.Listeners = append(<#=this.AsLower(this.serviceName)#>Client.Listeners, <#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(telemSchema)#>Receiver)
 <# } #>
 
 	return <#=this.AsLower(this.serviceName)#>Client, nil
-}
-
-func (client *<#=this.serviceName#>Client) Listen(
-	ctx context.Context,
-) (func(), error) {
-	return protocol.Listen(
-		ctx,
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-		client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker,
-<# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-		client.<#=this.AsUpper(telemSchema)#>Receiver,
-<# } #>
-	)
 }
 <#+
     private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);

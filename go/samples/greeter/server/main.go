@@ -30,10 +30,10 @@ func main() {
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
 	server := must(envoy.NewGreeterServer(mqttClient, &Handlers{}))
+	defer server.Close()
 
 	check(mqttClient.Connect(ctx))
-	done := must(server.Listen(ctx))
-	defer done()
+	check(server.Start(ctx))
 
 	fmt.Println("Press enter to quit.")
 	must(fmt.Scanln())
