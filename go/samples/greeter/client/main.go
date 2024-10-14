@@ -33,7 +33,7 @@ func main() {
 	client := must(envoy.NewGreeterClient(mqttClient))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	n := flag.String("n", "User", "the name to greet (default: User)")

@@ -63,27 +63,33 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 	}
 }
 
+// RegisterMessageHandler registers a message handler on this client. Returns a
+// callback to remove the message handler.
+func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
+	ctx, cancel := context.WithCancel(context.Background())
+	done := c.incomingPublishHandlers.AppendEntry(
+		func(incoming incomingPublish) {
+			handler(ctx, c.buildMessage(incoming))
+		},
+	)
+	return sync.OnceFunc(func() {
+		done()
+		cancel()
+	})
+}
+
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
-	handler MessageHandler,
 	opts ...SubscribeOption,
-) (Subscription, error) {
+) error {
 	if !c.sessionStarted.Load() {
-		return nil, &ClientStateError{NotStarted}
+		return &ClientStateError{NotStarted}
 	}
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	removeHandlerFunc := c.incomingPublishHandlers.AppendEntry(func(incoming incomingPublish) {
-		if !isTopicFilterMatch(topic, incoming.packet.Topic) {
-			return
-		}
-		msg := c.buildMessage(incoming)
-		handler(context.TODO(), msg)
-	})
 
 	for {
 		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
@@ -95,11 +101,9 @@ func (c *SessionClient) Subscribe(
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
-				removeHandlerFunc()
-				return nil, &ClientStateError{State: ShutDown}
+				return &ClientStateError{State: ShutDown}
 			case <-ctx.Done():
-				removeHandlerFunc()
-				return nil, ctx.Err()
+				return ctx.Err()
 			case <-connUp:
 			}
 			continue
@@ -107,29 +111,22 @@ func (c *SessionClient) Subscribe(
 
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
-			removeHandlerFunc()
-			return nil, &InvalidArgumentError{
+			return &InvalidArgumentError{
 				wrappedError: err,
 				message:      "invalid arguments in Subscribe() options",
 			}
 		}
 		if suback != nil {
-			return &subscription{
-				SessionClient:     c,
-				topic:             topic,
-				removeHandlerFunc: sync.OnceFunc(removeHandlerFunc),
-			}, nil
+			return nil
 		}
 
 		// If we get here, the SUBSCRIBE failed because the connection is down
 		// or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
-			removeHandlerFunc()
-			return nil, ctx.Err()
+			return ctx.Err()
 		case <-c.shutdown:
-			removeHandlerFunc()
-			return nil, &ClientStateError{State: ShutDown}
+			return &ClientStateError{State: ShutDown}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and
 			// retry
@@ -137,19 +134,12 @@ func (c *SessionClient) Subscribe(
 	}
 }
 
-type subscription struct {
-	*SessionClient
-	topic             string
-	removeHandlerFunc func()
-}
-
-func (s *subscription) Unsubscribe(
+func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
+	topic string,
 	opts ...UnsubscribeOption,
 ) error {
-	c := s.SessionClient
-
-	unsub, err := buildUnsubscribe(s.topic, opts...)
+	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
 		return err
 	}
@@ -180,7 +170,6 @@ func (s *subscription) Unsubscribe(
 			}
 		}
 		if unsuback != nil {
-			s.removeHandlerFunc()
 			return nil
 		}
 

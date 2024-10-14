@@ -24,7 +24,7 @@ const (
 )
 
 func NewCounterService(
-	client protocol.Client,
+	client protocol.MqttClient,
 	readCounterHandler protocol.CommandHandler[any, ReadCounterCommandResponse],
 	incrementHandler protocol.CommandHandler[any, IncrementCommandResponse],
 	resetHandler protocol.CommandHandler[any, any],
@@ -84,7 +84,7 @@ func NewCounterService(
 }
 
 func NewCounterClient(
-	client protocol.Client,
+	client protocol.MqttClient,
 	opts ...protocol.Option,
 ) (*CounterClient, error) {
 	var err error

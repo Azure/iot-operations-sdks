@@ -7,7 +7,6 @@ require (
 	github.com/eclipse/paho.golang v0.21.0
 	github.com/google/uuid v1.6.0
 	github.com/mochi-mqtt/server/v2 v2.6.4
-	github.com/princjef/mageutil v1.0.0
 	github.com/relvacode/iso8601 v1.4.0
 	github.com/sosodev/duration v1.3.1
 	github.com/stretchr/testify v1.9.0
@@ -23,6 +22,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/princjef/mageutil v1.0.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect

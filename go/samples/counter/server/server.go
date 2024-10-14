@@ -29,7 +29,7 @@ func main() {
 	server := must(dtmi_com_example_Counter__1.NewCounterService(mqttClient, ReadCounter, Increment, Reset))
 	defer server.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(server.Start(ctx))
 
 	sig := make(chan os.Signal, 1)
