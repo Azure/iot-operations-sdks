@@ -1,0 +1,83 @@
+linters:
+  enable:
+    - forcetypeassert
+    - gci
+    - gocritic
+    - godot
+    - gofmt
+    - gofumpt
+    - goimports
+    - gosec
+    - makezero
+    - prealloc
+    - revive
+    - unconvert
+    - whitespace
+  
+  # TODO: There is a known false positive in the unused linter that trips on
+  # internal interface methods. Unfortunately, that also causes it to flag any
+  # internal helpers used in those methods as well, so for now we need to
+  # just disable the linter. (https://github.com/dominikh/go-tools/issues/1440)
+  disable:
+    - unused
+
+linters-settings:
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - unnamedResult
+
+  gofmt:
+    rewrite-rules:
+      - pattern: 'interface{}'
+        replacement: 'any'
+      - pattern: 'a[b:len(a)]'
+        replacement: 'a[b:]'
+
+  gofumpt:
+    extra-rules: true
+
+  # The revive config doesn't allow small tweaks to its defaults, so we instead
+  # enable everything and just turn off the rules that are too aggressive. This
+  # also means we will opt-in to new rules by default and can explicitly opt-out
+  # when upgrading.
+  revive:
+    enable-all-rules: true
+    rules:
+      - name: add-constant
+        disabled: true
+      - name: argument-limit
+        disabled: true
+      - name: cognitive-complexity
+        disabled: true
+      - name: confusing-naming
+        disabled: true
+      - name: cyclomatic
+        disabled: true
+      - name: deep-exit
+        disabled: true
+      - name: flag-parameter
+        disabled: true
+      - name: function-length
+        disabled: true
+      - name: function-result-limit
+        disabled: true
+      - name: max-public-structs
+        disabled: true
+      # Good practice, but checked by other linters less aggressively:
+      - name: import-shadowing
+        disabled: true
+      - name: line-length-limit
+        disabled: true
+      - name: unchecked-type-assertion
+        disabled: true
+      - name: unhandled-error
+        disabled: true
+
+issues:
+  fix: true

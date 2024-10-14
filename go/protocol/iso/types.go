@@ -23,10 +23,11 @@ type (
 
 	// Time is a time in ISO 8601 format, per RFC 3339.
 	Time time.Time
-)
 
-// Wrapper for the native Go byte slice that will serialize to Base64.
-type ByteSlice []byte
+	// ByteSlice is a wrapper for the native Go byte slice that will serialize
+	// to Base64.
+	ByteSlice []byte
+)
 
 // full-date (0) and full-time (1) schemas, as defined by RFC3339 section 5.6.
 var (
@@ -34,7 +35,7 @@ var (
 	zeroes = strings.Split(time.Time{}.Format(time.RFC3339), "T")
 )
 
-// String returns the date to an ISO 8601 string.
+// String returns the date as an ISO 8601 string.
 func (d Date) String() string {
 	return time.Time(d).Format(format[0])
 }
@@ -57,7 +58,7 @@ func (d *Date) UnmarshalText(b []byte) error {
 	return nil
 }
 
-// String returns the date-time to an ISO 8601 string.
+// String returns the date-time as an ISO 8601 string.
 func (dt DateTime) String() string {
 	return time.Time(dt).Format(time.RFC3339)
 }
@@ -77,7 +78,7 @@ func (dt *DateTime) UnmarshalText(b []byte) error {
 	return nil
 }
 
-// String returns the duration to an ISO 8601 string.
+// String returns the duration as an ISO 8601 string.
 func (d Duration) String() string {
 	return duration.Format(time.Duration(d))
 }
@@ -97,7 +98,7 @@ func (d *Duration) UnmarshalText(b []byte) error {
 	return nil
 }
 
-// String returns the time to an ISO 8601 string.
+// String returns the time as an ISO 8601 string.
 func (t Time) String() string {
 	return time.Time(t).Format(format[1])
 }
@@ -120,14 +121,19 @@ func (t *Time) UnmarshalText(b []byte) error {
 	return nil
 }
 
+// String returns the byte slice as a Base64 string.
+func (bs ByteSlice) String() string {
+	return base64.StdEncoding.EncodeToString(bs)
+}
+
 // MarshalText marshals the byte slice to a Base64 string.
-func (byteSlice ByteSlice) MarshalText() ([]byte, error) {
-	return []byte(base64.StdEncoding.EncodeToString(byteSlice)), nil
+func (bs ByteSlice) MarshalText() ([]byte, error) {
+	return []byte(bs.String()), nil
 }
 
 // UnmarshalText unmarshals the byte slice from a Base64 string.
-func (byteSlice *ByteSlice) UnmarshalText(b []byte) error {
+func (bs *ByteSlice) UnmarshalText(b []byte) error {
 	var err error
-	*byteSlice, err = base64.StdEncoding.DecodeString(string(b))
+	*bs, err = base64.StdEncoding.DecodeString(string(b))
 	return err
 }

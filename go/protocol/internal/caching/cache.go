@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (

@@ -4,7 +4,6 @@ package <#=this.genNamespace#>
 
 import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type <#=this.schemaClassName#>Receiver struct {
@@ -12,7 +11,7 @@ type <#=this.schemaClassName#>Receiver struct {
 }
 
 func New<#=this.schemaClassName#>Receiver(
-	client mqtt.Client,
+	client protocol.Client,
 	topic string,
 	handler protocol.TelemetryHandler[<#=this.schemaClassName#>],
 	opt ...protocol.TelemetryReceiverOption,

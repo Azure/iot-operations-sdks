@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
@@ -39,19 +40,9 @@ func (c *Client[K, V]) Get(
 }
 
 // Apply resolves the provided list of options.
-func (o *GetOptions) Apply(
-	opts []GetOption,
-	rest ...GetOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.get(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.get(o)
-		}
+func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption) {
+	for opt := range options.Apply[GetOption](opts, rest...) {
+		opt.get(o)
 	}
 }
 

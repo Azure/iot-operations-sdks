@@ -6,8 +6,8 @@ import (
 )
 
 type (
-	// WallClock abstracts a subset of functionality from packages
-	// context and time.
+	// WallClock abstracts a subset of functionality from packages context and
+	// time.
 	WallClock interface {
 		WithTimeoutCause(
 			parent context.Context,
@@ -62,7 +62,7 @@ func (t timer) C() <-chan time.Time {
 	return t.Timer.C
 }
 
-// Instance is a WallClock singleton used for indirect time-based
-// references to packages context and time.  Test code can set the
-// instance to interpose on functions and control apparent time.
+// Instance is a WallClock singleton used for indirect time-based references to
+// packages context and time. Test code can set the instance to interpose on
+// functions and control apparent time.
 var Instance WallClock = wallClock{}

@@ -12,7 +12,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/eclipse/paho.golang/paho"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/sha3"

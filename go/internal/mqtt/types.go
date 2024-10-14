@@ -38,7 +38,7 @@ type (
 
 	// MessageHandler is a user-defined callback function used to handle
 	// messages received on the subscribed topic.
-	MessageHandler func(context.Context, *Message) error
+	MessageHandler = func(context.Context, *Message) error
 
 	// Subscription represents an open subscription.
 	Subscription interface {
@@ -52,9 +52,9 @@ type (
 	// SubscribeOptions are the resolved subscribe options.
 	SubscribeOptions struct {
 		NoLocal        bool
-		QoS            QoS
+		QoS            byte
 		Retain         bool
-		RetainHandling RetainHandling
+		RetainHandling byte
 		UserProperties map[string]string
 	}
 
@@ -74,8 +74,8 @@ type (
 		ContentType     string
 		CorrelationData []byte
 		MessageExpiry   uint32
-		PayloadFormat   PayloadFormat
-		QoS             QoS
+		PayloadFormat   byte
+		QoS             byte
 		ResponseTopic   string
 		Retain          bool
 		UserProperties  map[string]string

@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -60,19 +61,9 @@ func (c *Client[K, V]) Set(
 }
 
 // Apply resolves the provided list of options.
-func (o *SetOptions) Apply(
-	opts []SetOption,
-	rest ...SetOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.set(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.set(o)
-		}
+func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption) {
+	for opt := range options.Apply[SetOption](opts, rest...) {
+		opt.set(o)
 	}
 }
 

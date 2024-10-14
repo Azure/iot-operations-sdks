@@ -1,6 +1,6 @@
 package mqtt
 
-import "github.com/Azure/iot-operations-sdks/go/protocol/internal"
+import "github.com/Azure/iot-operations-sdks/go/internal/options"
 
 type (
 	// WithContentType sets the content type for the publish.
@@ -16,10 +16,10 @@ type (
 	WithNoLocal bool
 
 	// WithPayloadFormat sets the payload format indicator for the publish.
-	WithPayloadFormat PayloadFormat
+	WithPayloadFormat byte
 
 	// WithQoS sets the QoS level for the publish or subscribe.
-	WithQoS QoS
+	WithQoS byte
 
 	// WithResponseTopic sets the response topic for the publish.
 	WithResponseTopic string
@@ -30,7 +30,7 @@ type (
 
 	// WithRetainHandling specifies the handling of retained messages on this
 	// subscribe.
-	WithRetainHandling RetainHandling
+	WithRetainHandling byte
 
 	// WithUserProperties sets the user properties for the publish or subscribe.
 	WithUserProperties map[string]string
@@ -53,15 +53,15 @@ func (o WithNoLocal) subscribe(opt *SubscribeOptions) {
 }
 
 func (o WithPayloadFormat) publish(opt *PublishOptions) {
-	opt.PayloadFormat = PayloadFormat(o)
+	opt.PayloadFormat = byte(o)
 }
 
 func (o WithQoS) publish(opt *PublishOptions) {
-	opt.QoS = QoS(o)
+	opt.QoS = byte(o)
 }
 
 func (o WithQoS) subscribe(opt *SubscribeOptions) {
-	opt.QoS = QoS(o)
+	opt.QoS = byte(o)
 }
 
 func (o WithResponseTopic) publish(opt *PublishOptions) {
@@ -77,7 +77,7 @@ func (o WithRetain) subscribe(opt *SubscribeOptions) {
 }
 
 func (o WithRetainHandling) subscribe(opt *SubscribeOptions) {
-	opt.RetainHandling = RetainHandling(o)
+	opt.RetainHandling = byte(o)
 }
 
 func (o WithUserProperties) apply(user map[string]string) map[string]string {
@@ -107,7 +107,7 @@ func (o *SubscribeOptions) Apply(
 	opts []SubscribeOption,
 	rest ...SubscribeOption,
 ) {
-	for opt := range internal.Apply[SubscribeOption](opts, rest...) {
+	for opt := range options.Apply[SubscribeOption](opts, rest...) {
 		opt.subscribe(o)
 	}
 }
@@ -124,7 +124,7 @@ func (o *UnsubscribeOptions) Apply(
 	opts []UnsubscribeOption,
 	rest ...UnsubscribeOption,
 ) {
-	for opt := range internal.Apply[UnsubscribeOption](opts, rest...) {
+	for opt := range options.Apply[UnsubscribeOption](opts, rest...) {
 		opt.unsubscribe(o)
 	}
 }
@@ -141,7 +141,7 @@ func (o *PublishOptions) Apply(
 	opts []PublishOption,
 	rest ...PublishOption,
 ) {
-	for opt := range internal.Apply[PublishOption](opts, rest...) {
+	for opt := range options.Apply[PublishOption](opts, rest...) {
 		opt.publish(o)
 	}
 }

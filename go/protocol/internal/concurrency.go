@@ -1,6 +1,9 @@
 package internal
 
-import "context"
+import (
+	"context"
+	"sync"
+)
 
 // Manages sending values to handlers with a configured maximum currency (where
 // 0 indicates unlimited concurrency). Returns a function to send a value to the
@@ -39,5 +42,5 @@ func Concurrent[T any](
 		case dispatch <- args{ctx, val}:
 		case <-ctx.Done():
 		}
-	}, func() { close(dispatch) }
+	}, sync.OnceFunc(func() { close(dispatch) })
 }

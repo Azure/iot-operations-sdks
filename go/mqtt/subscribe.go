@@ -6,16 +6,15 @@ import (
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
-	handler mqtt.MessageHandler,
-	opts ...mqtt.SubscribeOption,
-) (mqtt.Subscription, error) {
+	handler MessageHandler,
+	opts ...SubscribeOption,
+) (Subscription, error) {
 	if err := c.prepare(ctx); err != nil {
 		return nil, err
 	}
@@ -65,8 +64,8 @@ func (c *SessionClient) Subscribe(
 
 func (c *SessionClient) Register(
 	topic string,
-	handler mqtt.MessageHandler,
-) (mqtt.Subscription, error) {
+	handler MessageHandler,
+) (Subscription, error) {
 	// Subscribe, unsubscribe, and update subscription options
 	// cannot be run simultaneously.
 	c.subscriptionsMu.Lock()
@@ -117,7 +116,7 @@ func (c *SessionClient) onPublishReceived(
 // Helper function for user to update subscribe options.
 func (s *subscription) Update(
 	ctx context.Context,
-	opts ...mqtt.SubscribeOption,
+	opts ...SubscribeOption,
 ) error {
 	c := s.SessionClient
 
@@ -159,7 +158,7 @@ func (s *subscription) Update(
 // Helper function for user to unsubscribe topic.
 func (s *subscription) Unsubscribe(
 	ctx context.Context,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) error {
 	c := s.SessionClient
 
@@ -198,9 +197,9 @@ func (s *subscription) Unsubscribe(
 
 func buildSubscribe(
 	topic string,
-	opts ...mqtt.SubscribeOption,
+	opts ...SubscribeOption,
 ) (*paho.Subscribe, error) {
-	var opt mqtt.SubscribeOptions
+	var opt SubscribeOptions
 	opt.Apply(opts)
 
 	// Validate options.
@@ -217,10 +216,10 @@ func buildSubscribe(
 	sub := &paho.Subscribe{
 		Subscriptions: []paho.SubscribeOptions{{
 			Topic:             topic,
-			QoS:               byte(opt.QoS),
+			QoS:               opt.QoS,
 			NoLocal:           opt.NoLocal,
 			RetainAsPublished: opt.Retain,
-			RetainHandling:    byte(opt.RetainHandling),
+			RetainHandling:    opt.RetainHandling,
 		}},
 	}
 	if len(opt.UserProperties) > 0 {
@@ -233,9 +232,9 @@ func buildSubscribe(
 
 func buildUnsubscribe(
 	topic string,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) (*paho.Unsubscribe, error) {
-	var opt mqtt.UnsubscribeOptions
+	var opt UnsubscribeOptions
 	opt.Apply(opts)
 
 	unsub := &paho.Unsubscribe{
@@ -251,19 +250,19 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
+func (c *SessionClient) buildMessage(p *paho.Publish) *Message {
 	// TODO: MQTT server is allowed to send multiple copies if there are
 	// multiple topic filter matches a message, thus if we see same message
 	// multiple times, we need to check their QoS before send the Ack().
 	var acked bool
 	connCount := atomic.LoadInt64(&c.connCount)
-	msg := &mqtt.Message{
+	msg := &Message{
 		Topic:   p.Topic,
 		Payload: p.Payload,
-		PublishOptions: mqtt.PublishOptions{
+		PublishOptions: PublishOptions{
 			ContentType:     p.Properties.ContentType,
 			CorrelationData: p.Properties.CorrelationData,
-			QoS:             mqtt.QoS(p.QoS),
+			QoS:             p.QoS,
 			ResponseTopic:   p.Properties.ResponseTopic,
 			Retain:          p.Retain,
 			UserProperties:  userPropertiesToMap(p.Properties.User),
@@ -301,7 +300,7 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
 		msg.MessageExpiry = *p.Properties.MessageExpiry
 	}
 	if p.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = mqtt.PayloadFormat(*p.Properties.PayloadFormat)
+		msg.PayloadFormat = *p.Properties.PayloadFormat
 	}
 	return msg
 }

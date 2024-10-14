@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/google/uuid"
 )
 
