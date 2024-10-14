@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import "github.com/Azure/iot-operations-sdks/go/internal/options"

@@ -3,3 +3,4 @@ repository:
     url: https://github.com/Azure/iot-operations-sdks
     defaultBranch: main
     path: /go/internal
+excludeDirs: ./log/... ./mage/... ./options/... ./wallclock/...

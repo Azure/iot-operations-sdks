@@ -6,6 +6,7 @@ linters:
     - godot
     - gofmt
     - gofumpt
+    - goheader
     - goimports
     - gosec
     - makezero
@@ -41,6 +42,11 @@ linters-settings:
 
   gofumpt:
     extra-rules: true
+
+  goheader:
+    template: |-
+      Copyright (c) Microsoft Corporation.
+      Licensed under the MIT License.
 
   # The revive config doesn't allow small tweaks to its defaults, so we instead
   # enable everything and just turn off the rules that are too aggressive. This
