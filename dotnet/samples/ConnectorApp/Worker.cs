@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
@@ -87,10 +88,10 @@ namespace HttpConnectorWorkerService
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                Timer[] datasetSamplingTimers = new Timer[_httpServerAsset.Datasets!.Length];
-                for (int datasetIndex = 0; datasetIndex < _httpServerAsset.Datasets.Length; datasetIndex++)
+                Timer[] datasetSamplingTimers = new Timer[_httpServerAsset.Datasets!.Count];
+                foreach (string datasetName in _httpServerAsset.Datasets!.Keys)
                 {
-                    Dataset thermostatDataset = _httpServerAsset.Datasets[datasetIndex];
+                    Dataset thermostatDataset = _httpServerAsset.Datasets[datasetName];
                     TimeSpan samplingInterval = defaultSamplingInterval;
                     if (thermostatDataset.DatasetConfiguration != null
                         && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
@@ -98,8 +99,8 @@ namespace HttpConnectorWorkerService
                         samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                     }
 
-                    Timer datasetSamplingTimer = new(SampleAsync, datasetIndex, 0, (int)samplingInterval.TotalMilliseconds);
-                    datasetSamplingTimers[datasetIndex] = datasetSamplingTimer;
+                    Timer datasetSamplingTimer = new(SampleAsync, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
+                    datasetSamplingTimers[datasetName] = datasetSamplingTimer;
                 }
 
                 // Wait until the worker is cancelled
@@ -116,9 +117,8 @@ namespace HttpConnectorWorkerService
 
         private async void SampleAsync(object? state)
         {
-            //TODO mapping via name instead would be a lot better
-            int datasetIndex = (int)state!;
-            if (datasetIndex == 1)
+            string datasetName = (string)state!;
+            if (datasetName.Equals("machine_status"))
             {
                 await ForwardThermostatStatus();
             }
@@ -133,7 +133,7 @@ namespace HttpConnectorWorkerService
             // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
             //Asset httpServerAsset = await _adrClient.GetAssetAsync(assetId);
             Asset httpServerAsset = GetStubAsset();
-            Dataset httpServerStatusDataset = httpServerAsset.Datasets![0];
+            Dataset httpServerStatusDataset = httpServerAsset.Datasets!["machine_status"];
 
             await using var thermostateStatusSender = new ThermostatStatusTelemetrySender(_sessionClient)
             {
@@ -167,7 +167,7 @@ namespace HttpConnectorWorkerService
 
         private async Task ForwardThermostatLastMaintenance()
         {
-            Dataset httpServerLastMaintenanceDataset = _httpServerAsset!.Datasets![1];
+            Dataset httpServerLastMaintenanceDataset = _httpServerAsset!.Datasets!["last_maintenance"];
             await using var lastMaintenanceSender = new ThermostatLastMaintenanceTelemetrySender(_sessionClient)
             {
                 TopicPattern = httpServerLastMaintenanceDataset.Topic!.Path!,
@@ -196,49 +196,47 @@ namespace HttpConnectorWorkerService
             return new()
             {
                 DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
-                Datasets = new Dataset[]
+                Datasets = new Dictionary<string, Dataset>
                 {
-                    new Dataset()
                     {
-                        Name = "machine_status",
-                        DataPoints = new DataPoint[]
+                        "machine_status",
+                        new Dataset()
                         {
-                            new DataPoint()
+                            DataPoints = new DataPoint[]
                             {
-                                Name = "actual_temperature",
-                                DataSource = "/api/machine/my_thermostat_1/status",
-                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                                new DataPoint("/api/machine/my_thermostat_1/status", "actual_temperature")
+                                {
+                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                                },
+                                new DataPoint("/api/machine/my_thermostat_1/status", "desired_temperature")
+                                {
+                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                                },
                             },
-                            new DataPoint()
+                            Topic = new()
                             {
-                                Name = "desired_temperature",
-                                DataSource = "/api/machine/my_thermostat_1/status",
-                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                            },
-                        },
-                        Topic = new()
-                        {
-                            Path = "mqtt/machine/my_thermostat_1/status",
-                            Retain = "Keep",
+                                Path = "mqtt/machine/my_thermostat_1/status",
+                                Retain = "Keep",
+                            }
                         }
                     },
-                    new Dataset()
                     {
-                        Name = "last_maintenance",
-                        DataPoints = new DataPoint[]
+                        "last_maintenance",
+                        new Dataset()
                         {
-                            new DataPoint()
+                            DataPoints = new DataPoint[]
                             {
-                                Name = "last_maintenance",
-                                DataSource = "/api/machine/my_thermostat_1/maintenance",
-                                DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                                new DataPoint("/api/machine/my_thermostat_1/maintenance", "last_maintenance")
+                                {
+                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
+                                },
                             },
-                        },
-                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
-                        Topic = new()
-                        {
-                            Path = "mqtt/machine/my_thermostat_1/last_maintenance",
-                            Retain = "Keep",
+                            DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
+                            Topic = new()
+                            {
+                                Path = "mqtt/machine/my_thermostat_1/last_maintenance",
+                                Retain = "Keep",
+                            }
                         }
                     }
                 }
