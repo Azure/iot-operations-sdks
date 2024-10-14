@@ -31,15 +31,15 @@ namespace HttpConnectorWorkerService
         }
     }
 
-    public class Worker : BackgroundService
+    public class HttpConnectorWorkerService : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<HttpConnectorWorkerService> _logger;
         private MqttSessionClient _sessionClient;
 
         private Asset? _httpServerAsset;
         private AssetEndpointProfile? _httpServerAssetEndpointProfile;
 
-        public Worker(ILogger<Worker> logger, MqttSessionClient mqttSessionClient)
+        public HttpConnectorWorkerService(ILogger<HttpConnectorWorkerService> logger, MqttSessionClient mqttSessionClient)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -88,7 +88,7 @@ namespace HttpConnectorWorkerService
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                Timer[] datasetSamplingTimers = new Timer[_httpServerAsset.Datasets!.Count];
+                Dictionary<string, Timer> datasetSamplingTimers = new();
                 foreach (string datasetName in _httpServerAsset.Datasets!.Keys)
                 {
                     Dataset thermostatDataset = _httpServerAsset.Datasets[datasetName];

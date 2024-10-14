@@ -1,0 +1,10 @@
+﻿{
+    "type": "object",
+    "properties": {
+        "last_maintenance": {
+            "type": "string",
+            "format": "date-time"
+        }
+    },
+    "required": [ "last_maintenance" ]
+}
