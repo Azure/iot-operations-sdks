@@ -13,7 +13,7 @@ use uuid::Uuid;
 <# foreach (var referencedSchema in this.referencedSchemaNames) { #>
 use super::<#=NamingSupport.ToSnakeCase(referencedSchema)#>::<#=referencedSchema#>;
 <# } #>
-use crate::common_types::{b64::Bytes, date_only::Date, time_only::Time};
+use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 <# if (this.objectType.Description != null) { #>
 // <#=this.objectType.Description#>

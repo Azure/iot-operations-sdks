@@ -41,7 +41,8 @@ use uuid::Uuid;
             this.Write(this.ToStringHelper.ToStringWithCulture(referencedSchema));
             this.Write(";\r\n");
  } 
-            this.Write("use crate::common_types::{b64::Bytes, date_only::Date, time_only::Time};\r\n\r\n");
+            this.Write("use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_onl" +
+                    "y::Time};\r\n\r\n");
  if (this.objectType.Description != null) { 
             this.Write("// ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectType.Description));
