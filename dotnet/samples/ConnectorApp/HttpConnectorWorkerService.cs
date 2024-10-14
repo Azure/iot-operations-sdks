@@ -22,14 +22,6 @@ namespace HttpConnectorWorkerService
         }
     }
 
-    public class ThermostatLastMaintenanceTelemetrySender : TelemetrySender<MachineLastMaintenance>
-    {
-        public ThermostatLastMaintenanceTelemetrySender(IMqttPubSubClient mqttClient)
-            : base(mqttClient, null, new Utf8JsonSerializer())
-        {
-        }
-    }
-
     public class HttpConnectorWorkerService : BackgroundService
     {
         private readonly ILogger<HttpConnectorWorkerService> _logger;
@@ -87,21 +79,17 @@ namespace HttpConnectorWorkerService
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                Dictionary<string, Timer> datasetSamplingTimers = new();
-                foreach (string datasetName in _httpServerAsset.Datasets!.Keys)
+                string datasetName = "thermostat_status";
+                Dataset thermostatDataset = _httpServerAsset.Datasets[datasetName];
+                TimeSpan samplingInterval = defaultSamplingInterval;
+                if (thermostatDataset.DatasetConfiguration != null
+                    && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
                 {
-                    Dataset thermostatDataset = _httpServerAsset.Datasets[datasetName];
-                    TimeSpan samplingInterval = defaultSamplingInterval;
-                    if (thermostatDataset.DatasetConfiguration != null
-                        && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
-                    {
-                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
-                    }
-
-                    _logger.LogInformation($"Will sample dataset with name {0} at a rate of once per {1} milliseconds", datasetName, (int)samplingInterval.TotalMilliseconds);
-                    using Timer datasetSamplingTimer = new(SampleAsync, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
-                    datasetSamplingTimers[datasetName] = datasetSamplingTimer;
+                    samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                 }
+
+                _logger.LogInformation($"Will sample dataset with name {0} at a rate of once per {1} milliseconds", datasetName, (int)samplingInterval.TotalMilliseconds);
+                using Timer datasetSamplingTimer = new(SampleThermostatStatus, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
 
                 // Wait until the worker is cancelled
                 await Task.Delay(TimeSpan.MaxValue, cancellationToken);
@@ -115,20 +103,7 @@ namespace HttpConnectorWorkerService
             }
         }
 
-        private async void SampleAsync(object? state)
-        {
-            string datasetName = (string)state!;
-            if (datasetName.Equals("machine_status"))
-            {
-                await ForwardThermostatStatus();
-            }
-            else
-            {
-                await ForwardThermostatLastMaintenance();
-            }
-        }
-
-        private async Task ForwardThermostatStatus()
+        private async void SampleThermostatStatus(object? status)
         {
             // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
             //Asset httpServerAsset = await _adrClient.GetAssetAsync(assetId);
@@ -165,32 +140,6 @@ namespace HttpConnectorWorkerService
             await thermostateStatusSender.SendTelemetryAsync(thermostatStatus);
         }
 
-        private async Task ForwardThermostatLastMaintenance()
-        {
-            Dataset httpServerLastMaintenanceDataset = _httpServerAsset!.Datasets!["last_maintenance"];
-            await using var lastMaintenanceSender = new ThermostatLastMaintenanceTelemetrySender(_sessionClient)
-            {
-                TopicPattern = httpServerLastMaintenanceDataset.Topic!.Path!,
-                //TODO retain? Asset docs say it is a topic level attribute, but doesn't match MQTT spec which says it is message-level
-            };
-
-            string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
-            byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
-
-            DataPoint httpServerMaintenanceDataPoint = httpServerLastMaintenanceDataset.DataPoints![0];
-            HttpMethod httpServerMaintenanceHttpMethod = HttpMethod.Parse(httpServerMaintenanceDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-            string httpServerMaintenanceRequestPath = httpServerMaintenanceDataPoint.DataSource!;
-            using HttpDataRetriever httpServerMaintenanceDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerMaintenanceRequestPath, httpServerMaintenanceHttpMethod, httpServerUsername, httpServerPassword);
-
-            _logger.LogInformation($"Reading thermostat's last maintenance from HTTP server asset");
-            var lastMaintenance = new MachineLastMaintenance(await httpServerMaintenanceDataRetriever.RetrieveDataAsync(httpServerMaintenanceDataPoint.Name));
-
-            _logger.LogInformation($"Successfully read thermostat last maintenance from HTTP server asset: {lastMaintenance}");
-
-            _logger.LogInformation($"Sending thermostat last maintenance to MQTT broker");
-            await lastMaintenanceSender.SendTelemetryAsync(lastMaintenance);
-        }
-
         private Asset GetStubAsset()
         {
             return new()
@@ -199,7 +148,7 @@ namespace HttpConnectorWorkerService
                 Datasets = new Dictionary<string, Dataset>
                 {
                     {
-                        "machine_status",
+                        "thermostat_status",
                         new Dataset()
                         {
                             DataPoints = new DataPoint[]
@@ -216,25 +165,6 @@ namespace HttpConnectorWorkerService
                             Topic = new()
                             {
                                 Path = "mqtt/machine/my_thermostat_1/status",
-                                Retain = "Keep",
-                            }
-                        }
-                    },
-                    {
-                        "last_maintenance",
-                        new Dataset()
-                        {
-                            DataPoints = new DataPoint[]
-                            {
-                                new DataPoint("/api/machine/my_thermostat_1/maintenance", "last_maintenance")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                            },
-                            DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 10000}"),
-                            Topic = new()
-                            {
-                                Path = "mqtt/machine/my_thermostat_1/last_maintenance",
                                 Retain = "Keep",
                             }
                         }

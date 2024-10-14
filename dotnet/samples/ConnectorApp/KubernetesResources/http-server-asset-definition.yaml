@@ -15,7 +15,7 @@ spec:
     path: /mqtt/machine/status
     retain: Keep         
   datasets:
-    - name: machine_status
+    - name: thermostat_status
       dataPoints:
         - dataSource: /api/machine/my_machine_1/status
           name: actual_temperature
@@ -29,15 +29,3 @@ spec:
            {
               "HttpRequestMethod": "GET",
            }
-    - name: last_maintenance
-      dataPoints:
-        - dataSource: /api/machine/my_machine_1/maintenance
-          name: last_maintenance
-          dataPointConfiguration: |-
-           {
-              "HttpRequestMethod": "GET",
-           }
-      datasetConfiguration: |-
-       {
-          "samplingInterval": 10000,
-       }
