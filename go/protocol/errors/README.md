@@ -17,7 +17,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 
 
 <a name="Context"></a>
-## func [Context](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L42>)
+## func [Context](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L44>)
 
 ```go
 func Context(ctx context.Context, msg string) error
@@ -26,7 +26,7 @@ func Context(ctx context.Context, msg string) error
 Context extracts the timeout or cancellation error from a context.
 
 <a name="Normalize"></a>
-## func [Normalize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L11>)
+## func [Normalize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L13>)
 
 ```go
 func Normalize(err error, msg string) error
@@ -35,7 +35,7 @@ func Normalize(err error, msg string) error
 Normalize well\-known errors into protocol errors.
 
 <a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L7-L32>)
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L9-L34>)
 
 Error represents a structured protocol error.
 
@@ -66,7 +66,7 @@ type Error struct {
 ```
 
 <a name="Error.Attrs"></a>
-### func \(\*Error\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L6>)
+### func \(\*Error\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L8>)
 
 ```go
 func (e *Error) Attrs() []slog.Attr
@@ -75,7 +75,7 @@ func (e *Error) Attrs() []slog.Attr
 Attrs returns additional error attributes for slog.
 
 <a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L58>)
+### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L60>)
 
 ```go
 func (e *Error) Error() string
@@ -84,7 +84,7 @@ func (e *Error) Error() string
 Error returns the error as a string.
 
 <a name="Kind"></a>
-## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L35>)
+## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L37>)
 
 Kind defines the type of error being thrown.
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mage
 
 import (
@@ -12,6 +14,9 @@ import (
 
 //go:embed .golangci.yml
 var golangci string
+
+//go:embed package.gotxt
+var packageDoc string
 
 var (
 	golines = bintool.Must(bintool.NewGo(
@@ -60,7 +65,19 @@ func Doc() error {
 		return err
 	}
 
-	return documenter.Command(`./...`).Run()
+	// TODO: This is a heavy-handed approach to make sure the header does not
+	// get repeated in the documentation. If we want to use package-level doc
+	// comments in the future, it will probably require an update to gomarkdoc
+	// to support this.
+	done, err := tmpFile("package.gotxt", packageDoc)
+	if err != nil {
+		return err
+	}
+	defer done()
+
+	return documenter.Command(
+		`--template-file package=package.gotxt ./...`,
+	).Run()
 }
 
 // Test runs the unit tests.
