@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package retrypolicy
 
 import (
@@ -7,7 +9,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 )
 
 const (

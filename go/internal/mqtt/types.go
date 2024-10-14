@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import "context"
@@ -6,13 +8,12 @@ type (
 	// Client represents the underlying MQTT client utilized by the protocol
 	// library.
 	Client interface {
-		// Subscribe sends a subscription request to the MQTT broker. It returns
-		// a subscription object which can be used to unsubscribe.
-		Subscribe(
-			ctx context.Context,
+		// Register a topic subscription with a message handler on the client.
+		// Update must be called on the returned subscription to actually send
+		// the subscription to the MQTT broker.
+		Register(
 			topic string,
 			handler MessageHandler,
-			opts ...SubscribeOption,
 		) (Subscription, error)
 
 		// Publish sends a publish request to the MQTT broker.
@@ -39,20 +40,23 @@ type (
 
 	// MessageHandler is a user-defined callback function used to handle
 	// messages received on the subscribed topic.
-	MessageHandler func(context.Context, *Message) error
+	MessageHandler = func(context.Context, *Message) error
 
 	// Subscription represents an open subscription.
 	Subscription interface {
 		// Unsubscribe this subscription.
 		Unsubscribe(context.Context, ...UnsubscribeOption) error
+
+		// Update or initialize the actual underlying MQTT subscription.
+		Update(context.Context, ...SubscribeOption) error
 	}
 
 	// SubscribeOptions are the resolved subscribe options.
 	SubscribeOptions struct {
 		NoLocal        bool
-		QoS            QoS
+		QoS            byte
 		Retain         bool
-		RetainHandling RetainHandling
+		RetainHandling byte
 		UserProperties map[string]string
 	}
 
@@ -72,8 +76,8 @@ type (
 		ContentType     string
 		CorrelationData []byte
 		MessageExpiry   uint32
-		PayloadFormat   PayloadFormat
-		QoS             QoS
+		PayloadFormat   byte
+		QoS             byte
 		ResponseTopic   string
 		Retain          bool
 		UserProperties  map[string]string

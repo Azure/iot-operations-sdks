@@ -1,4 +1,5 @@
-// contains integration tests that runs on Mochi, an in-process MQTT broker
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package test
 

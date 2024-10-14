@@ -1,7 +1,60 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: azure-iot-operations-aio-selfsigned-root
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: azure-iot-operations-aio-selfsigned-root
+  namespace: cert-manager
+spec:
+  isCA: true
+  secretName: azure-iot-operations-aio-ca-certificate
+  commonName: Azure IoT Operations Quickstart Root CA - Not for Production
+  issuerRef:
+    kind: ClusterIssuer
+    group: cert-manager.io
+    name: azure-iot-operations-aio-selfsigned-root
+  privateKey:
+    rotationPolicy: Never
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: azure-iot-operations-aio-certificate-issuer
+spec:
+  ca:
+    secretName: azure-iot-operations-aio-ca-certificate
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: azure-iot-operations-aio-ca-trust-bundle
+spec:
+  sources:
+    - secret:
+        name: azure-iot-operations-aio-ca-certificate
+        key: tls.crt
+  target:
+    configMap:
+      key: ca.crt
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: azure-iot-operations
+
+# Setup default Broker/Listener
+---
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: Broker
 metadata:
-  name: broker
+  name: default
   namespace: azure-iot-operations
 spec:
   generateResourceLimits:
@@ -13,49 +66,61 @@ spec:
     frontend:
       replicas: 1
 ---
-# A listener for local cluster applications to connect with SAT auth
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerListener
 metadata:
-  name: listener
+  name: default
   namespace: azure-iot-operations
 spec:
-  brokerRef: broker
+  brokerRef: default
   serviceName: aio-broker
   serviceType: clusterIp
   ports:
-    - port: 8883
-      authenticationRef: sat-auth
+    - port: 18883
+      authenticationRef: default
       tls:
         mode: automatic
         certManagerCertificateSpec:
           issuerRef:
-            kind: Issuer
-            name: aio-broker-internal-issuer
-          san:
-            dns:
-              - aio-broker
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
 ---
-# A listener for off-cluster applications to connect with x509 auth
+apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
+kind: BrokerAuthentication
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: serviceAccountToken
+      serviceAccountTokenSettings:
+        audiences: 
+          - aio-internal
+
+
+# Setup external listener (LoadBalancer)
+---
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerListener
 metadata:
-  name: listener-external
+  name: default-external
   namespace: azure-iot-operations
 spec:
-  brokerRef: broker
+  brokerRef: default
   serviceName: aio-broker-external
   serviceType: loadBalancer
   ports:
     - port: 31883
     - port: 38883
-      authenticationRef: x509-auth
+      authenticationRef: default-x509
       tls:
         mode: automatic
         certManagerCertificateSpec:
           issuerRef:
-            kind: Issuer
-            name: aio-broker-external
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
           san:
             dns:
               - aio-broker
@@ -63,13 +128,14 @@ spec:
             ip:
               - 127.0.0.1
     - port: 38884
-      authenticationRef: sat-auth
+      authenticationRef: default
       tls:
         mode: automatic
         certManagerCertificateSpec:
           issuerRef:
-            kind: Issuer
-            name: aio-broker-external      
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
           san:
             dns:
               - aio-broker
@@ -80,21 +146,10 @@ spec:
 apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
 kind: BrokerAuthentication
 metadata:
-  name: sat-auth
+  name: default-x509
   namespace: azure-iot-operations
 spec:
   authenticationMethods:
-    - method: serviceAccountToken
-      serviceAccountTokenSettings:
-        audiences: [aio-internal]
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
-kind: BrokerAuthentication
-metadata:
-  name: x509-auth
-  namespace: azure-iot-operations
-spec:
-  authenticationMethods:
-    - method: x509Certificate
+    - method: X509
       x509Settings:
         trustedClientCaCert: client-ca-trust-bundle

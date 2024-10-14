@@ -17,11 +17,15 @@
 
         public static readonly string CacheableAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable";
 
+        public static readonly string TransparentAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Transparent";
+
         public static readonly string IndexedAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed";
 
         public static readonly string TelemTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemetryTopic";
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";
+
+        public static readonly string ServiceGroupIdPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:serviceGroupId";
 
         public static readonly string IndexPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed:index";
 

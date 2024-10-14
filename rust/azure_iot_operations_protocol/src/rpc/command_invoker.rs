@@ -188,9 +188,10 @@ pub struct CommandInvokerOptions {
 #[allow(unused)] // TODO: remove once drop is implemented
 pub struct CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     // static properties of the invoker
     mqtt_client: C,
@@ -209,9 +210,9 @@ where
 /// Implementation of Command Invoker.
 impl<TReq, TResp, C> CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`CommandInvoker`].
@@ -444,7 +445,7 @@ where
         match subscribe_result {
             Ok(suback) => {
                 // Wait for suback
-                match suback.wait().await {
+                match suback.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("[ERROR] suback error: {e}");
@@ -457,9 +458,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] subscribe error: {e}");
+                log::error!("[ERROR] client error while subscribing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoker subscribe".to_string()),
+                    Some("Client error on command invoker subscribe".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -565,7 +566,7 @@ where
         match publish_result {
             Ok(publish_completion_token) => {
                 // Wait for and handle the puback
-                match publish_completion_token.wait().await {
+                match publish_completion_token.await {
                     // if puback is Ok, continue and wait for the response
                     Ok(()) => {}
                     Err(e) => {
@@ -579,9 +580,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] publish error: {e}");
+                log::error!("[ERROR] client error while publishing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoke publish".to_string()),
+                    Some("Client error on command invoker request publish".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -936,9 +937,10 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
 
 impl<TReq, TResp, C> Drop for CommandInvoker<TReq, TResp, C>
 where
-    TReq: PayloadSerialize,
-    TResp: PayloadSerialize,
-    C: ManagedClient + Clone + Send + Sync,
+    TReq: PayloadSerialize + 'static,
+    TResp: PayloadSerialize + 'static,
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {}
 }

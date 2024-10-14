@@ -58,6 +58,10 @@ impl PubTracker {
     /// When it is acked the required number of times on this tracker, it will be considered ready
     /// to ack back to the server with the provided [`ManualAck`].
     ///
+    /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages, which do not require acknowledgement.
+    /// This is not considered an error.
+    ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to register as pending
     /// * `manual_ack` - The [`ManualAck`] to use for the [`Publish`] when it is ready to ack
@@ -72,6 +76,10 @@ impl PubTracker {
         manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
+        if publish.pkid == 0 {
+            return Ok(());
+        }
         let mut pending = self.pending.lock().unwrap();
         // Check for existing registration (invalid)
         if pending.iter().any(|pending| pending.pkid == publish.pkid) {
@@ -98,6 +106,10 @@ impl PubTracker {
     ///
     /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
     ///
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
+    /// which do not require acknowledgement.
+    ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
@@ -111,6 +123,10 @@ impl PubTracker {
     /// Note that if there are multiple required acks, the eventual reported reason code will be the
     /// last one provided.
     ///
+    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
+    /// Quality of Service 0 messages
+    /// which do not require acknowledgement.
+    ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack_rc(
@@ -119,6 +135,11 @@ impl PubTracker {
         reason: ManualAckReason,
         reason_string: Option<String>,
     ) -> Result<(), AckError> {
+        // Ignore PKID 0, as it is reserved for QoS 0 messages
+        if publish.pkid == 0 {
+            return Ok(());
+        }
+
         loop {
             // First, check if there is a matching PendingPub.
             // NOTE: Do this in a new scope so as not to hold the lock longer than necessary.
@@ -854,6 +875,24 @@ mod tests {
         assert!(matches!(
             tracker.ack(&publish).await,
             Err(AckError::AckOverflow)
+        ));
+    }
+
+    #[tokio::test]
+    async fn pkid_0() {
+        let tracker = PubTracker::default();
+        let (publish, manual_ack) = create_publish("test", "pub1", 0);
+
+        // Registration succeeds, but does not actually register anything
+        assert!(tracker.register_pending(&publish, manual_ack, 1).is_ok());
+        assert!(!tracker.contains(&publish));
+
+        // Acknowledging the publish does nothing
+        assert!(tracker.ack(&publish).await.is_ok());
+        assert!(!tracker.contains(&publish));
+        assert!(matches!(
+            tracker.try_next_ready().err(),
+            Some(TryNextReadyError::Empty)
         ));
     }
 

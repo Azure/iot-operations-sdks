@@ -4,32 +4,35 @@
 #![allow(unused_imports)]
 
 use std::collections::HashMap;
+
 use chrono::{DateTime, Utc};
 use iso8601_duration::Duration;
-use uuid::Uuid;
 use serde::{Deserialize, Serialize};
-use super::super::common_types::{b64::Bytes, date_only::Date, time_only::Time};
+use uuid::Uuid;
 
 <# foreach (var referencedSchema in this.referencedSchemaNames) { #>
 use super::<#=NamingSupport.ToSnakeCase(referencedSchema)#>::<#=referencedSchema#>;
 <# } #>
+use crate::common_types::{b64::Bytes, date_only::Date, time_only::Time};
 
 <# if (this.objectType.Description != null) { #>
 // <#=this.objectType.Description#>
 <# } #>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct <#=this.objectType.SchemaName#> {
-<# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+<# bool firstField = true; foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+<# if (!firstField) { #>
 
+<# } #>
 <# if (fieldInfo.Value.Description != null) { #>
     // <#=fieldInfo.Value.Description#>
 <# } #>
 <# if (NamingSupport.ToSnakeCase(fieldInfo.Key) != fieldInfo.Key) { #>
-    #[serde(rename="<#=fieldInfo.Key#>")]
+    #[serde(rename = "<#=fieldInfo.Key#>")]
 <# } #>
 <# if (!fieldInfo.Value.IsRequired) { #>
-    #[serde(skip_serializing_if="Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none")]
 <# } #>
     pub <#=NamingSupport.ToSnakeCase(fieldInfo.Key)#>: <#=RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsRequired)#>,
-<# } #>
+<# firstField = false; } #>
 }

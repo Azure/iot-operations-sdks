@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package retrypolicy_test
 
 import (
@@ -6,10 +8,9 @@ import (
 	"log/slog"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 )
 
 type Mock struct {

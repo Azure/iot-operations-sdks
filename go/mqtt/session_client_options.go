@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -5,7 +7,6 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type SessionClientOption func(*SessionClient)
@@ -173,7 +174,7 @@ func WithWillMessageRetain(
 
 // WithWillMessageQoS sets the QoS for the WillMessage.
 func WithWillMessageQoS(
-	qos mqtt.QoS,
+	qos byte,
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureWillMessage(c).QoS = qos
@@ -211,7 +212,7 @@ func ensureWillProperties(c *SessionClient) *WillProperties {
 // WithWillPropertiesPayloadFormat sets the PayloadFormat for the
 // WillProperties.
 func WithWillPropertiesPayloadFormat(
-	payloadFormat mqtt.PayloadFormat,
+	payloadFormat byte,
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureWillProperties(c).PayloadFormat = payloadFormat

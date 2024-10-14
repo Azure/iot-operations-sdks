@@ -9,15 +9,44 @@ use bytes::Bytes;
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, ConnectionError};
+use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
-use crate::{CompletionToken, Event};
 
 // TODO: restrict the visibility of these to match InternalClient
 /// Data for acking a publish. Currently internal use only.
 pub type ManualAck = rumqttc::v5::ManualAck;
 /// Reason Code for ack. Currently internal use only.
 pub type ManualAckReason = rumqttc::v5::ManualAckReason;
+
+// ---------- Concrete Types ----------
+
+/// Awaitable token indicating completion of MQTT message delivery.
+pub struct CompletionToken(
+    pub Box<dyn std::future::Future<Output = Result<(), CompletionError>> + Send>,
+);
+
+impl std::future::Future for CompletionToken {
+    type Output = Result<(), CompletionError>;
+
+    fn poll(
+        self: std::pin::Pin<&mut Self>,
+        cx: &mut std::task::Context<'_>,
+    ) -> std::task::Poll<Self::Output> {
+        let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
+        inner.poll(cx)
+    }
+}
+
+// Re-export rumqttc types to avoid user code taking the dependency.
+// TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
+// Only once there are non-rumqttc implementations of these can we allow non-rumqttc compilations
+
+/// Event yielded by the event loop
+pub type Event = rumqttc::v5::Event;
+/// Incoming data on the event loop
+pub type Incoming = rumqttc::v5::Incoming;
+/// Outgoing data on the event loop
+pub type Outgoing = rumqttc::Outgoing;
 
 // ---------- Lower level MQTT abstractions ----------
 

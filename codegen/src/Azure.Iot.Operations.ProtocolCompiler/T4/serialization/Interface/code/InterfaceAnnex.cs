@@ -17,6 +17,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? CommandRequestTopic { get; } = AnnexFileProperties.CommandRequestTopic;
 
+        public static string? ServiceGroupId { get; } = AnnexFileProperties.ServiceGroupId;
+
         public static string? TelemetryList { get; } = AnnexFileProperties.TelemetryList;
 
         public static string? TelemName { get; } = AnnexFileProperties.TelemName;
@@ -42,10 +44,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string serviceName;
         private readonly string? telemTopicPattern;
         private readonly string? cmdTopicPattern;
+        private readonly string? serviceGroupId;
         private readonly List<(string?, string)> telemNameSchemas;
         private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
 
-        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, List<(string?, string)> telemNameSchemas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
+        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, string? serviceGroupId, List<(string?, string)> telemNameSchemas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -54,6 +57,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serviceName = serviceName;
             this.telemTopicPattern = telemTopicPattern;
             this.cmdTopicPattern = cmdTopicPattern;
+            this.serviceGroupId = serviceGroupId;
             this.telemNameSchemas = telemNameSchemas;
             this.cmdNameReqRespIdemStales = cmdNameReqRespIdemStales;
         }
