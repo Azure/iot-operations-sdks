@@ -266,61 +266,51 @@ func isRetryableError(err error) bool {
 	return ok
 }
 
-// Retryable reason codes for CONNACK.
-var retryableConnackCodes = map[byte]bool{
-	connackServerUnavailable:           true,
-	connackServerBusy:                  true,
-	connackQuotaExceeded:               true,
-	connackConnectionRateExceeded:      true,
-	connackNotAuthorized:               false,
-	connackMalformedPacket:             false,
-	connackProtocolError:               false,
-	connackBadAuthenticationMethod:     false,
-	connackClientIdentifierNotValid:    false,
-	connackBadUserNameOrPassword:       false,
-	connackBanned:                      false,
-	connackImplementationSpecificError: false,
-	connackUseAnotherServer:            false,
-	connackUnsupportedProtocolVersion:  false,
-	connackReauthenticate:              false,
-}
-
-// Retryable reason codes for DISCONNECT.
-var retryableDisconnectCodes = map[byte]bool{
-	disconnectServerUnavailable:                   true,
-	disconnectServerBusy:                          true,
-	disconnectQuotaExceeded:                       true,
-	disconnectConnectionRateExceeded:              true,
-	disconnectNotAuthorized:                       false,
-	disconnectMalformedPacket:                     false,
-	disconnectProtocolError:                       false,
-	disconnectBadAuthenticationMethod:             false,
-	disconnectSessionTakenOver:                    false,
-	disconnectTopicFilterInvalid:                  false,
-	disconnectTopicNameInvalid:                    false,
-	disconnectTopicAliasInvalid:                   false,
-	disconnectPacketTooLarge:                      false,
-	disconnectPayloadFormatInvalid:                false,
-	disconnectRetainNotSupported:                  false,
-	disconnectQoSNotSupported:                     false,
-	disconnectServerMoved:                         false,
-	disconnectSharedSubscriptionsNotSupported:     false,
-	disconnectSubscriptionIdentifiersNotSupported: false,
-	disconnectWildcardSubscriptionsNotSupported:   false,
-}
-
-// isRetryableConnack checks if the reason code in Connack is retryable.
-func isRetryableConnack(reasonCode byte) bool {
-	if retryable, exists := retryableConnackCodes[reasonCode]; exists {
-		return retryable
+// isFatalConnackReasonCode checks if the reason code in the CONNACK received
+// from the server is fatal.
+func isFatalConnackReasonCode(reasonCode byte) bool {
+	fatalConnackReasonCodes := map[byte]struct{}{
+		connackMalformedPacket:             {},
+		connackProtocolError:               {},
+		connackImplementationSpecificError: {},
+		connackUnsupportedProtocolVersion:  {},
+		connackClientIdentifierNotValid:    {},
+		connackBadUserNameOrPassword:       {},
+		connackNotAuthorized:               {},
+		connackBanned:                      {},
+		connackBadAuthenticationMethod:     {},
+		connackTopicNameInvalid:            {},
+		connackPacketTooLarge:              {},
+		connackPayloadFormatInvalid:        {},
+		connackRetainNotSupported:          {},
+		connackQoSNotSupported:             {},
+		connackUseAnotherServer:            {},
+		connackServerMoved:                 {},
 	}
-	return false
+	_, ok := fatalConnackReasonCodes[reasonCode]
+	return ok
 }
 
-// isRetryableDisconnect checks if the reason code in Disconnect is retryable.
-func isRetryableDisconnect(reasonCode byte) bool {
-	if retryable, exists := retryableDisconnectCodes[reasonCode]; exists {
-		return retryable
+// isFatalDisconnectReasonCode checks if the reason code in the DISCONNECT
+// received from the server is fatal.
+func isFatalDisconnectReasonCode(reasonCode byte) bool {
+	fatalDisconnectReasonCodes := map[byte]struct{}{
+		disconnectMalformedPacket:                     {},
+		disconnectProtocolError:                       {},
+		disconnectNotAuthorized:                       {},
+		disconnectSessionTakenOver:                    {},
+		disconnectTopicFilterInvalid:                  {},
+		disconnectTopicNameInvalid:                    {},
+		disconnectTopicAliasInvalid:                   {},
+		disconnectPacketTooLarge:                      {},
+		disconnectPayloadFormatInvalid:                {},
+		disconnectRetainNotSupported:                  {},
+		disconnectQoSNotSupported:                     {},
+		disconnectServerMoved:                         {},
+		disconnectSharedSubscriptionsNotSupported:     {},
+		disconnectSubscriptionIdentifiersNotSupported: {},
+		disconnectWildcardSubscriptionsNotSupported:   {},
 	}
-	return false
+	_, ok := fatalDisconnectReasonCodes[reasonCode]
+	return ok
 }
