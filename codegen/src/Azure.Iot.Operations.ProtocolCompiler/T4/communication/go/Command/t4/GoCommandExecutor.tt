@@ -4,7 +4,6 @@ package <#=this.genNamespace#>
 
 import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 <# if (this.ttl != null) { #>
 	"github.com/sosodev/duration"
 <# } #>
@@ -15,7 +14,7 @@ type <#=this.capitalizedCommandName#>CommandExecutor struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandExecutor(
-	client mqtt.Client,
+	client protocol.Client,
 	requestTopic string,
 	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>],
 	opt ...protocol.CommandExecutorOption,

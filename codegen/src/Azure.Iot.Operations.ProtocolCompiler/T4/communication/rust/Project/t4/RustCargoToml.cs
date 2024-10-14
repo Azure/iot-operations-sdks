@@ -40,11 +40,18 @@ time = { version = ""0.3"", features = [""serde"", ""formatting"", ""parsing""] 
 uuid = { version = ""1.8.0"", features = [""serde"", ""v4""] }
 lazy_static = ""1.4.0""
 derive_builder = ""0.20""
-azure_iot_operations_mqtt = { path = """);
+");
+ if (this.sdkPath != null) { 
+            this.Write("azure_iot_operations_mqtt = { path = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.sdkPath));
             this.Write("/azure_iot_operations_mqtt\" }\r\nazure_iot_operations_protocol = { path = \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.sdkPath));
             this.Write("/azure_iot_operations_protocol\" }\r\n");
+ } else { 
+            this.Write("azure_iot_operations_mqtt = { git = \"https://github.com/Azure/iot-operations-sdks" +
+                    ".git\" }\r\nazure_iot_operations_protocol = { git = \"https://github.com/Azure/iot-o" +
+                    "perations-sdks.git\" }\r\n");
+ } 
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -1,4 +1,5 @@
-// contains integration tests that run on an in-cluster instance of AIO MQ
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package test
 

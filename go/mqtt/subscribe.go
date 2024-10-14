@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -5,7 +7,6 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -65,9 +66,9 @@ func (c *SessionClient) makeOnPublishReceived(connCount uint64) func(paho.Publis
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
-	handler mqtt.MessageHandler,
-	opts ...mqtt.SubscribeOption,
-) (mqtt.Subscription, error) {
+	handler MessageHandler,
+	opts ...SubscribeOption,
+) (Subscription, error) {
 	if !c.sessionStarted.Load() {
 		return nil, &ClientStateError{NotStarted}
 	}
@@ -144,7 +145,7 @@ type subscription struct {
 
 func (s *subscription) Unsubscribe(
 	ctx context.Context,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) error {
 	c := s.SessionClient
 
@@ -199,9 +200,9 @@ func (s *subscription) Unsubscribe(
 
 func buildSubscribe(
 	topic string,
-	opts ...mqtt.SubscribeOption,
+	opts ...SubscribeOption,
 ) (*paho.Subscribe, error) {
-	var opt mqtt.SubscribeOptions
+	var opt SubscribeOptions
 	opt.Apply(opts)
 
 	// Validate options.
@@ -215,10 +216,10 @@ func buildSubscribe(
 	sub := &paho.Subscribe{
 		Subscriptions: []paho.SubscribeOptions{{
 			Topic:             topic,
-			QoS:               byte(opt.QoS),
+			QoS:               opt.QoS,
 			NoLocal:           opt.NoLocal,
 			RetainAsPublished: opt.Retain,
-			RetainHandling:    byte(opt.RetainHandling),
+			RetainHandling:    opt.RetainHandling,
 		}},
 	}
 	if len(opt.UserProperties) > 0 {
@@ -231,9 +232,9 @@ func buildSubscribe(
 
 func buildUnsubscribe(
 	topic string,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) (*paho.Unsubscribe, error) {
-	var opt mqtt.UnsubscribeOptions
+	var opt UnsubscribeOptions
 	opt.Apply(opts)
 
 	unsub := &paho.Unsubscribe{
@@ -249,14 +250,14 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p incomingPublish) *mqtt.Message {
-	msg := &mqtt.Message{
+func (c *SessionClient) buildMessage(p incomingPublish) *Message {
+	msg := &Message{
 		Topic:   p.packet.Topic,
 		Payload: p.packet.Payload,
-		PublishOptions: mqtt.PublishOptions{
+		PublishOptions: PublishOptions{
 			ContentType:     p.packet.Properties.ContentType,
 			CorrelationData: p.packet.Properties.CorrelationData,
-			QoS:             mqtt.QoS(p.packet.QoS),
+			QoS:             p.packet.QoS,
 			ResponseTopic:   p.packet.Properties.ResponseTopic,
 			Retain:          p.packet.Retain,
 			UserProperties:  userPropertiesToMap(p.packet.Properties.User),
@@ -267,7 +268,7 @@ func (c *SessionClient) buildMessage(p incomingPublish) *mqtt.Message {
 		msg.MessageExpiry = *p.packet.Properties.MessageExpiry
 	}
 	if p.packet.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = mqtt.PayloadFormat(*p.packet.Properties.PayloadFormat)
+		msg.PayloadFormat = *p.packet.Properties.PayloadFormat
 	}
 	return msg
 }
