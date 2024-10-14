@@ -80,7 +80,7 @@ namespace HttpConnectorWorkerService
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
                 string datasetName = "thermostat_status";
-                Dataset thermostatDataset = _httpServerAsset.Datasets[datasetName];
+                Dataset thermostatDataset = _httpServerAsset.Datasets![datasetName];
                 TimeSpan samplingInterval = defaultSamplingInterval;
                 if (thermostatDataset.DatasetConfiguration != null
                     && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
@@ -105,10 +105,7 @@ namespace HttpConnectorWorkerService
 
         private async void SampleThermostatStatus(object? status)
         {
-            // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
-            //Asset httpServerAsset = await _adrClient.GetAssetAsync(assetId);
-            Asset httpServerAsset = GetStubAsset();
-            Dataset httpServerStatusDataset = httpServerAsset.Datasets!["machine_status"];
+            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["machine_status"];
 
             await using var thermostateStatusSender = new ThermostatStatusTelemetrySender(_sessionClient)
             {
