@@ -6,13 +6,13 @@ import (
 )
 
 type ReadCounterCommandExecutor struct {
-	*protocol.CommandExecutor[any, ReadCounterCommandResponse]
+	*protocol.CommandExecutor[any, ReadCounterResponsePayload]
 }
 
 func NewReadCounterCommandExecutor(
 	client protocol.Client,
 	requestTopic string,
-	handler protocol.CommandHandler[any, ReadCounterCommandResponse],
+	handler protocol.CommandHandler[any, ReadCounterResponsePayload],
 	opt ...protocol.CommandExecutorOption,
 ) (*ReadCounterCommandExecutor, error) {
 	var err error
@@ -30,7 +30,7 @@ func NewReadCounterCommandExecutor(
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
 		client,
 		protocol.Empty{},
-		protocol.JSON[ReadCounterCommandResponse]{},
+		protocol.JSON[ReadCounterResponsePayload]{},
 		requestTopic,
 		handler,
 		&opts,
