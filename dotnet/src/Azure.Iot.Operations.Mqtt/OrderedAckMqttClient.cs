@@ -79,6 +79,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         // A successful connect attempt should always return a non-null connect result
         Debug.Assert(result != null);
 
+        if (string.IsNullOrEmpty(UnderlyingMqttClient.Options.ClientId))
+        {
+            UnderlyingMqttClient.Options.ClientId = result.AssignedClientIdentifier;
+        }
+
         return result;
     }
 
