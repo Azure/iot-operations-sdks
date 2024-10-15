@@ -168,6 +168,10 @@ public class MqttConnectionSettings
         try
         {
             targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
+            if (string.IsNullOrEmpty(targetAddress))
+            {
+                throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
+            }
         }
         catch (Exception ex)
         {
@@ -218,7 +222,7 @@ public class MqttConnectionSettings
         }
         catch (ArgumentException ex)
         {
-            string paramValue = ex.ParamName switch
+            string? paramValue = ex.ParamName switch
             {
                 nameof(targetAddress) => targetAddress,
                 nameof(useTls) => useTls.ToString(),
@@ -227,7 +231,7 @@ public class MqttConnectionSettings
                 _ => string.Empty
             };
 
-            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue, "Invalid settings in provided configuration files: " + ex.Message, ex);
+            throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue ?? string.Empty, "Invalid settings in provided configuration files: " + ex.Message, ex);
         }
     }
 
