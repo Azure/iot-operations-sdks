@@ -159,14 +159,15 @@ public class MqttConnectionSettings
         string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
         
-        string targetAddress;
-        bool useTls = false;
-        string satMountPath = string.Empty;
-        string tlsCaCertMountPath = string.Empty;
+        string? targetAddress;
+        bool useTls = true;
+        bool cleanStart = true;
+        string? satMountPath = string.Empty;
+        string? tlsCaCertMountPath = string.Empty;
 
         try
         {
-            targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
+            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
         }
         catch (Exception ex)
         {
@@ -175,7 +176,11 @@ public class MqttConnectionSettings
 
         try
         {
-            useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
+            string? useTlsString = Environment.GetEnvironmentVariable("MQ_USE_TLS");
+            if (!bool.TryParse(useTlsString, out useTls))
+            {
+                throw new ArgumentException("MQ_USE_TLS must be a valid boolean value.");
+            }
         }
         catch
         {
@@ -184,7 +189,7 @@ public class MqttConnectionSettings
 
         try
         {
-            satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
+            satMountPath = Environment.GetEnvironmentVariable("MQ_SAT_MOUNT_PATH");
         }
         catch
         {
@@ -193,7 +198,8 @@ public class MqttConnectionSettings
 
         try
         {
-            tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+            string tlsCaCertDir = "MQ_TLS_CACERT_MOUNT_PATH";
+            tlsCaCertMountPath = Path.Combine(tlsCaCertDir, "tls.crt");
         }
         catch
         {
@@ -207,7 +213,7 @@ public class MqttConnectionSettings
                 UseTls = useTls,
                 SatAuthFile = satMountPath,
                 CaFile = tlsCaCertMountPath,
-                CleanStart = false
+                CleanStart = cleanStart
             };
         }
         catch (ArgumentException ex)
