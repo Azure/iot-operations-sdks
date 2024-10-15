@@ -73,4 +73,10 @@ type (
 			auth *paho.Auth,
 		) (*paho.AuthResponse, error)
 	}
+
+	// PahoConstructor creates a PahoClient from a config.
+	PahoConstructor = func(
+		context.Context,
+		*paho.ClientConfig,
+	) (PahoClient, error)
 )

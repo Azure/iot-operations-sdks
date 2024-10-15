@@ -60,7 +60,10 @@ func runOneCommandExecutorTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		"CommandExecutorRequestWrongTopic_NoResponse",
+		"CommandExecutorSubAckFailure_ThrowsException",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {

@@ -7,7 +7,6 @@ import (
 	"math"
 	"sync"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -179,12 +178,14 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			return
 		}
 		immediateSessionExpiry := uint32(0)
-		_ = c.pahoClient.Disconnect(&paho.Disconnect{
+		disconn := &paho.Disconnect{
 			ReasonCode: disconnectNormalDisconnection,
 			Properties: &paho.DisconnectProperties{
 				SessionExpiryInterval: &immediateSessionExpiry,
 			},
-		})
+		}
+		c.log.Packet(ctx, disconn)
+		_ = c.pahoClient.Disconnect(disconn)
 		signalDisconnection(nil)
 	}()
 
@@ -192,20 +193,14 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		var pahoClient PahoClient
 		var disconnected <-chan *pahoClientDisconnectedEvent
 		var connectReasonCode *byte
-		err := c.connRetry.Start(
-			ctx,
-			c.info,
-			retrypolicy.Task{
-				Name: "connect",
-				Exec: func(ctx context.Context) error {
-					var err error
-					pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(
-						ctx,
-						c.connCount,
-					)
-					return err
-				},
-				Cond: func(err error) bool { return !isFatalError(err) },
+		err := c.connRetry.Start(ctx, "connect",
+			func(ctx context.Context) (bool, error) {
+				var err error
+				pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(
+					ctx,
+					c.connCount,
+				)
+				return !isFatalError(err), err
 			},
 		)
 		if err != nil {
@@ -248,32 +243,13 @@ func (c *SessionClient) buildPahoClient(
 ) (PahoClient, *byte, <-chan *pahoClientDisconnectedEvent, error) {
 	isInitialConn := connCount == 0
 
-	// Refresh TLS config for new connection.
-	if err := c.connSettings.validateTLS(); err != nil {
-		// TODO: this currently returns immediately if refreshing TLS config
-		// fails. Do we want to instead attempt to connect with the stale TLS
-		// config?
-		return nil, nil, nil, fatalError{err}
-	}
-
-	conn, err := buildNetConn(
-		ctx,
-		c.connSettings.serverURL,
-		c.connSettings.tlsConfig,
-	)
-	if err != nil {
-		// buildNetConn will wrap the error in fatalError if it's fatal
-		return nil, nil, nil, err
-	}
-
 	// buffer the channel by 1 to avoid hanging a goroutine in the case where
 	// paho has an error AND the server sends a DISCONNECT packet.
 	disconnected := make(chan *pahoClientDisconnectedEvent, 1)
 	var clientErrOnce, serverDisconnectOnce sync.Once
 
-	pahoClient := paho.NewClient(paho.ClientConfig{
+	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
 		ClientID: c.connSettings.clientID,
-		Conn:     conn,
 		Session:  c.session,
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			// add 1 to the conn count for this because this listener is
@@ -298,17 +274,19 @@ func (c *SessionClient) buildPahoClient(
 		// instead.
 		EnableManualAcknowledgment: true,
 	})
+	if err != nil {
+		return nil, nil, nil, err
+	}
 
-	cp := buildConnectPacket(
+	conn := buildConnectPacket(
 		c.connSettings.clientID,
 		c.connSettings,
 		isInitialConn,
 	)
 
-	c.logConnect(cp)
-
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
-	connack, err := pahoClient.Connect(ctx, cp)
+	c.log.Packet(ctx, conn)
+	connack, err := pahoClient.Connect(ctx, conn)
 
 	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method
@@ -335,4 +313,30 @@ func (c *SessionClient) buildPahoClient(
 	}
 
 	return pahoClient, &connack.ReasonCode, disconnected, nil
+}
+
+func (c *SessionClient) defaultPahoConstructor(
+	ctx context.Context,
+	cfg *paho.ClientConfig,
+) (PahoClient, error) {
+	// Refresh TLS config for new connection.
+	if err := c.connSettings.validateTLS(); err != nil {
+		// TODO: this currently returns immediately if refreshing TLS config
+		// fails. Do we want to instead attempt to connect with the stale TLS
+		// config?
+		return nil, fatalError{err}
+	}
+
+	conn, err := buildNetConn(
+		ctx,
+		c.connSettings.serverURL,
+		c.connSettings.tlsConfig,
+	)
+	if err != nil {
+		// buildNetConn will wrap the error in fatalError if it's fatal
+		return nil, err
+	}
+
+	cfg.Conn = conn
+	return paho.NewClient(*cfg), nil
 }

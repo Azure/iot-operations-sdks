@@ -4,19 +4,21 @@ package mqtt
 
 import (
 	"crypto/tls"
+	"log/slog"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 )
 
 type SessionClientOption func(*SessionClient)
 
-// WithDebugMode set the debugMode flag for the MQTT session client.
-func WithDebugMode(
-	debugMode bool,
+// WithLogger sets the logger for the MQTT session client.
+func WithLogger(
+	l *slog.Logger,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		c.debugMode = debugMode
+		c.log = logger{log.Wrap(l)}
 	}
 }
 
@@ -24,7 +26,7 @@ func WithDebugMode(
 
 // WithConnRetry sets connRetry for the MQTT session client.
 func WithConnRetry(
-	connRetry retrypolicy.RetryPolicy,
+	connRetry retry.Policy,
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		c.connRetry = connRetry
@@ -131,13 +133,17 @@ func WithConnectionTimeout(
 	return func(c *SessionClient) {
 		ensureConnSettings(c).connectionTimeout = connectionTimeout
 		if c.connRetry != nil {
-			if r, ok := c.connRetry.(*retrypolicy.ExponentialBackoffRetryPolicy); ok {
-				retrypolicy.WithTimeout(connectionTimeout)(r)
+			if r, ok := c.connRetry.(*retry.ExponentialBackoff); ok {
+				r.Timeout = connectionTimeout
 			}
 		} else {
-			c.connRetry = retrypolicy.NewExponentialBackoffRetryPolicy(
-				retrypolicy.WithTimeout(connectionTimeout),
-			)
+			c.connRetry = &retry.ExponentialBackoff{
+				Timeout: connectionTimeout,
+
+				// TODO: This only works if the options are called in the right
+				// order.
+				Logger: c.log.Wrapped,
+			}
 		}
 	}
 }
@@ -340,5 +346,17 @@ func WithCaRequireRevocationCheck(
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureConnSettings(c).caRequireRevocationCheck = revocationCheck
+	}
+}
+
+// ******TESTING******
+
+// WithPahoConstructor replaces the default Paho constructor with a custom one
+// for testing.
+func WithPahoConstructor(
+	pahoConstructor PahoConstructor,
+) SessionClientOption {
+	return func(c *SessionClient) {
+		c.pahoConstructor = pahoConstructor
 	}
 }
