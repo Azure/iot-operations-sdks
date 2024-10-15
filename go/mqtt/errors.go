@@ -84,7 +84,7 @@ func (e *RetryFailureError) Error() string {
 }
 
 func (e *RetryFailureError) Unwrap() error {
-	if err, ok := e.lastError.(retryableErr); ok {
+	if err, ok := e.lastError.(fatalError); ok {
 		return err.error
 	}
 	return e.lastError

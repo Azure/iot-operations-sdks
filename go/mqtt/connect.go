@@ -205,7 +205,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 					)
 					return err
 				},
-				Cond: isRetryableError,
+				Cond: func(err error) bool { return !isFatalError(err) },
 			},
 		)
 		if err != nil {
@@ -253,7 +253,7 @@ func (c *SessionClient) buildPahoClient(
 		// TODO: this currently returns immediately if refreshing TLS config
 		// fails. Do we want to instead attempt to connect with the stale TLS
 		// config?
-		return nil, nil, nil, err
+		return nil, nil, nil, fatalError{err}
 	}
 
 	conn, err := buildNetConn(
@@ -262,7 +262,7 @@ func (c *SessionClient) buildPahoClient(
 		c.connSettings.tlsConfig,
 	)
 	if err != nil {
-		// buildNetConn will wrap the error in retryableErr if it's retryable
+		// buildNetConn will wrap the error in fatalError if it's fatal
 		return nil, nil, nil, err
 	}
 
@@ -312,19 +312,26 @@ func (c *SessionClient) buildPahoClient(
 
 	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method
-		// without a CONNACK are retryable.
-		return nil, nil, nil, retryableErr{err}
+		// without a CONNACK are non-fatal.
+		return nil, nil, nil, err
 	}
 
 	if connack.ReasonCode >= 80 {
 		var connackError error = &ConnackError{ReasonCode: connack.ReasonCode}
-		if !isFatalConnackReasonCode(connack.ReasonCode) {
-			connackError = retryableErr{connackError}
+		if isFatalConnackReasonCode(connack.ReasonCode) {
+			connackError = fatalError{connackError}
 		}
 		return nil, &connack.ReasonCode, nil, connackError
 	}
 	if !isInitialConn && !connack.SessionPresent {
-		return nil, &connack.ReasonCode, nil, &SessionLostError{}
+		immediateSessionExpiry := uint32(0)
+		_ = pahoClient.Disconnect(&paho.Disconnect{
+			ReasonCode: disconnectNormalDisconnection,
+			Properties: &paho.DisconnectProperties{
+				SessionExpiryInterval: &immediateSessionExpiry,
+			},
+		})
+		return nil, &connack.ReasonCode, nil, fatalError{&SessionLostError{}}
 	}
 
 	return pahoClient, &connack.ReasonCode, disconnected, nil
