@@ -12,7 +12,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type ArgumentError](<#ArgumentError>)
 - [type Bytes](<#Bytes>)
 - [type Client](<#Client>)
-  - [func New\[K, V Bytes\]\(client protocol.Client, opt ...ClientOption\) \(\*Client\[K, V\], error\)](<#New>)
+  - [func New\[K, V Bytes\]\(client protocol.MqttClient, opt ...ClientOption\) \(\*Client\[K, V\], error\)](<#New>)
   - [func \(c \*Client\[K, V\]\) Del\(ctx context.Context, key K, opt ...DelOption\) \(\*Response\[int\], error\)](<#Client[K, V].Del>)
   - [func \(c \*Client\[K, V\]\) Get\(ctx context.Context, key K, opt ...GetOption\) \(\*Response\[V\], error\)](<#Client[K, V].Get>)
   - [func \(c \*Client\[K, V\]\) Set\(ctx context.Context, key K, val V, opt ...SetOption\) \(\*Response\[bool\], error\)](<#Client[K, V].Set>)
@@ -91,7 +91,7 @@ type Client[K, V Bytes] struct {
 ### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L58-L61>)
 
 ```go
-func New[K, V Bytes](client protocol.Client, opt ...ClientOption) (*Client[K, V], error)
+func New[K, V Bytes](client protocol.MqttClient, opt ...ClientOption) (*Client[K, V], error)
 ```
 
 New creates a new state store client. It takes the key and value types as parameters to avoid unnecessary casting; both may be string, \[\]byte, or equivalent types.
