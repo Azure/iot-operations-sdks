@@ -299,6 +299,13 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		return nil, &connack.ReasonCode, nil, connackError
 	}
 	if !isInitialConn && !connack.SessionPresent {
+		immediateSessionExpiry := uint32(0)
+		_ = c.pahoClient.Disconnect(&paho.Disconnect{
+			ReasonCode: disconnectNormalDisconnection,
+			Properties: &paho.DisconnectProperties{
+				SessionExpiryInterval: &immediateSessionExpiry,
+			},
+		})
 		return nil, &connack.ReasonCode, nil, &SessionLostError{}
 	}
 
