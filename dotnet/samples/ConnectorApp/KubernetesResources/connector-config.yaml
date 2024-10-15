@@ -10,6 +10,6 @@ spec:
   mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = clusterIP => (<name>.<namespace>.svc.cluster.local)
   mqTls:
     enabled: true
-    caCertSecretName: azure-iot-operations-aio-ca-certificate
+    caCertSecretName: aio-broker-internal-ca #TODO is this right?
   mqAuthentication:
     audience: aio-internal
