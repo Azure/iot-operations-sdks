@@ -300,7 +300,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 	}
 	if !isInitialConn && !connack.SessionPresent {
 		immediateSessionExpiry := uint32(0)
-		_ = c.pahoClient.Disconnect(&paho.Disconnect{
+		_ = pahoClient.Disconnect(&paho.Disconnect{
 			ReasonCode: disconnectNormalDisconnection,
 			Properties: &paho.DisconnectProperties{
 				SessionExpiryInterval: &immediateSessionExpiry,
