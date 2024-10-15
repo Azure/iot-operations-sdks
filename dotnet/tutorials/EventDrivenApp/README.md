@@ -100,22 +100,28 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
     Publishing 10 messages
     ```
 
-1. Check the simulator output by subscribing to the topic:
-
-    ```bash
-    mosquitto_sub -L mqtts://localhost:8884/sensor/data --cafile $SESSION/broker-ca.crt -u K8S-SAT -P $(cat $SESSION/token.txt) -V mqttv311 --debug
-    ```
 
 ## Verify the application output
+
+1. Export a variable for the location of the session information (MQTT trust bundle and SAT)
+
+    ```bash
+    export SESSION=$(git rev-parse --show-toplevel)/.session
+    ```
+
+1. Subscribe to the `sensor/data` topic to observe the simulator is outputting data:
+
+    ```bash
+    mosquitto_sub -L mqtts://localhost:8884/sensor/data --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt)
+    ```
 
 1. Subscribe to the `sensor/window_data` topic to observe the published output from this application:
 
     ```bash
-    export SESSION=$(git rev-parse --show-toplevel)/.session
     mosquitto_sub -L mqtts://localhost:8884/sensor/window_data --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt)
     ```
 
-1. Verify the application is outputting a sliding windows calculation for the various simulated sensors every 10 seconds:
+1. Verify the application is outputting a sliding windows calculation for the various simulated sensors every **10 seconds**:
 
     ```json
     {
