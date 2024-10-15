@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using HttpConnectorWorkerService;
+using Azure.Iot.Operations.ConnectorSample;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

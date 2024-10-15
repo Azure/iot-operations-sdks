@@ -9,7 +9,7 @@ using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using System.Text.Json;
 
-namespace HttpConnectorWorkerService
+namespace Azure.Iot.Operations.ConnectorSample
 {
     //TODO sample only works if you assume some aspects of the asset + AEP don't change such as sampling interval, http paths, datasets in general, etc. Probably want to document this somehow
     // Sample also assumes the order of asset datasets + datapoints which feels bad. Name key on each isn't specifically unique, so can't key off of that, right? Ask ADR folks. I may be able

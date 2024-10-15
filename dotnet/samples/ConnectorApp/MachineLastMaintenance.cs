@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace HttpConnectorWorkerService
+namespace Azure.Iot.Operations.ConnectorSample
 {
     public class MachineLastMaintenance
     {

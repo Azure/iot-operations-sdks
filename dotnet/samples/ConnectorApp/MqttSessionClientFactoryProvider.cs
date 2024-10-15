@@ -1,7 +1,7 @@
 ﻿using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 
-namespace HttpConnectorWorkerService;
+namespace Azure.Iot.Operations.ConnectorSample;
 
 internal static class MqttSessionClientFactoryProvider
 {
