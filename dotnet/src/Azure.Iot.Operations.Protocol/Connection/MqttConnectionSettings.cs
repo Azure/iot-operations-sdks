@@ -159,15 +159,15 @@ public class MqttConnectionSettings
         string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
         
-        string targetAddress;
+        string? targetAddress;
         bool useTls = true;
         bool cleanStart = true;
-        string? satMountPath = null;
-        string? tlsCaCertMountPath = null;
+        string? satMountPath = string.Empty;
+        string? tlsCaCertMountPath = string.Empty;
 
         try
         {
-            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS") ?? throw new InvalidOperationException("Missing target address configuration file");
+            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
         }
         catch (Exception ex)
         {
@@ -222,6 +222,8 @@ public class MqttConnectionSettings
             {
                 nameof(targetAddress) => targetAddress,
                 nameof(useTls) => useTls.ToString(),
+                nameof(satMountPath) => satMountPath,
+                nameof(tlsCaCertMountPath) => tlsCaCertMountPath,
                 _ => string.Empty
             };
 
