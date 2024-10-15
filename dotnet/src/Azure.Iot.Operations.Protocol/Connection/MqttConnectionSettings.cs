@@ -159,10 +159,11 @@ public class MqttConnectionSettings
         string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
         
-        string targetAddress;
-        bool useTls = false;
-        string satMountPath = string.Empty;
-        string tlsCaCertMountPath = string.Empty;
+        string? targetAddress;
+        bool useTls = true;
+        bool cleanStart = true;
+        string? satMountPath = string.Empty;
+        string? tlsCaCertMountPath = string.Empty;
 
         try
         {
@@ -175,7 +176,11 @@ public class MqttConnectionSettings
 
         try
         {
-            useTls = Environment.GetEnvironmentVariable("MQ_USE_TLS");
+            string? useTlsString = Environment.GetEnvironmentVariable("MQ_USE_TLS");
+            if (!bool.TryParse(useTlsString, out useTls))
+            {
+                throw new ArgumentException("MQ_USE_TLS must be a valid boolean value.");
+            }
         }
         catch
         {
@@ -205,10 +210,10 @@ public class MqttConnectionSettings
         {
             return new MqttConnectionSettings(targetAddress)
             {
-                UseTls = true,
+                UseTls = useTls,
                 SatAuthFile = satMountPath,
                 CaFile = tlsCaCertMountPath,
-                CleanStart = true
+                CleanStart = cleanStart
             };
         }
         catch (ArgumentException ex)
