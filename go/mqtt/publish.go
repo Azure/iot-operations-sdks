@@ -63,6 +63,7 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 				}():
 				}
 
+				c.log.Packet(ctx, nextOutgoingPublish.packet)
 				// NOTE: we cannot get back the PUBACK on this due to a
 				// limitation in Paho (see
 				// https://github.com/eclipse/paho.golang/issues/216). We should

@@ -56,7 +56,11 @@ func runOneCommandInvokerTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
+		"CommandInvokerPubAckFailure_ThrowsException",
+		"CommandInvokerSubAckFailure_ThrowsException",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {

@@ -3,6 +3,7 @@
 package protocol
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -18,24 +19,22 @@ func getStubAndSessionClient(
 	clientID string,
 ) (StubClient, protocol.MqttClient) {
 	mqttClient := MakeStubMqttClient(clientID)
-	stubClient := &mqttClient
 	sessionClient, err := mqtt.NewSessionClient(
 		"tcp://localhost:1234",
-		mqtt.WithPahoClientFactory(
-			func(cfg *paho.ClientConfig) mqtt.PahoClient {
-				c := &mqttClient
-				c.onPublishReceived = cfg.OnPublishReceived
-				return c
-			},
-		),
-		mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
+		mqtt.WithPahoConstructor(func(
+			_ context.Context,
+			cfg *paho.ClientConfig,
+		) (mqtt.PahoClient, error) {
+			mqttClient.onPublishReceived = cfg.OnPublishReceived
+			return mqttClient, nil
+		}),
 		mqtt.WithClientID(clientID),
 	)
 	require.NoError(t, err)
 	err = sessionClient.Start()
 	require.NoError(t, err)
 
-	return stubClient, sessionClient
+	return mqttClient, sessionClient
 }
 
 func awaitAcknowledgement(

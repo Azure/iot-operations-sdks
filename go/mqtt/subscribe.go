@@ -107,6 +107,7 @@ func (c *SessionClient) Subscribe(
 			continue
 		}
 
+		c.log.Packet(ctx, sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return &InvalidArgumentError{
@@ -160,6 +161,7 @@ func (c *SessionClient) Unsubscribe(
 			continue
 		}
 
+		c.log.Packet(ctx, unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return &InvalidArgumentError{

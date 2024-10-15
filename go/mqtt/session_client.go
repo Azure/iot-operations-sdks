@@ -4,14 +4,13 @@ package mqtt
 
 import (
 	"crypto/tls"
-	"log/slog"
 	"math"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
 )
@@ -74,15 +73,13 @@ type (
 		// Paho's internal MQTT session tracker
 		session session.SessionManager
 
+		// Paho client constructor (by default paho.NewClient + Conn)
+		pahoConstructor PahoConstructor
+
 		connSettings *connectionSettings
-		connRetry    retrypolicy.RetryPolicy
+		connRetry    retry.Policy
 
-		logger *slog.Logger
-
-		// If debugMode is disabled, only error() will be printed.
-		// If debugMode is enabled, the prettier logger provides
-		// a more detailed client workflow, including info() and debug().
-		debugMode bool
+		log logger
 	}
 
 	connectionSettings struct {
@@ -137,17 +134,45 @@ func NewSessionClient(
 	serverURL string,
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
-	client := &SessionClient{}
-
 	// Default client options.
-	client.initialize()
+	client := &SessionClient{
+		shutdown: make(chan struct{}),
+		userStop: make(chan struct{}),
+		connUp:   make(chan struct{}),
+		connDown: make(chan struct{}),
 
-	// Only required client setting.
-	client.connSettings.serverURL = serverURL
+		incomingPublishHandlers:        internal.NewAppendableListWithRemoval[func(incomingPublish)](),
+		connectNotificationHandlers:    internal.NewAppendableListWithRemoval[ConnectNotificationHandler](),
+		disconnectNotificationHandlers: internal.NewAppendableListWithRemoval[DisconnectNotificationHandler](),
+		fatalErrorHandlers:             internal.NewAppendableListWithRemoval[func(error)](),
+
+		// TODO: make this queue size configurable
+		outgoingPublishes: make(chan *outgoingPublish, math.MaxUint16),
+
+		session: state.NewInMemory(),
+
+		connSettings: &connectionSettings{
+			serverURL: serverURL,
+			clientID:  randomClientID(),
+			// If receiveMaximum is 0, we can't establish connection.
+			receiveMaximum: defaultReceiveMaximum,
+		},
+	}
+	client.pahoConstructor = client.defaultPahoConstructor
+
+	// Immediately close connDown to maintain the invariant that connDown is
+	// closed iff the session client is disconnected.
+	close(client.connDown)
 
 	// User client settings.
 	for _, opt := range opts {
 		opt(client)
+	}
+
+	// Do this after options since we need the user-configured logger for the
+	// default retry.
+	if client.connRetry == nil {
+		client.connRetry = &retry.ExponentialBackoff{Logger: client.log.Wrapped}
 	}
 
 	// Validate connection settings.
@@ -162,73 +187,31 @@ func NewSessionClient(
 // from an user-defined connection string.
 func NewSessionClientFromConnectionString(
 	connStr string,
+	opts ...SessionClientOption,
 ) (*SessionClient, error) {
 	connSettings := &connectionSettings{}
 	if err := connSettings.fromConnectionString(connStr); err != nil {
 		return nil, err
 	}
 
-	client, err := NewSessionClient(
-		connSettings.serverURL,
-		withConnSettings(connSettings),
-	)
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
+	opts = append(opts, withConnSettings(connSettings))
+	return NewSessionClient(connSettings.serverURL, opts...)
 }
 
 // NewSessionClientFromEnv constructs a new session client
 // from user's environment variables.
-func NewSessionClientFromEnv() (*SessionClient, error) {
+func NewSessionClientFromEnv(
+	opts ...SessionClientOption,
+) (*SessionClient, error) {
 	connSettings := &connectionSettings{}
 	if err := connSettings.fromEnv(); err != nil {
 		return nil, err
 	}
 
-	client, err := NewSessionClient(
-		connSettings.serverURL,
-		withConnSettings(connSettings),
-	)
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
+	opts = append(opts, withConnSettings(connSettings))
+	return NewSessionClient(connSettings.serverURL, opts...)
 }
 
 func (c *SessionClient) ClientID() string {
 	return c.connSettings.clientID
-}
-
-// initialize sets all default configurations
-// to ensure the SessionClient is properly initialized.
-func (c *SessionClient) initialize() {
-	c.shutdown = make(chan struct{})
-	c.userStop = make(chan struct{})
-	c.connUp = make(chan struct{})
-	c.connDown = make(chan struct{})
-	// immediately close connDown to maintain the invariant that c.connDown is
-	// closed iff the session client is disconnected
-	close(c.connDown)
-
-	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(incomingPublish)]()
-	c.connectNotificationHandlers = internal.NewAppendableListWithRemoval[ConnectNotificationHandler]()
-	c.disconnectNotificationHandlers = internal.NewAppendableListWithRemoval[DisconnectNotificationHandler]()
-	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
-
-	// TODO: make this queue size configurable
-	c.outgoingPublishes = make(chan *outgoingPublish, math.MaxUint16)
-
-	c.session = state.NewInMemory()
-
-	c.connRetry = retrypolicy.NewExponentialBackoffRetryPolicy()
-	c.connSettings = &connectionSettings{
-		clientID: randomClientID(),
-		// If receiveMaximum is 0, we can't establish connection.
-		receiveMaximum: defaultReceiveMaximum,
-	}
-
-	c.logger = slog.Default()
-	// Debug mode is disabled by default.
-	c.debugMode = false
 }
