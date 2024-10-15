@@ -46,16 +46,16 @@ type Message struct {
 ```
 
 <a name="MessageHandler"></a>
-## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L19>)
+## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L20>)
 
-MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic.
+MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic. Returns whether the handler takes responsibility for acking the message.
 
 ```go
-type MessageHandler = func(context.Context, *Message)
+type MessageHandler = func(context.Context, *Message) bool
 ```
 
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L54>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L55>)
 
 PublishOption represents a single publish option.
 
@@ -66,7 +66,7 @@ type PublishOption interface {
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L42-L51>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L43-L52>)
 
 PublishOptions are the resolved publish options.
 
@@ -93,7 +93,7 @@ func (o *PublishOptions) Apply(opts []PublishOption, rest ...PublishOption)
 Apply resolves the provided list of options.
 
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L31>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L32>)
 
 SubscribeOption represents a single subscribe option.
 
@@ -104,7 +104,7 @@ type SubscribeOption interface {
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L22-L28>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L23-L29>)
 
 SubscribeOptions are the resolved subscribe options.
 
@@ -128,7 +128,7 @@ func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption
 Apply resolves the provided list of options.
 
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L39>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L40>)
 
 UnsubscribeOption represents a single unsubscribe option.
 
@@ -139,7 +139,7 @@ type UnsubscribeOption interface {
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L36>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L35-L37>)
 
 UnsubscribeOptions are the resolve unsubscribe options.
 
