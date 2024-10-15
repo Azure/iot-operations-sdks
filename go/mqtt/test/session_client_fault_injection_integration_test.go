@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )
@@ -57,7 +56,7 @@ func TestSessionConnectionDisconnectionHandler(t *testing.T) {
 		context.Background(),
 		"foo",
 		[]byte("foo"),
-		protocol.WithUserProperties{
+		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(int(disconnectReasonCodeAdministrativeAction)),
 			delayFault:      "1",
 		},
@@ -114,11 +113,10 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	_, err = client.Subscribe(
+	err = client.Subscribe(
 		context.Background(),
 		"test-topic",
-		func(context.Context, *protocol.Message) error { return nil },
-		protocol.WithUserProperties{
+		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),
@@ -139,20 +137,17 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	require.NoError(t, client.Start())
 	defer func() { _ = client.Stop() }()
 
-	subscription, err := client.Subscribe(
-		context.Background(),
-		"test-topic",
-		func(context.Context, *protocol.Message) error { return nil },
-	)
+	err = client.Subscribe(context.Background(), "test-topic")
 	require.NoError(t, err)
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	err = subscription.Unsubscribe(
+	err = client.Unsubscribe(
 		context.Background(),
-		protocol.WithUserProperties{
+		"test-topic",
+		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),
