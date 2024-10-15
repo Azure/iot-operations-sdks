@@ -2,26 +2,23 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Services.StateStore;
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
-using System.Text;
+using Azure.Iot.Operations.Services.StateStore;
 using System.Text.Json;
 
 namespace EventDrivenApp;
 
-public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSettings connectionSettings, ILogger<OutputWorker> logger) : BackgroundService
+public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         try
         {
-            logger.LogInformation("Connecting to: {settings}", connectionSettings);
-
-            await sessionClient.ConnectAsync(connectionSettings, cancellationToken);
+            // Get a session client
+            var sessionClient = await clientFactory.GetSessionClient("output");
 
             // enter the window function loop
-            await ProcessWindow(cancellationToken);
+            await ProcessWindow(sessionClient, cancellationToken);
 
             await sessionClient.DisconnectAsync();
             Environment.Exit(0);
@@ -33,16 +30,17 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
         }
     }
 
-    private async Task ProcessWindow(CancellationToken cancellationToken)
+    private async Task ProcessWindow(MqttSessionClient sessionClient, CancellationToken cancellationToken)
     {
         JsonSerializerOptions serializeOptions = new() { WriteIndented = true };
+        WindowTelemetrySender sender = new(sessionClient);
 
         while (!cancellationToken.IsCancellationRequested)
         {
             logger.LogDebug("Processing window");
 
             DateTime timeNow = DateTime.UtcNow;
-            List<InputSensorData> inputData = [];
+            List<SensorData> inputData = [];
 
             try
             {
@@ -60,7 +58,7 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
                     }
 
                     // Deserialize the sensor data
-                    inputData = JsonSerializer.Deserialize<List<InputSensorData>>(response.Value.GetString()) ?? [];
+                    inputData = JsonSerializer.Deserialize<List<SensorData>>(response.Value.GetString()) ?? [];
                 }
 
                 // Remove older data
@@ -71,43 +69,16 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
                 }
 
                 // Calculate window aggregation
-                OutputSensorData outputData = new()
+                WindowData outputData = new()
                 {
                     Timestamp = timeNow,
                     WindowSize = Constants.WindowSize,
-                    Temperature = new OutputSensorData.AggregatedSensorData
-                    {
-                        Min = inputData.Min(s => s.Temperature),
-                        Max = inputData.Max(s => s.Temperature),
-                        Mean = inputData.Average(s => s.Temperature),
-                        Medium = inputData.OrderBy(s => s.Temperature).ElementAt(inputData.Count / 2).Temperature,
-                        Count = inputData.Count
-                    },
-                    Pressure = new OutputSensorData.AggregatedSensorData
-                    {
-                        Min = inputData.Min(s => s.Pressure),
-                        Max = inputData.Max(s => s.Pressure),
-                        Mean = inputData.Average(s => s.Pressure),
-                        Medium = inputData.OrderBy(s => s.Pressure).ElementAt(inputData.Count / 2).Pressure,
-                        Count = inputData.Count
-                    },
-                    Vibration = new OutputSensorData.AggregatedSensorData
-                    {
-                        Min = inputData.Min(s => s.Vibration),
-                        Max = inputData.Max(s => s.Vibration),
-                        Mean = inputData.Average(s => s.Vibration),
-                        Medium = inputData.OrderBy(s => s.Vibration).ElementAt(inputData.Count / 2).Vibration,
-                        Count = inputData.Count
-                    }
+                    Temperature = AggregateSensor(inputData, s => s.Temperature),
+                    Pressure = AggregateSensor(inputData, s => s.Pressure),
+                    Vibration = AggregateSensor(inputData, s => s.Vibration)
                 };
 
-                // Publish window data
-                await sessionClient.PublishAsync(
-                    new MqttApplicationMessage(Constants.OutputTopic)
-                    {
-                        PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outputData, serializeOptions)),
-                    },
-                    cancellationToken);
+                await sender.SendTelemetryAsync(outputData, MqttQualityOfServiceLevel.AtMostOnce, null, cancellationToken);
 
                 logger.LogInformation("Published window data: {data}", JsonSerializer.Serialize(outputData, serializeOptions));
             }
@@ -116,5 +87,17 @@ public class OutputWorker(MqttSessionClient sessionClient, MqttConnectionSetting
                 logger.LogError(ex, ex.Message);
             }
         }
+    }
+
+    private WindowSensorData AggregateSensor(List<SensorData> data, Func<SensorData, double> selector)
+    {
+        return new WindowSensorData
+        {
+            Min = data.Min(selector),
+            Max = data.Max(selector),
+            Mean = data.Average(selector),
+            Medium = data.OrderBy(selector).ElementAt(data.Count / 2).Vibration,
+            Count = data.Count
+        };
     }
 }

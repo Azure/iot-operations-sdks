@@ -7,31 +7,46 @@ using k8s;
 
 namespace EventDrivenApp;
 
-internal static class MqttClientFactoryProvider
+public class SessionClientFactory
 {
-    public static Func<IServiceProvider, MqttSessionClient> MqttSessionClientFactory = service =>
-    {
-        return new MqttSessionClient();
-    };
+    private readonly ILogger logger;
 
-    public static Func<IServiceProvider, MqttConnectionSettings> MqttConnectionSettingsFactory = service =>
+    public SessionClientFactory(ILogger<SessionClientFactory> logger)
     {
-        ILogger? logger = service.GetService<ILogger<MqttSessionClient>>();
-        IConfiguration? configuration = service.GetService<IConfiguration>();
+        this.logger = logger;
+    }
 
+    public async Task<MqttSessionClient> GetSessionClient(string clientIdExtension)
+    {
         MqttConnectionSettings settings;
 
         if (KubernetesClientConfiguration.IsInCluster())
         {
-            logger!.LogInformation("Running in cluster, load config from environment");
+            // On cluster, read from the environment
+            logger.LogInformation("Running in cluster, load config from environment");
             settings = MqttConnectionSettings.FromEnvVars();
+            settings.ClientId += "-" + clientIdExtension;
         }
         else
         {
-            logger!.LogInformation("Running locally, load config from connection string");
-            settings = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")!);
+            // Local development, hard code the values
+            logger.LogInformation("Running locally, setting config directly");
+            settings = new("localhost")
+            {
+                ClientId = "EventDrivenApp-" + clientIdExtension,
+                TcpPort = 8884,
+                UseTls = true,
+                CaFile = "../../../.session/broker-ca.crt",
+                SatAuthFile = "../../../.session/token.txt",
+                CleanStart = true
+            };
         }
 
-        return settings;
-    };
+        logger.LogInformation("Connecting to: {settings}", settings);
+
+        MqttSessionClient sessionClient = new();
+        await sessionClient.ConnectAsync(settings);
+
+        return sessionClient;
+    }
 }

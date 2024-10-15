@@ -42,6 +42,8 @@ spec:
             - name: aio-ca-trust-bundle
               mountPath: /var/run/certs/aio-ca/
           env:
+            - name: MQTT_CLIENT_ID
+              value: "EventDrivenApp"
             - name: MQTT_HOST_NAME
               value: "aio-broker"
             - name: MQTT_TCP_PORT

@@ -100,6 +100,12 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
     Publishing 10 messages
     ```
 
+1. Check the simulator output by subscribing to the topic:
+
+    ```bash
+    mosquitto_sub -L mqtts://localhost:8884/sensor/data --cafile $SESSION/broker-ca.crt -u K8S-SAT -P $(cat $SESSION/token.txt) -V mqttv311 --debug
+    ```
+
 ## Verify the application output
 
 1. Subscribe to the `sensor/window_data` topic to observe the published output from this application:
