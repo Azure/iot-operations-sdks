@@ -63,7 +63,8 @@ namespace Azure.Iot.Operations.ConnectorSample
                     _httpServerAssetEndpointProfile = newAssetEndpointProfile;
                 };
 
-                await adrClient.ObserveAssetAsync(assetId);
+                // TODO unimplemented so far
+                //await adrClient.ObserveAssetAsync(assetId);
                 await adrClient.ObserveAssetEndpointProfileAsync(assetId);
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
@@ -98,7 +99,8 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _logger.LogInformation("Shutting down sample...");
 
-                await adrClient.UnobserveAssetAsync(assetId);
+                // TODO unimplemented so far
+                //await adrClient.UnobserveAssetAsync(assetId);
                 await adrClient.UnobserveAssetEndpointProfileAsync(assetId);
             }
         }
