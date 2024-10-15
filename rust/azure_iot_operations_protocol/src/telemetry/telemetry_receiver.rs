@@ -6,18 +6,16 @@ use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
     interface::{ManagedClient, MqttAck, PubReceiver},
 };
-use chrono::DateTime;
+use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::{
-    common::{
-        aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::PayloadSerialize,
-        topic_processor::{TopicPattern, WILDCARD},
-        user_properties::{UserProperty, RESERVED_PREFIX},
-    },
-    telemetry::{CloudEvent, CloudEventBuilder},
+use super::cloud_event::{CloudEvent, CloudEventBuilder, CloudEventFields};
+use crate::common::{
+    aio_protocol_error::{AIOProtocolError, Value},
+    hybrid_logical_clock::HybridLogicalClock,
+    payload_serialize::PayloadSerialize,
+    topic_processor::{TopicPattern, WILDCARD},
+    user_properties::{UserProperty, RESERVED_PREFIX},
 };
 
 /// Acknowledgement token used to acknowledge a telemetry message.
@@ -110,7 +108,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/telemetry")
+///  .topic_pattern("test/{senderId}/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -351,7 +349,7 @@ where
 
                                 let mut cloud_event_present = false;
                                 let mut cloud_event_builder = CloudEventBuilder::default();
-                                let mut cloud_event_time_valid = true;
+                                let mut cloud_event_time = None;
                                 for (key, value) in properties.user_properties {
                                     match UserProperty::from_str(&key) {
                                         Ok(UserProperty::Timestamp) => {
@@ -371,51 +369,47 @@ where
                                         Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
                                             // TODO: Implement protocol version check
                                         },
-                                        Ok(UserProperty::CloudEventId) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.id(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSource) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.source(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSpecVersion) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.spec_version(value);
-                                        },
-                                        Ok(UserProperty::CloudEventType) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.event_type(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSubject) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.subject(value);
-                                        },
-                                        Ok(UserProperty::CloudEventDataSchema) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.data_schema(Some(value));
-                                        },
-                                        Ok(UserProperty::CloudEventDataContentType) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.data_content_type(value);
-                                        },
-                                        Ok(UserProperty::CloudEventTime) => {
-                                            cloud_event_present = true;
-                                            match DateTime::parse_from_rfc3339(&value) {
-                                                Ok(time) => {
-                                                    cloud_event_builder.time(time);
-                                                },
-                                                Err(e) => {
-                                                    log::error!("[pkid: {}] Invalid cloud event time {value}: {e}", m.pkid);
-                                                    cloud_event_time_valid = false;
-                                                }
-                                            }
-                                        },
                                         Err(()) => {
-                                            if key.starts_with(RESERVED_PREFIX) {
-                                                log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                            } else {
-                                                custom_user_data.push((key, value));
+                                            match CloudEventFields::from_str(&key) {
+                                                Ok(CloudEventFields::Id) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.id(value);
+                                                },
+                                                Ok(CloudEventFields::Source) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.source(value);
+                                                },
+                                                Ok(CloudEventFields::SpecVersion) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.spec_version(value);
+                                                },
+                                                Ok(CloudEventFields::EventType) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.event_type(value);
+                                                },
+                                                Ok(CloudEventFields::Subject) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.subject(value);
+                                                },
+                                                Ok(CloudEventFields::DataSchema) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.data_schema(Some(value));
+                                                },
+                                                Ok(CloudEventFields::DataContentType) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.data_content_type(value);
+                                                },
+                                                Ok(CloudEventFields::Time) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_time = Some(value);
+                                                },
+                                                Err(()) => {
+                                                    if key.starts_with(RESERVED_PREFIX) {
+                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
+                                                    } else {
+                                                        custom_user_data.push((key, value));
+                                                    }
+                                                }
                                             }
                                         }
                                         _ => {
@@ -423,9 +417,22 @@ where
                                         }
                                     }
                                 }
-                                if cloud_event_present && cloud_event_time_valid {
-                                    if let Ok(ce) = cloud_event_builder.build() {
-                                        cloud_event = Some(ce);
+                                if cloud_event_present {
+                                    if let Ok(mut ce) = cloud_event_builder.build() {
+                                        if let Some(ce_time) = cloud_event_time {
+                                            match DateTime::parse_from_rfc3339(&ce_time) {
+                                                Ok(time) => {
+                                                    let time = time.with_timezone(&Utc);
+                                                    ce.time = Some(time);
+                                                    cloud_event = Some(ce);
+                                                },
+                                                Err(e) => {
+                                                    log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
+                                                }
+                                            }
+                                        } else {
+                                            cloud_event = Some(ce);
+                                        }
                                     } else {
                                         log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
                                     }
