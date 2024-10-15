@@ -258,11 +258,11 @@ func mqttString(input string) string {
 	return validMQTTStringRegexp().ReplaceAllString(input, " ")
 }
 
-// An error with this wrapper is considered retryable.
-type retryableErr struct{ error }
+// An error with this wrapper is considered fatal.
+type fatalError struct{ error }
 
-func isRetryableError(err error) bool {
-	_, ok := err.(retryableErr)
+func isFatalError(err error) bool {
+	_, ok := err.(fatalError)
 	return ok
 }
 

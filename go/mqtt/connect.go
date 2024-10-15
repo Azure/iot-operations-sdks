@@ -188,7 +188,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 					pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(ctx, c.connCount)
 					return err
 				},
-				Cond: isRetryableError,
+				Cond: func(err error) bool { return !isFatalError(err) },
 			},
 		)
 		if err != nil {
@@ -232,7 +232,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		// TODO: this currently returns immediately if refreshing TLS config
 		// fails. Do we want to instead attempt to connect with the stale TLS
 		// config?
-		return nil, nil, nil, err
+		return nil, nil, nil, fatalError{err}
 	}
 
 	conn, err := buildNetConn(
@@ -241,7 +241,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		c.connSettings.tlsConfig,
 	)
 	if err != nil {
-		// buildNetConn will wrap the error in retryableErr if it's retryable
+		// buildNetConn will wrap the error in fatalError if it's fatal
 		return nil, nil, nil, err
 	}
 
@@ -288,13 +288,13 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method
 		// without a CONNACK are retryable.
-		return nil, nil, nil, retryableErr{err}
+		return nil, nil, nil, err
 	}
 
 	if connack.ReasonCode >= 80 {
 		var connackError error = &ConnackError{ReasonCode: connack.ReasonCode}
-		if !isFatalConnackReasonCode(connack.ReasonCode) {
-			connackError = retryableErr{connackError}
+		if isFatalConnackReasonCode(connack.ReasonCode) {
+			connackError = fatalError{connackError}
 		}
 		return nil, &connack.ReasonCode, nil, connackError
 	}
@@ -306,7 +306,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 				SessionExpiryInterval: &immediateSessionExpiry,
 			},
 		})
-		return nil, &connack.ReasonCode, nil, &SessionLostError{}
+		return nil, &connack.ReasonCode, nil, fatalError{&SessionLostError{}}
 	}
 
 	return pahoClient, &connack.ReasonCode, disconnected, nil
