@@ -6,13 +6,13 @@ import (
 )
 
 type IncrementCommandExecutor struct {
-	*protocol.CommandExecutor[any, IncrementCommandResponse]
+	*protocol.CommandExecutor[any, IncrementResponsePayload]
 }
 
 func NewIncrementCommandExecutor(
 	client protocol.Client,
 	requestTopic string,
-	handler protocol.CommandHandler[any, IncrementCommandResponse],
+	handler protocol.CommandHandler[any, IncrementResponsePayload],
 	opt ...protocol.CommandExecutorOption,
 ) (*IncrementCommandExecutor, error) {
 	var err error
@@ -30,7 +30,7 @@ func NewIncrementCommandExecutor(
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
 		client,
 		protocol.Empty{},
-		protocol.JSON[IncrementCommandResponse]{},
+		protocol.JSON[IncrementResponsePayload]{},
 		requestTopic,
 		handler,
 		&opts,
