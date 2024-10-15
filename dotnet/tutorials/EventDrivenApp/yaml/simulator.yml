@@ -62,7 +62,7 @@ spec:
                     \"vibration\": $(awk -v min=0.001 -v max=0.005 'BEGIN{srand(); print min+rand()*(max-min)}')
                 }"
 
-                mosquitto_pub -V mqttv311 -i mqtt-simulator -q 1 -L mqtts://aio-broker:18883/sensor/data -m "$DATA" -u K8S-SAT -P $(cat /var/run/secrets/tokens/mqtt-client-token) --cafile /var/run/certs/aio-ca/ca.crt
+                mosquitto_pub -V mqttv5 -i mqtt-simulator -q 1 -i mqtt-simulator -L mqtts://aio-broker:18883/sensor/data -m "$DATA" --cafile /var/run/certs/aio-ca/ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat /var/run/secrets/tokens/mqtt-client-token)
                 if [ $? -eq 0 ]; then
                   MSG_COUNT=$((MSG_COUNT+1))
                 else

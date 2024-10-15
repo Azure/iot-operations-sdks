@@ -38,7 +38,7 @@ public class SessionClientFactory
                 UseTls = true,
                 CaFile = "../../../.session/broker-ca.crt",
                 SatAuthFile = "../../../.session/token.txt",
-                CleanStart = true
+                CleanStart = false
             };
         }
 

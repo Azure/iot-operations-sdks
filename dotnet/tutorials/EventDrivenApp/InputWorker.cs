@@ -41,7 +41,7 @@ public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker
 
     private async Task ReceiveTelemetry(string senderId, SensorData sensor, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation($"Received sensor data from {senderId}", senderId);
+        logger.LogInformation($"Received sensor data");
 
         List<SensorData> data = [];
         await using StateStoreClient stateStoreClient = new(sessionClient!);
