@@ -23,7 +23,7 @@ pub enum CloudEventFields {
     /// the organization publishing the event or the process that produced the event.
     /// The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
     Source,
-    /// The version of the CloudEvents specification which the event uses. This enables the
+    /// The version of the `CloudEvents` specification which the event uses. This enables the
     /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
     /// referring to this version of the specification.
     SpecVersion,
