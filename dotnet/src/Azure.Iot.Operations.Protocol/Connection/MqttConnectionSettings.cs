@@ -203,7 +203,7 @@ public class MqttConnectionSettings
         try
         {
             tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
-            tlsCaCertMountPath += "/ca.crt";
+            tlsCaCertMountPath += "/tls.crt";
         }
         catch
         {
