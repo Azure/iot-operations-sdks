@@ -25,8 +25,8 @@ const (
 
 func NewCounterService(
 	client protocol.Client,
-	readCounterHandler protocol.CommandHandler[any, ReadCounterCommandResponse],
-	incrementHandler protocol.CommandHandler[any, IncrementCommandResponse],
+	readCounterHandler protocol.CommandHandler[any, ReadCounterResponsePayload],
+	incrementHandler protocol.CommandHandler[any, IncrementResponsePayload],
 	resetHandler protocol.CommandHandler[any, any],
 	opts ...protocol.Option,
 ) (*CounterService, error) {

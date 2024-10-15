@@ -22,7 +22,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         return (await _clientStub.GetAsync(
-            new GetCommandRequest()
+            new GetRequestPayload()
             {
                 GetSchemaRequest = new()
                 {
@@ -45,7 +45,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         return (await _clientStub.PutAsync(
-            new PutCommandRequest()
+            new PutRequestPayload()
             {
                 PutSchemaRequest = new()
                 {

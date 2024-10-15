@@ -8,7 +8,7 @@ import (
 )
 
 type IncrementCommandInvoker struct {
-	*protocol.CommandInvoker[any, IncrementCommandResponse]
+	*protocol.CommandInvoker[any, IncrementResponsePayload]
 }
 
 func NewIncrementCommandInvoker(
@@ -32,7 +32,7 @@ func NewIncrementCommandInvoker(
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
 		client,
 		protocol.Empty{},
-		protocol.JSON[IncrementCommandResponse]{},
+		protocol.JSON[IncrementResponsePayload]{},
 		requestTopic,
 		&opts,
 	)
@@ -44,7 +44,7 @@ func (invoker IncrementCommandInvoker) Increment(
 	ctx context.Context,
 	executorId string,
 	opt ...protocol.InvokeOption,
-) (*protocol.CommandResponse[IncrementCommandResponse], error) {
+) (*protocol.CommandResponse[IncrementResponsePayload], error) {
 	var opts protocol.InvokeOptions
 	opts.Apply(
 		opt,

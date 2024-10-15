@@ -8,25 +8,25 @@ public class CounterService(MqttSessionClient mqttClient, ILogger<CounterService
 {
     int counter = 0;
 
-    public override Task<ExtendedResponse<IncrementCommandResponse>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         logger.LogInformation($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref counter);
         logger.LogInformation($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IncrementCommandResponse>
+        return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>
         {
-            Response = new IncrementCommandResponse { CounterResponse = counter }
+            Response = new IncrementResponsePayload { CounterResponse = counter }
         });
     }
 
-    public override Task<ExtendedResponse<ReadCounterCommandResponse>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         logger.LogInformation($"--> Executing Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         var curValue = counter;
         logger.LogInformation($"--> Executed Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<ReadCounterCommandResponse>
+        return Task.FromResult(new ExtendedResponse<ReadCounterResponsePayload>
         {
-            Response = new ReadCounterCommandResponse { CounterResponse = curValue }
+            Response = new ReadCounterResponsePayload { CounterResponse = curValue }
         });
     }
 
