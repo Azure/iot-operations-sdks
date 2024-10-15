@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -5,42 +7,34 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-	useRealSession bool,
-) (stubClient StubClient, sessionClient mqtt.Client) {
-	if useRealSession {
-		mqttClient := MakeStubMqttClient(clientID)
-		stubClient = &mqttClient
-		sessionClientRaw, err := mqtt.NewSessionClient(
-			"tcp://localhost:1234",
-			mqtt.WithPahoClientFactory(
-				func(*paho.ClientConfig) mqtt.PahoClient {
-					return &mqttClient
-				},
-			),
-			mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
-			mqtt.WithClientID(clientID),
-		)
-		require.NoError(t, err)
-		err = sessionClientRaw.Connect(context.Background())
-		require.NoError(t, err)
-		sessionClient = sessionClientRaw
-	} else {
-		mqttClient := MakeStubSessionClient(clientID)
-		stubClient = &mqttClient
-		sessionClient = &mqttClient
-	}
+) (StubClient, protocol.MqttClient) {
+	mqttClient := MakeStubMqttClient(clientID)
+	sessionClient, err := mqtt.NewSessionClient(
+		"tcp://localhost:1234",
+		mqtt.WithPahoConstructor(func(
+			_ context.Context,
+			cfg *paho.ClientConfig,
+		) (mqtt.PahoClient, error) {
+			mqttClient.onPublishReceived = cfg.OnPublishReceived
+			return mqttClient, nil
+		}),
+		mqtt.WithClientID(clientID),
+	)
+	require.NoError(t, err)
+	err = sessionClient.Start()
+	require.NoError(t, err)
 
-	return stubClient, sessionClient
+	return mqttClient, sessionClient
 }
 
 func awaitAcknowledgement(

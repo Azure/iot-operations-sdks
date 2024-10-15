@@ -1,10 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
 	"context"
 	"errors"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -62,13 +63,19 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 				}():
 				}
 
+				c.log.Packet(ctx, nextOutgoingPublish.packet)
 				// NOTE: we cannot get back the PUBACK on this due to a
 				// limitation in Paho (see
 				// https://github.com/eclipse/paho.golang/issues/216). We should
 				// consider submitting a PR to Paho to address this gap.
-				_, err := pahoClient.PublishWithOptions(ctx, nextOutgoingPublish.packet, paho.PublishOptions{Method: paho.PublishMethod_AsyncSend})
+				_, err := pahoClient.PublishWithOptions(
+					ctx,
+					nextOutgoingPublish.packet,
+					paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
+				)
 				var result *publishResult
-				if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
+				if err == nil ||
+					errors.Is(err, paho.ErrNetworkErrorAfterStored) {
 					// Paho has accepted control of the PUBLISH (i.e., either
 					// the PUBLISH was sent or the PUBLISH was stored in Paho's
 					// session tracker), so we relinquish control of the
@@ -106,13 +113,13 @@ func (c *SessionClient) Publish(
 	ctx context.Context,
 	topic string,
 	payload []byte,
-	opts ...mqtt.PublishOption,
+	opts ...PublishOption,
 ) error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}
 	}
 
-	var opt mqtt.PublishOptions
+	var opt PublishOptions
 	opt.Apply(opts)
 
 	// Validate options.
@@ -127,18 +134,16 @@ func (c *SessionClient) Publish(
 		}
 	}
 
-	payloadFormat := byte(opt.PayloadFormat)
-
 	// Build MQTT publish packet.
 	pub := &paho.Publish{
-		QoS:     byte(opt.QoS),
+		QoS:     opt.QoS,
 		Retain:  opt.Retain,
 		Topic:   topic,
 		Payload: payload,
 		Properties: &paho.PublishProperties{
 			ContentType:     opt.ContentType,
 			CorrelationData: opt.CorrelationData,
-			PayloadFormat:   &payloadFormat,
+			PayloadFormat:   &opt.PayloadFormat,
 			ResponseTopic:   opt.ResponseTopic,
 			User:            mapToUserProperties(opt.UserProperties),
 		},

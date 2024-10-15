@@ -1,8 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
-import "github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+import (
+	"context"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
+)
 
 type (
+	// MqttClient is the client used for the underlying MQTT connection.
+	MqttClient interface {
+		ClientID() string
+		Publish(context.Context, string, []byte, ...mqtt.PublishOption) error
+		RegisterMessageHandler(mqtt.MessageHandler) func()
+		Subscribe(context.Context, string, ...mqtt.SubscribeOption) error
+		Unsubscribe(context.Context, string, ...mqtt.UnsubscribeOption) error
+	}
+
 	// Message contains common message data that is exposed to message handlers.
 	Message[T any] struct {
 		// The message payload.
@@ -17,6 +33,9 @@ type (
 
 		// The timestamp of when the message was sent.
 		Timestamp hlc.HybridLogicalClock
+
+		// All topic tokens resolved from the incoming topic.
+		TopicTokens map[string]string
 
 		// Any user-provided metadata values.
 		Metadata map[string]string

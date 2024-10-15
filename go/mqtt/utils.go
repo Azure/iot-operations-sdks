@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -12,11 +14,10 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
+	"github.com/eclipse/paho.golang/paho"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/sha3"
-
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
-	"github.com/eclipse/paho.golang/paho"
 )
 
 // randomClientID generates a random ClientID of the specified length
@@ -257,11 +258,11 @@ func mqttString(input string) string {
 	return validMQTTStringRegexp().ReplaceAllString(input, " ")
 }
 
-// An error with this wrapper is considered retryable.
-type retryableErr struct{ error }
+// An error with this wrapper is considered fatal.
+type fatalError struct{ error }
 
-func isRetryableError(err error) bool {
-	_, ok := err.(retryableErr)
+func isFatalError(err error) bool {
+	_, ok := err.(fatalError)
 	return ok
 }
 

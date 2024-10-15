@@ -18,5 +18,10 @@ time = { version = "0.3", features = ["serde", "formatting", "parsing"] }
 uuid = { version = "1.8.0", features = ["serde", "v4"] }
 lazy_static = "1.4.0"
 derive_builder = "0.20"
+<# if (this.sdkPath != null) { #>
 azure_iot_operations_mqtt = { path = "<#=this.sdkPath#>/azure_iot_operations_mqtt" }
 azure_iot_operations_protocol = { path = "<#=this.sdkPath#>/azure_iot_operations_protocol" }
+<# } else { #>
+azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git" }
+azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git" }
+<# } #>

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -10,7 +12,7 @@ func buildConnectPacket(
 	isInitialConn bool,
 ) *paho.Connect {
 	// Bound checks have already been performed during the connection settings
-	//initialization.
+	// initialization.
 	sessionExpiryInterval := uint32(connSettings.sessionExpiry.Seconds())
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
@@ -28,7 +30,7 @@ func buildConnectPacket(
 	if connSettings.willMessage != nil {
 		willMessage = &paho.WillMessage{
 			Retain:  connSettings.willMessage.Retain,
-			QoS:     byte(connSettings.willMessage.QoS),
+			QoS:     connSettings.willMessage.QoS,
 			Topic:   connSettings.willMessage.Topic,
 			Payload: connSettings.willMessage.Payload,
 		}
@@ -42,11 +44,10 @@ func buildConnectPacket(
 		messageExpiry := uint32(
 			connSettings.willProperties.MessageExpiry.Seconds(),
 		)
-		payloadFormat := byte(connSettings.willProperties.PayloadFormat)
 
 		willProperties = &paho.WillProperties{
 			WillDelayInterval: &willDelayInterval,
-			PayloadFormat:     &payloadFormat,
+			PayloadFormat:     &connSettings.willProperties.PayloadFormat,
 			MessageExpiry:     &messageExpiry,
 			ContentType:       connSettings.willProperties.ContentType,
 			ResponseTopic:     connSettings.willProperties.ResponseTopic,

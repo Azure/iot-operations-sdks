@@ -9,14 +9,14 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::session;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 use crate::topic::TopicParseError;
-use crate::{CompletionToken, MqttConnectionSettings};
+use crate::MqttConnectionSettings;
 
 /// Client that manages connections over a single MQTT session.
 ///

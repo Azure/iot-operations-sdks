@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -11,8 +13,8 @@ import (
 	"github.com/sosodev/duration"
 )
 
-// TODO: Uncomment and adjust auth-related connection settings code once the
-// auth interfaces in the session client are determined.
+// TODO: Replace auth-related connection settings test code once the auth
+// interfaces in the session client are determined.
 
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
@@ -79,9 +81,6 @@ func (cs *connectionSettings) applySettingsMap(
 	if cs == nil {
 		cs = &connectionSettings{}
 	}
-	// if cs.authOptions == nil {
-	// 	cs.authOptions = &AuthOptions{}
-	// }
 
 	if settingsMap["hostname"] == "" {
 		return &InvalidArgumentError{message: "HostName must not be empty"}
@@ -112,19 +111,6 @@ func (cs *connectionSettings) applySettingsMap(
 	assignIfExists(settingsMap, "keyfilepassword", &cs.keyFilePassword)
 	assignIfExists(settingsMap, "cafile", &cs.caFile)
 
-	// if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
-	// 	assignIfExists(
-	// 		settingsMap,
-	// 		"authmethod",
-	// 		&cs.authOptions.AuthMethod,
-	// 	)
-	// 	assignIfExists(
-	// 		settingsMap,
-	// 		"satauthfile",
-	// 		&cs.authOptions.SatAuthFile,
-	// 	)
-	// }
-
 	cs.caRequireRevocationCheck = settingsMap["carequirerevocationcheck"] ==
 		"true"
 
@@ -149,17 +135,6 @@ func (cs *connectionSettings) applySettingsMap(
 		}
 		cs.sessionExpiry = sessionExpiry.ToTimeDuration()
 	}
-
-	// if value, exists := settingsMap["authinterval"]; exists {
-	// 	authinterval, err := duration.Parse(value)
-	// 	if err != nil {
-	// 		return &InvalidArgumentError{
-	// 			message: "invalid AuthInterval in connection string",
-	// 			WrappedError: err,
-	// 		}
-	// 	}
-	// 	cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
-	// }
 
 	if value, exists := settingsMap["receivemaximum"]; exists {
 		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
@@ -193,11 +168,6 @@ func (cs *connectionSettings) applySettingsMap(
 		cs.receiveMaximum = defaultReceiveMaximum
 	}
 
-	// Ensure AuthInterval is set correctly.
-	// if cs.authOptions.AuthInterval == 0 {
-	// 	cs.authOptions.AuthInterval = defaultAuthInterval
-	// }
-
 	return nil
 }
 
@@ -227,18 +197,6 @@ func (cs *connectionSettings) validate() error {
 			),
 		}
 	}
-
-	// if cs.authOptions.SatAuthFile != "" {
-	// 	data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
-	// 	if err != nil {
-	// 		return &InvalidArgumentError{
-	// 			message:      "cannot read auth data from SatAuthFile",
-	// 			WrappedError: err,
-	// 		}
-	// 	}
-
-	// 	cs.authOptions.AuthData = data
-	// }
 
 	return cs.validateTLS()
 }

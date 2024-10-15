@@ -1,21 +1,20 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
 	"context"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
 type (
-	Client = mqtt.Client
-
 	// WillMessage is a representation of the LWT message that can
 	// be sent with the Connect packet.
 	WillMessage struct {
 		Retain  bool
-		QoS     mqtt.QoS
+		QoS     byte
 		Topic   string
 		Payload []byte
 	}
@@ -23,7 +22,7 @@ type (
 	// WillProperties is a struct of the properties
 	// that can be set for a Will in a Connect packet.
 	WillProperties struct {
-		PayloadFormat     mqtt.PayloadFormat
+		PayloadFormat     byte
 		WillDelayInterval time.Duration
 		MessageExpiry     time.Duration
 		ContentType       string
@@ -74,4 +73,10 @@ type (
 			auth *paho.Auth,
 		) (*paho.AuthResponse, error)
 	}
+
+	// PahoConstructor creates a PahoClient from a config.
+	PahoConstructor = func(
+		context.Context,
+		*paho.ClientConfig,
+	) (PahoClient, error)
 )

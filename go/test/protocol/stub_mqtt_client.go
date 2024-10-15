@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -23,8 +25,8 @@ type StubMqttClient struct {
 	onPublishReceived       []func(paho.PublishReceived) (bool, error)
 }
 
-func MakeStubMqttClient(clientID string) StubMqttClient {
-	return StubMqttClient{
+func MakeStubMqttClient(clientID string) *StubMqttClient {
+	return &StubMqttClient{
 		clientID:                clientID,
 		ackedPacketIDs:          make(chan uint16, 10),
 		publishedCorrelationIDs: make(chan []byte, 10),
@@ -76,9 +78,10 @@ func (c *StubMqttClient) ClientID() string {
 	return c.clientID
 }
 
-func (c *StubMqttClient) Publish(
+func (c *StubMqttClient) PublishWithOptions(
 	_ context.Context,
 	p *paho.Publish,
+	_ paho.PublishOptions,
 ) (*paho.PublishResponse, error) {
 	c.publicationCount++
 

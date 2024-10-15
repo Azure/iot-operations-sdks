@@ -1,4 +1,5 @@
-// contains integration test that uses our proprietary fault injectable broker
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package test
 

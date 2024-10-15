@@ -21,21 +21,21 @@ func main() {
 	fmt.Printf("Starting counter client with clientId %s\n", clientID)
 	mqttClient := must(mqtt.NewSessionClientFromEnv())
 
-	check(mqttClient.Connect(ctx))
-
 	counterServer := os.Getenv("COUNTER_SERVER_ID")
 
 	fmt.Printf("Connected to MQTT broker, calling to %s\n", counterServer)
 
 	client := must(dtmi_com_example_Counter__1.NewCounterClient(mqttClient, protocol.WithResponseTopicPrefix("response")))
-	done := must(client.Listen(ctx))
-	defer done()
+	defer client.Close()
+
+	check(mqttClient.Start())
+	check(client.Start(ctx))
 
 	resp := must(client.ReadCounter(ctx, counterServer))
 
 	fmt.Println("Counter value:", resp.Payload.CounterResponse)
 
-	for i := 0; i < 15; i++ {
+	for range 15 {
 		respIncr := must(client.Increment(ctx, counterServer))
 		fmt.Println("Counter value after increment:", respIncr.Payload.CounterResponse)
 	}

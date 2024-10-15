@@ -29,11 +29,11 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	check(mqttClient.Connect(ctx))
-
 	server := must(envoy.NewGreeterServer(mqttClient, &Handlers{}))
-	done := must(server.Listen(ctx))
-	defer done()
+	defer server.Close()
+
+	check(mqttClient.Start())
+	check(server.Start(ctx))
 
 	fmt.Println("Press enter to quit.")
 	must(fmt.Scanln())
