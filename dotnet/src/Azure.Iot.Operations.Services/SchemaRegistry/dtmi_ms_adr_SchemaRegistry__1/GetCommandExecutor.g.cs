@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         /// Specializes a <c>CommandExecutor</c> class for Command 'get'.
         /// </summary>
         [CommandBehavior(idempotent: true, cacheableDuration: "P1D")]
-        public class GetCommandExecutor : CommandExecutor<GetCommandRequest, GetCommandResponse>
+        public class GetCommandExecutor : CommandExecutor<GetRequestPayload, GetResponsePayload>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandExecutor"/> class.

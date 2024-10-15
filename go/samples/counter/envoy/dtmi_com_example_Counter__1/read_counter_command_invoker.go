@@ -8,7 +8,7 @@ import (
 )
 
 type ReadCounterCommandInvoker struct {
-	*protocol.CommandInvoker[any, ReadCounterCommandResponse]
+	*protocol.CommandInvoker[any, ReadCounterResponsePayload]
 }
 
 func NewReadCounterCommandInvoker(
@@ -32,7 +32,7 @@ func NewReadCounterCommandInvoker(
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
 		client,
 		protocol.Empty{},
-		protocol.JSON[ReadCounterCommandResponse]{},
+		protocol.JSON[ReadCounterResponsePayload]{},
 		requestTopic,
 		&opts,
 	)
@@ -44,7 +44,7 @@ func (invoker ReadCounterCommandInvoker) ReadCounter(
 	ctx context.Context,
 	executorId string,
 	opt ...protocol.InvokeOption,
-) (*protocol.CommandResponse[ReadCounterCommandResponse], error) {
+) (*protocol.CommandResponse[ReadCounterResponsePayload], error) {
 	var opts protocol.InvokeOptions
 	opts.Apply(
 		opt,

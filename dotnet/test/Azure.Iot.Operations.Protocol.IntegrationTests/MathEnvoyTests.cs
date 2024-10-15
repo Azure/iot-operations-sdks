@@ -18,12 +18,12 @@ public class MathEnvoyTests
         await mathService.StartAsync();
 
         Stopwatch clock = Stopwatch.StartNew();
-        var resp = await mathClient.IsPrimeAsync(executorId, new IsPrimeCommandRequest() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 4567 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        var resp = await mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 4567 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         var firstCall = clock.Elapsed;
         Assert.True(resp.Response.IsPrimeResponse.IsPrime);
 
         clock.Reset();
-        resp = await mathClient.IsPrimeAsync(executorId, new IsPrimeCommandRequest() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 4567 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata(); ;
+        resp = await mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 4567 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata(); ;
         var secondCalCall = clock.Elapsed;
         Assert.True(resp.Response.IsPrimeResponse.IsPrime);
 
@@ -42,7 +42,7 @@ public class MathEnvoyTests
         
         await mathService.StartAsync();
         var ex = await Assert.ThrowsAsync<AkriMqttException>(
-            () => mathClient.IsPrimeAsync(executorId, new IsPrimeCommandRequest() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 45677 } },
+            () => mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new Object_IsPrime_Request() { Number = 45677 } },
             new RPC.CommandRequestMetadata(), TimeSpan.FromSeconds(30)).WithMetadata());
 
         Assert.True(ex.IsRemote);
@@ -59,7 +59,7 @@ public class MathEnvoyTests
 
         await mathService.StartAsync();
 
-        var resp = await mathClient.FibAsync(executorId, new FibCommandRequest { FibRequest = new Object_Fib_Request { Number = 13 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        var resp = await mathClient.FibAsync(executorId, new FibRequestPayload { FibRequest = new Object_Fib_Request { Number = 13 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(233, resp.Response.FibResponse.FibResult);
     }
 
