@@ -16,13 +16,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         };
 
         private readonly string projectName;
-        private readonly string sdkPath;
+        private readonly string? sdkPath;
         private readonly List<(string, string)> packageVersions;
 
         public RustCargoToml(string projectName, string genFormat, string? sdkPath)
         {
             this.projectName = NamingSupport.ToSnakeCase(projectName);
-            this.sdkPath = sdkPath?.Replace('\\', '/') ?? "sdk";
+            this.sdkPath = sdkPath?.Replace('\\', '/');
 
             packageVersions = serializerPackageVersions[genFormat];
         }

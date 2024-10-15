@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'get'.
         /// </summary>
-        public class GetCommandInvoker : CommandInvoker<GetCommandRequest, GetCommandResponse>
+        public class GetCommandInvoker : CommandInvoker<GetRequestPayload, GetResponsePayload>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandInvoker"/> class.

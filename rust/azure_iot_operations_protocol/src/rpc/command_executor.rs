@@ -381,7 +381,7 @@ where
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
-                match unsub_ct.wait().await {
+                match unsub_ct.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("[{}] Unsuback error: {e}", self.command_name);
@@ -394,9 +394,12 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[{}] Unsubscribe error: {e}", self.command_name);
+                log::error!(
+                    "[{}] Client error while unsubscribing: {e}",
+                    self.command_name
+                );
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT error on command executor unsubscribe".to_string()),
+                    Some("Client error on command executor unsubscribe".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -419,7 +422,7 @@ where
                 .await;
 
             match subscribe_result {
-                Ok(sub_ct) => match sub_ct.wait().await {
+                Ok(sub_ct) => match sub_ct.await {
                     Ok(()) => {
                         self.is_subscribed = true;
                     }
@@ -433,9 +436,12 @@ where
                     }
                 },
                 Err(e) => {
-                    log::error!("[{}] Subscribe error: {e}", self.command_name);
+                    log::error!(
+                        "[{}] Client error while subscribing: {e}",
+                        self.command_name
+                    );
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on command executor subscribe".to_string()),
+                        Some("Client error on command executor subscribe".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
@@ -460,6 +466,7 @@ where
 
         loop {
             tokio::select! {
+                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
                 Some(pending_pub) = self.pending_pubs.join_next() => {
                     match pending_pub {
                         Ok(pending_pub) => {
@@ -881,7 +888,7 @@ where
         {
             Ok(publish_completion_token) => {
                 // Wait and handle puback
-                match publish_completion_token.wait().await {
+                match publish_completion_token.await {
                     Ok(()) => {}
                     Err(e) => {
                         log::error!(
@@ -894,7 +901,7 @@ where
             }
             Err(e) => {
                 log::error!(
-                    "[{}][pkid: {}] Publish error: {e}",
+                    "[{}][pkid: {}] Client error on command executor response publish: {e}",
                     response_arguments.command_name,
                     pkid
                 );

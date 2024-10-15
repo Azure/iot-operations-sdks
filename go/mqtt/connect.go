@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -7,12 +9,11 @@ import (
 	"io"
 	"sync/atomic"
 
-	"github.com/eclipse/paho.golang/paho"
-	"github.com/eclipse/paho.golang/paho/session/state"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
 // Connect establishes a connection for the session client.
@@ -333,12 +334,9 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 			case *paho.Subscribe:
 				c.logPacket(p)
 
-				qp.subscription.register(ctx)
 				err := pahoSub(ctx, c.pahoClient, p)
-				if err == nil {
-					c.subscriptions[qp.subscription.topic] = qp.subscription
-				} else {
-					qp.subscription.done()
+				if err != nil {
+					delete(c.subscriptions, qp.subscription.topic)
 				}
 
 				qp.handleError(err)
@@ -347,9 +345,7 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 
 				err := pahoUnsub(ctx, c.pahoClient, p)
 				if err == nil {
-					// Remove subscribed topic and subscription callback.
 					delete(c.subscriptions, qp.subscription.topic)
-					qp.subscription.done()
 				}
 
 				qp.handleError(err)
@@ -421,12 +417,8 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 		}
 	}
 
+	config.OnPublishReceived = c.onPublishReceived(ctx)
 	c.pahoClient = c.pahoClientFactory(config)
-
-	// Re-register existing subscription callbacks with the new client instance.
-	for _, s := range c.subscriptions {
-		s.register(ctx)
-	}
 
 	return nil
 }

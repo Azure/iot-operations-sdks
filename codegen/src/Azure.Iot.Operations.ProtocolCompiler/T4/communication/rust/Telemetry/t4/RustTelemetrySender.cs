@@ -30,17 +30,17 @@ use std::ops::{Deref, DerefMut};
 use azure_iot_operations_mqtt::interface::{
     MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     TelemetrySender, TelemetrySenderOptionsBuilder,
 };
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-use super::super::common_types::common_options::CommonOptions;
 use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(NamingSupport.ToSnakeCase(this.schemaClassName)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write(";\r\n\r\nuse super::MODEL_ID;\r\nuse super::TELEMETRY_TOPIC_PATTERN;\r\n\r\npub struct ");
+            this.Write(";\r\nuse super::MODEL_ID;\r\nuse super::TELEMETRY_TOPIC_PATTERN;\r\nuse crate::common_t" +
+                    "ypes::common_options::CommonOptions;\r\n\r\npub struct ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("Sender<PS: MqttPubSub + Clone + Send + Sync + \'static>(TelemetrySender<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));

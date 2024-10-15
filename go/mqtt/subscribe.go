@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -6,16 +8,15 @@ import (
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
-	handler mqtt.MessageHandler,
-	opts ...mqtt.SubscribeOption,
-) (mqtt.Subscription, error) {
+	handler MessageHandler,
+	opts ...SubscribeOption,
+) (Subscription, error) {
 	if err := c.prepare(ctx); err != nil {
 		return nil, err
 	}
@@ -39,7 +40,8 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	s := &subscription{c, topic, handler, nil}
+	s := &subscription{c, topic, handler}
+	c.subscriptions[topic] = s
 
 	// Connection lost; buffer the packet for reconnection.
 	if !c.isConnected.Load() {
@@ -54,44 +56,69 @@ func (c *SessionClient) Subscribe(
 
 	// Execute the subscribe.
 	c.logSubscribe(sub)
-	s.register(ctx)
 	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
-		s.done()
+		delete(c.subscriptions, topic)
 		return nil, err
 	}
 
+	return s, nil
+}
+
+func (c *SessionClient) Register(
+	topic string,
+	handler MessageHandler,
+) (Subscription, error) {
+	// Subscribe, unsubscribe, and update subscription options
+	// cannot be run simultaneously.
+	c.subscriptionsMu.Lock()
+	defer c.subscriptionsMu.Unlock()
+
+	if _, ok := c.subscriptions[topic]; ok {
+		return nil, &errors.Error{
+			Kind:          errors.ConfigurationInvalid,
+			Message:       "cannot subscribe to existing topic",
+			PropertyName:  "topic",
+			PropertyValue: topic,
+		}
+	}
+
+	s := &subscription{c, topic, handler}
 	c.subscriptions[topic] = s
 
 	return s, nil
 }
 
-// Register the handler to process messages received on the target topic.
-// AddOnPublishReceived returns a callback for removing message handler
-// so we assign it to 'done' for unregistering handler afterwards.
-func (s *subscription) register(ctx context.Context) {
-	s.info(fmt.Sprintf("registering callback for %s", s.topic))
-	s.done = s.pahoClient.AddOnPublishReceived(
+func (c *SessionClient) onPublishReceived(
+	ctx context.Context,
+) []func(paho.PublishReceived) (bool, error) {
+	return []func(paho.PublishReceived) (bool, error){
 		func(pb paho.PublishReceived) (bool, error) {
-			if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
-				msg := s.buildMessage(pb.Packet)
-				if err := s.handler(ctx, msg); err != nil {
-					s.error(fmt.Sprintf(
-						"failed to execute the handler on message: %s",
-						err.Error(),
-					))
-					return false, err
+			c.subscriptionsMu.RLock()
+			defer c.subscriptionsMu.RUnlock()
+
+			for _, s := range c.subscriptions {
+				if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
+					msg := s.buildMessage(pb.Packet)
+					if err := s.handler(ctx, msg); err != nil {
+						s.error(fmt.Sprintf(
+							"failed to execute the handler on message: %s",
+							err.Error(),
+						))
+						return false, err
+					}
+					return true, nil
 				}
-				return true, nil
 			}
+
 			return false, nil
 		},
-	)
+	}
 }
 
 // Helper function for user to update subscribe options.
 func (s *subscription) Update(
 	ctx context.Context,
-	opts ...mqtt.SubscribeOption,
+	opts ...SubscribeOption,
 ) error {
 	c := s.SessionClient
 
@@ -133,7 +160,7 @@ func (s *subscription) Update(
 // Helper function for user to unsubscribe topic.
 func (s *subscription) Unsubscribe(
 	ctx context.Context,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) error {
 	c := s.SessionClient
 
@@ -155,7 +182,7 @@ func (s *subscription) Unsubscribe(
 	if !c.isConnected.Load() {
 		return c.bufferPacket(
 			ctx,
-			&queuedPacket{packet: unsub},
+			&queuedPacket{packet: unsub, subscription: s},
 		)
 	}
 
@@ -166,16 +193,15 @@ func (s *subscription) Unsubscribe(
 
 	// Remove subscribed topic and callback.
 	delete(s.subscriptions, s.topic)
-	s.done()
 
 	return nil
 }
 
 func buildSubscribe(
 	topic string,
-	opts ...mqtt.SubscribeOption,
+	opts ...SubscribeOption,
 ) (*paho.Subscribe, error) {
-	var opt mqtt.SubscribeOptions
+	var opt SubscribeOptions
 	opt.Apply(opts)
 
 	// Validate options.
@@ -192,10 +218,10 @@ func buildSubscribe(
 	sub := &paho.Subscribe{
 		Subscriptions: []paho.SubscribeOptions{{
 			Topic:             topic,
-			QoS:               byte(opt.QoS),
+			QoS:               opt.QoS,
 			NoLocal:           opt.NoLocal,
 			RetainAsPublished: opt.Retain,
-			RetainHandling:    byte(opt.RetainHandling),
+			RetainHandling:    opt.RetainHandling,
 		}},
 	}
 	if len(opt.UserProperties) > 0 {
@@ -208,9 +234,9 @@ func buildSubscribe(
 
 func buildUnsubscribe(
 	topic string,
-	opts ...mqtt.UnsubscribeOption,
+	opts ...UnsubscribeOption,
 ) (*paho.Unsubscribe, error) {
-	var opt mqtt.UnsubscribeOptions
+	var opt UnsubscribeOptions
 	opt.Apply(opts)
 
 	unsub := &paho.Unsubscribe{
@@ -226,19 +252,19 @@ func buildUnsubscribe(
 }
 
 // buildMessage build message for message handler.
-func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
+func (c *SessionClient) buildMessage(p *paho.Publish) *Message {
 	// TODO: MQTT server is allowed to send multiple copies if there are
 	// multiple topic filter matches a message, thus if we see same message
 	// multiple times, we need to check their QoS before send the Ack().
 	var acked bool
 	connCount := atomic.LoadInt64(&c.connCount)
-	msg := &mqtt.Message{
+	msg := &Message{
 		Topic:   p.Topic,
 		Payload: p.Payload,
-		PublishOptions: mqtt.PublishOptions{
+		PublishOptions: PublishOptions{
 			ContentType:     p.Properties.ContentType,
 			CorrelationData: p.Properties.CorrelationData,
-			QoS:             mqtt.QoS(p.QoS),
+			QoS:             p.QoS,
 			ResponseTopic:   p.Properties.ResponseTopic,
 			Retain:          p.Retain,
 			UserProperties:  userPropertiesToMap(p.Properties.User),
@@ -276,7 +302,7 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *mqtt.Message {
 		msg.MessageExpiry = *p.Properties.MessageExpiry
 	}
 	if p.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = mqtt.PayloadFormat(*p.Properties.PayloadFormat)
+		msg.PayloadFormat = *p.Properties.PayloadFormat
 	}
 	return msg
 }
