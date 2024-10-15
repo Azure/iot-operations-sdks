@@ -10,11 +10,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/eclipse/paho.golang/paho/session"
-	"github.com/eclipse/paho.golang/paho/session/state"
-
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/eclipse/paho.golang/paho/session"
+	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
 type (
@@ -48,7 +47,7 @@ type (
 		// Channel that is closed when the the connection is down. Used to
 		// notify goroutines that expect the connection to go down that the
 		// manageConnection() goroutine has detected the disconnection and is
-		//attempting to start a new connection
+		// attempting to start a new connection
 		connDown chan struct{}
 		// The number of successful connections that have ocurred on the session
 		// client, up to and including the current Paho client instance
@@ -58,7 +57,7 @@ type (
 		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish)]
 
 		// A list of functions that are called in order to notify the user of
-		//successful MQTT connections
+		// successful MQTT connections
 		connectNotificationHandlers *internal.AppendableListWithRemoval[ConnectNotificationHandler]
 
 		// A list of functions that are called in order to notify the user of a

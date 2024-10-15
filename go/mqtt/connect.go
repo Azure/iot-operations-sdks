@@ -11,36 +11,44 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 )
 
-type MQTTConnackPacket struct {
-	ReasonCode byte
-	// NOTE: more fields may be added later
-	// NOTE: this may be moved to the common module once we create it
-}
-type ConnectEvent struct {
-	// Values from the CONNACK packet received from the MQTT server
-	ConnackPacket *MQTTConnackPacket
-}
-type ConnectNotificationHandler func(*ConnectEvent)
+type (
+	ConnackPacket struct {
+		ReasonCode byte
+		// NOTE: more fields may be added later
+		// NOTE: this may be moved to the common module once we create it
+	}
 
-type MQTTDisconnectPacket struct {
-	ReasonCode byte
-	// NOTE: more fields may be added later
-	// NOTE: this may be moved to the common module once we create it
-}
-type DisconnectEvent struct {
-	// Values from the DISCONNECT packet received from the MQTT server. May be
-	// nil if the disconnection ocurred without receiving a DISCONNECT packet
-	// from the server.
-	DisconnectPacket *MQTTDisconnectPacket
-}
-type DisconnectNotificationHandler func(*DisconnectEvent)
+	ConnectEvent struct {
+		// Values from the CONNACK packet received from the MQTT server
+		ConnackPacket *ConnackPacket
+	}
+
+	ConnectNotificationHandler = func(*ConnectEvent)
+
+	DisconnectPacket struct {
+		ReasonCode byte
+		// NOTE: more fields may be added later
+		// NOTE: this may be moved to the common module once we create it
+	}
+
+	DisconnectEvent struct {
+		// Values from the DISCONNECT packet received from the MQTT server. May
+		// be nil if the disconnection ocurred without receiving a DISCONNECT
+		// packet from the server.
+		DisconnectPacket *DisconnectPacket
+	}
+
+	DisconnectNotificationHandler = func(*DisconnectEvent)
+)
 
 // RegisterConnectNotificationHandler registers a handler to a list of handlers
 // that are called synchronously in registration order whenever the
 // SessionClient successfully establishes an MQTT connection. Note that since
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) (unregisterHandler func()) {
+func (c *SessionClient) RegisterConnectNotificationHandler(
+	handler ConnectNotificationHandler,
+) (unregisterHandler func()) {
 	return c.connectNotificationHandlers.AppendEntry(handler)
 }
 
@@ -49,25 +57,31 @@ func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotifi
 // SessionClient detects a disconnection from the MQTT server. Note that since
 // the handler gets called synchronously, handlers should not block for an
 // extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) (unregisterHandler func()) {
+func (c *SessionClient) RegisterDisconnectNotificationHandler(
+	handler DisconnectNotificationHandler,
+) (unregisterHandler func()) {
 	return c.disconnectNotificationHandlers.AppendEntry(handler)
 }
 
 // RegisterFatalErrorHandler registers a handler that is called in a goroutine
 // if the SessionClient terminates due to a fatal error.
-func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregisterHandler func()) {
+func (c *SessionClient) RegisterFatalErrorHandler(
+	handler func(error),
+) (unregisterHandler func()) {
 	return c.fatalErrorHandlers.AppendEntry(handler)
 }
 
 // Start starts the SessionClient, spawning any necessary background goroutines.
 // In order to terminate the SessionClient and clean up any running goroutines,
-// Stop() must be called after calling Start()
+// Stop() must be called after calling Start().
 func (c *SessionClient) Start() error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
 		return &ClientStateError{State: Started}
 	}
 
-	clientShutdownCtx, clientShutdownFunc := context.WithCancel(context.Background())
+	clientShutdownCtx, clientShutdownFunc := context.WithCancel(
+		context.Background(),
+	)
 
 	go func() {
 		defer clientShutdownFunc()
@@ -110,7 +124,7 @@ type pahoClientDisconnectedEvent struct {
 
 // Attempts an initial connection and then listens for disconnections to attempt
 // reconnections. Blocks until the ctx is cancelled or the connection can no
-// longer be maintained (due to a fatal error or retry policy exhaustion)
+// longer be maintained (due to a fatal error or retry policy exhaustion).
 func (c *SessionClient) manageConnection(ctx context.Context) error {
 	signalConnection := func(client PahoClient, reasonCode byte) {
 		func() {
@@ -124,7 +138,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		}()
 
 		connectEvent := ConnectEvent{
-			ConnackPacket: &MQTTConnackPacket{
+			ConnackPacket: &ConnackPacket{
 				ReasonCode: reasonCode,
 			},
 		}
@@ -145,7 +159,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 
 		disconnectEvent := DisconnectEvent{}
 		if reasonCode != nil {
-			disconnectEvent.DisconnectPacket = &MQTTDisconnectPacket{
+			disconnectEvent.DisconnectPacket = &DisconnectPacket{
 				ReasonCode: *reasonCode,
 			}
 		}
@@ -185,7 +199,10 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				Name: "connect",
 				Exec: func(ctx context.Context) error {
 					var err error
-					pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(ctx, c.connCount)
+					pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(
+						ctx,
+						c.connCount,
+					)
 					return err
 				},
 				Cond: isRetryableError,
@@ -210,7 +227,8 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			disconnectReasonCode = &disconnectEvent.disconnectPacket.ReasonCode
 		}
 		signalDisconnection(disconnectReasonCode)
-		if disconnectReasonCode != nil && isFatalDisconnectReasonCode(*disconnectReasonCode) {
+		if disconnectReasonCode != nil &&
+			isFatalDisconnectReasonCode(*disconnectReasonCode) {
 			return &FatalDisconnectError{
 				ReasonCode: *disconnectReasonCode,
 			}
@@ -224,7 +242,10 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 // it to the MQTT server. If the client is successfully connected, the client
 // instance is returned along with a channel to be notified when the connection
 // on that client instance goes down.
-func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (PahoClient, *byte, <-chan *pahoClientDisconnectedEvent, error) {
+func (c *SessionClient) buildPahoClient(
+	ctx context.Context,
+	connCount uint64,
+) (PahoClient, *byte, <-chan *pahoClientDisconnectedEvent, error) {
 	isInitialConn := connCount == 0
 
 	// Refresh TLS config for new connection.
@@ -278,7 +299,11 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 		EnableManualAcknowledgment: true,
 	})
 
-	cp := buildConnectPacket(c.connSettings.clientID, c.connSettings, isInitialConn)
+	cp := buildConnectPacket(
+		c.connSettings.clientID,
+		c.connSettings,
+		isInitialConn,
+	)
 
 	c.logConnect(cp)
 

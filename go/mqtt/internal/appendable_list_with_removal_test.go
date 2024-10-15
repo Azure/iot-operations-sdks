@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package internal
 
 import (
@@ -15,7 +17,7 @@ func TestIterateInOrder(t *testing.T) {
 	}
 
 	// retrieve values from list and put them into a slice
-	var actual []int
+	actual := make([]int, 0, 5)
 	for v := range list.All() {
 		actual = append(actual, v)
 	}
@@ -37,7 +39,7 @@ func TestRemoveAtEnd(t *testing.T) {
 	removeEnd()
 
 	// retrieve values from list and put them into a slice
-	var actual []int
+	actual := make([]int, 0, 4)
 	for v := range list.All() {
 		actual = append(actual, v)
 	}
@@ -55,11 +57,11 @@ func TestRemoveAtBeginning(t *testing.T) {
 	for i := 1; i < 5; i++ {
 		_ = list.AppendEntry(i)
 	}
-	//remove from the beginning
+	// remove from the beginning
 	removeBeginning()
 
 	// retrieve values from list and put them into a slice
-	var actual []int
+	actual := make([]int, 0, 4)
 	for v := range list.All() {
 		actual = append(actual, v)
 	}
@@ -78,11 +80,11 @@ func TestRemoveInMiddle(t *testing.T) {
 	_ = list.AppendEntry(3)
 	_ = list.AppendEntry(4)
 
-	//remove from the middle
+	// remove from the middle
 	removeMiddle()
 
 	// retrieve values from list and put them into a slice
-	actual := []int{}
+	actual := make([]int, 0, 4)
 	for v := range list.All() {
 		actual = append(actual, v)
 	}
@@ -93,7 +95,7 @@ func TestRemoveInMiddle(t *testing.T) {
 
 func TestIterateEmpty(t *testing.T) {
 	list := NewAppendableListWithRemoval[int]()
-	for _ = range list.All() {
+	for range list.All() {
 		t.Error("iterator unexpectedly yielded a value")
 		break
 	}
@@ -120,10 +122,9 @@ func TestIterateRandomRemoval(t *testing.T) {
 			removalFuncs[shuffleIdx]()
 		}
 
-		for _ = range list.All() {
+		for range list.All() {
 			t.Error("iterator unexpectedly yielded a value")
 			break
 		}
 	}
-
 }
