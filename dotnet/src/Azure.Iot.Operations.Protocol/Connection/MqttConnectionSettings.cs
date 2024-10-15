@@ -166,7 +166,7 @@ public class MqttConnectionSettings
 
         try
         {
-            targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
+            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
         }
         catch (Exception ex)
         {
@@ -175,7 +175,7 @@ public class MqttConnectionSettings
 
         try
         {
-            useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
+            useTls = Environment.GetEnvironmentVariable("MQ_USE_TLS");
         }
         catch
         {
@@ -184,7 +184,7 @@ public class MqttConnectionSettings
 
         try
         {
-            satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
+            satMountPath = Environment.GetEnvironmentVariable("MQ_SAT_MOUNT_PATH");
         }
         catch
         {
@@ -193,7 +193,8 @@ public class MqttConnectionSettings
 
         try
         {
-            tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
+            string tlsCaCertDir = "MQ_TLS_CACERT_MOUNT_PATH";
+            tlsCaCertMountPath = Path.Combine(tlsCaCertDir, "tls.crt");
         }
         catch
         {
@@ -204,10 +205,10 @@ public class MqttConnectionSettings
         {
             return new MqttConnectionSettings(targetAddress)
             {
-                UseTls = useTls,
+                UseTls = true,
                 SatAuthFile = satMountPath,
                 CaFile = tlsCaCertMountPath,
-                CleanStart = false
+                CleanStart = true
             };
         }
         catch (ArgumentException ex)

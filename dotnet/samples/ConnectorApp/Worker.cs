@@ -59,9 +59,13 @@ namespace DotnetHttpConnectorWorkerService
                 using HttpDataRetriever httpDataRetriever = new(httpServerAssetEndpointProfile.TargetAddress, httpServerRequestPath, httpMethod, httpServerUsername, httpServerPassword);
 
                 // Create MQTT client from credentials provided by the operator
+                // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
                 MqttSessionClient sessionClient = new();
                 await sessionClient.ConnectAsync(mqttConnectionSettings);
+
+                Console.WriteLine("Successfully connected to MQTT broker");
+
 
                 while (true)
                 {
