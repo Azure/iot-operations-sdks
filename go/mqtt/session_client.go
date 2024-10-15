@@ -25,12 +25,8 @@ type (
 
 		// Used to internally to signal client shutdown for cleaning up
 		// background goroutines and inflight operations
-		shutdown chan struct{}
-
-		// Used internally to signal that the user has requested to stop the
-		// client
-		userStop          chan struct{}
-		closeUserStopOnce sync.Once
+		shutdown <-chan struct{}
+		stop     func()
 
 		// RWMutex to protect pahoClient, connUp, connDown, and connCount
 		pahoClientMu sync.RWMutex
@@ -53,7 +49,7 @@ type (
 		connCount uint64
 
 		// A list of functions that listen for incoming publishes
-		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish)]
+		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish) bool]
 
 		// A list of functions that are called in order to notify the user of
 		// successful MQTT connections
@@ -136,12 +132,10 @@ func NewSessionClient(
 ) (*SessionClient, error) {
 	// Default client options.
 	client := &SessionClient{
-		shutdown: make(chan struct{}),
-		userStop: make(chan struct{}),
 		connUp:   make(chan struct{}),
 		connDown: make(chan struct{}),
 
-		incomingPublishHandlers:        internal.NewAppendableListWithRemoval[func(incomingPublish)](),
+		incomingPublishHandlers:        internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
 		connectNotificationHandlers:    internal.NewAppendableListWithRemoval[ConnectNotificationHandler](),
 		disconnectNotificationHandlers: internal.NewAppendableListWithRemoval[DisconnectNotificationHandler](),
 		fatalErrorHandlers:             internal.NewAppendableListWithRemoval[func(error)](),

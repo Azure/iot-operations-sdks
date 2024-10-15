@@ -61,7 +61,6 @@ func runOneCommandExecutorTest(
 	fileName string,
 ) {
 	pendingTestCases := []string{
-		"CommandExecutorRequestWrongTopic_NoResponse",
 		"CommandExecutorSubAckFailure_ThrowsException",
 	}
 

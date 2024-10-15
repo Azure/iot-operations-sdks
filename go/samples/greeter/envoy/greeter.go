@@ -141,8 +141,10 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	c.sayHelloWithDelayInvoker, err = protocol.NewCommandInvoker(
 		client,
@@ -152,8 +154,10 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	return c, nil
 }

@@ -24,6 +24,12 @@ func (c *SessionClient) makeOnPublishReceived(
 	connCount uint64,
 ) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
+		c.log.Packet(
+			context.Background(),
+			"publish received",
+			publishReceived.Packet,
+		)
+
 		ack := sync.OnceValue(func() error {
 			if publishReceived.Packet.QoS == 0 {
 				return &InvalidOperationError{
@@ -46,18 +52,22 @@ func (c *SessionClient) makeOnPublishReceived(
 			return pahoClient.Ack(publishReceived.Packet)
 		})
 
+		// We track wether any of the handlers take ownership of the message,
+		// because Paho will auto-ack if none do (even for manual ack).
+		// TODO: Multiple ack owners will not fail (due to sync.OnceValue), but
+		// the message will be acked when the first owner acks, not the last.
+		// We should probably reverse that order.
+		var willAck bool
 		for handler := range c.incomingPublishHandlers.All() {
-			handler(
+			willAck = handler(
 				incomingPublish{
 					packet: publishReceived.Packet,
 					ack:    ack,
 				},
-			)
+			) || willAck
 		}
 
-		// NOTE: this return value doesn't really mean anything because this is
-		// the only OnPublishReceivedHandler on this Paho instance
-		return true, nil
+		return willAck, nil
 	}
 }
 
@@ -66,8 +76,8 @@ func (c *SessionClient) makeOnPublishReceived(
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 	done := c.incomingPublishHandlers.AppendEntry(
-		func(incoming incomingPublish) {
-			handler(ctx, buildMessage(incoming))
+		func(incoming incomingPublish) bool {
+			return handler(ctx, buildMessage(incoming))
 		},
 	)
 	return sync.OnceFunc(func() {
@@ -107,7 +117,7 @@ func (c *SessionClient) Subscribe(
 			continue
 		}
 
-		c.log.Packet(ctx, sub)
+		c.log.Packet(ctx, "subscribe", sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return &InvalidArgumentError{
@@ -161,7 +171,7 @@ func (c *SessionClient) Unsubscribe(
 			continue
 		}
 
-		c.log.Packet(ctx, unsub)
+		c.log.Packet(ctx, "unsubscribe", unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return &InvalidArgumentError{

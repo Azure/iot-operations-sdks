@@ -78,30 +78,21 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	clientShutdownCtx, clientShutdownFunc := context.WithCancel(
-		context.Background(),
-	)
+	ctx, cancel := context.WithCancel(context.Background())
+
+	c.shutdown = ctx.Done()
+	c.stop = cancel
 
 	go func() {
-		defer clientShutdownFunc()
-		defer close(c.shutdown)
-		select {
-		case <-clientShutdownCtx.Done():
-		case <-c.userStop:
-		}
-	}()
-
-	go func() {
-		defer clientShutdownFunc()
-		err := c.manageConnection(clientShutdownCtx)
-		if err != nil {
+		defer c.stop()
+		if err := c.manageConnection(ctx); err != nil {
 			for handler := range c.fatalErrorHandlers.All() {
 				go handler(err)
 			}
 		}
 	}()
 
-	go c.manageOutgoingPublishes(clientShutdownCtx)
+	go c.manageOutgoingPublishes(ctx)
 
 	return nil
 }
@@ -112,7 +103,7 @@ func (c *SessionClient) Stop() error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}
 	}
-	c.closeUserStopOnce.Do(func() { close(c.userStop) })
+	c.stop()
 	return nil
 }
 
@@ -184,7 +175,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				SessionExpiryInterval: &immediateSessionExpiry,
 			},
 		}
-		c.log.Packet(ctx, disconn)
+		c.log.Packet(ctx, "disconnect", disconn)
 		_ = c.pahoClient.Disconnect(disconn)
 		signalDisconnection(nil)
 	}()
@@ -285,7 +276,7 @@ func (c *SessionClient) buildPahoClient(
 	)
 
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
-	c.log.Packet(ctx, conn)
+	c.log.Packet(ctx, "connect", conn)
 	connack, err := pahoClient.Connect(ctx, conn)
 
 	if connack == nil {
