@@ -543,7 +543,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
 
                 string? clientId = this.mqttClient.ClientId;
-                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+                }
 
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");

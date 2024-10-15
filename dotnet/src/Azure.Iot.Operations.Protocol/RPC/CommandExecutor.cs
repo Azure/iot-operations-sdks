@@ -293,7 +293,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
 
                 string? clientId = this.mqttClient.ClientId;
-                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting a command executor");
+                }
 
                 dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, preferredDispatchConcurrency);
 
