@@ -33,7 +33,7 @@ var (
 ```
 
 <a name="Argument"></a>
-## type [Argument](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L17-L20>)
+## type [Argument](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L19-L22>)
 
 Argument errors indicate an invalid argument.
 
@@ -45,7 +45,7 @@ type Argument struct {
 ```
 
 <a name="Argument.Error"></a>
-### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L60>)
+### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L62>)
 
 ```go
 func (e Argument) Error() string
@@ -54,7 +54,7 @@ func (e Argument) Error() string
 
 
 <a name="Argument.Unwrap"></a>
-### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L64>)
+### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L66>)
 
 ```go
 func (Argument) Unwrap() error
@@ -63,7 +63,7 @@ func (Argument) Unwrap() error
 
 
 <a name="Payload"></a>
-## type [Payload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L14>)
+## type [Payload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L16>)
 
 Payload errors indicate a malformed or unexpected payload returned from the state store.
 
@@ -72,7 +72,7 @@ type Payload string
 ```
 
 <a name="Payload.Error"></a>
-### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L52>)
+### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L54>)
 
 ```go
 func (e Payload) Error() string
@@ -81,7 +81,7 @@ func (e Payload) Error() string
 
 
 <a name="Payload.Unwrap"></a>
-### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L56>)
+### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L58>)
 
 ```go
 func (Payload) Unwrap() error
@@ -90,7 +90,7 @@ func (Payload) Unwrap() error
 
 
 <a name="Service"></a>
-## type [Service](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L10>)
+## type [Service](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L12>)
 
 Service errors indicate an error returned from the state store.
 
@@ -118,7 +118,7 @@ const (
 ```
 
 <a name="Service.Error"></a>
-### func \(Service\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L44>)
+### func \(Service\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L46>)
 
 ```go
 func (e Service) Error() string
@@ -127,7 +127,7 @@ func (e Service) Error() string
 
 
 <a name="Service.Unwrap"></a>
-### func \(Service\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L48>)
+### func \(Service\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L50>)
 
 ```go
 func (Service) Unwrap() error

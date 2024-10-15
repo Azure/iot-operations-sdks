@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -11,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
@@ -149,7 +150,7 @@ type (
 	subscription struct {
 		*SessionClient
 		topic   string
-		handler mqtt.MessageHandler
+		handler MessageHandler
 	}
 
 	// queuedPacket would hold packets such as

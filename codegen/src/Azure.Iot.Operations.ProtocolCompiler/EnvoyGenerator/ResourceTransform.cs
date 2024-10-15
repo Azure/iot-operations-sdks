@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private static readonly Dictionary<string, LanguageDirective> languageDirectives = new()
         {
-            { "csharp", new LanguageDirective("", @"Azure\.Iot\.Operations\.Protocol\.UnitTests\.Serializers\.{0}") },
+            { "csharp", new LanguageDirective("", @"Azure\.Iot\.Operations\.Protocol\.UnitTests\.Serializers\.\w+") },
             { "rust", new LanguageDirective(SubPaths.Rust, @"resources::{0}") },
         };
 
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.resourceText =
                 (languageDirective.NamespaceReplacementRegex == null ?
                     serializerCode :
-                    new Regex(string.Format(languageDirective.NamespaceReplacementRegex, subFolder)).Replace(serializerCode, projectName))
+                    new Regex(languageDirective.NamespaceReplacementRegex).Replace(serializerCode, projectName))
                 .Replace(SourceComment, DestComment);
         }
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -248,7 +250,7 @@ func getCommandInvoker(
 		options...)
 
 	if err == nil {
-		_, err = invoker.base.Listen(context.Background())
+		err = invoker.base.Start(context.Background())
 	}
 
 	if catch == nil {

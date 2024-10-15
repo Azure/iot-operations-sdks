@@ -63,6 +63,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:string;2" => $"{it}\"type\": \"string\"",
                 "dtmi:dtdl:instance:Schema:uuid;4" => $"{it}\"type\": \"string\"",
                 "dtmi:dtdl:instance:Schema:bytes;4" => $"{it}\"type\": \"bytes\"",
+                "dtmi:dtdl:instance:Schema:decimal;4" => $"{it}\"type\": \"string\"",
                 _ => string.Empty,
             };
         }

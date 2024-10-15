@@ -445,7 +445,7 @@ where
         match subscribe_result {
             Ok(suback) => {
                 // Wait for suback
-                match suback.wait().await {
+                match suback.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("[ERROR] suback error: {e}");
@@ -566,7 +566,7 @@ where
         match publish_result {
             Ok(publish_completion_token) => {
                 // Wait for and handle the puback
-                match publish_completion_token.wait().await {
+                match publish_completion_token.await {
                     // if puback is Ok, continue and wait for the response
                     Ok(()) => {}
                     Err(e) => {

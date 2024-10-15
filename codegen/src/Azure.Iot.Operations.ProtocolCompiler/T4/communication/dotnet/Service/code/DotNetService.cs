@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string allocateEmpty;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
+        private readonly string? serviceGroupId;
         private readonly List<(string, string?, string?)> cmdNameReqResps;
         private readonly List<string> telemSchemas;
         private readonly bool doesCommandTargetExecutor;
@@ -28,6 +29,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string serializerEmptyType,
             string? commandTopic,
             string? telemetryTopic,
+            string? serviceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
             List<string> telemSchemas,
             bool doesCommandTargetExecutor,
@@ -44,6 +46,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.allocateEmpty = serializerEmptyType == "" ? "Array.Empty<byte>()" : $"new {serializerEmptyType}()";
             this.commandTopic = commandTopic;
             this.telemetryTopic = telemetryTopic;
+            this.serviceGroupId = serviceGroupId;
             this.cmdNameReqResps = cmdNameReqResps;
             this.telemSchemas = telemSchemas;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;

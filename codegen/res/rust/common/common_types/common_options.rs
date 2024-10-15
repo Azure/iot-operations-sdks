@@ -1,6 +1,7 @@
 /* This file will be copied into the folder for generated code. */
 
 use std::collections::HashMap;
+
 use derive_builder::Builder;
 
 #[allow(unused)]

@@ -7,16 +7,15 @@ use std::ops::{Deref, DerefMut};
 use azure_iot_operations_mqtt::interface::{
     MqttProvider, MqttPubSub, MqttPubReceiver, MqttAck,
 };
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     TelemetrySender, TelemetrySenderOptionsBuilder,
 };
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-use super::super::common_types::common_options::CommonOptions;
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
-
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
+use crate::common_types::common_options::CommonOptions;
 
 pub struct <#=this.schemaClassName#>Sender<PS: MqttPubSub + Clone + Send + Sync + 'static>(TelemetrySender<<#=this.schemaClassName#>, PS>);
 

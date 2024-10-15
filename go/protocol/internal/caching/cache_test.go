@@ -1,11 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package caching
 
 import (
 	"testing"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/stretchr/testify/require"
 )
 
