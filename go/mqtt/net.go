@@ -41,7 +41,7 @@ func buildNetConn(
 
 	if err != nil {
 		// We are assuming all errors associated with opening the network
-		// connection are retryable
+		// connection are non-fatal
 		return nil, err
 	}
 	return conn, nil

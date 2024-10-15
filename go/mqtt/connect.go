@@ -287,7 +287,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context, connCount uint64) (
 
 	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method
-		// without a CONNACK are retryable.
+		// without a CONNACK are non-fatal.
 		return nil, nil, nil, err
 	}
 

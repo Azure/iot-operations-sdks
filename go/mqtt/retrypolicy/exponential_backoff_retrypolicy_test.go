@@ -17,7 +17,7 @@ type Mock struct {
 	mock.Mock
 }
 
-var errRetryable = errors.New("this error is retryable")
+var errNonFatal = errors.New("this error is non-fatal")
 
 // Mocked retry executed function.
 func (m *Mock) TaskExec(context.Context) error {
@@ -27,7 +27,7 @@ func (m *Mock) TaskExec(context.Context) error {
 
 // Mocked retry condition function.
 func (*Mock) TaskCond(err error) bool {
-	return err == errRetryable
+	return err == errNonFatal
 }
 
 func TestNoRetry(t *testing.T) {
@@ -50,7 +50,7 @@ func TestNoRetry(t *testing.T) {
 
 func TestMaxRetries(t *testing.T) {
 	m := new(Mock)
-	m.On("TaskExec").Return(errRetryable)
+	m.On("TaskExec").Return(errNonFatal)
 
 	ctx := context.Background()
 	logger := slog.Default()
@@ -64,13 +64,13 @@ func TestMaxRetries(t *testing.T) {
 		Cond: m.TaskCond,
 	})
 
-	require.EqualError(t, err, errRetryable.Error())
+	require.EqualError(t, err, errNonFatal.Error())
 	m.AssertNumberOfCalls(t, "TaskExec", 3)
 }
 
 func TestRetryUntilSuccess(t *testing.T) {
 	m := new(Mock)
-	m.On("TaskExec").Twice().Return(errRetryable)
+	m.On("TaskExec").Twice().Return(errNonFatal)
 	m.On("TaskExec").Once().Return(nil)
 
 	ctx := context.Background()
