@@ -20,7 +20,7 @@ public class MqttConnectionSettings
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
     private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
-    
+
     public string HostName { get; set; }
 
     public int TcpPort { get; set; } = DefaultTcpPort;
@@ -156,9 +156,9 @@ public class MqttConnectionSettings
     /// </summary>
     public static MqttConnectionSettings FromFileMount()
     {
-        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
+        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH")
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
-        
+
         string? targetAddress;
         bool useTls = true;
         bool cleanStart = true;
@@ -167,7 +167,7 @@ public class MqttConnectionSettings
 
         try
         {
-            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
+            targetAddress = File.ReadAllText(configMapPath + "/MQ_TARGET_ADDRESS");
             if (string.IsNullOrEmpty(targetAddress))
             {
                 throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
@@ -180,7 +180,7 @@ public class MqttConnectionSettings
 
         try
         {
-            string? useTlsString = Environment.GetEnvironmentVariable("MQ_USE_TLS");
+            string? useTlsString = File.ReadAllText(configMapPath + "/MQ_USE_TLS");
             if (!bool.TryParse(useTlsString, out useTls))
             {
                 throw new ArgumentException("MQ_USE_TLS must be a valid boolean value.");
@@ -202,8 +202,8 @@ public class MqttConnectionSettings
 
         try
         {
-            string tlsCaCertDir = "MQ_TLS_CACERT_MOUNT_PATH";
-            tlsCaCertMountPath = Path.Combine(tlsCaCertDir, "tls.crt");
+            tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
+            tlsCaCertMountPath += "/ca.crt";
         }
         catch
         {
@@ -363,7 +363,7 @@ public class MqttConnectionSettings
     {
         if (!string.IsNullOrWhiteSpace(val))
         {
-            if (name.ToLower(CultureInfo.InvariantCulture).Contains("key", StringComparison.InvariantCulture) 
+            if (name.ToLower(CultureInfo.InvariantCulture).Contains("key", StringComparison.InvariantCulture)
                 || name.ToLower(CultureInfo.InvariantCulture).Contains("password", StringComparison.InvariantCulture))
             {
                 sb.Append(CultureInfo.InvariantCulture, $"{name}=***;");

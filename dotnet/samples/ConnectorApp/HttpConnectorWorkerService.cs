@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.ConnectorSample
         {
             AzureDeviceRegistryClient adrClient = new();
             _logger.LogInformation("Successfully created ADR client");
-            
+
             string assetId = "todo - doesn't matter yet";
 
             try
