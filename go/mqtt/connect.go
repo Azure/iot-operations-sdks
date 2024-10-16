@@ -443,6 +443,9 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 	config.OnPublishReceived = []func(paho.PublishReceived) (bool, error){
 		c.onPublishReceived,
 	}
+
+	c.pahoClientMu.Lock()
+	defer c.pahoClientMu.Unlock()
 	c.pahoClient = c.pahoClientFactory(config)
 
 	return nil

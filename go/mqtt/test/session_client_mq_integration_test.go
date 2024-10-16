@@ -156,9 +156,12 @@ func TestRequestQueueMQ(t *testing.T) {
 
 	executed := make(chan struct{})
 	done := client.RegisterMessageHandler(
-		func(context.Context, *mqtt.Message) bool {
-			close(executed)
-			return true
+		func(_ context.Context, msg *mqtt.Message) bool {
+			if msg.Topic == topicName {
+				close(executed)
+				return true
+			}
+			return false
 		},
 	)
 	defer done()
@@ -201,17 +204,20 @@ func TestRequestQueueMQ(t *testing.T) {
 		close(ch)
 	}(executed)
 
-	ch2 := make(chan struct{})
-	done2 := client.RegisterMessageHandler(
-		func(context.Context, *mqtt.Message) bool {
-			close(ch2)
-			close(executed2)
-			return true
-		},
-	)
-	defer done2()
+	go func(ch chan struct{}) {
+		ch2 := make(chan struct{})
+		done := client.RegisterMessageHandler(
+			func(_ context.Context, msg *mqtt.Message) bool {
+				if msg.Topic == topicName2 {
+					close(ch2)
+					close(ch)
+					return true
+				}
+				return false
+			},
+		)
+		defer done()
 
-	go func() {
 		require.NoError(t, client.Subscribe(ctx, topicName2))
 		require.NoError(t, client.Publish(
 			ctx,
@@ -219,7 +225,7 @@ func TestRequestQueueMQ(t *testing.T) {
 			[]byte(publishMessage2),
 		))
 		<-ch2
-	}()
+	}(executed2)
 
 	<-executed2
 	<-executed

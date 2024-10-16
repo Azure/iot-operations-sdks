@@ -23,7 +23,8 @@ type (
 	// TODO: Add support for QoS 2.
 	SessionClient struct {
 		// **Paho MQTTv5 client**
-		pahoClient PahoClient
+		pahoClient   PahoClient
+		pahoClientMu sync.RWMutex
 
 		// **Connection**
 		connSettings *connectionSettings
@@ -258,6 +259,8 @@ func (c *SessionClient) initialize() {
 
 // ensureClient checks that the Paho client is initialized.
 func (c *SessionClient) ensurePahoClient(ctx context.Context) error {
+	c.pahoClientMu.RLock()
+	defer c.pahoClientMu.RUnlock()
 	if c.pahoClient == nil {
 		err := &errors.Error{
 			Kind:    errors.StateInvalid,
