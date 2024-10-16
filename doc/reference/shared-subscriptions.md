@@ -29,8 +29,6 @@ The partition ID is set as a user property on the PUBLISH, and is hashed by the 
 |No|Yes|consistent hashing of topic|
 |Yes|-|consistent hashing of `$partition`| -->
 
-More info on the Partition property [here](https://github.com/Azure/iotedge-broker/blob/main/docs-dev/adr/dmqtt/0048-shared-subscription-deterministic-assignment.md#partition-property).
-
 ## SDK Configuration
 
 The `$partition` user property will be set on every `PUBLISH`. This will be done regardless of whether shared subscriptions are being used.

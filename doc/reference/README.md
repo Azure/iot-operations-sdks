@@ -12,10 +12,10 @@ This directory contains documentation relating to the use of the SDKs, as well a
 | [Command Cache](command-cache.md) | The command cache is used for de-duplicating requests to avoid multiple invocation during disconnection |
 | [Command Timeouts](command-timeouts.md) | Command timeouts are used during command execution. This document describes how the different timeouts are resolved to a predictable behavior |
 | [Connection Management](connection-management.md) | Outlines the strategies that are undertaken to predictable response to different type of connection loss |
-| [Envoy Binding](envoy-binding.md) | Defines the contract between a publisher and consumer, such as the telemetry sender/receiver or the RPC invoker/executor. |
+| [Envoy Binder](envoy-binder.md) | Defines the contract between a publisher and consumer, such as the telemetry sender/receiver or the RPC invoker/executor. |
 | [Error Model](error-model.md) | Describes the different types of errors reported by the SDKs during exceptional circumstances |
 | [RPC Protocol](rpc-protocol.md) | Details on the RPC implementation, used by the Command API |
-| [Shared Subscriptions](share-subscriptions.md) | How shared subscriptions are implemented with the Command model and what the expected behavior is |
+| [Shared Subscriptions](shared-subscriptions.md) | How shared subscriptions are implemented with the Command model and what the expected behavior is |
 | [Telemetry API](telemetry-api.md) | Outline of the responsibilities of the Telemetry senderand receiver |
 | [Topic Structure](topic-structure.md) | The format of the MQTT topic used to communicate between applications using the Telemetry and Command API's |
 
