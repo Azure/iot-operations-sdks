@@ -5,6 +5,7 @@ package statestore
 import (
 	"context"
 	"encoding/hex"
+	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -19,6 +20,42 @@ type Notify[K, V Bytes] struct {
 	// Ack provides a function to manually ack if enabled; it will be nil
 	// otherwise.
 	Ack func() error
+}
+
+// Notify requests a notification channel for a key. It returns the channel and
+// a function to remove and close that channel. Note that KeyNotify must be
+// called to actually perform the notification request (though notifications may
+// be received on this channel if KeyNotify had already been called previously).
+func (c *Client[K, V]) Notify(key K) (<-chan Notify[K, V], func()) {
+	k := string(key)
+
+	// Give the channel a buffer of 1 so we can iterate through them quickly.
+	ch := make(chan Notify[K, V], 1)
+	done := make(chan struct{})
+
+	c.notifyMu.Lock()
+	defer c.notifyMu.Unlock()
+
+	kn, ok := c.notify[k]
+	if !ok {
+		kn = map[chan Notify[K, V]]chan struct{}{}
+		c.notify[k] = kn
+	}
+	kn[ch] = done
+
+	return ch, sync.OnceFunc(func() {
+		close(done)
+
+		c.notifyMu.Lock()
+		defer c.notifyMu.Unlock()
+
+		close(ch)
+
+		delete(kn, ch)
+		if len(kn) == 0 {
+			delete(c.notify, k)
+		}
+	})
 }
 
 // Receive a NOTIFY message.
@@ -61,10 +98,10 @@ func (c *Client[K, V]) notifyReceive(
 	c.notifyMu.RLock()
 	defer c.notifyMu.RUnlock()
 
-	for _, kn := range c.notify[string(bytKey)] {
+	for ch, done := range c.notify[string(bytKey)] {
 		select {
-		case kn.c <- Notify[K, V]{key, op, val, msg.Ack}:
-		case <-kn.done:
+		case ch <- Notify[K, V]{key, op, val, msg.Ack}:
+		case <-done:
 		case <-ctx.Done():
 		}
 	}

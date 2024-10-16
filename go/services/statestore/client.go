@@ -26,8 +26,11 @@ type (
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
 		receiver *protocol.TelemetryReceiver[[]byte]
 
-		notify   map[string][]*KeyNotify[K, V]
+		notify   map[string]map[chan Notify[K, V]]chan struct{}
 		notifyMu sync.RWMutex
+
+		keynotify   map[string]uint
+		keynotifyMu sync.Mutex
 	}
 
 	// ClientOption represents a single option for the client.
@@ -66,7 +69,10 @@ func New[K, V Bytes](
 	client protocol.MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
-	c := &Client[K, V]{notify: map[string][]*KeyNotify[K, V]{}}
+	c := &Client[K, V]{
+		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
+		keynotify: map[string]uint{},
+	}
 	var err error
 
 	var opts ClientOptions

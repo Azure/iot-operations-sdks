@@ -25,27 +25,31 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
-	defer client.Close()
-
-	check(mqttClient.Connect(ctx))
-	check(client.Start(ctx))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	kn := must(client.KeyNotify(ctx, stateStoreKey))
-	defer func() { check(kn.Stop(ctx)) }()
+	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
+	defer client.Close()
+
+	kn, rm := client.Notify(stateStoreKey)
+	defer rm()
+
+	check(mqttClient.Connect(ctx))
+	check(client.Start(ctx))
+
+	check(client.KeyNotify(ctx, stateStoreKey))
+	defer func() { check(client.KeyNotifyStop(ctx, stateStoreKey)) }()
 
 	must(client.Set(ctx, stateStoreKey, stateStoreValue))
-	n := <-kn.C()
+	n := <-kn
 	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 
 	get := must(client.Get(ctx, stateStoreKey))
 	log.Info("GET", "key", stateStoreKey, "value", get.Value, "version", get.Version)
 
 	must(client.Del(ctx, stateStoreKey))
-	n = <-kn.C()
+	n = <-kn
 	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 }
 
