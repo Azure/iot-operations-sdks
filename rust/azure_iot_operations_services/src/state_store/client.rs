@@ -9,6 +9,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::{
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
+    telemetry::telemetry_receiver::{AckToken, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 
 use crate::state_store::{self, SetOptions, StateStoreError, StateStoreErrorKind};
@@ -18,6 +19,9 @@ const REQUEST_TOPIC_PATTERN: &str =
 const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
 const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
+// where the telemetryName is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and senderId is a hex encoded representation of the key that changed
+const NOTIFICATION_TOPIC_PATTERN: &str =
+    "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{telemetryName}/command/notify/{senderId}";
 
 pub struct Client<C>
 where
@@ -25,7 +29,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
-    // notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
+    notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
 }
 
 impl<C> Client<C>
@@ -55,12 +59,24 @@ where
             state_store::resp3::Request,
             state_store::resp3::Response,
             C,
-        > = CommandInvoker::new(client, command_invoker_options)
+        > = CommandInvoker::new(client.clone(), command_invoker_options)
             .map_err(StateStoreErrorKind::from)?;
+
+        // create telemetry receiver for notifications
+        let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
+            .telemetry_name(client.client_id())
+            .auto_ack(false) // TODO: come back to whether this should be settable
+            .build()
+            .expect("Unreachable because all parameters that could cause errors are statically provided");
+
+        let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
+            TelemetryReceiver::new(client, telemetry_receiver_options)
+                .map_err(StateStoreErrorKind::from)?;
 
         Ok(Self {
             command_invoker,
-            // notification_receiver,
+            notification_receiver,
         })
     }
 
@@ -255,6 +271,196 @@ where
                 _ => Err(()),
             },
         )
+    }
+
+    pub struct Observation {
+        pub key: Vec<u8>,
+    }
+    impl Observation {
+        pub fn receive_notification(&self) {
+        }
+        pub fn unobserve(&self) {
+        }
+    }
+
+    /// Starts observation of any changes on a key from the State Store Service
+    ///
+    /// Returns `OK(())` if the key is now being observed
+    /// # Errors
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
+    /// - the `key` is empty
+    ///
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
+    /// - the `timeout` is < 1 ms or > `u32::max`
+    ///
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
+    /// - the State Store returns an Error response
+    /// - the State Store returns a response that isn't valid for an `Observe` request
+    ///
+    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// - there are any underlying errors from [`TelemetryReceiver::start`] // TODO: change this to whatever it should be
+    pub async fn observe(
+        &self,
+        key: Vec<u8>,
+        timeout: Duration,
+    ) -> Result<state_store::Response<()>, StateStoreError> {
+        if key.is_empty() {
+            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+        }
+        // add key to list of observed keys
+        // {
+        //     let mut observed_keys = self.observed_keys.lock().await;
+        //     if (*observed_keys).is_empty() {
+        //         // Start telemetry receiver if it hasn't been started yet
+        //         // sends a subscribe to notification topic filter
+        //         self.notification_receiver
+        //             .start()
+        //             .await
+        //             .map_err(StateStoreErrorKind::from)?;
+        //     }
+        //     (*observed_keys).insert(key.clone());
+        //     // Allow other concurrent operations to acquire the observed_keys lock
+        // }
+        // TODO: track is_subscribed by first call to recv and make sure that is called before this
+        // Send invoke request for observe
+        let request = CommandRequestBuilder::default()
+            .payload(&state_store::resp3::Request::KeyNotify {
+                key,
+                options: state_store::resp3::KeyNotifyOptions { stop: false },
+            })
+            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .timeout(timeout)
+            .build()
+            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+        state_store::convert_response(
+            self.command_invoker
+                .invoke(request)
+                .await
+                .map_err(StateStoreErrorKind::from)?,
+            |payload| match payload {
+                state_store::resp3::Response::Ok => Ok(()),
+                _ => Err(()),
+            },
+        )
+    }
+
+    /// Stops observation of any changes on a key from the State Store Service
+    ///
+    /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
+    /// # Errors
+    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
+    /// - the `key` is empty
+    ///
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
+    /// - the `timeout` is < 1 ms or > `u32::max`
+    ///
+    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
+    /// - the State Store returns an Error response
+    /// - the State Store returns a response that isn't valid for an `Unobserve` request
+    ///
+    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// - there are any underlying errors from [`TelemetryReceiver::stop`] // TODO: change this to whatever it should be
+    pub async fn unobserve(
+        &self,
+        key: Vec<u8>,
+        timeout: Duration,
+    ) -> Result<state_store::Response<bool>, StateStoreError> {
+        if key.is_empty() {
+            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+        }
+        // // remove key from hashmap of observed keys
+        // {
+        //     let mut observed_keys = self.observed_keys.lock().await;
+        //     (*observed_keys).remove(&(key));
+        //     if (*observed_keys).is_empty() {
+        //         // Stop telemetry receiver if there are no more observed keys
+        //         // sends an unsubscribe to notification topic filter
+        //         self.notification_receiver
+        //             .stop()
+        //             .await
+        //             .map_err(StateStoreErrorKind::from)?;
+        //     }
+        //     // Allow other concurrent operations to acquire the observed_keys lock
+        // }
+        // Send invoke request for unobserve
+        let request = CommandRequestBuilder::default()
+            .payload(&state_store::resp3::Request::KeyNotify {
+                key,
+                options: state_store::resp3::KeyNotifyOptions { stop: true },
+            })
+            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .timeout(timeout)
+            .build()
+            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+        state_store::convert_response(
+            self.command_invoker
+                .invoke(request)
+                .await
+                .map_err(StateStoreErrorKind::from)?,
+            |payload| match payload {
+                state_store::resp3::Response::Ok => Ok(true),
+                state_store::resp3::Response::NotFound => Ok(false),
+                _ => Err(()),
+            },
+        )
+    }
+
+    /// Receives a key notification or [`None`] if there are no more notifications.
+    ///
+    /// If there are notifications:
+    /// - Returns Ok([`state_store::KeyNotification`], [`AckToken`]) on success
+    ///     - If manual ack is enabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If manual ack is disabled, you may use ([`state_store::KeyNotification`], _) to ignore the [`AckToken`].
+    /// - Returns [`StateStoreError`] on error.
+    ///
+    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    pub async fn recv_notification(
+        &mut self,
+    ) -> Option<Result<(state_store::KeyNotification, Option<AckToken>), StateStoreError>> {
+        // check if observing any keys, otherwise return error? Or just wait for a notification? Probably the latter
+        // loop {
+        if let Some(notification_result) = self.notification_receiver.recv().await {
+            match notification_result {
+                Ok((notification, ack_token)) => {
+                    // if let Some(key) = notification.sender_id {
+                    return Some(Ok((
+                        state_store::KeyNotification {
+                            key: notification.sender_id.into(),
+                            operation: notification.payload,
+                        },
+                        ack_token,
+                    )));
+                    // }
+                    // log::error!("Key name not present on key notification");
+                }
+                Err(e) => {
+                    // let err = e;
+
+                    // log::error!("Error receiving key notifications: {e}");
+                    return Some(Err(state_store::StateStoreError(
+                        StateStoreErrorKind::from(e),
+                    )));
+                }
+            }
+        }
+        None
+        // }
+    }
+
+    /// Shutdown the [`state_store::Client`]. Unsubscribes from any relevant topics.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
+    /// # Errors
+    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&mut self) -> Result<(), StateStoreError> {
+        // TODO: check if subscribed first?
+        self.notification_receiver
+            .shutdown()
+            .await
+            .map_err(StateStoreErrorKind::from)?;
+        // self.command_invoker.shutdown().await.map_err(StateStoreErrorKind::from)?;
+        Ok(())
     }
 }
 
