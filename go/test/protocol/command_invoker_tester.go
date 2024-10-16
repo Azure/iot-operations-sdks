@@ -13,7 +13,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
@@ -203,7 +202,7 @@ func runOneCommandInvokerTest(
 
 func getCommandInvoker(
 	t *testing.T,
-	sessionClient mqtt.Client,
+	sessionClient protocol.MqttClient,
 	tci TestCaseInvoker,
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {

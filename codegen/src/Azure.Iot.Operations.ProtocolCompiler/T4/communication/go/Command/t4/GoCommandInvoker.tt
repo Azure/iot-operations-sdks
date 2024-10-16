@@ -13,7 +13,7 @@ type <#=this.capitalizedCommandName#>CommandInvoker struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandInvoker(
-	client protocol.Client,
+	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
 ) (*<#=this.capitalizedCommandName#>CommandInvoker, error) {
@@ -26,7 +26,7 @@ func New<#=this.capitalizedCommandName#>CommandInvoker(
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "<#=this.commandName#>",
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 		},
 	)
 

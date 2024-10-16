@@ -106,12 +106,12 @@ func (c *SessionClient) autoAuth() {
 	for {
 		select {
 		case <-ticker.C:
-			c.info("start reauthentication")
+			c.log.Info(ctx, "start reauthentication")
 			if err := c.Reauthenticate(ctx); err != nil {
-				c.authErrHandler(err)
+				c.log.Error(ctx, err)
 			}
 		case <-c.connStopC.C:
-			c.info("stop auto reauthentication on client shutdown")
+			c.log.Info(ctx, "stop auto reauthentication on client shutdown")
 			return
 		}
 	}

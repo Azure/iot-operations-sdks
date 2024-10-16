@@ -9,6 +9,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 )
@@ -16,16 +17,14 @@ import (
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-) (StubClient, mqtt.Client) {
+) (StubClient, protocol.MqttClient) {
 	mqttClient := MakeStubMqttClient(clientID)
-	stubClient := &mqttClient
 	sessionClient, err := mqtt.NewSessionClient(
 		"tcp://localhost:1234",
 		mqtt.WithPahoClientFactory(
 			func(cfg *paho.ClientConfig) mqtt.PahoClient {
-				c := &mqttClient
-				c.onPublishReceived = cfg.OnPublishReceived
-				return c
+				mqttClient.onPublishReceived = cfg.OnPublishReceived
+				return mqttClient
 			},
 		),
 		mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
@@ -35,7 +34,7 @@ func getStubAndSessionClient(
 	err = sessionClient.Connect(context.Background())
 	require.NoError(t, err)
 
-	return stubClient, sessionClient
+	return mqttClient, sessionClient
 }
 
 func awaitAcknowledgement(

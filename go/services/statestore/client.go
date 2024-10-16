@@ -56,7 +56,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client protocol.Client,
+	client protocol.MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{}
@@ -73,7 +73,7 @@ func New[K, V Bytes](
 		opts.invoker(),
 		protocol.WithResponseTopicPrefix("clients/{clientId}"),
 		protocol.WithResponseTopicSuffix("response"),
-		protocol.WithTopicTokens{"clientId": client.ClientID()},
+		protocol.WithTopicTokens{"clientId": client.ID()},
 	)
 	if err != nil {
 		c.Close()
