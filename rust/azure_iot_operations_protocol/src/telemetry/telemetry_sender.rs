@@ -184,7 +184,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
 /// Telemetry Sender Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
-#[allow(unused)]
 pub struct TelemetrySenderOptions {
     // TODO: Update topic-structure link to the correct one once available.
     /// Topic pattern for the telemetry message
