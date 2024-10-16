@@ -93,7 +93,7 @@ namespace Azure.Iot.Operations.ConnectorSample
                 using Timer datasetSamplingTimer = new(SampleThermostatStatus, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
 
                 // Wait until the worker is cancelled
-                await Task.Delay(TimeSpan.MaxValue, cancellationToken);
+                await Task.Delay(-1, cancellationToken);
             }
             finally
             {
