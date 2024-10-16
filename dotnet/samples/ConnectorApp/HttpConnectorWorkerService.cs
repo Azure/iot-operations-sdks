@@ -4,9 +4,12 @@
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.ConnectorSample
@@ -14,14 +17,6 @@ namespace Azure.Iot.Operations.ConnectorSample
     //TODO sample only works if you assume some aspects of the asset + AEP don't change such as sampling interval, http paths, datasets in general, etc. Probably want to document this somehow
     // Sample also assumes the order of asset datasets + datapoints which feels bad. Name key on each isn't specifically unique, so can't key off of that, right? Ask ADR folks. I may be able
     // to make it so that it is a map instead of an array so that each sampling function only needs the name to key off of and doesn't assume ordering
-    public class ThermostatStatusTelemetrySender : TelemetrySender<ThermostatStatus>
-    {
-        public ThermostatStatusTelemetrySender(IMqttPubSubClient mqttClient)
-            : base(mqttClient, null, new Utf8JsonSerializer())
-        {
-        }
-    }
-
     public class HttpConnectorWorkerService : BackgroundService
     {
         private readonly ILogger<HttpConnectorWorkerService> _logger;
@@ -109,12 +104,6 @@ namespace Azure.Iot.Operations.ConnectorSample
         {
             Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["thermostat_status"];
 
-            await using var thermostateStatusSender = new ThermostatStatusTelemetrySender(_sessionClient)
-            {
-                TopicPattern = httpServerStatusDataset.Topic!.Path!,
-                //TODO retain? Asset docs say it is a topic level attribute, but doesn't match MQTT spec which says it is message-level
-            };
-
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
@@ -136,7 +125,18 @@ namespace Azure.Iot.Operations.ConnectorSample
             _logger.LogInformation($"Successfully read thermostat status from HTTP server asset: {thermostatStatus}");
 
             _logger.LogInformation($"Sending thermostat status to MQTT broker");
-            await thermostateStatusSender.SendTelemetryAsync(thermostatStatus);
+            var mqttMessage = new MqttApplicationMessage(httpServerStatusDataset.Topic!.Path!)
+            {
+                PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus)),
+                Retain = httpServerStatusDataset.Topic.Retain == RetainHandling.Keep,
+            };
+            var puback = await _sessionClient.PublishAsync(mqttMessage);
+
+            if (puback.ReasonCode != MqttClientPublishReasonCode.Success
+                && puback.ReasonCode != MqttClientPublishReasonCode.NoMatchingSubscribers) // There is no consumer of these messages yet, so ignore this expected NoMatchingSubscribers error
+            {
+                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+            }
         }
 
         private Asset GetStubAsset()
@@ -164,7 +164,7 @@ namespace Azure.Iot.Operations.ConnectorSample
                             Topic = new()
                             {
                                 Path = "mqtt/machine/my_thermostat_1/status",
-                                Retain = "Keep",
+                                Retain = RetainHandling.Keep,
                             }
                         }
                     }

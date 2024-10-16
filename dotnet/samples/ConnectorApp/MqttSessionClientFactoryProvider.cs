@@ -12,6 +12,7 @@ internal static class MqttSessionClientFactoryProvider
         MqttSessionClientOptions sessionClientOptions = new()
         {
             EnableMqttLogging = mqttDiag,
+            RetryOnFirstConnect = true,
         };
 
         if (mqttDiag)

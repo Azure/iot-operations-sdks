@@ -214,7 +214,20 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The topic retain attribute for the specific entry.
         /// </summary>
-        public string? Retain { get; init; }
+        public RetainHandling? Retain { get; init; }
+    }
+
+    public enum RetainHandling
+    {
+        /// <summary>
+        /// If it was retain on source, then re-publish on MQ as retain.
+        /// </summary>
+        Keep,
+
+        /// <summary>
+        /// Never publish as retain.
+        /// </summary>
+        Never,
     }
 
     public record Status
