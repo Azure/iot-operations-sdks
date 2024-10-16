@@ -167,7 +167,7 @@ public class MqttConnectionSettings
 
         try
         {
-            targetAddress = Environment.GetEnvironmentVariable("MQ_TARGET_ADDRESS");
+            targetAddress = File.ReadAllText(configMapPath + "/MQ_TARGET_ADDRESS");
             if (string.IsNullOrEmpty(targetAddress))
             {
                 throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
@@ -180,7 +180,7 @@ public class MqttConnectionSettings
 
         try
         {
-            string? useTlsString = Environment.GetEnvironmentVariable("MQ_USE_TLS");
+            string? useTlsString = File.ReadAllText(configMapPath + "/MQ_USE_TLS");
             if (!bool.TryParse(useTlsString, out useTls))
             {
                 throw new ArgumentException("MQ_USE_TLS must be a valid boolean value.");
@@ -202,12 +202,12 @@ public class MqttConnectionSettings
 
         try
         {
-            string tlsCaCertDir = "MQ_TLS_CACERT_MOUNT_PATH";
-            tlsCaCertMountPath = Path.Combine(tlsCaCertDir, "tls.crt");
+            string tlsCaCertMountFolder = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
+            tlsCaCertMountPath = Path.Combine(tlsCaCertMountFolder, "ca.crt"); //TODO where is this cert name given to us by operator?
         }
         catch
         {
-            Trace.TraceInformation("MQ_TLS_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
+            Trace.TraceInformation("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
         }
 
         try
@@ -412,6 +412,7 @@ public class MqttConnectionSettings
         AppendIfNotNullOrEmpty(result, nameof(KeepAlive), XmlConvert.ToString(KeepAlive));
         AppendIfNotNullOrEmpty(result, nameof(CaFile), CaFile);
         AppendIfNotNullOrEmpty(result, nameof(UseTls), UseTls.ToString());
+        AppendIfNotNullOrEmpty(result, nameof(SatAuthFile), SatAuthFile);
         result.Remove(result.Length - 1, 1);
         return result.ToString();
     }
