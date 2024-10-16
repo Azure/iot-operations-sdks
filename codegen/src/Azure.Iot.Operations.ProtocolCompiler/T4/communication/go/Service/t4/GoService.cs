@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
  } 
             this.Write(")\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceName));
-            this.Write("Service(\r\n\tclient protocol.Client,\r\n");
+            this.Write("Service(\r\n\tclient protocol.MqttClient,\r\n");
  foreach (var cmdNameReqResp in this.cmdNameReqResps) { 
             this.Write("\t");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(cmdNameReqResp.Item1)));
@@ -93,10 +93,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write("\t\t\t\"modelId\":    ModelID,\r\n");
  } 
  if (this.commandTopic != null) { 
-            this.Write("\t\t\t\"executorId\": client.ClientID(),\r\n");
+            this.Write("\t\t\t\"executorId\": client.ID(),\r\n");
  } 
  if (this.telemetryTopic != null) { 
-            this.Write("\t\t\t\"senderId\":   client.ClientID(),\r\n");
+            this.Write("\t\t\t\"senderId\":   client.ID(),\r\n");
  } 
             this.Write("\t\t},\r\n\t}\r\n");
  if (this.cmdNameReqResps.Any()) { 
@@ -148,7 +148,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(this.serviceName)));
             this.Write("Service, nil\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceName));
-            this.Write("Client(\r\n\tclient protocol.Client,\r\n");
+            this.Write("Client(\r\n\tclient protocol.MqttClient,\r\n");
  foreach (string telemSchema in this.telemSchemas) { 
             this.Write("\t");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsLower(telemSchema)));
@@ -164,7 +164,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write("\t\t\t\"modelId\":    ModelID,\r\n");
  } 
  if (this.commandTopic != null) { 
-            this.Write("\t\t\t\"invokerClientId\": client.ClientID(),\r\n");
+            this.Write("\t\t\t\"invokerClientId\": client.ID(),\r\n");
  } 
             this.Write("\t\t},\r\n\t}\r\n");
  if (this.cmdNameReqResps.Any()) { 

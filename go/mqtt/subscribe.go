@@ -4,197 +4,87 @@ package mqtt
 
 import (
 	"context"
-	"fmt"
+	"sync"
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/paho"
 )
 
+// RegisterMessageHandler registers a message handler on this client. Returns a
+// callback to remove the message handler.
+func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
+	ctx, cancel := context.WithCancel(context.Background())
+	done := c.incomingPublishHandlers.AppendEntry(
+		func(incoming *paho.Publish) bool {
+			return handler(ctx, c.buildMessage(incoming))
+		},
+	)
+	return sync.OnceFunc(func() {
+		done()
+		cancel()
+	})
+}
+
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
-	handler MessageHandler,
 	opts ...SubscribeOption,
-) (Subscription, error) {
+) error {
 	if err := c.prepare(ctx); err != nil {
-		return nil, err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := c.subscriptions[topic]; ok {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "cannot subscribe to existing topic",
-			PropertyName:  "topic",
-			PropertyValue: topic,
-		}
+		return err
 	}
 
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	s := &subscription{c, topic, handler}
-	c.subscriptions[topic] = s
 
 	// Connection lost; buffer the packet for reconnection.
 	if !c.isConnected.Load() {
-		if err := c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub, subscription: s},
-		); err != nil {
-			return nil, err
-		}
-		return s, nil
+		return c.bufferPacket(ctx, &queuedPacket{packet: sub})
 	}
 
 	// Execute the subscribe.
-	c.logSubscribe(sub)
-	if err := pahoSub(ctx, c.pahoClient, sub); err != nil {
-		delete(c.subscriptions, topic)
-		return nil, err
-	}
-
-	return s, nil
-}
-
-func (c *SessionClient) Register(
-	topic string,
-	handler MessageHandler,
-) (Subscription, error) {
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := c.subscriptions[topic]; ok {
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "cannot subscribe to existing topic",
-			PropertyName:  "topic",
-			PropertyValue: topic,
-		}
-	}
-
-	s := &subscription{c, topic, handler}
-	c.subscriptions[topic] = s
-
-	return s, nil
-}
-
-func (c *SessionClient) onPublishReceived(
-	ctx context.Context,
-) []func(paho.PublishReceived) (bool, error) {
-	return []func(paho.PublishReceived) (bool, error){
-		func(pb paho.PublishReceived) (bool, error) {
-			c.subscriptionsMu.RLock()
-			defer c.subscriptionsMu.RUnlock()
-
-			for _, s := range c.subscriptions {
-				if isTopicFilterMatch(s.topic, pb.Packet.Topic) {
-					msg := s.buildMessage(pb.Packet)
-					if err := s.handler(ctx, msg); err != nil {
-						s.error(fmt.Sprintf(
-							"failed to execute the handler on message: %s",
-							err.Error(),
-						))
-						return false, err
-					}
-					return true, nil
-				}
-			}
-
-			return false, nil
-		},
-	}
-}
-
-// Helper function for user to update subscribe options.
-func (s *subscription) Update(
-	ctx context.Context,
-	opts ...SubscribeOption,
-) error {
-	c := s.SessionClient
-
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	if _, ok := s.subscriptions[s.topic]; !ok {
-		return &errors.Error{
-			Kind:          errors.StateInvalid,
-			Message:       "cannot update unsubscribed topic",
-			PropertyName:  "topic",
-			PropertyValue: s.topic,
-		}
-	}
-
-	sub, err := buildSubscribe(s.topic, opts...)
-	if err != nil {
-		return err
-	}
-
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: sub},
-		)
-	}
-
-	c.logPacket(sub)
+	c.log.Packet(ctx, "subscribe", sub)
 	return pahoSub(ctx, c.pahoClient, sub)
 }
 
-// Helper function for user to unsubscribe topic.
-func (s *subscription) Unsubscribe(
+func (c *SessionClient) onPublishReceived(
+	pb paho.PublishReceived,
+) (bool, error) {
+	var willAck bool
+	for handler := range c.incomingPublishHandlers.All() {
+		willAck = handler(pb.Packet) || willAck
+	}
+	if !willAck {
+		return true, pahoAck(c.pahoClient, pb.Packet)
+	}
+	return true, nil
+}
+
+// Unsubscribe from a topic.
+func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
+	topic string,
 	opts ...UnsubscribeOption,
 ) error {
-	c := s.SessionClient
-
 	if err := c.prepare(ctx); err != nil {
 		return err
 	}
 
-	// Subscribe, unsubscribe, and update subscription options
-	// cannot be run simultaneously.
-	c.subscriptionsMu.Lock()
-	defer c.subscriptionsMu.Unlock()
-
-	unsub, err := buildUnsubscribe(s.topic, opts...)
+	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
 		return err
 	}
 
 	// Connection lost; buffer the packet for reconnection.
 	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: unsub, subscription: s},
-		)
+		return c.bufferPacket(ctx, &queuedPacket{packet: unsub})
 	}
 
-	c.logPacket(unsub)
-	if err := pahoUnsub(ctx, c.pahoClient, unsub); err != nil {
-		return err
-	}
-
-	// Remove subscribed topic and callback.
-	delete(s.subscriptions, s.topic)
-
-	return nil
+	c.log.Packet(ctx, "unsubscribe", unsub)
+	return pahoUnsub(ctx, c.pahoClient, unsub)
 }
 
 func buildSubscribe(
@@ -289,7 +179,6 @@ func (c *SessionClient) buildMessage(p *paho.Publish) *Message {
 				}
 			}
 
-			c.logAck(p)
 			if err := pahoAck(c.pahoClient, p); err != nil {
 				return err
 			}

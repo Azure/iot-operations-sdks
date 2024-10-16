@@ -33,8 +33,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write(this.ToStringHelper.ToStringWithCulture(this.AsSchema(this.respSchema)));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
-            this.Write("CommandInvoker(\r\n\tclient protocol.Client,\r\n\trequestTopic string,\r\n\topt ...protoco" +
-                    "l.CommandInvokerOption,\r\n) (*");
+            this.Write("CommandInvoker(\r\n\tclient protocol.MqttClient,\r\n\trequestTopic string,\r\n\topt ...pro" +
+                    "tocol.CommandInvokerOption,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
             this.Write("CommandInvoker, error) {\r\n\tvar err error\r\n\tinvoker := &");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.capitalizedCommandName));
@@ -42,8 +42,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
                     ",\r\n\t\tprotocol.WithTopicTokenNamespace(\"ex:\"),\r\n\t\tprotocol.WithTopicTokens{\r\n\t\t\t\"" +
                     "commandName\":     \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName));
-            this.Write("\",\r\n\t\t\t\"invokerClientId\": client.ClientID(),\r\n\t\t},\r\n\t)\r\n\r\n\tinvoker.CommandInvoker" +
-                    ", err = protocol.NewCommandInvoker(\r\n\t\tclient,\r\n\t\tprotocol.");
+            this.Write("\",\r\n\t\t\t\"invokerClientId\": client.ID(),\r\n\t\t},\r\n\t)\r\n\r\n\tinvoker.CommandInvoker, err " +
+                    "= protocol.NewCommandInvoker(\r\n\t\tclient,\r\n\t\tprotocol.");
             this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.reqSchema)));
             this.Write("{},\r\n\t\tprotocol.");
             this.Write(this.ToStringHelper.ToStringWithCulture(GetSerializer(this.respSchema)));

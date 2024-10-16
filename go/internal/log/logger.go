@@ -13,7 +13,7 @@ import (
 type (
 	// Logger is a wrapper around an slog.Logger with additional helpers and nil
 	// checking.
-	Logger struct{ logger *slog.Logger }
+	Logger struct{ Wrapped *slog.Logger }
 
 	// Attrs represents an object that exposes extra slog attributes to log.
 	Attrs interface {
@@ -28,13 +28,13 @@ func Wrap(logger *slog.Logger) Logger {
 
 // Log is designed to build logging wrappers; it should not be called directly.
 // See: https://pkg.go.dev/log/slog#hdr-Wrapping_output_methods
-func (l *Logger) Log(
+func (l Logger) Log(
 	ctx context.Context,
 	level slog.Level,
 	msg string,
 	attrs ...slog.Attr,
 ) {
-	if l.logger == nil || !l.logger.Enabled(ctx, level) {
+	if !l.Enabled(ctx, level) {
 		return
 	}
 
@@ -44,14 +44,24 @@ func (l *Logger) Log(
 
 	r := slog.NewRecord(now, level, msg, pcs[0])
 	r.AddAttrs(attrs...)
-	_ = l.logger.Handler().Handle(ctx, r)
+	_ = l.Wrapped.Handler().Handle(ctx, r)
 }
 
-// Err logs a error with structured logging.
-func (l *Logger) Err(ctx context.Context, err error) {
+// Error logs a error with structured logging.
+func (l Logger) Error(ctx context.Context, err error, attrs ...slog.Attr) {
 	if a, ok := err.(Attrs); ok {
-		l.Log(ctx, slog.LevelError, err.Error(), a.Attrs()...)
+		l.Log(ctx, slog.LevelError, err.Error(), append(a.Attrs(), attrs...)...)
 	} else {
-		l.Log(ctx, slog.LevelError, err.Error())
+		l.Log(ctx, slog.LevelError, err.Error(), attrs...)
 	}
+}
+
+// Info logs a message with structured logging.
+func (l Logger) Info(ctx context.Context, msg string, attrs ...slog.Attr) {
+	l.Log(ctx, slog.LevelInfo, msg, attrs...)
+}
+
+// Enabled indicates that the logger is enabled for the given logging level.
+func (l Logger) Enabled(ctx context.Context, level slog.Level) bool {
+	return l.Wrapped != nil && l.Wrapped.Enabled(ctx, level)
 }

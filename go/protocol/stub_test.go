@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/eclipse/paho.golang/paho"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
@@ -19,8 +20,8 @@ import (
 
 type (
 	mqttStub struct {
-		Client mqtt.Client
-		Server mqtt.Client
+		Client protocol.MqttClient
+		Server protocol.MqttClient
 		Broker *mochi.Server
 	}
 
@@ -28,14 +29,8 @@ type (
 		client *paho.Client
 		id     string
 
-		subs []*subStub
-		mu   sync.RWMutex
-	}
-
-	subStub struct {
-		client *paho.Client
-		topic  string
-		handle mqtt.MessageHandler
+		handlers []mqtt.MessageHandler
+		mu       sync.RWMutex
 	}
 )
 
@@ -67,7 +62,7 @@ func newClientStub(
 	t *testing.T,
 	id string,
 	cfg listeners.Config,
-) mqtt.Client {
+) protocol.MqttClient {
 	var d net.Dialer
 	conn, err := d.DialContext(ctx, cfg.Type, cfg.Address)
 	require.NoError(t, err)
@@ -101,8 +96,8 @@ func newClientStub(
 					Ack: func() error { return c.client.Ack(p) },
 				}
 
-				for _, s := range c.subs {
-					_ = s.handle(ctx, msg)
+				for _, handle := range c.handlers {
+					handle(ctx, msg)
 				}
 
 				return true, nil
@@ -119,17 +114,13 @@ func newClientStub(
 	return c
 }
 
-func (c *clientStub) Register(
-	topic string,
+func (c *clientStub) RegisterMessageHandler(
 	handler mqtt.MessageHandler,
-) (mqtt.Subscription, error) {
+) func() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-
-	s := &subStub{c.client, topic, handler}
-	c.subs = append(c.subs, s)
-
-	return s, nil
+	c.handlers = append(c.handlers, handler)
+	return func() {}
 }
 
 func (c *clientStub) Publish(
@@ -158,23 +149,24 @@ func (c *clientStub) Publish(
 	return err
 }
 
-func (c *clientStub) ClientID() string {
+func (c *clientStub) ID() string {
 	return c.id
 }
 
-func (s subStub) Update(
+func (c *clientStub) Subscribe(
 	ctx context.Context,
+	topic string,
 	opts ...mqtt.SubscribeOption,
 ) error {
 	var o mqtt.SubscribeOptions
 	o.Apply(opts)
 
-	_, err := s.client.Subscribe(ctx, &paho.Subscribe{
+	_, err := c.client.Subscribe(ctx, &paho.Subscribe{
 		Properties: &paho.SubscribeProperties{
 			User: mapToUserProperties(o.UserProperties),
 		},
 		Subscriptions: []paho.SubscribeOptions{{
-			Topic:             s.topic,
+			Topic:             topic,
 			QoS:               o.QoS,
 			RetainHandling:    o.RetainHandling,
 			NoLocal:           o.NoLocal,
@@ -184,20 +176,21 @@ func (s subStub) Update(
 	return err
 }
 
-func (s subStub) Unsubscribe(
+func (c *clientStub) Unsubscribe(
 	ctx context.Context,
+	topic string,
 	opts ...mqtt.UnsubscribeOption,
 ) error {
 	var o mqtt.UnsubscribeOptions
 	o.Apply(opts)
-	unsub := &paho.Unsubscribe{Topics: []string{s.topic}}
+	unsub := &paho.Unsubscribe{Topics: []string{topic}}
 	if len(o.UserProperties) != 0 {
 		unsub.Properties = &paho.UnsubscribeProperties{
 			User: mapToUserProperties(o.UserProperties),
 		}
 	}
 
-	_, err := s.client.Unsubscribe(ctx, unsub)
+	_, err := c.client.Unsubscribe(ctx, unsub)
 	return err
 }
 

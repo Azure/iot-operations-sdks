@@ -14,7 +14,7 @@ type <#=this.capitalizedCommandName#>CommandExecutor struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandExecutor(
-	client protocol.Client,
+	client protocol.MqttClient,
 	requestTopic string,
 	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>],
 	opt ...protocol.CommandExecutorOption,
