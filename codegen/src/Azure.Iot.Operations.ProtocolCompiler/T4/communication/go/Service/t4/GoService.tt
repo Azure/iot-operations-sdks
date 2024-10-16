@@ -39,7 +39,7 @@ const (
 )
 
 func New<#=this.serviceName#>Service(
-	client protocol.Client,
+	client protocol.MqttClient,
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=this.AsSchema(cmdNameReqResp.Item2)#>, <#=this.AsSchema(cmdNameReqResp.Item3)#>],
 <# } #>
@@ -57,10 +57,10 @@ func New<#=this.serviceName#>Service(
 			"modelId":    ModelID,
 <# } #>
 <# if (this.commandTopic != null) { #>
-			"executorId": client.ClientID(),
+			"executorId": client.ID(),
 <# } #>
 <# if (this.telemetryTopic != null) { #>
-			"senderId":   client.ClientID(),
+			"senderId":   client.ID(),
 <# } #>
 		},
 	}
@@ -107,7 +107,7 @@ func New<#=this.serviceName#>Service(
 }
 
 func New<#=this.serviceName#>Client(
-	client protocol.Client,
+	client protocol.MqttClient,
 <# foreach (string telemSchema in this.telemSchemas) { #>
 	<#=this.AsLower(telemSchema)#>Handler protocol.TelemetryHandler[<#=telemSchema#>],
 <# } #>
@@ -122,7 +122,7 @@ func New<#=this.serviceName#>Client(
 			"modelId":    ModelID,
 <# } #>
 <# if (this.commandTopic != null) { #>
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 <# } #>
 		},
 	}

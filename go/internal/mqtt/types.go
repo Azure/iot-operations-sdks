@@ -5,30 +5,6 @@ package mqtt
 import "context"
 
 type (
-	// Client represents the underlying MQTT client utilized by the protocol
-	// library.
-	Client interface {
-		// Register a topic subscription with a message handler on the client.
-		// Update must be called on the returned subscription to actually send
-		// the subscription to the MQTT broker.
-		Register(
-			topic string,
-			handler MessageHandler,
-		) (Subscription, error)
-
-		// Publish sends a publish request to the MQTT broker.
-		Publish(
-			ctx context.Context,
-			topic string,
-			payload []byte,
-			opts ...PublishOption,
-		) error
-
-		// ClientID returns the identifier used by this client. If one is not
-		// provided, a random ID must be generated for reconnection purposes.
-		ClientID() string
-	}
-
 	// Message represents a received message. The client implementation must
 	// support manual ack, since acks are managed by the protocol.
 	Message struct {
@@ -39,17 +15,9 @@ type (
 	}
 
 	// MessageHandler is a user-defined callback function used to handle
-	// messages received on the subscribed topic.
-	MessageHandler = func(context.Context, *Message) error
-
-	// Subscription represents an open subscription.
-	Subscription interface {
-		// Unsubscribe this subscription.
-		Unsubscribe(context.Context, ...UnsubscribeOption) error
-
-		// Update or initialize the actual underlying MQTT subscription.
-		Update(context.Context, ...SubscribeOption) error
-	}
+	// messages received on the subscribed topic. Returns whether the handler
+	// takes ownership of the message.
+	MessageHandler = func(context.Context, *Message) bool
 
 	// SubscribeOptions are the resolved subscribe options.
 	SubscribeOptions struct {

@@ -6,7 +6,6 @@ import (
 	"context"
 	"sync"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
@@ -26,7 +25,7 @@ type (
 )
 
 func NewTestingCommandInvoker(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	modelID *string,
@@ -67,7 +66,7 @@ func NewTestingCommandInvoker(
 		opt,
 		protocol.WithTopicTokens{
 			"modelId":         *modelID,
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 		},
 	)
 
@@ -84,7 +83,7 @@ func NewTestingCommandInvoker(
 }
 
 func NewTestingCommandExecutor(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	handler func(context.Context, *protocol.CommandRequest[string], *sync.Map) (*protocol.CommandResponse[string], error),
@@ -129,7 +128,7 @@ func NewTestingCommandExecutor(
 		opt,
 		protocol.WithTopicTokens{
 			"modelId":    *modelID,
-			"executorId": client.ClientID(),
+			"executorId": client.ID(),
 		},
 	)
 
@@ -144,7 +143,7 @@ func NewTestingCommandExecutor(
 		opts.Apply(
 			opt,
 			protocol.WithTopicTokens{
-				"executorId": client.ClientID(),
+				"executorId": client.ID(),
 			},
 		)
 	}

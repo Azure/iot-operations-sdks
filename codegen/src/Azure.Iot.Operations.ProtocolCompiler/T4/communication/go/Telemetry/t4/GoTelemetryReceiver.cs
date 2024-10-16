@@ -24,8 +24,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler {
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("]\r\n}\r\n\r\nfunc New");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
-            this.Write("Receiver(\r\n\tclient protocol.Client,\r\n\ttopic string,\r\n\thandler protocol.TelemetryH" +
-                    "andler[");
+            this.Write("Receiver(\r\n\tclient protocol.MqttClient,\r\n\ttopic string,\r\n\thandler protocol.Teleme" +
+                    "tryHandler[");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));
             this.Write("],\r\n\topt ...protocol.TelemetryReceiverOption,\r\n) (*");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaClassName));

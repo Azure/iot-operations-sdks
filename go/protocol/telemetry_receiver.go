@@ -69,7 +69,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
-	client Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	handler TelemetryHandler[T],
@@ -125,13 +125,11 @@ func NewTelemetryReceiver[T any](
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		logger:      log.Wrap(opts.Logger),
+		log:         log.Wrap(opts.Logger),
 		handler:     tr,
 	}
 
-	if err := tr.listener.register(); err != nil {
-		return nil, err
-	}
+	tr.listener.register()
 	return tr, nil
 }
 

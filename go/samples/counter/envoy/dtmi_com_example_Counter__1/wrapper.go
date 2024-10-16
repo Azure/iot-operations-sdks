@@ -24,7 +24,7 @@ const (
 )
 
 func NewCounterService(
-	client protocol.Client,
+	client protocol.MqttClient,
 	readCounterHandler protocol.CommandHandler[any, ReadCounterResponsePayload],
 	incrementHandler protocol.CommandHandler[any, IncrementResponsePayload],
 	resetHandler protocol.CommandHandler[any, any],
@@ -35,7 +35,7 @@ func NewCounterService(
 	serverOpts := []protocol.Option{
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
-			"executorId": client.ClientID(),
+			"executorId": client.ID(),
 		},
 	}
 
@@ -84,7 +84,7 @@ func NewCounterService(
 }
 
 func NewCounterClient(
-	client protocol.Client,
+	client protocol.MqttClient,
 	opts ...protocol.Option,
 ) (*CounterClient, error) {
 	var err error
@@ -92,7 +92,7 @@ func NewCounterClient(
 	clientOpts := []protocol.Option{
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 		},
 	}
 

@@ -59,18 +59,19 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	_, err = client.Subscribe(
+	done := client.RegisterMessageHandler(noopHandler)
+	defer done()
+
+	require.NoError(t, client.Subscribe(
 		context.Background(),
 		"test-topic",
-		func(context.Context, *mqtt.Message) error { return nil },
 		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),
 			faultRequestID: uuidString,
 		},
-	)
-	require.NoError(t, err)
+	))
 }
 
 func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
@@ -84,25 +85,23 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	require.NoError(t, client.Connect(context.Background()))
 	defer func() { _ = client.Disconnect() }()
 
-	subscription, err := client.Subscribe(
-		context.Background(),
-		"test-topic",
-		func(context.Context, *mqtt.Message) error { return nil },
-	)
-	require.NoError(t, err)
+	done := client.RegisterMessageHandler(noopHandler)
+	defer done()
+
+	require.NoError(t, client.Subscribe(context.Background(), "test-topic"))
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	err = subscription.Unsubscribe(
+	require.NoError(t, client.Unsubscribe(
 		context.Background(),
+		"test-topic",
 		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
 			),
 			faultRequestID: uuidString,
 		},
-	)
-	require.NoError(t, err)
+	))
 }

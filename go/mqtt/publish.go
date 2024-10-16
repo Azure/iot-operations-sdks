@@ -68,6 +68,6 @@ func (c *SessionClient) Publish(
 	}
 
 	// Execute the publish.
-	c.logPublish(pub)
+	c.log.Packet(ctx, "publish", pub)
 	return pahoPub(ctx, c.pahoClient, pub)
 }
