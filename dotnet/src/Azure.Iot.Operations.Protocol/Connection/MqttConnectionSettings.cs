@@ -20,7 +20,7 @@ public class MqttConnectionSettings
     private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
     private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
-
+    
     public string HostName { get; set; }
 
     public int TcpPort { get; set; } = DefaultTcpPort;
@@ -156,9 +156,9 @@ public class MqttConnectionSettings
     /// </summary>
     public static MqttConnectionSettings FromFileMount()
     {
-        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH")
+        string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH") 
             ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
-
+        
         string? targetAddress;
         bool useTls = true;
         bool cleanStart = true;
@@ -202,12 +202,12 @@ public class MqttConnectionSettings
 
         try
         {
-            tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
-            tlsCaCertMountPath += "/tls.crt";
+            string tlsCaCertMountFolder = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
+            tlsCaCertMountPath = Path.Combine(tlsCaCertMountFolder, "ca.crt"); //TODO where is this cert name given to us by operator?
         }
         catch
         {
-            Trace.TraceInformation("MQ_TLS_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
+            Trace.TraceInformation("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
         }
 
         try
@@ -363,7 +363,7 @@ public class MqttConnectionSettings
     {
         if (!string.IsNullOrWhiteSpace(val))
         {
-            if (name.ToLower(CultureInfo.InvariantCulture).Contains("key", StringComparison.InvariantCulture)
+            if (name.ToLower(CultureInfo.InvariantCulture).Contains("key", StringComparison.InvariantCulture) 
                 || name.ToLower(CultureInfo.InvariantCulture).Contains("password", StringComparison.InvariantCulture))
             {
                 sb.Append(CultureInfo.InvariantCulture, $"{name}=***;");
@@ -412,6 +412,7 @@ public class MqttConnectionSettings
         AppendIfNotNullOrEmpty(result, nameof(KeepAlive), XmlConvert.ToString(KeepAlive));
         AppendIfNotNullOrEmpty(result, nameof(CaFile), CaFile);
         AppendIfNotNullOrEmpty(result, nameof(UseTls), UseTls.ToString());
+        AppendIfNotNullOrEmpty(result, nameof(SatAuthFile), SatAuthFile);
         result.Remove(result.Length - 1, 1);
         return result.ToString();
     }

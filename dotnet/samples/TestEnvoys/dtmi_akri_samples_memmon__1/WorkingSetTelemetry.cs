@@ -17,8 +17,8 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 	public partial class WorkingSetTelemetry : global::Avro.Specific.ISpecificRecord
 	{
 		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse("{\"type\":\"record\",\"name\":\"WorkingSetTelemetry\",\"namespace\":\"TestEnvoys.dtmi_akri_s" +
-				"amples_memmon__1\",\"fields\":[{\"name\":\"workingSet\",\"type\":[\"null\",\"double\"]}]}");
-		private System.Nullable<System.Double> _workingSet;
+				"amples_memmon__1\",\"fields\":[{\"name\":\"workingSet\",\"type\":\"double\"}]}");
+		private double _workingSet;
 		public virtual global::Avro.Schema Schema
 		{
 			get
@@ -26,7 +26,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 				return WorkingSetTelemetry._SCHEMA;
 			}
 		}
-		public System.Nullable<System.Double> workingSet
+		public double workingSet
 		{
 			get
 			{
@@ -49,7 +49,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 		{
 			switch (fieldPos)
 			{
-			case 0: this.workingSet = (System.Nullable<System.Double>)fieldValue; break;
+			case 0: this.workingSet = (System.Double)fieldValue; break;
 			default: throw new global::Avro.AvroRuntimeException("Bad index " + fieldPos + " in Put()");
 			};
 		}

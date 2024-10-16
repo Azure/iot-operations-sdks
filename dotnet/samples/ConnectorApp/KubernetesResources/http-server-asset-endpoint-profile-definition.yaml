@@ -8,8 +8,8 @@ spec:
   authentication:
     method: UsernamePassword
     usernamePasswordCredentials:
-      usernameSecretName: http-username
-      passwordSecretName: http-password
+      usernameSecretName: http-credentials
+      passwordSecretName: http-credentials
   discoveredAssetEndpointProfileRef: my-http-dss-discovered-asset-endpoint-profile
   endpointProfileType: http-dss
   targetAddress: http://http-server-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)

@@ -1,13 +1,27 @@
-# Samples
+# Samples and Tutorials
 
-## .NET
-[.NET Sample Folder](/dotnet/samples)
+## Developer Environment Setup
 
-## Go
-[Go Sample Folder](/go/samples)
+Refer to the [Getting Started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
 
-## Rust
+## Tutorials
 
-[Rust Azure IoT Operations Protocol Samples](/rust/azure_iot_operations_protocol/examples/)
+The tutorials listed below are step-by-step instructions to deploy a fully functioning application to a cluster and observer the functioning output.
 
-[Rust Azure IoT Operations MQTT Samples](/rust/azure_iot_operations_mqtt/examples/)
+| Tutorial | Language | Description |
+|-|-|-|
+| [Event Driven Application](/dotnet/tutorials/EventDrivenApp) | .NET | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. |
+
+## Samples
+
+Samples for the components of each language SDK are location in each languages subfolder.
+
+**.NET SDK**
+* [.NET samples](/dotnet/samples)
+
+**Go SDK**
+* [Go samples](/go/samples)
+
+**Rust SDK**
+* [Rust Protocol samples](/rust/azure_iot_operations_protocol/examples/)
+* [Rust MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
