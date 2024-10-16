@@ -57,6 +57,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.Write(this.ToStringHelper.ToStringWithCulture(this.cmdTopicPattern));
             this.Write("\",\r\n");
  } 
+ if (this.serviceGroupId != null) { 
+            this.Write("  \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceAnnex.ServiceGroupId));
+            this.Write("\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceGroupId));
+            this.Write("\",\r\n");
+ } 
             this.Write("  \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceAnnex.TelemetryList));
             this.Write("\": [\r\n");

@@ -445,7 +445,7 @@ where
         match subscribe_result {
             Ok(suback) => {
                 // Wait for suback
-                match suback.wait().await {
+                match suback.await {
                     Ok(()) => { /* Success */ }
                     Err(e) => {
                         log::error!("[ERROR] suback error: {e}");
@@ -458,9 +458,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] subscribe error: {e}");
+                log::error!("[ERROR] client error while subscribing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoker subscribe".to_string()),
+                    Some("Client error on command invoker subscribe".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));
@@ -566,7 +566,7 @@ where
         match publish_result {
             Ok(publish_completion_token) => {
                 // Wait for and handle the puback
-                match publish_completion_token.wait().await {
+                match publish_completion_token.await {
                     // if puback is Ok, continue and wait for the response
                     Ok(()) => {}
                     Err(e) => {
@@ -580,9 +580,9 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] publish error: {e}");
+                log::error!("[ERROR] client error while publishing: {e}");
                 return Err(AIOProtocolError::new_mqtt_error(
-                    Some("MQTT Error on command invoke publish".to_string()),
+                    Some("Client error on command invoker request publish".to_string()),
                     Box::new(e),
                     Some(self.command_name.clone()),
                 ));

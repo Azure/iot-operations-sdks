@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-EventDrivenApp-49ae8d06-ee19-4bb6-922d-1afdc5d1f692</UserSecretsId>
+    <ContainerRepository>event-driven-app</ContainerRepository>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KubernetesClient" Version="15.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
+  </ItemGroup>
+
+</Project>
