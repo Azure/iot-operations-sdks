@@ -52,8 +52,8 @@ func (c *SessionClient) makeOnPublishReceived(
 			return pahoClient.Ack(publishReceived.Packet)
 		})
 
-		// We track wether any of the handlers take ownership of the message,
-		// because Paho will auto-ack if none do (even for manual ack).
+		// We track wether any of the handlers take ownership of the message
+		// so that we can ack if none do.
 		// TODO: Multiple ack owners will not fail (due to sync.OnceValue), but
 		// the message will be acked when the first owner acks, not the last.
 		// We should probably reverse that order.
@@ -67,7 +67,10 @@ func (c *SessionClient) makeOnPublishReceived(
 			) || willAck
 		}
 
-		return willAck, nil
+		if !willAck {
+			return true, ack()
+		}
+		return true, nil
 	}
 }
 

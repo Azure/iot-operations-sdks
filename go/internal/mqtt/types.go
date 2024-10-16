@@ -16,7 +16,7 @@ type (
 
 	// MessageHandler is a user-defined callback function used to handle
 	// messages received on the subscribed topic. Returns whether the handler
-	// takes responsibility for acking the message.
+	// takes ownership of the message.
 	MessageHandler = func(context.Context, *Message) bool
 
 	// SubscribeOptions are the resolved subscribe options.

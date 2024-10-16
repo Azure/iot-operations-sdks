@@ -48,7 +48,7 @@ type Message struct {
 <a name="MessageHandler"></a>
 ## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L20>)
 
-MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic. Returns whether the handler takes responsibility for acking the message.
+MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic. Returns whether the handler takes ownership of the message.
 
 ```go
 type MessageHandler = func(context.Context, *Message) bool
