@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         private async void SampleThermostatStatus(object? status)
         {
-            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["machine_status"];
+            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["thermostat_status"];
 
             await using var thermostateStatusSender = new ThermostatStatusTelemetrySender(_sessionClient)
             {
