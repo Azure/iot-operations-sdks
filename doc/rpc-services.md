@@ -36,7 +36,7 @@ QoS1 is necessary because
     - This follows E4K best practices for HA and 0-msg-loss.
 - RPC Clients must use QoS1 to ensure delivery or request and call invocation response.
 
-Topic structure is described in details in [topic structure](reference/topic-stucture.md).
+Topic structure is described in details in [topic structure](reference/topic-structure.md).
 
 ## Shared subscriptions
 

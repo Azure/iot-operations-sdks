@@ -9,7 +9,7 @@ The [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call) API can be summar
 * A methodology to encode and decode requests and responses the executor and the invoker have to agree on.
 * A shared pair of channels the invoker uses to send requests and listen for responses, and the executor uses to listen to requests and send responses (it can be the same channel).
 
-In typical systems, RPC is a point-to-point communication pattern. With MQTT, the RPC protocol introduces one intermediary, the MQTT broker. Please see [RPC Services Overview](mRPC-services-overview.md) for implementation details and opportunities to improve over point-to-point RPC.
+In typical systems, RPC is a point-to-point communication pattern. With MQTT, the RPC protocol introduces one intermediary, the MQTT broker. Please see [RPC Services Overview](../rpc-services.md) for implementation details and opportunities to improve over point-to-point RPC.
 
 ## RPC Protocol with MQTT broker
 
