@@ -32,10 +32,13 @@ func TestTopicPatternBasic(t *testing.T) {
 	filter, err := pattern.Filter()
 	require.NoError(t, err)
 	require.Equal(t, "a/basic/topic/+", filter.Filter())
+
+	tokens, ok := filter.Tokens(topic)
+	require.True(t, ok)
 	require.Equal(t, map[string]string{
 		"default": "basic",
 		"pattern": "resolved",
-	}, filter.Tokens(topic))
+	}, tokens)
 }
 
 func TestTopicPatternMeta(t *testing.T) {
@@ -54,8 +57,11 @@ func TestTopicPatternMeta(t *testing.T) {
 	filter, err := pattern.Filter()
 	require.NoError(t, err)
 	require.Equal(t, "a/(topic)/pattern/without/[meta]/+", filter.Filter())
+
+	tokens, ok := filter.Tokens(topic)
+	require.True(t, ok)
 	require.Equal(t, map[string]string{
 		"with":       "without",
 		"characters": "conflicts",
-	}, filter.Tokens(topic))
+	}, tokens)
 }

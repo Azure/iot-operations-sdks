@@ -43,6 +43,6 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 
 	res := <-results
-	require.Equal(t, stub.Client.ClientID(), res.ClientID)
+	require.Equal(t, stub.Client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
 }

@@ -63,7 +63,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client protocol.Client,
+	client protocol.MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{notify: map[string][]*KeyNotify[K, V]{}}
@@ -73,9 +73,7 @@ func New[K, V Bytes](
 	opts.Apply(opt)
 
 	tokens := protocol.WithTopicTokens{
-		"clientId": strings.ToUpper(
-			hex.EncodeToString([]byte(client.ClientID())),
-		),
+		"clientId": strings.ToUpper(hex.EncodeToString([]byte(client.ID()))),
 	}
 
 	c.invoker, err = protocol.NewCommandInvoker(

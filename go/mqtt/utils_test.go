@@ -39,7 +39,7 @@ func TestTopicFilterMatch(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		isMatched := isTopicFilterMatch(test.filter, test.topic)
+		isMatched := IsTopicFilterMatch(test.filter, test.topic)
 		require.Equal(
 			t,
 			test.expected,

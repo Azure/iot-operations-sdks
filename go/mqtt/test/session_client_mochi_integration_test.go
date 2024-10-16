@@ -75,16 +75,11 @@ func TestWithMochi(t *testing.T) {
 		require.NoError(t, client.Connect(context.Background()))
 		t.Cleanup(func() { _ = client.Disconnect() })
 
-		sub, err := client.Subscribe(
-			context.Background(),
-			topicName,
-			func(context.Context, *mqtt.Message) error {
-				return nil
-			},
-		)
-		require.NoError(t, err)
+		done := client.RegisterMessageHandler(noopHandler)
+		defer done()
 
-		require.NoError(t, sub.Unsubscribe(context.Background()))
+		require.NoError(t, client.Subscribe(context.Background(), topicName))
+		require.NoError(t, client.Unsubscribe(context.Background(), topicName))
 	})
 
 	t.Run("TestSubscribePublish", func(t *testing.T) {
@@ -94,25 +89,22 @@ func TestWithMochi(t *testing.T) {
 		t.Cleanup(func() { _ = client.Disconnect() })
 
 		subscribed := make(chan struct{})
-		_, err = client.Subscribe(
-			context.Background(),
-			topicName,
-			func(_ context.Context, msg *mqtt.Message) error {
+		done := client.RegisterMessageHandler(
+			func(_ context.Context, msg *mqtt.Message) bool {
 				require.Equal(t, topicName, msg.Topic)
 				require.Equal(t, []byte(publishMessage), msg.Payload)
 				close(subscribed)
-				return nil
+				return true
 			},
 		)
-		require.NoError(t, err)
+		defer done()
 
-		err = client.Publish(
+		require.NoError(t, client.Subscribe(context.Background(), topicName))
+		require.NoError(t, client.Publish(
 			context.Background(),
 			topicName,
 			[]byte(publishMessage),
-		)
-
-		require.NoError(t, err)
+		))
 
 		<-subscribed
 	})

@@ -138,14 +138,19 @@ func (tf *TopicFilter) Filter() string {
 	return tf.filter
 }
 
-// Tokens resolves the topic tokens from the topic.
-func (tf *TopicFilter) Tokens(topic string) map[string]string {
+// Tokens indicates whether the topic matched and resolves its topic tokens.
+func (tf *TopicFilter) Tokens(topic string) (map[string]string, bool) {
+	match := tf.regex.FindStringSubmatch(topic)
+	if match == nil {
+		return nil, false
+	}
+
 	tokens := make(map[string]string, len(tf.names)+len(tf.tokens))
-	for i, val := range tf.regex.FindStringSubmatch(topic)[1:] {
+	for i, val := range match[1:] {
 		tokens[tf.names[i]] = val
 	}
 	maps.Copy(tokens, tf.tokens)
-	return tokens
+	return tokens, true
 }
 
 // Return whether the provided string is a fully-resolved topic.

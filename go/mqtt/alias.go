@@ -7,9 +7,6 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 // As the implementation of the shared interface, all of its types are aliased
 // for convenience.
 type (
-	Client       = mqtt.Client
-	Subscription = mqtt.Subscription
-
 	Message        = mqtt.Message
 	MessageHandler = mqtt.MessageHandler
 

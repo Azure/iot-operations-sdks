@@ -8,7 +8,6 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 
 ## Index
 
-- [type Client](<#Client>)
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
 - [type PublishOption](<#PublishOption>)
@@ -17,7 +16,6 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 - [type SubscribeOption](<#SubscribeOption>)
 - [type SubscribeOptions](<#SubscribeOptions>)
   - [func \(o \*SubscribeOptions\) Apply\(opts \[\]SubscribeOption, rest ...SubscribeOption\)](<#SubscribeOptions.Apply>)
-- [type Subscription](<#Subscription>)
 - [type UnsubscribeOption](<#UnsubscribeOption>)
 - [type UnsubscribeOptions](<#UnsubscribeOptions>)
   - [func \(o \*UnsubscribeOptions\) Apply\(opts \[\]UnsubscribeOption, rest ...UnsubscribeOption\)](<#UnsubscribeOptions.Apply>)
@@ -33,37 +31,8 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 - [type WithUserProperties](<#WithUserProperties>)
 
 
-<a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L10-L30>)
-
-Client represents the underlying MQTT client utilized by the protocol library.
-
-```go
-type Client interface {
-    // Register a topic subscription with a message handler on the client.
-    // Update must be called on the returned subscription to actually send
-    // the subscription to the MQTT broker.
-    Register(
-        topic string,
-        handler MessageHandler,
-    ) (Subscription, error)
-
-    // Publish sends a publish request to the MQTT broker.
-    Publish(
-        ctx context.Context,
-        topic string,
-        payload []byte,
-        opts ...PublishOption,
-    ) error
-
-    // ClientID returns the identifier used by this client. If one is not
-    // provided, a random ID must be generated for reconnection purposes.
-    ClientID() string
-}
-```
-
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L39>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L10-L15>)
 
 Message represents a received message. The client implementation must support manual ack, since acks are managed by the protocol.
 
@@ -77,16 +46,16 @@ type Message struct {
 ```
 
 <a name="MessageHandler"></a>
-## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L43>)
+## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L20>)
 
-MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic.
+MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic. Returns whether the handler takes ownership of the message.
 
 ```go
-type MessageHandler = func(context.Context, *Message) error
+type MessageHandler = func(context.Context, *Message) bool
 ```
 
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L87>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L55>)
 
 PublishOption represents a single publish option.
 
@@ -97,7 +66,7 @@ type PublishOption interface {
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L75-L84>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L43-L52>)
 
 PublishOptions are the resolved publish options.
 
@@ -124,7 +93,7 @@ func (o *PublishOptions) Apply(opts []PublishOption, rest ...PublishOption)
 Apply resolves the provided list of options.
 
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L64>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L32>)
 
 SubscribeOption represents a single subscribe option.
 
@@ -135,7 +104,7 @@ type SubscribeOption interface {
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L55-L61>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L23-L29>)
 
 SubscribeOptions are the resolved subscribe options.
 
@@ -158,23 +127,8 @@ func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption
 
 Apply resolves the provided list of options.
 
-<a name="Subscription"></a>
-## type [Subscription](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L46-L52>)
-
-Subscription represents an open subscription.
-
-```go
-type Subscription interface {
-    // Unsubscribe this subscription.
-    Unsubscribe(context.Context, ...UnsubscribeOption) error
-
-    // Update or initialize the actual underlying MQTT subscription.
-    Update(context.Context, ...SubscribeOption) error
-}
-```
-
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L72>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L40>)
 
 UnsubscribeOption represents a single unsubscribe option.
 
@@ -185,7 +139,7 @@ type UnsubscribeOption interface {
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L67-L69>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L35-L37>)
 
 UnsubscribeOptions are the resolve unsubscribe options.
 

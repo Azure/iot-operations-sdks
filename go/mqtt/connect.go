@@ -10,18 +10,74 @@ import (
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
-// Connect establishes a connection for the session client.
-func (c *SessionClient) Connect(ctx context.Context) error {
-	if err := c.ensureClient(); err != nil {
-		return err
+type (
+	ConnackPacket struct {
+		ReasonCode byte
+		// NOTE: more fields may be added later
+		// NOTE: this may be moved to the common module once we create it
 	}
 
+	ConnectEvent struct {
+		// Values from the CONNACK packet received from the MQTT server
+		ConnackPacket *ConnackPacket
+	}
+
+	ConnectNotificationHandler = func(*ConnectEvent)
+
+	DisconnectPacket struct {
+		ReasonCode byte
+		// NOTE: more fields may be added later
+		// NOTE: this may be moved to the common module once we create it
+	}
+
+	DisconnectEvent struct {
+		// Values from the DISCONNECT packet received from the MQTT server. May
+		// be nil if the disconnection ocurred without receiving a DISCONNECT
+		// packet from the server.
+		DisconnectPacket *DisconnectPacket
+	}
+
+	DisconnectNotificationHandler = func(*DisconnectEvent)
+)
+
+// RegisterConnectNotificationHandler registers a handler to a list of handlers
+// that are called synchronously in registration order whenever the
+// SessionClient successfully establishes an MQTT connection. Note that since
+// the handler gets called synchronously, handlers should not block for an
+// extended period of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterConnectNotificationHandler(
+	handler ConnectNotificationHandler,
+) (unregisterHandler func()) {
+	return c.connectNotificationHandlers.AppendEntry(handler)
+}
+
+// RegisterDisconnectNotificationHandler registers a handler to a list of
+// handlers that are called synchronously in registration order whenever the
+// SessionClient detects a disconnection from the MQTT server. Note that since
+// the handler gets called synchronously, handlers should not block for an
+// extended period of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterDisconnectNotificationHandler(
+	handler DisconnectNotificationHandler,
+) (unregisterHandler func()) {
+	return c.disconnectNotificationHandlers.AppendEntry(handler)
+}
+
+// RegisterFatalErrorHandler registers a handler that is called in a goroutine
+// if the SessionClient terminates due to a fatal error.
+func (c *SessionClient) RegisterFatalErrorHandler(
+	handler func(error),
+) (unregisterHandler func()) {
+	return c.fatalErrorHandlers.AppendEntry(handler)
+}
+
+// Connect establishes a connection for the session client.
+func (c *SessionClient) Connect(ctx context.Context) error {
 	// The initial connection will block until it either succeeds or fails.
 	if connErr := c.initialConnect(ctx); connErr != nil {
 		return connErr
@@ -44,11 +100,9 @@ func (c *SessionClient) Connect(ctx context.Context) error {
 // by sending the disconnect packet to server
 // and should terminate any active goroutines before returning.
 func (c *SessionClient) Disconnect() error {
-	if err := c.ensureClient(); err != nil {
-		return err
-	}
+	ctx := context.TODO()
 
-	if err := c.ensurePahoClient(); err != nil {
+	if err := c.ensurePahoClient(ctx); err != nil {
 		return err
 	}
 
@@ -59,7 +113,7 @@ func (c *SessionClient) Disconnect() error {
 		}
 	}
 
-	c.info("start disconnection")
+	c.log.Info(ctx, "start disconnection")
 
 	// Exit all background goroutines.
 	close(c.connStopC.C)
@@ -67,14 +121,14 @@ func (c *SessionClient) Disconnect() error {
 	// Sending disconnect packet to server.
 	disconnErr := c.attemptDisconnect()
 	if disconnErr != nil {
-		c.error(fmt.Sprintf(
+		c.log.Error(ctx, fmt.Errorf(
 			"an error ocurred during disconnection: %s",
 			disconnErr.Error(),
 		))
 		return disconnErr
 	}
 
-	c.info("disconnected")
+	c.log.Info(ctx, "disconnected")
 
 	return nil
 }
@@ -86,7 +140,7 @@ func (c *SessionClient) maintain() {
 
 	// defer an anonymous function so err would be captured into shutdown()
 	defer func() {
-		c.shutdown(err)
+		c.shutdown()
 		cancel()
 	}()
 
@@ -131,16 +185,23 @@ func (c *SessionClient) recover(
 				err,
 			)
 		}
-		c.error(fmt.Sprintf(
+		c.log.Error(ctx, fmt.Errorf(
 			"an error occurs during connection: %s",
 			err.Error()))
 	}
 
 	// Reconnect.
-	c.info("start reconnection")
+	c.log.Info(ctx, "start reconnection")
 	if connErr := c.reconnect(ctx); connErr != nil {
-		c.error("non-retryable fatal error returns; disconnecting the client")
-		c.fatalErrHandler(connErr)
+		c.log.Error(
+			ctx,
+			fmt.Errorf(
+				"non-retryable fatal error returns; disconnecting the client",
+			),
+		)
+		for handler := range c.fatalErrorHandlers.All() {
+			go handler(err)
+		}
 		return false
 	}
 
@@ -162,15 +223,15 @@ func (c *SessionClient) initialConnect(
 	r := c.connRetry
 	// By default we retry only a few times for the initial connection attempt.
 	if c.connRetry == nil {
-		r = retrypolicy.NewExponentialBackoffRetryPolicy(
-			retrypolicy.WithMaxRetries(maxInitialConnectRetries),
-			retrypolicy.WithTimeout(c.connSettings.connectionTimeout),
-		)
+		r = &retry.ExponentialBackoff{
+			MaxAttempts: uint64(maxInitialConnectRetries),
+			Timeout:     c.connSettings.connectionTimeout,
+		}
 	}
 
-	err := c.retryConnect(ctx, r)
+	err := r.Start(ctx, "connect", c.attemptConnect)
 	if err == nil {
-		c.info("initial connection established")
+		c.log.Info(ctx, "initial connection established")
 		atomic.StoreInt64(&c.connCount, 1)
 		c.setConnected()
 	}
@@ -185,14 +246,14 @@ func (c *SessionClient) reconnect(ctx context.Context) error {
 	// We keep retrying forever until fatal errors
 	// to guarantee the connection by default.
 	if c.connRetry == nil {
-		r = retrypolicy.NewExponentialBackoffRetryPolicy(
-			retrypolicy.WithTimeout(c.connSettings.connectionTimeout),
-		)
+		r = &retry.ExponentialBackoff{
+			Timeout: c.connSettings.connectionTimeout,
+		}
 	}
 
-	err := c.retryConnect(ctx, r)
+	err := r.Start(ctx, "connect", c.attemptConnect)
 	if err == nil {
-		c.info("reconnected")
+		c.log.Info(ctx, "reconnected")
 
 		atomic.AddInt64(&c.connCount, 1)
 		c.setConnected()
@@ -201,35 +262,11 @@ func (c *SessionClient) reconnect(ctx context.Context) error {
 	return err
 }
 
-// retryConnect starts connection retries based on defined retry policy.
-func (c *SessionClient) retryConnect(
-	ctx context.Context,
-	r retrypolicy.RetryPolicy,
-) error {
-	// Start connection.
-	err := r.Start(
-		ctx,
-		c.info,
-		retrypolicy.Task{
-			Name: "connect",
-			Exec: c.attemptConnect,
-			Cond: isRetryableError,
-		},
-	)
-	// We can't reconnect.
-	// Occurs only if the context is canceled or
-	// a fatal (non-retryable) error occurs.
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // attemptConnect represents a single connection attempt
 // for either initialConnect() or reconnect().
-func (c *SessionClient) attemptConnect(ctx context.Context) error {
+func (c *SessionClient) attemptConnect(ctx context.Context) (bool, error) {
 	if err := c.buildPahoClient(ctx); err != nil {
-		return err
+		return isRetryableError(err), err
 	}
 
 	c.clientErrC = *internal.NewBufferChan[error](1)
@@ -248,25 +285,27 @@ func (c *SessionClient) attemptConnect(ctx context.Context) error {
 
 	// TODO: Handle connack packet in the specific handler/callback.
 	// Note that connack and actual error could possibly be returned together.
-	c.logConnect(cp)
+	c.log.Packet(ctx, "connect", cp)
 	connack, err := pahoConn(ctx, c.pahoClient, cp)
-
-	// Non-Retryable.
-	if connack != nil &&
-		!isRetryableConnack(reasonCode(connack.ReasonCode)) {
-		return err
+	if err != nil {
+		return connack == nil ||
+			isRetryableConnack(reasonCode(connack.ReasonCode)), err
 	}
 
-	// Retryable.
-	return retryableErr{err}
+	for handler := range c.connectNotificationHandlers.All() {
+		go handler(&ConnectEvent{&ConnackPacket{connack.ReasonCode}})
+	}
+
+	return false, nil
 }
 
 func (c *SessionClient) attemptDisconnect() error {
+	ctx := context.TODO()
 	dp := buildDisconnectPacket(
 		disconnectNormalDisconnection,
 		"connection context cancellation",
 	)
-	c.logDisconnect(dp)
+	c.log.Packet(ctx, "disconnect", dp)
 	return pahoDisconn(c.pahoClient, dp)
 }
 
@@ -275,7 +314,7 @@ func (c *SessionClient) bufferPacket(
 	ctx context.Context,
 	pq *queuedPacket,
 ) error {
-	c.info(fmt.Sprintf(
+	c.log.Info(ctx, fmt.Sprintf(
 		"connection lost; buffer packet: %#v",
 		pq.packet,
 	))
@@ -294,7 +333,7 @@ func (c *SessionClient) bufferPacket(
 	c.pendingPackets.Enqueue(*pq)
 
 	// Blocking until we get expected response from reconnection.
-	c.info("waiting for packet response after reconnection")
+	c.log.Info(ctx, "waiting for packet response after reconnection")
 	select {
 	case err, ok := <-pq.errC:
 		if ok {
@@ -316,42 +355,30 @@ func (c *SessionClient) bufferPacket(
 // processBuffer starts processing pending packets in the queue
 // after a successful reconnection.
 func (c *SessionClient) processBuffer(ctx context.Context) {
-	c.info("start processing pending packets after reconnection")
+	c.log.Info(ctx, "start processing pending packets after reconnection")
 	if c.pendingPackets.IsEmpty() {
-		c.info("no pending packets in the queue")
+		c.log.Info(ctx, "no pending packets in the queue")
 	}
 
 	for !c.pendingPackets.IsEmpty() {
-		c.info(
+		c.log.Info(ctx,
 			fmt.Sprintf("%d packet(s) in the queue", c.pendingPackets.Size()),
 		)
 		qp := c.pendingPackets.Dequeue()
 		if qp != nil {
 			switch p := qp.packet.(type) {
 			case *paho.Publish:
-				c.logPacket(p)
+				c.log.Packet(ctx, "publish", p)
 				qp.handleError(pahoPub(ctx, c.pahoClient, p))
 			case *paho.Subscribe:
-				c.logPacket(p)
-
-				err := pahoSub(ctx, c.pahoClient, p)
-				if err != nil {
-					delete(c.subscriptions, qp.subscription.topic)
-				}
-
-				qp.handleError(err)
+				c.log.Packet(ctx, "subscribe", p)
+				qp.handleError(pahoSub(ctx, c.pahoClient, p))
 			case *paho.Unsubscribe:
-				c.logPacket(p)
-
-				err := pahoUnsub(ctx, c.pahoClient, p)
-				if err == nil {
-					delete(c.subscriptions, qp.subscription.topic)
-				}
-
-				qp.handleError(err)
+				c.log.Packet(ctx, "unsubscribe", p)
+				qp.handleError(pahoUnsub(ctx, c.pahoClient, p))
 			default:
-				c.error(
-					fmt.Sprintf(
+				c.log.Error(ctx,
+					fmt.Errorf(
 						"cannot process unknown packet in queue: %v",
 						qp,
 					),
@@ -362,7 +389,10 @@ func (c *SessionClient) processBuffer(ctx context.Context) {
 	}
 
 	// Unblock other operations.
-	c.info("pending packets processing completes; resume other operations")
+	c.log.Info(
+		ctx,
+		"pending packets processing completes; resume other operations",
+	)
 	c.packetQueueCond.Broadcast()
 }
 
@@ -373,8 +403,6 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 	if c.pahoClientConfig != nil {
 		// For testing infrastructure.
 		config = c.pahoClientConfig
-		config.OnClientError = c.onClientError
-		config.OnServerDisconnect = c.onServerDisconnect
 
 		if config.ClientID != "" {
 			c.connSettings.clientID = config.ClientID
@@ -406,18 +434,18 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 			ClientID:    c.connSettings.clientID,
 			Session:     c.session,
 			AuthHandler: c.connSettings.authOptions.AuthHandler,
-			// Disable Auto ACK in Paho client so we can support manual ACK.
-			EnableManualAcknowledgment: true,
-			// OnClientError is called in Paho when an client error occurs.
-			// We assume that the error is always fatal.
-			OnClientError: c.onClientError,
-			// OnServerDisconnect is called only in Paho
-			// when an incoming packets.DISCONNECT is sent from server.
-			OnServerDisconnect: c.onServerDisconnect,
 		}
 	}
 
-	config.OnPublishReceived = c.onPublishReceived(ctx)
+	config.EnableManualAcknowledgment = true
+	config.OnClientError = c.onClientError
+	config.OnServerDisconnect = c.onServerDisconnect
+	config.OnPublishReceived = []func(paho.PublishReceived) (bool, error){
+		c.onPublishReceived,
+	}
+
+	c.pahoClientMu.Lock()
+	defer c.pahoClientMu.Unlock()
 	c.pahoClient = c.pahoClientFactory(config)
 
 	return nil
@@ -426,11 +454,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 // prepare validates the connection status and packet queue
 // before sending subscribe/unsubscribe/publish packets.
 func (c *SessionClient) prepare(ctx context.Context) error {
-	if err := c.ensureClient(); err != nil {
-		return err
-	}
-
-	if err := c.ensurePahoClient(); err != nil {
+	if err := c.ensurePahoClient(ctx); err != nil {
 		return err
 	}
 
@@ -442,7 +466,7 @@ func (c *SessionClient) prepare(ctx context.Context) error {
 			Message:     "no initial connection; request cannot be executed",
 			NestedError: ctx.Err(),
 		}
-		c.error(err.Error())
+		c.log.Error(ctx, err)
 		return err
 	}
 
@@ -451,7 +475,7 @@ func (c *SessionClient) prepare(ctx context.Context) error {
 	// If the connection is down, packets will be added to the queue directly.
 	// Users can spawn a goroutine to call the function and unblock their codes.
 	for !c.pendingPackets.IsEmpty() && c.isConnected.Load() {
-		c.info("pending packets in the queue; wait for the process")
+		c.log.Info(ctx, "pending packets in the queue; wait for the process")
 		c.packetQueueCond.Wait()
 	}
 
@@ -468,27 +492,33 @@ func (c *SessionClient) prepare(ctx context.Context) error {
 // Since the program's termination point is uncertain,
 // we can't clean up the Paho client.
 // This is acceptable because it will be recreated with each new connection.
-func (c *SessionClient) shutdown(err error) {
-	c.info("client is shutting down")
+func (c *SessionClient) shutdown() {
+	ctx := context.TODO()
+
+	c.log.Info(ctx, "client is shutting down")
 
 	c.setDisconnected()
 	c.closeClientErrC()
 	c.closeDisconnErrC()
-
-	c.shutdownHandler(err)
 }
 
 func (c *SessionClient) onClientError(err error) {
+	ctx := context.TODO()
+
+	for handler := range c.fatalErrorHandlers.All() {
+		go handler(err)
+	}
+
 	if !c.isConnected.Load() {
 		return
 	}
 
-	c.info("an error from onClientError occurs")
+	c.log.Info(ctx, "an error from onClientError occurs")
 	c.setDisconnected()
 
 	if err != nil && !c.clientErrC.Send(err) {
-		c.error(
-			fmt.Sprintf(
+		c.log.Error(ctx,
+			fmt.Errorf(
 				"failed to send error from onClientError; "+
 					"internal channel closed: %s",
 				err.Error(),
@@ -498,11 +528,17 @@ func (c *SessionClient) onClientError(err error) {
 }
 
 func (c *SessionClient) onServerDisconnect(disconnect *paho.Disconnect) {
+	ctx := context.TODO()
+
+	for handler := range c.disconnectNotificationHandlers.All() {
+		go handler(&DisconnectEvent{&DisconnectPacket{disconnect.ReasonCode}})
+	}
+
 	if !c.isConnected.Load() {
 		return
 	}
 
-	c.info("server sent a disconnect packet")
+	c.log.Info(ctx, "server sent a disconnect packet")
 
 	c.setDisconnected()
 
@@ -513,8 +549,8 @@ func (c *SessionClient) onServerDisconnect(disconnect *paho.Disconnect) {
 	}
 
 	if err != nil && !c.disconnErrC.Send(err) {
-		c.error(
-			fmt.Sprintf(
+		c.log.Error(ctx,
+			fmt.Errorf(
 				"failed to send error from onServerDisconnect; "+
 					"internal channel closed: %s",
 				err.Error(),
