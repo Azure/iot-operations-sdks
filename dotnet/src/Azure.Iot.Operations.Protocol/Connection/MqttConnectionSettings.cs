@@ -412,6 +412,7 @@ public class MqttConnectionSettings
         AppendIfNotNullOrEmpty(result, nameof(KeepAlive), XmlConvert.ToString(KeepAlive));
         AppendIfNotNullOrEmpty(result, nameof(CaFile), CaFile);
         AppendIfNotNullOrEmpty(result, nameof(UseTls), UseTls.ToString());
+        AppendIfNotNullOrEmpty(result, nameof(SatAuthFile), SatAuthFile);
         result.Remove(result.Length - 1, 1);
         return result.ToString();
     }
