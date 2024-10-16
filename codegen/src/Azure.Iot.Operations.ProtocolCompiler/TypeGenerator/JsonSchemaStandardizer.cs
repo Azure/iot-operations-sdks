@@ -108,6 +108,15 @@
                         };
                     }
 
+                    if (schemaElt.TryGetProperty("pattern", out JsonElement patternElt))
+                    {
+                        return patternElt.GetString() switch
+                        {
+                            "^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$" => new DecimalType(),
+                            _ => throw new Exception($"unrecognized 'string' schema (pattern = {patternElt.GetString()})"),
+                        };
+                    }
+
                     return new StringType();
                 default:
                     throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");

@@ -1,4 +1,5 @@
-// contains integration tests that run on an in-cluster instance of AIO MQ
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package test
 
@@ -12,7 +13,6 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 )
@@ -74,7 +74,7 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 	_, err = client.Subscribe(
 		ctx,
 		topicName,
-		func(context.Context, *protocol.Message) error {
+		func(context.Context, *mqtt.Message) error {
 			return nil
 		},
 	)
@@ -87,7 +87,7 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 	_, err = client.Subscribe(
 		ctx2,
 		topicName2,
-		func(context.Context, *protocol.Message) error {
+		func(context.Context, *mqtt.Message) error {
 			return nil
 		},
 	)
@@ -162,7 +162,7 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 	sub, err := client.Subscribe(
 		ctx,
 		topicName,
-		func(context.Context, *protocol.Message) error {
+		func(context.Context, *mqtt.Message) error {
 			return nil
 		},
 	)
@@ -188,7 +188,7 @@ func TestRequestQueueMQ(t *testing.T) {
 	_, err = client.Subscribe(
 		ctx,
 		topicName,
-		func(_ context.Context, _ *protocol.Message) error {
+		func(_ context.Context, _ *mqtt.Message) error {
 			close(executed)
 			return nil
 		},
@@ -236,7 +236,7 @@ func TestRequestQueueMQ(t *testing.T) {
 		_, err := client.Subscribe(
 			ctx,
 			topicName2,
-			func(_ context.Context, _ *protocol.Message) error {
+			func(_ context.Context, _ *mqtt.Message) error {
 				close(ch2)
 				close(ch)
 				return nil
@@ -275,7 +275,7 @@ func TestPublishMQ(t *testing.T) {
 	_, err = client.Subscribe(
 		ctx,
 		topicName,
-		func(_ context.Context, msg *protocol.Message) error {
+		func(_ context.Context, msg *mqtt.Message) error {
 			require.Equal(t, topicName, msg.Topic)
 			require.Equal(t, []byte(publishMessage), msg.Payload)
 
@@ -349,7 +349,7 @@ func TestLastWillMessageMQ(t *testing.T) {
 	_, err = client1.Subscribe(
 		ctx,
 		LWTTopicName,
-		func(_ context.Context, msg *protocol.Message) error {
+		func(_ context.Context, msg *mqtt.Message) error {
 			require.Equal(t, LWTTopicName, msg.Topic)
 			require.Equal(t, []byte(LWTMessage), msg.Payload)
 			close(subscribed)

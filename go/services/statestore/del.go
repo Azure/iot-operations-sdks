@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package statestore
 
 import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -40,19 +43,9 @@ func (c *Client[K, V]) Del(
 }
 
 // Apply resolves the provided list of options.
-func (o *DelOptions) Apply(
-	opts []DelOption,
-	rest ...DelOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.del(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.del(o)
-		}
+func (o *DelOptions) Apply(opts []DelOption, rest ...DelOption) {
+	for opt := range options.Apply[DelOption](opts, rest...) {
+		opt.del(o)
 	}
 }
 

@@ -25,8 +25,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# if (this.telemetryTopic != null) { #>
     [TelemetryTopic("<#=this.telemetryTopic#>")]
 <# } #>
-<# if (this.commandTopic != null && !this.doesCommandTargetExecutor) { #>
-    [ServiceGroupId("<#=Defaults.ServiceGroupId#>")]
+<# if (this.serviceGroupId != null) { #>
+    [ServiceGroupId("<#=this.serviceGroupId#>")]
 <# } #>
     public static partial class <#=this.serviceName#>
     {

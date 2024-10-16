@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Azure.Iot.Operations.Protocol.UnitTests.Serializers.common;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
@@ -11,6 +12,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         public TimeSpan MyTimeSpanProperty { get; set; }
         public Guid MyGuidProperty { get; set; }
         public byte[] MyByteArrayProperty { get; set; } = Array.Empty<byte>();
+        public DecimalString MyDecimalProperty { get; set; } = new();
     }
 
     public class JsonSerializerTests
@@ -42,8 +44,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.NotNull(empty2);
         }
 
-
-
         [Fact]
         public void DeserializeNullToNonEmptyThrows()
         {
@@ -62,6 +62,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
             Assert.Equal(default, fromBytes.MyGuidProperty);
             Assert.Equal(Array.Empty<byte>(), fromBytes.MyByteArrayProperty);
+            Assert.Equal(new DecimalString(), fromBytes.MyDecimalProperty);
         }
 
         [Fact]
@@ -75,6 +76,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                 MyTimeSpanProperty = TimeSpan.FromDays(2),
                 MyGuidProperty = SomeGuidValue,
                 MyByteArrayProperty = SomeByteArray,
+                MyDecimalProperty = new DecimalString("55.5"),
             };
             var bytes = ser.ToBytes(myType);
             MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes);
@@ -84,6 +86,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal(TimeSpan.FromDays(2), fromBytes.MyTimeSpanProperty);
             Assert.Equal(SomeGuidValue, fromBytes.MyGuidProperty);
             Assert.Equal(SomeByteArray, fromBytes.MyByteArrayProperty);
+            Assert.Equal((DecimalString)"55.5", fromBytes.MyDecimalProperty);
         }
 
         [Fact]
@@ -96,7 +99,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                             "MyDateTimeProperty":"0001-01-01T00:00:00",
                             "MyTimeSpanProperty":"PT0S",
                             "MyGuidProperty": "00000000-0000-0000-0000-000000000000",
-                            "MyByteArrayProperty": ""
+                            "MyByteArrayProperty": "",
+                            "MyDecimalProperty": "0"
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
@@ -107,6 +111,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
             Assert.Equal(default, fromBytes.MyGuidProperty);
             Assert.Equal(Array.Empty<byte>(), fromBytes.MyByteArrayProperty);
+            Assert.Equal(new DecimalString(), fromBytes.MyDecimalProperty);
         }
 
         [Fact]
@@ -124,6 +129,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             Assert.Equal(default, fromBytes.MyTimeSpanProperty);
             Assert.Equal(default, fromBytes.MyGuidProperty);
             Assert.Equal(Array.Empty<byte>(), fromBytes.MyByteArrayProperty);
+            Assert.Equal(new DecimalString(), fromBytes.MyDecimalProperty);
         }
     }
 }

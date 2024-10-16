@@ -12,14 +12,13 @@ use tokio_util::sync::CancellationToken;
 
 use crate::control_packet::{AuthProperties, QoS};
 use crate::error::ConnectionError;
-use crate::interface::{InternalClient, MqttDisconnect, MqttEventLoop};
+use crate::interface::{Event, Incoming, InternalClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
 use crate::session::reconnect_policy::ReconnectPolicy;
 use crate::session::state::SessionState;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
-use crate::{Event, Incoming};
 
 /// Client that manages connections over a single MQTT session.
 ///

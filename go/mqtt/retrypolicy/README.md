@@ -21,7 +21,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
 
 
 <a name="ExponentialBackoffRetryPolicy"></a>
-## type [ExponentialBackoffRetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L27-L34>)
+## type [ExponentialBackoffRetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L29-L36>)
 
 ExponentialBackoffRetry implements a retry policy with exponential backoff and optional jitter.
 
@@ -32,7 +32,7 @@ type ExponentialBackoffRetryPolicy struct {
 ```
 
 <a name="NewExponentialBackoffRetryPolicy"></a>
-### func [NewExponentialBackoffRetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L38-L40>)
+### func [NewExponentialBackoffRetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L40-L42>)
 
 ```go
 func NewExponentialBackoffRetryPolicy(opts ...ExponentialBackoffRetryPolicyOption) *ExponentialBackoffRetryPolicy
@@ -41,7 +41,7 @@ func NewExponentialBackoffRetryPolicy(opts ...ExponentialBackoffRetryPolicyOptio
 NewExponentialBackoffRetryPolicy creates a new ExponentialBackoffRetryPolicy with the given options.
 
 <a name="ExponentialBackoffRetryPolicy.Start"></a>
-### func \(\*ExponentialBackoffRetryPolicy\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L56-L60>)
+### func \(\*ExponentialBackoffRetryPolicy\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy.go#L58-L62>)
 
 ```go
 func (e *ExponentialBackoffRetryPolicy) Start(ctx context.Context, log func(msg string, args ...any), task Task) error
@@ -50,7 +50,7 @@ func (e *ExponentialBackoffRetryPolicy) Start(ctx context.Context, log func(msg 
 Start initiates the retry executions.
 
 <a name="ExponentialBackoffRetryPolicyOption"></a>
-## type [ExponentialBackoffRetryPolicyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L6>)
+## type [ExponentialBackoffRetryPolicyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L8>)
 
 Option defines the functional option type.
 
@@ -59,7 +59,7 @@ type ExponentialBackoffRetryPolicyOption func(*ExponentialBackoffRetryPolicy)
 ```
 
 <a name="WithJitter"></a>
-### func [WithJitter](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L36-L38>)
+### func [WithJitter](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L38-L40>)
 
 ```go
 func WithJitter(withJitter bool) ExponentialBackoffRetryPolicyOption
@@ -68,7 +68,7 @@ func WithJitter(withJitter bool) ExponentialBackoffRetryPolicyOption
 WithJitter sets whether to use jitter.
 
 <a name="WithMaxInterval"></a>
-### func [WithMaxInterval](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L18-L20>)
+### func [WithMaxInterval](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L20-L22>)
 
 ```go
 func WithMaxInterval(maxInterval time.Duration) ExponentialBackoffRetryPolicyOption
@@ -77,7 +77,7 @@ func WithMaxInterval(maxInterval time.Duration) ExponentialBackoffRetryPolicyOpt
 WithMaxInterval sets the maximum interval between retries.
 
 <a name="WithMaxRetries"></a>
-### func [WithMaxRetries](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L9-L11>)
+### func [WithMaxRetries](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L11-L13>)
 
 ```go
 func WithMaxRetries(maxRetries int) ExponentialBackoffRetryPolicyOption
@@ -86,7 +86,7 @@ func WithMaxRetries(maxRetries int) ExponentialBackoffRetryPolicyOption
 WithMaxRetries sets the maximum number of retries.
 
 <a name="WithTimeout"></a>
-### func [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L27-L29>)
+### func [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/exponential_backoff_retrypolicy_options.go#L29-L31>)
 
 ```go
 func WithTimeout(timeout time.Duration) ExponentialBackoffRetryPolicyOption
@@ -95,7 +95,7 @@ func WithTimeout(timeout time.Duration) ExponentialBackoffRetryPolicyOption
 WithTimeout sets the timeout for the total retry.
 
 <a name="RetryPolicy"></a>
-## type [RetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/retrypolicy.go#L16-L22>)
+## type [RetryPolicy](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/retrypolicy.go#L18-L24>)
 
 RetryPolicy is the retry strategy for Task execution.
 
@@ -110,7 +110,7 @@ type RetryPolicy interface {
 ```
 
 <a name="Task"></a>
-## type [Task](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/retrypolicy.go#L9-L13>)
+## type [Task](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/retrypolicy/retrypolicy.go#L11-L15>)
 
 Task represents a function to retry.
 

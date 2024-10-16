@@ -29,15 +29,19 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
+    CompletionToken, Event, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop,
+    MqttPubSub,
 };
-use crate::{CompletionToken, Event};
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
 pub type EventLoopAlias = rumqttc::v5::EventLoop;
 
 #[async_trait]
 impl MqttPubSub for rumqttc::v5::AsyncClient {
+    // NOTE: Ideally, we would just directly put the result of the MqttPubSub operations in a Box
+    // without the intermediate step of calling .wait_async(), but the rumqttc NoticeFuture does
+    // not actually implement Future despite the name.
+
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -45,9 +49,8 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(
-            self.publish(topic, qos, retain, payload).await?,
-        ))
+        let nf = self.publish(topic, qos, retain, payload).await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 
     async fn publish_with_properties(
@@ -58,10 +61,10 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(
-            self.publish_with_properties(topic, qos, retain, payload, properties)
-                .await?,
-        ))
+        let nf = self
+            .publish_with_properties(topic, qos, retain, payload, properties)
+            .await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 
     async fn subscribe(
@@ -69,7 +72,8 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(self.subscribe(topic, qos).await?))
+        let nf = self.subscribe(topic, qos).await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 
     async fn subscribe_with_properties(
@@ -78,17 +82,18 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(
-            self.subscribe_with_properties(topic, qos, properties)
-                .await?,
-        ))
+        let nf = self
+            .subscribe_with_properties(topic, qos, properties)
+            .await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(self.unsubscribe(topic).await?))
+        let nf = self.unsubscribe(topic).await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 
     async fn unsubscribe_with_properties(
@@ -96,9 +101,8 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(
-            self.unsubscribe_with_properties(topic, properties).await?,
-        ))
+        let nf = self.unsubscribe_with_properties(topic, properties).await?;
+        Ok(CompletionToken(Box::new(nf.wait_async())))
     }
 }
 
