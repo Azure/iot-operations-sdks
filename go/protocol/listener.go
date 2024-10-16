@@ -44,11 +44,26 @@ type (
 		done   func()
 		active atomic.Bool
 	}
+
+	message[T any] struct {
+		Mqtt *mqtt.Message
+		Message[T]
+	}
 )
 
 func (l *listener[T]) register() {
 	handle, stop := internal.Concurrent(l.concurrency, l.handle)
-	done := l.client.RegisterMessageHandler(handle)
+	done := l.client.RegisterMessageHandler(
+		func(ctx context.Context, m *mqtt.Message) bool {
+			msg := &message[T]{Mqtt: m}
+			var match bool
+			msg.TopicTokens, match = l.topic.Tokens(m.Topic)
+			if match {
+				handle(ctx, msg)
+			}
+			return match
+		},
+	)
 	l.done = func() {
 		done()
 		stop()
@@ -87,20 +102,12 @@ func (l *listener[T]) close() {
 	l.done()
 }
 
-func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
-	msg := &Message[T]{}
-
-	var match bool
-	msg.TopicTokens, match = l.topic.Tokens(pub.Topic)
-	if !match {
-		return
-	}
-
+func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	// The very first check must be the version, because if we don't support it,
 	// nothing else is trustworthy.
-	ver := pub.UserProperties[constants.ProtocolVersion]
+	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
 	if !version.IsSupported(ver) {
-		l.error(ctx, pub, &errors.Error{
+		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:                        "unsupported version",
 			Kind:                           errors.UnsupportedRequestVersion,
 			ProtocolVersion:                ver,
@@ -109,18 +116,18 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if l.reqCorrelation && len(pub.CorrelationData) == 0 {
-		l.error(ctx, pub, &errors.Error{
+	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
+		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:    "correlation data missing",
 			Kind:       errors.HeaderMissing,
 			HeaderName: constants.CorrelationData,
 		})
 		return
 	}
-	if len(pub.CorrelationData) != 0 {
-		correlationData, err := uuid.FromBytes(pub.CorrelationData)
+	if len(msg.Mqtt.CorrelationData) != 0 {
+		correlationData, err := uuid.FromBytes(msg.Mqtt.CorrelationData)
 		if err != nil {
-			l.error(ctx, pub, &errors.Error{
+			l.error(ctx, msg.Mqtt, &errors.Error{
 				Message:    "correlation data is not a valid UUID",
 				Kind:       errors.HeaderInvalid,
 				HeaderName: constants.CorrelationData,
@@ -130,20 +137,20 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		msg.CorrelationData = correlationData.String()
 	}
 
-	ts := pub.UserProperties[constants.Timestamp]
+	ts := msg.Mqtt.UserProperties[constants.Timestamp]
 	if ts != "" {
 		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
-			l.error(ctx, pub, err)
+			l.error(ctx, msg.Mqtt, err)
 			return
 		}
 	}
 
-	msg.Metadata = internal.PropToMetadata(pub.UserProperties)
+	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)
 
-	if err := l.handler.onMsg(ctx, pub, msg); err != nil {
-		l.error(ctx, pub, err)
+	if err := l.handler.onMsg(ctx, msg.Mqtt, &msg.Message); err != nil {
+		l.error(ctx, msg.Mqtt, err)
 		return
 	}
 }

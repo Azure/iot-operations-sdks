@@ -6,6 +6,7 @@ require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.0.0
 	github.com/eclipse/paho.golang v0.21.0
 	github.com/gorilla/websocket v1.5.3
+	github.com/iancoleman/strcase v0.3.0
 	github.com/sosodev/duration v1.3.1
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/crypto v0.26.0
