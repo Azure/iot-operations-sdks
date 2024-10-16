@@ -159,7 +159,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
 
                 string? clientId = this.mqttClient.ClientId;
-                Debug.Assert(!string.IsNullOrEmpty(clientId));
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting a telemetry receiver");
+                }
+
                 dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, PreferredDispatchConcurrency);
 
                 string telemTopicFilter;

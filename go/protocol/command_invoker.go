@@ -1,23 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
 	"context"
 	"log/slog"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        mqtt.Client
+		client        MqttClient
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -83,7 +86,7 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
-	client mqtt.Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopic string,
@@ -91,8 +94,8 @@ func NewCommandInvoker[Req, Res any](
 ) (ci *CommandInvoker[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
 
-	var options CommandInvokerOptions
-	options.Apply(opt)
+	var opts CommandInvokerOptions
+	opts.Apply(opt)
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -104,22 +107,22 @@ func NewCommandInvoker[Req, Res any](
 
 	// Generate the response topic based on the provided options.
 	responseTopic := requestTopic
-	if options.ResponseTopic != nil {
-		responseTopic = options.ResponseTopic(requestTopic)
+	if opts.ResponseTopic != nil {
+		responseTopic = opts.ResponseTopic(requestTopic)
 	} else {
-		if options.ResponseTopicPrefix != "" {
-			responseTopic = options.ResponseTopicPrefix + "/" + responseTopic
+		if opts.ResponseTopicPrefix != "" {
+			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
-		if options.ResponseTopicSuffix != "" {
-			responseTopic = responseTopic + "/" + options.ResponseTopicSuffix
+		if opts.ResponseTopicSuffix != "" {
+			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
 		"requestTopic",
 		requestTopic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -128,8 +131,8 @@ func NewCommandInvoker[Req, Res any](
 	resTP, err := internal.NewTopicPattern(
 		"responseTopic",
 		responseTopic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -154,13 +157,11 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		logger:         log.Wrap(options.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ci,
 	}
 
-	if err := ci.listener.register(); err != nil {
-		return nil, err
-	}
+	ci.listener.register()
 	return ci, nil
 }
 
@@ -175,8 +176,8 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	shallow := true
 	defer func() { err = errutil.Return(err, shallow) }()
 
-	var options InvokeOptions
-	options.Apply(opt)
+	var opts InvokeOptions
+	opts.Apply(opt)
 
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
@@ -186,23 +187,19 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	msg := &Message[Req]{
 		CorrelationData: correlationData,
 		Payload:         req,
-		Metadata:        options.Metadata,
+		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(
-		msg,
-		options.TopicTokens,
-		options.MessageExpiry,
-	)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
 	if err != nil {
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ClientID()
-	pub.UserProperties[constants.Partition] = ci.client.ClientID()
-	if !options.FencingToken.IsZero() {
-		pub.UserProperties[constants.FencingToken] = options.FencingToken.String()
+	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
+	pub.UserProperties[constants.Partition] = ci.client.ID()
+	if !opts.FencingToken.IsZero() {
+		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}
-	pub.ResponseTopic, err = ci.responseTopic.Topic(options.TopicTokens)
+	pub.ResponseTopic, err = ci.responseTopic.Topic(opts.TopicTokens)
 	if err != nil {
 		return nil, err
 	}
@@ -273,13 +270,15 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	}
 }
 
-// Listen to the response topic(s). Returns a function to stop listening. Must
-// be called before any calls to Invoke. Note that cancelling this context will
-// cause the unsubscribe call to fail.
-func (ci *CommandInvoker[Req, Res]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the response topic(s). Must be called before any calls to
+// Invoke.
+func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
 	return ci.listener.listen(ctx)
+}
+
+// Close the command invoker to free its resources.
+func (ci *CommandInvoker[Req, Res]) Close() {
+	ci.listener.close()
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(
@@ -321,14 +320,14 @@ func (o *CommandInvokerOptions) Apply(
 	opts []CommandInvokerOption,
 	rest ...CommandInvokerOption,
 ) {
-	for opt := range internal.Apply[CommandInvokerOption](opts, rest...) {
+	for opt := range options.Apply[CommandInvokerOption](opts, rest...) {
 		opt.commandInvoker(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for opt := range internal.Apply[CommandInvokerOption](opts, rest...) {
+	for opt := range options.Apply[CommandInvokerOption](opts, rest...) {
 		opt.commandInvoker(o)
 	}
 }
@@ -364,7 +363,7 @@ func (o *InvokeOptions) Apply(
 	opts []InvokeOption,
 	rest ...InvokeOption,
 ) {
-	for opt := range internal.Apply[InvokeOption](opts, rest...) {
+	for opt := range options.Apply[InvokeOption](opts, rest...) {
 		opt.invoke(o)
 	}
 }

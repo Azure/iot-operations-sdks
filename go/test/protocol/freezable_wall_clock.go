@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -5,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 )
 
 type (

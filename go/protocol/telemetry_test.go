@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol_test
 
 import (
@@ -27,20 +29,20 @@ func TestTelemetry(t *testing.T) {
 		},
 	)
 	require.NoError(t, err)
+	defer receiver.Close()
 
 	sender, err := protocol.NewTelemetrySender(stub.Client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)
 
-	done, err := protocol.Listen(ctx, receiver)
+	err = receiver.Start(ctx)
 	require.NoError(t, err)
-	defer done()
 
 	err = sender.Send(ctx, value)
 	require.NoError(t, err)
 
 	res := <-results
-	require.Equal(t, stub.Client.ClientID(), res.ClientID)
+	require.Equal(t, stub.Client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
 }

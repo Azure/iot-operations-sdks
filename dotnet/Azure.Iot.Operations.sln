@@ -63,6 +63,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,6 +181,10 @@ Global
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70F181D-8264-498D-B0B4-671746E0F93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70F181D-8264-498D-B0B4-671746E0F93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70F181D-8264-498D-B0B4-671746E0F93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70F181D-8264-498D-B0B4-671746E0F93B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +217,7 @@ Global
 		{D4804411-6DE8-4FEA-A5EA-6BFA7499ABEE} = {1A010448-5B06-42B9-95FE-C31008C700FB}
 		{0636DA59-E153-4F22-9093-3E1E0702B190} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
+		{C70F181D-8264-498D-B0B4-671746E0F93B} = {DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

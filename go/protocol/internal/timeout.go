@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package internal
 
 import (
@@ -5,9 +7,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 // Function to apply an optional timeout.

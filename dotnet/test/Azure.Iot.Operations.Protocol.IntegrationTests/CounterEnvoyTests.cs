@@ -61,7 +61,7 @@ public class CounterEnvoyTests
         Task[] tasks = new Task[2];
         for (int i = 0; i < tasks.Length; i++)
         {
-            Task<ExtendedResponse<IncrementCommandResponse>> incrCounterTask = counterClient.IncrementAsync(executorId, reqMd2).WithMetadata();
+            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(executorId, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;
         }
         var exception = await Assert.ThrowsAsync<AkriMqttException>(() => Task.WhenAll(tasks));

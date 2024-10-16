@@ -1,19 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
 	"context"
 	"log/slog"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    mqtt.Client
+		client    MqttClient
 		publisher *publisher[T]
 	}
 
@@ -48,15 +50,15 @@ type (
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
-	client mqtt.Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
 	defer func() { err = errutil.Return(err, true) }()
 
-	var options TelemetrySenderOptions
-	options.Apply(opt)
+	var opts TelemetrySenderOptions
+	opts.Apply(opt)
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -68,8 +70,8 @@ func NewTelemetrySender[T any](
 	tp, err := internal.NewTopicPattern(
 		"topic",
 		topic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -95,8 +97,8 @@ func (ts *TelemetrySender[T]) Send(
 	shallow := true
 	defer func() { err = errutil.Return(err, shallow) }()
 
-	var options SendOptions
-	options.Apply(opt)
+	var opts SendOptions
+	opts.Apply(opt)
 
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
@@ -106,19 +108,15 @@ func (ts *TelemetrySender[T]) Send(
 	msg := &Message[T]{
 		CorrelationData: correlationData,
 		Payload:         val,
-		Metadata:        options.Metadata,
+		Metadata:        opts.Metadata,
 	}
-	pub, err := ts.publisher.build(
-		msg,
-		options.TopicTokens,
-		options.MessageExpiry,
-	)
+	pub, err := ts.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
 	if err != nil {
 		return err
 	}
 
-	pub.Retain = options.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ClientID()
+	pub.Retain = opts.Retain
+	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
 	return ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
@@ -129,14 +127,14 @@ func (o *TelemetrySenderOptions) Apply(
 	opts []TelemetrySenderOption,
 	rest ...TelemetrySenderOption,
 ) {
-	for opt := range internal.Apply[TelemetrySenderOption](opts, rest...) {
+	for opt := range options.Apply[TelemetrySenderOption](opts, rest...) {
 		opt.telemetrySender(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *TelemetrySenderOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for opt := range internal.Apply[TelemetrySenderOption](opts, rest...) {
+	for opt := range options.Apply[TelemetrySenderOption](opts, rest...) {
 		opt.telemetrySender(o)
 	}
 }
@@ -154,7 +152,7 @@ func (o *SendOptions) Apply(
 	opts []SendOption,
 	rest ...SendOption,
 ) {
-	for opt := range internal.Apply[SendOption](opts, rest...) {
+	for opt := range options.Apply[SendOption](opts, rest...) {
 		opt.send(o)
 	}
 }

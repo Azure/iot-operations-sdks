@@ -9,10 +9,15 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
     public class ClientFactory
     {
-        public static async Task<OrderedAckMqttClient> CreateClientAsyncFromEnvAsync(string clientId, bool withTraces = false, CancellationToken cancellationToken = default)
+        public static async Task<OrderedAckMqttClient> CreateClientAsyncFromEnvAsync(string clientId, bool withTraces = false, bool omitClientId = false, CancellationToken cancellationToken = default)
         {
             Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")};ClientId={clientId}";
+            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
+            if (!omitClientId)
+            {
+                cs = cs + $";ClientId={clientId}";
+            }
+
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
             MQTTnet.Client.IMqttClient mqttClient;
             if (withTraces)
@@ -61,15 +66,20 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             return sessionClient;
         }
 
-        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "")
+        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "", bool omitClientId = false)
         {
-            if (string.IsNullOrEmpty(clientId))
+            Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
+            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
+            if (!omitClientId)
             {
-                clientId = Guid.NewGuid().ToString();
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    clientId = Guid.NewGuid().ToString();
+                }
+
+                cs = cs + $";ClientId={clientId}";
             }
 
-            Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")};ClientId={clientId}";
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
             MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
             {

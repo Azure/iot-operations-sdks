@@ -15,7 +15,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
 {
     readonly Utf8JsonSerializer _jsonSerializer = new();
     
-    public override async Task<ExtendedResponse<PutCommandResponse>> PutAsync(PutCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override async Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         await using StateStoreClient _stateStoreClient = new(mqttClient);
         logger.LogInformation("RegisterSchema request");
@@ -55,7 +55,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
             schemaInfo = _jsonSerializer.FromBytes<SchemaInfo>(find.Value.Bytes)!;
         }
 
-        return new ExtendedResponse<PutCommandResponse>
+        return new ExtendedResponse<PutResponsePayload>
         {
             Response = new()
             {
@@ -64,7 +64,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
         };
     }
 
-    public override async Task<ExtendedResponse<GetCommandResponse>> GetAsync(GetCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override async Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         await using StateStoreClient _stateStoreClient = new(mqttClient);
         logger.LogInformation("Get request {req}", request.GetSchemaRequest.Name);
@@ -75,7 +75,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
         {
             sdoc = _jsonSerializer.FromBytes<SchemaInfo>(resp.Value?.Bytes);
         }
-        return new ExtendedResponse<GetCommandResponse>
+        return new ExtendedResponse<GetResponsePayload>
         {
             Response = new()
             {
