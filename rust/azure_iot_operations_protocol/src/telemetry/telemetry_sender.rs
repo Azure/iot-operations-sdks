@@ -9,6 +9,7 @@ use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
+use uuid::Uuid;
 
 use crate::common::{
     aio_protocol_error::AIOProtocolError,
@@ -18,7 +19,88 @@ use crate::common::{
     topic_processor::TopicPattern,
     user_properties::{validate_user_properties, UserProperty},
 };
-use crate::telemetry::cloud_event::{CloudEvent, CloudEventFields};
+use crate::telemetry::cloud_event::{
+    CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+};
+
+/// Cloud Event struct
+///
+/// Implements the cloud event spec 1.0 for the telemetry sender.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Builder, Clone)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct CloudEvent {
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    source: String,
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")]
+    spec_version: String,
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    #[builder(default = "DEFAULT_CLOUD_EVENT_EVENT_TYPE.to_string()")]
+    event_type: String,
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    #[builder(default = "None")]
+    data_schema: Option<String>,
+}
+
+impl CloudEventBuilder {
+    fn validate(&self) -> Result<(), String> {
+        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
+
+        if let Some(sv) = &self.spec_version {
+            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
+            spec_version = sv.to_string();
+        }
+
+        if let Some(source) = &self.source {
+            CloudEventFields::Source.validate(source, &spec_version)?;
+        }
+
+        if let Some(event_type) = &self.event_type {
+            CloudEventFields::EventType.validate(event_type, &spec_version)?;
+        }
+
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
+        Ok(())
+    }
+}
+
+impl CloudEvent {
+    /// Get Cloud Event as headers for an MQTT message
+    #[must_use]
+    fn into_headers(self, subject: &str, content_type: &str) -> Vec<(String, String)> {
+        let mut headers = vec![
+            (CloudEventFields::Id.to_string(), Uuid::new_v4().to_string()),
+            (CloudEventFields::Source.to_string(), self.source),
+            (CloudEventFields::SpecVersion.to_string(), self.spec_version),
+            (CloudEventFields::EventType.to_string(), self.event_type),
+            (CloudEventFields::Subject.to_string(), subject.to_string()),
+            (
+                CloudEventFields::DataContentType.to_string(),
+                content_type.to_string(),
+            ),
+            (
+                CloudEventFields::Time.to_string(),
+                DateTime::<Utc>::from(SystemTime::now()).to_rfc3339(),
+            ),
+        ];
+        if let Some(data_schema) = self.data_schema {
+            headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
+        }
+        headers
+    }
+}
 
 /// Telemetry Message struct
 /// Used by the telemetry sender.
@@ -66,7 +148,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - timeout is < 1 ms or > `u32::max`
-    ///     - QoS is not `AtMostOnce` or `AtLeastOnce`
+    ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             for (key, _) in custom_user_data {
@@ -265,9 +347,8 @@ where
         let correlation_data = Bytes::from(timestamp.node_id.as_bytes().to_vec());
 
         // Cloud Events headers
-        if let Some(mut cloud_event) = message.cloud_event {
-            cloud_event.time = Some(DateTime::<Utc>::from(SystemTime::now()));
-            let cloud_event_headers = cloud_event.to_headers();
+        if let Some(cloud_event) = message.cloud_event {
+            let cloud_event_headers = cloud_event.into_headers(&message_topic, T::content_type());
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }

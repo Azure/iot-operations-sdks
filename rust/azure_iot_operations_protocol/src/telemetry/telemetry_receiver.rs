@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use super::cloud_event::{CloudEvent, CloudEventBuilder, CloudEventFields};
+use super::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
@@ -17,6 +17,112 @@ use crate::common::{
     topic_processor::{TopicPattern, WILDCARD},
     user_properties::{UserProperty, RESERVED_PREFIX},
 };
+
+/// Cloud Event struct
+///
+/// Implements the cloud event spec 1.0 for the telemetry receiver.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Builder, Clone)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct CloudEvent {
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub id: String,
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub source: String,
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub spec_version: String,
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub event_type: String,
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    #[builder(default = "None")]
+    pub subject: Option<String>,
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    #[builder(default = "None")]
+    pub data_schema: Option<String>,
+    /// Content type of data value. This attribute enables data to carry any type of content,
+    /// whereby format and encoding might differ from that of the chosen event format.
+    #[builder(default = "None")]
+    pub data_content_type: Option<String>,
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    #[builder(default = "None")]
+    pub time: Option<DateTime<Utc>>,
+}
+
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "id: {} \n\
+            source: {} \n\
+            event_type: {} \n\
+            subject: {:?} \n\
+            data_schema: {:?} \n\
+            data_content_type: {:?} \n\
+            time: {:?}",
+            self.id,
+            self.source,
+            self.event_type,
+            self.subject,
+            self.data_schema,
+            self.data_content_type,
+            self.time
+        )
+    }
+}
+
+impl CloudEventBuilder {
+    fn validate(&self) -> Result<(), String> {
+        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
+
+        if let Some(sv) = &self.spec_version {
+            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
+            spec_version = sv.to_string();
+        }
+
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
+        if let Some(source) = &self.source {
+            CloudEventFields::Source.validate(source, &spec_version)?;
+        }
+
+        if let Some(event_type) = &self.event_type {
+            CloudEventFields::EventType.validate(event_type, &spec_version)?;
+        }
+
+        if let Some(Some(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
+        if let Some(Some(data_content_type)) = &self.data_content_type {
+            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
+        }
+
+        Ok(())
+    }
+}
 
 /// Acknowledgement token used to acknowledge a telemetry message.
 /// Used by the [`TelemetryReceiver`].

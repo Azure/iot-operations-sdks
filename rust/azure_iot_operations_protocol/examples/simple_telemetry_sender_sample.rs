@@ -8,8 +8,8 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::telemetry::{
-    cloud_event::CloudEventBuilder, telemetry_sender::TelemetrySender,
+use azure_iot_operations_protocol::telemetry::telemetry_sender::{
+    CloudEventBuilder, TelemetrySender,
 };
 use azure_iot_operations_protocol::{
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
@@ -66,7 +66,6 @@ async fn telemetry_loop(
 ) {
     for i in 1..10 {
         let cloud_event = CloudEventBuilder::default()
-            .id("1")
             .source("github.com")
             .build()
             .unwrap();
