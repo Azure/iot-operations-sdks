@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.ConnectorSample
                     samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                 }
 
-                _logger.LogInformation($"Will sample dataset with name {0} at a rate of once per {1} milliseconds", datasetName, (int)samplingInterval.TotalMilliseconds);
+                _logger.LogInformation($"Will sample dataset with name {datasetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
                 using Timer datasetSamplingTimer = new(SampleThermostatStatus, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
 
                 // Wait until the worker is cancelled
