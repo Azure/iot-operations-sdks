@@ -17,7 +17,7 @@ docker tag http-server:latest http-server:latest
 k3d image import http-server:latest -c k3s-default
 
 # Deploy Operator helm chart
-helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241008.6-buddy -n azure-iot-operations --wait
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241016.1-buddy -n azure-iot-operations -n azure-iot-operations --wait
 
 # Deploy connector config
 kubectl apply -f ./connector-config.yaml
