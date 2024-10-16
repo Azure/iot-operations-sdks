@@ -549,8 +549,8 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
-    #[tokio::test]
-    async fn test_new_defaults() {
+    #[test]
+    fn test_new_defaults() {
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/{senderId}/receiver")
@@ -565,12 +565,12 @@ mod tests {
             .is_match("test/test_sender/receiver"));
     }
 
-    #[tokio::test]
-    async fn test_new_override_defaults() {
+    #[test]
+    fn test_new_override_defaults() {
         let session = get_session();
         let custom_token_map = HashMap::from([("customToken".to_string(), "123".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{ex:customToken}/{modelId}/receiver")
+            .topic_pattern("test/{senderId}/{telemetryName}/{ex:customToken}/{modelId}/receiver")
             .telemetry_name("test_telemetry")
             .model_id("test_model")
             .topic_namespace("test_namespace")
@@ -580,9 +580,10 @@ mod tests {
         let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
             TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
 
-        assert!(telemetry_receiver
-            .topic_pattern
-            .is_match(format!("test_namespace/test/test_sender/123/{MODEL_ID}/receiver").as_str()));
+        assert!(telemetry_receiver.topic_pattern.is_match(
+            format!("test_namespace/test/test_sender/test_telemetry/123/{MODEL_ID}/receiver")
+                .as_str()
+        ));
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

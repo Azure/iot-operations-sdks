@@ -10,7 +10,6 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
 
-use super::cloud_event::{CloudEvent, CloudEventFields};
 use crate::common::{
     aio_protocol_error::AIOProtocolError,
     hybrid_logical_clock::HybridLogicalClock,
@@ -19,6 +18,7 @@ use crate::common::{
     topic_processor::TopicPattern,
     user_properties::{validate_user_properties, UserProperty},
 };
+use crate::telemetry::cloud_event::{CloudEvent, CloudEventFields};
 
 /// Telemetry Message struct
 /// Used by the telemetry sender.
@@ -41,7 +41,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     custom_user_data: Vec<(String, String)>,
     /// Timeout for the message. Will be used as the `message_expiry_interval`.
     #[builder(default = "Duration::from_secs(10)")]
-    timeout: Duration,
+    message_expiry: Duration,
+    /// Cloud event of the telemetry message.
     #[builder(default = "None")]
     cloud_event: Option<CloudEvent>,
 }
@@ -49,8 +50,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
 impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// Add a payload to the telemetry message. Validates successful serialization of the payload.
     ///
-    /// # Errors
-    /// Returns a [`SerializerError`] if serialization of the payload fails
+    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
     pub fn payload(&mut self, payload: &T) -> Result<&mut Self, T::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
@@ -66,7 +66,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - timeout is < 1 ms or > `u32::max`
-    ///     - qos is not `AtMostOnce` or `AtLeastOnce`
+    ///     - QoS is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             for (key, _) in custom_user_data {
@@ -78,8 +78,9 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
             }
             return validate_user_properties(custom_user_data);
         }
-        if let Some(timeout) = &self.timeout {
-            if timeout.as_millis() < 1 {
+        if let Some(timeout) = &self.message_expiry {
+            // If timeout is set, it must be at least 1 ms. If zero, message will never expire.
+            if !timeout.is_zero() && timeout.as_millis() < 1 {
                 return Err("Timeout must be at least 1 ms".to_string());
             }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
@@ -103,6 +104,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
 #[builder(setter(into, strip_option))]
 #[allow(unused)]
 pub struct TelemetrySenderOptions {
+    // TODO: Update topic-structure link to the correct one once available.
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
@@ -165,7 +167,6 @@ pub struct TelemetrySenderOptions {
 /// # })
 /// ```
 ///
-#[allow(unused)]
 pub struct TelemetrySender<T, C>
 where
     T: PayloadSerialize,
@@ -173,13 +174,11 @@ where
 {
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
-    telemetry_name: Option<String>,
     topic_pattern: TopicPattern,
-    client_id: String,
 }
 
 /// Implementation of Telemetry Sender
-#[allow(unused)]
+#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetrySender<T, C>
 where
     T: PayloadSerialize,
@@ -189,8 +188,7 @@ where
     ///
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`telemetry_name`](TelemetrySenderOptions::telemetry_name) is used in the [`topic_pattern`](TelemetrySenderOptions::topic_pattern) and is empty, whitespace or invalid
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
@@ -211,14 +209,10 @@ where
             &sender_options.custom_topic_token_map,
         )?;
 
-        let client_id = client.client_id().to_string();
-
         Ok(Self {
             mqtt_client: client,
             message_payload_type: PhantomData,
-            telemetry_name: sender_options.telemetry_name,
             topic_pattern,
-            client_id,
         })
     }
 
@@ -234,10 +228,9 @@ where
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::MqttError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
-    #[allow(clippy::unused_async)]
     pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
         // Validate parameters. Custom user data, timeout, QoS, and payload serialization have already been validated in TelemetryMessageBuilder
-        let message_expiry_interval: u32 = match message.timeout.as_secs().try_into() {
+        let message_expiry_interval: u32 = match message.message_expiry.as_secs().try_into() {
             Ok(val) => val,
             Err(_) => {
                 // should be validated in TelemetryMessageBuilder
@@ -287,7 +280,7 @@ where
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
-            correlation_data: Some(correlation_data.clone()),
+            correlation_data: Some(correlation_data),
             response_topic: None,
             payload_format_indicator: Some(T::format_indicator() as u8),
             content_type: Some(content_type.to_string()),
@@ -373,8 +366,8 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
-    #[tokio::test]
-    async fn test_new_defaults() {
+    #[test]
+    fn test_new_defaults() {
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/test_telemetry")
@@ -388,11 +381,11 @@ mod tests {
             .is_match("test/test_telemetry"));
     }
 
-    #[tokio::test]
-    async fn test_new_override_defaults() {
+    #[test]
+    fn test_new_override_defaults() {
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/test_telemetry")
+            .topic_pattern("test/{modelId}/{telemetryName}")
             .telemetry_name("test_telemetry")
             .model_id("test_model")
             .topic_namespace("test_namespace")
@@ -404,7 +397,7 @@ mod tests {
             TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
         assert!(telemetry_sender
             .topic_pattern
-            .is_match("test_namespace/test/test_telemetry"));
+            .is_match("test_namespace/test/test_model/test_telemetry"));
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
@@ -483,8 +476,6 @@ mod tests {
         }
     }
 
-    /// Tests failure: Timeout specified as 0 (invalid value) on send and an `ArgumentInvalid` error is returned
-    #[test_case(Duration::from_secs(0); "send_timeout_0")]
     /// Tests failure: Timeout specified as > u32::max (invalid value) on send and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "send_timeout_u32_max")]
     /// Tests failure: Timeout specified as < 1ms (invalid value) on send and an `ArgumentInvalid` error is returned
@@ -499,7 +490,41 @@ mod tests {
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
             .unwrap()
-            .timeout(timeout)
+            .message_expiry(timeout)
+            .build();
+
+        assert!(message_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_send_qos_invalid_value() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| Ok(String::new().into()))
+            .times(1);
+
+        let message_builder_result = TelemetryMessageBuilder::default()
+            .payload(&mock_telemetry_payload)
+            .unwrap()
+            .qos(azure_iot_operations_mqtt::control_packet::QoS::ExactlyOnce)
+            .build();
+
+        assert!(message_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_send_invalid_custom_user_data_cloud_event_header() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| Ok(String::new().into()))
+            .times(1);
+
+        let message_builder_result = TelemetryMessageBuilder::default()
+            .payload(&mock_telemetry_payload)
+            .unwrap()
+            .custom_user_data(vec![("source".to_string(), "test".to_string())])
             .build();
 
         assert!(message_builder_result.is_err());

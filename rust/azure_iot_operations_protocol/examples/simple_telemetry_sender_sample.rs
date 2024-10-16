@@ -71,9 +71,12 @@ async fn telemetry_loop(
             .build()
             .unwrap();
         let payload = TelemetryMessageBuilder::default()
-            .payload(&SampleTelemetry::default())
+            .payload(&SampleTelemetry {
+                external_temperature: 100,
+                internal_temperature: 200,
+            })
             .unwrap()
-            .timeout(Duration::from_secs(2))
+            .message_expiry(Duration::from_secs(2))
             .cloud_event(cloud_event)
             .build()
             .unwrap();
@@ -85,7 +88,10 @@ async fn telemetry_loop(
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct SampleTelemetry {}
+pub struct SampleTelemetry {
+    pub external_temperature: i32,
+    pub internal_temperature: i32,
+}
 
 impl PayloadSerialize for SampleTelemetry {
     type Error = String;
@@ -98,10 +104,14 @@ impl PayloadSerialize for SampleTelemetry {
     }
 
     fn serialize(&self) -> Result<Vec<u8>, String> {
-        Ok("{\"externalTemperature\":100,\"internalTemperature\":200}".into())
+        Ok(format!(
+            "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
+            self.external_temperature, self.internal_temperature
+        )
+        .into())
     }
 
     fn deserialize(_payload: &[u8]) -> Result<SampleTelemetry, String> {
-        Ok(SampleTelemetry {})
+        Ok(SampleTelemetry::default())
     }
 }

@@ -156,6 +156,21 @@ impl CloudEventBuilder {
                     return Err("event_type cannot be empty".to_string());
                 }
             }
+            if let Some(Some(subject)) = &self.subject {
+                if subject.is_empty() {
+                    return Err("subject cannot be empty".to_string());
+                }
+            }
+            if let Some(Some(data_schema)) = &self.data_schema {
+                if data_schema.is_empty() {
+                    return Err("data_schema cannot be empty".to_string());
+                }
+            }
+            if let Some(Some(data_content_type)) = &self.data_content_type {
+                if data_content_type.is_empty() {
+                    return Err("data_content_type cannot be empty".to_string());
+                }
+            }
         } else {
             return Err("Invalid spec_version".to_string());
         }
