@@ -12,7 +12,7 @@
         {
             { "csharp", $"obj{Path.DirectorySeparatorChar}Akri" },
             { "go", $"akri" },
-//            { "rust", $"target{Path.DirectorySeparatorChar}akri" },
+            { "rust", $"target{Path.DirectorySeparatorChar}akri" },
         };
 
         public static readonly string[] SupportedLanguages = DefaultWorkingPaths.Keys.ToArray();

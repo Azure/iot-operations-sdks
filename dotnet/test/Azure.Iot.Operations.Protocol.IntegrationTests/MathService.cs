@@ -15,7 +15,7 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
         GetRandomCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);     
     }
 
-    public override Task<ExtendedResponse<FibCommandResponse>> FibAsync(FibCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<FibResponsePayload>> FibAsync(FibRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         System.Console.WriteLine($"--> Executing Math.Fib({request.FibRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         int FibLoop(int n)
@@ -26,9 +26,9 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
 
         var result = FibLoop(request.FibRequest.Number);
         System.Console.WriteLine($"--> Executed Math.Fib({request.FibRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<FibCommandResponse>
+        return Task.FromResult(new ExtendedResponse<FibResponsePayload>
         {
-            Response = new FibCommandResponse
+            Response = new FibResponsePayload
             {
                 FibResponse = new Object_Fib_Response
                 {
@@ -38,27 +38,27 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
         });
     }
 
-    public override Task<ExtendedResponse<GetRandomCommandResponse>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         int randomSeed = requestMetadata.CorrelationId.GetHashCode();
         System.Console.WriteLine($"--> Executing Math.GetRandom with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         var result = new Random(randomSeed).Next(50);
         System.Console.WriteLine($"--> Executed Math.GetRandom with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<GetRandomCommandResponse>
+        return Task.FromResult(new ExtendedResponse<GetRandomResponsePayload>
         {
-            Response = new GetRandomCommandResponse()
+            Response = new GetRandomResponsePayload()
             {
                 GetRandomResponse = result
             }
         });
     }
 
-    public override Task<ExtendedResponse<IsPrimeCommandResponse>> IsPrimeAsync(IsPrimeCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeAsync(IsPrimeRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing IsPrime({request.IsPrimeRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Stopwatch clock = Stopwatch.StartNew();
 
-        IsPrimeCommandResponse response = new()
+        IsPrimeResponsePayload response = new()
         {
             IsPrimeResponse = new Object_IsPrime_Response
             {
@@ -96,6 +96,6 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
         //response.IsPrimerResponse.ComputeMS = clock.Elapsed.;
         response.IsPrimeResponse.IsPrime = result;
         Console.WriteLine($"--> Executed IsPrime({request.IsPrimeRequest.Number}) took {numOps} ops. with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IsPrimeCommandResponse> { Response = response});
+        return Task.FromResult(new ExtendedResponse<IsPrimeResponsePayload> { Response = response});
     }
 }

@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'put'.
         /// </summary>
-        public class PutCommandInvoker : CommandInvoker<PutCommandRequest, PutCommandResponse>
+        public class PutCommandInvoker : CommandInvoker<PutRequestPayload, PutResponsePayload>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="PutCommandInvoker"/> class.

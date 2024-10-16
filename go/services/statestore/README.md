@@ -12,11 +12,10 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type ArgumentError](<#ArgumentError>)
 - [type Bytes](<#Bytes>)
 - [type Client](<#Client>)
-  - [func New\[K, V Bytes\]\(client mqtt.Client, opt ...ClientOption\) \(\*Client\[K, V\], error\)](<#New>)
+  - [func New\[K, V Bytes\]\(client protocol.Client, opt ...ClientOption\) \(\*Client\[K, V\], error\)](<#New>)
   - [func \(c \*Client\[K, V\]\) Del\(ctx context.Context, key K, opt ...DelOption\) \(\*Response\[int\], error\)](<#Client[K, V].Del>)
   - [func \(c \*Client\[K, V\]\) Get\(ctx context.Context, key K, opt ...GetOption\) \(\*Response\[V\], error\)](<#Client[K, V].Get>)
   - [func \(c \*Client\[K, V\]\) KeyNotify\(ctx context.Context, key K, opt ...KeyNotifyOption\) \(\*KeyNotify\[K, V\], error\)](<#Client[K, V].KeyNotify>)
-  - [func \(c \*Client\[K, V\]\) Listen\(ctx context.Context\) \(func\(\), error\)](<#Client[K, V].Listen>)
   - [func \(c \*Client\[K, V\]\) Set\(ctx context.Context, key K, val V, opt ...SetOption\) \(\*Response\[bool\], error\)](<#Client[K, V].Set>)
   - [func \(c \*Client\[K, V\]\) VDel\(ctx context.Context, key K, val V, opt ...VDelOption\) \(\*Response\[int\], error\)](<#Client[K, V].VDel>)
 - [type ClientOption](<#ClientOption>)
@@ -67,7 +66,7 @@ var (
 ```
 
 <a name="ArgumentError"></a>
-## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L50>)
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L53>)
 
 
 
@@ -76,7 +75,7 @@ type ArgumentError = errors.Argument
 ```
 
 <a name="Bytes"></a>
-## type [Bytes](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L19>)
+## type [Bytes](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L20>)
 
 Bytes represents generic byte data.
 
@@ -87,27 +86,28 @@ type Bytes interface {
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L22-L28>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L23-L31>)
 
 Client represents a client of the state store.
 
 ```go
 type Client[K, V Bytes] struct {
+    protocol.Listeners
     // contains filtered or unexported fields
 }
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L62-L65>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L65-L68>)
 
 ```go
-func New[K, V Bytes](client mqtt.Client, opt ...ClientOption) (*Client[K, V], error)
+func New[K, V Bytes](client protocol.Client, opt ...ClientOption) (*Client[K, V], error)
 ```
 
 New creates a new state store client. It takes the key and value types as parameters to avoid unnecessary casting; both may be string, \[\]byte, or equivalent types.
 
 <a name="Client[K, V].Del"></a>
-### func \(\*Client\[K, V\]\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L27-L31>)
+### func \(\*Client\[K, V\]\) [Del](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L30-L34>)
 
 ```go
 func (c *Client[K, V]) Del(ctx context.Context, key K, opt ...DelOption) (*Response[int], error)
@@ -116,7 +116,7 @@ func (c *Client[K, V]) Del(ctx context.Context, key K, opt ...DelOption) (*Respo
 Del deletes the given key. It returns the number of keys deleted \(typically 0 or 1\).
 
 <a name="Client[K, V].Get"></a>
-### func \(\*Client\[K, V\]\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L26-L30>)
+### func \(\*Client\[K, V\]\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L29-L33>)
 
 ```go
 func (c *Client[K, V]) Get(ctx context.Context, key K, opt ...GetOption) (*Response[V], error)
@@ -125,7 +125,7 @@ func (c *Client[K, V]) Get(ctx context.Context, key K, opt ...GetOption) (*Respo
 Get the value and version of the given key. If the key is not present, it returns a fully zero response struct; if the key is present but empty, it returns an empty value and the stored version.
 
 <a name="Client[K, V].KeyNotify"></a>
-### func \(\*Client\[K, V\]\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L34-L38>)
+### func \(\*Client\[K, V\]\) [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L36-L40>)
 
 ```go
 func (c *Client[K, V]) KeyNotify(ctx context.Context, key K, opt ...KeyNotifyOption) (*KeyNotify[K, V], error)
@@ -133,17 +133,8 @@ func (c *Client[K, V]) KeyNotify(ctx context.Context, key K, opt ...KeyNotifyOpt
 
 KeyNotify requests a notification channel for a key, starting notifications if necessary. It returns an object with the channel, which can be used to stop this notification request.
 
-<a name="Client[K, V].Listen"></a>
-### func \(\*Client\[K, V\]\) [Listen](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L110>)
-
-```go
-func (c *Client[K, V]) Listen(ctx context.Context) (func(), error)
-```
-
-Listen to the response topic\(s\). Returns a function to stop listening. Must be called before any state store methods. Note that cancelling this context will cause the unsubscribe call to fail.
-
 <a name="Client[K, V].Set"></a>
-### func \(\*Client\[K, V\]\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L34-L39>)
+### func \(\*Client\[K, V\]\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L37-L42>)
 
 ```go
 func (c *Client[K, V]) Set(ctx context.Context, key K, val V, opt ...SetOption) (*Response[bool], error)
@@ -152,7 +143,7 @@ func (c *Client[K, V]) Set(ctx context.Context, key K, val V, opt ...SetOption) 
 Set the value of the given key. If the key is successfully set, it returns true and the new or updated version; if the key is not set due to the specified condition, it returns false and the stored version.
 
 <a name="Client[K, V].VDel"></a>
-### func \(\*Client\[K, V\]\) [VDel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L28-L33>)
+### func \(\*Client\[K, V\]\) [VDel](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L31-L36>)
 
 ```go
 func (c *Client[K, V]) VDel(ctx context.Context, key K, val V, opt ...VDelOption) (*Response[int], error)
@@ -161,7 +152,7 @@ func (c *Client[K, V]) VDel(ctx context.Context, key K, val V, opt ...VDelOption
 VDel deletes the given key if it is equal to the given value. It returns the number of values deleted \(typically 0 or 1\) or \-1 if the key was present but did not match the given value.
 
 <a name="ClientOption"></a>
-## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L31>)
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L34>)
 
 ClientOption represents a single option for the client.
 
@@ -172,7 +163,7 @@ type ClientOption interface {
 ```
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L60>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L62>)
 
 ```go
 func WithLogger(logger *slog.Logger) ClientOption
@@ -181,7 +172,7 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L34-L38>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L37-L41>)
 
 ClientOptions are the resolved options for the client.
 
@@ -194,7 +185,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L167-L170>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L165-L168>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -203,7 +194,7 @@ func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
 Apply resolves the provided list of options.
 
 <a name="Condition"></a>
-## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L13>)
+## type [Condition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L15>)
 
 Condition specifies the conditions under which the key will be set.
 
@@ -230,7 +221,7 @@ const (
 ```
 
 <a name="DelOption"></a>
-## type [DelOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L14>)
+## type [DelOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L17>)
 
 DelOption represents a single option for the Del method.
 
@@ -241,7 +232,7 @@ type DelOption interface {
 ```
 
 <a name="DelOptions"></a>
-## type [DelOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L17-L20>)
+## type [DelOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L20-L23>)
 
 DelOptions are the resolved options for the Del method.
 
@@ -253,7 +244,7 @@ type DelOptions struct {
 ```
 
 <a name="DelOptions.Apply"></a>
-### func \(\*DelOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L43-L46>)
+### func \(\*DelOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/del.go#L46>)
 
 ```go
 func (o *DelOptions) Apply(opts []DelOption, rest ...DelOption)
@@ -262,7 +253,7 @@ func (o *DelOptions) Apply(opts []DelOption, rest ...DelOption)
 Apply resolves the provided list of options.
 
 <a name="GetOption"></a>
-## type [GetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L13>)
+## type [GetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L16>)
 
 GetOption represents a single option for the Get method.
 
@@ -273,7 +264,7 @@ type GetOption interface {
 ```
 
 <a name="GetOptions"></a>
-## type [GetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L16-L18>)
+## type [GetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L19-L21>)
 
 GetOptions are the resolved options for the Get method.
 
@@ -284,7 +275,7 @@ type GetOptions struct {
 ```
 
 <a name="GetOptions.Apply"></a>
-### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L42-L45>)
+### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/get.go#L45>)
 
 ```go
 func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
@@ -293,7 +284,7 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 Apply resolves the provided list of options.
 
 <a name="KeyNotify"></a>
-## type [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L13-L20>)
+## type [KeyNotify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L15-L22>)
 
 KeyNotify represents a registered notification request.
 
@@ -305,7 +296,7 @@ type KeyNotify[K, V Bytes] struct {
 ```
 
 <a name="KeyNotify[K, V].C"></a>
-### func \(\*KeyNotify\[K, V\]\) [C](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L63>)
+### func \(\*KeyNotify\[K, V\]\) [C](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L65>)
 
 ```go
 func (kn *KeyNotify[K, V]) C() <-chan Notify[K, V]
@@ -314,7 +305,7 @@ func (kn *KeyNotify[K, V]) C() <-chan Notify[K, V]
 C returns the channel used to receive notifications for this key.
 
 <a name="KeyNotify[K, V].Stop"></a>
-### func \(\*KeyNotify\[K, V\]\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L69-L72>)
+### func \(\*KeyNotify\[K, V\]\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L71-L74>)
 
 ```go
 func (kn *KeyNotify[K, V]) Stop(ctx context.Context, opt ...KeyNotifyOption) error
@@ -323,7 +314,7 @@ func (kn *KeyNotify[K, V]) Stop(ctx context.Context, opt ...KeyNotifyOption) err
 Stop removes this notification and stops notifications for this key if no other notifications are registered.
 
 <a name="KeyNotifyOption"></a>
-## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L23>)
+## type [KeyNotifyOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L25>)
 
 KeyNotifyOption represents a single option for the KeyNotify method.
 
@@ -334,7 +325,7 @@ type KeyNotifyOption interface {
 ```
 
 <a name="KeyNotifyOptions"></a>
-## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L26-L28>)
+## type [KeyNotifyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L28-L30>)
 
 KeyNotifyOptions are the resolved options for the KeyNotify method.
 
@@ -345,7 +336,7 @@ type KeyNotifyOptions struct {
 ```
 
 <a name="KeyNotifyOptions.Apply"></a>
-### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L128-L131>)
+### func \(\*KeyNotifyOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/keynotify.go#L130-L133>)
 
 ```go
 func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption)
@@ -354,7 +345,7 @@ func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption
 Apply resolves the provided list of options.
 
 <a name="Notify"></a>
-## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L12-L20>)
+## type [Notify](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/notify.go#L14-L22>)
 
 Notify represents a notification event.
 
@@ -371,7 +362,7 @@ type Notify[K, V Bytes] struct {
 ```
 
 <a name="PayloadError"></a>
-## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L49>)
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L52>)
 
 
 
@@ -380,7 +371,7 @@ type PayloadError = errors.Payload
 ```
 
 <a name="Response"></a>
-## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L43-L46>)
+## type [Response](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L46-L49>)
 
 Response represents a state store response, which will include a value depending on the method and the stored version returned for the key \(if any\).
 
@@ -392,7 +383,7 @@ type Response[T any] struct {
 ```
 
 <a name="ServiceError"></a>
-## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L48>)
+## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L51>)
 
 
 
@@ -401,7 +392,7 @@ type ServiceError = errors.Service
 ```
 
 <a name="SetOption"></a>
-## type [SetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L15>)
+## type [SetOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L18>)
 
 SetOption represents a single option for the Set method.
 
@@ -412,7 +403,7 @@ type SetOption interface {
 ```
 
 <a name="SetOptions"></a>
-## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L18-L23>)
+## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L21-L26>)
 
 SetOptions are the resolved options for the Set method.
 
@@ -426,7 +417,7 @@ type SetOptions struct {
 ```
 
 <a name="SetOptions.Apply"></a>
-### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L63-L66>)
+### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L66>)
 
 ```go
 func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption)
@@ -435,7 +426,7 @@ func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption)
 Apply resolves the provided list of options.
 
 <a name="VDelOption"></a>
-## type [VDelOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L14>)
+## type [VDelOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L17>)
 
 VDelOption represents a single option for the VDel method.
 
@@ -446,7 +437,7 @@ type VDelOption interface {
 ```
 
 <a name="VDelOptions"></a>
-## type [VDelOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L17-L20>)
+## type [VDelOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L20-L23>)
 
 VDelOptions are the resolved options for the VDel method.
 
@@ -458,7 +449,7 @@ type VDelOptions struct {
 ```
 
 <a name="VDelOptions.Apply"></a>
-### func \(\*VDelOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L45-L48>)
+### func \(\*VDelOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/vdel.go#L48>)
 
 ```go
 func (o *VDelOptions) Apply(opts []VDelOption, rest ...VDelOption)
@@ -467,7 +458,7 @@ func (o *VDelOptions) Apply(opts []VDelOption, rest ...VDelOption)
 Apply resolves the provided list of options.
 
 <a name="WithConcurrency"></a>
-## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L31>)
+## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L33>)
 
 WithConcurrency indicates how many notifications can execute in parallel.
 
@@ -476,7 +467,7 @@ type WithConcurrency uint
 ```
 
 <a name="WithCondition"></a>
-## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L17>)
+## type [WithCondition](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L19>)
 
 WithCondition indicates that the key should only be set under the given conditions.
 
@@ -485,7 +476,7 @@ type WithCondition Condition
 ```
 
 <a name="WithExpiry"></a>
-## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L21>)
+## type [WithExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L23>)
 
 WithExpiry indicates that the key should expire after the given duration \(with millisecond precision\).
 
@@ -494,7 +485,7 @@ type WithExpiry time.Duration
 ```
 
 <a name="WithFencingToken"></a>
-## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L25>)
+## type [WithFencingToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L27>)
 
 WithFencingToken adds a fencing token to the set request to provide lock ownership checking.
 
@@ -503,7 +494,7 @@ type WithFencingToken hlc.HybridLogicalClock
 ```
 
 <a name="WithManualAck"></a>
-## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L34>)
+## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L36>)
 
 WithManualAck allows notifications to be manually acknowledged.
 
@@ -512,7 +503,7 @@ type WithManualAck bool
 ```
 
 <a name="WithTimeout"></a>
-## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L28>)
+## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L30>)
 
 WithTimeout adds a timeout to the request \(with second precision\).
 

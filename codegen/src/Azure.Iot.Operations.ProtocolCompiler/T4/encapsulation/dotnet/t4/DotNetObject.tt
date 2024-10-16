@@ -8,6 +8,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
+    using <#=this.projectName#>;
 
 <# if (this.objectType.Description != null) { #>
     /// <summary>

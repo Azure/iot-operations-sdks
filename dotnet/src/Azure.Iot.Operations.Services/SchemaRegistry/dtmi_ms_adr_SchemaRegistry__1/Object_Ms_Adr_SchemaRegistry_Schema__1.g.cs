@@ -7,6 +7,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Services.SchemaRegistry;
 
     public class Object_Ms_Adr_SchemaRegistry_Schema__1
     {

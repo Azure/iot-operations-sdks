@@ -17,9 +17,8 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 	public partial class ManagedMemoryTelemetry : global::Avro.Specific.ISpecificRecord
 	{
 		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse("{\"type\":\"record\",\"name\":\"ManagedMemoryTelemetry\",\"namespace\":\"TestEnvoys.dtmi_akr" +
-				"i_samples_memmon__1\",\"fields\":[{\"name\":\"managedMemory\",\"type\":[\"null\",\"double\"]}" +
-				"]}");
-		private System.Nullable<System.Double> _managedMemory;
+				"i_samples_memmon__1\",\"fields\":[{\"name\":\"managedMemory\",\"type\":\"double\"}]}");
+		private double _managedMemory;
 		public virtual global::Avro.Schema Schema
 		{
 			get
@@ -27,7 +26,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 				return ManagedMemoryTelemetry._SCHEMA;
 			}
 		}
-		public System.Nullable<System.Double> managedMemory
+		public double managedMemory
 		{
 			get
 			{
@@ -50,7 +49,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 		{
 			switch (fieldPos)
 			{
-			case 0: this.managedMemory = (System.Nullable<System.Double>)fieldValue; break;
+			case 0: this.managedMemory = (System.Double)fieldValue; break;
 			default: throw new global::Avro.AvroRuntimeException("Bad index " + fieldPos + " in Put()");
 			};
 		}

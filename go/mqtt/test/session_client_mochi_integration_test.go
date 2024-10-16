@@ -1,4 +1,5 @@
-// contains integration tests that runs on Mochi, an in-process MQTT broker
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package test
 
@@ -8,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	protocol "github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"
@@ -78,7 +78,7 @@ func TestWithMochi(t *testing.T) {
 		sub, err := client.Subscribe(
 			context.Background(),
 			topicName,
-			func(context.Context, *protocol.Message) error {
+			func(context.Context, *mqtt.Message) error {
 				return nil
 			},
 		)
@@ -97,7 +97,7 @@ func TestWithMochi(t *testing.T) {
 		_, err = client.Subscribe(
 			context.Background(),
 			topicName,
-			func(_ context.Context, msg *protocol.Message) error {
+			func(_ context.Context, msg *mqtt.Message) error {
 				require.Equal(t, topicName, msg.Topic)
 				require.Equal(t, []byte(publishMessage), msg.Payload)
 				close(subscribed)

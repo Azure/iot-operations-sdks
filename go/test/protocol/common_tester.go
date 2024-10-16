@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -5,8 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 )

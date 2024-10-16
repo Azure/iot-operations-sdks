@@ -16,7 +16,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("avrogen", "1.11.3")]
 	public partial class MemoryStatsTelemetry : global::Avro.Specific.ISpecificRecord
 	{
-		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse(@"{""type"":""record"",""name"":""MemoryStatsTelemetry"",""namespace"":""TestEnvoys.dtmi_akri_samples_memmon__1"",""fields"":[{""name"":""memoryStats"",""type"":[""null"",{""type"":""record"",""name"":""Object_MemoryStats"",""namespace"":""TestEnvoys.dtmi_akri_samples_memmon__1"",""fields"":[{""name"":""managedMemory"",""type"":[""null"",""double""]},{""name"":""workingSet"",""type"":[""null"",""double""]}]}]}]}");
+		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse(@"{""type"":""record"",""name"":""MemoryStatsTelemetry"",""namespace"":""TestEnvoys.dtmi_akri_samples_memmon__1"",""fields"":[{""name"":""memoryStats"",""type"":{""type"":""record"",""name"":""Object_MemoryStats"",""namespace"":""TestEnvoys.dtmi_akri_samples_memmon__1"",""fields"":[{""name"":""managedMemory"",""type"":[""null"",""double""]},{""name"":""workingSet"",""type"":[""null"",""double""]}]}}]}");
 		private TestEnvoys.dtmi_akri_samples_memmon__1.Object_MemoryStats _memoryStats;
 		public virtual global::Avro.Schema Schema
 		{

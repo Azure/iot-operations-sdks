@@ -5,6 +5,7 @@ go 1.23.0
 require (
 	github.com/Azure/iot-operations-sdks/go/protocol v0.0.0
 	github.com/google/uuid v1.6.0
+	github.com/shopspring/decimal v1.4.0
 	github.com/sosodev/duration v1.3.1
 )
 
