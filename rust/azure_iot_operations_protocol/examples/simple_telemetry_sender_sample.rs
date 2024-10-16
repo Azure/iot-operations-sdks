@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 use std::time::Duration;
 
 use env_logger::Builder;

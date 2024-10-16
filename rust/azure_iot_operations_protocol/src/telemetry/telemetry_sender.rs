@@ -340,10 +340,9 @@ where
         // Create timestamp
         let timestamp = HybridLogicalClock::new();
 
-        // Create correlation id (can reuse the one from timestamp)
-        // let correlation_id = Uuid::new_v4();
-        // let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
-        let correlation_data = Bytes::from(timestamp.node_id.as_bytes().to_vec());
+        // Create correlation id
+        let correlation_id = Uuid::new_v4();
+        let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
