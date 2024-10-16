@@ -27,27 +27,12 @@ const authenticate = (req, res, next) => {
 // Apply the authentication middleware to all routes
 app.use(authenticate);
 
-app.get("/api/machine/status", (req, res) => {
+app.get("/api/machine/my_thermostat_1/status", (req, res) => {
     const contextList = {
-        status: "running",
+        desired_temperature: "91",
+        actual_temperature: "85"
     };
     
-    res.json(contextList);
-});
-
-app.get("/api/machine/id", (req, res) => {
-    const contextList = {
-        machine_id: "some_machine_id",
-    };
-
-    res.json(contextList);
-});
-
-app.get("/api/machine/maintenance", (req, res) => {
-    const contextList = {
-        machine_id: "1/1/2000  12:15:12 PM",
-    };
-
     res.json(contextList);
 });
 
