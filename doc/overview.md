@@ -35,6 +35,3 @@ The Azure IoT Operations SDKs provide a number of layers for a customer to engag
 1. A set of clients implementing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
 
 1. The Protocol Compiler allows clients and servers to communicate via a schema contract. Describe the communication (Telemetry, RPC and serialization) using DTDL, then generate a set of client libraries and server library stubs across a set of popular programming languages.
-
-## Language Support
-

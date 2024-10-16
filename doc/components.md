@@ -43,7 +43,7 @@ The following is the major components of the SDKs which are currently available 
 
 1. **ADR client**
 
-    The ADR client allows an application to access in configuration required to connect to asset endpoints at the edge. The configuration will contain information such as the hostname, port, username, password and certificates needed to connect to edge service.
+    The ADR *(Azure Device Registry)* client provides the application the AEP *(Asset Endpoint Profile)*. The configuration will contain information such as the hostname, port, username, password and certificates needed to connect to customers edge service.
 
 1. **Leader election client**
 
@@ -51,5 +51,5 @@ The following is the major components of the SDKs which are currently available 
 
 1. **Lease lock client**
 
-The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
+    The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
 
