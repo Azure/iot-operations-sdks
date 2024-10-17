@@ -65,7 +65,7 @@ impl CloudEventFields {
                 }
             }
         } else {
-            return Err(format!("Invalid spec version: {}", spec_version));
+            return Err(format!("Invalid spec version: {spec_version}"));
         }
         Ok(())
     }
