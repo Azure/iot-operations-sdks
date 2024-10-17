@@ -52,10 +52,13 @@ jobs:
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
-    - name: Build CodeGen (Debug)
-      run: dotnet build -c Debug codegen/codegen.sln
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
 
-    - name: Test CodeGen
+    - name: Build CodeGen including T4 template generation (Debug)
+      run: msbuild codegen/codegen.sln -t:Build -p:Configuration=Debug
+
+    - name: Test CodeGen using generated templates from previous step
       run: dotnet test codegen/codegen.sln
 
     - name: CodeGen .NET TestEnvoys
