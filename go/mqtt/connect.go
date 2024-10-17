@@ -16,8 +16,6 @@ import (
 	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
-type ()
-
 // RegisterConnectEventHandler registers a handler to a list of handlers that
 // are called synchronously in registration order whenever the SessionClient
 // successfully establishes an MQTT connection. Note that since the handler
