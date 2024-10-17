@@ -104,12 +104,12 @@ func (ts *TelemetrySender[T]) Send(
 	var opts SendOptions
 	opts.Apply(opt)
 
-	_, err = internal.NewTimeout(
-		opts.Timeout,
-		errors.ArgumentInvalid,
-		telemetrySenderErrStr,
-	)
-	if err != nil {
+	expiry := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "MessageExpiry",
+		Text:     telemetrySenderErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
 		return err
 	}
 

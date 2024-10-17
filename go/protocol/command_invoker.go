@@ -180,12 +180,12 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
-	expiry, err := internal.NewTimeout(
-		opts.Timeout,
-		errors.ArgumentInvalid,
-		commandInvokerErrStr,
-	)
-	if err != nil {
+	expiry := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "MessageExpiry",
+		Text:     commandInvokerErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
 		return nil, err
 	}
 
@@ -225,7 +225,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := expiry(ctx)
+	ctx, cancel := expiry.Context(ctx)
 	defer cancel()
 
 	select {

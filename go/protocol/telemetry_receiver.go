@@ -24,7 +24,7 @@ type (
 		listener  *listener[T]
 		handler   TelemetryHandler[T]
 		manualAck bool
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 	}
 
 	// TelemetryReceiverOption represents a single telemetry receiver option.
@@ -88,12 +88,12 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	to, err := internal.NewTimeout(
-		opts.Timeout,
-		errors.ConfigurationInvalid,
-		telemetryReceiverErrStr,
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     telemetryReceiverErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
@@ -164,7 +164,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		message.Ack = pub.Ack
 	}
 
-	handlerCtx, cancel := tr.timeout(ctx)
+	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
 	if err := tr.handle(handlerCtx, message); err != nil {

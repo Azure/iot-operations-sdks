@@ -27,7 +27,7 @@ type (
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 		cache     *caching.Cache
 	}
 
@@ -129,12 +129,12 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	to, err := internal.NewTimeout(
-		opts.Timeout,
-		errors.ConfigurationInvalid,
-		commandExecutorErrStr,
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     commandExecutorErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
@@ -238,19 +238,14 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			return nil, err
 		}
 
-		handlerCtx, cancel := ce.timeout(ctx)
+		handlerCtx, cancel := ce.timeout.Context(ctx)
 		defer cancel()
 
-		expiry, err := internal.NewTimeout(
-			time.Duration(pub.MessageExpiry)*time.Second,
-			errors.StateInvalid,
-			commandExecutorErrStr,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		handlerCtx, cancel = expiry(handlerCtx)
+		handlerCtx, cancel = (&internal.Timeout{
+			Duration: time.Duration(pub.MessageExpiry) * time.Second,
+			Name:     "MessageExpiry",
+			Text:     commandExecutorErrStr,
+		}).Context(handlerCtx)
 		defer cancel()
 
 		res, err := ce.handle(handlerCtx, req)

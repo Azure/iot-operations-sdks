@@ -12,14 +12,17 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
-// Function to apply an optional timeout.
-type Timeout = func(context.Context) (context.Context, context.CancelFunc)
+// Struct to apply an optional timeout.
+type Timeout struct {
+	time.Duration
+	Name string
+	Text string
+}
 
-// Apply an optional context timeout. Use for WithExecutionTimeout.
-func NewTimeout(to time.Duration, kind errors.Kind, s string) (Timeout, error) {
+func (to *Timeout) Validate(kind errors.Kind) error {
 	switch {
-	case to < 0:
-		return nil, &errors.Error{
+	case to.Duration < 0:
+		return &errors.Error{
 			Message:       "timeout cannot be negative",
 			Kind:          kind,
 			PropertyName:  "Timeout",
@@ -27,24 +30,28 @@ func NewTimeout(to time.Duration, kind errors.Kind, s string) (Timeout, error) {
 		}
 
 	case to.Seconds() > math.MaxUint32:
-		return nil, &errors.Error{
+		return &errors.Error{
 			Message:       "timeout too large",
 			Kind:          kind,
 			PropertyName:  "Timeout",
 			PropertyValue: to,
 		}
 
-	case to == 0:
-		return context.WithCancel, nil
-
 	default:
-		return func(ctx context.Context) (context.Context, context.CancelFunc) {
-			return wallclock.Instance.WithTimeoutCause(ctx, to, &errors.Error{
-				Message:      fmt.Sprintf("%s timed out", s),
-				Kind:         errors.Timeout,
-				TimeoutName:  "Timeout",
-				TimeoutValue: to,
-			})
-		}, nil
+		return nil
 	}
+}
+
+func (to *Timeout) Context(
+	ctx context.Context,
+) (context.Context, context.CancelFunc) {
+	if to.Duration == 0 {
+		return context.WithCancel(ctx)
+	}
+	return wallclock.Instance.WithTimeoutCause(ctx, to.Duration, &errors.Error{
+		Message:      fmt.Sprintf("%s timed out", to.Text),
+		Kind:         errors.Timeout,
+		TimeoutName:  to.Name,
+		TimeoutValue: to.Duration,
+	})
 }
