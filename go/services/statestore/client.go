@@ -9,6 +9,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
@@ -21,7 +23,8 @@ type (
 
 	// Client represents a client of the state store.
 	Client[K, V Bytes] struct {
-		protocol.Listeners
+		listeners protocol.Listeners
+		done      func()
 
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
 		receiver *protocol.TelemetryReceiver[[]byte]
@@ -30,7 +33,9 @@ type (
 		notifyMu sync.RWMutex
 
 		keynotify   map[string]uint
-		keynotifyMu sync.Mutex
+		keynotifyMu sync.RWMutex
+
+		manualAck bool
 	}
 
 	// ClientOption represents a single option for the client.
@@ -54,6 +59,11 @@ type (
 	ServiceError  = errors.Service
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
+
+	MqttClient interface {
+		protocol.MqttClient
+		RegisterConnectEventHandler(mqtt.ConnectEventHandler) func()
+	}
 )
 
 var (
@@ -66,7 +76,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client protocol.MqttClient,
+	client MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{
@@ -77,6 +87,7 @@ func New[K, V Bytes](
 
 	var opts ClientOptions
 	opts.Apply(opt)
+	c.manualAck = opts.ManualAck
 
 	tokens := protocol.WithTopicTokens{
 		"clientId": strings.ToUpper(hex.EncodeToString([]byte(client.ID()))),
@@ -93,8 +104,10 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
+		c.listeners.Close()
 		return nil, err
 	}
+	c.listeners = append(c.listeners, c.invoker)
 
 	c.receiver, err = protocol.NewTelemetryReceiver(
 		client,
@@ -105,12 +118,32 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.Close()
+		c.listeners.Close()
 		return nil, err
 	}
-	c.Listeners = append(c.Listeners, c.invoker)
+	c.listeners = append(c.listeners, c.invoker)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	done := client.RegisterConnectEventHandler(func(*mqtt.ConnectEvent) {
+		c.reconnect(ctx)
+	})
+	c.done = func() {
+		done()
+		cancel()
+	}
 
 	return c, nil
+}
+
+// Start listening to all underlying MQTT topics.
+func (c *Client[K, V]) Start(ctx context.Context) error {
+	return c.listeners.Start(ctx)
+}
+
+// Close all underlying MQTT topics and free resources.
+func (c *Client[K, V]) Close() {
+	c.done()
+	c.listeners.Close()
 }
 
 // Shorthand to invoke and parse.
@@ -170,15 +203,8 @@ func (o *ClientOptions) Apply(
 	opts []ClientOption,
 	rest ...ClientOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.client(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.client(o)
-		}
+	for opt := range options.Apply[ClientOption](opts, rest...) {
+		opt.client(o)
 	}
 }
 

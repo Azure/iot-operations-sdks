@@ -15,9 +15,9 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(o \*AuthOptions\) Apply\(opts \[\]AuthOption, rest ...AuthOption\)](<#AuthOptions.Apply>)
 - [type ConnackPacket](<#ConnackPacket>)
 - [type ConnectEvent](<#ConnectEvent>)
-- [type ConnectNotificationHandler](<#ConnectNotificationHandler>)
+- [type ConnectEventHandler](<#ConnectEventHandler>)
 - [type DisconnectEvent](<#DisconnectEvent>)
-- [type DisconnectNotificationHandler](<#DisconnectNotificationHandler>)
+- [type DisconnectEventHandler](<#DisconnectEventHandler>)
 - [type DisconnectPacket](<#DisconnectPacket>)
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
@@ -33,8 +33,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(c \*SessionClient\) ID\(\) string](<#SessionClient.ID>)
   - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...PublishOption\) error](<#SessionClient.Publish>)
   - [func \(c \*SessionClient\) Reauthenticate\(ctx context.Context, opts ...AuthOption\) error](<#SessionClient.Reauthenticate>)
-  - [func \(c \*SessionClient\) RegisterConnectNotificationHandler\(handler ConnectNotificationHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterConnectNotificationHandler>)
-  - [func \(c \*SessionClient\) RegisterDisconnectNotificationHandler\(handler DisconnectNotificationHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterDisconnectNotificationHandler>)
+  - [func \(c \*SessionClient\) RegisterConnectEventHandler\(handler ConnectEventHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterConnectEventHandler>)
+  - [func \(c \*SessionClient\) RegisterDisconnectEventHandler\(handler DisconnectEventHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterDisconnectEventHandler>)
   - [func \(c \*SessionClient\) RegisterFatalErrorHandler\(handler func\(error\)\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterFatalErrorHandler>)
   - [func \(c \*SessionClient\) RegisterMessageHandler\(handler MessageHandler\) func\(\)](<#SessionClient.RegisterMessageHandler>)
   - [func \(c \*SessionClient\) Subscribe\(ctx context.Context, topic string, opts ...SubscribeOption\) error](<#SessionClient.Subscribe>)
@@ -187,13 +187,13 @@ type ConnectEvent struct {
 }
 ```
 
-<a name="ConnectNotificationHandler"></a>
-## type [ConnectNotificationHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L31>)
+<a name="ConnectEventHandler"></a>
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L31>)
 
 
 
 ```go
-type ConnectNotificationHandler = func(*ConnectEvent)
+type ConnectEventHandler = func(*ConnectEvent)
 ```
 
 <a name="DisconnectEvent"></a>
@@ -210,13 +210,13 @@ type DisconnectEvent struct {
 }
 ```
 
-<a name="DisconnectNotificationHandler"></a>
-## type [DisconnectNotificationHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L46>)
+<a name="DisconnectEventHandler"></a>
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L46>)
 
 
 
 ```go
-type DisconnectNotificationHandler = func(*DisconnectEvent)
+type DisconnectEventHandler = func(*DisconnectEvent)
 ```
 
 <a name="DisconnectPacket"></a>
@@ -395,23 +395,23 @@ func (c *SessionClient) Reauthenticate(ctx context.Context, opts ...AuthOption) 
 
 Reauthenticate initiates credential reauthentication with the server. It sends the initial Auth packet to start reauthentication, then relies on the user's AuthHandler to manage further requests from the server until a successful Auth packet is passed back or a Disconnect is received.
 
-<a name="SessionClient.RegisterConnectNotificationHandler"></a>
-### func \(\*SessionClient\) [RegisterConnectNotificationHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L54-L56>)
+<a name="SessionClient.RegisterConnectEventHandler"></a>
+### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L54-L56>)
 
 ```go
-func (c *SessionClient) RegisterConnectNotificationHandler(handler ConnectNotificationHandler) (unregisterHandler func())
+func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler) (unregisterHandler func())
 ```
 
-RegisterConnectNotificationHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
+RegisterConnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
-<a name="SessionClient.RegisterDisconnectNotificationHandler"></a>
-### func \(\*SessionClient\) [RegisterDisconnectNotificationHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L65-L67>)
+<a name="SessionClient.RegisterDisconnectEventHandler"></a>
+### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L65-L67>)
 
 ```go
-func (c *SessionClient) RegisterDisconnectNotificationHandler(handler DisconnectNotificationHandler) (unregisterHandler func())
+func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHandler) (unregisterHandler func())
 ```
 
-RegisterDisconnectNotificationHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
+RegisterDisconnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
 <a name="SessionClient.RegisterFatalErrorHandler"></a>
 ### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L73-L75>)

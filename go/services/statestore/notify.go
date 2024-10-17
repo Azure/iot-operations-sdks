@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
@@ -16,6 +17,7 @@ type Notify[K, V Bytes] struct {
 	Key       K
 	Operation string
 	Value     V
+	Version   hlc.HybridLogicalClock
 
 	// Ack provides a function to manually ack if enabled; it will be nil
 	// otherwise.
@@ -26,6 +28,9 @@ type Notify[K, V Bytes] struct {
 // a function to remove and close that channel. Note that KeyNotify must be
 // called to actually perform the notification request (though notifications may
 // be received on this channel if KeyNotify had already been called previously).
+// Also please note that the state store does not queue messages when the client
+// is disconnected, therefore notifications received on this channel are not
+// guaranteed, may be duplicated, and may come out-of-order during reconnection.
 func (c *Client[K, V]) Notify(key K) (<-chan Notify[K, V], func()) {
 	k := string(key)
 
@@ -94,17 +99,21 @@ func (c *Client[K, V]) notifyReceive(
 		val = V(data[3])
 	}
 
+	c.notifySend(ctx, &Notify[K, V]{key, op, val, msg.Timestamp, msg.Ack})
+
+	return nil
+}
+
+func (c *Client[K, V]) notifySend(ctx context.Context, notify *Notify[K, V]) {
 	// TODO: Lock less globally if possible, but keep it simple for now.
 	c.notifyMu.RLock()
 	defer c.notifyMu.RUnlock()
 
-	for ch, done := range c.notify[string(bytKey)] {
+	for ch, done := range c.notify[string(notify.Key)] {
 		select {
-		case ch <- Notify[K, V]{key, op, val, msg.Ack}:
+		case ch <- *notify:
 		case <-done:
 		case <-ctx.Done():
 		}
 	}
-
-	return nil
 }
