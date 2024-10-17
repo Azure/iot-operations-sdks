@@ -93,7 +93,8 @@ where
     /// # Panics
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
-    pub fn new(client: C, options: &ClientOptions) -> Result<Self, StateStoreError> {
+    #[allow(clippy::needless_pass_by_value)]
+    pub fn new(client: C, options: ClientOptions) -> Result<Self, StateStoreError> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -632,7 +633,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -656,7 +657,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
@@ -672,7 +673,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -690,7 +691,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -708,7 +709,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -726,7 +727,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -744,7 +745,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -768,7 +769,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -786,7 +787,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -804,7 +805,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -827,7 +828,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
@@ -845,7 +846,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            &super::ClientOptionsBuilder::default().build().unwrap(),
+            super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
