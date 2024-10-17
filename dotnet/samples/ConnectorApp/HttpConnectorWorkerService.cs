@@ -117,14 +117,12 @@ namespace Azure.Iot.Operations.ConnectorSample
             string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
 
-            _logger.LogInformation($"Reading thermostat status from HTTP server asset");
             string desiredTemperatureValue = await httpServerDesiredTemperatureDataRetriever.RetrieveDataAsync(httpServerDesiredTemperatureDataPoint.Name);
             string actualTemperatureValue = await httpServerActualTemperatureDataRetriever.RetrieveDataAsync(httpServerActualTemperatureDataPoint.Name);
 
             var thermostatStatus = new ThermostatStatus(desiredTemperatureValue, actualTemperatureValue);
-            _logger.LogInformation($"Successfully read thermostat status from HTTP server asset: {thermostatStatus}");
+            _logger.LogInformation($"Read thermostat status from HTTP server asset: {thermostatStatus}. Now publishing it to MQTT broker");
 
-            _logger.LogInformation($"Sending thermostat status to MQTT broker");
             var mqttMessage = new MqttApplicationMessage(httpServerStatusDataset.Topic!.Path!)
             {
                 PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus)),
