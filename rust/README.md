@@ -9,7 +9,7 @@ The following Azure IoT Operations crates are available:
 | - | -|
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
-| **azure_iot_operations_services** | COMING SOON
+| [**azure_iot_operations_services**](azure_iot_operations_services) | Utilities for using Azure IoT Operations Services (State Store)
 
 ## Getting started with Rust
 To get familiar with the Rust language, there are several resources available in our [Rust Resources](../doc/dev/rust_resources.md) guide.
@@ -43,6 +43,7 @@ To get familiar with the Rust language, there are several resources available in
     [dependencies]
     azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>"}
     azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>" }
+    azure_iot_operations_services = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>" }
     ```
     > We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull.
     >To get the latest build, just pass the `git` argument by itself, with no other parameters, although this is not recommended.

@@ -36,13 +36,13 @@ type ArcMutexHashmap<K, V> = Arc<Mutex<HashMap<K, V>>>;
 
 /// A struct to manage receiving notifications for a key
 #[derive(Debug)]
-pub struct Observation {
+pub struct KeyObservation {
     /// The name of the key (for convenience)
     pub key: Vec<u8>,
     /// The internal channel for receiving notifications for this key
     receiver: Receiver<(state_store::KeyNotification, Option<AckToken>)>,
 }
-impl Observation {
+impl KeyObservation {
     /// Receives a [`state_store::KeyNotification`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
@@ -351,7 +351,7 @@ where
 
     /// Internal function calling invoke for observe command to allow all errors to be captured in one place
     async fn invoke_observe(
-        &mut self,
+        &self,
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<()>, StateStoreError> {
@@ -380,8 +380,15 @@ where
 
     /// Starts observation of any changes on a key from the State Store Service
     ///
-    /// Returns `OK([`Observation`])` if the key is now being observed.
-    /// The [`Observation`] can be used to receive key notifications for this key
+    /// Returns `OK([KeyObservation])` if the key is now being observed.
+    /// The [`KeyObservation`] can be used to receive key notifications for this key
+    ///
+    /// CAUTION! If a client disconnects, it must resend the Observe for any keys
+    /// it needs to continue monitoring. Unlike MQTT subscriptions, which can be
+    /// persisted across a nonclean session, the state store internally removes
+    /// any key observations when a given client disconnects. This is a known
+    /// limitation of the service, see [here](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#keynotify-notification-topics-and-lifecycle)
+    /// for more information
     ///
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
@@ -397,10 +404,10 @@ where
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn observe(
-        &mut self,
+        &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<Observation>, StateStoreError> {
+    ) -> Result<state_store::Response<KeyObservation>, StateStoreError> {
         if key.is_empty() {
             return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
         }
@@ -415,25 +422,27 @@ where
         {
             let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
 
-            if let Some(sender) = observed_keys_mutex_guard.get_mut(&encoded_key_name) {
-                if sender.is_closed() {
-                    log::info!("inserting key into observed list {encoded_key_name:?}");
-                    observed_keys_mutex_guard.insert(encoded_key_name.clone(), tx);
-                } else {
+            match observed_keys_mutex_guard.get_mut(&encoded_key_name) {
+                Some(sender) if sender.is_closed() => {
+                    // KeyObservation has been dropped, so we can give out a new receiver
+                }
+                Some(_) => {
                     log::info!("key already is being observed");
                     return Err(StateStoreError(StateStoreErrorKind::DuplicateObserve));
                 }
-            } else {
-                log::info!("inserting key into observed list {encoded_key_name:?}");
-                observed_keys_mutex_guard.insert(encoded_key_name.clone(), tx);
+                None => {
+                    // There is no KeyObservation for this key, so we can create it
+                }
             }
+            log::info!("inserting key into observed list {encoded_key_name:?}");
+            observed_keys_mutex_guard.insert(encoded_key_name.clone(), tx);
             // release the observed_keys_mutex_guard
         }
 
         // Capture any errors from the command invoke so we can remove the key from the observed_keys hashmap
         match self.invoke_observe(key.clone(), timeout).await {
             Ok(r) => Ok(state_store::Response {
-                response: Observation { key, receiver: rx },
+                response: KeyObservation { key, receiver: rx },
                 version: r.version,
             }),
             Err(e) => {
@@ -468,7 +477,6 @@ where
     ///
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
-    /// - there are any underlying errors from [`TelemetryReceiver::stop`] // TODO: change this to whatever it should be
     pub async fn unobserve(
         &self,
         key: Vec<u8>,
@@ -542,6 +550,7 @@ where
                                 let key_notification = state_store::KeyNotification {
                                     key: key_name.clone(),
                                     operation: notification.payload.clone(),
+                                    version: notification.timestamp,
                                 };
 
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
@@ -694,6 +703,42 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_observe_empty_key() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            managed_client,
+            &super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+        let response = state_store_client
+            .observe(vec![], Duration::from_secs(1))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_empty_key() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            managed_client,
+            &super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+        let response = state_store_client
+            .unobserve(vec![], Duration::from_secs(1))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+        ));
+    }
+
+    #[tokio::test]
     async fn test_set_invalid_timeout() {
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -769,6 +814,42 @@ mod tests {
                 None,
                 Duration::from_nanos(50),
             )
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_observe_invalid_timeout() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            managed_client,
+            &super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+        let response = state_store_client
+            .observe(b"testKey".to_vec(), Duration::from_nanos(50))
+            .await;
+        assert!(matches!(
+            response.unwrap_err(),
+            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_invalid_timeout() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            managed_client,
+            &super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+        let response = state_store_client
+            .unobserve(b"testKey".to_vec(), Duration::from_nanos(50))
             .await;
         assert!(matches!(
             response.unwrap_err(),

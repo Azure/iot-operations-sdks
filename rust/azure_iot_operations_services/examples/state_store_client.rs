@@ -46,7 +46,7 @@ async fn state_store_operations(client: SessionManagedClient, exit_handle: Sessi
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
 
-    let mut state_store_client: state_store::Client<_> = state_store::Client::new(
+    let state_store_client = state_store::Client::new(
         client,
         &state_store::ClientOptionsBuilder::default()
             .build()

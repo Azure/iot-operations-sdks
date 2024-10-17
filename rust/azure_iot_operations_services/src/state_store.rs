@@ -161,4 +161,6 @@ pub struct KeyNotification {
     pub key: Vec<u8>,
     /// The [`Operation`] that was performed on the key
     pub operation: Operation,
+    /// The version of the key as a [`HybridLogicalClock`].
+    pub version: Option<HybridLogicalClock>,
 }
