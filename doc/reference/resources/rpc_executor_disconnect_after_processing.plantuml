@@ -1,0 +1,110 @@
+@startuml 
+box Invoker
+participant "Invoker\napp logic" as ial
+participant "Invoker\nclient" as i
+end box
+
+participant "Broker" as b
+
+box Executor
+participant "Executor\nMQTT client" as emc
+participant "Executor" as e
+queue "MsgQueue" as q
+participant "Dispatcher" as d
+entity "Semaphore" as sem
+participant "Ack'er" as acker
+queue "AckQueue" as ack
+participant "Executor\nThread 1" as t1
+
+database "Cache" as c
+note over c: cleared regularly by timer
+participant "Executor\napp logic" as al
+end box
+autonumber 
+
+group Initialization
+group Invoker initialization
+ial -> i : Initialize
+i -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=InvokerID
+b --> i : CONNACK
+i -> b : SUB \n"response topic"
+b --> i : SUBACK
+end
+group Executor initialization
+e -> sem : init(1)
+create emc
+e -> emc : create
+create d
+e -> d : create
+create acker
+e -> acker : create
+emc -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=executorId
+b --> emc : CONNACK
+e -> emc : SUB \n"request topic"
+emc -> b : SUB \n"request topic"
+b --> emc : SUBACK
+end
+end
+
+ial -> i :  Invoke method 1 \nRPC request
+group Handle executor disconnect
+
+i -> b : PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+b --> i : PUBACK\nPktId:1
+
+group Executor handling
+b -> emc : <font color=maroon>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+emc -> e : <font color=maroon>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+e -> q : <font color=maroon>Enqueue request \nPktId:1; CorId:1; DUP=0
+
+d -> q : <font color=maroon>Read request \nPktId:1; CorId:1; DUP=0
+
+d -> ack : <font color=maroon>Try to add a placeholder for request PUBACK \nPktId:1; DUP=0
+ack --> d : <font color=maroon>Placeholder for request PUBACK added \nPktId:1; DUP=0
+d -> sem : <font color=maroon>request thread \n<font color=maroon>semaphore
+sem --> d : <font color=maroon>semaphore \n<font color=maroon>acquired\n(1 remaining)
+d -> t1 ++ #005500 : <font color=maroon>Start request execution \nPktId:1; CorId:1; DUP=0
+t1 -> c : <font color=maroon>Try to add a \n<font color=maroon>placeholder for the \n<font color=maroon>cached response \nCorId:1
+c --> t1 : <font color=maroon>Placeholder for \n<font color=maroon>cached response \n<font color=maroon>created \nCorId:1
+t1 -> al : <font color=maroon>Execute request
+al --> t1 : <font color=maroon>Response
+t1 -> c : <font color=maroon>Update placeholder \n<font color=maroon>with cache \n<font color=maroon> request:response \nCorId:1
+t1 -> emc : <font color=maroon>Send response \nCorId:1
+
+group Executor disconnect and reconnect
+emc -x b : DISCONNECT
+t1 -> sem -- : <font color=maroon>Release semaphore
+
+emc -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=executorId
+b --> emc : CONNACK
+
+b -> emc : <font color=blue>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=1
+emc -> e : <font color=blue>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=1
+e -> q : <font color=blue>Enqueue request \nPktId:1; CorId:1; DUP=1
+
+d -> q : <font color=blue>Read request \nPktId:1; CorId:1; DUP=1
+d -> ack : <font color=blue>Try to add a placeholder for request PUBACK \nPktId:1; DUP=1
+ack --> d : <font color=blue>Placeholder for request PUBACK is present. \n<font color=blue>Use it. \nPktId:1; DUP=1
+d -> sem : <font color=blue>request thread \n<font color=blue>semaphore
+sem --> d : <font color=blue>semaphore \n<font color=blue>acquired\n(1 remaining)
+d -> t1 ++ #005500 : <font color=blue>Start request execution \nPktId:1; CorId:1; DUP=1
+t1 -> c : <font color=blue>Try to add a \n<font color=blue>placeholder for the \n<font color=blue>cached response \nCorId:1
+c --> t1 : <font color=blue>Placeholder for \n<font color=blue>cached response \n<font color=blue>is present. \nCorId:1
+t1 -> c : <font color=blue>Wait until cache \n<font color=blue>response placeholder \n<font color=blue>is populated \nCorId:1
+c --> t1 : <font color=blue>Cached response \n<font color=blue>available \nCorId:1
+t1 -> emc : <font color=blue> Send response \nCorId:1
+emc -> b : <font color=blue>PUB response \n(response topic) \nCorId:1
+b --> emc : <font color=blue>PUBACK
+t1 -> ack : <font color=blue>Enqueue ack \nPktId:1; DUP=1
+t1 -> sem -- : <font color=blue>Release semaphore
+
+acker -> ack : Read ack
+acker --> b : <font color=blue>PUBACK PktId:1; CorId:1
+end
+
+b -> i: PUB MQTT msg\n(RPC response 1)\nPktId:1; CorId:1
+i --> b : PUBACK \n(RPC response 1)\nPktId:1; CorId:1
+i --> ial : RPC Response
+end
+
+@enduml
