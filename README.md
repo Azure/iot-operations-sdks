@@ -36,7 +36,7 @@ The focus of the SDKs it to assist customers in developing applications by provi
 Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine.
 
 > [!NOTE] 
-> For alternative platforms and more in-depth setup instruction, refer to the [environment setup](/doc/setup-environment.md) document.
+> For alternative platforms and more in-depth setup instruction, refer to the [environment setup](/doc/setup.md) document.
 
 1. Create a **codespace**, and enter your Azure details to store them as environment variables:
 
