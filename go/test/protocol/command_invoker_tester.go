@@ -287,7 +287,7 @@ func invokeCommand(
 	options := []protocol.InvokeOption{}
 	options = append(
 		options,
-		protocol.WithMessageExpiry(actionInvokeCommand.Timeout.ToDuration()),
+		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
 	)
 
 	if actionInvokeCommand.ExecutorID != nil {

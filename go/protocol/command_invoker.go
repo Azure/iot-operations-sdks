@@ -50,9 +50,9 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry time.Duration
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithResponseTopic specifies a translation function from the request topic
@@ -180,6 +180,15 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
+	expiry, err := internal.NewTimeout(
+		opts.Timeout,
+		errors.ArgumentInvalid,
+		commandInvokerErrStr,
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
 		return nil, err
@@ -190,7 +199,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.Timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -216,11 +225,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := internal.MessageExpiryTimeout(
-		ctx,
-		pub.MessageExpiry,
-		commandInvokerErrStr,
-	)
+	ctx, cancel := expiry(ctx)
 	defer cancel()
 
 	select {

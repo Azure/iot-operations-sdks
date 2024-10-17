@@ -39,9 +39,9 @@ type (
 		Idempotent bool
 		CacheTTL   time.Duration
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -129,8 +129,9 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(
-		opts.ExecutionTimeout,
+	to, err := internal.NewTimeout(
+		opts.Timeout,
+		errors.ConfigurationInvalid,
 		commandExecutorErrStr,
 	)
 	if err != nil {
@@ -240,11 +241,16 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		handlerCtx, cancel := ce.timeout(ctx)
 		defer cancel()
 
-		handlerCtx, cancel = internal.MessageExpiryTimeout(
-			handlerCtx,
-			pub.MessageExpiry,
+		expiry, err := internal.NewTimeout(
+			time.Duration(pub.MessageExpiry)*time.Second,
+			errors.StateInvalid,
 			commandExecutorErrStr,
 		)
+		if err != nil {
+			return nil, err
+		}
+
+		handlerCtx, cancel = expiry(handlerCtx)
 		defer cancel()
 
 		res, err := ce.handle(handlerCtx, req)

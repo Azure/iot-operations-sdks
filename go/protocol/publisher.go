@@ -27,7 +27,7 @@ const DefaultMessageExpiry = 10 * time.Second
 func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
-	expiry time.Duration,
+	timeout time.Duration,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
@@ -39,13 +39,13 @@ func (p *publisher[T]) build(
 		}
 	}
 
-	if expiry == 0 {
-		expiry = DefaultMessageExpiry
+	if timeout == 0 {
+		timeout = DefaultMessageExpiry
 	}
 
 	pub.PublishOptions = mqtt.PublishOptions{
 		QoS:           1,
-		MessageExpiry: uint32(expiry.Seconds()),
+		MessageExpiry: uint32(timeout.Seconds()),
 	}
 
 	if msg != nil {

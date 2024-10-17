@@ -60,6 +60,6 @@ func (o WithTimeout) get(opt *GetOptions) {
 
 func (o *GetOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: o.Timeout,
+		Timeout: o.Timeout,
 	}
 }

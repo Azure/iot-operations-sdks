@@ -93,7 +93,7 @@ func (o WithTimeout) set(opt *SetOptions) {
 
 func (o *SetOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: o.Timeout,
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }

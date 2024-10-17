@@ -67,7 +67,7 @@ func (o WithTimeout) vdel(opt *VDelOptions) {
 
 func (o *VDelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: o.Timeout,
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }

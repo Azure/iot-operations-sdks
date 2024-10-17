@@ -36,9 +36,9 @@ type (
 	TelemetryReceiverOptions struct {
 		ManualAck bool
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -88,8 +88,10 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(opts.ExecutionTimeout,
-		"telemetry handler timed out",
+	to, err := internal.NewTimeout(
+		opts.Timeout,
+		errors.ConfigurationInvalid,
+		telemetryReceiverErrStr,
 	)
 	if err != nil {
 		return nil, err

@@ -5,24 +5,32 @@ package internal
 import (
 	"context"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
 // Function to apply an optional timeout.
-type Timeout func(context.Context) (context.Context, context.CancelFunc)
+type Timeout = func(context.Context) (context.Context, context.CancelFunc)
 
 // Apply an optional context timeout. Use for WithExecutionTimeout.
-func NewExecutionTimeout(to time.Duration, s string) (Timeout, error) {
+func NewTimeout(to time.Duration, kind errors.Kind, s string) (Timeout, error) {
 	switch {
 	case to < 0:
 		return nil, &errors.Error{
 			Message:       "timeout cannot be negative",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "ExecutionTimeout",
+			Kind:          kind,
+			PropertyName:  "Timeout",
+			PropertyValue: to,
+		}
+
+	case to.Seconds() > math.MaxUint32:
+		return nil, &errors.Error{
+			Message:       "timeout too large",
+			Kind:          kind,
+			PropertyName:  "Timeout",
 			PropertyValue: to,
 		}
 
@@ -34,34 +42,9 @@ func NewExecutionTimeout(to time.Duration, s string) (Timeout, error) {
 			return wallclock.Instance.WithTimeoutCause(ctx, to, &errors.Error{
 				Message:      fmt.Sprintf("%s timed out", s),
 				Kind:         errors.Timeout,
-				TimeoutName:  "ExecutionTimeout",
+				TimeoutName:  "Timeout",
 				TimeoutValue: to,
 			})
 		}, nil
 	}
-}
-
-// Translate an MQTT message expiry into a timeout. Use for WithMessageExpiry.
-func MessageExpiryTimeout(
-	ctx context.Context,
-	expiry uint32,
-	s string,
-) (context.Context, context.CancelFunc) {
-	if expiry > 0 {
-		to := time.Duration(expiry) * time.Second
-		return wallclock.Instance.WithTimeoutCause(
-			ctx,
-			to,
-			errutil.NoReturn(&errors.Error{
-				Message: fmt.Sprintf(
-					"message expired while processing %s",
-					s,
-				),
-				Kind:         errors.Timeout,
-				TimeoutName:  "MessageExpiry",
-				TimeoutValue: to,
-			}),
-		)
-	}
-	return context.WithCancel(ctx)
 }
