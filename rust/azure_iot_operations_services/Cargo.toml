@@ -12,8 +12,8 @@ readme = "README.md"
 publish = false
 
 [dependencies]
-azure_iot_operations_protocol = { version = "0.3", path = "../azure_iot_operations_protocol" }
-azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { version = "0.4", path = "../azure_iot_operations_protocol" }
+azure_iot_operations_mqtt = { version = "0.4", path = "../azure_iot_operations_mqtt" }
 thiserror.workspace = true
 
 [dev-dependencies]
