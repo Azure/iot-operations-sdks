@@ -1,4 +1,4 @@
-# MQTT Connection Settings
+# Connection Settings
 
 The MqttConnectionSettings class enables the operator to configure the MQTT Connection without recompiling the application.
 
