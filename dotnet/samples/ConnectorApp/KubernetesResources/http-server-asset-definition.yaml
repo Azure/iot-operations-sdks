@@ -9,7 +9,7 @@ spec:
   assetEndpointProfileRef: some-name/some-namespace
   datasetsConfiguration: |-
    {
-      "samplingInterval": 400,
+      "samplingInterval": 4000,
    }
   topic:
     path: /mqtt/machine/status

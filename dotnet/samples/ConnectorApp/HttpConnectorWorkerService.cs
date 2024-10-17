@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.ConnectorSample
         {
             return new()
             {
-                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 400}"),
+                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 4000}"),
                 Datasets = new Dictionary<string, Dataset>
                 {
                     {
