@@ -1,24 +1,128 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
     interface::{ManagedClient, MqttAck, PubReceiver},
 };
-use chrono::DateTime;
+use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::{
-    common::{
-        aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::PayloadSerialize,
-        topic_processor::{TopicPattern, WILDCARD},
-        user_properties::{UserProperty, RESERVED_PREFIX},
-    },
-    telemetry::{CloudEvent, CloudEventBuilder},
+use crate::common::{
+    aio_protocol_error::{AIOProtocolError, Value},
+    hybrid_logical_clock::HybridLogicalClock,
+    payload_serialize::PayloadSerialize,
+    topic_processor::{TopicPattern, WILDCARD},
+    user_properties::{UserProperty, RESERVED_PREFIX},
 };
+use crate::telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
+
+/// Cloud Event struct
+///
+/// Implements the cloud event spec 1.0 for the telemetry receiver.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Builder, Clone)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct CloudEvent {
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub id: String,
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub source: String,
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub spec_version: String,
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub event_type: String,
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    #[builder(default = "None")]
+    pub subject: Option<String>,
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    #[builder(default = "None")]
+    pub data_schema: Option<String>,
+    /// Content type of data value. This attribute enables data to carry any type of content,
+    /// whereby format and encoding might differ from that of the chosen event format.
+    #[builder(default = "None")]
+    pub data_content_type: Option<String>,
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    #[builder(default = "None")]
+    pub time: Option<DateTime<Utc>>,
+}
+
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "id: {} \n\
+            source: {} \n\
+            event_type: {} \n\
+            subject: {:?} \n\
+            data_schema: {:?} \n\
+            data_content_type: {:?} \n\
+            time: {:?}",
+            self.id,
+            self.source,
+            self.event_type,
+            self.subject,
+            self.data_schema,
+            self.data_content_type,
+            self.time
+        )
+    }
+}
+
+impl CloudEventBuilder {
+    fn validate(&self) -> Result<(), String> {
+        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
+
+        if let Some(sv) = &self.spec_version {
+            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
+            spec_version = sv.to_string();
+        }
+
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
+        if let Some(source) = &self.source {
+            CloudEventFields::Source.validate(source, &spec_version)?;
+        }
+
+        if let Some(event_type) = &self.event_type {
+            CloudEventFields::EventType.validate(event_type, &spec_version)?;
+        }
+
+        if let Some(Some(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
+        if let Some(Some(data_content_type)) = &self.data_content_type {
+            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
+        }
+
+        Ok(())
+    }
+}
 
 /// Acknowledgement token used to acknowledge a telemetry message.
 /// Used by the [`TelemetryReceiver`].
@@ -110,7 +214,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/telemetry")
+///  .topic_pattern("test/{senderId}/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -351,7 +455,7 @@ where
 
                                 let mut cloud_event_present = false;
                                 let mut cloud_event_builder = CloudEventBuilder::default();
-                                let mut cloud_event_time_valid = true;
+                                let mut cloud_event_time = None;
                                 for (key, value) in properties.user_properties {
                                     match UserProperty::from_str(&key) {
                                         Ok(UserProperty::Timestamp) => {
@@ -371,51 +475,47 @@ where
                                         Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
                                             // TODO: Implement protocol version check
                                         },
-                                        Ok(UserProperty::CloudEventId) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.id(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSource) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.source(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSpecVersion) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.spec_version(value);
-                                        },
-                                        Ok(UserProperty::CloudEventType) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.event_type(value);
-                                        },
-                                        Ok(UserProperty::CloudEventSubject) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.subject(value);
-                                        },
-                                        Ok(UserProperty::CloudEventDataSchema) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.data_schema(Some(value));
-                                        },
-                                        Ok(UserProperty::CloudEventDataContentType) => {
-                                            cloud_event_present = true;
-                                            cloud_event_builder.data_content_type(value);
-                                        },
-                                        Ok(UserProperty::CloudEventTime) => {
-                                            cloud_event_present = true;
-                                            match DateTime::parse_from_rfc3339(&value) {
-                                                Ok(time) => {
-                                                    cloud_event_builder.time(time);
-                                                },
-                                                Err(e) => {
-                                                    log::error!("[pkid: {}] Invalid cloud event time {value}: {e}", m.pkid);
-                                                    cloud_event_time_valid = false;
-                                                }
-                                            }
-                                        },
                                         Err(()) => {
-                                            if key.starts_with(RESERVED_PREFIX) {
-                                                log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                            } else {
-                                                custom_user_data.push((key, value));
+                                            match CloudEventFields::from_str(&key) {
+                                                Ok(CloudEventFields::Id) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.id(value);
+                                                },
+                                                Ok(CloudEventFields::Source) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.source(value);
+                                                },
+                                                Ok(CloudEventFields::SpecVersion) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.spec_version(value);
+                                                },
+                                                Ok(CloudEventFields::EventType) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.event_type(value);
+                                                },
+                                                Ok(CloudEventFields::Subject) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.subject(value);
+                                                },
+                                                Ok(CloudEventFields::DataSchema) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.data_schema(Some(value));
+                                                },
+                                                Ok(CloudEventFields::DataContentType) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_builder.data_content_type(value);
+                                                },
+                                                Ok(CloudEventFields::Time) => {
+                                                    cloud_event_present = true;
+                                                    cloud_event_time = Some(value);
+                                                },
+                                                Err(()) => {
+                                                    if key.starts_with(RESERVED_PREFIX) {
+                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
+                                                    } else {
+                                                        custom_user_data.push((key, value));
+                                                    }
+                                                }
                                             }
                                         }
                                         _ => {
@@ -423,9 +523,22 @@ where
                                         }
                                     }
                                 }
-                                if cloud_event_present && cloud_event_time_valid {
-                                    if let Ok(ce) = cloud_event_builder.build() {
-                                        cloud_event = Some(ce);
+                                if cloud_event_present {
+                                    if let Ok(mut ce) = cloud_event_builder.build() {
+                                        if let Some(ce_time) = cloud_event_time {
+                                            match DateTime::parse_from_rfc3339(&ce_time) {
+                                                Ok(time) => {
+                                                    let time = time.with_timezone(&Utc);
+                                                    ce.time = Some(time);
+                                                    cloud_event = Some(ce);
+                                                },
+                                                Err(e) => {
+                                                    log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
+                                                }
+                                            }
+                                        } else {
+                                            cloud_event = Some(ce);
+                                        }
                                     } else {
                                         log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
                                     }
@@ -542,8 +655,8 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
-    #[tokio::test]
-    async fn test_new_defaults() {
+    #[test]
+    fn test_new_defaults() {
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/{senderId}/receiver")
@@ -558,12 +671,12 @@ mod tests {
             .is_match("test/test_sender/receiver"));
     }
 
-    #[tokio::test]
-    async fn test_new_override_defaults() {
+    #[test]
+    fn test_new_override_defaults() {
         let session = get_session();
         let custom_token_map = HashMap::from([("customToken".to_string(), "123".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{ex:customToken}/{modelId}/receiver")
+            .topic_pattern("test/{senderId}/{telemetryName}/{ex:customToken}/{modelId}/receiver")
             .telemetry_name("test_telemetry")
             .model_id("test_model")
             .topic_namespace("test_namespace")
@@ -573,9 +686,10 @@ mod tests {
         let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
             TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
 
-        assert!(telemetry_receiver
-            .topic_pattern
-            .is_match(format!("test_namespace/test/test_sender/123/{MODEL_ID}/receiver").as_str()));
+        assert!(telemetry_receiver.topic_pattern.is_match(
+            format!("test_namespace/test/test_sender/test_telemetry/123/{MODEL_ID}/receiver")
+                .as_str()
+        ));
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

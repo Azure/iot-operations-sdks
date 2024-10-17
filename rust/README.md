@@ -10,7 +10,7 @@ The following Azure IoT Operations crates are available:
 | - | -|
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
-| [**azure_iot_operations_services**](azure_iot_operations_services) | Client libraries to connect with various Azure IoT Operations services |
+| [**azure_iot_operations_services**](azure_iot_operations_services) | Clients for using services of Azure IoT Operations |
 
 ## Getting started with Rust
 
@@ -22,37 +22,33 @@ To get familiar with the Rust language, there are several resources available in
 > These crates are currently in preview and are subject to change until version 1.0.
 > Pinning a specific release will protect you from any breaking changes, which are subject to occur until we release 1.0.
 
-1. Ensure your git credentials are set in your environment, as you will need them to access this repository and take a dependency on the crates within it:
-
-    **You can probably skip this step, since most people already have this set up.**
-
-    ```
-    $ git config --global user.name "Your Name Here"
-    $ git config --global user.email myemail@example.com
-    ```
-
 1. Install the SSL toolkit:
 
     ### Linux
 
     ```bash
-    sudo apt-get install libssl-dev
+    sudo apt-get install libssl-dev pkg-config
     ```
 
     ### Windows
 
     While this can be done on a Windows development environment, we would at this time advise you to simply use WSL and follow the above Linux instructions.
 
-1. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application:
+1. Add the Azure IoT Operations SDK crate feed by adding the following to `config.toml` as described [in the Cargo book](https://doc.rust-lang.org/cargo/reference/config.html):
+
+    ```yml
+    [registries]
+    aio-sdks = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/" }
+    ```
+
+1. Take a dependency on the crates you want to use in your `Cargo.toml` file for your application:
 
     ```toml
     [dependencies]
-    azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>"}
-    azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", tag = "<release tag here>" }
+    azure_iot_operations_mqtt = { version = "0.3.0", registry = "aio-sdks" }
+    azure_iot_operations_protocol = { version = "0.3.0", registry = "aio-sdks" }
+    azure_iot_operations_services = { version = "0.2.0", registry = "aio-sdks" }
     ```
-> [!NOTE]
-> We recommend the use of a `tag` parameter to pin a [specific release](https://github.com/Azure/iot-operations-sdks/releases), but you may also use `rev` for a particular commit or pull.  
-> To get the latest build, just pass the `git` argument by itself, with no other parameters, although this is not recommended.
 
 ## Set up broker
 
