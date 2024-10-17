@@ -3,24 +3,12 @@
 
 //! Adapter layer for the rumqttc crate
 
-use std::{
-    fmt,
-    fs::{self, File},
-    io::BufReader,
-    sync::Arc,
-    time::Duration,
-};
+use std::{fmt, fs, time::Duration};
 
 use async_trait::async_trait;
 use bytes::Bytes;
-use openssl::pkey::PKey;
-use rumqttc::{
-    self,
-    tokio_rustls::rustls::{
-        client::WebPkiServerVerifier, pki_types::PrivateKeyDer, ClientConfig, RootCertStore,
-    },
-    Transport,
-};
+use openssl::{pkey::PKey, x509::X509};
+use rumqttc::{self, tokio_native_tls::native_tls, TlsConfiguration, Transport};
 use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
@@ -277,7 +265,7 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
 
         // Use TLS, CA File, CA Require Revocation Check, Cert File, Key File, Key File Password
         if value.use_tls {
-            let config = tls_config(
+            let transport = tls_config(
                 value.ca_file,
                 value.ca_require_revocation_check,
                 value.cert_file,
@@ -292,9 +280,7 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
                     source: Some(e),
                 })),
             })?;
-            mqtt_options.set_transport(Transport::tls_with_config(
-                rumqttc::TlsConfiguration::Rustls(Arc::new(config)),
-            ));
+            mqtt_options.set_transport(transport);
         }
 
         // SAT Auth File
@@ -315,97 +301,119 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
     }
 }
 
+fn read_root_ca_certs(ca_pem: &[u8]) -> Result<Vec<native_tls::Certificate>, anyhow::Error> {
+    let mut ca_certs = Vec::new();
+
+    // native_tls does not have a function to deserialize multiple certs as once, so
+    // use openssl X509::stack_from_pem to parse certs.
+    ca_certs.append(&mut X509::stack_from_pem(ca_pem)?);
+
+    if ca_certs.is_empty() {
+        Err(TlsError::new("No CA certs available in CA File"))?;
+    }
+
+    ca_certs.sort();
+    ca_certs.dedup();
+
+    Ok(ca_certs
+        .iter()
+        .map(|cert| {
+            // Serializing a valid openssl X509 and deserializing as a native_tls Certificate
+            // should never fail.
+            native_tls::Certificate::from_pem(&cert.to_pem().expect("cert should serialize to PEM"))
+                .expect("Failed to deserialize cert")
+        })
+        .collect())
+}
+
 fn tls_config(
     ca_file: Option<String>,
-    ca_require_revocation_check: bool,
+    _ca_require_revocation_check: bool,
     cert_file: Option<String>,
     key_file: Option<String>,
     key_file_password: Option<String>,
-) -> Result<ClientConfig, anyhow::Error> {
-    let config_builder = {
-        // Provided CA certs
-        if let Some(ca_file) = ca_file {
-            // CA File
-            let mut root_cert_store = RootCertStore::empty();
-            let fh = File::open(ca_file)?;
-            let certs =
-                rustls_pemfile::certs(&mut BufReader::new(fh)).collect::<Result<Vec<_>, _>>()?;
-            root_cert_store.add_parsable_certificates(certs);
+) -> Result<Transport, anyhow::Error> {
+    let mut tls_connector = native_tls::TlsConnector::builder();
+    tls_connector.min_protocol_version(Some(native_tls::Protocol::Tlsv12)); // needed?
 
-            // CA Revocation Check
-            if ca_require_revocation_check {
-                rumqttc::tokio_rustls::rustls::ClientConfig::builder().with_webpki_verifier(
-                    WebPkiServerVerifier::builder(root_cert_store.into()).build()?,
-                )
-            } else {
-                rumqttc::tokio_rustls::rustls::ClientConfig::builder()
-                    .with_root_certificates(root_cert_store)
-            }
-
-        // Use native certs since CA not provided
-        } else {
-            let mut root_cert_store = RootCertStore::empty();
-            let native_certs = rustls_native_certs::load_native_certs()?;
-            for cert in native_certs {
-                root_cert_store.add(cert)?;
-            }
-            rumqttc::tokio_rustls::rustls::ClientConfig::builder()
-                .with_root_certificates(root_cert_store)
+    // Provided CA certs
+    // don't need an else because TlsConnector uses the system's trust root by default, and this just adds additional root certs
+    let mut ca_pem = None;
+    if let Some(ca_file) = ca_file {
+        // CA File
+        ca_pem = Some(fs::read(ca_file)?);
+        let ca_certs = read_root_ca_certs(&ca_pem.clone().expect("Can't fail, just set"))?;
+        for ca_cert in ca_certs {
+            tls_connector.add_root_certificate(ca_cert);
         }
-    };
 
-    let config = {
-        if let (Some(cert_file), Some(key_file)) = (cert_file, key_file) {
-            // Certs
-            let certs = {
-                let fh = File::open(cert_file.clone())?;
-                let certs = rustls_pemfile::certs(&mut BufReader::new(fh))
-                    .collect::<Result<Vec<_>, _>>()?;
-                if certs.is_empty() {
-                    Err(TlsError::new("no valid client cert in cert file chain"))?;
-                }
-                certs
-            };
+        // CA Revocation Check TODO: add this back in
+        // if ca_require_revocation_check {
+        //     rumqttc::tokio_rustls::rustls::ClientConfig::builder().with_webpki_verifier(
+        //         WebPkiServerVerifier::builder(root_cert_store.into()).build()?,
+        //     )
+        // } else {
+        //     rumqttc::tokio_rustls::rustls::ClientConfig::builder()
+        //         .with_root_certificates(root_cert_store)
+        // }
+    }
 
-            // Key
-            let key = {
-                // Handle key_file_password
+    // Certs
+    if let Some(cert_file) = cert_file {
+        let cert_file_contents = fs::read(cert_file)?;
+        let mut client_cert_chain = X509::stack_from_pem(&cert_file_contents)?;
+
+        // Key, with or without password
+        let private_key_pem = {
+            if let Some(key_file) = key_file {
+                let key_file_contents = fs::read(key_file)?;
                 if let Some(key_file_password) = key_file_password {
-                    let pem = fs::read(key_file)?;
-                    let pkey =
-                        PKey::private_key_from_pem_passphrase(&pem, key_file_password.as_bytes())?;
-                    match PrivateKeyDer::try_from(pkey.private_key_to_der()?) {
-                        Ok(key) => key,
-                        Err(e) => {
-                            return Err(TlsError::new(e))?;
-                        }
-                    }
+                    let private_key = PKey::private_key_from_pem_passphrase(
+                        &key_file_contents,
+                        key_file_password.as_bytes(),
+                    )?;
+                    private_key.private_key_to_pem_pkcs8()?
                 } else {
-                    let fh = File::open(key_file.clone())?;
-                    let mut key_reader = BufReader::new(fh);
-                    match rustls_pemfile::private_key(&mut key_reader) {
-                        Ok(Some(key)) => key,
-                        Ok(None) => {
-                            return Err(TlsError::new("no valid client key in key file"))?;
-                        }
-                        Err(e) => {
-                            return Err(e)?;
-                        }
-                    }
+                    let private_key = PKey::private_key_from_pem(&key_file_contents)?;
+                    private_key.private_key_to_pem_pkcs8()?
                 }
-            };
-            config_builder.with_client_auth_cert(certs, key)?
-        } else {
-            config_builder.with_no_client_auth()
-        }
-    };
+            }
+            // Key Vault stores the cert and key in a single file, so get key from the
+            // cert file if the key file is not present
+            else {
+                cert_file_contents.clone()
+            }
+        };
 
-    Ok(config)
+        // Add ca to cert chain if present
+        if let Some(ca_pem) = ca_pem {
+            let mut ca_chain = X509::stack_from_pem(&ca_pem)?;
+            client_cert_chain.append(&mut ca_chain);
+        }
+
+        let mut client_cert_chain_pem = Vec::new();
+        for cert in client_cert_chain {
+            let mut cert_pem = cert.to_pem()?;
+            client_cert_chain_pem.append(&mut cert_pem);
+        }
+
+        let identity = native_tls::Identity::from_pkcs8(&client_cert_chain_pem, &private_key_pem)
+            .map_err(|err| {
+            TlsError::new(&format!("Failed to build TLS client identity: {err}"))
+        })?;
+        tls_connector.identity(identity);
+    }
+
+    let tls_connector = tls_connector
+        .build()
+        .map_err(|err| TlsError::new(&format!("Failed to build TLS connector: {err}")))?;
+
+    Ok(Transport::Tls(TlsConfiguration::NativeConnector(
+        tls_connector,
+    )))
 }
 
 /// -------------------------------------------
-
-// TODO: Remove ignore from tests once filepath for test certs is known
 
 #[cfg(test)]
 mod tests {
@@ -427,7 +435,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_username() {
         // username and password
         let connection_settings = MqttConnectionSettingsBuilder::default()
@@ -456,8 +463,9 @@ mod tests {
 
         // username and password file
         let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        password_file_path
-            .push("../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/mypassword.txt");
+        password_file_path.push(
+            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/mypassword.txt",
+        );
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -473,12 +481,10 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_ca_file() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path.push(
-            "../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt",
-        );
+        ca_file_path
+            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -492,12 +498,10 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_ca_file_revocation_check() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path.push(
-            "../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt",
-        );
+        ca_file_path
+            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -512,10 +516,9 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
+        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
         let mut ca_file = dir.clone();
         ca_file.push("ca.txt");
         let mut cert_file = dir.clone();
@@ -537,10 +540,9 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
+        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
         let mut cert_file = dir.clone();
         cert_file.push("TestSdkLiteCertPem.txt");
         let mut key_file = dir.clone();
@@ -559,16 +561,15 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "unknown cert path"]
     fn test_mqtt_connection_settings_cert_key_file_password() {
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let mut cert_file = dir.clone();
         cert_file.push(
-            "../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdPem.txt",
+            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdPem.txt",
         );
         let mut key_file = dir.clone();
         key_file.push(
-            "../../../../lib/dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdKey.txt",
+            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdKey.txt",
         );
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
