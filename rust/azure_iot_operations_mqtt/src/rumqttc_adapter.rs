@@ -335,8 +335,8 @@ fn tls_config(
     key_file: Option<String>,
     key_file_password: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
-    let mut tls_connector = native_tls::TlsConnector::builder();
-    tls_connector.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
+    let mut tls_connector_builder = native_tls::TlsConnector::builder();
+    tls_connector_builder.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
 
     // Provided CA certs
     // don't need an else because TlsConnector uses the system's trust root by default, and this just adds additional root certs
@@ -344,7 +344,7 @@ fn tls_config(
         // CA File
         let ca_certs = read_root_ca_certs(ca_file)?;
         for ca_cert in ca_certs {
-            tls_connector.add_root_certificate(ca_cert);
+            tls_connector_builder.add_root_certificate(ca_cert);
         }
 
         // CA Revocation Check TODO: add this back in
@@ -380,10 +380,10 @@ fn tls_config(
             .map_err(|err| {
             TlsError::new(&format!("Failed to build TLS client identity: {err}"))
         })?;
-        tls_connector.identity(identity);
+        tls_connector_builder.identity(identity);
     }
 
-    let tls_connector = tls_connector
+    let tls_connector = tls_connector_builder
         .build()
         .map_err(|err| TlsError::new(&format!("Failed to build TLS connector: {err}")))?;
 
