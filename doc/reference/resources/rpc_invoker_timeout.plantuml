@@ -1,0 +1,122 @@
+@startuml
+box Invoker
+participant "Invoker\napp logic" as ial
+participant "Invoker\nclient" as i
+end box
+
+participant "Broker" as b
+
+box Executor
+participant "Executor\nMQTT client" as emc
+participant "Executor" as e
+queue "MsgQueue" as q
+participant "Dispatcher" as d
+entity "Semaphore" as sem
+participant "Ack'er" as acker
+queue "AckQueue" as ack
+participant "Executor\nThread 1" as t1
+participant "Executor\nThread 2" as t2
+
+database "Cache" as c
+note over c: cleared regularly by timer
+participant "Executor\napp logic" as al
+end box
+autonumber 
+
+group Initialization
+group Invoker initialization
+ial -> i : Initialize
+i -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=InvokerID
+b --> i : CONNACK
+i -> b : SUB \n"response topic"
+b --> i : SUBACK
+end
+group Executor initialization
+e -> sem : init(1)
+create emc
+e -> emc : create
+create d
+e -> d : create
+create acker
+e -> acker : create
+emc -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=executorId
+b --> emc : CONNACK
+e -> emc : SUB \n"request topic"
+emc -> b : SUB \n"request topic"
+b --> emc : SUBACK
+end
+end
+
+ial -> i : <font color=maroon>Invoke method 1 \nRPC request 1\nTimeout=100ms
+group Handle invoker timeout
+i -> b : <font color=maroon>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+b --> i : <font color=maroon>PUBACK\nPktId:1
+
+
+group Executor handling
+b -> emc : <font color=maroon>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+emc -> e : <font color=maroon>PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0
+e -> q : <font color=maroon>Enqueue request \nPktId:1; CorId:1; DUP=0
+
+d -> q : <font color=maroon>Read request \nPktId:1; CorId:1; DUP=0
+d -> ack : <font color=maroon>Try to add a placeholder for request PUBACK \nPktId:1; DUP=0
+ack --> d : <font color=maroon>Placeholder for request PUBACK added \nPktId:1; DUP=0
+d -> sem : <font color=maroon>request thread \n<font color=maroon>semaphore
+sem --> d : <font color=maroon>semaphore \n<font color=maroon>acquired\n(1 remaining)
+d -> t1 ++ #005500 : <font color=maroon>Start request 1 execution \nPktId:1; CorId:1; DUP=0
+
+t1 -> c : <font color=maroon>Try to add a placeholder for \n<font color=maroon>the cached response \nCorId:1
+c --> t1 : <font color=maroon>Placeholder for cached \n<font color=maroon>response created \nCorId:1
+t1 -> al : <font color=maroon>Execute request
+al --> t1 : <font color=maroon>Response
+t1 -> c : <font color=maroon>Update placeholder with \n<font color=maroon>cache request:response \nCorId:1
+t1 -> emc : <font color=maroon>Send response \nCorId:1
+emc -> b : <font color=maroon>PUB response\n(response topic) \nCorId:1
+
+i -x ial : <font color=maroon>Method 1 timeout \nRPC request 1
+ial -> i : <font color=blue>Invoke method 1 \nRPC request 2
+i -> b : <font color=blue>PUB MQTT msg\n(RPC invocation 2)\nPktId:2; CorId:1; DUP=0
+b --> i : <font color=blue>PUBACK\nPktId:2
+
+b --> emc : <font color=maroon>PUBACK
+t1 -> ack : <font color=maroon>Enqueue ack\nPktId:1; DUP=0
+t1 -> sem -- : <font color=maroon>Release semaphore
+
+acker -> ack : Read ack
+acker --> b : <font color=maroon>PUBACK \nPktId:1; DUP=0
+
+b -> i: PUB MQTT msg\n(RPC response 1)\nPktId:1; CorId:1
+i --> b : PUBACK (RPC response 1)\nPktId:1; CorId:1
+i --> ial : RPC Response
+
+b -> emc : <font color=blue>PUB MQTT msg\n(RPC invocation 2)\nPktId:2; CorId:1; DUP=0
+emc -> e : <font color=blue>PUB MQTT msg\n(RPC invocation 2)\nPktId:2; CorId:1 ; DUP=0
+e -> q : <font color=blue>Enqueue request \nPktId:2; CorId:1; DUP=0
+
+d -> q : <font color=blue>Read request \nPktId:2; CorId:1; DUP=0
+d -> ack : <font color=blue>Try to add a placeholder for request PUBACK \nPktId:2; DUP=0
+ack --> d : <font color=blue>Placeholder for request PUBACK added \nPktId:2; DUP=0
+d -> sem : <font color=blue>request thread \n<font color=blue>semaphore
+sem --> d : <font color=blue>semaphore \n<font color=blue>acquired\n(0 remaining)
+d -> t2 ++ #005500 : <font color=blue>Start request 2 execution \nPktId:2; CorId:1; DUP=0
+
+t1 -> c : <font color=blue>Try to add a placeholder for the \n<font color=blue>cached response \nCorId:1
+c --> t1 : <font color=blue>Placeholder for cached response \n<font color=blue>is present. \nCorId:1
+t1 -> c : <font color=blue>Wait until cache response \n<font color=blue>placeholder is populated \nCorId:1
+c --> t1 : <font color=blue>Cached response available \nCorId:1
+t2 -> emc : <font color=blue>Send response \nCorId:1
+emc -> b : <font color=blue>PUB response\n(response topic) \nCorId:1
+b --> emc : <font color=blue>PUBACK
+t2 -> ack : <font color=blue>Enqueue ack \nPktId:2; DUP=0
+t2 -> sem -- : <font color=blue>Release semaphore
+
+acker -> ack : Read ack
+acker --> b : <font color=blue>PUBACK \nPktId:2;DUP=0
+end
+
+b -> i: PUB MQTT msg\n(RPC response 1)\nPktId:2; CorId:1
+i --> b : PUBACK \n(RPC response 1)\nPktId:2; CorId:1
+i --> i : Message discarded as \nawaited task has \nalready been completed
+end
+
+@enduml
