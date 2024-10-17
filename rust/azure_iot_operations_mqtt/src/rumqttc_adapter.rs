@@ -301,12 +301,14 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
     }
 }
 
-fn read_root_ca_certs(ca_pem: &[u8]) -> Result<Vec<native_tls::Certificate>, anyhow::Error> {
+fn read_root_ca_certs(ca_file: String) -> Result<Vec<native_tls::Certificate>, anyhow::Error> {
     let mut ca_certs = Vec::new();
+    let ca_pem = fs::read(ca_file)?;
 
-    // native_tls does not have a function to deserialize multiple certs as once, so
+    // native_tls does not have a function to deserialize multiple certs at once, so
     // use openssl X509::stack_from_pem to parse certs.
-    ca_certs.append(&mut X509::stack_from_pem(ca_pem)?);
+    let certs = &mut X509::stack_from_pem(&ca_pem)?;
+    ca_certs.append(certs);
 
     if ca_certs.is_empty() {
         Err(TlsError::new("No CA certs available in CA File"))?;
@@ -334,68 +336,45 @@ fn tls_config(
     key_file_password: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
     let mut tls_connector = native_tls::TlsConnector::builder();
-    tls_connector.min_protocol_version(Some(native_tls::Protocol::Tlsv12)); // needed?
+    tls_connector.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
 
     // Provided CA certs
     // don't need an else because TlsConnector uses the system's trust root by default, and this just adds additional root certs
-    let mut ca_pem = None;
     if let Some(ca_file) = ca_file {
         // CA File
-        ca_pem = Some(fs::read(ca_file)?);
-        let ca_certs = read_root_ca_certs(&ca_pem.clone().expect("Can't fail, just set"))?;
+        let ca_certs = read_root_ca_certs(ca_file)?;
         for ca_cert in ca_certs {
             tls_connector.add_root_certificate(ca_cert);
         }
 
         // CA Revocation Check TODO: add this back in
-        // if ca_require_revocation_check {
-        //     rumqttc::tokio_rustls::rustls::ClientConfig::builder().with_webpki_verifier(
-        //         WebPkiServerVerifier::builder(root_cert_store.into()).build()?,
-        //     )
-        // } else {
-        //     rumqttc::tokio_rustls::rustls::ClientConfig::builder()
-        //         .with_root_certificates(root_cert_store)
-        // }
     }
 
     // Certs
-    if let Some(cert_file) = cert_file {
+    if let (Some(cert_file), Some(key_file)) = (cert_file, key_file) {
+        // Cert
         let cert_file_contents = fs::read(cert_file)?;
-        let mut client_cert_chain = X509::stack_from_pem(&cert_file_contents)?;
-
-        // Key, with or without password
-        let private_key_pem = {
-            if let Some(key_file) = key_file {
-                let key_file_contents = fs::read(key_file)?;
-                if let Some(key_file_password) = key_file_password {
-                    let private_key = PKey::private_key_from_pem_passphrase(
-                        &key_file_contents,
-                        key_file_password.as_bytes(),
-                    )?;
-                    private_key.private_key_to_pem_pkcs8()?
-                } else {
-                    let private_key = PKey::private_key_from_pem(&key_file_contents)?;
-                    private_key.private_key_to_pem_pkcs8()?
-                }
-            }
-            // Key Vault stores the cert and key in a single file, so get key from the
-            // cert file if the key file is not present
-            else {
-                cert_file_contents.clone()
-            }
-        };
-
-        // Add ca to cert chain if present
-        if let Some(ca_pem) = ca_pem {
-            let mut ca_chain = X509::stack_from_pem(&ca_pem)?;
-            client_cert_chain.append(&mut ca_chain);
-        }
-
+        let client_cert_chain = X509::stack_from_pem(&cert_file_contents)?;
         let mut client_cert_chain_pem = Vec::new();
         for cert in client_cert_chain {
             let mut cert_pem = cert.to_pem()?;
             client_cert_chain_pem.append(&mut cert_pem);
         }
+
+        // Key, with or without password
+        let private_key_pem = {
+            let key_file_contents = fs::read(key_file)?;
+            if let Some(key_file_password) = key_file_password {
+                let private_key = PKey::private_key_from_pem_passphrase(
+                    &key_file_contents,
+                    key_file_password.as_bytes(),
+                )?;
+                private_key.private_key_to_pem_pkcs8()?
+            } else {
+                let private_key = PKey::private_key_from_pem(&key_file_contents)?;
+                private_key.private_key_to_pem_pkcs8()?
+            }
+        };
 
         let identity = native_tls::Identity::from_pkcs8(&client_cert_chain_pem, &private_key_pem)
             .map_err(|err| {
