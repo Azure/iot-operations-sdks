@@ -9,11 +9,11 @@ license = "MIT"
 description = "Azure IoT Operations Services"
 repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
-publish = false
+publish = true
 
 [dependencies]
-azure_iot_operations_protocol = { version = "0.3", path = "../azure_iot_operations_protocol" }
-azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { version = "0.3", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
+azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 thiserror.workspace = true
 
 [dev-dependencies]
