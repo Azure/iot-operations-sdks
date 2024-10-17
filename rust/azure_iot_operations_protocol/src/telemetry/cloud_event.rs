@@ -64,6 +64,8 @@ impl CloudEventFields {
                     // TODO: Ensure DataContentType adheres to RFC 2046
                 }
             }
+        } else {
+            return Err(format!("Invalid spec version: {}", spec_version));
         }
         Ok(())
     }
@@ -146,5 +148,10 @@ mod tests {
         CloudEventFields::DataContentType
             .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
             .unwrap_err();
+    }
+
+    #[test]
+    fn test_cloud_event_validate_invalid_spec_version() {
+        CloudEventFields::Id.validate("id", "0.0").unwrap_err();
     }
 }

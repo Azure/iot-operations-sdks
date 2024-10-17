@@ -77,7 +77,7 @@ impl CloudEventBuilder {
 }
 
 impl CloudEvent {
-    /// Get Cloud Event as headers for an MQTT message
+    /// Get [`CloudEvent`] as headers for an MQTT message
     #[must_use]
     fn into_headers(self, subject: &str, content_type: &str) -> Vec<(String, String)> {
         let mut headers = vec![
@@ -121,7 +121,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Default is an empty `HashMap`.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
-    /// Timeout for the message. Will be used as the `message_expiry_interval`.
+    /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
+    /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
     message_expiry: Duration,
     /// Cloud event of the telemetry message.
@@ -147,7 +148,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
     ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
-    ///     - timeout is < 1 ms or > `u32::max`
+    ///     - `message_expiry` is not zero and < 1 ms or > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
@@ -163,7 +164,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
         if let Some(timeout) = &self.message_expiry {
             // If timeout is set, it must be at least 1 ms. If zero, message will never expire.
             if !timeout.is_zero() && timeout.as_millis() < 1 {
-                return Err("Timeout must be at least 1 ms".to_string());
+                return Err("Timeout must be at least 1 ms if it is greater than 0".to_string());
             }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
@@ -270,6 +271,7 @@ where
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
+    /// - [`telemetry_name`](TelemetrySenderOptions::telemetry_name) is used in the [`topic_pattern`](TelemetrySenderOptions::topic_pattern) and is empty, whitespace or invalid
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
