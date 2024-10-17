@@ -9,7 +9,6 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use super::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
@@ -17,6 +16,7 @@ use crate::common::{
     topic_processor::{TopicPattern, WILDCARD},
     user_properties::{UserProperty, RESERVED_PREFIX},
 };
+use crate::telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
 
 /// Cloud Event struct
 ///
