@@ -62,7 +62,7 @@ async fn state_store_operations(client: SessionManagedClient, exit_handle: Sessi
     tokio::task::spawn({
         async move {
             if let Ok(mut response) = observe_response {
-                while let Some((notification, _)) = response.response.receive_notification().await {
+                while let Some((notification, _)) = response.response.recv_notification().await {
                     log::info!("Notification: {:?}", notification);
                 }
                 log::info!("Notification receiver closed");

@@ -50,7 +50,7 @@ impl KeyObservation {
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`state_store::KeyNotification`], _) to ignore the [`AckToken`].
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    pub async fn receive_notification(
+    pub async fn recv_notification(
         &mut self,
     ) -> Option<(state_store::KeyNotification, Option<AckToken>)> {
         self.receiver.recv().await
@@ -69,6 +69,7 @@ pub struct ClientOptions {
     key_notification_auto_ack: bool,
 }
 
+/// State store client implementation
 pub struct Client<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -384,12 +385,16 @@ where
     /// Returns `OK([KeyObservation])` if the key is now being observed.
     /// The [`KeyObservation`] can be used to receive key notifications for this key
     ///
-    /// CAUTION! If a client disconnects, it must resend the Observe for any keys
+    /// <div class="warning">
+    ///
+    /// If a client disconnects, it must resend the Observe for any keys
     /// it needs to continue monitoring. Unlike MQTT subscriptions, which can be
     /// persisted across a nonclean session, the state store internally removes
     /// any key observations when a given client disconnects. This is a known
     /// limitation of the service, see [here](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#keynotify-notification-topics-and-lifecycle)
     /// for more information
+    ///
+    /// </div>
     ///
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if

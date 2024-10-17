@@ -297,6 +297,7 @@ impl PayloadSerialize for Response {
     }
 }
 
+/// Provides detail about the state change that occurred on a key
 #[derive(Clone, Debug, PartialEq)]
 pub enum Operation {
     /// Operation was a `SET`, and the argument is the new value
