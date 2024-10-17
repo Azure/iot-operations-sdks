@@ -210,6 +210,7 @@ public class StateStoreClientIntegrationTests
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
         Assert.NotNull(mostRecentKeyChange.NewValue);
         Assert.Equal(value, mostRecentKeyChange.NewValue.GetString());
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
         onKeyChange = new TaskCompletionSource(); // create new TCS so that we can wait for another key change later
 
         Assert.Equal(1, (await stateStoreClient.DeleteAsync(key)).DeletedItemsCount);
@@ -269,6 +270,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.NotNull(mostRecentKeyChange);
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
 
         onKeyChange = new TaskCompletionSource(); // create new TCS so that we can wait for another key change later
         try
@@ -282,6 +284,7 @@ public class StateStoreClientIntegrationTests
         }
 
         Assert.Equal(KeyState.Deleted, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
     }
 
     [Fact]
@@ -320,6 +323,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.NotNull(mostRecentKeyChange);
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
 
         await stateStoreClient.UnobserveAsync(key);
 

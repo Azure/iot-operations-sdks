@@ -282,6 +282,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.Equal(LeadershipPositionState.LeaderElected, eventArgs.NewState);
         Assert.NotNull(eventArgs.NewLeader);
         Assert.Equal(candidateName, eventArgs.NewLeader.GetString());
+        Assert.NotNull(eventArgs.Timestamp);
 
         // Set a new TCS so that we can monitor the next callback as well
         onCallbackExecuted = new TaskCompletionSource<LeadershipChangeEventArgs>();

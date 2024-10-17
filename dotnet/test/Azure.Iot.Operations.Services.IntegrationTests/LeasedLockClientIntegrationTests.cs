@@ -337,6 +337,7 @@ public class LeasedLockClientIntegrationTests
         Assert.Equal(LockState.Acquired, eventArgs.NewState);
         Assert.NotNull(eventArgs.NewLockHolder);
         Assert.Equal(holderId, eventArgs.NewLockHolder.GetString());
+        Assert.NotNull(eventArgs.Timestamp);
 
         // Set a new TCS so that we can monitor the next callback as well
         onCallbackExecuted = new TaskCompletionSource<LockChangeEventArgs>();

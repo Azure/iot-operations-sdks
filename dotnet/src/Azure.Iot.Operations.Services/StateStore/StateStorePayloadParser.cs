@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
         }
 
-        internal static StateStoreKeyNotification ParseKeyNotification(byte[] payload, byte[] keyBeingNotified)
+        internal static StateStoreKeyNotification ParseKeyNotification(byte[] payload, byte[] keyBeingNotified, HybridLogicalClock timestamp)
         {
             List<byte[]> blobArrayResponse = Resp3Protocol.ParseBlobArray(payload);
 
@@ -147,7 +147,7 @@ namespace Azure.Iot.Operations.Services.StateStore
 
                 StateStoreValue value = new StateStoreValue(blobArrayResponse[3]);
 
-                return new StateStoreKeyNotification(key, keyState, value);
+                return new StateStoreKeyNotification(key, keyState, value, timestamp);
             }
             else if (operationType.Equals("DELETE", StringComparison.Ordinal))
             {
@@ -160,7 +160,7 @@ namespace Azure.Iot.Operations.Services.StateStore
 
                 StateStoreKey key = new StateStoreKey(keyBeingNotified);
 
-                return new StateStoreKeyNotification(key, keyState, null);
+                return new StateStoreKeyNotification(key, keyState, null, timestamp);
             }
             else
             {
