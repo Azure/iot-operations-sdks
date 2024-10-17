@@ -2,21 +2,14 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
-using Azure.Iot.Operations.Services.SchemaRegistry;
-using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
-    //TODO sample only works if you assume some aspects of the asset + AEP don't change such as sampling interval, http paths, datasets in general, etc. Probably want to document this somehow
-    // Sample also assumes the order of asset datasets + datapoints which feels bad. Name key on each isn't specifically unique, so can't key off of that, right? Ask ADR folks. I may be able
-    // to make it so that it is a map instead of an array so that each sampling function only needs the name to key off of and doesn't assume ordering
     public class HttpConnectorWorkerService : BackgroundService
     {
         private readonly ILogger<HttpConnectorWorkerService> _logger;
@@ -75,7 +68,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                string datasetName = "thermostat_status";
+                string datasetName = _httpServerAsset.Datasets!.Keys.First();
                 Dataset thermostatDataset = _httpServerAsset.Datasets![datasetName];
                 TimeSpan samplingInterval = defaultSamplingInterval;
                 if (thermostatDataset.DatasetConfiguration != null
@@ -148,8 +141,8 @@ namespace Azure.Iot.Operations.ConnectorSample
                         "thermostat_status",
                         new Dataset()
                         {
-                            DataPoints = new DataPoint[]
-                            {
+                            DataPoints =
+                            [
                                 new DataPoint("/api/machine/my_thermostat_1/status", "actual_temperature")
                                 {
                                     DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
@@ -158,7 +151,7 @@ namespace Azure.Iot.Operations.ConnectorSample
                                 {
                                     DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
                                 },
-                            },
+                            ],
                             Topic = new()
                             {
                                 Path = "mqtt/machine/my_thermostat_1/status",
