@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package statestore
 
 import (
@@ -6,7 +8,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
@@ -17,6 +18,7 @@ type (
 
 	// Client represents a client of the state store.
 	Client[K, V Bytes] struct {
+		protocol.Listeners
 		invoker *protocol.CommandInvoker[[]byte, []byte]
 	}
 
@@ -54,7 +56,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client mqtt.Client,
+	client protocol.MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{}
@@ -71,20 +73,15 @@ func New[K, V Bytes](
 		opts.invoker(),
 		protocol.WithResponseTopicPrefix("clients/{clientId}"),
 		protocol.WithResponseTopicSuffix("response"),
-		protocol.WithTopicTokens{"clientId": client.ClientID()},
+		protocol.WithTopicTokens{"clientId": client.ID()},
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.invoker)
 
 	return c, nil
-}
-
-// Listen to the response topic(s). Returns a function to stop listening. Must
-// be called before any state store methods. Note that cancelling this context
-// will cause the unsubscribe call to fail.
-func (c *Client[K, V]) Listen(ctx context.Context) (func(), error) {
-	return c.invoker.Listen(ctx)
 }
 
 // Shorthand to invoke and parse.

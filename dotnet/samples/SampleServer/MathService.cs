@@ -7,7 +7,7 @@ namespace SampleServer;
 
 public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service(mqttClient)
 {
-    public override Task<ExtendedResponse<FibCommandResponse>> FibAsync(FibCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<FibResponsePayload>> FibAsync(FibRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Math.Fib({request.FibRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
 
@@ -19,9 +19,9 @@ public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_sam
 
         int result = FibLoop(request.FibRequest.Number);
         Console.WriteLine($"--> Executed Math.Fib({request.FibRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<FibCommandResponse>
+        return Task.FromResult(new ExtendedResponse<FibResponsePayload>
         {
-            Response = new FibCommandResponse
+            Response = new FibResponsePayload
             {
                 FibResponse = new Object_Fib_Response
                 {
@@ -31,26 +31,26 @@ public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_sam
         });
     }
 
-    public override Task<ExtendedResponse<GetRandomCommandResponse>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Math.GetRandom with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         int result = new Random().Next(50);
         Console.WriteLine($"--> Executed Math.GetRandom with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<GetRandomCommandResponse>
+        return Task.FromResult(new ExtendedResponse<GetRandomResponsePayload>
         {
-            Response = new GetRandomCommandResponse()
+            Response = new GetRandomResponsePayload()
             {
                 GetRandomResponse = result
             }
         });
     }
 
-    public override Task<ExtendedResponse<IsPrimeCommandResponse>> IsPrimeAsync(IsPrimeCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeAsync(IsPrimeRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing IsPrime({request.IsPrimeRequest.Number}) with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Stopwatch clock = Stopwatch.StartNew();
 
-        IsPrimeCommandResponse response = new()
+        IsPrimeResponsePayload response = new()
         {
             IsPrimeResponse = new Object_IsPrime_Response
             {
@@ -88,6 +88,6 @@ public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_sam
         //response.IsPrimerResponse.ComputeMS = clock.Elapsed.;
         response.IsPrimeResponse.IsPrime = result;
         Console.WriteLine($"--> Executed IsPrime({request.IsPrimeRequest.Number}) took {numOps} ops. with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IsPrimeCommandResponse> { Response = response });
+        return Task.FromResult(new ExtendedResponse<IsPrimeResponsePayload> { Response = response });
     }
 }

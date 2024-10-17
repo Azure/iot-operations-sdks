@@ -1,0 +1,84 @@
+@startuml
+box Invoker
+participant "Invoker\napp logic" as ial
+participant "Invoker\nclient" as i
+end box
+
+participant "Broker" as b
+
+box Executor
+participant "Executor\nMQTT client" as emc
+participant "Executor" as e
+queue "MsgQueue" as q
+participant "Dispatcher" as d
+entity "Semaphore" as sem
+participant "Ack'er" as acker
+queue "AckQueue" as ack
+participant "Executor\nThread 1" as t1
+participant "Executor\nThread 2" as t2
+
+database "Cache" as c
+note over c: cleared regularly by timer
+participant "Executor\napp logic" as al
+end box
+autonumber 
+
+group Initialization
+group Invoker initialization
+ial -> i : Initialize
+i -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=InvokerID
+b --> i : CONNACK
+i -> b : SUB "response topic"
+b --> i : SUBACK
+end
+group Executor initialization
+e -> sem : init(1)
+create emc
+e -> emc : create
+create d
+e -> d : create
+create acker
+e -> acker : create
+emc -> b : CONN\nCleanSession=0\nSessionExpiry=1hr\nClientID=executorId
+b --> emc : CONNACK
+e -> emc : SUB "request topic"
+emc -> b : SUB "request topic"
+b --> emc : SUBACK
+end
+end
+
+ial -> i : Invoke method 1 \nRPC request 1\nTimeout=5s
+group Handle invoker timeout
+i -> b : PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0; MsgExpiry=5s
+b --> i : PUBACK\nPktId:1
+
+
+group Executor handling
+b -> emc : PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0; MsgExpiry=3s
+emc -> e : PUB MQTT msg\n(RPC invocation 1)\nPktId:1; CorId:1; DUP=0; MsgExpiry=3s
+e -> q : Enqueue request \nPktId:1; CorId:1; DUP=0\nMsgExpiryTimestamp=UTCNow+3s
+
+d -> q : Read request \nPktId:1; CorId:1; DUP=0
+d -> ack : Check if placeholder for\nrequest PUBACK is present \nPktId:1; DUP=0
+ack --> d : Placeholder for request\nPUBACK is not present \nPktId:1; DUP=0
+d -> ack : Create placeholder for request PUBACK \nPktId:1; DUP=0
+d -> sem : request thread semaphore
+
+... <font color=blue>Executor takes some time (say 4s) to acquire semaphore \n<font color=blue>Request is expired by then.....
+
+sem --> d : semaphore acquired\n(1 remaining)
+d -> t1 ++ #005500 : Start request 1 execution \nPktId:1; CorId:1; DUP=0
+
+note over i, ial: Invoker times out
+i -x ial : Method 1 timeout \nRPC request 1
+
+t1 -> t1 : <font color=maroon>Check if message expired\n<font color=maroon>(Message expired so discard) 
+t1 -> ack : Enqueue ack\nPktId:1; CorId:1; DUP=0
+t1 -> sem -- : Release semaphore
+acker -> ack : Read ack
+acker --> b : PUBACK PktId:1; CorId:1; DUP=0
+
+end
+end
+
+@enduml

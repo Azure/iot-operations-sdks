@@ -1,10 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -12,13 +13,13 @@ func (c *SessionClient) Publish(
 	ctx context.Context,
 	topic string,
 	payload []byte,
-	opts ...mqtt.PublishOption,
+	opts ...PublishOption,
 ) error {
 	if err := c.prepare(ctx); err != nil {
 		return err
 	}
 
-	var opt mqtt.PublishOptions
+	var opt PublishOptions
 	opt.Apply(opts)
 
 	// Validate options.
@@ -39,18 +40,16 @@ func (c *SessionClient) Publish(
 		}
 	}
 
-	payloadFormat := byte(opt.PayloadFormat)
-
 	// Build MQTT publish packet.
 	pub := &paho.Publish{
-		QoS:     byte(opt.QoS),
+		QoS:     opt.QoS,
 		Retain:  opt.Retain,
 		Topic:   topic,
 		Payload: payload,
 		Properties: &paho.PublishProperties{
 			ContentType:     opt.ContentType,
 			CorrelationData: opt.CorrelationData,
-			PayloadFormat:   &payloadFormat,
+			PayloadFormat:   &opt.PayloadFormat,
 			ResponseTopic:   opt.ResponseTopic,
 			User:            mapToUserProperties(opt.UserProperties),
 		},
@@ -69,6 +68,6 @@ func (c *SessionClient) Publish(
 	}
 
 	// Execute the publish.
-	c.logPublish(pub)
+	c.log.Packet(ctx, "publish", pub)
 	return pahoPub(ctx, c.pahoClient, pub)
 }

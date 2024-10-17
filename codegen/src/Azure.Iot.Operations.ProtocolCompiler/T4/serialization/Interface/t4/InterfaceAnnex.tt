@@ -11,6 +11,9 @@
 <# if (this.cmdTopicPattern != null) { #>
   "<#=InterfaceAnnex.CommandRequestTopic#>": "<#=this.cmdTopicPattern#>",
 <# } #>
+<# if (this.serviceGroupId != null) { #>
+  "<#=InterfaceAnnex.ServiceGroupId#>": "<#=this.serviceGroupId#>",
+<# } #>
   "<#=InterfaceAnnex.TelemetryList#>": [
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
     {

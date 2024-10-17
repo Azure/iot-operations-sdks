@@ -1,6 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package internal
 
-import "context"
+import (
+	"context"
+	"sync"
+)
 
 // Manages sending values to handlers with a configured maximum currency (where
 // 0 indicates unlimited concurrency). Returns a function to send a value to the
@@ -24,7 +29,7 @@ func Concurrent[T any](
 	// If a maximum concurrency was specified, spin up a number of goroutines
 	// equal to that value to handle dispatched messages.
 	dispatch := make(chan args)
-	for i := uint(0); i < concurrency; i++ {
+	for range concurrency {
 		go func() {
 			for a := range dispatch {
 				handler(a.ctx, a.val)
@@ -39,5 +44,5 @@ func Concurrent[T any](
 		case dispatch <- args{ctx, val}:
 		case <-ctx.Done():
 		}
-	}, func() { close(dispatch) }
+	}, sync.OnceFunc(func() { close(dispatch) })
 }

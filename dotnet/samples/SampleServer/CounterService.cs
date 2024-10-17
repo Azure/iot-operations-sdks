@@ -10,25 +10,25 @@ public class CounterService : Counter.Service
 
     public CounterService(MqttSessionClient mqttClient) : base(mqttClient) { }
 
-    public override Task<ExtendedResponse<IncrementCommandResponse>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref counter);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IncrementCommandResponse>
+        return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>
         {
-            Response = new IncrementCommandResponse { CounterResponse = counter }
+            Response = new IncrementResponsePayload { CounterResponse = counter }
         });
     }
 
-    public override Task<ExtendedResponse<ReadCounterCommandResponse>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         var curValue = counter;
         Console.WriteLine($"--> Executed Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<ReadCounterCommandResponse>
+        return Task.FromResult(new ExtendedResponse<ReadCounterResponsePayload>
         {
-            Response = new ReadCounterCommandResponse { CounterResponse = curValue }
+            Response = new ReadCounterResponsePayload { CounterResponse = curValue }
         });
     }
 

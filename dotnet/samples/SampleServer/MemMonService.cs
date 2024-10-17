@@ -54,11 +54,11 @@ public class MemMonService : Memmon.Service
             }, 
             new OutgoingTelemetryMetadata() { CloudEvent = _ceMemStats });
 
-    public override Task<ExtendedResponse<GetRuntimeStatsCommandResponse>> GetRuntimeStatsAsync(GetRuntimeStatsCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        return Task.FromResult(new ExtendedResponse<GetRuntimeStatsCommandResponse>
+        return Task.FromResult(new ExtendedResponse<GetRuntimeStatsResponsePayload>
         {
-            Response = new GetRuntimeStatsCommandResponse
+            Response = new GetRuntimeStatsResponsePayload
             {
                 diagnosticResults = new Dictionary<string, string>
                 {
@@ -75,7 +75,7 @@ public class MemMonService : Memmon.Service
         });
     }
 
-    public override Task<CommandResponseMetadata?> StartTelemetryAsync(StartTelemetryCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<CommandResponseMetadata?> StartTelemetryAsync(StartTelemetryRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine("Starting Memmon.Telemetry");
         enabled = true;
