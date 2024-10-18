@@ -11,14 +11,13 @@ use azure_iot_operations_protocol::{
 };
 use thiserror::Error;
 
-/// State store client implementation
+/// State Store Client implementation
 mod client;
 /// Serialization and deserialization implementations for resp3 state store payloads
 mod resp3;
 
-/// State store client implementation
-pub use client::Client;
-pub use resp3::{SetCondition, SetOptions};
+pub use client::{Client, ClientOptions, ClientOptionsBuilder, KeyObservation};
+pub use resp3::{Operation, SetCondition, SetOptions};
 
 /// Represents an error that occurred in the Azure IoT Operations State Store implementation.
 #[derive(Debug, Error)]
@@ -46,6 +45,9 @@ pub enum StateStoreErrorKind {
     /// The payload of the response does not match the expected type for the request.
     #[error("Unexpected response payload for the request type: {0}")]
     UnexpectedPayload(String),
+    /// A key may only have one [`KeyObservation`] at a time.
+    #[error("key may only be observed once at a time")]
+    DuplicateObserve,
 }
 
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
@@ -149,4 +151,15 @@ where
             ))),
         },
     }
+}
+
+/// A notification about a state change on a key in the State Store Service
+#[derive(Debug, Clone)]
+pub struct KeyNotification {
+    /// The Key that this notification is for
+    pub key: Vec<u8>,
+    /// The [`Operation`] that was performed on the key
+    pub operation: Operation,
+    /// The version of the key as a [`HybridLogicalClock`].
+    pub version: Option<HybridLogicalClock>,
 }
