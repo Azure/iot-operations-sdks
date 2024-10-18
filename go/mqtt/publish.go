@@ -14,7 +14,7 @@ func (c *SessionClient) Publish(
 	topic string,
 	payload []byte,
 	opts ...PublishOption,
-) (*Puback, error) {
+) (*Ack, error) {
 	if err := c.prepare(ctx); err != nil {
 		return nil, err
 	}
@@ -40,9 +40,9 @@ func (c *SessionClient) Publish(
 		}
 	}
 
-	var zeroValuePuback *Puback
+	var zeroValueAck *Ack
 	if opt.QoS == 1 {
-		zeroValuePuback = &Puback{}
+		zeroValueAck = &Ack{}
 	}
 
 	// Build MQTT publish packet.
@@ -73,7 +73,7 @@ func (c *SessionClient) Publish(
 		if err != nil {
 			return nil, err
 		}
-		return zeroValuePuback, nil
+		return zeroValueAck, nil
 	}
 
 	// Execute the publish.
@@ -82,5 +82,5 @@ func (c *SessionClient) Publish(
 	if err != nil {
 		return nil, err
 	}
-	return zeroValuePuback, nil
+	return zeroValueAck, nil
 }

@@ -594,18 +594,18 @@ type MqttClient interface {
         string,
         []byte,
         ...mqtt.PublishOption,
-    ) (*mqtt.Puback, error)
+    ) (*mqtt.Ack, error)
     RegisterMessageHandler(mqtt.MessageHandler) func()
     Subscribe(
         context.Context,
         string,
         ...mqtt.SubscribeOption,
-    ) (*mqtt.Suback, error)
+    ) (*mqtt.Ack, error)
     Unsubscribe(
         context.Context,
         string,
         ...mqtt.UnsubscribeOption,
-    ) (*mqtt.Unsuback, error)
+    ) (*mqtt.Ack, error)
 }
 ```
 

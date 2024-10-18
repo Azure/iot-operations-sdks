@@ -9,6 +9,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 ## Index
 
 - [func IsTopicFilterMatch\(topicFilter, topicName string\) bool](<#IsTopicFilterMatch>)
+- [type Ack](<#Ack>)
 - [type AuthDataProvider](<#AuthDataProvider>)
 - [type AuthOption](<#AuthOption>)
 - [type AuthOptions](<#AuthOptions>)
@@ -20,7 +21,6 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
 - [type PahoClient](<#PahoClient>)
-- [type Puback](<#Puback>)
 - [type PublishOption](<#PublishOption>)
 - [type PublishOptions](<#PublishOptions>)
 - [type SessionClient](<#SessionClient>)
@@ -30,14 +30,14 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(c \*SessionClient\) Connect\(ctx context.Context\) error](<#SessionClient.Connect>)
   - [func \(c \*SessionClient\) Disconnect\(\) error](<#SessionClient.Disconnect>)
   - [func \(c \*SessionClient\) ID\(\) string](<#SessionClient.ID>)
-  - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...PublishOption\) \(\*Puback, error\)](<#SessionClient.Publish>)
+  - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...PublishOption\) \(\*Ack, error\)](<#SessionClient.Publish>)
   - [func \(c \*SessionClient\) Reauthenticate\(ctx context.Context, opts ...AuthOption\) error](<#SessionClient.Reauthenticate>)
   - [func \(c \*SessionClient\) RegisterConnectEventHandler\(handler ConnectEventHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterConnectEventHandler>)
   - [func \(c \*SessionClient\) RegisterDisconnectEventHandler\(handler DisconnectEventHandler\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterDisconnectEventHandler>)
   - [func \(c \*SessionClient\) RegisterFatalErrorHandler\(handler func\(error\)\) \(unregisterHandler func\(\)\)](<#SessionClient.RegisterFatalErrorHandler>)
   - [func \(c \*SessionClient\) RegisterMessageHandler\(handler MessageHandler\) func\(\)](<#SessionClient.RegisterMessageHandler>)
-  - [func \(c \*SessionClient\) Subscribe\(ctx context.Context, topic string, opts ...SubscribeOption\) \(\*Suback, error\)](<#SessionClient.Subscribe>)
-  - [func \(c \*SessionClient\) Unsubscribe\(ctx context.Context, topic string, opts ...UnsubscribeOption\) \(\*Unsuback, error\)](<#SessionClient.Unsubscribe>)
+  - [func \(c \*SessionClient\) Subscribe\(ctx context.Context, topic string, opts ...SubscribeOption\) \(\*Ack, error\)](<#SessionClient.Subscribe>)
+  - [func \(c \*SessionClient\) Unsubscribe\(ctx context.Context, topic string, opts ...UnsubscribeOption\) \(\*Ack, error\)](<#SessionClient.Unsubscribe>)
 - [type SessionClientOption](<#SessionClientOption>)
   - [func WithAuthData\(authData \[\]byte\) SessionClientOption](<#WithAuthData>)
   - [func WithAuthDataProvider\(authDataProvider AuthDataProvider\) SessionClientOption](<#WithAuthDataProvider>)
@@ -77,10 +77,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func WithWillPropertiesResponseTopic\(responseTopic string\) SessionClientOption](<#WithWillPropertiesResponseTopic>)
   - [func WithWillPropertiesUser\(user map\[string\]string\) SessionClientOption](<#WithWillPropertiesUser>)
   - [func WithWillPropertiesWillDelayInterval\(willDelayInterval time.Duration\) SessionClientOption](<#WithWillPropertiesWillDelayInterval>)
-- [type Suback](<#Suback>)
 - [type SubscribeOption](<#SubscribeOption>)
 - [type SubscribeOptions](<#SubscribeOptions>)
-- [type Unsuback](<#Unsuback>)
 - [type UnsubscribeOption](<#UnsubscribeOption>)
 - [type UnsubscribeOptions](<#UnsubscribeOptions>)
 - [type WillMessage](<#WillMessage>)
@@ -106,6 +104,15 @@ func IsTopicFilterMatch(topicFilter, topicName string) bool
 ```
 
 IsTopicFilterMatch checks if a topic name matches a topic filter, including handling shared subscriptions.
+
+<a name="Ack"></a>
+## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L16>)
+
+As the implementation of the shared interface, all of its types are aliased for convenience.
+
+```go
+type Ack = mqtt.Ack
+```
 
 <a name="AuthDataProvider"></a>
 ## type [AuthDataProvider](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/client.go#L41>)
@@ -265,17 +272,8 @@ type PahoClient interface {
 }
 ```
 
-<a name="Puback"></a>
-## type [Puback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L16>)
-
-As the implementation of the shared interface, all of its types are aliased for convenience.
-
-```go
-type Puback = mqtt.Puback
-```
-
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L25>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L23>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -284,7 +282,7 @@ type PublishOption = mqtt.PublishOption
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L24>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L22>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -361,7 +359,7 @@ func (c *SessionClient) ID() string
 ### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L12-L17>)
 
 ```go
-func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byte, opts ...PublishOption) (*Puback, error)
+func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byte, opts ...PublishOption) (*Ack, error)
 ```
 
 
@@ -415,7 +413,7 @@ RegisterMessageHandler registers a message handler on this client. Returns a cal
 ### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L29-L33>)
 
 ```go
-func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Suback, error)
+func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Ack, error)
 ```
 
 
@@ -424,7 +422,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 ### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L75-L79>)
 
 ```go
-func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Unsuback, error)
+func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)
 ```
 
 Unsubscribe from a topic.
@@ -780,17 +778,8 @@ func WithWillPropertiesWillDelayInterval(willDelayInterval time.Duration) Sessio
 
 WithWillPropertiesWillDelayInterval sets the WillDelayInterval for the WillProperties.
 
-<a name="Suback"></a>
-## type [Suback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L17>)
-
-As the implementation of the shared interface, all of its types are aliased for convenience.
-
-```go
-type Suback = mqtt.Suback
-```
-
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L21>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L19>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -799,7 +788,7 @@ type SubscribeOption = mqtt.SubscribeOption
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L20>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L18>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -807,17 +796,8 @@ As the implementation of the shared interface, all of its types are aliased for 
 type SubscribeOptions = mqtt.SubscribeOptions
 ```
 
-<a name="Unsuback"></a>
-## type [Unsuback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L18>)
-
-As the implementation of the shared interface, all of its types are aliased for convenience.
-
-```go
-type Unsuback = mqtt.Unsuback
-```
-
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L23>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L21>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -826,7 +806,7 @@ type UnsubscribeOption = mqtt.UnsubscribeOption
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L22>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L20>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -866,7 +846,7 @@ type WillProperties struct {
 ```
 
 <a name="WithContentType"></a>
-## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L27>)
+## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L25>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -875,7 +855,7 @@ type WithContentType = mqtt.WithContentType
 ```
 
 <a name="WithCorrelationData"></a>
-## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L28>)
+## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L26>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -884,7 +864,7 @@ type WithCorrelationData = mqtt.WithCorrelationData
 ```
 
 <a name="WithMessageExpiry"></a>
-## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L29>)
+## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L27>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -893,7 +873,7 @@ type WithMessageExpiry = mqtt.WithMessageExpiry
 ```
 
 <a name="WithNoLocal"></a>
-## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L30>)
+## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L28>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -902,7 +882,7 @@ type WithNoLocal = mqtt.WithNoLocal
 ```
 
 <a name="WithPayloadFormat"></a>
-## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L31>)
+## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L29>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -911,7 +891,7 @@ type WithPayloadFormat = mqtt.WithPayloadFormat
 ```
 
 <a name="WithQoS"></a>
-## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L32>)
+## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L30>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -929,7 +909,7 @@ type WithReauthData []byte
 ```
 
 <a name="WithResponseTopic"></a>
-## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L33>)
+## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L31>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -938,7 +918,7 @@ type WithResponseTopic = mqtt.WithResponseTopic
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L34>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L32>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -947,7 +927,7 @@ type WithRetain = mqtt.WithRetain
 ```
 
 <a name="WithRetainHandling"></a>
-## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L35>)
+## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L33>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 
@@ -956,7 +936,7 @@ type WithRetainHandling = mqtt.WithRetainHandling
 ```
 
 <a name="WithUserProperties"></a>
-## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L36>)
+## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L34>)
 
 As the implementation of the shared interface, all of its types are aliased for convenience.
 

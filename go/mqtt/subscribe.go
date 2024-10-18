@@ -30,7 +30,7 @@ func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
 	opts ...SubscribeOption,
-) (*Suback, error) {
+) (*Ack, error) {
 	if err := c.prepare(ctx); err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *SessionClient) Subscribe(
 		if err != nil {
 			return nil, err
 		}
-		return &Suback{}, nil
+		return &Ack{}, nil
 	}
 
 	// Execute the subscribe.
@@ -55,7 +55,7 @@ func (c *SessionClient) Subscribe(
 	if err != nil {
 		return nil, err
 	}
-	return &Suback{}, nil
+	return &Ack{}, nil
 }
 
 func (c *SessionClient) onPublishReceived(
@@ -76,7 +76,7 @@ func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
 	topic string,
 	opts ...UnsubscribeOption,
-) (*Unsuback, error) {
+) (*Ack, error) {
 	if err := c.prepare(ctx); err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (c *SessionClient) Unsubscribe(
 		if err != nil {
 			return nil, err
 		}
-		return &Unsuback{}, err
+		return &Ack{}, err
 	}
 
 	c.log.Packet(ctx, "unsubscribe", unsub)
@@ -100,7 +100,7 @@ func (c *SessionClient) Unsubscribe(
 	if err != nil {
 		return nil, err
 	}
-	return &Unsuback{}, err
+	return &Ack{}, err
 }
 
 func buildSubscribe(

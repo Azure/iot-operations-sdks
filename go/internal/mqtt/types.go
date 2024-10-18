@@ -25,31 +25,9 @@ type (
 		ReasonCode byte
 	}
 
-	// Puback contains values from PUBACK packets received from the MQTT server.
-	// Note that there is no type for PUBREC or PUBCOMP packets because we don't
-	// support QoS 2 publishes.
-	Puback struct {
-		ReasonCode     byte
-		ReasonString   string
-		UserProperties map[string]string
-	}
-
-	// Suback contains values from SUBACK packets recieved from the MQTT server.
-	Suback struct {
-		// NOTE: ReasonCode is a byte rather than a slice of bytes because we
-		// don't support subscribing to mutiple topic filters in a single
-		// subscribe operation.
-		ReasonCode    byte
-		ReasonString  string
-		UserProprties map[string]string
-	}
-
-	// Unsuback contains values from UNSUBACK packets received from the MQTT
-	// server.
-	Unsuback struct {
-		// NOTE: ReasonCode is a byte rather than a slice of bytes because we
-		// don't support unsubscribing from mutiple topic filters in a single
-		// unsubscribe operation.
+	// Ack contains values from PUBACK/SUBACK/UNSUBACK packets received from the
+	// MQTT server.
+	Ack struct {
 		ReasonCode     byte
 		ReasonString   string
 		UserProperties map[string]string
