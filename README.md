@@ -22,7 +22,7 @@ The focus of the SDKs it to assist customers in developing applications by provi
 
 | Feature | Description |
 |-|-|
-| <code>**Highly available** | Provides infrastructure and guidance to build HA into your applications |
+| **Highly available** | Provides infrastructure and guidance to build HA into your applications |
 | **Any language** | The SDKs target multiple languages to support any development environment |
 | **Secure** | Uses the latest crypto libraries and protocols |
 | **Zero data loss** | Builds on MQTT broker to remove data loss due to application failure |
