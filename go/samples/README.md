@@ -7,12 +7,11 @@ broker is needed to run them.
 
 ### Generate the Test Envoys
 
-```bash
-dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
+```sh
+./codegen/build.sh
 
-pushd go/samples/counter/envoy
-sh ./gen.sh
-popd
+cd go/samples/counter/envoy
+./gen.sh
 ```
 
 ## How to run
