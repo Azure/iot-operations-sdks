@@ -38,8 +38,7 @@ async fn main() {
     // Create a new session.
     let mut session = Session::new(session_options).unwrap();
 
-    // Spawn tasks for sending and receiving messages using managed clients
-    // created from the session.
+    // Spawn tasks monitoring uptime and exiting the session.
     tokio::spawn(uptime_monitor(session.create_connection_monitor()));
     tokio::spawn(exit_after_duration(
         session.create_exit_handle(),
