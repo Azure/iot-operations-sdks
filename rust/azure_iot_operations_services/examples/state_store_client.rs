@@ -55,7 +55,7 @@ async fn state_store_operations(client: SessionManagedClient, exit_handle: Sessi
     .unwrap();
 
     let observe_response = state_store_client
-        .observe(state_store_key.to_vec(), Duration::from_millis(2))
+        .observe(state_store_key.to_vec(), Duration::from_secs(10))
         .await;
     log::info!("Observe response: {:?}", observe_response);
 
