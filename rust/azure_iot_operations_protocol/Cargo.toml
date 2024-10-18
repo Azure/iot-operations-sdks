@@ -9,10 +9,10 @@ license = "MIT"
 description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
 repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
-publish = false
+publish = true
 
 [dependencies]
-azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_mqtt = { version = "0.3", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
 bytes.workspace = true
 derive_builder.workspace = true
 log.workspace = true
