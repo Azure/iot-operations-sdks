@@ -28,6 +28,7 @@ var (
 	ErrArgument = errors.New("invalid argument")
 )
 
+//nolint:gosec // False positives.
 const (
 	TimestampSkew            Service = "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
 	MissingFencingToken      Service = "a fencing token is required for this request"
