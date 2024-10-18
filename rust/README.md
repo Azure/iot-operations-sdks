@@ -47,15 +47,15 @@ To get familiar with the Rust language, there are several resources available in
 
     ```toml
     [dependencies]
-    azure_iot_operations_mqtt = { version = "0.3.0", registry = "aio-sdks" }
-    azure_iot_operations_protocol = { version = "0.3.0", registry = "aio-sdks" }
-    azure_iot_operations_services = { version = "0.2.0", registry = "aio-sdks" }
+    azure_iot_operations_mqtt = { version = "0.4.0", registry = "aio-sdks" }
+    azure_iot_operations_protocol = { version = "0.4.0", registry = "aio-sdks" }
+    azure_iot_operations_services = { version = "0.3.0", registry = "aio-sdks" }
     ```
 
 ### Using nightly builds
 If you wish to use the nightly build with the latest bits (not recommended for most users), you can alternately pull from GitHub directly without a need to set up a registry/feed, although this will require GitHub authentication for this repository.
 
-```
+```toml
 [dependencies]
 azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
 azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }

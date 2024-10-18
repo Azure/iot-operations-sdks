@@ -16,56 +16,26 @@ import (
 	"github.com/eclipse/paho.golang/paho/session/state"
 )
 
-type (
-	ConnackPacket struct {
-		ReasonCode byte
-		// NOTE: more fields may be added later
-		// NOTE: this may be moved to the common module once we create it
-	}
-
-	ConnectEvent struct {
-		// Values from the CONNACK packet received from the MQTT server
-		ConnackPacket *ConnackPacket
-	}
-
-	ConnectNotificationHandler = func(*ConnectEvent)
-
-	DisconnectPacket struct {
-		ReasonCode byte
-		// NOTE: more fields may be added later
-		// NOTE: this may be moved to the common module once we create it
-	}
-
-	DisconnectEvent struct {
-		// Values from the DISCONNECT packet received from the MQTT server. May
-		// be nil if the disconnection ocurred without receiving a DISCONNECT
-		// packet from the server.
-		DisconnectPacket *DisconnectPacket
-	}
-
-	DisconnectNotificationHandler = func(*DisconnectEvent)
-)
-
-// RegisterConnectNotificationHandler registers a handler to a list of handlers
-// that are called synchronously in registration order whenever the
-// SessionClient successfully establishes an MQTT connection. Note that since
-// the handler gets called synchronously, handlers should not block for an
-// extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterConnectNotificationHandler(
-	handler ConnectNotificationHandler,
+// RegisterConnectEventHandler registers a handler to a list of handlers that
+// are called synchronously in registration order whenever the SessionClient
+// successfully establishes an MQTT connection. Note that since the handler
+// gets called synchronously, handlers should not block for an extended period
+// of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterConnectEventHandler(
+	handler ConnectEventHandler,
 ) (unregisterHandler func()) {
-	return c.connectNotificationHandlers.AppendEntry(handler)
+	return c.connectEventHandlers.AppendEntry(handler)
 }
 
-// RegisterDisconnectNotificationHandler registers a handler to a list of
-// handlers that are called synchronously in registration order whenever the
-// SessionClient detects a disconnection from the MQTT server. Note that since
-// the handler gets called synchronously, handlers should not block for an
-// extended period of time to avoid blocking the SessionClient.
-func (c *SessionClient) RegisterDisconnectNotificationHandler(
-	handler DisconnectNotificationHandler,
+// RegisterDisconnectEventHandler registers a handler to a list of handlers that
+// are called synchronously in registration order whenever the SessionClient
+// detects a disconnection from the MQTT server. Note that since the handler
+// gets called synchronously, handlers should not block for an extended period
+// of time to avoid blocking the SessionClient.
+func (c *SessionClient) RegisterDisconnectEventHandler(
+	handler DisconnectEventHandler,
 ) (unregisterHandler func()) {
-	return c.disconnectNotificationHandlers.AppendEntry(handler)
+	return c.disconnectEventHandlers.AppendEntry(handler)
 }
 
 // RegisterFatalErrorHandler registers a handler that is called in a goroutine
@@ -292,8 +262,8 @@ func (c *SessionClient) attemptConnect(ctx context.Context) (bool, error) {
 			isRetryableConnack(reasonCode(connack.ReasonCode)), err
 	}
 
-	for handler := range c.connectNotificationHandlers.All() {
-		go handler(&ConnectEvent{&ConnackPacket{connack.ReasonCode}})
+	for handler := range c.connectEventHandlers.All() {
+		go handler(&ConnectEvent{ReasonCode: connack.ReasonCode})
 	}
 
 	return false, nil
@@ -530,8 +500,8 @@ func (c *SessionClient) onClientError(err error) {
 func (c *SessionClient) onServerDisconnect(disconnect *paho.Disconnect) {
 	ctx := context.TODO()
 
-	for handler := range c.disconnectNotificationHandlers.All() {
-		go handler(&DisconnectEvent{&DisconnectPacket{disconnect.ReasonCode}})
+	for handler := range c.disconnectEventHandlers.All() {
+		go handler(&DisconnectEvent{ReasonCode: &disconnect.ReasonCode})
 	}
 
 	if !c.isConnected.Load() {
