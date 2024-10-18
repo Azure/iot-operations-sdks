@@ -11,8 +11,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-//const HOST: &str = "localhost";
-const HOST: &str = "test.mosquitto.org";
+const HOST: &str = "localhost";
 const PORT: u16 = 1883;
 
 #[tokio::main(flavor = "current_thread")]
