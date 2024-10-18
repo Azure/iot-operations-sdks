@@ -500,12 +500,8 @@ func (c *SessionClient) onClientError(err error) {
 func (c *SessionClient) onServerDisconnect(disconnect *paho.Disconnect) {
 	ctx := context.TODO()
 
-	var reason *byte
-	if disconnect != nil {
-		reason = &disconnect.ReasonCode
-	}
 	for handler := range c.disconnectEventHandlers.All() {
-		go handler(&DisconnectEvent{ReasonCode: reason})
+		go handler(&DisconnectEvent{ReasonCode: &disconnect.ReasonCode})
 	}
 
 	if !c.isConnected.Load() {
