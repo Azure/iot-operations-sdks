@@ -1,8 +1,6 @@
 # Setup
 
-The following instructions provide details on configuring your Kubernetes cluster 
-
-## Anatomy of installer
+The following instructions will get your started with setting up a development environment for building the samples and creating Azure IoT Operations applications.
 
 ## Setup the Platform
 
@@ -71,22 +69,67 @@ Installation via Helm provides allows you to get started quicker, however this i
 
 Scripts can be executed with the above commands for ease of use, however if you would like to see the exact steps being performed or would like more information on he process, navigate to the [deployment folder](/tools/deployment/).
 
-## Setup your Language
+## What gets Installed?
 
-### .NET
+The cluster will contain the following:
 
-1. Install the [.NET 8 SDK](https://learn.microsoft.com/dotnet/core/install/linux)
+| Component | Name | Description |
+|-|-|-|
+| `Broker` | default | A standard MQTT broker installation |
+| `BrokerListener` | default | Provides cluster access to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
+| `BrokerListener` | default-external | Provides external access to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
+| `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
+| `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
 
-1. Refer to the [SDK .NET documentation](/dotnet/) for further instructions on getting started.
+It also creates the following artifacts in the local environments. These files can be found in the `.session` directory found at the repository root:
 
-### Go
+| File | Description |
+|-|-|
+| `broker-ca.crt` | The MQTT broker trust bundle required to validate the MQTT broker on ports `8883` and `8884`
+| `client.crt` | A client certificate for accessing the MQTT broker on port `8883`
+| `client.key` | A client private key for accessing the MQTT broker on port `8883`
+| `token.txt` | A Service authentication token (SAT) for accessing port `8884`
 
-1. Install Go by following the [Go Install Dev Doc](https://go.dev/doc/install).
+## Testing the Setup
 
-1. Refer to the [SDK Go documentation](/go/) for further instructions on getting started.
+The easiest way to test the setup is working correctly is to use `mosquitto_pub` to attempt to connect to the locally accessible MQTT broker ports to validate the x509 certs, SAT and trust bundle.
 
-### Rust
+1. Export the `.session` directory:
 
-1. Install Rust by following [Installing Rust](https://www.rust-lang.org/tools/install).
+    ```bash
+    export SESSION=$(git rev-parse --show-toplevel)/.session
+    ```
 
-1. Refer to the [Rust Go documentation](/rust/) for further instructions on getting started.
+1. Test no TLS, no auth:
+
+    ```bash
+    mosquitto_pub -L mqtt://localhost:1883/hello -m world --debug
+    ```
+
+1. Test TLS with SAT auth:
+
+    ```bash
+    mosquitto_pub -L mqtts://localhost:8884/hello -m world --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt) --debug
+    ```
+
+1. Test TLS with x509 auth:
+
+    ```bash
+    mosquitto_pub -L mqtts://localhost:8883/hello -m world --cafile $SESSION/broker-ca.crt --cert $SESSION/client.crt --key $SESSION/client.key --debug
+    ```
+
+## Next Steps
+
+Setting your environment depending on which language you want, and then get started!
+
+ * **.NET** 
+
+    Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux) and then head to the [.NET SDK ](/dotnet/)
+
+* **Go** 
+
+    Install [Go](https://go.dev/doc/install) and then head to the [Go SDK](/go/)
+
+* **Rust** 
+
+    Install [Rust](https://www.rust-lang.org/tools/install) and then head to the [Rust SDK](/rust/)
