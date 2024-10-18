@@ -1,9 +1,11 @@
 ﻿using Azure.Iot.Operations.Mqtt.Session;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
-namespace Azure.Iot.Operations.ConnectorSample;
+namespace Azure.Iot.Operations.GenericHttpConnectorSample;
 
-internal static class MqttSessionClientFactoryProvider
+public static class MqttSessionClientFactoryProvider
 {
     public static Func<IServiceProvider, MqttSessionClient> MqttSessionClientFactory = service =>
     {
