@@ -31,6 +31,9 @@ namespace Azure.Iot.Operations.ConnectorSample
 
             string assetId = "todo - doesn't matter yet";
 
+            //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
+            // Additionally, the telemetry sent by this connector should be stamped as a cloud event
+
             try
             {
                 _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
