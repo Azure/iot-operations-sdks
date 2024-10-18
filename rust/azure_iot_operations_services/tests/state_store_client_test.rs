@@ -42,7 +42,13 @@ async fn state_store_network_tests() {
     let mut session = Session::new(session_options).unwrap();
 
     tokio::task::spawn(state_store_tests(
-        state_store::Client::new(session.create_managed_client()).unwrap(),
+        state_store::Client::new(
+            session.create_managed_client(),
+            state_store::ClientOptionsBuilder::default()
+                .build()
+                .unwrap(),
+        )
+        .unwrap(),
         session.create_exit_handle(),
     ));
 
@@ -84,11 +90,12 @@ async fn state_store_tests(
     exit_handle: SessionExitHandle,
 ) {
     let timeout = Duration::from_secs(10);
+    let value1 = b"value1";
+    let value2 = b"value2";
 
     // ~~~~~~~~ Key 1 ~~~~~~~~
     // Test basic set and delete without fencing tokens or expiry
     let key1 = b"key1";
-    let value1 = b"value1";
 
     // Delete key1 in case it was left over from a previous run
     let delete_cleanup_response = state_store_client
@@ -115,7 +122,7 @@ async fn state_store_tests(
     let set_existing_key_value = state_store_client
         .set(
             key1.to_vec(),
-            b"value2".to_vec(),
+            value2.to_vec(),
             timeout,
             None,
             SetOptions::default(),
@@ -242,7 +249,6 @@ async fn state_store_tests(
     // ~~~~~~~~ never key ~~~~~~~~
     // Tests scenarios where the key isn't found
     let never_key = b"never_key";
-    let never_value = b"never_value";
     // Tests 14 (where key does not exist (expect success that indicates the key wasn't found))
     let get_no_key_response = state_store_client
         .get(never_key.to_vec(), timeout)
@@ -261,7 +267,7 @@ async fn state_store_tests(
 
     // Tests 21 (where key does not exist (expect success that indicates 0 keys were deleted))
     let v_delete_no_key_response = state_store_client
-        .vdel(never_key.to_vec(), never_value.to_vec(), None, timeout)
+        .vdel(never_key.to_vec(), b"never_value".to_vec(), None, timeout)
         .await
         .unwrap();
     assert_eq!(v_delete_no_key_response.response, 0);
@@ -332,7 +338,7 @@ async fn state_store_tests(
     let set_if_equal_or_not_exist_fail = state_store_client
         .set(
             key3.to_vec(),
-            b"value2".to_vec(),
+            value2.to_vec(),
             timeout,
             None,
             SetOptions {
@@ -389,7 +395,7 @@ async fn state_store_tests(
     let v_delete_value_mismatch = state_store_client
         .vdel(
             key4.to_vec(),
-            b"value2".to_vec(),
+            value2.to_vec(),
             Some(key4_fencing_token.clone()),
             timeout,
         )
