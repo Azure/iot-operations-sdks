@@ -208,7 +208,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	defer done()
 
 	shallow = false
-	err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	_, err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
 	if err != nil {
 		return nil, err
 	}

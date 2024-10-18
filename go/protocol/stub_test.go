@@ -128,7 +128,7 @@ func (c *clientStub) Publish(
 	topic string,
 	payload []byte,
 	opts ...mqtt.PublishOption,
-) error {
+) (*mqtt.Puback, error) {
 	var o mqtt.PublishOptions
 	o.Apply(opts)
 
@@ -146,7 +146,16 @@ func (c *clientStub) Publish(
 			User:            mapToUserProperties(o.UserProperties),
 		},
 	})
-	return err
+
+	var zeroValuePuback *mqtt.Puback
+	if o.QoS == 1 {
+		zeroValuePuback = &mqtt.Puback{}
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	return zeroValuePuback, nil
 }
 
 func (c *clientStub) ID() string {
@@ -157,7 +166,7 @@ func (c *clientStub) Subscribe(
 	ctx context.Context,
 	topic string,
 	opts ...mqtt.SubscribeOption,
-) error {
+) (*mqtt.Suback, error) {
 	var o mqtt.SubscribeOptions
 	o.Apply(opts)
 
@@ -173,14 +182,17 @@ func (c *clientStub) Subscribe(
 			RetainAsPublished: o.Retain,
 		}},
 	})
-	return err
+	if err != nil {
+		return nil, err
+	}
+	return &mqtt.Suback{}, nil
 }
 
 func (c *clientStub) Unsubscribe(
 	ctx context.Context,
 	topic string,
 	opts ...mqtt.UnsubscribeOption,
-) error {
+) (*mqtt.Unsuback, error) {
 	var o mqtt.UnsubscribeOptions
 	o.Apply(opts)
 	unsub := &paho.Unsubscribe{Topics: []string{topic}}
@@ -191,7 +203,10 @@ func (c *clientStub) Unsubscribe(
 	}
 
 	_, err := c.client.Unsubscribe(ctx, unsub)
-	return err
+	if err != nil {
+		return nil, err
+	}
+	return &mqtt.Unsuback{}, nil
 }
 
 func userPropertiesToMap(ups paho.UserProperties) map[string]string {

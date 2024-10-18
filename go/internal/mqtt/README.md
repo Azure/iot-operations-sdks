@@ -14,12 +14,15 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 - [type DisconnectEventHandler](<#DisconnectEventHandler>)
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
+- [type Puback](<#Puback>)
 - [type PublishOption](<#PublishOption>)
 - [type PublishOptions](<#PublishOptions>)
   - [func \(o \*PublishOptions\) Apply\(opts \[\]PublishOption, rest ...PublishOption\)](<#PublishOptions.Apply>)
+- [type Suback](<#Suback>)
 - [type SubscribeOption](<#SubscribeOption>)
 - [type SubscribeOptions](<#SubscribeOptions>)
   - [func \(o \*SubscribeOptions\) Apply\(opts \[\]SubscribeOption, rest ...SubscribeOption\)](<#SubscribeOptions.Apply>)
+- [type Unsuback](<#Unsuback>)
 - [type UnsubscribeOption](<#UnsubscribeOption>)
 - [type UnsubscribeOptions](<#UnsubscribeOptions>)
   - [func \(o \*UnsubscribeOptions\) Apply\(opts \[\]UnsubscribeOption, rest ...UnsubscribeOption\)](<#UnsubscribeOptions.Apply>)
@@ -47,7 +50,7 @@ type ConnectEvent struct {
 ```
 
 <a name="ConnectEventHandler"></a>
-## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L30>)
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L60>)
 
 ConnectEventHandler is a user\-defined callback function used to respond to connection notifications from the MQTT client.
 
@@ -56,7 +59,7 @@ type ConnectEventHandler = func(*ConnectEvent)
 ```
 
 <a name="DisconnectEvent"></a>
-## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L36>)
+## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L64-L66>)
 
 DisconnectEvent contains the relevent metadata provided to the handler when the MQTT client disconnects from the broker.
 
@@ -67,7 +70,7 @@ type DisconnectEvent struct {
 ```
 
 <a name="DisconnectEventHandler"></a>
-## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L40>)
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L70>)
 
 DisconnectEventHandler is a user\-defined callback function used to respond to disconnection notifications from the MQTT client.
 
@@ -96,6 +99,19 @@ MessageHandler is a user\-defined callback function used to handle messages rece
 
 ```go
 type MessageHandler = func(context.Context, *Message) bool
+```
+
+<a name="Puback"></a>
+## type [Puback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L31-L35>)
+
+Puback contains values from PUBACK packets received from the MQTT server. Note that there is no type for PUBREC or PUBCOMP packets because we don't support QoS 2 publishes.
+
+```go
+type Puback struct {
+    ReasonCode     byte
+    ReasonString   string
+    UserProperties map[string]string
+}
 ```
 
 <a name="PublishOption"></a>
@@ -136,6 +152,22 @@ func (o *PublishOptions) Apply(opts []PublishOption, rest ...PublishOption)
 
 Apply resolves the provided list of options.
 
+<a name="Suback"></a>
+## type [Suback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L38-L45>)
+
+Suback contains values from SUBACK packets recieved from the MQTT server.
+
+```go
+type Suback struct {
+    // NOTE: ReasonCode is a byte rather than a slice of bytes because we
+    // don't support subscribing to mutiple topic filters in a single
+    // subscribe operation.
+    ReasonCode    byte
+    ReasonString  string
+    UserProprties map[string]string
+}
+```
+
 <a name="SubscribeOption"></a>
 ## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L18>)
 
@@ -170,6 +202,22 @@ func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption
 ```
 
 Apply resolves the provided list of options.
+
+<a name="Unsuback"></a>
+## type [Unsuback](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L49-L56>)
+
+Unsuback contains values from UNSUBACK packets received from the MQTT server.
+
+```go
+type Unsuback struct {
+    // NOTE: ReasonCode is a byte rather than a slice of bytes because we
+    // don't support unsubscribing from mutiple topic filters in a single
+    // unsubscribe operation.
+    ReasonCode     byte
+    ReasonString   string
+    UserProperties map[string]string
+}
+```
 
 <a name="UnsubscribeOption"></a>
 ## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L26>)

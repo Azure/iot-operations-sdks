@@ -119,7 +119,8 @@ func (ts *TelemetrySender[T]) Send(
 	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
-	return ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	return err
 }
 
 // Apply resolves the provided list of options.

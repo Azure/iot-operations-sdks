@@ -13,6 +13,9 @@ type (
 	ConnectEventHandler    = mqtt.ConnectEventHandler
 	DisconnectEvent        = mqtt.DisconnectEvent
 	DisconnectEventHandler = mqtt.DisconnectEventHandler
+	Puback                 = mqtt.Puback
+	Suback                 = mqtt.Suback
+	Unsuback               = mqtt.Unsuback
 
 	SubscribeOptions   = mqtt.SubscribeOptions
 	SubscribeOption    = mqtt.SubscribeOption
