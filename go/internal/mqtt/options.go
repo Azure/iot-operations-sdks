@@ -5,6 +5,41 @@ package mqtt
 import "github.com/Azure/iot-operations-sdks/go/internal/options"
 
 type (
+	// SubscribeOptions are the resolved subscribe options.
+	SubscribeOptions struct {
+		NoLocal        bool
+		QoS            byte
+		Retain         bool
+		RetainHandling byte
+		UserProperties map[string]string
+	}
+
+	// SubscribeOption represents a single subscribe option.
+	SubscribeOption interface{ subscribe(*SubscribeOptions) }
+
+	// UnsubscribeOptions are the resolve unsubscribe options.
+	UnsubscribeOptions struct {
+		UserProperties map[string]string
+	}
+
+	// UnsubscribeOption represents a single unsubscribe option.
+	UnsubscribeOption interface{ unsubscribe(*UnsubscribeOptions) }
+
+	// PublishOptions are the resolved publish options.
+	PublishOptions struct {
+		ContentType     string
+		CorrelationData []byte
+		MessageExpiry   uint32
+		PayloadFormat   byte
+		QoS             byte
+		ResponseTopic   string
+		Retain          bool
+		UserProperties  map[string]string
+	}
+
+	// PublishOption represents a single publish option.
+	PublishOption interface{ publish(*PublishOptions) }
+
 	// WithContentType sets the content type for the publish.
 	WithContentType string
 

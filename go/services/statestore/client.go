@@ -4,8 +4,13 @@ package statestore
 
 import (
 	"context"
+	"encoding/hex"
 	"log/slog"
+	"strings"
+	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
@@ -18,8 +23,19 @@ type (
 
 	// Client represents a client of the state store.
 	Client[K, V Bytes] struct {
-		protocol.Listeners
-		invoker *protocol.CommandInvoker[[]byte, []byte]
+		listeners protocol.Listeners
+		done      func()
+
+		invoker  *protocol.CommandInvoker[[]byte, []byte]
+		receiver *protocol.TelemetryReceiver[[]byte]
+
+		notify   map[string]map[chan Notify[K, V]]chan struct{}
+		notifyMu sync.RWMutex
+
+		keynotify   map[string]uint
+		keynotifyMu sync.RWMutex
+
+		manualAck bool
 	}
 
 	// ClientOption represents a single option for the client.
@@ -27,7 +43,9 @@ type (
 
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
-		Logger *slog.Logger
+		Concurrency uint
+		ManualAck   bool
+		Logger      *slog.Logger
 	}
 
 	// Response represents a state store response, which will include a value
@@ -42,8 +60,10 @@ type (
 	PayloadError  = errors.Payload
 	ArgumentError = errors.Argument
 
-	// This option is not used directly; see WithLogger below.
-	withLogger struct{ *slog.Logger }
+	MqttClient interface {
+		protocol.MqttClient
+		RegisterConnectEventHandler(mqtt.ConnectEventHandler) func()
+	}
 )
 
 var (
@@ -56,14 +76,22 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
-	client protocol.MqttClient,
+	client MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
-	c := &Client[K, V]{}
+	c := &Client[K, V]{
+		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
+		keynotify: map[string]uint{},
+	}
 	var err error
 
 	var opts ClientOptions
 	opts.Apply(opt)
+	c.manualAck = opts.ManualAck
+
+	tokens := protocol.WithTopicTokens{
+		"clientId": strings.ToUpper(hex.EncodeToString([]byte(client.ID()))),
+	}
 
 	c.invoker, err = protocol.NewCommandInvoker(
 		client,
@@ -73,15 +101,49 @@ func New[K, V Bytes](
 		opts.invoker(),
 		protocol.WithResponseTopicPrefix("clients/{clientId}"),
 		protocol.WithResponseTopicSuffix("response"),
-		protocol.WithTopicTokens{"clientId": client.ID()},
+		tokens,
 	)
 	if err != nil {
-		c.Close()
+		c.listeners.Close()
 		return nil, err
 	}
-	c.Listeners = append(c.Listeners, c.invoker)
+	c.listeners = append(c.listeners, c.invoker)
+
+	c.receiver, err = protocol.NewTelemetryReceiver(
+		client,
+		protocol.Raw{},
+		"clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{clientId}/command/notify/{keyName}",
+		c.notifyReceive,
+		opts.receiver(),
+		tokens,
+	)
+	if err != nil {
+		c.listeners.Close()
+		return nil, err
+	}
+	c.listeners = append(c.listeners, c.invoker)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	done := client.RegisterConnectEventHandler(func(*mqtt.ConnectEvent) {
+		c.reconnect(ctx)
+	})
+	c.done = func() {
+		done()
+		cancel()
+	}
 
 	return c, nil
+}
+
+// Start listening to all underlying MQTT topics.
+func (c *Client[K, V]) Start(ctx context.Context) error {
+	return c.listeners.Start(ctx)
+}
+
+// Close all underlying MQTT topics and free resources.
+func (c *Client[K, V]) Close() {
+	c.done()
+	c.listeners.Close()
 }
 
 // Shorthand to invoke and parse.
@@ -109,7 +171,7 @@ func invoke[T any](
 func parseOK(data []byte) (bool, error) {
 	switch data[0] {
 	// SET and KEYNOTIFY return +OK on success.
-	case '+':
+	case '+', '-':
 		res, err := resp.String(data)
 		if err != nil {
 			return false, err
@@ -141,15 +203,8 @@ func (o *ClientOptions) Apply(
 	opts []ClientOption,
 	rest ...ClientOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.client(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.client(o)
-		}
+	for opt := range options.Apply[ClientOption](opts, rest...) {
+		opt.client(o)
 	}
 }
 
@@ -159,9 +214,12 @@ func (o *ClientOptions) client(opt *ClientOptions) {
 	}
 }
 
-// WithLogger enables logging with the provided slog logger.
-func WithLogger(logger *slog.Logger) ClientOption {
-	return withLogger{logger}
+func (o WithConcurrency) client(opt *ClientOptions) {
+	opt.Concurrency = uint(o)
+}
+
+func (o WithManualAck) client(opt *ClientOptions) {
+	opt.ManualAck = bool(o)
 }
 
 func (o withLogger) client(opt *ClientOptions) {
@@ -171,5 +229,13 @@ func (o withLogger) client(opt *ClientOptions) {
 func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {
 	return &protocol.CommandInvokerOptions{
 		Logger: o.Logger,
+	}
+}
+
+func (o *ClientOptions) receiver() *protocol.TelemetryReceiverOptions {
+	return &protocol.TelemetryReceiverOptions{
+		Concurrency: o.Concurrency,
+		ManualAck:   o.ManualAck,
+		Logger:      o.Logger,
 	}
 }

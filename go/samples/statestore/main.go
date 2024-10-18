@@ -15,7 +15,6 @@ import (
 func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
-	slog.SetDefault(log)
 
 	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
 	connStr := fmt.Sprintf(
@@ -26,23 +25,32 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
-	defer client.Close()
-
-	check(mqttClient.Connect(ctx))
-	check(client.Start(ctx))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	set := must(client.Set(ctx, stateStoreKey, stateStoreValue))
-	log.Info("SET", "key", stateStoreKey, "value", set.Value, "version", set.Version)
+	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
+	defer client.Close()
+
+	kn, rm := client.Notify(stateStoreKey)
+	defer rm()
+
+	check(mqttClient.Connect(ctx))
+	check(client.Start(ctx))
+
+	check(client.KeyNotify(ctx, stateStoreKey))
+	defer func() { check(client.KeyNotifyStop(ctx, stateStoreKey)) }()
+
+	must(client.Set(ctx, stateStoreKey, stateStoreValue))
+	n := <-kn
+	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 
 	get := must(client.Get(ctx, stateStoreKey))
 	log.Info("GET", "key", stateStoreKey, "value", get.Value, "version", get.Version)
 
-	del := must(client.Del(ctx, stateStoreKey))
-	log.Info("DEL", "key", stateStoreKey, "value", del.Value, "version", del.Version)
+	must(client.Del(ctx, stateStoreKey))
+	n = <-kn
+	log.Info(n.Operation, "key", n.Key, "value", n.Value)
 }
 
 func check(e error) {

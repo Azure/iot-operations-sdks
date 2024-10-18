@@ -8,6 +8,10 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 
 ## Index
 
+- [type ConnectEvent](<#ConnectEvent>)
+- [type ConnectEventHandler](<#ConnectEventHandler>)
+- [type DisconnectEvent](<#DisconnectEvent>)
+- [type DisconnectEventHandler](<#DisconnectEventHandler>)
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
 - [type PublishOption](<#PublishOption>)
@@ -30,6 +34,46 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 - [type WithRetainHandling](<#WithRetainHandling>)
 - [type WithUserProperties](<#WithUserProperties>)
 
+
+<a name="ConnectEvent"></a>
+## type [ConnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L24-L26>)
+
+ConnectEvent contains the relevent metadata provided to the handler when the MQTT client connects to the broker.
+
+```go
+type ConnectEvent struct {
+    ReasonCode byte
+}
+```
+
+<a name="ConnectEventHandler"></a>
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L30>)
+
+ConnectEventHandler is a user\-defined callback function used to respond to connection notifications from the MQTT client.
+
+```go
+type ConnectEventHandler = func(*ConnectEvent)
+```
+
+<a name="DisconnectEvent"></a>
+## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L36>)
+
+DisconnectEvent contains the relevent metadata provided to the handler when the MQTT client disconnects from the broker.
+
+```go
+type DisconnectEvent struct {
+    ReasonCode *byte
+}
+```
+
+<a name="DisconnectEventHandler"></a>
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L40>)
+
+DisconnectEventHandler is a user\-defined callback function used to respond to disconnection notifications from the MQTT client.
+
+```go
+type DisconnectEventHandler = func(*DisconnectEvent)
+```
 
 <a name="Message"></a>
 ## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L10-L15>)
@@ -55,7 +99,7 @@ type MessageHandler = func(context.Context, *Message) bool
 ```
 
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L55>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L41>)
 
 PublishOption represents a single publish option.
 
@@ -66,7 +110,7 @@ type PublishOption interface {
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L43-L52>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L29-L38>)
 
 PublishOptions are the resolved publish options.
 
@@ -84,7 +128,7 @@ type PublishOptions struct {
 ```
 
 <a name="PublishOptions.Apply"></a>
-### func \(\*PublishOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L142-L145>)
+### func \(\*PublishOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L177-L180>)
 
 ```go
 func (o *PublishOptions) Apply(opts []PublishOption, rest ...PublishOption)
@@ -93,7 +137,7 @@ func (o *PublishOptions) Apply(opts []PublishOption, rest ...PublishOption)
 Apply resolves the provided list of options.
 
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L32>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L18>)
 
 SubscribeOption represents a single subscribe option.
 
@@ -104,7 +148,7 @@ type SubscribeOption interface {
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L23-L29>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L9-L15>)
 
 SubscribeOptions are the resolved subscribe options.
 
@@ -119,7 +163,7 @@ type SubscribeOptions struct {
 ```
 
 <a name="SubscribeOptions.Apply"></a>
-### func \(\*SubscribeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L108-L111>)
+### func \(\*SubscribeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L143-L146>)
 
 ```go
 func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption)
@@ -128,7 +172,7 @@ func (o *SubscribeOptions) Apply(opts []SubscribeOption, rest ...SubscribeOption
 Apply resolves the provided list of options.
 
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L40>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L26>)
 
 UnsubscribeOption represents a single unsubscribe option.
 
@@ -139,7 +183,7 @@ type UnsubscribeOption interface {
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L35-L37>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L21-L23>)
 
 UnsubscribeOptions are the resolve unsubscribe options.
 
@@ -150,7 +194,7 @@ type UnsubscribeOptions struct {
 ```
 
 <a name="UnsubscribeOptions.Apply"></a>
-### func \(\*UnsubscribeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L125-L128>)
+### func \(\*UnsubscribeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L160-L163>)
 
 ```go
 func (o *UnsubscribeOptions) Apply(opts []UnsubscribeOption, rest ...UnsubscribeOption)
@@ -159,7 +203,7 @@ func (o *UnsubscribeOptions) Apply(opts []UnsubscribeOption, rest ...Unsubscribe
 Apply resolves the provided list of options.
 
 <a name="WithContentType"></a>
-## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L9>)
+## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L44>)
 
 WithContentType sets the content type for the publish.
 
@@ -168,7 +212,7 @@ type WithContentType string
 ```
 
 <a name="WithCorrelationData"></a>
-## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L12>)
+## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L47>)
 
 WithCorrelationData sets the correlation data for the publish.
 
@@ -177,7 +221,7 @@ type WithCorrelationData []byte
 ```
 
 <a name="WithMessageExpiry"></a>
-## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L15>)
+## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L50>)
 
 WithMessageExpiry sets the message expiry interval for the publish.
 
@@ -186,7 +230,7 @@ type WithMessageExpiry uint32
 ```
 
 <a name="WithNoLocal"></a>
-## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L18>)
+## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L53>)
 
 WithNoLocal sets the no local flag for the subscription.
 
@@ -195,7 +239,7 @@ type WithNoLocal bool
 ```
 
 <a name="WithPayloadFormat"></a>
-## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L21>)
+## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L56>)
 
 WithPayloadFormat sets the payload format indicator for the publish.
 
@@ -204,7 +248,7 @@ type WithPayloadFormat byte
 ```
 
 <a name="WithQoS"></a>
-## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L24>)
+## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L59>)
 
 WithQoS sets the QoS level for the publish or subscribe.
 
@@ -213,7 +257,7 @@ type WithQoS byte
 ```
 
 <a name="WithResponseTopic"></a>
-## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L27>)
+## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L62>)
 
 WithResponseTopic sets the response topic for the publish.
 
@@ -222,7 +266,7 @@ type WithResponseTopic string
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L31>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L66>)
 
 WithRetain sets the retain flag for the publish or the retain\-as\-publish flag for the subscribe.
 
@@ -231,7 +275,7 @@ type WithRetain bool
 ```
 
 <a name="WithRetainHandling"></a>
-## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L35>)
+## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L70>)
 
 WithRetainHandling specifies the handling of retained messages on this subscribe.
 
@@ -240,7 +284,7 @@ type WithRetainHandling byte
 ```
 
 <a name="WithUserProperties"></a>
-## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L38>)
+## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L73>)
 
 WithUserProperties sets the user properties for the publish or subscribe.
 
