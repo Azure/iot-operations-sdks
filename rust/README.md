@@ -35,7 +35,7 @@ To get familiar with the Rust language, there are several resources available in
     While this can be done on a Windows development environment, we would at this time advise you to simply use WSL and follow the above Linux instructions.
 
 
-### Using crate registry
+### Using crate registry (recommended)
 2. Add the Azure IoT Operations SDK crate feed by adding the following to `config.toml` as described [in the Cargo book](https://doc.rust-lang.org/cargo/reference/config.html):
 
     ```toml
@@ -43,24 +43,27 @@ To get familiar with the Rust language, there are several resources available in
     aio-sdks = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/" }
     ```
 
-3. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application:
+3. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application, specifying the `aio-sdks` registry configured above:
 
     ```toml
     [dependencies]
-    azure_iot_operations_mqtt = { version = "0.4.0", registry = "aio-sdks" }
-    azure_iot_operations_protocol = { version = "0.4.0", registry = "aio-sdks" }
-    azure_iot_operations_services = { version = "0.3.0", registry = "aio-sdks" }
+    azure_iot_operations_mqtt = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_protocol = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_services = { version = "<version>", registry = "aio-sdks" }
     ```
 
-### Using nightly builds
-If you wish to use the nightly build with the latest bits (not recommended for most users), you can alternately pull from GitHub directly without a need to set up a registry/feed, although this will require GitHub authentication for this repository.
+### Using nightly builds (not recommended for most users)
+2. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application, specifying the commit SHA of the nightly build you want:
+    ```toml
+    [dependencies]
+    azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
+    azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
+    azure_iot_operations_services = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
+    ```
 
-```toml
-[dependencies]
-azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
-azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
-azure_iot_operations_services = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
-```
+
+    * Note that using a nightly build requires a GH credential, which is difficult to work with in automated deployments.
+    * Note also that directly referencing different release tags can create dependency issues, thus the recommendation of using a SHA.
 
 ## Set up broker
 
