@@ -10,15 +10,15 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
-    public class HttpConnectorWorkerService : BackgroundService
+    public class GenericHttpConnectorWorkerService : BackgroundService
     {
-        private readonly ILogger<HttpConnectorWorkerService> _logger;
+        private readonly ILogger<GenericHttpConnectorWorkerService> _logger;
         private MqttSessionClient _sessionClient;
 
         private Asset? _httpServerAsset;
         private AssetEndpointProfile? _httpServerAssetEndpointProfile;
 
-        public HttpConnectorWorkerService(ILogger<HttpConnectorWorkerService> logger, MqttSessionClient mqttSessionClient)
+        public GenericHttpConnectorWorkerService(ILogger<GenericHttpConnectorWorkerService> logger, MqttSessionClient mqttSessionClient)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.ConnectorSample
                 }
 
                 _logger.LogInformation($"Will sample dataset with name {datasetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                using Timer datasetSamplingTimer = new(SampleThermostatStatus, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
+                using Timer datasetSamplingTimer = new(SampleHttpEndpoint, datasetName, 0, (int)samplingInterval.TotalMilliseconds);
 
                 // Wait until the worker is cancelled
                 await Task.Delay(-1, cancellationToken);
@@ -96,29 +96,8 @@ namespace Azure.Iot.Operations.ConnectorSample
             }
         }
 
-        private async void SampleThermostatStatus(object? status)
+        private async void SampleHttpEndpoint(object? status)
         {
-            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["thermostat_status"];
-
-            string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
-            byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
-
-            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints![0];
-            HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-            string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
-            using HttpDataRetriever httpServerDesiredTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerDesiredTemperatureRequestPath, httpServerDesiredTemperatureHttpMethod, httpServerUsername, httpServerPassword);
-
-            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints![1];
-            HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-            string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
-            using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
-
-            string desiredTemperatureValue = await httpServerDesiredTemperatureDataRetriever.RetrieveDataAsync(httpServerDesiredTemperatureDataPoint.Name);
-            string actualTemperatureValue = await httpServerActualTemperatureDataRetriever.RetrieveDataAsync(httpServerActualTemperatureDataPoint.Name);
-
-            var thermostatStatus = new ThermostatStatus(desiredTemperatureValue, actualTemperatureValue);
-            _logger.LogInformation($"Read thermostat status from HTTP server asset: {thermostatStatus}. Now publishing it to MQTT broker");
-
             var mqttMessage = new MqttApplicationMessage(httpServerStatusDataset.Topic!.Path!)
             {
                 PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus)),
@@ -126,44 +105,10 @@ namespace Azure.Iot.Operations.ConnectorSample
             };
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
-            if (puback.ReasonCode != MqttClientPublishReasonCode.Success
-                && puback.ReasonCode != MqttClientPublishReasonCode.NoMatchingSubscribers) // There is no consumer of these messages yet, so ignore this expected NoMatchingSubscribers error
+            if (puback.ReasonCode != MqttClientPublishReasonCode.Success)
             {
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
-        }
-
-        private Asset GetStubAsset()
-        {
-            return new()
-            {
-                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 4000}"),
-                Datasets = new Dictionary<string, Dataset>
-                {
-                    {
-                        "thermostat_status",
-                        new Dataset()
-                        {
-                            DataPoints =
-                            [
-                                new DataPoint("/api/machine/my_thermostat_1/status", "actual_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                                new DataPoint("/api/machine/my_thermostat_1/status", "desired_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                            ],
-                            Topic = new()
-                            {
-                                Path = "mqtt/machine/my_thermostat_1/status",
-                                Retain = RetainHandling.Keep,
-                            }
-                        }
-                    }
-                }
-            };
         }
     }
 }
