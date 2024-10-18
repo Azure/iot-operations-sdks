@@ -98,7 +98,8 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         private async void SampleThermostatStatus(object? status)
         {
-            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets!["thermostat_status"];
+            string datasetName = (string)status!;
+            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets![datasetName];
 
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
