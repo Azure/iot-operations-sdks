@@ -51,17 +51,17 @@ pub enum StateStoreErrorKind {
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
 #[derive(Error, Debug)]
 pub enum ServiceError {
-    /// The requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
+    #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     TimestampSkew,
     /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
     #[error("a fencing token is required for this request")]
     MissingFencingToken,
-    /// The requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    /// the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
+    #[error("the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     FencingTokenSkew,
-    /// The requested fencing token is a lower version than the fencing token protecting the resource.
-    #[error("the requested fencing token is a lower version that the fencing token protecting the resource")]
+    /// The request fencing token is a lower version than the fencing token protecting the resource.
+    #[error("the request fencing token is a lower version than the fencing token protecting the resource")]
     FencingTokenLowerVersion,
     /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
     #[error("the quota has been exceeded")]
@@ -96,10 +96,10 @@ impl From<Vec<u8>> for ServiceError {
     fn from(s: Vec<u8>) -> Self {
         let s_bytes: &[u8] = &s;
         match s_bytes {
-            b"the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::TimestampSkew,
+            b"the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::TimestampSkew,
             b"a fencing token is required for this request" => ServiceError::MissingFencingToken,
-            b"the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::FencingTokenSkew,
-            b"the requested fencing token is a lower version that the fencing token protecting the resource" => ServiceError::FencingTokenLowerVersion,
+            b"the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::FencingTokenSkew,
+            b"the request fencing token is a lower version than the fencing token protecting the resource" => ServiceError::FencingTokenLowerVersion,
             b"the quota has been exceeded" => ServiceError::KeyQuotaExceeded,
             b"syntax error" => ServiceError::SyntaxError,
             b"not authorized" => ServiceError::NotAuthorized,
