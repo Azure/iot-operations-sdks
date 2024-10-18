@@ -19,8 +19,9 @@ session_dir=$script_dir/../../.session
 mkdir -p $session_dir
 cd $script_dir
 
-# add/upgrade the azure-iot-ops extension
+# add/upgrade the azure-iot-ops / connectedk8s extensions
 az extension add --upgrade --name azure-iot-ops
+az extension add --upgrade --name connectedk8s
 
 # If its a nightly build, we need to install all the dependencies
 if [ "$deploy_type" = "nightly" ]; then
