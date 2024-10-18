@@ -157,7 +157,7 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		logger:         log.Wrap(opts.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ci,
 	}
 
@@ -194,8 +194,8 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ClientID()
-	pub.UserProperties[constants.Partition] = ci.client.ClientID()
+	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
+	pub.UserProperties[constants.Partition] = ci.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}

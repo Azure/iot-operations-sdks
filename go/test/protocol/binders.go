@@ -66,7 +66,7 @@ func NewTestingCommandInvoker(
 		opt,
 		protocol.WithTopicTokens{
 			"modelId":         *modelID,
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 		},
 	)
 
@@ -128,7 +128,7 @@ func NewTestingCommandExecutor(
 		opt,
 		protocol.WithTopicTokens{
 			"modelId":    *modelID,
-			"executorId": client.ClientID(),
+			"executorId": client.ID(),
 		},
 	)
 
@@ -143,7 +143,7 @@ func NewTestingCommandExecutor(
 		opts.Apply(
 			opt,
 			protocol.WithTopicTokens{
-				"executorId": client.ClientID(),
+				"executorId": client.ID(),
 			},
 		)
 	}

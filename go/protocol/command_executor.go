@@ -173,7 +173,7 @@ func NewCommandExecutor[Req, Res any](
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		logger:         log.Wrap(opts.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{

@@ -149,7 +149,7 @@ func (c *clientStub) Publish(
 	return err
 }
 
-func (c *clientStub) ClientID() string {
+func (c *clientStub) ID() string {
 	return c.id
 }
 

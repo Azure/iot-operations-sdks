@@ -116,7 +116,7 @@ func (ts *TelemetrySender[T]) Send(
 	}
 
 	pub.Retain = opts.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ClientID()
+	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
 	return ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)

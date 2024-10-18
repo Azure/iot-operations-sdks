@@ -125,7 +125,7 @@ func NewTelemetryReceiver[T any](
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		logger:      log.Wrap(opts.Logger),
+		log:         log.Wrap(opts.Logger),
 		handler:     tr,
 	}
 

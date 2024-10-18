@@ -80,7 +80,7 @@ func NewGreeterServer(
 
 	var opt protocol.CommandExecutorOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"executorId": client.ClientID(),
+		"executorId": client.ID(),
 	})
 
 	s.sayHelloExecutor, err = protocol.NewCommandExecutor(
@@ -126,7 +126,7 @@ func NewGreeterClient(
 
 	var opt protocol.CommandInvokerOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"invokerClientId": client.ClientID(),
+		"invokerClientId": client.ID(),
 	})
 
 	if opt.ResponseTopicPrefix == "" && opt.ResponseTopicSuffix == "" {

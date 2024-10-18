@@ -126,7 +126,7 @@ func WithReceiveMaximum(
 
 // WithConnectionTimeout sets the connectionTimeout for the connection settings.
 // If connectionTimeout is 0, connection will have no timeout.
-// Note the connectionTimeout would work with retrypolicy `connRetry`.
+// Note the connectionTimeout would work with connRetry.
 func WithConnectionTimeout(
 	connectionTimeout time.Duration,
 ) SessionClientOption {

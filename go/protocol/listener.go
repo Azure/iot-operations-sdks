@@ -35,7 +35,7 @@ type (
 		shareName      string
 		concurrency    uint
 		reqCorrelation bool
-		logger         log.Logger
+		log            log.Logger
 		handler        interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
@@ -96,7 +96,7 @@ func (l *listener[T]) close() {
 		if err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
-			l.logger.Err(ctx, err)
+			l.log.Error(ctx, err)
 		}
 	}
 	l.done()
@@ -207,7 +207,7 @@ func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {
 }
 
 func (l *listener[T]) drop(ctx context.Context, _ *mqtt.Message, err error) {
-	l.logger.Err(ctx, err)
+	l.log.Error(ctx, err)
 }
 
 // Start listening to all underlying MQTT topics.

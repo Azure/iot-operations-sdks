@@ -36,7 +36,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         CommandRequestMetadata reqMd = new();
 
         logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
-        ExtendedResponse<ReadCounterCommandResponse> respCounter = await counterClient.ReadCounterAsync(server, reqMd).WithMetadata();
+        ExtendedResponse<ReadCounterResponsePayload> respCounter = await counterClient.ReadCounterAsync(server, reqMd).WithMetadata();
         logger.LogInformation("called read {c} with id {id}", respCounter.Response!.CounterResponse, respCounter.ResponseMetadata!.CorrelationId);
 
 
@@ -45,19 +45,19 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         {
             CommandRequestMetadata reqMd2 = new();
             logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
-            Task<ExtendedResponse<IncrementCommandResponse>> incrCounterTask = counterClient.IncrementAsync(server, reqMd2).WithMetadata();
+            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;
         }
         await Task.WhenAll(tasks);
 
         for (int i = 0; i < tasks.Length; i++)
         {
-            Task<ExtendedResponse<IncrementCommandResponse>>? t = (Task<ExtendedResponse<IncrementCommandResponse>>?)tasks[i];
+            Task<ExtendedResponse<IncrementResponsePayload>>? t = (Task<ExtendedResponse<IncrementResponsePayload>>?)tasks[i];
             logger.LogInformation("called counter.incr {c} with id {id}", t!.Result.Response.CounterResponse, t.Result.ResponseMetadata!.CorrelationId);
         }
 
 
-        ExtendedResponse<ReadCounterCommandResponse> respCounter4 = await counterClient.ReadCounterAsync(server).WithMetadata();
+        ExtendedResponse<ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(server).WithMetadata();
         logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
 
 

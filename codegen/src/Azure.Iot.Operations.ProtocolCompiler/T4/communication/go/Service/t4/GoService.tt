@@ -57,10 +57,10 @@ func New<#=this.serviceName#>Service(
 			"modelId":    ModelID,
 <# } #>
 <# if (this.commandTopic != null) { #>
-			"executorId": client.ClientID(),
+			"executorId": client.ID(),
 <# } #>
 <# if (this.telemetryTopic != null) { #>
-			"senderId":   client.ClientID(),
+			"senderId":   client.ID(),
 <# } #>
 		},
 	}
@@ -122,7 +122,7 @@ func New<#=this.serviceName#>Client(
 			"modelId":    ModelID,
 <# } #>
 <# if (this.commandTopic != null) { #>
-			"invokerClientId": client.ClientID(),
+			"invokerClientId": client.ID(),
 <# } #>
 		},
 	}

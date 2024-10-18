@@ -47,13 +47,18 @@ func (l Logger) Log(
 	_ = l.Wrapped.Handler().Handle(ctx, r)
 }
 
-// Err logs a error with structured logging.
-func (l Logger) Err(ctx context.Context, err error) {
+// Error logs a error with structured logging.
+func (l Logger) Error(ctx context.Context, err error, attrs ...slog.Attr) {
 	if a, ok := err.(Attrs); ok {
-		l.Log(ctx, slog.LevelError, err.Error(), a.Attrs()...)
+		l.Log(ctx, slog.LevelError, err.Error(), append(a.Attrs(), attrs...)...)
 	} else {
-		l.Log(ctx, slog.LevelError, err.Error())
+		l.Log(ctx, slog.LevelError, err.Error(), attrs...)
 	}
+}
+
+// Info logs a message with structured logging.
+func (l Logger) Info(ctx context.Context, msg string, attrs ...slog.Attr) {
+	l.Log(ctx, slog.LevelInfo, msg, attrs...)
 }
 
 // Enabled indicates that the logger is enabled for the given logging level.

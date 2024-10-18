@@ -40,7 +40,7 @@ func main() {
 func ReadCounter(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
-) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterCommandResponse], error) {
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
 	slog.Info(
 		"--> Counter.Read",
 		slog.String("id", req.CorrelationData),
@@ -52,7 +52,7 @@ func ReadCounter(
 		slog.String("client", req.ClientID),
 	)
 
-	return protocol.Respond(dtmi_com_example_Counter__1.ReadCounterCommandResponse{
+	return protocol.Respond(dtmi_com_example_Counter__1.ReadCounterResponsePayload{
 		CounterResponse: int32(counterValue),
 	})
 }
@@ -60,7 +60,7 @@ func ReadCounter(
 func Increment(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
-) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementCommandResponse], error) {
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
 	slog.Info(
 		"--> Counter.Increment",
 		slog.String("id", req.CorrelationData),
@@ -72,7 +72,7 @@ func Increment(
 		slog.String("client", req.ClientID),
 	)
 	counterValue++
-	return protocol.Respond(dtmi_com_example_Counter__1.IncrementCommandResponse{
+	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
 		CounterResponse: int32(counterValue),
 	})
 }

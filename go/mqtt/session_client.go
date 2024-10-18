@@ -53,11 +53,11 @@ type (
 
 		// A list of functions that are called in order to notify the user of
 		// successful MQTT connections
-		connectNotificationHandlers *internal.AppendableListWithRemoval[ConnectNotificationHandler]
+		connectEventHandlers *internal.AppendableListWithRemoval[ConnectEventHandler]
 
 		// A list of functions that are called in order to notify the user of a
 		// disconnection from the MQTT server.
-		disconnectNotificationHandlers *internal.AppendableListWithRemoval[DisconnectNotificationHandler]
+		disconnectEventHandlers *internal.AppendableListWithRemoval[DisconnectEventHandler]
 
 		// A list of functions that are called in goroutines to notify the user
 		// of a SessionClient termination due to a fatal error.
@@ -96,7 +96,7 @@ type (
 		// If receiveMaximum value is absent, its value defaults to 65,535.
 		receiveMaximum uint16
 		// If connectionTimeout is 0, connection will have no timeout.
-		// Note the connectionTimeout would work with retrypolicy `connRetry`.
+		// Note the connectionTimeout would work with connRetry.
 		connectionTimeout time.Duration
 		userProperties    map[string]string
 
@@ -135,10 +135,10 @@ func NewSessionClient(
 		connUp:   make(chan struct{}),
 		connDown: make(chan struct{}),
 
-		incomingPublishHandlers:        internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
-		connectNotificationHandlers:    internal.NewAppendableListWithRemoval[ConnectNotificationHandler](),
-		disconnectNotificationHandlers: internal.NewAppendableListWithRemoval[DisconnectNotificationHandler](),
-		fatalErrorHandlers:             internal.NewAppendableListWithRemoval[func(error)](),
+		incomingPublishHandlers: internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
+		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
+		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),
+		fatalErrorHandlers:      internal.NewAppendableListWithRemoval[func(error)](),
 
 		// TODO: make this queue size configurable
 		outgoingPublishes: make(chan *outgoingPublish, math.MaxUint16),
@@ -206,6 +206,6 @@ func NewSessionClientFromEnv(
 	return NewSessionClient(connSettings.serverURL, opts...)
 }
 
-func (c *SessionClient) ClientID() string {
+func (c *SessionClient) ID() string {
 	return c.connSettings.clientID
 }

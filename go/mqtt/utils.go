@@ -54,9 +54,9 @@ func randomChar() byte {
 	}
 }
 
-// isTopicFilterMatch checks if a topic name matches a topic filter,
-// including handling shared subscriptions.
-func isTopicFilterMatch(topicFilter, topicName string) bool {
+// IsTopicFilterMatch checks if a topic name matches a topic filter, including
+// handling shared subscriptions.
+func IsTopicFilterMatch(topicFilter, topicName string) bool {
 	const sharedPrefix = "$share/"
 
 	// Handle shared subscriptions
