@@ -9,7 +9,7 @@ license = "MIT"
 description = "MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications"
 repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
-publish = false
+publish = true
 
 [dependencies]
 anyhow = "1.0.86"                                                                   # TODO: reconsider inclusion once TLS library is finalized
@@ -20,7 +20,7 @@ derive_builder.workspace = true
 log.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
-rumqttc = { git = "https://github.com/xiaocq2001/rumqtt.git", branch = "all_test", features = ["use-native-tls"] }
+rumqttc = { version = "0.24.0-fork.2", registry = 'aio-sdks', features = ["use-native-tls"] }
 serde_json = "1"
 thiserror.workspace = true
 tokio.workspace = true
