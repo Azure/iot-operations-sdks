@@ -33,24 +33,42 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let state_store_client: state_store::Client<_> =
-        state_store::Client::new(session.create_managed_client()).unwrap();
-
     tokio::task::spawn(state_store_operations(
-        state_store_client,
+        session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
     session.run().await.unwrap();
 }
 
-async fn state_store_operations(
-    state_store_client: state_store::Client<SessionManagedClient>,
-    exit_handle: SessionExitHandle,
-) {
+async fn state_store_operations(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
+
+    let state_store_client = state_store::Client::new(
+        client,
+        state_store::ClientOptionsBuilder::default()
+            .build()
+            .unwrap(),
+    )
+    .unwrap();
+
+    let observe_response = state_store_client
+        .observe(state_store_key.to_vec(), Duration::from_secs(10))
+        .await;
+    log::info!("Observe response: {:?}", observe_response);
+
+    tokio::task::spawn({
+        async move {
+            if let Ok(mut response) = observe_response {
+                while let Some((notification, _)) = response.response.recv_notification().await {
+                    log::info!("Notification: {:?}", notification);
+                }
+                log::info!("Notification receiver closed");
+            }
+        }
+    });
 
     let set_response = state_store_client
         .set(
@@ -72,6 +90,12 @@ async fn state_store_operations(
         .await
         .unwrap();
     log::info!("Get response: {:?}", get_response);
+
+    let unobserve_response = state_store_client
+        .unobserve(state_store_key.to_vec(), timeout)
+        .await
+        .unwrap();
+    log::info!("Unobserve response: {:?}", unobserve_response);
 
     let delete_response = state_store_client
         .del(state_store_key.to_vec(), None, timeout)
