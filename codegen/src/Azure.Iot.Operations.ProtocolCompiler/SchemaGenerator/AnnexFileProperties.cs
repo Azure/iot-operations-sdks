@@ -16,6 +16,8 @@
 
         public const string CommandRequestTopic = "commandTopic";
 
+        public const string ServiceGroupId = "serviceGroupId";
+
         public const string TelemetryList = "telemetries";
 
         public const string TelemName = "name";
@@ -32,6 +34,6 @@
 
         public const string CmdIsIdempotent = "idempotent";
 
-        public const string Cacheability= "cacheability";
+        public const string Cacheability = "cacheability";
     }
 }

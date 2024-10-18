@@ -20,7 +20,7 @@ To refresh the dependencies, execute the following:
 
     ```bash
     cd dotnet
-    dotnet nuget update source preview -u {USERNAME} -p {PAT} -n preview --store-password-in-clear-text
+    dotnet nuget update source preview -u {USERNAME} -p {PAT} --store-password-in-clear-text
     dotnet restore --no-cache
     ```
 

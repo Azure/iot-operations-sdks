@@ -37,6 +37,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:string;2" => @"""type"": ""string""",
                 "dtmi:dtdl:instance:Schema:uuid;4" => @"""type"": ""string"", ""format"": ""uuid""",
                 "dtmi:dtdl:instance:Schema:bytes;4" => @"""type"": ""string"", ""contentEncoding"": ""base64""",
+                "dtmi:dtdl:instance:Schema:decimal;4" => @"""type"": ""string"", ""pattern"": ""^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$""",
                 _ => $"\"$ref\": \"{dtmiToSchemaName(dtSchema.Id, dtSchema.EntityKind.ToString())}.schema.json\"",
             };
         }
@@ -63,6 +64,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:string;2" => "string",
                 "dtmi:dtdl:instance:Schema:uuid;4" => "string",
                 "dtmi:dtdl:instance:Schema:bytes;4" => "string",
+                "dtmi:dtdl:instance:Schema:decimal;4" => "string",
                 _ => "null",
             };
         }

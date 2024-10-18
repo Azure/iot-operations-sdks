@@ -30,6 +30,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 UuidType _ => "Uuid",
                 StringType _ => "String",
                 BytesType _ => "Bytes",
+                DecimalType _ => "Decimal",
                 ReferenceType referenceType => referenceType.SchemaName,
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };

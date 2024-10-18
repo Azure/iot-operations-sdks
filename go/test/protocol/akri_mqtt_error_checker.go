@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -5,10 +7,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/sosodev/duration"
 	"github.com/stretchr/testify/require"
-
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 func CheckError(t *testing.T, testCaseCatch TestCaseCatch, err error) {

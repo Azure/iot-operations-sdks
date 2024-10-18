@@ -1,12 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol_test
 
 import (
 	"context"
 	"fmt"
 	"net"
+	"sync"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/eclipse/paho.golang/paho"
 	mochi "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
@@ -16,20 +20,17 @@ import (
 
 type (
 	mqttStub struct {
-		Client mqtt.Client
-		Server mqtt.Client
+		Client protocol.MqttClient
+		Server protocol.MqttClient
 		Broker *mochi.Server
 	}
 
 	clientStub struct {
 		client *paho.Client
 		id     string
-	}
 
-	subStub struct {
-		client *paho.Client
-		topic  string
-		remove func()
+		handlers []mqtt.MessageHandler
+		mu       sync.RWMutex
 	}
 )
 
@@ -61,76 +62,68 @@ func newClientStub(
 	t *testing.T,
 	id string,
 	cfg listeners.Config,
-) mqtt.Client {
+) protocol.MqttClient {
 	var d net.Dialer
 	conn, err := d.DialContext(ctx, cfg.Type, cfg.Address)
 	require.NoError(t, err)
 
-	client := paho.NewClient(paho.ClientConfig{
+	c := &clientStub{id: id}
+
+	c.client = paho.NewClient(paho.ClientConfig{
 		ClientID:                   id,
 		EnableManualAcknowledgment: true,
 		Conn:                       conn,
+		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
+			func(pub paho.PublishReceived) (bool, error) {
+				c.mu.RLock()
+				defer c.mu.RUnlock()
+
+				p := pub.Packet
+				prop := p.Properties
+				msg := &mqtt.Message{
+					Topic:   p.Topic,
+					Payload: p.Payload,
+					PublishOptions: mqtt.PublishOptions{
+						ContentType:     prop.ContentType,
+						CorrelationData: prop.CorrelationData,
+						MessageExpiry:   *prop.MessageExpiry,
+						PayloadFormat:   *prop.PayloadFormat,
+						QoS:             p.QoS,
+						ResponseTopic:   prop.ResponseTopic,
+						Retain:          p.Retain,
+						UserProperties:  userPropertiesToMap(prop.User),
+					},
+					Ack: func() error { return c.client.Ack(p) },
+				}
+
+				for _, handle := range c.handlers {
+					handle(ctx, msg)
+				}
+
+				return true, nil
+			},
+		},
 	})
 
-	_, err = client.Connect(ctx, &paho.Connect{
-		ClientID:  client.ClientID(),
+	_, err = c.client.Connect(ctx, &paho.Connect{
+		ClientID:  c.client.ClientID(),
 		KeepAlive: 5,
 	})
 	require.NoError(t, err)
 
-	return &clientStub{client, id}
+	return c
 }
 
-func (c clientStub) Subscribe(
-	ctx context.Context,
-	topic string,
+func (c *clientStub) RegisterMessageHandler(
 	handler mqtt.MessageHandler,
-	opts ...mqtt.SubscribeOption,
-) (mqtt.Subscription, error) {
-	var o mqtt.SubscribeOptions
-	o.Apply(opts)
-
-	remove := c.client.AddOnPublishReceived(
-		func(pub paho.PublishReceived) (bool, error) {
-			p := pub.Packet
-			prop := p.Properties
-			return true, handler(ctx, &mqtt.Message{
-				Topic:   p.Topic,
-				Payload: p.Payload,
-				PublishOptions: mqtt.PublishOptions{
-					ContentType:     prop.ContentType,
-					CorrelationData: prop.CorrelationData,
-					MessageExpiry:   *prop.MessageExpiry,
-					PayloadFormat:   mqtt.PayloadFormat(*prop.PayloadFormat),
-					QoS:             mqtt.QoS(p.QoS),
-					ResponseTopic:   prop.ResponseTopic,
-					Retain:          p.Retain,
-					UserProperties:  userPropertiesToMap(prop.User),
-				},
-				Ack: func() error { return c.client.Ack(p) },
-			})
-		},
-	)
-	_, err := c.client.Subscribe(ctx, &paho.Subscribe{
-		Properties: &paho.SubscribeProperties{
-			User: mapToUserProperties(o.UserProperties),
-		},
-		Subscriptions: []paho.SubscribeOptions{{
-			Topic:             topic,
-			QoS:               byte(o.QoS),
-			RetainHandling:    byte(o.RetainHandling),
-			NoLocal:           o.NoLocal,
-			RetainAsPublished: o.Retain,
-		}},
-	})
-	if err != nil {
-		remove()
-		return nil, err
-	}
-	return &subStub{c.client, topic, remove}, nil
+) func() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.handlers = append(c.handlers, handler)
+	return func() {}
 }
 
-func (c clientStub) Publish(
+func (c *clientStub) Publish(
 	ctx context.Context,
 	topic string,
 	payload []byte,
@@ -139,10 +132,8 @@ func (c clientStub) Publish(
 	var o mqtt.PublishOptions
 	o.Apply(opts)
 
-	payloadFormat := byte(o.PayloadFormat)
-
 	_, err := c.client.Publish(ctx, &paho.Publish{
-		QoS:     byte(o.QoS),
+		QoS:     o.QoS,
 		Retain:  o.Retain,
 		Topic:   topic,
 		Payload: payload,
@@ -150,7 +141,7 @@ func (c clientStub) Publish(
 			CorrelationData: o.CorrelationData,
 			ContentType:     o.ContentType,
 			ResponseTopic:   o.ResponseTopic,
-			PayloadFormat:   &payloadFormat,
+			PayloadFormat:   &o.PayloadFormat,
 			MessageExpiry:   &o.MessageExpiry,
 			User:            mapToUserProperties(o.UserProperties),
 		},
@@ -158,27 +149,48 @@ func (c clientStub) Publish(
 	return err
 }
 
-func (c clientStub) ClientID() string {
+func (c *clientStub) ID() string {
 	return c.id
 }
 
-func (s subStub) Unsubscribe(
+func (c *clientStub) Subscribe(
 	ctx context.Context,
+	topic string,
+	opts ...mqtt.SubscribeOption,
+) error {
+	var o mqtt.SubscribeOptions
+	o.Apply(opts)
+
+	_, err := c.client.Subscribe(ctx, &paho.Subscribe{
+		Properties: &paho.SubscribeProperties{
+			User: mapToUserProperties(o.UserProperties),
+		},
+		Subscriptions: []paho.SubscribeOptions{{
+			Topic:             topic,
+			QoS:               o.QoS,
+			RetainHandling:    o.RetainHandling,
+			NoLocal:           o.NoLocal,
+			RetainAsPublished: o.Retain,
+		}},
+	})
+	return err
+}
+
+func (c *clientStub) Unsubscribe(
+	ctx context.Context,
+	topic string,
 	opts ...mqtt.UnsubscribeOption,
 ) error {
 	var o mqtt.UnsubscribeOptions
 	o.Apply(opts)
-	unsub := &paho.Unsubscribe{Topics: []string{s.topic}}
+	unsub := &paho.Unsubscribe{Topics: []string{topic}}
 	if len(o.UserProperties) != 0 {
 		unsub.Properties = &paho.UnsubscribeProperties{
 			User: mapToUserProperties(o.UserProperties),
 		}
 	}
 
-	_, err := s.client.Unsubscribe(ctx, unsub)
-	if err == nil {
-		s.remove()
-	}
+	_, err := c.client.Unsubscribe(ctx, unsub)
 	return err
 }
 

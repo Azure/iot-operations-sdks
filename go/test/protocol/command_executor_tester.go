@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -14,17 +16,15 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-func RunCommandExecutorTests(t *testing.T, useRealSession bool) {
+func RunCommandExecutorTests(t *testing.T) {
 	var commandExecutorDefaultInfo DefaultTestCase
 
 	_, err := toml.DecodeFile(
@@ -49,7 +49,7 @@ func RunCommandExecutorTests(t *testing.T, useRealSession bool) {
 	for ix, f := range files {
 		testName, _ := strings.CutSuffix(filepath.Base(f), ".yaml")
 		t.Run(testName, func(t *testing.T) {
-			runOneCommandExecutorTest(t, ix, testName, f, useRealSession)
+			runOneCommandExecutorTest(t, ix, testName, f)
 		})
 	}
 }
@@ -59,7 +59,6 @@ func runOneCommandExecutorTest(
 	testCaseIndex int,
 	testName string,
 	fileName string,
-	useRealSession bool,
 ) {
 	pendingTestCases := []string{}
 
@@ -77,8 +76,6 @@ func runOneCommandExecutorTest(
 	}
 
 	if slices.Contains(testCase.Requires, Unobtanium) ||
-		slices.Contains(testCase.Requires, AckOrdering) && !useRealSession ||
-		slices.Contains(testCase.Requires, Reconnection) && !useRealSession ||
 		slices.Contains(testCase.Requires, ExplicitDefault) {
 		t.Skipf(
 			"Skipping test %s because it requires an unavailable feature",
@@ -105,11 +102,7 @@ func runOneCommandExecutorTest(
 		countdownEvents[name] = NewCountdownEvent(init)
 	}
 
-	stubClient, sessionClient := getStubAndSessionClient(
-		t,
-		mqttClientID,
-		useRealSession,
-	)
+	stubClient, sessionClient := getStubAndSessionClient(t, mqttClientID)
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Publish {
 		stubClient.enqueuePubAck(ackKind)
@@ -232,7 +225,7 @@ func runOneCommandExecutorTest(
 
 func getCommandExecutor(
 	t *testing.T,
-	sessionClient mqtt.Client,
+	sessionClient protocol.MqttClient,
 	tce *TestCaseExecutor,
 	countdownEvents map[string]*CountdownEvent,
 	catch *TestCaseCatch,
@@ -273,7 +266,7 @@ func getCommandExecutor(
 		options...)
 
 	if err == nil {
-		_, err = executor.base.Listen(context.Background())
+		err = executor.base.Start(context.Background())
 	}
 
 	if catch == nil {
