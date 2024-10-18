@@ -108,9 +108,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Topic? DefaultTopic { get; init; }
 
         /// <summary>
-        /// Array of datasets that are part of the asset. Each dataset can have per-dataset configuration.
+        /// The mapping of dataset names to datasets that are part of the asset. Each dataset can have per-dataset configuration.
         /// </summary>
-        public Dataset[]? Datasets { get; init; }
+        public Dictionary<string, Dataset>? Datasets { get; init; }
 
         /// <summary>
         /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
@@ -130,11 +130,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
     public record Dataset
     {
-        /// <summary>
-        /// The name of the dataset.
-        /// </summary>
-        public string? Name { get; init; }
-
         /// <summary>
         /// Protocol-specific JSON string that describes configuration for the specific dataset.
         /// </summary>
@@ -156,12 +151,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the data point.
         /// </summary>
-        public string? Name { get; init; }
+        public string Name { get; init; }
 
         /// <summary>
         /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
         /// </summary>
-        public string? DataSource { get; init; }
+        public string DataSource { get; init; }
 
         /// <summary>
         /// An indication of how the data point should be mapped to OpenTelemetry.
@@ -172,6 +167,13 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
         public JsonDocument? DataPointConfiguration { get; init; }
+
+        //TODO make internal
+        public DataPoint(string dataSource, string name)
+        { 
+            Name = name;
+            DataSource = dataSource;
+        }
     }
 
     public record Event
@@ -212,7 +214,20 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The topic retain attribute for the specific entry.
         /// </summary>
-        public string? Retain { get; init; }
+        public RetainHandling? Retain { get; init; }
+    }
+
+    public enum RetainHandling
+    {
+        /// <summary>
+        /// If it was retain on source, then re-publish on MQ as retain.
+        /// </summary>
+        Keep,
+
+        /// <summary>
+        /// Never publish as retain.
+        /// </summary>
+        Never,
     }
 
     public record Status

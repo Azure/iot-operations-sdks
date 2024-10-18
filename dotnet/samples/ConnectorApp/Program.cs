@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using DotnetHttpConnectorWorkerService;
+using Azure.Iot.Operations.ConnectorSample;
 
-var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
+        services.AddHostedService<HttpConnectorWorkerService>();
+    })
+    .Build();
 
-var host = builder.Build();
 host.Run();

@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-namespace DotnetHttpConnectorWorkerService
+namespace Azure.Iot.Operations.ConnectorSample
 {
     internal class HttpDataRetriever : IDisposable
     {
@@ -35,25 +35,17 @@ namespace DotnetHttpConnectorWorkerService
             _httpServerPassword = httpServerPassword;
         }
 
-        private void Authenticate()
+        public async Task<string> RetrieveDataAsync(string propertyName)
         {
+            // Add authorization to the HTTP request
             var byteArray = Encoding.ASCII.GetBytes($"{_httpServerUsername}:{Encoding.UTF8.GetString(_httpServerPassword)}");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-        }
-
-        public async Task<string> RetrieveDataAsync()
-        {
-            // Implement HTTP data retrieval logic
-            Authenticate();
+            
             var response = await _httpClient.GetAsync(_httpPath);
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
-            else
-            {
-                throw new HttpRequestException($"Request to {_httpClient.BaseAddress} failed with status code {response.StatusCode}");
-            }
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+
+            //TODO feels bad making the same HTTP request multiple times to get a single property from each response. Does ADR have something for allowing mutliple property names to be read?
+            return JsonDocument.Parse(jsonResponse).RootElement.GetProperty(propertyName).GetString()!;
         }
 
         public void Dispose()

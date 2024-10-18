@@ -6,21 +6,26 @@ metadata:
 spec:
   displayName: REST Sample Asset 1
   description: A sample for an Asset modeling a device with REST endpoint
-  assetEndpointProfileRef: {{ .Values.endpointProfile }}
+  assetEndpointProfileRef: some-name/some-namespace
   datasetsConfiguration: |-
    {
-      "samplingInterval": 400,
-    }
+      "samplingInterval": 4000,
+   }
   topic:
     path: /mqtt/machine/status
     retain: Keep         
   datasets:
-    - name: machine_status
+    - name: thermostat_status
       dataPoints:
-        - dataSource: /api/machine/status
-          name: status
+        - dataSource: /api/machine/my_machine_1/status
+          name: actual_temperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-          observabilityMode: Log
+        - dataSource: /api/machine/my_machine_1/status
+          name: desired_temperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
