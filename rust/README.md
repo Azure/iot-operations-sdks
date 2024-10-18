@@ -53,7 +53,7 @@ To get familiar with the Rust language, there are several resources available in
     ```
 
 ### Using nightly builds (not recommended for most users)
-2. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application, specifying a commit SHA of the nightly build you want:
+2. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application, specifying the commit SHA of the nightly build you want:
     ```toml
     [dependencies]
     azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
