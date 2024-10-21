@@ -5,7 +5,7 @@ metadata:
   namespace: azure-iot-operations
 spec:
   replicas: 1
-  endpointProfileType: http_endpoint
+  endpointProfileType: http-dss
   image: httpconnectorworkerservice:latest
   mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = clusterIP => (<name>.<namespace>.svc.cluster.local)
   mqTls:
