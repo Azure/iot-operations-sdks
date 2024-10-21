@@ -392,4 +392,21 @@ public class StateStoreClientIntegrationTests
 
         Assert.Equal(value, getResponse.Value);
     }
+
+    [Fact]
+    public async Task TestKeyLengthZero()
+    // ensures the proper error reason is given for a key length of zero
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        
+        try
+        {
+            await stateStoreClient.GetAsync("");
+        }
+        catch (StateStoreOperationException e)
+        {
+            Assert.Equal(ServiceError.KeyLengthZero, e.Reason);
+        }
+    }
 }
