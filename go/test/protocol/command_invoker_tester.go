@@ -263,7 +263,6 @@ func getCommandInvoker(
 		if err == nil {
 			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
 				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-				protocol.WithTopicTokens{"commandName": *tci.CommandName},
 			)
 		}
 

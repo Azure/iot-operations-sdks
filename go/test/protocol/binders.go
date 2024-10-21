@@ -127,8 +127,7 @@ func NewTestingCommandExecutor(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"modelId":    *modelID,
-			"executorId": client.ID(),
+			"modelId": *modelID,
 		},
 	)
 
