@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         public AzureDeviceRegistryClient()
         {
-            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar) ?? throw new InvalidOperationException("Missing the asset config map mount path environment variable");
+            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar) ?? "";
             _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
             _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
             _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
