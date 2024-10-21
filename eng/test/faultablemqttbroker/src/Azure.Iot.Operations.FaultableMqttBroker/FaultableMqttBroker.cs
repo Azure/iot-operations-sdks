@@ -1,4 +1,5 @@
-﻿using MQTTnet;
+﻿using Azure.Iot.Operations.FaultableMqttBroker;
+using MQTTnet;
 using MQTTnet.Diagnostics;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
@@ -52,9 +53,10 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         PublishRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.ApplicationMessage.UserProperties, args.ClientId))
+                    FaultHandling faultHandling = await CloseConnectionIfRequested(args.ApplicationMessage.UserProperties, args.ClientId);
+                    if (faultHandling.FaultHandled)
                     {
-                        args.ProcessPublish = false;
+                        args.ProcessPublish = faultHandling.SendAck;
                         return;
                     }
                     else if (TryGetUserProperty(args.ApplicationMessage.UserProperties, rejectPublishFaultName, out string? rejectPublishReasonString))
@@ -85,9 +87,10 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         SubscribeRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
+                    FaultHandling faultHandling = await CloseConnectionIfRequested(args.UserProperties, args.ClientId);
+                    if (faultHandling.FaultHandled)
                     {
-                        args.ProcessSubscription = false;
+                        args.ProcessSubscription = faultHandling.SendAck;
                         return;
                     }
                     else if (TryGetUserProperty(args.UserProperties, rejectSubscribeFaultName, out string? rejectSubscribeReasonString))
@@ -118,9 +121,10 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         UnsubscribeRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
+                    FaultHandling faultHandling = await CloseConnectionIfRequested(args.UserProperties, args.ClientId);
+                    if (faultHandling.FaultHandled)
                     {
-                        args.ProcessUnsubscription = false;
+                        args.ProcessUnsubscription = faultHandling.SendAck;
                         return;
                     }
                     else if (TryGetUserProperty(args.UserProperties, rejectUnsubscribeFaultName, out string? rejectUnsubscribeReasonString))
@@ -171,7 +175,7 @@ namespace Azure.Iot.Operations.Protocol.Tools
             };
         }
 
-        private async Task<bool> CloseConnectionIfRequested(List<MqttUserProperty> properties, string clientId)
+        private async Task<FaultHandling> CloseConnectionIfRequested(List<MqttUserProperty> properties, string clientId)
         {
             if (TryGetUserProperty(properties, disconnectFaultName, out string? disconnectFaultReasonString))
             {
@@ -186,7 +190,11 @@ namespace Azure.Iot.Operations.Protocol.Tools
                     catch (Exception)
                     {
                         Console.WriteLine("Failed to convert the provided disconnect code int into a a valid disconnect code enum value. No fault will be triggered.");
-                        return false;
+                        return new FaultHandling()
+                        {
+                            FaultHandled = false,
+                            SendAck = true
+                        };
                     }
 
                     if (TryGetFaultDelay(properties, out TimeSpan? faultDelay))
@@ -203,18 +211,31 @@ namespace Azure.Iot.Operations.Protocol.Tools
                                 Console.WriteLine("Failed to cause a fault. Exception: {0}", ex);
                             }
                         });
+
+                        return new FaultHandling()
+                        {
+                            FaultHandled = true,
+                            SendAck = true
+                        };
                     }
                     else
                     {
                         // The request didn't specify a delay for the fault, so kill the connection immediately before acknowledging the request
                         await _mqttServer.DisconnectClientAsync(clientId, disconnectReasonCode);
+                        return new FaultHandling()
+                        {
+                            FaultHandled = true,
+                            SendAck = false
+                        };
                     }
-
-                    return true;
                 }
             }
 
-            return false;
+            return new FaultHandling()
+            {
+                FaultHandled = false,
+                SendAck = true
+            };
         }
 
         public bool TryGetUserProperty(List<MqttUserProperty> properties, string name, out string? value)
