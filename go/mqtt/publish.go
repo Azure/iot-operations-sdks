@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -145,7 +146,7 @@ func (c *SessionClient) Publish(
 			CorrelationData: opt.CorrelationData,
 			PayloadFormat:   &opt.PayloadFormat,
 			ResponseTopic:   opt.ResponseTopic,
-			User:            mapToUserProperties(opt.UserProperties),
+			User:            internal.MapToUserProperties(opt.UserProperties),
 		},
 	}
 

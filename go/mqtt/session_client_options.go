@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 )
 
@@ -18,7 +19,7 @@ func WithLogger(
 	l *slog.Logger,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		c.log = logger{log.Wrap(l)}
+		c.log = internal.Logger{Logger: log.Wrap(l)}
 	}
 }
 

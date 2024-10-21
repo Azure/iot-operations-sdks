@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package mqtt
+package internal
 
 import (
 	"context"
@@ -12,9 +12,9 @@ import (
 	"github.com/iancoleman/strcase"
 )
 
-type logger struct{ log.Logger }
+type Logger struct{ log.Logger }
 
-func (l logger) Packet(ctx context.Context, name string, packet any) {
+func (l Logger) Packet(ctx context.Context, name string, packet any) {
 	// This is expensive; bail out if we don't need it.
 	if !l.Enabled(ctx, slog.LevelDebug) {
 		return
