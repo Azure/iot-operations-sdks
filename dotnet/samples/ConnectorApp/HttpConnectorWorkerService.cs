@@ -7,6 +7,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
@@ -26,6 +27,17 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                AllowTrailingCommas = true,
+            };
+            options.Converters.Add(new JsonStringEnumConverter());
+            string s = "{\"assetEndpointProfileRef\":\"azure-iot-operations/my-http-aep\",\"datasets\":[{\"dataPoints\":[{\"dataPointConfiguration\":\"{\\n   \\\"HttpRequestMethod\\\": \\\"GET\\\",\\n}\",\"dataSource\":\"/api/machine/my_machine_1/status\",\"name\":\"actual_temperature\",\"observabilityMode\":\"None\"},{\"dataPointConfiguration\":\"{\\n   \\\"HttpRequestMethod\\\": \\\"GET\\\",\\n}\",\"dataSource\":\"/api/machine/my_machine_1/status\",\"name\":\"desired_temperature\",\"observabilityMode\":\"None\"}],\"name\":\"thermostat_status\"}],\"defaultDatasetsConfiguration\":\"{\\n   \\\"samplingInterval\\\": 4000,\\n}\",\"defaultTopic\":{\"path\":\"/mqtt/machine/status\",\"retain\":\"Keep\"},\"description\":\"A sample for an Asset modeling a device with REST endpoint\",\"displayName\":\"REST Sample Asset 1\"}";
+            var asssssss = JsonSerializer.Deserialize<AssetInternal>(s, options);
+            Asset astttt = new(asssssss);
+
             AzureDeviceRegistryClient adrClient = new();
             _logger.LogInformation("Successfully created ADR client");
 

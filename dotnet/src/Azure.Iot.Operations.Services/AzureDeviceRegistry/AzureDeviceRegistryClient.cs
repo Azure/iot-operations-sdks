@@ -4,6 +4,7 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -44,11 +45,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public AzureDeviceRegistryClient()
         {
             //TODO safe to assume at least one asset and one asset endpoint?
-            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
-            _configMapMountPath = Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
-            _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
-            _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
-            _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
+            _assetMapMountPath = "";// Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
+            _configMapMountPath = "";//Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
+            _aepUsernameSecretMountPath = "";//Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
+            _aepPasswordSecretMountPath = "";//Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
+            _aepCertMountPath = "";//Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
         }
 
         /// <summary>
@@ -68,8 +69,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                AllowTrailingCommas = true,
             };
+
+            // RetainHandling value in topic class is an enum in this SDK
+            options.Converters.Add(new JsonStringEnumConverter());
 
             byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetMapMountPath}/{assetName}/{assetName}");
             Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
