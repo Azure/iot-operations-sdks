@@ -111,7 +111,7 @@ jobs:
         workdir: ./go/test/protocol
 
     - name: Build codegen
-      run: codegen/build.sh
+      run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
 
     - name: Codegen counter for Go
       working-directory: ./go/samples/counter/envoy
