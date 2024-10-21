@@ -45,22 +45,13 @@ jobs:
         with:
           go-version: 1.22.4
 
-      - name: Install dotnet-t4
-        run: dotnet tool install -g dotnet-t4
-
-      - name: Generate code from T4 templates
-        run: |
-          DIR=./codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4
-          NAMESPACE=Azure.Iot.Operations.ProtocolCompiler
-          find "$DIR" -name '*.tt' | while IFS= read -r f; do
-            t4 --class=$NAMESPACE.$(basename "$f" .tt) "$f"
-          done
+      - name: Build codegen
+        run: codegen/build.sh -c Release
 
       # - name: Install Codegen tool from dev feed
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
       - name: CodeGen all Counter samples
         run: |
-          dotnet build -c Release codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
           (pushd go/samples/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)

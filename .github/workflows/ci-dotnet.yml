@@ -52,22 +52,8 @@ jobs:
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
-    - name: Install dotnet-t4
-      run: dotnet tool install -g dotnet-t4
-
-    - name: Generate code from T4 templates
-      run: |
-        DIR=./codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4
-        NAMESPACE=Azure.Iot.Operations.ProtocolCompiler
-        find "$DIR" -name '*.tt' | while IFS= read -r f; do
-          t4 --class=$NAMESPACE.$(basename "$f" .tt) "$f"
-        done
-
-    - name: Build CodeGen (Debug)
-      run: dotnet build -c Debug codegen/codegen.sln
-
-    - name: Test CodeGen
-      run: dotnet test codegen/codegen.sln
+    - name: Build and Test CodeGen (Debug)
+      run: codegen/build.sh test -c Debug
 
     - name: CodeGen .NET TestEnvoys
       run: (cd dotnet/samples/TestEnvoys; ./gen.sh)
