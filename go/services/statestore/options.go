@@ -3,6 +3,7 @@
 package statestore
 
 import (
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -28,6 +29,15 @@ type (
 	// WithTimeout adds a timeout to the request (with second precision).
 	WithTimeout time.Duration
 
+	// WithConcurrency indicates how many notifications can execute in parallel.
+	WithConcurrency uint
+
+	// WithManualAck allows notifications to be manually acknowledged.
+	WithManualAck bool
+
+	// This option is not used directly; see WithLogger below.
+	withLogger struct{ *slog.Logger }
+
 	// Extract the underlying invoke options where applicable.
 	invokeOptions interface {
 		invoke() *protocol.InvokeOptions
@@ -47,3 +57,8 @@ const (
 	// expiry on the key.
 	NotExistsOrEqual Condition = "NEX"
 )
+
+// WithLogger enables logging with the provided slog logger.
+func WithLogger(logger *slog.Logger) ClientOption {
+	return withLogger{logger}
+}

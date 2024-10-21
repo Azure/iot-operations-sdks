@@ -95,6 +95,13 @@ where
         }
     }
 
+    /// Return a new instance of [`SessionConnectionMonitor`] that can be used to monitor the connection state
+    pub fn create_connection_monitor(&self) -> SessionConnectionMonitor {
+        SessionConnectionMonitor {
+            state: self.state.clone(),
+        }
+    }
+
     /// Return a new instance of [`SessionManagedClient`] that can be used to send and receive messages
     pub fn create_managed_client(&self) -> SessionManagedClient<C> {
         SessionManagedClient {
@@ -472,6 +479,31 @@ async fn run_background(
     }
 }
 
+fn get_jwt_expiry(token: &str) -> Result<u64, String> {
+    let parts: Vec<_> = token.split('.').collect();
+
+    if parts.len() != 3 {
+        return Err("Invalid JWT token".to_string());
+    }
+
+    match STANDARD_NO_PAD.decode(parts[1]) {
+        Ok(payload) => match std::str::from_utf8(&payload) {
+            Ok(payload) => match serde_json::from_str::<serde_json::Value>(payload) {
+                Ok(payload_json) => match payload_json.get("exp") {
+                    Some(exp_time) => match exp_time.as_u64() {
+                        Some(exp_time) => Ok(exp_time),
+                        None => Err("Unable to parse JWT token expiry time".to_string()),
+                    },
+                    None => Err("JWT token does not contain expiry time".to_string()),
+                },
+                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+            },
+            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+        },
+        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+    }
+}
+
 /// Handle used to end an MQTT session.
 ///
 /// PLEASE NOTE WELL
@@ -597,27 +629,31 @@ where
     }
 }
 
-fn get_jwt_expiry(token: &str) -> Result<u64, String> {
-    let parts: Vec<_> = token.split('.').collect();
+/// Monitor for connection changes in the [`Session`].
+///
+/// This is largely for informational purposes.
+#[derive(Clone)]
+pub struct SessionConnectionMonitor {
+    state: Arc<SessionState>,
+}
 
-    if parts.len() != 3 {
-        return Err("Invalid JWT token".to_string());
+impl SessionConnectionMonitor {
+    /// Returns true if the [`Session`] is currently connected.
+    /// Note that this may not be accurate if connection has been recently lost.
+    #[must_use]
+    pub fn is_connected(&self) -> bool {
+        self.state.is_connected()
     }
 
-    match STANDARD_NO_PAD.decode(parts[1]) {
-        Ok(payload) => match std::str::from_utf8(&payload) {
-            Ok(payload) => match serde_json::from_str::<serde_json::Value>(payload) {
-                Ok(payload_json) => match payload_json.get("exp") {
-                    Some(exp_time) => match exp_time.as_u64() {
-                        Some(exp_time) => Ok(exp_time),
-                        None => Err("Unable to parse JWT token expiry time".to_string()),
-                    },
-                    None => Err("JWT token does not contain expiry time".to_string()),
-                },
-                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
-            },
-            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
-        },
-        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+    /// Wait until the [`Session`] is connected.
+    /// Returns immediately if already connected.
+    pub async fn connected(&self) {
+        self.state.condition_connected().await;
+    }
+
+    /// Wait until the [`Session`] is disconnected.
+    /// Returns immediately if already disconnected.
+    pub async fn disconnected(&self) {
+        self.state.condition_disconnected().await;
     }
 }

@@ -52,11 +52,8 @@ jobs:
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
-    - name: Build CodeGen (Debug)
-      run: dotnet build -c Debug codegen/codegen.sln
-
-    - name: Test CodeGen
-      run: dotnet test codegen/codegen.sln
+    - name: Build and Test CodeGen (Debug)
+      run: codegen/build.sh test -c Debug
 
     - name: CodeGen .NET TestEnvoys
       run: (cd dotnet/samples/TestEnvoys; ./gen.sh)

@@ -21,8 +21,6 @@ type (
 	}
 )
 
-const get = "GET"
-
 // Get the value and version of the given key. If the key is not present, it
 // returns a fully zero response struct; if the key is present but empty, it
 // returns an empty value and the stored version.
@@ -38,7 +36,8 @@ func (c *Client[K, V]) Get(
 	var opts GetOptions
 	opts.Apply(opt)
 
-	return invoke(ctx, c.invoker, resp.Blob[V], &opts, resp.OpK(get, key))
+	req := resp.OpK("GET", key)
+	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
 
 // Apply resolves the provided list of options.

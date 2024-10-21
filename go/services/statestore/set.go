@@ -26,11 +26,6 @@ type (
 	}
 )
 
-const (
-	set = "SET"
-	px  = "PX"
-)
-
 // Set the value of the given key. If the key is successfully set, it returns
 // true and the new or updated version; if the key is not set due to the
 // specified condition, it returns false and the stored version.
@@ -55,10 +50,10 @@ func (c *Client[K, V]) Set(
 	case opts.Expiry < 0:
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
-		rest = append(rest, px, strconv.Itoa(int(opts.Expiry.Milliseconds())))
+		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
-	req := resp.OpKV(set, key, val, rest...)
+	req := resp.OpKV("SET", key, val, rest...)
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 

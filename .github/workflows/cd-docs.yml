@@ -56,8 +56,9 @@ jobs:
 
       - name: Build Rust docs
         run: |
-          cargo doc --no-deps --manifest-path rust/rust/Cargo.toml
-          cp -a rust/rust/target/doc _site/rust
+          cd rust/rust
+          cargo doc --no-deps
+          cp -a target/doc ../../_site/rust
 
 #      - name: Build Go docs
 #      - name: Build .NET docs
