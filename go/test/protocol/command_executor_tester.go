@@ -60,9 +60,7 @@ func runOneCommandExecutorTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{
-		"CommandExecutorSubAckFailure_ThrowsException",
-	}
+	pendingTestCases := []string{}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -288,7 +286,7 @@ func getCommandExecutor(
 func receiveRequest(
 	t *testing.T,
 	actionReceiveRequest *TestCaseActionReceiveRequest,
-	stubClient StubClient,
+	stubClient *StubMqttClient,
 	invokerIDs map[int]string,
 	correlationIDs map[int][]byte,
 	packetIDs map[int]uint16,
@@ -405,7 +403,7 @@ func syncEvent(
 func checkPublishedResponse(
 	t *testing.T,
 	publishedMessage TestCasePublishedMessage,
-	stubClient StubClient,
+	stubClient *StubMqttClient,
 	correlationIDs map[int][]byte,
 ) {
 	var lookupKey []byte
