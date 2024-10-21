@@ -6,6 +6,7 @@ on:
     paths:
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
+      - 'eng/test/faultablemqttbroker/**'
   push:
     branches:
     - main  
