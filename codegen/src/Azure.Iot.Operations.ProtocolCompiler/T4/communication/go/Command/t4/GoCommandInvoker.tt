@@ -23,10 +23,8 @@ func New<#=this.capitalizedCommandName#>CommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "<#=this.commandName#>",
-			"invokerClientId": client.ID(),
 		},
 	)
 
