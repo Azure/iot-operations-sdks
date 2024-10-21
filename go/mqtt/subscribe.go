@@ -30,24 +30,32 @@ func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
 	opts ...SubscribeOption,
-) error {
+) (*Ack, error) {
 	if err := c.prepare(ctx); err != nil {
-		return err
+		return nil, err
 	}
 
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Connection lost; buffer the packet for reconnection.
 	if !c.isConnected.Load() {
-		return c.bufferPacket(ctx, &queuedPacket{packet: sub})
+		err := c.bufferPacket(ctx, &queuedPacket{packet: sub})
+		if err != nil {
+			return nil, err
+		}
+		return &Ack{}, nil
 	}
 
 	// Execute the subscribe.
 	c.log.Packet(ctx, "subscribe", sub)
-	return pahoSub(ctx, c.pahoClient, sub)
+	err = pahoSub(ctx, c.pahoClient, sub)
+	if err != nil {
+		return nil, err
+	}
+	return &Ack{}, nil
 }
 
 func (c *SessionClient) onPublishReceived(
@@ -68,23 +76,31 @@ func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
 	topic string,
 	opts ...UnsubscribeOption,
-) error {
+) (*Ack, error) {
 	if err := c.prepare(ctx); err != nil {
-		return err
+		return nil, err
 	}
 
 	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Connection lost; buffer the packet for reconnection.
 	if !c.isConnected.Load() {
-		return c.bufferPacket(ctx, &queuedPacket{packet: unsub})
+		err := c.bufferPacket(ctx, &queuedPacket{packet: unsub})
+		if err != nil {
+			return nil, err
+		}
+		return &Ack{}, err
 	}
 
 	c.log.Packet(ctx, "unsubscribe", unsub)
-	return pahoUnsub(ctx, c.pahoClient, unsub)
+	err = pahoUnsub(ctx, c.pahoClient, unsub)
+	if err != nil {
+		return nil, err
+	}
+	return &Ack{}, err
 }
 
 func buildSubscribe(
