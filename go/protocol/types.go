@@ -13,10 +13,23 @@ type (
 	// MqttClient is the client used for the underlying MQTT connection.
 	MqttClient interface {
 		ID() string
-		Publish(context.Context, string, []byte, ...mqtt.PublishOption) error
+		Publish(
+			context.Context,
+			string,
+			[]byte,
+			...mqtt.PublishOption,
+		) (*mqtt.Ack, error)
 		RegisterMessageHandler(mqtt.MessageHandler) func()
-		Subscribe(context.Context, string, ...mqtt.SubscribeOption) error
-		Unsubscribe(context.Context, string, ...mqtt.UnsubscribeOption) error
+		Subscribe(
+			context.Context,
+			string,
+			...mqtt.SubscribeOption,
+		) (*mqtt.Ack, error)
+		Unsubscribe(
+			context.Context,
+			string,
+			...mqtt.UnsubscribeOption,
+		) (*mqtt.Ack, error)
 	}
 
 	// Message contains common message data that is exposed to message handlers.

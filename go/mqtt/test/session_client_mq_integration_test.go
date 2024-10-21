@@ -70,13 +70,15 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
 
 	cancel()
 
 	// connection is still active so we can still subscribe.
 	ctx2 := context.Background()
-	require.NoError(t, client.Subscribe(ctx2, topicName2))
+	_, err = client.Subscribe(ctx2, topicName2)
+	require.NoError(t, err)
 	require.NoError(t, client.Disconnect())
 }
 
@@ -140,8 +142,11 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
-	require.NoError(t, client.Unsubscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
+
+	_, err = client.Unsubscribe(ctx, topicName)
+	require.NoError(t, err)
 }
 
 // This test may take 4-5 seconds as it involves a connection interruption.
@@ -167,13 +172,15 @@ func TestRequestQueueMQ(t *testing.T) {
 	defer done()
 
 	// Operations tested with a good connection.
-	require.NoError(t, client.Subscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
 
-	require.NoError(t, client.Publish(
+	_, err = client.Publish(
 		ctx,
 		topicName,
 		[]byte(publishMessage),
-	))
+	)
+	require.NoError(t, err)
 
 	<-executed
 
@@ -195,7 +202,7 @@ func TestRequestQueueMQ(t *testing.T) {
 
 	// Operations are blocking so we put them into goroutines.
 	go func(ch chan struct{}) {
-		err := client.Publish(
+		_, err := client.Publish(
 			ctx,
 			topicName,
 			[]byte(publishMessage),
@@ -218,12 +225,15 @@ func TestRequestQueueMQ(t *testing.T) {
 		)
 		defer done()
 
-		require.NoError(t, client.Subscribe(ctx, topicName2))
-		require.NoError(t, client.Publish(
+		_, err = client.Subscribe(ctx, topicName2)
+		require.NoError(t, err)
+
+		_, err = client.Publish(
 			ctx,
 			topicName2,
 			[]byte(publishMessage2),
-		))
+		)
+		require.NoError(t, err)
 		<-ch2
 	}(executed2)
 
@@ -255,12 +265,15 @@ func TestPublishMQ(t *testing.T) {
 	)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
-	require.NoError(t, client.Publish(
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
+
+	_, err = client.Publish(
 		ctx,
 		topicName,
 		[]byte(publishMessage),
-	))
+	)
+	require.NoError(t, err)
 
 	<-executed
 
@@ -325,7 +338,8 @@ func TestLastWillMessageMQ(t *testing.T) {
 	)
 	defer done()
 
-	require.NoError(t, client1.Subscribe(ctx, LWTTopicName))
+	_, err = client1.Subscribe(ctx, LWTTopicName)
+	require.NoError(t, err)
 
 	ctx, cancel, client2 := startSessionClientWithWillMessage(t)
 	defer cancel()
