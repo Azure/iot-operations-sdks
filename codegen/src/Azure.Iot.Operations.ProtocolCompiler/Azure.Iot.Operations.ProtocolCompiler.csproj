@@ -385,6 +385,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="T4\communication\c\Command\t4\CCommandExecutor.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>CCommandExecutor.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\c\Command\t4\CCommandInvoker.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
