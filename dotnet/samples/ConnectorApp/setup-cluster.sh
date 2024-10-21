@@ -31,4 +31,4 @@ kubectl apply -f ./SampleHttpServer/http-server.yaml
 # Deploy HTTP server asset and AEP
 kubectl apply -f ./KubernetesResources/http-server-asset-endpoint-profile-definition.yaml
 # This doesn't do anything yet
-#kubectl apply -f ./KubernetesResources/http-server-asset-definition.yaml
+kubectl apply -f ./KubernetesResources/http-server-asset-definition.yaml
