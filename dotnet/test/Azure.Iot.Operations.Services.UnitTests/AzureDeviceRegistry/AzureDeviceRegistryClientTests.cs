@@ -170,7 +170,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
         private void SetupTestEnvironment()
         {
-            Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.ConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config");
+            Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AssetEndpointProfileConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepCertMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_cert");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepUsernameSecretMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_username");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepPasswordSecretMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_password");

@@ -10,11 +10,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public class AzureDeviceRegistryClient
     {
         // The operator will deploy the connector pod with these environment variables set.
-        internal const string ConfigMapMountPathEnvVar = "AEP_MQ_CONFIGMAP_MOUNT_PATH";
+        internal const string AssetEndpointProfileConfigMapMountPathEnvVar = "AEP_MQ_CONFIGMAP_MOUNT_PATH";
+        internal const string AssetConfigMapMountPathEnvVar = "ASSET_CONFIGMAP_MOUNT_PATH";
         internal const string AepUsernameSecretMountPathEnvVar = "AEP_USERNAME_SECRET_MOUNT_PATH";
         internal const string AepPasswordSecretMountPathEnvVar = "AEP_PASSWORD_SECRET_MOUNT_PATH";
         internal const string AepCertMountPathEnvVar = "AEP_CERT_MOUNT_PATH";
-        internal const string AssetConfigMapEnvVar = "ASSET_CONFIGMAP_MOUNT_PATH";
 
         // The operator will deploy the connector pod with volumes with this information.
         // These particular files will be in the configmap mount path folder
@@ -44,8 +44,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public AzureDeviceRegistryClient()
         {
             //TODO safe to assume at least one asset and one asset endpoint?
-            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar);
-            _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
+            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
+            _configMapMountPath = Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
             _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
             _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
             _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
