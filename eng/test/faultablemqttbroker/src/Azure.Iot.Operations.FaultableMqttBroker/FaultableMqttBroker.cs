@@ -55,7 +55,6 @@ namespace Azure.Iot.Operations.Protocol.Tools
                     if (await CloseConnectionIfRequested(args.ApplicationMessage.UserProperties, args.ClientId))
                     {
                         args.ProcessPublish = false;
-                        args.CloseConnection = true;
                         return;
                     }
                     else if (TryGetUserProperty(args.ApplicationMessage.UserProperties, rejectPublishFaultName, out string? rejectPublishReasonString))
@@ -89,7 +88,6 @@ namespace Azure.Iot.Operations.Protocol.Tools
                     if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
                     {
                         args.ProcessSubscription = false;
-                        args.CloseConnection = true;
                         return;
                     }
                     else if (TryGetUserProperty(args.UserProperties, rejectSubscribeFaultName, out string? rejectSubscribeReasonString))
@@ -123,7 +121,6 @@ namespace Azure.Iot.Operations.Protocol.Tools
                     if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
                     {
                         args.ProcessUnsubscription = false;
-                        args.CloseConnection = true;
                         return;
                     }
                     else if (TryGetUserProperty(args.UserProperties, rejectUnsubscribeFaultName, out string? rejectUnsubscribeReasonString))
