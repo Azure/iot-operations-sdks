@@ -49,11 +49,11 @@ type (
 
 		// A list of functions that are called in order to notify the user of
 		// successful MQTT connections
-		connectNotificationHandlers *internal.AppendableListWithRemoval[ConnectNotificationHandler]
+		connectEventHandlers *internal.AppendableListWithRemoval[ConnectEventHandler]
 
 		// A list of functions that are called in order to notify the user of a
 		// disconnection from the MQTT server.
-		disconnectNotificationHandlers *internal.AppendableListWithRemoval[DisconnectNotificationHandler]
+		disconnectEventHandlers *internal.AppendableListWithRemoval[DisconnectEventHandler]
 
 		// A list of functions that are called in goroutines to notify the user
 		// of a SessionClient termination due to a fatal error.
@@ -242,8 +242,8 @@ func (c *SessionClient) initialize() {
 	c.session = state.NewInMemory()
 
 	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(*paho.Publish) bool]()
-	c.connectNotificationHandlers = internal.NewAppendableListWithRemoval[ConnectNotificationHandler]()
-	c.disconnectNotificationHandlers = internal.NewAppendableListWithRemoval[DisconnectNotificationHandler]()
+	c.connectEventHandlers = internal.NewAppendableListWithRemoval[ConnectEventHandler]()
+	c.disconnectEventHandlers = internal.NewAppendableListWithRemoval[DisconnectEventHandler]()
 	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
 
 	c.pendingPackets = internal.NewQueue[queuedPacket](maxPacketQueueSize)

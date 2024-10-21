@@ -78,8 +78,11 @@ func TestWithMochi(t *testing.T) {
 		done := client.RegisterMessageHandler(noopHandler)
 		defer done()
 
-		require.NoError(t, client.Subscribe(context.Background(), topicName))
-		require.NoError(t, client.Unsubscribe(context.Background(), topicName))
+		_, err = client.Subscribe(context.Background(), topicName)
+		require.NoError(t, err)
+
+		_, err = client.Unsubscribe(context.Background(), topicName)
+		require.NoError(t, err)
 	})
 
 	t.Run("TestSubscribePublish", func(t *testing.T) {
@@ -99,12 +102,15 @@ func TestWithMochi(t *testing.T) {
 		)
 		defer done()
 
-		require.NoError(t, client.Subscribe(context.Background(), topicName))
-		require.NoError(t, client.Publish(
+		_, err = client.Subscribe(context.Background(), topicName)
+		require.NoError(t, err)
+
+		_, err = client.Publish(
 			context.Background(),
 			topicName,
 			[]byte(publishMessage),
-		))
+		)
+		require.NoError(t, err)
 
 		<-subscribed
 	})
