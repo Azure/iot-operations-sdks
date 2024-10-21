@@ -10,23 +10,27 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public class AzureDeviceRegistryClient
     {
         // The operator will deploy the connector pod with these environment variables set.
-        internal const string ConfigMapMountPathEnvVar = "CONFIGMAP_MOUNT_PATH";
+        internal const string ConfigMapMountPathEnvVar = "AEP_MQ_CONFIGMAP_MOUNT_PATH";
         internal const string AepUsernameSecretMountPathEnvVar = "AEP_USERNAME_SECRET_MOUNT_PATH";
         internal const string AepPasswordSecretMountPathEnvVar = "AEP_PASSWORD_SECRET_MOUNT_PATH";
         internal const string AepCertMountPathEnvVar = "AEP_CERT_MOUNT_PATH";
+        internal const string AssetConfigMapEnvVar = "ASSET_CONFIGMAP_MOUNT_PATH";
 
         // The operator will deploy the connector pod with volumes with this information.
         // These particular files will be in the configmap mount path folder
         internal string AepTargetAddressRelativeMountPath = "AEP_TARGET_ADDRESS";
         internal string AepAuthenticationMethodRelativeMountPath = "AEP_AUTHENTICATION_METHOD";
-        internal string AepUsernameSecretNameRelativeMountPath = "AEP_USERNAME_SECRET_NAME";
-        internal string AepPasswordSecretNameRelativeMountPath = "AEP_PASSWORD_SECRET_NAME";
-        internal string AepCertificateSecretNameRelativeMountPath = "AEP_CERT_SECRET_NAME";
+        internal string AepUsernameSecretNameRelativeMountPath = "AEP_USERNAME_FILE_NAME";
+        internal string AepPasswordSecretNameRelativeMountPath = "AEP_PASSWORD_FILE_NAME";
+        internal string AepCertificateSecretNameRelativeMountPath = "AEP_CERT_FILE_NAME";
         internal string EndpointProfileTypeRelativeMountPath = "ENDPOINT_PROFILE_TYPE";
         internal string AepAdditionalConfigurationRelativeMountPath = "AEP_ADDITIONAL_CONFIGURATION";
+        internal string AepDiscoveredAssetEndpointProfileRefRelativeMountPath = "AEP_DISCOVERED_ASSET_ENDPOINT_PROFILE_REF";
+        internal string AepUuidRelativeMountPath = "AEP_UUID";
 
         private Dictionary<string, FilesObserver> assetEndpointProfileFileObservers = new();
 
+        private string _assetMapMountPath;
         private string _configMapMountPath;
         private string? _aepUsernameSecretMountPath;
         private string? _aepPasswordSecretMountPath;
@@ -39,7 +43,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         public AzureDeviceRegistryClient()
         {
-            _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the config map mount path environment variable");
+            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar) ?? throw new InvalidOperationException("Missing the asset config map mount path environment variable");
+            _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
             _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
             _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
             _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
@@ -53,6 +58,26 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <returns>The requested asset.</returns>
         public Task<Asset> GetAssetAsync(string assetId, CancellationToken cancellationToken = default)
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            /*
+            List<Asset> assets = new List<Asset>();
+            foreach (string directory in Directory.EnumerateDirectories(folderPath))
+            {
+                Console.WriteLine($"Directory: {directory}");
+                foreach (string file in Directory.EnumerateFiles(directory))
+                {
+                    Console.WriteLine($"  File: {file}");
+                    string content = File.ReadAllText(file);
+                    Asset mountedAsset = JsonSerializer.Deserialize<Asset>(content, options);
+                    assets.Add(mountedAsset);
+                }
+            }
+            return assets;
+            */
             throw new NotImplementedException();
         }
 
