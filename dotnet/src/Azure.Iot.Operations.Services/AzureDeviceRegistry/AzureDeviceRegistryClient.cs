@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         private Dictionary<string, FilesObserver> assetEndpointProfileFileObservers = new();
 
-        private string _assetMapMountPath;
+        private string? _assetMapMountPath;
         private string _configMapMountPath;
         private string? _aepUsernameSecretMountPath;
         private string? _aepPasswordSecretMountPath;
@@ -43,7 +43,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         public AzureDeviceRegistryClient()
         {
-            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar) ?? "";
+            //TODO safe to assume at least one asset and one asset endpoint?
+            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapEnvVar);
             _configMapMountPath = Environment.GetEnvironmentVariable(ConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
             _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
             _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
@@ -53,45 +54,39 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Get the asset with the provided Id.
         /// </summary>
-        /// <param name="assetId">The Id of the asset to retrieve.</param>
+        /// <param name="assetName">The Id of the asset to retrieve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The requested asset.</returns>
-        public Task<Asset> GetAssetAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrWhiteSpace(_assetMapMountPath))
+            {
+                return null;
+            }
+
+            //TODO necessary?
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            /*
-            List<Asset> assets = new List<Asset>();
-            foreach (string directory in Directory.EnumerateDirectories(folderPath))
-            {
-                Console.WriteLine($"Directory: {directory}");
-                foreach (string file in Directory.EnumerateFiles(directory))
-                {
-                    Console.WriteLine($"  File: {file}");
-                    string content = File.ReadAllText(file);
-                    Asset mountedAsset = JsonSerializer.Deserialize<Asset>(content, options);
-                    assets.Add(mountedAsset);
-                }
-            }
-            return assets;
-            */
-            throw new NotImplementedException();
+
+            byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetMapMountPath}/{assetName}/{assetName}");
+            Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
+
+            return asset;
         }
 
         /// <summary>
         /// Get the asset endpoint profile of the asset with the provided Id.
         /// </summary>
-        /// <param name="assetId">The Id of the asset whose endpoint profile to retrieve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The requested asset endpoint profile.</returns>
-        public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
+            //TODO assetName is currently ignored because there is only ever one assetName deployed, currently. Will revise later once operator can deploy more than one asset per connector
             string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepUsernameSecretNameRelativeMountPath}");
             string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepPasswordSecretNameRelativeMountPath}");
             string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_configMapMountPath}/{AepCertificateSecretNameRelativeMountPath}");
@@ -129,10 +124,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Start receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
-        /// <param name="assetId">The Id of the asset to observe.</param>
+        /// <param name="assetName">The Id of the asset to observe.</param>
         /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public Task ObserveAssetAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public Task ObserveAssetAsync(string assetName, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -140,9 +135,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Stop receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
         /// </summary>
-        /// <param name="assetId">The Id of the asset to unobserve.</param>
+        /// <param name="assetName">The Id of the asset to unobserve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public Task UnobserveAssetAsync(string assetId, CancellationToken cancellationToken = default)
+        public Task UnobserveAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -151,16 +146,16 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Start receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
-        /// <param name="assetId">The Id of the asset whose endpoint profile you want to observe.</param>
+        /// <param name="assetName">The Id of the asset whose endpoint profile you want to observe.</param>
         /// <param name="pollingInterval">How frequently to check for changes to the asset endpoint profile.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ObserveAssetEndpointProfileAsync(string assetId, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public async Task ObserveAssetEndpointProfileAsync(string assetName, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!assetEndpointProfileFileObservers.ContainsKey(assetId))
+            if (!assetEndpointProfileFileObservers.ContainsKey(assetName))
             {
-                //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
+                //TODO assetName is currently ignored because there is only ever one assetName deployed, currently. Will revise later once operator can deploy more than one asset per connector
                 var assetEndpointObserver = new FilesObserver(
                     new(){
                         $"{_configMapMountPath}/{AepTargetAddressRelativeMountPath}",
@@ -191,7 +186,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                     assetEndpointObserver.ObserveAdditionalFilePath($"{_aepCertMountPath}/{aepCertificateSecretName}");
                 }
 
-                assetEndpointProfileFileObservers.Add(assetId, assetEndpointObserver);
+                assetEndpointProfileFileObservers.Add(assetName, assetEndpointObserver);
 
                 await assetEndpointObserver.StartAsync();
 
@@ -203,17 +198,17 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Stop receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
-        /// <param name="assetId">The Id of the asset whose endpoint profile you want to unobserve.</param>
+        /// <param name="assetName">The Id of the asset whose endpoint profile you want to unobserve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task UnobserveAssetEndpointProfileAsync(string assetId, CancellationToken cancellationToken = default)
+        public async Task UnobserveAssetEndpointProfileAsync(string assetName, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            //TODO assetId is currently ignored because there is only ever one assetId deployed, currently. Will revise later once operator can deploy more than one asset per connector
-            if (assetEndpointProfileFileObservers.ContainsKey(assetId))
+            //TODO assetName is currently ignored because there is only ever one assetName deployed, currently. Will revise later once operator can deploy more than one asset per connector
+            if (assetEndpointProfileFileObservers.ContainsKey(assetName))
             {
-                await assetEndpointProfileFileObservers[assetId].StopAsync();
-                assetEndpointProfileFileObservers.Remove(assetId);
+                await assetEndpointProfileFileObservers[assetName].StopAsync();
+                assetEndpointProfileFileObservers.Remove(assetName);
             }
         }
 
@@ -222,16 +217,28 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The complete list of assets deployed by the operator to this pod.</returns>
-        public Task<IEnumerable<string>> GetAssetIdsAsync(CancellationToken cancellationToken = default)
+        public Task<List<string>> GetAssetNamesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            List<string> assetNames = new();
+            if (Directory.Exists(_assetMapMountPath))
+            {
+                foreach (string directory in Directory.EnumerateDirectories(_assetMapMountPath))
+                {
+                    foreach (string fileName in Directory.EnumerateFiles(directory))
+                    {
+                        assetNames.Add(fileName);
+                    }
+                }
+            }
+
+            return Task.FromResult(assetNames);
         }
 
         private void OnAssetEndpointProfileFileChanged(object? sender, EventArgs e)
         {
             new Task(async () =>
             {
-                AssetEndpointProfileChanged?.Invoke(this, await GetAssetEndpointProfileAsync("todo"));
+                AssetEndpointProfileChanged?.Invoke(this, await GetAssetEndpointProfileAsync());
             }).Start();
         }
 

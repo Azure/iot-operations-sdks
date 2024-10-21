@@ -29,18 +29,22 @@ namespace Azure.Iot.Operations.ConnectorSample
             AzureDeviceRegistryClient adrClient = new();
             _logger.LogInformation("Successfully created ADR client");
 
-            string assetId = "todo - doesn't matter yet";
+            //TODO generic sample should loop over all assets instead of hardcoding one asset like this
+            string assetName = "my-http-asset";
 
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
             // Additionally, the telemetry sent by this connector should be stamped as a cloud event
 
             try
             {
-                _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
+                _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
-                // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
-                //_httpServerAsset = await _adrClient.GetAssetAsync(assetId);
-                _httpServerAsset = GetStubAsset();
+                _httpServerAsset = await adrClient.GetAssetAsync(assetName);
+
+                if (_httpServerAsset == null)
+                {
+                    throw new InvalidOperationException("Missing HTTP server asset");
+                }
 
                 adrClient.AssetChanged += (sender, newAsset) =>
                 {
@@ -56,7 +60,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 // TODO unimplemented so far
                 //await adrClient.ObserveAssetAsync(assetId);
-                await adrClient.ObserveAssetEndpointProfileAsync(assetId);
+                await adrClient.ObserveAssetEndpointProfileAsync(assetName);
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
@@ -92,7 +96,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 // TODO unimplemented so far
                 //await adrClient.UnobserveAssetAsync(assetId);
-                await adrClient.UnobserveAssetEndpointProfileAsync(assetId);
+                await adrClient.UnobserveAssetEndpointProfileAsync(assetName);
             }
         }
 
@@ -132,39 +136,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
-        }
-
-        private Asset GetStubAsset()
-        {
-            return new()
-            {
-                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 4000}"),
-                Datasets = new Dictionary<string, Dataset>
-                {
-                    {
-                        "thermostat_status",
-                        new Dataset()
-                        {
-                            DataPoints =
-                            [
-                                new DataPoint("/api/machine/my_thermostat_1/status", "actual_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                                new DataPoint("/api/machine/my_thermostat_1/status", "desired_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                            ],
-                            Topic = new()
-                            {
-                                Path = "mqtt/machine/my_thermostat_1/status",
-                                Retain = RetainHandling.Keep,
-                            }
-                        }
-                    }
-                }
-            };
         }
     }
 }

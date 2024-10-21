@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             try
             {
                 var adrClient = new AzureDeviceRegistryClient();
-                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
+                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
                 Assert.Equal(File.ReadAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS"), assetEndpointProfile.TargetAddress);
                 Assert.Equal(File.ReadAllText("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD"), assetEndpointProfile.AuthenticationMethod);
@@ -56,7 +56,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             var adrClient = new AzureDeviceRegistryClient();
             try
             {
-                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
+                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
                 TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
                 adrClient.AssetEndpointProfileChanged += (sender, assetEndpointProfile) =>
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             var adrClient = new AzureDeviceRegistryClient();
             try
             {
-                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync("someAssetId");
+                var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
                 TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
                 adrClient.AssetEndpointProfileChanged += (sender, assetEndpointProfile) =>
