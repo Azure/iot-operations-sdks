@@ -10,6 +10,6 @@ Utilities for using the Azure IoT Operations Protocol over MQTT, leveraging the 
 The Azure IoT Operations Protocol allows for structured data to be sent and received between applications in two patterns:
 
 - RPC Command - Send requests, process them, and respond
-- Telemetry (Coming Soon) - Send and receive telemetry messages
+- Telemetry - Send and receive telemetry messages
 
 Simply implement the provided serialization traits for your structured data, and use the envoy clients for the pattern you wish to use!
