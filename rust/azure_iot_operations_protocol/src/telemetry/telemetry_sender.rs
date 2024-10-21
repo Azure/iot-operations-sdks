@@ -133,6 +133,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
 impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// Add a payload to the telemetry message. Validates successful serialization of the payload.
     ///
+    /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
     pub fn payload(&mut self, payload: &T) -> Result<&mut Self, T::Error> {
         let serialized_payload = payload.serialize()?;
