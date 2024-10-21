@@ -52,13 +52,9 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         PublishRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.ApplicationMessage.UserProperties, args.ClientId))
-                    {
-                        args.ProcessPublish = false;
-                        args.CloseConnection = true;
-                        return;
-                    }
-                    else if (TryGetUserProperty(args.ApplicationMessage.UserProperties, rejectPublishFaultName, out string? rejectPublishReasonString))
+                    await CloseConnectionIfRequested(args.ApplicationMessage.UserProperties, args.ClientId)
+
+                    if (TryGetUserProperty(args.ApplicationMessage.UserProperties, rejectPublishFaultName, out string? rejectPublishReasonString))
                     {
                         if (int.TryParse(rejectPublishReasonString, out int pubackCodeInt))
                         {
@@ -86,13 +82,9 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         SubscribeRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
-                    {
-                        args.ProcessSubscription = false;
-                        args.CloseConnection = true;
-                        return;
-                    }
-                    else if (TryGetUserProperty(args.UserProperties, rejectSubscribeFaultName, out string? rejectSubscribeReasonString))
+                    await CloseConnectionIfRequested(args.UserProperties, args.ClientId)
+
+                    if (TryGetUserProperty(args.UserProperties, rejectSubscribeFaultName, out string? rejectSubscribeReasonString))
                     {
                         if (int.TryParse(rejectSubscribeReasonString, out int subackCodeInt))
                         {
@@ -120,13 +112,9 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         UnsubscribeRequestsAlreadyReceived.Add(requestIdValue);
                     }
 
-                    if (await CloseConnectionIfRequested(args.UserProperties, args.ClientId))
-                    {
-                        args.ProcessUnsubscription = false;
-                        args.CloseConnection = true;
-                        return;
-                    }
-                    else if (TryGetUserProperty(args.UserProperties, rejectUnsubscribeFaultName, out string? rejectUnsubscribeReasonString))
+                    await CloseConnectionIfRequested(args.UserProperties, args.ClientId)
+
+                    if (TryGetUserProperty(args.UserProperties, rejectUnsubscribeFaultName, out string? rejectUnsubscribeReasonString))
                     {
                         if (int.TryParse(rejectUnsubscribeReasonString, out int subackCodeInt))
                         {
@@ -174,7 +162,7 @@ namespace Azure.Iot.Operations.Protocol.Tools
             };
         }
 
-        private async Task<bool> CloseConnectionIfRequested(List<MqttUserProperty> properties, string clientId)
+        private async Task CloseConnectionIfRequested(List<MqttUserProperty> properties, string clientId)
         {
             if (TryGetUserProperty(properties, disconnectFaultName, out string? disconnectFaultReasonString))
             {
@@ -189,7 +177,6 @@ namespace Azure.Iot.Operations.Protocol.Tools
                     catch (Exception)
                     {
                         Console.WriteLine("Failed to convert the provided disconnect code int into a a valid disconnect code enum value. No fault will be triggered.");
-                        return false;
                     }
 
                     if (TryGetFaultDelay(properties, out TimeSpan? faultDelay))
@@ -212,12 +199,8 @@ namespace Azure.Iot.Operations.Protocol.Tools
                         // The request didn't specify a delay for the fault, so kill the connection immediately before acknowledging the request
                         await _mqttServer.DisconnectClientAsync(clientId, disconnectReasonCode);
                     }
-
-                    return true;
                 }
             }
-
-            return false;
         }
 
         public bool TryGetUserProperty(List<MqttUserProperty> properties, string name, out string? value)
