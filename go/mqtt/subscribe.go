@@ -93,13 +93,13 @@ func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
 	opts ...SubscribeOption,
-) error {
+) (*Ack, error) {
 	if !c.sessionStarted.Load() {
-		return &ClientStateError{NotStarted}
+		return nil, &ClientStateError{NotStarted}
 	}
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	for {
@@ -112,9 +112,9 @@ func (c *SessionClient) Subscribe(
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
-				return &ClientStateError{State: ShutDown}
+				return nil, &ClientStateError{State: ShutDown}
 			case <-ctx.Done():
-				return ctx.Err()
+				return nil, ctx.Err()
 			case <-connUp:
 			}
 			continue
@@ -123,22 +123,26 @@ func (c *SessionClient) Subscribe(
 		c.log.Packet(ctx, "subscribe", sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
-			return &InvalidArgumentError{
+			return nil, &InvalidArgumentError{
 				wrappedError: err,
 				message:      "invalid arguments in Subscribe() options",
 			}
 		}
 		if suback != nil {
-			return nil
+			return &Ack{
+				ReasonCode:     suback.Reasons[0],
+				ReasonString:   suback.Properties.ReasonString,
+				UserProperties: userPropertiesToMap(suback.Properties.User),
+			}, nil
 		}
 
 		// If we get here, the SUBSCRIBE failed because the connection is down
 		// or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
-			return ctx.Err()
+			return nil, ctx.Err()
 		case <-c.shutdown:
-			return &ClientStateError{State: ShutDown}
+			return nil, &ClientStateError{State: ShutDown}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and
 			// retry
@@ -150,10 +154,10 @@ func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
 	topic string,
 	opts ...UnsubscribeOption,
-) error {
+) (*Ack, error) {
 	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	for {
@@ -166,9 +170,9 @@ func (c *SessionClient) Unsubscribe(
 		if pahoClient == nil {
 			select {
 			case <-c.shutdown:
-				return &ClientStateError{State: ShutDown}
+				return nil, &ClientStateError{State: ShutDown}
 			case <-ctx.Done():
-				return ctx.Err()
+				return nil, ctx.Err()
 			case <-connUp:
 			}
 			continue
@@ -177,22 +181,26 @@ func (c *SessionClient) Unsubscribe(
 		c.log.Packet(ctx, "unsubscribe", unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		if errors.Is(err, paho.ErrInvalidArguments) {
-			return &InvalidArgumentError{
+			return nil, &InvalidArgumentError{
 				wrappedError: err,
 				message:      "invalid arguments in Unsubscribe() options",
 			}
 		}
 		if unsuback != nil {
-			return nil
+			return &Ack{
+				ReasonCode:     unsuback.Reasons[0],
+				ReasonString:   unsuback.Properties.ReasonString,
+				UserProperties: userPropertiesToMap(unsuback.Properties.User),
+			}, nil
 		}
 
 		// If we get here, the UNSUBSCRIBE failed because the connection is down
 		// or because ctx was cancelled.
 		select {
 		case <-ctx.Done():
-			return ctx.Err()
+			return nil, ctx.Err()
 		case <-c.shutdown:
-			return &ClientStateError{State: ShutDown}
+			return nil, &ClientStateError{State: ShutDown}
 		case <-connDown:
 			// Connection is down, wait for the connection to come back up and
 			// retry

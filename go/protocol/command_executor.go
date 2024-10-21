@@ -268,7 +268,12 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return nil
 	}
 
-	err = ce.client.Publish(ctx, rpub.Topic, rpub.Payload, &rpub.PublishOptions)
+	_, err = ce.client.Publish(
+		ctx,
+		rpub.Topic,
+		rpub.Payload,
+		&rpub.PublishOptions,
+	)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
@@ -297,12 +302,13 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	if err != nil {
 		return err
 	}
-	return ce.client.Publish(
+	_, err = ce.client.Publish(
 		ctx,
 		rpub.Topic,
 		rpub.Payload,
 		&rpub.PublishOptions,
 	)
+	return err
 }
 
 // Call handler with panic catch.

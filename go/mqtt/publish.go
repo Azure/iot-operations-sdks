@@ -10,8 +10,7 @@ import (
 )
 
 type publishResult struct {
-	// TODO: add PUBACK information once Paho exposes it
-	// (see: https://github.com/eclipse/paho.golang/issues/216)
+	ack *Ack
 	err error
 }
 
@@ -81,8 +80,9 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 					// session tracker), so we relinquish control of the
 					// PUBLISH.
 					result = &publishResult{
-						// TODO: put the PUBACK in here when the Paho limitation
-						// is addressed.
+						// TODO: Add PUBACK information once Paho exposes it.
+						// (see: https://github.com/eclipse/paho.golang/issues/216)
+						ack: &Ack{},
 					}
 				} else if errors.Is(err, paho.ErrInvalidArguments) {
 					// Paho says the PUBLISH is invalid (likely due to an MQTT
@@ -114,9 +114,9 @@ func (c *SessionClient) Publish(
 	topic string,
 	payload []byte,
 	opts ...PublishOption,
-) error {
+) (*Ack, error) {
 	if !c.sessionStarted.Load() {
-		return &ClientStateError{State: NotStarted}
+		return nil, &ClientStateError{State: NotStarted}
 	}
 
 	var opt PublishOptions
@@ -124,12 +124,12 @@ func (c *SessionClient) Publish(
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return &InvalidArgumentError{
+		return nil, &InvalidArgumentError{
 			message: "Invalid QoS. Supported QoS value are 0 and 1",
 		}
 	}
 	if opt.PayloadFormat >= 2 {
-		return &InvalidArgumentError{
+		return nil, &InvalidArgumentError{
 			message: "Invalid payload format indicator. Supported values are 0 and 1",
 		}
 	}
@@ -163,16 +163,16 @@ func (c *SessionClient) Publish(
 	select {
 	case c.outgoingPublishes <- queuedPublish:
 	default:
-		return &PublishQueueFullError{}
+		return nil, &PublishQueueFullError{}
 	}
 	var result *publishResult
 	select {
 	case result = <-resultChan:
 	case <-ctx.Done():
-		return ctx.Err()
+		return nil, ctx.Err()
 	case <-c.shutdown:
-		return &ClientStateError{State: ShutDown}
+		return nil, &ClientStateError{State: ShutDown}
 	}
 
-	return result.err
+	return result.ack, result.err
 }

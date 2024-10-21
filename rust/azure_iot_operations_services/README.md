@@ -1,6 +1,6 @@
 # Azure IoT Operations - Services
 
-Utilities for using the Azure IoT Operations Protocol over MQTT, leveraging the [Azure IoT Operations - MQTT](../azure_iot_operations_mqtt/) crate.
+Utilities for using the Azure IoT Operations Services over MQTT, leveraging the [Azure IoT Operations - MQTT](../azure_iot_operations_mqtt/) crate.
  
 [API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services) |
 [Examples](examples) |
