@@ -39,8 +39,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
-                await Task.Delay(TimeSpan.FromHours(3));
-
                 _httpServerAsset = await adrClient.GetAssetAsync(assetName);
 
                 if (_httpServerAsset == null)

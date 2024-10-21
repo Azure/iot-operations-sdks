@@ -6,7 +6,7 @@ metadata:
 spec:
   displayName: REST Sample Asset 1
   description: A sample for an Asset modeling a device with REST endpoint
-  assetEndpointProfileRef: azure-iot-operations/my-http-aep
+  assetEndpointProfileRef: azure-iot-operations/my-http-aep # <namespace>/<assetEndpointProfile.metadata.name>
   defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,
