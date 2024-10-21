@@ -26,7 +26,7 @@ kubectl apply -f ./KubernetesResources/connector-config.yaml
 kubectl apply -f ./KubernetesResources/http-connector-secrets.yaml
 
 # Deploy HTTP server (as an asset)
-kubectl apply -f ./SampleHttpServer/http-server.yaml
+kubectl apply -f ./KubernetesResources/http-server.yaml
 
 # Deploy HTTP server asset and AEP
 kubectl apply -f ./KubernetesResources/http-server-asset-endpoint-profile-definition.yaml
