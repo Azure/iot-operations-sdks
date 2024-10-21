@@ -241,11 +241,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		handlerCtx, cancel := ce.timeout.Context(ctx)
 		defer cancel()
 
-		handlerCtx, cancel = (&internal.Timeout{
-			Duration: time.Duration(pub.MessageExpiry) * time.Second,
-			Name:     "MessageExpiry",
-			Text:     commandExecutorErrStr,
-		}).Context(handlerCtx)
+		handlerCtx, cancel = pubTimeout(pub).Context(handlerCtx)
 		defer cancel()
 
 		res, err := ce.handle(handlerCtx, req)
@@ -370,6 +366,31 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	}
 }
 
+// Build the response publish packet.
+func (ce *CommandExecutor[Req, Res]) build(
+	pub *mqtt.Message,
+	res *CommandResponse[Res],
+	resErr error,
+) (*mqtt.Message, error) {
+	var msg *Message[Res]
+	if res != nil {
+		msg = &res.Message
+	}
+	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
+	if err != nil {
+		return nil, err
+	}
+
+	rpub.CorrelationData = pub.CorrelationData
+	rpub.Topic = pub.ResponseTopic
+	rpub.MessageExpiry = pub.MessageExpiry
+	for key, val := range errutil.ToUserProp(resErr) {
+		rpub.UserProperties[key] = val
+	}
+
+	return rpub, nil
+}
+
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
@@ -390,29 +411,13 @@ func ignoreRequest(pub *mqtt.Message) error {
 	return nil
 }
 
-// Build the response publish packet.
-func (ce *CommandExecutor[Req, Res]) build(
-	pub *mqtt.Message,
-	res *CommandResponse[Res],
-	resErr error,
-) (*mqtt.Message, error) {
-	var msg *Message[Res]
-	if res != nil {
-		msg = &res.Message
+// Build a timeout based on the message's expiry.
+func pubTimeout(pub *mqtt.Message) *internal.Timeout {
+	return &internal.Timeout{
+		Duration: time.Duration(pub.MessageExpiry) * time.Second,
+		Name:     "MessageExpiry",
+		Text:     commandExecutorErrStr,
 	}
-	rpub, err := ce.publisher.build(msg, nil, 0)
-	if err != nil {
-		return nil, err
-	}
-
-	rpub.CorrelationData = pub.CorrelationData
-	rpub.Topic = pub.ResponseTopic
-	rpub.MessageExpiry = pub.MessageExpiry
-	for key, val := range errutil.ToUserProp(resErr) {
-		rpub.UserProperties[key] = val
-	}
-
-	return rpub, nil
 }
 
 // Respond is a shorthand to create a command response with required values and

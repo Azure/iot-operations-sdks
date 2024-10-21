@@ -55,3 +55,7 @@ func (to *Timeout) Context(
 		TimeoutValue: to.Duration,
 	})
 }
+
+func (to *Timeout) MessageExpiry() uint32 {
+	return uint32(to.Seconds())
+}

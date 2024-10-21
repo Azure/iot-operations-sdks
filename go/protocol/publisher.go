@@ -20,14 +20,13 @@ type publisher[T any] struct {
 	topic    *internal.TopicPattern
 }
 
-// DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
-// is specified.
-const DefaultMessageExpiry = 10 * time.Second
+// DefaultTimeout is the timeout applied to Invoke or Send if none is specified.
+const DefaultTimeout = 10 * time.Second
 
 func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
-	timeout time.Duration,
+	timeout *internal.Timeout,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
@@ -39,13 +38,9 @@ func (p *publisher[T]) build(
 		}
 	}
 
-	if timeout == 0 {
-		timeout = DefaultMessageExpiry
-	}
-
 	pub.PublishOptions = mqtt.PublishOptions{
 		QoS:           1,
-		MessageExpiry: uint32(timeout.Seconds()),
+		MessageExpiry: timeout.MessageExpiry(),
 	}
 
 	if msg != nil {

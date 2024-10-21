@@ -104,8 +104,13 @@ func (ts *TelemetrySender[T]) Send(
 	var opts SendOptions
 	opts.Apply(opt)
 
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
 	expiry := &internal.Timeout{
-		Duration: opts.Timeout,
+		Duration: timeout,
 		Name:     "MessageExpiry",
 		Text:     telemetrySenderErrStr,
 	}
@@ -117,7 +122,7 @@ func (ts *TelemetrySender[T]) Send(
 		Payload:  val,
 		Metadata: opts.Metadata,
 	}
-	pub, err := ts.publisher.build(msg, opts.TopicTokens, opts.Timeout)
+	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return err
 	}

@@ -180,8 +180,13 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
 	expiry := &internal.Timeout{
-		Duration: opts.Timeout,
+		Duration: timeout,
 		Name:     "MessageExpiry",
 		Text:     commandInvokerErrStr,
 	}
@@ -199,7 +204,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.Timeout)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return nil, err
 	}

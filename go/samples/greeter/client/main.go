@@ -83,7 +83,7 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithTimeout(protocol.DefaultMessageExpiry+duration),
+			protocol.WithTimeout(protocol.DefaultTimeout+duration),
 		))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
