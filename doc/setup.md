@@ -75,9 +75,9 @@ The cluster will contain the following:
 
 | Component | Name | Description |
 |-|-|-|
-| `Broker` | default | A standard MQTT broker installation |
-| `BrokerListener` | default | Provides cluster access to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
-| `BrokerListener` | default-external | Provides external access to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
+| `Broker` | default | An MQTT broker definition |
+| `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
+| `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
 | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
 | `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
 
@@ -106,30 +106,30 @@ The easiest way to test the setup is working correctly is to use `mosquitto_pub`
     mosquitto_pub -L mqtt://localhost:1883/hello -m world --debug
     ```
 
-1. Test TLS with SAT auth:
-
-    ```bash
-    mosquitto_pub -L mqtts://localhost:8884/hello -m world --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt) --debug
-    ```
-
 1. Test TLS with x509 auth:
 
     ```bash
     mosquitto_pub -L mqtts://localhost:8883/hello -m world --cafile $SESSION/broker-ca.crt --cert $SESSION/client.crt --key $SESSION/client.key --debug
     ```
 
+1. Test TLS with SAT auth:
+
+    ```bash
+    mosquitto_pub -L mqtts://localhost:8884/hello -m world --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt) --debug
+    ```
+
 ## Next Steps
 
 Setting your environment depending on which language you want, and then get started!
 
- * **.NET** 
+ * **.NET** :
 
-    Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux) and then head to the [.NET SDK ](/dotnet/)
+    Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux), then head to the [.NET SDK ](/dotnet/)
 
 * **Go** 
 
-    Install [Go](https://go.dev/doc/install) and then head to the [Go SDK](/go/)
+    Install [Go](https://go.dev/doc/install), then head to the [Go SDK](/go/)
 
 * **Rust** 
 
-    Install [Rust](https://www.rust-lang.org/tools/install) and then head to the [Rust SDK](/rust/)
+    Install [Rust](https://www.rust-lang.org/tools/install), then head to the [Rust SDK](/rust/)

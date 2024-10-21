@@ -35,3 +35,13 @@ The Azure IoT Operations SDKs provide a number of layers for a customer to engag
 1. A set of clients implementing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
 
 1. The Protocol Compiler allows clients and servers to communicate via a schema contract. Describe the communication (Telemetry, RPC and serialization) using DTDL, then generate a set of client libraries and server library stubs across a set of popular programming languages.
+
+## Application types
+
+The SDKs supports two different applications types of the edge:
+
+### Edge Application
+
+The edge application is a freeform program to interact with different components on the edge such as the MQTT Broker and the state store. This would typically be used for custom edge logic, where you want full control over how the application is configured and deployed.
+
+### Akri Connector
