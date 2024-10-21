@@ -7,11 +7,11 @@ spec:
   displayName: REST Sample Asset 1
   description: A sample for an Asset modeling a device with REST endpoint
   assetEndpointProfileRef: some-name/some-namespace
-  datasetsConfiguration: |-
+  defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,
    }
-  topic:
+  defaultTopic:
     path: /mqtt/machine/status
     retain: Keep         
   datasets:
