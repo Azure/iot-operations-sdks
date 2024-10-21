@@ -399,7 +399,7 @@ public class StateStoreClientIntegrationTests
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using var stateStoreClient = new StateStoreClient(mqttClient);
-        
+
         try
         {
             await stateStoreClient.GetAsync("");
@@ -407,6 +407,22 @@ public class StateStoreClientIntegrationTests
         catch (StateStoreOperationException e)
         {
             Assert.Equal(ServiceError.KeyLengthZero, e.Reason);
+        }
+    }
+
+    [Fact]
+    public async Task TestWrongNumberOfArguments()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using var stateStoreClient = new StateStoreClient(mqttClient);
+
+        try
+        {
+            await stateStoreClient.SetAsync("key", "value", new StateStoreSetRequestOptions() { ExpiryTime = TimeSpan.FromSeconds(1), Condition = SetCondition.OnlyIfNotSet });
+        }
+        catch (StateStoreOperationException e)
+        {
+            Assert.Equal(ServiceError.WrongNumberOfArguments, e.Reason);
         }
     }
 }
