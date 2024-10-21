@@ -1,7 +1,7 @@
 apiVersion: deviceregistry.microsoft.com/v1beta2 # This is spec.group/versions.name from aep_crd.yaml
 kind: AssetEndpointProfile
 metadata:
-  name: my-http-asset
+  name: my-http-asset-endpoint-profile
   namespace: azure-iot-operations
 spec:
   additionalConfiguration: '{"DataSourceType": "Http", "HttpPath": "contexts/quality", "RequestIntervalInSeconds":15, "DssKey": "quality", "MqttClientId": "myHttpDssClient"}'
