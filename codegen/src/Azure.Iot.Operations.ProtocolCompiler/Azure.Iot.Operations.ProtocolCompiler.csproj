@@ -1,5 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- T4 build support for .NET Core (Begin) -->
+    <ItemGroup>
+        <TextTemplate Include="**\*.tt" />
+    </ItemGroup>
+    <Target Name="T4Transform" BeforeTargets="BeforeBuild" Inputs="@(TextTemplate)" Outputs="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Condition="'$(MSBuildRuntimeType)'=='Core'">
+        <Exec Command="t4 --class=Azure.Iot.Operations.ProtocolCompiler.%(TextTemplate.Filename) %(TextTemplate.Identity)"/>
+        <ItemGroup>
+            <Compile Include="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Exclude="@(Compile)"/>
+        </ItemGroup>
+    </Target>
+    <!-- T4 build support for .NET Core (End) -->
+
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<VersionPrefix>0.5.0</VersionPrefix>
