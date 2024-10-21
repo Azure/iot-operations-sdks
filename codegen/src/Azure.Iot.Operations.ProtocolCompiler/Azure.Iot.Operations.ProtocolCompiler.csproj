@@ -8,6 +8,7 @@
 		<Nullable>enable</Nullable>
 		<PackAsTool>True</PackAsTool>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TransformOnBuild>true</TransformOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -736,5 +737,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
+	<Import
+		Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets"
+		Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets')" />
 
 </Project>
