@@ -117,27 +117,32 @@
         }
 
         public StateStoreOperationException(string message, Exception innerException)
-            : base(message, innerException)
+            : base(FormatMessage(message, ReasonFromMessage(message).Item1), innerException)
         {
-            Reason = ReasonFromMessage(message);
+            Reason = ReasonFromMessage(message).Item1;
         }
 
         public StateStoreOperationException(string message)
-            : base(message)
+            : base(FormatMessage(message, ReasonFromMessage(message).Item1))
         {
-            Reason = ReasonFromMessage(message);
+            Reason = ReasonFromMessage(message).Item1;
         }
 
-        private ServiceError ReasonFromMessage(string message)
+        private static (ServiceError, string) ReasonFromMessage(string message)
         {
             foreach (var errorMessage in ErrorMessages)
             {
                 if (message.Contains(errorMessage.Key))
                 {
-                    return errorMessage.Value;
+                    return (errorMessage.Value, message);
                 }
             }
-            return ServiceError.Unknown;
+            return (ServiceError.Unknown, message);
+        }
+
+        private static string FormatMessage(string originalMessage, ServiceError reason)
+        {
+            return reason == ServiceError.Unknown ? $"Unknown error: {originalMessage}" : originalMessage;
         }
     }
 }
