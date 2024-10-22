@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.ConnectorSample
             
             var response = await _httpClient.GetAsync(_httpPath);
             string jsonResponse = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(jsonResponse);
+
             //TODO feels bad making the same HTTP request multiple times to get a single property from each response. Does ADR have something for allowing mutliple property names to be read?
             return JsonDocument.Parse(jsonResponse).RootElement.GetProperty(propertyName).GetString()!;
         }
