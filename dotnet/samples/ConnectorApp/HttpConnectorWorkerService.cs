@@ -113,12 +113,6 @@ namespace Azure.Iot.Operations.ConnectorSample
                 _logger.LogInformation($"No data points :(");
             }
 
-            //TODO NPE?
-            if (httpServerStatusDataset.DataPointsInternal == null || httpServerStatusDataset.DataPointsInternal.Length == 0)
-            {
-                _logger.LogInformation($"No internal data points :(");
-            }
-
             foreach (string dataPointName in httpServerStatusDataset.DataPoints!.Keys)
             {
                 _logger.LogInformation($"datapoint name: {dataPointName}");
