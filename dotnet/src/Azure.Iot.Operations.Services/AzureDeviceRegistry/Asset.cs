@@ -5,6 +5,7 @@ using System.Reflection;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -132,17 +133,13 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                             dictionary[dataset.Name] = dataset;
                         }
                         else
-                        { 
-                            //TODO log error
+                        {
+                            Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
                         }
                     }
                 }
 
                 return dictionary;
-            }
-            init
-            { 
-            
             }
         }
 
@@ -150,9 +147,36 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Dataset[]? DatasetsInternal { get; init; }
 
         /// <summary>
-        /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
+        /// The mapping of event names to events in this asset.
         /// </summary>
-        public Event[]? Events { get; init; }
+        [JsonIgnore]
+        public Dictionary<string, Event>? Events
+        {
+            get
+            {
+                Dictionary<string, Event>? dictionary = null;
+                if (EventsInternal != null)
+                {
+                    dictionary = new();
+                    foreach (Event eventInternal in EventsInternal)
+                    {
+                        if (!string.IsNullOrWhiteSpace(eventInternal.Name))
+                        {
+                            dictionary[eventInternal.Name] = eventInternal;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected event with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        [JsonPropertyName("events")]
+        internal Event[]? EventsInternal { get; init; }
 
         /// <summary>
         /// Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.
@@ -184,9 +208,36 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Topic? Topic { get; init; }
 
         /// <summary>
-        /// Array of data points that are part of the dataset. Each data point can have per-data point configuration.
+        /// The mapping of datapoint names to datapoints in this dataset.
         /// </summary>
-        public DataPoint[]? DataPoints { get; init; } //TODO make dictionary like datasets
+        [JsonIgnore]
+        public Dictionary<string, DataPoint>? DataPoints
+        {
+            get
+            {
+                Dictionary<string, DataPoint>? dictionary = null;
+                if (DataPointsInternal != null)
+                {
+                    dictionary = new();
+                    foreach (DataPoint dataPointInternal in DataPointsInternal)
+                    {
+                        if (!string.IsNullOrWhiteSpace(dataPointInternal.Name))
+                        {
+                            dictionary[dataPointInternal.Name] = dataPointInternal;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        [JsonPropertyName("datapoints")]
+        internal DataPoint[]? DataPointsInternal { get; init; }
     }
 
     public record DataPoint
@@ -274,7 +325,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Array object to transfer and persist errors that originate from the Edge.
         /// </summary>
-        public StatusError[]? Errors { get; init; }  //TODO dictionary w/ name as key
+        public StatusError[]? Errors { get; init; }
 
         /// <summary>
         /// A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.
@@ -282,14 +333,68 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public long? Version { get; init; }
 
         /// <summary>
-        /// Array of data set statuses that describe the status of each dataset.
+        /// The mapping of status dataset names to status datasets in this status.
         /// </summary>
-        public StatusDatasets[]? Datasets { get; init; } //TODO dictionary w/ name as key
+        [JsonIgnore]
+        public Dictionary<string, StatusDatasets>? StatusDatasets
+        {
+            get
+            {
+                Dictionary<string, StatusDatasets>? dictionary = null;
+                if (Datasets != null)
+                {
+                    dictionary = new();
+                    foreach (StatusDatasets statusDataset in Datasets)
+                    {
+                        if (!string.IsNullOrWhiteSpace(statusDataset.Name))
+                        {
+                            dictionary[statusDataset.Name] = statusDataset;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        [JsonPropertyName("datasets")]
+        internal StatusDatasets[]? Datasets { get; init; }
 
         /// <summary>
-        /// Array of event statuses that describe the status of each event.
+        /// The mapping of status event names to status events in this status.
         /// </summary>
-        public StatusEvents[]? Events { get; init; }  //TODO dictionary w/ name as key
+        [JsonIgnore]
+        public Dictionary<string, StatusEvents>? Events
+        {
+            get
+            {
+                Dictionary<string, StatusEvents>? dictionary = null;
+                if (EventsInternal != null)
+                {
+                    dictionary = new();
+                    foreach (StatusEvents statusEvents in EventsInternal)
+                    {
+                        if (!string.IsNullOrWhiteSpace(statusEvents.Name))
+                        {
+                            dictionary[statusEvents.Name] = statusEvents;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected statusEvents with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        [JsonPropertyName("events")]
+        internal StatusEvents[]? EventsInternal { get; init; }
     }
 
     public record StatusError

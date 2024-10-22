@@ -107,12 +107,12 @@ namespace Azure.Iot.Operations.ConnectorSample
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
-            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints![0];
+            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints!["desired_temperature"];
             HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerDesiredTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerDesiredTemperatureRequestPath, httpServerDesiredTemperatureHttpMethod, httpServerUsername, httpServerPassword);
 
-            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints![1];
+            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints!["actual_temperature"];
             HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
