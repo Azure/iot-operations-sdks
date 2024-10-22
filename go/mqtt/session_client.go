@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
@@ -36,9 +35,8 @@ type (
 		// Connection status signal.
 		isConnected atomic.Bool
 
-		// Connection shut down channel.
-		// (Go revive) No nested structs are allowed so we use error here.
-		connStopC internal.BufferChan[error]
+		// Connection shut down callback.
+		connStop context.CancelFunc
 
 		// Allowing session restoration upon reconnection.
 		session session.SessionManager
@@ -229,7 +227,6 @@ func (c *SessionClient) ID() string {
 func (c *SessionClient) initialize() {
 	atomic.StoreInt64(&c.connCount, 0)
 	c.setDisconnected()
-	c.connStopC = *internal.NewBufferChan[error](1)
 	c.connSettings = &connectionSettings{
 		clientID: randomClientID(),
 		// If receiveMaximum is 0, we can't establish connection.
@@ -255,19 +252,4 @@ func (c *SessionClient) initialize() {
 	c.pahoClientFactory = func(config *paho.ClientConfig) PahoClient {
 		return paho.NewClient(*config)
 	}
-}
-
-// ensureClient checks that the Paho client is initialized.
-func (c *SessionClient) ensurePahoClient(ctx context.Context) error {
-	c.pahoClientMu.RLock()
-	defer c.pahoClientMu.RUnlock()
-	if c.pahoClient == nil {
-		err := &errors.Error{
-			Kind:    errors.StateInvalid,
-			Message: "Paho client was not initialized",
-		}
-		c.log.Error(ctx, err)
-		return err
-	}
-	return nil
 }

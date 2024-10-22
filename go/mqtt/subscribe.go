@@ -31,21 +31,16 @@ func (c *SessionClient) Subscribe(
 	topic string,
 	opts ...SubscribeOption,
 ) (*Ack, error) {
-	if err := c.prepare(ctx); err != nil {
-		return nil, err
-	}
-
 	sub, err := buildSubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		err := c.bufferPacket(ctx, &queuedPacket{packet: sub})
-		if err != nil {
-			return nil, err
-		}
+	queued, err := c.prepare(ctx, sub)
+	if err != nil {
+		return nil, err
+	}
+	if queued {
 		return &Ack{}, nil
 	}
 
@@ -77,22 +72,17 @@ func (c *SessionClient) Unsubscribe(
 	topic string,
 	opts ...UnsubscribeOption,
 ) (*Ack, error) {
-	if err := c.prepare(ctx); err != nil {
-		return nil, err
-	}
-
 	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		err := c.bufferPacket(ctx, &queuedPacket{packet: unsub})
-		if err != nil {
-			return nil, err
-		}
-		return &Ack{}, err
+	queued, err := c.prepare(ctx, unsub)
+	if err != nil {
+		return nil, err
+	}
+	if queued {
+		return &Ack{}, nil
 	}
 
 	c.log.Packet(ctx, "unsubscribe", unsub)

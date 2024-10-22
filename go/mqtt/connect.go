@@ -46,37 +46,35 @@ func (c *SessionClient) RegisterFatalErrorHandler(
 	return c.fatalErrorHandlers.AppendEntry(handler)
 }
 
-// Connect establishes a connection for the session client.
-func (c *SessionClient) Connect(ctx context.Context) error {
-	// The initial connection will block until it either succeeds or fails.
-	if connErr := c.initialConnect(ctx); connErr != nil {
-		return connErr
-	}
+// Start begins establishing a connection for the session client.
+func (c *SessionClient) Start() error {
+	ctx, cancel := context.WithCancel(context.Background())
+	c.connStop = cancel
+
+	c.session = state.NewInMemory()
 
 	// Start automatic reauthentication in the background
 	// if user set AuthDataProvider to refresh auth data.
 	if c.connSettings.authOptions.AuthDataProvider != nil {
-		go c.autoAuth()
+		go c.autoAuth(ctx)
 	}
 
 	// Monitor the connection in the background
 	// after the initial connection succeeds.
-	go c.maintain()
+	go c.maintain(ctx)
+
+	// Send an event on the disconnection channel to trigger initial connection.
+	c.disconnErrC.Send(nil)
 
 	return nil
 }
 
-// Disconnect closes the connection gracefully
-// by sending the disconnect packet to server
-// and should terminate any active goroutines before returning.
-func (c *SessionClient) Disconnect() error {
+// Stop closes the connection gracefully by sending the disconnect packet to
+// the broker and terminates any active goroutines.
+func (c *SessionClient) Stop() error {
 	ctx := context.TODO()
 
-	if err := c.ensurePahoClient(ctx); err != nil {
-		return err
-	}
-
-	if !c.isConnected.Load() {
+	if c.connStop == nil {
 		return &errors.Error{
 			Kind:    errors.StateInvalid,
 			Message: "Cannot disconnect since the client is not connected",
@@ -86,16 +84,18 @@ func (c *SessionClient) Disconnect() error {
 	c.log.Info(ctx, "start disconnection")
 
 	// Exit all background goroutines.
-	close(c.connStopC.C)
+	c.connStop()
 
 	// Sending disconnect packet to server.
-	disconnErr := c.attemptDisconnect()
-	if disconnErr != nil {
-		c.log.Error(ctx, fmt.Errorf(
-			"an error ocurred during disconnection: %s",
-			disconnErr.Error(),
-		))
-		return disconnErr
+	if c.isConnected.Load() {
+		disconnErr := c.attemptDisconnect()
+		if disconnErr != nil {
+			c.log.Error(ctx, fmt.Errorf(
+				"an error ocurred during disconnection: %s",
+				disconnErr.Error(),
+			))
+			return disconnErr
+		}
 	}
 
 	c.log.Info(ctx, "disconnected")
@@ -104,29 +104,21 @@ func (c *SessionClient) Disconnect() error {
 }
 
 // Maintain automatically reconnects the client when the connection drops.
-func (c *SessionClient) maintain() {
-	ctx, cancel := context.WithCancel(context.Background())
-	var err error
-
-	// defer an anonymous function so err would be captured into shutdown()
-	defer func() {
-		c.shutdown()
-		cancel()
-	}()
-
+func (c *SessionClient) maintain(ctx context.Context) {
+	defer c.shutdown(ctx)
 	for {
 		select {
 		// Handle errors from the ongoing client.
-		case err = <-c.clientErrC.C:
+		case err := <-c.clientErrC.C:
 			if !c.recover(ctx, err) {
 				return
 			}
 		// Handle server disconnection errors.
-		case err = <-c.disconnErrC.C:
+		case err := <-c.disconnErrC.C:
 			if !c.recover(ctx, err) {
 				return
 			}
-		case <-c.connStopC.C:
+		case <-ctx.Done():
 			return
 		}
 	}
@@ -183,32 +175,6 @@ func (c *SessionClient) recover(
 	return true
 }
 
-// initialConnect starts the initial connection with a new session.
-func (c *SessionClient) initialConnect(
-	ctx context.Context,
-) error {
-	// Start a new session.
-	c.session = state.NewInMemory()
-
-	r := c.connRetry
-	// By default we retry only a few times for the initial connection attempt.
-	if c.connRetry == nil {
-		r = &retry.ExponentialBackoff{
-			MaxAttempts: uint64(maxInitialConnectRetries),
-			Timeout:     c.connSettings.connectionTimeout,
-		}
-	}
-
-	err := r.Start(ctx, "connect", c.attemptConnect)
-	if err == nil {
-		c.log.Info(ctx, "initial connection established")
-		atomic.StoreInt64(&c.connCount, 1)
-		c.setConnected()
-	}
-
-	return err
-}
-
 // reconnect attempts to re-establish the connection with the existing session
 // if the initial successful connection is lost.
 func (c *SessionClient) reconnect(ctx context.Context) error {
@@ -223,7 +189,7 @@ func (c *SessionClient) reconnect(ctx context.Context) error {
 
 	err := r.Start(ctx, "connect", c.attemptConnect)
 	if err == nil {
-		c.log.Info(ctx, "reconnected")
+		c.log.Info(ctx, "connected")
 
 		atomic.AddInt64(&c.connCount, 1)
 		c.setConnected()
@@ -423,23 +389,7 @@ func (c *SessionClient) buildPahoClient(ctx context.Context) error {
 
 // prepare validates the connection status and packet queue
 // before sending subscribe/unsubscribe/publish packets.
-func (c *SessionClient) prepare(ctx context.Context) error {
-	if err := c.ensurePahoClient(ctx); err != nil {
-		return err
-	}
-
-	// Initial connection failed after retries, so no responses are expected
-	// due to the lack of recovery.
-	if !c.isConnected.Load() && atomic.LoadInt64(&c.connCount) < 1 {
-		err := &errors.Error{
-			Kind:        errors.StateInvalid,
-			Message:     "no initial connection; request cannot be executed",
-			NestedError: ctx.Err(),
-		}
-		c.log.Error(ctx, err)
-		return err
-	}
-
+func (c *SessionClient) prepare(ctx context.Context, packet any) (bool, error) {
 	// The operation will block if the connection is up and
 	// there are pending packets in the queue.
 	// If the connection is down, packets will be added to the queue directly.
@@ -449,7 +399,16 @@ func (c *SessionClient) prepare(ctx context.Context) error {
 		c.packetQueueCond.Wait()
 	}
 
-	return nil
+	// Connection lost; buffer the packet for reconnection.
+	if !c.isConnected.Load() {
+		err := c.bufferPacket(ctx, &queuedPacket{packet: packet})
+		if err != nil {
+			return false, err
+		}
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // Note: Shutdown may occur simultaneously while sending a packet
@@ -462,14 +421,12 @@ func (c *SessionClient) prepare(ctx context.Context) error {
 // Since the program's termination point is uncertain,
 // we can't clean up the Paho client.
 // This is acceptable because it will be recreated with each new connection.
-func (c *SessionClient) shutdown() {
-	ctx := context.TODO()
-
+func (c *SessionClient) shutdown(ctx context.Context) {
 	c.log.Info(ctx, "client is shutting down")
-
 	c.setDisconnected()
 	c.closeClientErrC()
 	c.closeDisconnErrC()
+	c.connStop()
 }
 
 func (c *SessionClient) onClientError(err error) {
