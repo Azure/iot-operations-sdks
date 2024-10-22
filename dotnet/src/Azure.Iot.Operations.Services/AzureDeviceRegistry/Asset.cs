@@ -237,7 +237,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         }
 
         [JsonPropertyName("dataPoints")]
-        internal DataPoint[]? DataPointsInternal { get; init; }
+        public DataPoint[]? DataPointsInternal { get; init; }
     }
 
     public record DataPoint
