@@ -181,9 +181,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS"));
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD"));
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/ENDPOINT_PROFILE_TYPE"));
-            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_CERT_SECRET_NAME"));
-            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_SECRET_NAME"));
-            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_SECRET_NAME"));
+            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_CERT_FILE_NAME"));
+            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_FILE_NAME"));
+            Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_FILE_NAME"));
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/secret/aep_username/some-username"));
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/secret/aep_password/some-password"));
             Assert.True(File.Exists("./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate"));
@@ -210,9 +210,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_ADDITIONAL_CONFIGURATION", "{ \"DataSourceType\": \"Http\" }");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD", "UsernamePassword");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/config/ENDPOINT_PROFILE_TYPE", "http-sql-dssroot");
-            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_CERT_SECRET_NAME", "some-certificate");
-            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_SECRET_NAME", "some-username");
-            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_SECRET_NAME", "some-password");
+            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_CERT_FILE_NAME", "some-certificate");
+            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_FILE_NAME", "some-username");
+            File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_FILE_NAME", "some-password");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/secret/aep_username/some-username", "myusername");
             File.WriteAllText("./AzureDeviceRegistry/testFiles/secret/aep_password/some-password", "mypassword");
             File.WriteAllText(
@@ -226,9 +226,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_ADDITIONAL_CONFIGURATION");
             File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD");
             File.Delete("./AzureDeviceRegistry/testFiles/config/ENDPOINT_PROFILE_TYPE");
-            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_CERT_SECRET_NAME");
-            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_SECRET_NAME");
-            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_SECRET_NAME");
+            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_CERT_FILE_NAME");
+            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_USERNAME_FILE_NAME");
+            File.Delete("./AzureDeviceRegistry/testFiles/config/AEP_PASSWORD_FILE_NAME");
             File.Delete("./AzureDeviceRegistry/testFiles/secret/aep_username/some-username");
             File.Delete("./AzureDeviceRegistry/testFiles/secret/aep_password/some-password");
             File.Delete("./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate");
