@@ -439,30 +439,4 @@ public class StateStoreClientIntegrationTests
             Assert.Equal(ServiceError.FencingTokenSkew, e.Reason);
         }
     }
-
-    [Fact]
-    public async Task TestStateStoreMissingFencingToken()
-    {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
-
-        var key = Guid.NewGuid().ToString();
-        var value = Guid.NewGuid().ToString();
-
-        try
-        {
-            await stateStoreClient.SetAsync(
-                key,
-                value,
-                new StateStoreSetRequestOptions()
-                {
-                    // intentionally not setting the FencingToken
-                });
-            Assert.Fail("Expected an exception to be thrown when setting a key without a fencing token");
-        }
-        catch (StateStoreOperationException e)
-        {
-            Assert.Equal(ServiceError.MissingFencingToken, e.Reason);
-        }
-    }
 }

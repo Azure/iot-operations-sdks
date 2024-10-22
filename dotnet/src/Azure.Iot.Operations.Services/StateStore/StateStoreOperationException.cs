@@ -43,6 +43,9 @@
         // <summary>
         // A fencing token is required for this request.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         MissingFencingToken,
         // <summary>
         // The requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
