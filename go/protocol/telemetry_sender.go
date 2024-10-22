@@ -5,8 +5,10 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -38,15 +40,17 @@ type (
 	SendOptions struct {
 		Retain bool
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithRetain indicates that the telemetry event should be retained by the
 	// broker.
 	WithRetain bool
 )
+
+const telemetrySenderErrStr = "telemetry send"
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
@@ -100,17 +104,25 @@ func (ts *TelemetrySender[T]) Send(
 	var opts SendOptions
 	opts.Apply(opt)
 
-	correlationData, err := errutil.NewUUID()
-	if err != nil {
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     telemetrySenderErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
 		return err
 	}
 
 	msg := &Message[T]{
-		CorrelationData: correlationData,
-		Payload:         val,
-		Metadata:        opts.Metadata,
+		Payload:  val,
+		Metadata: opts.Metadata,
 	}
-	pub, err := ts.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return err
 	}

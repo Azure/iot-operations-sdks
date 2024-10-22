@@ -233,7 +233,7 @@ func getCommandExecutor(
 	options := []protocol.CommandExecutorOption{
 		protocol.WithIdempotent(tce.Idempotent),
 		protocol.WithCacheTTL(tce.CacheableDuration.ToDuration()),
-		protocol.WithExecutionTimeout(tce.ExecutionTimeout.ToDuration()),
+		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 
 	if tce.TopicNamespace != nil {

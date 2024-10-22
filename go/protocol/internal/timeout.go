@@ -5,63 +5,57 @@ package internal
 import (
 	"context"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
-// Function to apply an optional timeout.
-type Timeout func(context.Context) (context.Context, context.CancelFunc)
+// Struct to apply an optional timeout.
+type Timeout struct {
+	time.Duration
+	Name string
+	Text string
+}
 
-// Apply an optional context timeout. Use for WithExecutionTimeout.
-func NewExecutionTimeout(to time.Duration, s string) (Timeout, error) {
+func (to *Timeout) Validate(kind errors.Kind) error {
 	switch {
-	case to < 0:
-		return nil, &errors.Error{
+	case to.Duration < 0:
+		return &errors.Error{
 			Message:       "timeout cannot be negative",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "ExecutionTimeout",
+			Kind:          kind,
+			PropertyName:  "Timeout",
 			PropertyValue: to,
 		}
 
-	case to == 0:
-		return context.WithCancel, nil
+	case to.Seconds() > math.MaxUint32:
+		return &errors.Error{
+			Message:       "timeout too large",
+			Kind:          kind,
+			PropertyName:  "Timeout",
+			PropertyValue: to,
+		}
 
 	default:
-		return func(ctx context.Context) (context.Context, context.CancelFunc) {
-			return wallclock.Instance.WithTimeoutCause(ctx, to, &errors.Error{
-				Message:      fmt.Sprintf("%s timed out", s),
-				Kind:         errors.Timeout,
-				TimeoutName:  "ExecutionTimeout",
-				TimeoutValue: to,
-			})
-		}, nil
+		return nil
 	}
 }
 
-// Translate an MQTT message expiry into a timeout. Use for WithMessageExpiry.
-func MessageExpiryTimeout(
+func (to *Timeout) Context(
 	ctx context.Context,
-	expiry uint32,
-	s string,
 ) (context.Context, context.CancelFunc) {
-	if expiry > 0 {
-		to := time.Duration(expiry) * time.Second
-		return wallclock.Instance.WithTimeoutCause(
-			ctx,
-			to,
-			errutil.NoReturn(&errors.Error{
-				Message: fmt.Sprintf(
-					"message expired while processing %s",
-					s,
-				),
-				Kind:         errors.Timeout,
-				TimeoutName:  "MessageExpiry",
-				TimeoutValue: to,
-			}),
-		)
+	if to.Duration == 0 {
+		return context.WithCancel(ctx)
 	}
-	return context.WithCancel(ctx)
+	return wallclock.Instance.WithTimeoutCause(ctx, to.Duration, &errors.Error{
+		Message:      fmt.Sprintf("%s timed out", to.Text),
+		Kind:         errors.Timeout,
+		TimeoutName:  to.Name,
+		TimeoutValue: to.Duration,
+	})
+}
+
+func (to *Timeout) MessageExpiry() uint32 {
+	return uint32(to.Seconds())
 }
