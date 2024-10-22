@@ -75,8 +75,8 @@ namespace Azure.Iot.Operations.ConnectorSample
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
                 _defaultTopic = _httpServerAsset.DefaultTopic;
-                string datasetName = _httpServerAsset.Datasets!.Keys.First();
-                Dataset thermostatDataset = _httpServerAsset.Datasets![datasetName];
+                string datasetName = _httpServerAsset.DatasetsDictionary!.Keys.First();
+                Dataset thermostatDataset = _httpServerAsset.DatasetsDictionary![datasetName];
                 TimeSpan samplingInterval = defaultSamplingInterval;
                 if (thermostatDataset.DatasetConfiguration != null
                     && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
@@ -102,28 +102,28 @@ namespace Azure.Iot.Operations.ConnectorSample
         private async void SampleThermostatStatus(object? status)
         {
             string datasetName = (string)status!;
-            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets![datasetName];
+            Dataset httpServerStatusDataset = _httpServerAsset!.DatasetsDictionary![datasetName];
 
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
             //TODO NPE?
-            if (httpServerStatusDataset.DataPoints == null || httpServerStatusDataset.DataPoints.Count == 0)
+            if (httpServerStatusDataset.DataPoints == null || httpServerStatusDataset.DataPoints.Length == 0)
             {
                 _logger.LogInformation($"No data points :(");
             }
 
-            foreach (string dataPointName in httpServerStatusDataset.DataPoints!.Keys)
+            foreach (string dataPointName in httpServerStatusDataset.DataPointsDictionary!.Keys)
             {
                 _logger.LogInformation($"datapoint name: {dataPointName}");
             }
 
-            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints!["desired_temperature"];
+            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPointsDictionary!["desired_temperature"];
             HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerDesiredTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerDesiredTemperatureRequestPath, httpServerDesiredTemperatureHttpMethod, httpServerUsername, httpServerPassword);
 
-            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints!["actual_temperature"];
+            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPointsDictionary!["actual_temperature"];
             HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
