@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"os"
 	"time"
@@ -18,26 +17,41 @@ func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
-	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		"tcp://localhost:1883",
+		mqtt.WithSessionExpiry(10*time.Minute),
+	))
 
-	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
+	client := must(statestore.New[string, string](mqttClient))
 	defer client.Close()
 
 	check(mqttClient.Connect(ctx))
 	check(client.Start(ctx))
 
+	key := "someSharedResourceKey"
 	lock := leasedlock.New(client, "someLock")
 
-	for !tryEdit(ctx, log, client, lock, "someSharedResourceKey", uuid.New().String()) {
+	// Sample of editing using Acquire/Release directly.
+	for !tryEdit(ctx, log, client, lock, key, uuid.NewString()) {
 	}
+
+	// Sample of editing using Edit utility method.
+	check(lock.Edit(ctx, key, time.Minute, func(
+		ctx context.Context,
+		value string,
+	) (string, error) {
+		log.Info("edit initial value", "key", key, "value", value)
+		uuid, err := uuid.NewRandom()
+		if err != nil {
+			return "", err
+		}
+		value = uuid.String()
+		log.Info("edit final value", "key", key, "value", value)
+		return value, nil
+	}))
+
+	get := must(client.Get(ctx, key))
+	log.Info("value after edit", "key", key, "value", get.Value)
 }
 
 func tryEdit[K, V statestore.Bytes](
