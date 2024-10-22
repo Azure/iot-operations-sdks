@@ -41,7 +41,7 @@
         // </summary>
         TimestampSkew,
         // <summary>
-        // A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it.
+        // A fencing token is required for this request.
         // </summary>
         MissingFencingToken,
         // <summary>
@@ -49,35 +49,35 @@
         // </summary>
         FencingTokenSkew,
         // <summary>
-        // The requested fencing token is a lower version that the fencing token protecting the resource.
+        // The requested fencing token is a lower version than the fencing token protecting the resource.
         // </summary>
         FencingTokenLowerVersion,
         // <summary>
-        // The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
+        // The quota has been exceeded.
         // </summary>
-        QuotaExceeded,
+        KeyQuotaExceeded,
         // <summary>
-        // The payload sent does not conform to state store's definition.
+        // Syntax error.
         // </summary>
         SyntaxError,
         // <summary>
-        // The client is not authorized to perform the operation.
+        // Not authorized.
         // </summary>
         NotAuthorized,
         // <summary>
-        // The command sent is not recognized by the state store.
+        // Unknown command.
         // </summary>
         UnknownCommand,
         // <summary>
-        // The number of arguments sent in the command is incorrect.
+        // Wrong number of arguments.
         // </summary>
         WrongNumberOfArguments,
         // <summary>
-        // The timestamp is missing on the request.
+        // Missing timestamp.
         // </summary>
         TimestampMissing,
         // <summary>
-        // The timestamp or fencing token is malformed.
+        // Malformed timestamp.
         // </summary>
         TimestampMalformed,
         // <summary>
@@ -100,13 +100,13 @@
             { "a fencing token is required for this request", ServiceError.MissingFencingToken },
             { "the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized", ServiceError.FencingTokenSkew },
             { "the request fencing token is a lower version than the fencing token protecting the resource", ServiceError.FencingTokenLowerVersion },
-            { "the state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified", ServiceError.QuotaExceeded },
-            { "the payload sent does not conform to state store's definition", ServiceError.SyntaxError },
-            { "the client is not authorized to perform the operation", ServiceError.NotAuthorized },
-            { "the command sent is not recognized by the state store", ServiceError.UnknownCommand },
-            { "the number of arguments sent in the command is incorrect", ServiceError.WrongNumberOfArguments },
-            { "the timestamp is missing on the request", ServiceError.TimestampMissing },
-            { "the timestamp or fencing token is malformed", ServiceError.TimestampMalformed },
+            { "the quota has been exceeded", ServiceError.KeyQuotaExceeded },
+            { "syntax error", ServiceError.SyntaxError },
+            { "not authorized", ServiceError.NotAuthorized },
+            { "unknown command", ServiceError.UnknownCommand },
+            { "wrong number of arguments", ServiceError.WrongNumberOfArguments },
+            { "missing timestamp", ServiceError.TimestampMissing },
+            { "malformed timestamp", ServiceError.TimestampMalformed },
             { "the key length is zero", ServiceError.KeyLengthZero }
         };
 

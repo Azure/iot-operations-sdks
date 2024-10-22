@@ -411,18 +411,28 @@ public class StateStoreClientIntegrationTests
     }
 
     [Fact]
-    public async Task TestWrongNumberOfArguments()
+    public async Task TestFencingTokenSkew()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using var stateStoreClient = new StateStoreClient(mqttClient);
 
+        string key = Guid.NewGuid().ToString();
+        string value = Guid.NewGuid().ToString();
+
+        // create a fencing token with a timestamp far in the future
+        var fencingToken = new FencingToken
+        {
+            Timestamp = DateTime.UtcNow.AddHours(1).ToString("o")
+        };
+
         try
         {
-            await stateStoreClient.SetAsync("key", "value", new StateStoreSetRequestOptions() { ExpiryTime = TimeSpan.FromSeconds(1), Condition = SetCondition.OnlyIfNotSet });
+            await stateStoreClient.SetAsync(key, value, new StateStoreSetRequestOptions { FencingToken = fencingToken });
+            Assert.Fail("Expected an exception due to fencing token skew");
         }
         catch (StateStoreOperationException e)
         {
-            Assert.Equal(ServiceError.WrongNumberOfArguments, e.Reason);
+            Assert.Equal(ServiceError.FencingTokenSkew, e.Reason);
         }
     }
 }
