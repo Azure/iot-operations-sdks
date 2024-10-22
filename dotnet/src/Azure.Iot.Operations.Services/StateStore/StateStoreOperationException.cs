@@ -59,6 +59,9 @@
         // <summary>
         // Syntax error.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         SyntaxError,
         // <summary>
         // Not authorized.
@@ -67,10 +70,16 @@
         // <summary>
         // Unknown command.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         UnknownCommand,
         // <summary>
         // Wrong number of arguments.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         WrongNumberOfArguments,
         // <summary>
         // Missing timestamp.
