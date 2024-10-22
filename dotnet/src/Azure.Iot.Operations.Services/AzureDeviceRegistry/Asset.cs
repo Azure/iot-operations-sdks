@@ -88,6 +88,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? Attributes { get; init; }
 
         /// <summary>
@@ -98,11 +99,13 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DefaultDatasetsConfiguration { get; init; }
 
         /// <summary>
         /// Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DefaultEventsConfiguration { get; init; }
 
         /// <summary>
@@ -113,7 +116,38 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The mapping of dataset names to datasets that are part of the asset. Each dataset can have per-dataset configuration.
         /// </summary>
-        public Dictionary<string, Dataset>? Datasets { get; init; }
+        [JsonIgnore]
+        public Dictionary<string, Dataset>? Datasets
+        {
+            get
+            {
+                Dictionary<string, Dataset>? dictionary = null;
+                if (DatasetsInternal != null)
+                {
+                    dictionary = new();
+                    foreach (Dataset dataset in DatasetsInternal)
+                    {
+                        if (!string.IsNullOrWhiteSpace(dataset.Name))
+                        {
+                            dictionary[dataset.Name] = dataset;
+                        }
+                        else
+                        { 
+                            //TODO log error
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+            init
+            { 
+            
+            }
+        }
+
+        [JsonPropertyName("datasets")]
+        public Dataset[]? DatasetsInternal { get; init; }
 
         /// <summary>
         /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
@@ -129,10 +163,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// Provisioning state of the resource.
         /// </summary>
         public string? ProvisioningState { get; init; }
-
-        public Asset(AssetInternal internalAsset)
-        {
-        }
     }
 
     public record Dataset
@@ -145,6 +175,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific JSON string that describes configuration for the specific dataset.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DatasetConfiguration { get; init; }
 
         /// <summary>
@@ -155,7 +186,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Array of data points that are part of the dataset. Each data point can have per-data point configuration.
         /// </summary>
-        public DataPoint[]? DataPoints { get; init; }
+        public DataPoint[]? DataPoints { get; init; } //TODO make dictionary like datasets
     }
 
     public record DataPoint
@@ -163,12 +194,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the data point.
         /// </summary>
-        public string Name { get; init; }
+        public string Name { get; init; } = "";
 
         /// <summary>
         /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
         /// </summary>
-        public string DataSource { get; init; }
+        public string DataSource { get; init; } = "";
 
         /// <summary>
         /// An indication of how the data point should be mapped to OpenTelemetry.
@@ -178,13 +209,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DataPointConfiguration { get; init; }
-
-        internal DataPoint(string name, string dataSource)
-        {
-            Name = name;
-            DataSource = dataSource;
-        }
     }
 
     public record Event
@@ -207,6 +233,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? EventConfiguration { get; init; }
 
         /// <summary>
