@@ -45,11 +45,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public AzureDeviceRegistryClient()
         {
             //TODO safe to assume at least one asset and one asset endpoint?
-            _assetMapMountPath = "";// Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
-            _configMapMountPath = "";//Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
-            _aepUsernameSecretMountPath = "";//Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
-            _aepPasswordSecretMountPath = "";//Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
-            _aepCertMountPath = "";//Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
+            _assetMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
+            _configMapMountPath = Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
+            _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
+            _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
+            _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
         }
 
         /// <summary>
