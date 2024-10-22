@@ -84,10 +84,16 @@
         // <summary>
         // Missing timestamp.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         TimestampMissing,
         // <summary>
         // Malformed timestamp.
         // </summary>
+        // <remarks>
+        // This error code should not happen when using this library as it will always format requests correctly.
+        // </remarks>
         TimestampMalformed,
         // <summary>
         // The key length is zero.
