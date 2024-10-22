@@ -53,8 +53,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
-        /// This method does not support using wildcard characters to subscribe to multiple keys at once. In order to subscribe to 
-        /// a set of keys that match a pattern, use <see cref="ObserveAsync(StateStoreKeyPattern)"/>.
+        /// This method does not support using wildcard characters to subscribe to multiple keys at once.
         /// </remarks>
         public Task ObserveAsync(StateStoreKey key, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
@@ -66,8 +65,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
-        /// This method does not support using wildcard characters to unsubscribe from multiple keys at once. In order to 
-        /// unsubscribe from a set of keys that match a pattern, use <see cref="UnobserveAsync(StateStoreKeyPattern)"/>.
+        /// This method does not support using wildcard characters to unsubscribe from multiple keys at once.
         /// </remarks>
         public Task UnobserveAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
