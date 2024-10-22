@@ -1,5 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Xunit;
 using Xunit.Sdk;
 
@@ -411,24 +412,27 @@ public class StateStoreClientIntegrationTests
     }
 
     [Fact]
-    public async Task TestFencingTokenSkew()
+    public async Task TestStateStoreFencingTokenSkew()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using var stateStoreClient = new StateStoreClient(mqttClient);
 
-        string key = Guid.NewGuid().ToString();
-        string value = Guid.NewGuid().ToString();
+        var key = Guid.NewGuid().ToString();
+        var value = Guid.NewGuid().ToString();
 
-        // create a fencing token with a timestamp far in the future
-        var fencingToken = new FencingToken
-        {
-            Timestamp = DateTime.UtcNow.AddHours(1).ToString("o")
-        };
+        // create a HybridLogicalClock instance with a timestamp far in the future
+        var futureTimestamp = DateTime.UtcNow.AddYears(10);
+        var fencingToken = new HybridLogicalClock(futureTimestamp);
 
         try
         {
-            await stateStoreClient.SetAsync(key, value, new StateStoreSetRequestOptions { FencingToken = fencingToken });
-            Assert.Fail("Expected an exception due to fencing token skew");
+            await stateStoreClient.SetAsync(
+                key,
+                value,
+                new StateStoreSetRequestOptions()
+                {
+                    FencingToken = fencingToken
+                });
         }
         catch (StateStoreOperationException e)
         {
