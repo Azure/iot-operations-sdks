@@ -28,11 +28,12 @@ var (
 	ErrArgument = errors.New("invalid argument")
 )
 
+//nolint:gosec // False positives.
 const (
-	TimestampSkew            Service = "the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+	TimestampSkew            Service = "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
 	MissingFencingToken      Service = "a fencing token is required for this request"
-	FencingTokenSkew         Service = "the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
-	FencingTokenLowerVersion Service = "the requested fencing token is a lower version that the fencing token protecting the resource"
+	FencingTokenSkew         Service = "the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+	FencingTokenLowerVersion Service = "the request fencing token is a lower version than the fencing token protecting the resource"
 	QuotaExceeded            Service = "the quota has been exceeded"
 	SyntaxError              Service = "syntax error"
 	NotAuthorized            Service = "not authorized"

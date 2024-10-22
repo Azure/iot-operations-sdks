@@ -62,7 +62,7 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(
+	_, err = client.Subscribe(
 		context.Background(),
 		"test-topic",
 		mqtt.WithUserProperties{
@@ -71,7 +71,9 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 			),
 			faultRequestID: uuidString,
 		},
-	))
+	)
+
+	require.NoError(t, err)
 }
 
 func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
@@ -88,13 +90,14 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(context.Background(), "test-topic"))
+	_, err = client.Subscribe(context.Background(), "test-topic")
+	require.NoError(t, err)
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	require.NoError(t, client.Unsubscribe(
+	_, err = client.Unsubscribe(
 		context.Background(),
 		"test-topic",
 		mqtt.WithUserProperties{
@@ -103,5 +106,7 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 			),
 			faultRequestID: uuidString,
 		},
-	))
+	)
+
+	require.NoError(t, err)
 }

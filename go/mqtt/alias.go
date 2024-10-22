@@ -13,6 +13,7 @@ type (
 	ConnectEventHandler    = mqtt.ConnectEventHandler
 	DisconnectEvent        = mqtt.DisconnectEvent
 	DisconnectEventHandler = mqtt.DisconnectEventHandler
+	Ack                    = mqtt.Ack
 
 	SubscribeOptions   = mqtt.SubscribeOptions
 	SubscribeOption    = mqtt.SubscribeOption
