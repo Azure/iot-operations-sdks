@@ -274,7 +274,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Array object to transfer and persist errors that originate from the Edge.
         /// </summary>
-        public StatusError[]? Errors { get; init; }
+        public StatusError[]? Errors { get; init; }  //TODO dictionary w/ name as key
 
         /// <summary>
         /// A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.
@@ -284,12 +284,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Array of data set statuses that describe the status of each dataset.
         /// </summary>
-        public StatusDatasets[]? Datasets { get; init; }
+        public StatusDatasets[]? Datasets { get; init; } //TODO dictionary w/ name as key
 
         /// <summary>
         /// Array of event statuses that describe the status of each event.
         /// </summary>
-        public StatusEvents[]? Events { get; init; }
+        public StatusEvents[]? Events { get; init; }  //TODO dictionary w/ name as key
     }
 
     public record StatusError
