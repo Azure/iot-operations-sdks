@@ -104,7 +104,11 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
         try
         {
             string? clientId = _mqttClient.ClientId;
-            Debug.Assert(!string.IsNullOrEmpty(clientId));
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry receiver");
+            }
+
             telemTopic.Append(MqttTopicProcessor.GetTelemetryTopic(TopicPattern, _telemetryName, clientId, ModelId, CustomTopicTokenMap));
 
             if (metadata?.CloudEvent is not null)

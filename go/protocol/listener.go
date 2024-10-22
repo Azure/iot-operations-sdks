@@ -1,83 +1,114 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
 	"context"
 	"fmt"
+	"sync/atomic"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 )
 
 type (
 	// Listener represents an object which will listen to a MQTT topic.
 	Listener interface {
-		Listen(context.Context) (func(), error)
+		Start(context.Context) error
+		Close()
 	}
+
+	// Listeners represents a collection of MQTT listeners.
+	Listeners []Listener
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		client         mqtt.Client
+		client         MqttClient
 		encoding       Encoding[T]
-		topic          string
+		topic          *internal.TopicFilter
 		shareName      string
 		concurrency    uint
 		reqCorrelation bool
-		logger         log.Logger
+		log            log.Logger
 		handler        interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
+
+		done   func()
+		active atomic.Bool
+	}
+
+	message[T any] struct {
+		Mqtt *mqtt.Message
+		Message[T]
 	}
 )
 
-func (l *listener[T]) listen(ctx context.Context) (func(), error) {
-	handle, done := internal.Concurrent(l.concurrency, l.handle)
-
-	// Make the subscription shared if specified.
-	filter := l.topic
-	if l.shareName != "" {
-		filter = "$share/" + l.shareName + "/" + filter
-	}
-
-	sub, err := l.client.Subscribe(
-		ctx,
-		filter,
-		func(ctx context.Context, pub *mqtt.Message) error {
-			handle(ctx, pub)
-			return nil
+func (l *listener[T]) register() {
+	handle, stop := internal.Concurrent(l.concurrency, l.handle)
+	done := l.client.RegisterMessageHandler(
+		func(ctx context.Context, m *mqtt.Message) bool {
+			msg := &message[T]{Mqtt: m}
+			var match bool
+			msg.TopicTokens, match = l.topic.Tokens(m.Topic)
+			if match {
+				handle(ctx, msg)
+			}
+			return match
 		},
-		mqtt.WithQoS(1),
-		mqtt.WithNoLocal(l.shareName == ""),
 	)
-	if err != nil {
+	l.done = func() {
 		done()
-		return nil, err
+		stop()
 	}
-
-	return func() {
-		if err := sub.Unsubscribe(ctx); err != nil {
-			// Returning an error from a close function that is most likely to
-			// be deferred is rarely useful, so just log it.
-			l.logger.Err(ctx, err)
-		}
-		done()
-	}, nil
 }
 
-func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
-	msg := &Message[T]{}
+func (l *listener[T]) filter() string {
+	// Make the subscription shared if specified.
+	if l.shareName != "" {
+		return "$share/" + l.shareName + "/" + l.topic.Filter()
+	}
+	return l.topic.Filter()
+}
 
+func (l *listener[T]) listen(ctx context.Context) error {
+	if l.active.CompareAndSwap(false, true) {
+		_, err := l.client.Subscribe(
+			ctx,
+			l.filter(),
+			mqtt.WithQoS(1),
+			mqtt.WithNoLocal(l.shareName == ""),
+		)
+		return err
+	}
+	return nil
+}
+
+func (l *listener[T]) close() {
+	if l.active.CompareAndSwap(true, false) {
+		ctx := context.Background()
+		if _, err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
+			// Returning an error from a close function that is most likely to
+			// be deferred is rarely useful, so just log it.
+			l.log.Error(ctx, err)
+		}
+	}
+	l.done()
+}
+
+func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	// The very first check must be the version, because if we don't support it,
 	// nothing else is trustworthy.
-	ver := pub.UserProperties[constants.ProtocolVersion]
+	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
 	if !version.IsSupported(ver) {
-		l.error(ctx, pub, &errors.Error{
+		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:                        "unsupported version",
 			Kind:                           errors.UnsupportedRequestVersion,
 			ProtocolVersion:                ver,
@@ -86,18 +117,18 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		return
 	}
 
-	if l.reqCorrelation && len(pub.CorrelationData) == 0 {
-		l.error(ctx, pub, &errors.Error{
+	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
+		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:    "correlation data missing",
 			Kind:       errors.HeaderMissing,
 			HeaderName: constants.CorrelationData,
 		})
 		return
 	}
-	if len(pub.CorrelationData) != 0 {
-		correlationData, err := uuid.FromBytes(pub.CorrelationData)
+	if len(msg.Mqtt.CorrelationData) != 0 {
+		correlationData, err := uuid.FromBytes(msg.Mqtt.CorrelationData)
 		if err != nil {
-			l.error(ctx, pub, &errors.Error{
+			l.error(ctx, msg.Mqtt, &errors.Error{
 				Message:    "correlation data is not a valid UUID",
 				Kind:       errors.HeaderInvalid,
 				HeaderName: constants.CorrelationData,
@@ -107,20 +138,20 @@ func (l *listener[T]) handle(ctx context.Context, pub *mqtt.Message) {
 		msg.CorrelationData = correlationData.String()
 	}
 
-	ts := pub.UserProperties[constants.Timestamp]
+	ts := msg.Mqtt.UserProperties[constants.Timestamp]
 	if ts != "" {
 		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
-			l.error(ctx, pub, err)
+			l.error(ctx, msg.Mqtt, err)
 			return
 		}
 	}
 
-	msg.Metadata = internal.PropToMetadata(pub.UserProperties)
+	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)
 
-	if err := l.handler.onMsg(ctx, pub, msg); err != nil {
-		l.error(ctx, pub, err)
+	if err := l.handler.onMsg(ctx, msg.Mqtt, &msg.Message); err != nil {
+		l.error(ctx, msg.Mqtt, err)
 		return
 	}
 }
@@ -132,7 +163,7 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	switch pub.PayloadFormat {
 	case 0: // Do nothing; always valid.
 	case 1:
-		if !l.encoding.IsUTF8() {
+		if l.encoding.PayloadFormat() == 0 {
 			return zero, &errors.Error{
 				Message:     "payload format indicator mismatch",
 				Kind:        errors.HeaderInvalid,
@@ -177,25 +208,22 @@ func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {
 }
 
 func (l *listener[T]) drop(ctx context.Context, _ *mqtt.Message, err error) {
-	l.logger.Err(ctx, err)
+	l.log.Error(ctx, err)
 }
 
-// Listen starts all of the provided listeners.
-func Listen(ctx context.Context, listeners ...Listener) (func(), error) {
-	done := make([]func(), 0, len(listeners))
-	for _, l := range listeners {
-		c, err := l.Listen(ctx)
-		if err != nil {
-			for _, fn := range done {
-				fn()
-			}
-			return nil, err
+// Start listening to all underlying MQTT topics.
+func (ls Listeners) Start(ctx context.Context) error {
+	for _, l := range ls {
+		if err := l.Start(ctx); err != nil {
+			return err
 		}
-		done = append(done, c)
 	}
-	return func() {
-		for _, fn := range done {
-			fn()
-		}
-	}, nil
+	return nil
+}
+
+// Close all underlying MQTT topics and free resources.
+func (ls Listeners) Close() {
+	for _, l := range ls {
+		l.Close()
+	}
 }

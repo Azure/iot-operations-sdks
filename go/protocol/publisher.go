@@ -1,46 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
-	"github.com/google/uuid"
+	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
+	"github.com/google/uuid"
 )
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
 	encoding Encoding[T]
-	topic    internal.TopicPattern
+	topic    *internal.TopicPattern
 }
 
-// DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
-// is specified (10 seconds).
-const DefaultMessageExpiry = 10
+// DefaultTimeout is the timeout applied to Invoke or Send if none is specified.
+const DefaultTimeout = 10 * time.Second
 
 func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
-	expiry uint32,
+	timeout *internal.Timeout,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
 
-	pub.Topic, err = p.topic.Topic(topicTokens)
-	if err != nil {
-		return nil, err
-	}
-
-	if expiry == 0 {
-		expiry = DefaultMessageExpiry
+	if p.topic != nil {
+		pub.Topic, err = p.topic.Topic(topicTokens)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	pub.PublishOptions = mqtt.PublishOptions{
 		QoS:           1,
-		MessageExpiry: expiry,
+		MessageExpiry: timeout.MessageExpiry(),
 	}
 
 	if msg != nil {
@@ -50,9 +50,7 @@ func (p *publisher[T]) build(
 		}
 
 		pub.ContentType = p.encoding.ContentType()
-		if p.encoding.IsUTF8() {
-			pub.PayloadFormat = 1
-		}
+		pub.PayloadFormat = p.encoding.PayloadFormat()
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)

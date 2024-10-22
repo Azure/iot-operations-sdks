@@ -53,7 +53,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .command_name("readCounter")
         .build()
         .unwrap();
-    let read_invoker: CommandInvoker<CounterRequest, CounterResponse, _> =
+    let read_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =
         CommandInvoker::new(client.clone(), read_invoker_options).unwrap();
 
     // Create a command invoker for the increment command
@@ -62,7 +62,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: CommandInvoker<CounterRequest, CounterResponse, _> =
+    let incr_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Get the target executor ID from the environment
@@ -71,7 +71,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     // Initial counter read from the server
     log::info!("Calling readCounter");
     let read_payload = CommandRequestBuilder::default()
-        .payload(&CounterRequest::default())
+        .payload(&CounterRequestPayload::default())
         .unwrap()
         .executor_id(executor_id.clone())
         .timeout(Duration::from_secs(10))
@@ -84,7 +84,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     for _ in 1..15 {
         log::info!("Calling increment");
         let incr_payload = CommandRequestBuilder::default()
-            .payload(&CounterRequest::default())
+            .payload(&CounterRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(10))
             .executor_id(executor_id.clone())
@@ -97,7 +97,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     // Final counter read from the server
     log::info!("Calling readCounter");
     let read_payload = CommandRequestBuilder::default()
-        .payload(&CounterRequest::default())
+        .payload(&CounterRequestPayload::default())
         .unwrap()
         .executor_id(executor_id)
         .timeout(Duration::from_secs(10))
@@ -111,10 +111,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct CounterRequest {}
+pub struct CounterRequestPayload {}
 
 #[derive(Clone, Debug, Default)]
-pub struct CounterResponse {
+pub struct CounterResponsePayload {
     counter_response: u64,
 }
 
@@ -128,7 +128,7 @@ pub enum CounterSerializerError {
     Utf8Error(#[from] Utf8Error),
 }
 
-impl PayloadSerialize for CounterRequest {
+impl PayloadSerialize for CounterRequestPayload {
     type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
@@ -142,12 +142,12 @@ impl PayloadSerialize for CounterRequest {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<CounterRequest, CounterSerializerError> {
-        Ok(CounterRequest {})
+    fn deserialize(_payload: &[u8]) -> Result<CounterRequestPayload, CounterSerializerError> {
+        Ok(CounterRequestPayload {})
     }
 }
 
-impl PayloadSerialize for CounterResponse {
+impl PayloadSerialize for CounterResponsePayload {
     type Error = CounterSerializerError;
     fn content_type() -> &'static str {
         "application/json"
@@ -160,12 +160,12 @@ impl PayloadSerialize for CounterResponse {
         Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<CounterResponse, CounterSerializerError> {
+    fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
         log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
         if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
             match std::str::from_utf8(&payload[19..payload.len() - 1]) {
                 Ok(s) => match s.parse::<u64>() {
-                    Ok(n) => Ok(CounterResponse {
+                    Ok(n) => Ok(CounterResponsePayload {
                         counter_response: n,
                     }),
                     Err(e) => Err(CounterSerializerError::ParseIntError(e)),

@@ -30,11 +30,11 @@ func main() {
 		"PT10M",
 	)
 	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
-	check(mqttClient.Connect(ctx))
-
 	client := must(envoy.NewGreeterClient(mqttClient))
-	done := must(client.Listen(ctx))
-	defer done()
+	defer client.Close()
+
+	check(mqttClient.Connect(ctx))
+	check(client.Start(ctx))
 
 	n := flag.String("n", "User", "the name to greet (default: User)")
 	d := flag.String("d", "", "how long to delay (in Go duration format)")
@@ -83,9 +83,8 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithMessageExpiry(
-				protocol.DefaultMessageExpiry+uint32(duration.Seconds()),
-			)))
+			protocol.WithTimeout(protocol.DefaultTimeout+duration),
+		))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
 }

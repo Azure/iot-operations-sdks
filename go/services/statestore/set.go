@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package statestore
 
 import (
@@ -5,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -21,11 +24,6 @@ type (
 		FencingToken hlc.HybridLogicalClock
 		Timeout      time.Duration
 	}
-)
-
-const (
-	set = "SET"
-	px  = "PX"
 )
 
 // Set the value of the given key. If the key is successfully set, it returns
@@ -52,27 +50,17 @@ func (c *Client[K, V]) Set(
 	case opts.Expiry < 0:
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
-		rest = append(rest, px, strconv.Itoa(int(opts.Expiry.Milliseconds())))
+		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
-	req := resp.OpKV(set, key, val, rest...)
+	req := resp.OpKV("SET", key, val, rest...)
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 
 // Apply resolves the provided list of options.
-func (o *SetOptions) Apply(
-	opts []SetOption,
-	rest ...SetOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.set(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.set(o)
-		}
+func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption) {
+	for opt := range options.Apply[SetOption](opts, rest...) {
+		opt.set(o)
 	}
 }
 
@@ -100,7 +88,7 @@ func (o WithTimeout) set(opt *SetOptions) {
 
 func (o *SetOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }

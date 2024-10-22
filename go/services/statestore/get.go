@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package statestore
 
 import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
@@ -17,8 +20,6 @@ type (
 		Timeout time.Duration
 	}
 )
-
-const get = "GET"
 
 // Get the value and version of the given key. If the key is not present, it
 // returns a fully zero response struct; if the key is present but empty, it
@@ -35,23 +36,14 @@ func (c *Client[K, V]) Get(
 	var opts GetOptions
 	opts.Apply(opt)
 
-	return invoke(ctx, c.invoker, resp.Blob[V], &opts, resp.OpK(get, key))
+	req := resp.OpK("GET", key)
+	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
 
 // Apply resolves the provided list of options.
-func (o *GetOptions) Apply(
-	opts []GetOption,
-	rest ...GetOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.get(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.get(o)
-		}
+func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption) {
+	for opt := range options.Apply[GetOption](opts, rest...) {
+		opt.get(o)
 	}
 }
 
@@ -67,6 +59,6 @@ func (o WithTimeout) get(opt *GetOptions) {
 
 func (o *GetOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
+		Timeout: o.Timeout,
 	}
 }

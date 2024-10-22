@@ -20,7 +20,7 @@ pub enum UserProperty {
     Status,
     /// User Property indicating a human-readable status message; used when Status != 200 (OK).
     StatusMessage,
-    /// User property indicating if a non-200 Status is an application-level error.
+    /// User property indicating if a non-200 <see cref="Status"/> is an application-level error.
     IsApplicationError,
     /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
     CommandInvokerId,
@@ -28,6 +28,11 @@ pub enum UserProperty {
     InvalidPropertyName,
     /// The value of an MQTT property in a request header that is invalid.
     InvalidPropertyValue,
+    /// User property that indicates the protocol version of an RPC/telemetry request.
+    ProtocolVersion,
+    /// User property indicating which major versions the command executor supports. The value of
+    /// this property is a space-separated list of integers like "1 2 3".
+    SupportedMajorVersions,
 }
 
 impl Display for UserProperty {
@@ -42,6 +47,8 @@ impl Display for UserProperty {
             UserProperty::CommandInvokerId => write!(f, "__invId"),
             UserProperty::InvalidPropertyName => write!(f, "__propName"),
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
+            UserProperty::ProtocolVersion => write!(f, "__protVer"),
+            UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
         }
     }
 }
@@ -59,6 +66,8 @@ impl FromStr for UserProperty {
             "__invId" => Ok(UserProperty::CommandInvokerId),
             "__propName" => Ok(UserProperty::InvalidPropertyName),
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
+            "__protVer" => Ok(UserProperty::ProtocolVersion),
+            "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
             _ => Err(()),
         }
     }
@@ -103,6 +112,8 @@ mod tests {
     #[test_case(UserProperty::CommandInvokerId; "command_invoker_id")]
     #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
+    #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
+    #[test_case(UserProperty::SupportedMajorVersions; "supported_major_versions")]
     fn test_to_from_string(prop: UserProperty) {
         assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
     }

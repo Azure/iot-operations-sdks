@@ -8,7 +8,6 @@
 
 pub mod common;
 pub mod rpc;
-#[doc(hidden)]
 pub mod telemetry;
 
 #[macro_use]

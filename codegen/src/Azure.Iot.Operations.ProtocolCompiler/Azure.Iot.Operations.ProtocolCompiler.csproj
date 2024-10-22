@@ -8,10 +8,11 @@
 		<Nullable>enable</Nullable>
 		<PackAsTool>True</PackAsTool>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TransformOnBuild>true</TransformOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.1.15-preview-g16fa4a909c" />
+		<PackageReference Include="DTDLParser" Version="1.1.20-preview-g772de8e50f" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.9.1" />
@@ -736,5 +737,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
+	<Import
+		Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets"
+		Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets')" />
 
 </Project>

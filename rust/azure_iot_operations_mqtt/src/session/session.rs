@@ -10,16 +10,15 @@ use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
-use crate::control_packet::AuthProperties;
+use crate::control_packet::{AuthProperties, QoS};
 use crate::error::ConnectionError;
-use crate::interface::{InternalClient, MqttDisconnect, MqttEventLoop};
+use crate::interface::{Event, Incoming, InternalClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
 use crate::session::reconnect_policy::ReconnectPolicy;
 use crate::session::state::SessionState;
 use crate::session::{SessionError, SessionErrorKind, SessionExitError};
-use crate::{Event, Incoming};
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -93,6 +92,13 @@ where
             disconnector: self.client.clone(),
             state: self.state.clone(),
             force_exit: self.notify_force_exit.clone(),
+        }
+    }
+
+    /// Return a new instance of [`SessionConnectionMonitor`] that can be used to monitor the connection state
+    pub fn create_connection_monitor(&self) -> SessionConnectionMonitor {
+        SessionConnectionMonitor {
+            state: self.state.clone(),
         }
     }
 
@@ -244,24 +250,33 @@ where
                         Ok(num_dispatches) => {
                             log::debug!("Dispatched PUB to {num_dispatches} receivers");
                             let manual_ack = self.client.get_manual_ack(&publish);
-                            // Register the dispatched publish to track the acks
-                            match self.unacked_pubs.register_pending(
-                                &publish,
-                                manual_ack,
-                                num_dispatches,
-                            ) {
-                                Ok(()) => {
-                                    log::debug!(
-                                        "Registered PUB. Waiting for {num_dispatches} acks"
-                                    );
+
+                            match publish.qos {
+                                QoS::AtMostOnce => {
+                                    log::debug!("No ack required for QoS 0 PUB");
                                 }
-                                Err(RegisterError::AlreadyRegistered(_)) => {
-                                    // Technically this could be reachable if some other thread were manipulating the
-                                    // pub tracker registrations, but at that point, everything is broken.
-                                    // Perhaps panic is more idiomatic? If such scenario occurs, acking is now completely
-                                    // broken, and it is likely that no further acks will be possible, so a panic seems
-                                    // appropriate. Or perhaps exiting the session with failure is preferable?
-                                    unreachable!("Already checked that the pub tracker does not contain the publish");
+                                // QoS 1 or 2
+                                _ => {
+                                    // Register the dispatched publish to track the acks
+                                    match self.unacked_pubs.register_pending(
+                                        &publish,
+                                        manual_ack,
+                                        num_dispatches,
+                                    ) {
+                                        Ok(()) => {
+                                            log::debug!(
+                                                "Registered PUB. Waiting for {num_dispatches} acks"
+                                            );
+                                        }
+                                        Err(RegisterError::AlreadyRegistered(_)) => {
+                                            // Technically this could be reachable if some other thread were manipulating the
+                                            // pub tracker registrations, but at that point, everything is broken.
+                                            // Perhaps panic is more idiomatic? If such scenario occurs, acking is now completely
+                                            // broken, and it is likely that no further acks will be possible, so a panic seems
+                                            // appropriate. Or perhaps exiting the session with failure is preferable?
+                                            unreachable!("Already checked that the pub tracker does not contain the publish");
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -464,6 +479,31 @@ async fn run_background(
     }
 }
 
+fn get_jwt_expiry(token: &str) -> Result<u64, String> {
+    let parts: Vec<_> = token.split('.').collect();
+
+    if parts.len() != 3 {
+        return Err("Invalid JWT token".to_string());
+    }
+
+    match STANDARD_NO_PAD.decode(parts[1]) {
+        Ok(payload) => match std::str::from_utf8(&payload) {
+            Ok(payload) => match serde_json::from_str::<serde_json::Value>(payload) {
+                Ok(payload_json) => match payload_json.get("exp") {
+                    Some(exp_time) => match exp_time.as_u64() {
+                        Some(exp_time) => Ok(exp_time),
+                        None => Err("Unable to parse JWT token expiry time".to_string()),
+                    },
+                    None => Err("JWT token does not contain expiry time".to_string()),
+                },
+                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+            },
+            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+        },
+        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+    }
+}
+
 /// Handle used to end an MQTT session.
 ///
 /// PLEASE NOTE WELL
@@ -589,27 +629,31 @@ where
     }
 }
 
-fn get_jwt_expiry(token: &str) -> Result<u64, String> {
-    let parts: Vec<_> = token.split('.').collect();
+/// Monitor for connection changes in the [`Session`].
+///
+/// This is largely for informational purposes.
+#[derive(Clone)]
+pub struct SessionConnectionMonitor {
+    state: Arc<SessionState>,
+}
 
-    if parts.len() != 3 {
-        return Err("Invalid JWT token".to_string());
+impl SessionConnectionMonitor {
+    /// Returns true if the [`Session`] is currently connected.
+    /// Note that this may not be accurate if connection has been recently lost.
+    #[must_use]
+    pub fn is_connected(&self) -> bool {
+        self.state.is_connected()
     }
 
-    match STANDARD_NO_PAD.decode(parts[1]) {
-        Ok(payload) => match std::str::from_utf8(&payload) {
-            Ok(payload) => match serde_json::from_str::<serde_json::Value>(payload) {
-                Ok(payload_json) => match payload_json.get("exp") {
-                    Some(exp_time) => match exp_time.as_u64() {
-                        Some(exp_time) => Ok(exp_time),
-                        None => Err("Unable to parse JWT token expiry time".to_string()),
-                    },
-                    None => Err("JWT token does not contain expiry time".to_string()),
-                },
-                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
-            },
-            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
-        },
-        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+    /// Wait until the [`Session`] is connected.
+    /// Returns immediately if already connected.
+    pub async fn connected(&self) {
+        self.state.condition_connected().await;
+    }
+
+    /// Wait until the [`Session`] is disconnected.
+    /// Returns immediately if already disconnected.
+    pub async fn disconnected(&self) {
+        self.state.condition_disconnected().await;
     }
 }

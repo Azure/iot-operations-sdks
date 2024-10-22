@@ -31,8 +31,8 @@ import DtdlMqtt.Communication.ServiceGroupId;
 <# if (this.telemetryTopic != null) { #>
 @TelemetryTopic(topic = "<#=this.telemetryTopic#>")
 <# } #>
-<# if (this.commandTopic != null && !this.doesCommandTargetExecutor) { #>
-@ServiceGroupId(id = "<#=Defaults.ServiceGroupId#>")
+<# if (this.serviceGroupId != null) { #>
+@ServiceGroupId(id = "<#=this.serviceGroupId#>")
 <# } #>
 public class <#=this.serviceName#> {
     public <#=this.cmdNameReqResps.Any() ? "abstract " : ""#>class Service {
