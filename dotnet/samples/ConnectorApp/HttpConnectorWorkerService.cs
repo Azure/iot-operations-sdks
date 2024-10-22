@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         private Asset? _httpServerAsset;
         private AssetEndpointProfile? _httpServerAssetEndpointProfile;
+        private Topic? _defaultTopic;
 
         public HttpConnectorWorkerService(ILogger<HttpConnectorWorkerService> logger, MqttSessionClient mqttSessionClient)
         {
@@ -76,6 +77,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
+                _defaultTopic = _httpServerAsset.DefaultTopic;
                 string datasetName = _httpServerAsset.Datasets!.Keys.First();
                 Dataset thermostatDataset = _httpServerAsset.Datasets![datasetName];
                 TimeSpan samplingInterval = defaultSamplingInterval;
@@ -125,10 +127,11 @@ namespace Azure.Iot.Operations.ConnectorSample
             var thermostatStatus = new ThermostatStatus(desiredTemperatureValue, actualTemperatureValue);
             _logger.LogInformation($"Read thermostat status from HTTP server asset: {thermostatStatus}. Now publishing it to MQTT broker");
 
-            var mqttMessage = new MqttApplicationMessage(httpServerStatusDataset.Topic!.Path!)
+            var topic = httpServerStatusDataset.Topic != null ? httpServerStatusDataset.Topic! : _defaultTopic;
+            var mqttMessage = new MqttApplicationMessage(topic.Path!)
             {
                 PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus)),
-                Retain = httpServerStatusDataset.Topic.Retain == RetainHandling.Keep,
+                Retain = topic.Retain == RetainHandling.Keep,
             };
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
