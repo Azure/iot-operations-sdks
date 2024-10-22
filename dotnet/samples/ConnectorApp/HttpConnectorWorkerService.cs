@@ -30,7 +30,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             AzureDeviceRegistryClient adrClient = new();
             _logger.LogInformation("Successfully created ADR client");
 
-            //TODO generic sample should loop over all assets instead of hardcoding one asset like this
             string assetName = "my-http-asset";
 
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
@@ -49,19 +48,18 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 adrClient.AssetChanged += (sender, newAsset) =>
                 {
-                    _logger.LogInformation("Recieved a notification that the asset has changed.");
+                    _logger.LogInformation("Received a notification that the asset has changed.");
                     _httpServerAsset = newAsset;
                 };
 
                 adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
                 {
-                    _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
+                    _logger.LogInformation("Received a notification that the asset endpoint definition has changed.");
                     _httpServerAssetEndpointProfile = newAssetEndpointProfile;
                 };
 
-                // TODO unimplemented so far
-                //await adrClient.ObserveAssetAsync(assetId);
-                await adrClient.ObserveAssetEndpointProfileAsync(assetName);
+                await adrClient.ObserveAssetAsync(assetName);
+                await adrClient.ObserveAssetEndpointProfileAsync();
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
@@ -96,9 +94,8 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _logger.LogInformation("Shutting down sample...");
 
-                // TODO unimplemented so far
-                //await adrClient.UnobserveAssetAsync(assetId);
-                await adrClient.UnobserveAssetEndpointProfileAsync(assetName);
+                await adrClient.UnobserveAssetAsync(assetName);
+                await adrClient.UnobserveAssetEndpointProfileAsync();
             }
         }
 
