@@ -17,13 +17,13 @@ spec:
   datasets:
     - name: thermostat_status
       dataPoints:
-        - dataSource: /api/machine/my_machine_1/status
+        - dataSource: /api/machine/my_thermostat_1/status
           name: actual_temperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-        - dataSource: /api/machine/my_machine_1/status
+        - dataSource: /api/machine/my_thermostat_1/status
           name: desired_temperature
           dataPointConfiguration: |-
            {
