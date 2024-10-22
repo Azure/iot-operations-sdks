@@ -107,17 +107,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
-            //TODO NPE?
-            if (httpServerStatusDataset.DataPoints == null || httpServerStatusDataset.DataPoints.Length == 0)
-            {
-                _logger.LogInformation($"No data points :(");
-            }
-
-            foreach (string dataPointName in httpServerStatusDataset.DataPointsDictionary!.Keys)
-            {
-                _logger.LogInformation($"datapoint name: {dataPointName}");
-            }
-
             DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPointsDictionary!["desired_temperature"];
             HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
