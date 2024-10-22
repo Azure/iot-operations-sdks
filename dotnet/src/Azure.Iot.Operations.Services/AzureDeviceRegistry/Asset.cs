@@ -118,15 +118,15 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// The mapping of dataset names to datasets that are part of the asset. Each dataset can have per-dataset configuration.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, Dataset>? Datasets
+        public Dictionary<string, Dataset>? DatasetsDictionary
         {
             get
             {
                 Dictionary<string, Dataset>? dictionary = null;
-                if (DatasetsInternal != null)
+                if (Datasets != null)
                 {
                     dictionary = new();
-                    foreach (Dataset dataset in DatasetsInternal)
+                    foreach (Dataset dataset in Datasets)
                     {
                         if (!string.IsNullOrWhiteSpace(dataset.Name))
                         {
@@ -143,22 +143,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        [JsonPropertyName("datasets")]
-        public Dataset[]? DatasetsInternal { get; init; }
+        public Dataset[]? Datasets { get; init; }
 
         /// <summary>
         /// The mapping of event names to events in this asset.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, Event>? Events
+        public Dictionary<string, Event>? EventsDictionary
         {
             get
             {
                 Dictionary<string, Event>? dictionary = null;
-                if (EventsInternal != null)
+                if (Events != null)
                 {
                     dictionary = new();
-                    foreach (Event eventInternal in EventsInternal)
+                    foreach (Event eventInternal in Events)
                     {
                         if (!string.IsNullOrWhiteSpace(eventInternal.Name))
                         {
@@ -175,8 +174,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        [JsonPropertyName("events")]
-        internal Event[]? EventsInternal { get; init; }
+        public Event[]? Events { get; init; }
 
         /// <summary>
         /// Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.
@@ -211,15 +209,15 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// The mapping of datapoint names to datapoints in this dataset.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, DataPoint>? DataPoints
+        public Dictionary<string, DataPoint>? DataPointsDictionary
         {
             get
             {
                 Dictionary<string, DataPoint>? dictionary = null;
-                if (DataPointsInternal != null)
+                if (DataPoints != null)
                 {
                     dictionary = new();
-                    foreach (DataPoint dataPointInternal in DataPointsInternal)
+                    foreach (DataPoint dataPointInternal in DataPoints)
                     {
                         if (!string.IsNullOrWhiteSpace(dataPointInternal.Name))
                         {
@@ -236,8 +234,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        [JsonPropertyName("dataPoints")]
-        internal DataPoint[]? DataPointsInternal { get; init; }
+        public DataPoint[]? DataPoints { get; init; }
     }
 
     public record DataPoint
@@ -361,22 +358,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        [JsonPropertyName("datasets")]
-        internal StatusDatasets[]? Datasets { get; init; }
+        public StatusDatasets[]? Datasets { get; init; }
 
         /// <summary>
         /// The mapping of status event names to status events in this status.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, StatusEvents>? Events
+        public Dictionary<string, StatusEvents>? EventsDictionary
         {
             get
             {
                 Dictionary<string, StatusEvents>? dictionary = null;
-                if (EventsInternal != null)
+                if (Events != null)
                 {
                     dictionary = new();
-                    foreach (StatusEvents statusEvents in EventsInternal)
+                    foreach (StatusEvents statusEvents in Events)
                     {
                         if (!string.IsNullOrWhiteSpace(statusEvents.Name))
                         {
@@ -393,8 +389,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        [JsonPropertyName("events")]
-        internal StatusEvents[]? EventsInternal { get; init; }
+        internal StatusEvents[]? Events { get; init; }
     }
 
     public record StatusError
