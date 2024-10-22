@@ -7,7 +7,6 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
