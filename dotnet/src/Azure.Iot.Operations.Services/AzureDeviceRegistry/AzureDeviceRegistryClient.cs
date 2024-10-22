@@ -65,16 +65,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 return null;
             }
 
-            //TODO necessary?
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 AllowTrailingCommas = true,
             };
-
-            // RetainHandling value in topic class is an enum in this SDK
-            options.Converters.Add(new JsonStringEnumConverter());
 
             byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetMapMountPath}/{assetName}/{assetName}");
             Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
