@@ -102,6 +102,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
+                        //TODO using broke this
                         Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     }
                 }
@@ -153,10 +154,11 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker");
 
-            var mqttMessage = new MqttApplicationMessage(dataset.Topic!.Path!)
+            var topic = dataset.Topic != null ? dataset.Topic! : asset.DefaultTopic!;
+            var mqttMessage = new MqttApplicationMessage(topic.Path!)
             {
                 PayloadSegment = serializedPayload,
-                Retain = dataset.Topic.Retain == RetainHandling.Keep,
+                Retain = topic.Retain == RetainHandling.Keep,
             };
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
