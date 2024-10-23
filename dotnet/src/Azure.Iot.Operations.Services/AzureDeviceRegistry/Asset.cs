@@ -256,7 +256,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 JsonNode messageSchemaPropertyContents = JsonNode.Parse("{}")!;
                 messageSchemaPropertyContents["type"] = "string"; //TODO how to discern the type? Won't always be a string
                 messageSchemaProperties[datapoint.Name] = messageSchemaPropertyContents;
-                messageSchemaRequiredProperties += datapoint.Name + ","; //TODO how do we know which properties are required?
+                messageSchemaRequiredProperties += "\"" + datapoint.Name + "\","; //TODO how do we know which properties are required?
                 //TODO some schemas include "format" or "unit" properties as well. Should this parsing logic live in application layer?
             }
 
