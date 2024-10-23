@@ -47,7 +47,6 @@ namespace TestEnvoys.dtmi_com_example_Passthrough__1
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Passthrough;1";
-                base.TopicTokenMap["executorId"] = this.ExecutorId ?? mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "pass";
             }
         }

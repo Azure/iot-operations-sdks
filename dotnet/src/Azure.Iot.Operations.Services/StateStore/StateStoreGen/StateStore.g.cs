@@ -20,10 +20,12 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly InvokeCommandExecutor invokeCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.invokeCommandExecutor = new InvokeCommandExecutor(mqttClient) { OnCommandReceived = Invoke_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -37,8 +39,13 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
-                    this.invokeCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.invokeCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

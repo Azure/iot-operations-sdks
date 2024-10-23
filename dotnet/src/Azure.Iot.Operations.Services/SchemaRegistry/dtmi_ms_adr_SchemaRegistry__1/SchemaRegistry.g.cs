@@ -20,11 +20,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly PutCommandExecutor putCommandExecutor;
             private readonly GetCommandExecutor getCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.putCommandExecutor = new PutCommandExecutor(mqttClient) { OnCommandReceived = Put_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -42,9 +44,14 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
-                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

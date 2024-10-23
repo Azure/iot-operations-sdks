@@ -36,6 +36,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private Dispatcher? dispatcher;
         private bool isRunning;
         private bool hasSubscribed;
+        private string subscriptionTopic;
 
         private bool isDisposed;
 
@@ -92,6 +93,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             isRunning = false;
             hasSubscribed = false;
+            subscriptionTopic = string.Empty;
 
             ExecutionTimeout = DefaultExecutorTimeout;
 
@@ -112,7 +114,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            string requestTopicFilter = GetCommandTopic();
+            string requestTopicFilter = GetCommandTopic(null);
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, requestTopicFilter))
             {
@@ -268,7 +270,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int? preferredDispatchConcurrency = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(isDisposed, this);
@@ -298,7 +300,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!hasSubscribed)
                 {
-                    await SubscribeAsync(cancellationToken).ConfigureAwait(false);
+                    await SubscribeAsync(transientTopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
                 isRunning = true;
@@ -310,22 +312,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(isDisposed, this);
 
-            if (isRunning)
+            if (isRunning && hasSubscribed)
             {
-                string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic()}" : GetCommandTopic();
-
-                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new MqttClientUnsubscribeOptions(requestTopicFilter);
+                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new MqttClientUnsubscribeOptions(subscriptionTopic);
 
                 MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(mqttUnsubscribeOptions, cancellationToken).ConfigureAwait(false);
 
                 unsubAck.ThrowIfNotSuccessUnsubAck(this.commandName);
                 isRunning = false;
+                hasSubscribed = false;
             }
         }
 
-        private async Task SubscribeAsync(CancellationToken cancellationToken = default)
+        private async Task SubscribeAsync(IReadOnlyDictionary<string, string>? transientTopicTokenMap, CancellationToken cancellationToken = default)
         {
-            string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic()}" : GetCommandTopic();
+            string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(transientTopicTokenMap)}" : GetCommandTopic(transientTopicTokenMap);
 
             var qos = MqttQualityOfServiceLevel.AtLeastOnce;
             MqttClientSubscribeOptions mqttSubscribeOptions = new MqttClientSubscribeOptions(new MqttTopicFilter(requestTopicFilter, qos));
@@ -334,6 +335,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             subAck.ThrowIfNotSuccessSubAck(qos, this.commandName);
 
             hasSubscribed = true;
+            subscriptionTopic = requestTopicFilter;
         }
 
         private bool TryValidateRequestHeaders(
@@ -594,7 +596,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return dispatcher;
         }
 
-        private string GetCommandTopic()
+        private string GetCommandTopic(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             StringBuilder commandTopic = new();
 
@@ -604,7 +606,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, EffectiveTopicTokenMap));
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
 
             return commandTopic.ToString();
         }

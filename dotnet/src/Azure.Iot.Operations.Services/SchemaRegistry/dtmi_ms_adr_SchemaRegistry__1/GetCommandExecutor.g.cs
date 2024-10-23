@@ -48,7 +48,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
-                base.TopicTokenMap["executorId"] = this.ExecutorId ?? mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "get";
             }
         }

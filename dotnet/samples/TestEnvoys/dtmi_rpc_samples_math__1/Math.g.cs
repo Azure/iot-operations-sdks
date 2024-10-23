@@ -20,12 +20,14 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly IsPrimeCommandExecutor isPrimeCommandExecutor;
             private readonly FibCommandExecutor fibCommandExecutor;
             private readonly GetRandomCommandExecutor getRandomCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(mqttClient) { OnCommandReceived = IsPrime_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -47,10 +49,15 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

@@ -47,7 +47,6 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
-                base.TopicTokenMap["executorId"] = this.ExecutorId ?? mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "getRuntimeStats";
             }
         }

@@ -31,6 +31,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor <#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor;
 <# } #>
@@ -40,6 +41,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -73,9 +75,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 

@@ -20,12 +20,14 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly ReadCounterCommandExecutor readCounterCommandExecutor;
             private readonly IncrementCommandExecutor incrementCommandExecutor;
             private readonly ResetCommandExecutor resetCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.readCounterCommandExecutor = new ReadCounterCommandExecutor(mqttClient) { OnCommandReceived = ReadCounter_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -47,10 +49,15 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
-                    this.readCounterCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.incrementCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.resetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.readCounterCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.incrementCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.resetCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

@@ -48,7 +48,6 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:rpc:samples:math;1";
-                base.TopicTokenMap["executorId"] = this.ExecutorId ?? mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "fib";
             }
         }

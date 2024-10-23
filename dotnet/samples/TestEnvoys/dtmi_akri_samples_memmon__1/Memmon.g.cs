@@ -21,6 +21,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandExecutor startTelemetryCommandExecutor;
             private readonly StopTelemetryCommandExecutor stopTelemetryCommandExecutor;
             private readonly GetRuntimeStatsCommandExecutor getRuntimeStatsCommandExecutor;
@@ -30,6 +31,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(mqttClient) { OnCommandReceived = StartTelemetry_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -72,10 +74,15 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", this.mqttClient.ClientId! },
+                };
+
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
