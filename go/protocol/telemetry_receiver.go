@@ -57,8 +57,9 @@ type (
 		// CloudEvent will be present if the message was sent with cloud events.
 		*CloudEvent
 
-		// Ack provides a function to manually ack if enabled; it will be nil
-		// otherwise.
+		// Ack provides a function to manually ack if enabled and if possible;
+		// it will be nil otherwise. Note that, since QoS0 messages cannot be
+		// acked, this will be nil in this case even if manual ack is enabled.
 		Ack func() error
 	}
 
@@ -162,7 +163,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.CloudEvent = cloudEventFromMessage(pub)
 
-	if tr.manualAck {
+	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
 	}
 
@@ -173,7 +174,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		return err
 	}
 
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return nil
@@ -184,7 +185,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return errutil.Return(err, false)
