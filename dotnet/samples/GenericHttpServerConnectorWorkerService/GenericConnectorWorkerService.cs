@@ -101,7 +101,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                             samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                         }
 
-                        _logger.LogInformation($"Will sample dataset with name {datasetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
+                        _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
                         using Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     }
                 }
@@ -143,8 +143,11 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 return;
             }
 
+            _logger.LogInformation("past validation");
+
             Dataset dataset = assetDatasets[datasetName];
 
+            _logger.LogInformation("Sending to interface");
             byte[] serializedPayload = await _datasetSampler.SampleAsync(_assetEndpointProfile!, dataset);
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker");

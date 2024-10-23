@@ -56,6 +56,5 @@ namespace Azure.Iot.Operations.ConnectorSample
         {
             _httpClient?.Dispose();
         }
-
     }
 }
