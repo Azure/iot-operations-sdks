@@ -125,7 +125,6 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
         private async void SampleDataset(object? status)
         {
-            _logger.LogInformation($"wut");
             SamplerContext samplerContext = (SamplerContext)status!;
 
             string assetName = samplerContext.AssetName;
@@ -145,14 +144,11 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 return;
             }
 
-            _logger.LogInformation("past validation");
-
             Dataset dataset = assetDatasets[datasetName];
 
-            _logger.LogInformation("Sending to interface");
             byte[] serializedPayload = await _datasetSampler.SampleAsync(_assetEndpointProfile!, dataset);
 
-            _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker");
+            _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             var topic = dataset.Topic != null ? dataset.Topic! : asset.DefaultTopic!;
             var mqttMessage = new MqttApplicationMessage(topic.Path!)

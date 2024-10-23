@@ -30,8 +30,6 @@ namespace Azure.Iot.Operations.ConnectorSample
                 };
             }
 
-            Console.WriteLine("Samping HTTP data...");
-
             string httpServerUsername = assetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = assetEndpointProfile.Credentials!.Password!;
 
@@ -49,6 +47,7 @@ namespace Azure.Iot.Operations.ConnectorSample
             // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
             var response = await _httpClient.GetAsync(httpServerActualTemperatureRequestPath);
 
+            // The HTTP response payload matches the expected message schema, so return it as-is
             return Encoding.UTF8.GetBytes(await response.Content.ReadAsStringAsync());
         }
 
