@@ -137,18 +137,23 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 
 	// Parse required properties first. If any aren't present or valid, assume
 	// this isn't a cloud event.
+	ce.SpecVersion, ok = msg.UserProperties["specversion"]
+	if !ok || ce.SpecVersion != "1.0" {
+		return nil
+	}
+
 	ce.ID, ok = msg.UserProperties["id"]
 	if !ok {
 		return nil
 	}
 
-	ce.Source, err = url.Parse(msg.UserProperties["source"])
-	if err != nil {
+	src, ok := msg.UserProperties["source"]
+	if !ok {
 		return nil
 	}
 
-	ce.SpecVersion, ok = msg.UserProperties["specversion"]
-	if !ok {
+	ce.Source, err = url.Parse(src)
+	if err != nil {
 		return nil
 	}
 
@@ -159,12 +164,15 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 
 	// Optional properties are best-effort.
 	ce.DataContentType = msg.UserProperties["datacontenttype"]
+
 	if ds, ok := msg.UserProperties["dataschema"]; ok {
 		if dsp, err := url.Parse(ds); err == nil {
 			ce.DataSchema = dsp
 		}
 	}
+
 	ce.Subject = msg.UserProperties["subject"]
+
 	if t, ok := msg.UserProperties["time"]; ok {
 		if tp, err := iso8601.ParseString(t); err == nil {
 			ce.Time = tp
