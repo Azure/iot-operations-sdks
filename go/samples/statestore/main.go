@@ -35,7 +35,7 @@ func main() {
 	kn, rm := client.Notify(stateStoreKey)
 	defer rm()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	check(client.KeyNotify(ctx, stateStoreKey))
