@@ -79,11 +79,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly PutCommandInvoker putCommandInvoker;
             private readonly GetCommandInvoker getCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.putCommandInvoker = new PutCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -98,14 +100,22 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
             public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = null;
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                };
+
                 return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = null;
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                };
+
                 return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 

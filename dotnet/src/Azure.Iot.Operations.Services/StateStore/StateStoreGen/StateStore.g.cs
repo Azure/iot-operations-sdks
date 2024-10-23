@@ -65,10 +65,12 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly InvokeCommandInvoker invokeCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.invokeCommandInvoker = new InvokeCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -81,7 +83,11 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
             public RpcCallAsync<byte[]> InvokeAsync(byte[] request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = null;
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                };
+
                 return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 

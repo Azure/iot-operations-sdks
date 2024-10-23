@@ -65,10 +65,12 @@ namespace TestEnvoys.dtmi_com_example_Passthrough__1
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly PassCommandInvoker passCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.passCommandInvoker = new PassCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -81,7 +83,12 @@ namespace TestEnvoys.dtmi_com_example_Passthrough__1
             public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                    { "executorId", executorId },
+                };
+
                 return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 

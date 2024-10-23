@@ -118,6 +118,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandInvoker startTelemetryCommandInvoker;
             private readonly StopTelemetryCommandInvoker stopTelemetryCommandInvoker;
             private readonly GetRuntimeStatsCommandInvoker getRuntimeStatsCommandInvoker;
@@ -127,6 +128,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -155,21 +157,36 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
             public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                    { "executorId", executorId },
+                };
+
                 return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                    { "executorId", executorId },
+                };
+
                 return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+                    { "executorId", executorId },
+                };
+
                 return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 

@@ -125,6 +125,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
         public abstract partial class Client<#=this.cmdNameReqResps.Any() ? " : IAsyncDisposable" : ""#>
         {
+            private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker <#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker;
 <# } #>
@@ -134,6 +135,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -161,7 +163,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             public <#=this.CallAsyncType(cmdNameReqResp)#> <#=this.AsUpper(cmdNameReqResp.Item1)#>Async(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = <#=this.ExecDict()#>;
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", this.mqttClient.ClientId! },
+<# if (this.doesCommandTargetExecutor) { #>
+                    { "executorId", executorId },
+<# } #>
+                };
+
                 return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.allocateEmpty #>, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
@@ -222,8 +231,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     private string SchemaType(string schema) => schema == null ? this.serializerEmptyType : schema == "" ? "byte[]" : schema;
 
     private string ExecParam() => this.doesCommandTargetExecutor ? "string executorId, " : "";
-
-    private string ExecDict() => this.doesCommandTargetExecutor ? "new() { { \"executorId\", executorId } }" : "null";
 
     private bool IsLast((string, string, string) cmdNameReqResp) => cmdNameReqResp.Item1 == this.cmdNameReqResps.Last().Item1;
 
