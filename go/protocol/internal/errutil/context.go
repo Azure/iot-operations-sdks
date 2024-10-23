@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package errors
+package errutil
 
 import (
 	"context"
-	"errors"
+	stderr "errors"
 	"fmt"
 	"os"
+
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 // Normalize well-known errors into protocol errors.
 func Normalize(err error, msg string) error {
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*errors.Error); ok {
 		return e
 	}
 
@@ -19,22 +21,22 @@ func Normalize(err error, msg string) error {
 	case err == nil:
 		return nil
 
-	case os.IsTimeout(err), errors.Is(err, context.DeadlineExceeded):
-		return &Error{
+	case os.IsTimeout(err), stderr.Is(err, context.DeadlineExceeded):
+		return &errors.Error{
 			Message: fmt.Sprintf("%s timed out", msg),
-			Kind:    Timeout,
+			Kind:    errors.Timeout,
 		}
 
-	case errors.Is(err, context.Canceled):
-		return &Error{
+	case stderr.Is(err, context.Canceled):
+		return &errors.Error{
 			Message: fmt.Sprintf("%s cancelled", msg),
-			Kind:    Cancellation,
+			Kind:    errors.Cancellation,
 		}
 
 	default:
-		return &Error{
+		return &errors.Error{
 			Message:     fmt.Sprintf("%s error: %s", msg, err.Error()),
-			Kind:        UnknownError,
+			Kind:        errors.UnknownError,
 			NestedError: err,
 		}
 	}
