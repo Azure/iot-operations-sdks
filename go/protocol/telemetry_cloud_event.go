@@ -30,7 +30,27 @@ type CloudEvent struct {
 const (
 	DefaultCloudEventSpecVersion = "1.0"
 	DefaultCloudEventType        = "ms.aio.telemetry"
+
+	ceID              = "id"
+	ceSource          = "source"
+	ceSpecVersion     = "specversion"
+	ceType            = "type"
+	ceDataContentType = "datacontenttype"
+	ceDataSchema      = "dataschema"
+	ceSubject         = "subject"
+	ceTime            = "time"
 )
+
+var ceReserved = []string{
+	ceID,
+	ceSource,
+	ceSpecVersion,
+	ceType,
+	ceDataContentType,
+	ceDataSchema,
+	ceSubject,
+	ceTime,
+}
 
 // Attrs returns additional error attributes for slog.
 func (ce *CloudEvent) Attrs() []slog.Attr {
@@ -42,23 +62,23 @@ func (ce *CloudEvent) Attrs() []slog.Attr {
 	a := make([]slog.Attr, 0, 8)
 
 	a = append(a,
-		slog.String("id", ce.ID),
-		slog.String("source", ce.Source.String()),
-		slog.String("specversion", ce.SpecVersion),
-		slog.String("type", ce.Type),
+		slog.String(ceID, ce.ID),
+		slog.String(ceSource, ce.Source.String()),
+		slog.String(ceSpecVersion, ce.SpecVersion),
+		slog.String(ceType, ce.Type),
 	)
 
 	if ce.DataContentType != "" {
-		a = append(a, slog.String("datacontenttype", ce.DataContentType))
+		a = append(a, slog.String(ceDataContentType, ce.DataContentType))
 	}
 	if ce.DataSchema != nil {
-		a = append(a, slog.String("dataschema", ce.DataSchema.String()))
+		a = append(a, slog.String(ceDataSchema, ce.DataSchema.String()))
 	}
 	if ce.Subject != "" {
-		a = append(a, slog.String("subject", ce.Subject))
+		a = append(a, slog.String(ceSubject, ce.Subject))
 	}
 	if !ce.Time.IsZero() {
-		a = append(a, slog.String("time", ce.Time.Format(time.RFC3339)))
+		a = append(a, slog.String(ceTime, ce.Time.Format(time.RFC3339)))
 	}
 
 	return a
@@ -71,14 +91,25 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
 		return nil
 	}
 
+	for _, key := range ceReserved {
+		if _, ok := msg.UserProperties[key]; ok {
+			return &errors.Error{
+				Message:       "metadata key reserved for cloud event",
+				Kind:          errors.ArgumentInvalid,
+				PropertyName:  "Metadata",
+				PropertyValue: key,
+			}
+		}
+	}
+
 	if ce.ID != "" {
-		msg.UserProperties["id"] = ce.ID
+		msg.UserProperties[ceID] = ce.ID
 	} else {
 		id, err := errutil.NewUUID()
 		if err != nil {
 			return err
 		}
-		msg.UserProperties["id"] = id
+		msg.UserProperties[ceID] = id
 	}
 
 	// We have reasonable defaults for all other values; source, however, is
@@ -90,40 +121,40 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
 			PropertyName: "CloudEvent",
 		}
 	}
-	msg.UserProperties["source"] = ce.Source.String()
+	msg.UserProperties[ceSource] = ce.Source.String()
 
 	if ce.SpecVersion != "" {
-		msg.UserProperties["specversion"] = ce.SpecVersion
+		msg.UserProperties[ceSpecVersion] = ce.SpecVersion
 	} else {
-		msg.UserProperties["specversion"] = DefaultCloudEventSpecVersion
+		msg.UserProperties[ceSpecVersion] = DefaultCloudEventSpecVersion
 	}
 
 	if ce.Type != "" {
-		msg.UserProperties["type"] = ce.Type
+		msg.UserProperties[ceType] = ce.Type
 	} else {
-		msg.UserProperties["type"] = DefaultCloudEventType
+		msg.UserProperties[ceType] = DefaultCloudEventType
 	}
 
 	if ce.DataContentType != "" {
-		msg.UserProperties["datacontenttype"] = ce.DataContentType
+		msg.UserProperties[ceDataContentType] = ce.DataContentType
 	} else {
-		msg.UserProperties["datacontenttype"] = msg.ContentType
+		msg.UserProperties[ceDataContentType] = msg.ContentType
 	}
 
 	if ce.DataSchema != nil {
-		msg.UserProperties["dataschema"] = ce.DataSchema.String()
+		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
 	}
 
 	if ce.Subject != "" {
-		msg.UserProperties["subject"] = ce.Subject
+		msg.UserProperties[ceSubject] = ce.Subject
 	} else {
-		msg.UserProperties["subject"] = msg.Topic
+		msg.UserProperties[ceSubject] = msg.Topic
 	}
 
 	if !ce.Time.IsZero() {
-		msg.UserProperties["time"] = ce.Time.Format(time.RFC3339)
+		msg.UserProperties[ceTime] = ce.Time.Format(time.RFC3339)
 	} else {
-		msg.UserProperties["time"] = time.Now().UTC().Format(time.RFC3339)
+		msg.UserProperties[ceTime] = time.Now().UTC().Format(time.RFC3339)
 	}
 
 	return nil
@@ -136,17 +167,17 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 
 	// Parse required properties first. If any aren't present or valid, assume
 	// this isn't a cloud event.
-	ce.SpecVersion = msg.UserProperties["specversion"]
+	ce.SpecVersion = msg.UserProperties[ceSpecVersion]
 	if ce.SpecVersion != "1.0" {
 		return nil
 	}
 
-	ce.ID, ok = msg.UserProperties["id"]
+	ce.ID, ok = msg.UserProperties[ceID]
 	if !ok {
 		return nil
 	}
 
-	src, ok := msg.UserProperties["source"]
+	src, ok := msg.UserProperties[ceSource]
 	if !ok {
 		return nil
 	}
@@ -155,23 +186,23 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 		return nil
 	}
 
-	ce.Type, ok = msg.UserProperties["type"]
+	ce.Type, ok = msg.UserProperties[ceType]
 	if !ok {
 		return nil
 	}
 
 	// Optional properties are best-effort.
-	ce.DataContentType = msg.UserProperties["datacontenttype"]
+	ce.DataContentType = msg.UserProperties[ceDataContentType]
 
-	if ds, ok := msg.UserProperties["dataschema"]; ok {
+	if ds, ok := msg.UserProperties[ceDataSchema]; ok {
 		if dsp, err := url.Parse(ds); err == nil {
 			ce.DataSchema = dsp
 		}
 	}
 
-	ce.Subject = msg.UserProperties["subject"]
+	ce.Subject = msg.UserProperties[ceSubject]
 
-	if t, ok := msg.UserProperties["time"]; ok {
+	if t, ok := msg.UserProperties[ceTime]; ok {
 		if tp, err := iso8601.ParseString(t); err == nil {
 			ce.Time = tp
 		}

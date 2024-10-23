@@ -160,7 +160,7 @@ type CloudEvent struct {
 ```
 
 <a name="CloudEvent.Attrs"></a>
-### func \(\*CloudEvent\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L36>)
+### func \(\*CloudEvent\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L56>)
 
 ```go
 func (ce *CloudEvent) Attrs() []slog.Attr
