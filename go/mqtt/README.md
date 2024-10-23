@@ -123,18 +123,18 @@ const (
 ```
 
 <a name="IsTopicFilterMatch"></a>
-## func [IsTopicFilterMatch](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/utils.go#L59>)
+## func [IsTopicFilterMatch](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/topic_filter.go#L10>)
 
 ```go
 func IsTopicFilterMatch(topicFilter, topicName string) bool
 ```
 
-IsTopicFilterMatch checks if a topic name matches a topic filter, including handling shared subscriptions.
+IsTopicFilterMatch checks if a topic name matches a topic filter.
 
 <a name="Ack"></a>
-## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L16>)
+## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L17>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type Ack = mqtt.Ack
@@ -183,18 +183,18 @@ func (e *ConnackError) Error() string
 
 
 <a name="ConnectEvent"></a>
-## type [ConnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L12>)
+## type [ConnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L13>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type ConnectEvent = mqtt.ConnectEvent
 ```
 
 <a name="ConnectEventHandler"></a>
-## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L13>)
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L14>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type ConnectEventHandler = mqtt.ConnectEventHandler
@@ -230,18 +230,18 @@ func (e *ConnectionError) Unwrap() error
 
 
 <a name="DisconnectEvent"></a>
-## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L14>)
+## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L15>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type DisconnectEvent = mqtt.DisconnectEvent
 ```
 
 <a name="DisconnectEventHandler"></a>
-## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L15>)
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L16>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type DisconnectEventHandler = mqtt.DisconnectEventHandler
@@ -318,18 +318,18 @@ func (e *InvalidOperationError) Error() string
 
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L10>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L11>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type Message = mqtt.Message
 ```
 
 <a name="MessageHandler"></a>
-## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L11>)
+## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L12>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type MessageHandler = mqtt.MessageHandler
@@ -395,18 +395,18 @@ type PahoConstructor = func(
 ```
 
 <a name="PublishOption"></a>
-## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L23>)
+## type [PublishOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L24>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type PublishOption = mqtt.PublishOption
 ```
 
 <a name="PublishOptions"></a>
-## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L22>)
+## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L23>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type PublishOptions = mqtt.PublishOptions
@@ -507,7 +507,7 @@ func (c *SessionClient) ID() string
 
 
 <a name="SessionClient.Publish"></a>
-### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L112-L117>)
+### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L113-L118>)
 
 ```go
 func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byte, opts ...PublishOption) (*Ack, error)
@@ -516,7 +516,7 @@ func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byt
 
 
 <a name="SessionClient.RegisterConnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L18-L20>)
+### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L19-L21>)
 
 ```go
 func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler) (unregisterHandler func())
@@ -525,7 +525,7 @@ func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler)
 RegisterConnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
 <a name="SessionClient.RegisterDisconnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L29-L31>)
+### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L30-L32>)
 
 ```go
 func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHandler) (unregisterHandler func())
@@ -534,7 +534,7 @@ func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHa
 RegisterDisconnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
 <a name="SessionClient.RegisterFatalErrorHandler"></a>
-### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L37-L39>)
+### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L38-L40>)
 
 ```go
 func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregisterHandler func())
@@ -543,7 +543,7 @@ func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregist
 RegisterFatalErrorHandler registers a handler that is called in a goroutine if the SessionClient terminates due to a fatal error.
 
 <a name="SessionClient.RegisterMessageHandler"></a>
-### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L79>)
+### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L80>)
 
 ```go
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
@@ -552,7 +552,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
 RegisterMessageHandler registers a message handler on this client. Returns a callback to remove the message handler.
 
 <a name="SessionClient.Start"></a>
-### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L46>)
+### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L47>)
 
 ```go
 func (c *SessionClient) Start() error
@@ -561,7 +561,7 @@ func (c *SessionClient) Start() error
 Start starts the SessionClient, spawning any necessary background goroutines. In order to terminate the SessionClient and clean up any running goroutines, Stop\(\) must be called after calling Start\(\).
 
 <a name="SessionClient.Stop"></a>
-### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L72>)
+### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L73>)
 
 ```go
 func (c *SessionClient) Stop() error
@@ -570,7 +570,7 @@ func (c *SessionClient) Stop() error
 Stop stops the SessionClient, terminating any pending operations and cleaning up background goroutines.
 
 <a name="SessionClient.Subscribe"></a>
-### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L92-L96>)
+### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L93-L97>)
 
 ```go
 func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Ack, error)
@@ -579,7 +579,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 
 
 <a name="SessionClient.Unsubscribe"></a>
-### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L153-L157>)
+### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L156-L160>)
 
 ```go
 func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)
@@ -588,7 +588,7 @@ func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...U
 
 
 <a name="SessionClientOption"></a>
-## type [SessionClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L14>)
+## type [SessionClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L15>)
 
 
 
@@ -597,7 +597,7 @@ type SessionClientOption func(*SessionClient)
 ```
 
 <a name="WithCaFile"></a>
-### func [WithCaFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L334-L336>)
+### func [WithCaFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L335-L337>)
 
 ```go
 func WithCaFile(caFile string) SessionClientOption
@@ -606,7 +606,7 @@ func WithCaFile(caFile string) SessionClientOption
 WithCaFile sets the caFile for the connection settings.
 
 <a name="WithCaRequireRevocationCheck"></a>
-### func [WithCaRequireRevocationCheck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L344-L346>)
+### func [WithCaRequireRevocationCheck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L345-L347>)
 
 ```go
 func WithCaRequireRevocationCheck(revocationCheck bool) SessionClientOption
@@ -615,7 +615,7 @@ func WithCaRequireRevocationCheck(revocationCheck bool) SessionClientOption
 WithCaRequireRevocationCheck sets the caRequireRevocationCheck for the connection settings.
 
 <a name="WithCertFile"></a>
-### func [WithCertFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L307-L309>)
+### func [WithCertFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L308-L310>)
 
 ```go
 func WithCertFile(certFile string) SessionClientOption
@@ -624,7 +624,7 @@ func WithCertFile(certFile string) SessionClientOption
 WithCertFile sets the certFile for the connection settings.
 
 <a name="WithClientID"></a>
-### func [WithClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L55-L57>)
+### func [WithClientID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L56-L58>)
 
 ```go
 func WithClientID(clientID string) SessionClientOption
@@ -633,7 +633,7 @@ func WithClientID(clientID string) SessionClientOption
 WithClientID sets clientID for the connection settings.
 
 <a name="WithConnRetry"></a>
-### func [WithConnRetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L28-L30>)
+### func [WithConnRetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L29-L31>)
 
 ```go
 func WithConnRetry(connRetry retry.Policy) SessionClientOption
@@ -642,7 +642,7 @@ func WithConnRetry(connRetry retry.Policy) SessionClientOption
 WithConnRetry sets connRetry for the MQTT session client.
 
 <a name="WithConnectPropertiesUser"></a>
-### func [WithConnectPropertiesUser](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L152-L154>)
+### func [WithConnectPropertiesUser](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L153-L155>)
 
 ```go
 func WithConnectPropertiesUser(user map[string]string) SessionClientOption
@@ -651,7 +651,7 @@ func WithConnectPropertiesUser(user map[string]string) SessionClientOption
 WithConnectPropertiesUser sets the user properties for the CONNECT packet.
 
 <a name="WithConnectionTimeout"></a>
-### func [WithConnectionTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L130-L132>)
+### func [WithConnectionTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L131-L133>)
 
 ```go
 func WithConnectionTimeout(connectionTimeout time.Duration) SessionClientOption
@@ -660,7 +660,7 @@ func WithConnectionTimeout(connectionTimeout time.Duration) SessionClientOption
 WithConnectionTimeout sets the connectionTimeout for the connection settings. If connectionTimeout is 0, connection will have no timeout. Note the connectionTimeout would work with connRetry.
 
 <a name="WithKeepAlive"></a>
-### func [WithKeepAlive](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L91-L93>)
+### func [WithKeepAlive](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L92-L94>)
 
 ```go
 func WithKeepAlive(keepAlive time.Duration) SessionClientOption
@@ -669,7 +669,7 @@ func WithKeepAlive(keepAlive time.Duration) SessionClientOption
 WithKeepAlive sets the keepAlive interval for the MQTT connection.
 
 <a name="WithKeyFile"></a>
-### func [WithKeyFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L316-L318>)
+### func [WithKeyFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L317-L319>)
 
 ```go
 func WithKeyFile(keyFile string) SessionClientOption
@@ -678,7 +678,7 @@ func WithKeyFile(keyFile string) SessionClientOption
 WithKeyFile sets the keyFile for the connection settings.
 
 <a name="WithKeyFilePassword"></a>
-### func [WithKeyFilePassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L325-L327>)
+### func [WithKeyFilePassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L326-L328>)
 
 ```go
 func WithKeyFilePassword(keyFilePassword string) SessionClientOption
@@ -687,7 +687,7 @@ func WithKeyFilePassword(keyFilePassword string) SessionClientOption
 WithKeyFilePassword sets the keyFilePassword for the connection settings.
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L17-L19>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L18-L20>)
 
 ```go
 func WithLogger(l *slog.Logger) SessionClientOption
@@ -696,7 +696,7 @@ func WithLogger(l *slog.Logger) SessionClientOption
 WithLogger sets the logger for the MQTT session client.
 
 <a name="WithPahoConstructor"></a>
-### func [WithPahoConstructor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L356-L358>)
+### func [WithPahoConstructor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L357-L359>)
 
 ```go
 func WithPahoConstructor(pahoConstructor PahoConstructor) SessionClientOption
@@ -705,7 +705,7 @@ func WithPahoConstructor(pahoConstructor PahoConstructor) SessionClientOption
 WithPahoConstructor replaces the default Paho constructor with a custom one for testing.
 
 <a name="WithPassword"></a>
-### func [WithPassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L73-L75>)
+### func [WithPassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L74-L76>)
 
 ```go
 func WithPassword(password []byte) SessionClientOption
@@ -714,7 +714,7 @@ func WithPassword(password []byte) SessionClientOption
 WithPassword sets the password for the connection settings.
 
 <a name="WithPasswordFile"></a>
-### func [WithPasswordFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L82-L84>)
+### func [WithPasswordFile](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L83-L85>)
 
 ```go
 func WithPasswordFile(passwordFile string) SessionClientOption
@@ -723,7 +723,7 @@ func WithPasswordFile(passwordFile string) SessionClientOption
 WithPasswordFile sets the passwordFile for the connection settings.
 
 <a name="WithReceiveMaximum"></a>
-### func [WithReceiveMaximum](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L119-L121>)
+### func [WithReceiveMaximum](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L120-L122>)
 
 ```go
 func WithReceiveMaximum(receiveMaximum uint16) SessionClientOption
@@ -732,7 +732,7 @@ func WithReceiveMaximum(receiveMaximum uint16) SessionClientOption
 WithReceiveMaximum sets the receive maximum for the connection settings.
 
 <a name="WithSessionExpiry"></a>
-### func [WithSessionExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L100-L102>)
+### func [WithSessionExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L101-L103>)
 
 ```go
 func WithSessionExpiry(sessionExpiry time.Duration) SessionClientOption
@@ -741,7 +741,7 @@ func WithSessionExpiry(sessionExpiry time.Duration) SessionClientOption
 WithSessionExpiry sets the sessionExpiry for the connection settings.
 
 <a name="WithTLSConfig"></a>
-### func [WithTLSConfig](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L298-L300>)
+### func [WithTLSConfig](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L299-L301>)
 
 ```go
 func WithTLSConfig(tlsConfig *tls.Config) SessionClientOption
@@ -750,7 +750,7 @@ func WithTLSConfig(tlsConfig *tls.Config) SessionClientOption
 WithTLSConfig sets the TLS configuration for the connection settings.
 
 <a name="WithUseTLS"></a>
-### func [WithUseTLS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L289-L291>)
+### func [WithUseTLS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L290-L292>)
 
 ```go
 func WithUseTLS(useTLS bool) SessionClientOption
@@ -759,7 +759,7 @@ func WithUseTLS(useTLS bool) SessionClientOption
 WithUseTLS enables or disables the use of TLS for the connection settings.
 
 <a name="WithUsername"></a>
-### func [WithUsername](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L64-L66>)
+### func [WithUsername](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L65-L67>)
 
 ```go
 func WithUsername(username string) SessionClientOption
@@ -768,7 +768,7 @@ func WithUsername(username string) SessionClientOption
 WithUsername sets the username for the connection settings.
 
 <a name="WithWillMessagePayload"></a>
-### func [WithWillMessagePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L200-L202>)
+### func [WithWillMessagePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L201-L203>)
 
 ```go
 func WithWillMessagePayload(payload []byte) SessionClientOption
@@ -777,7 +777,7 @@ func WithWillMessagePayload(payload []byte) SessionClientOption
 WithWillMessagePayload sets the Payload for the WillMessage.
 
 <a name="WithWillMessageQoS"></a>
-### func [WithWillMessageQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L182-L184>)
+### func [WithWillMessageQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L183-L185>)
 
 ```go
 func WithWillMessageQoS(qos byte) SessionClientOption
@@ -786,7 +786,7 @@ func WithWillMessageQoS(qos byte) SessionClientOption
 WithWillMessageQoS sets the QoS for the WillMessage.
 
 <a name="WithWillMessageRetain"></a>
-### func [WithWillMessageRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L173-L175>)
+### func [WithWillMessageRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L174-L176>)
 
 ```go
 func WithWillMessageRetain(retain bool) SessionClientOption
@@ -795,7 +795,7 @@ func WithWillMessageRetain(retain bool) SessionClientOption
 WithWillMessageRetain sets the Retain for the WillMessage.
 
 <a name="WithWillMessageTopic"></a>
-### func [WithWillMessageTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L191-L193>)
+### func [WithWillMessageTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L192-L194>)
 
 ```go
 func WithWillMessageTopic(topic string) SessionClientOption
@@ -804,7 +804,7 @@ func WithWillMessageTopic(topic string) SessionClientOption
 WithWillMessageTopic sets the Topic for the WillMessage.
 
 <a name="WithWillPropertiesContentType"></a>
-### func [WithWillPropertiesContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L249-L251>)
+### func [WithWillPropertiesContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L250-L252>)
 
 ```go
 func WithWillPropertiesContentType(contentType string) SessionClientOption
@@ -813,7 +813,7 @@ func WithWillPropertiesContentType(contentType string) SessionClientOption
 WithWillPropertiesContentType sets the ContentType for the WillProperties.
 
 <a name="WithWillPropertiesCorrelationData"></a>
-### func [WithWillPropertiesCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L269-L271>)
+### func [WithWillPropertiesCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L270-L272>)
 
 ```go
 func WithWillPropertiesCorrelationData(correlationData []byte) SessionClientOption
@@ -822,7 +822,7 @@ func WithWillPropertiesCorrelationData(correlationData []byte) SessionClientOpti
 WithWillPropertiesCorrelationData sets the CorrelationData for the WillProperties.
 
 <a name="WithWillPropertiesMessageExpiry"></a>
-### func [WithWillPropertiesMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L240-L242>)
+### func [WithWillPropertiesMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L241-L243>)
 
 ```go
 func WithWillPropertiesMessageExpiry(messageExpiry time.Duration) SessionClientOption
@@ -831,7 +831,7 @@ func WithWillPropertiesMessageExpiry(messageExpiry time.Duration) SessionClientO
 WithWillPropertiesMessageExpiry sets the MessageExpiry for the WillProperties.
 
 <a name="WithWillPropertiesPayloadFormat"></a>
-### func [WithWillPropertiesPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L220-L222>)
+### func [WithWillPropertiesPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L221-L223>)
 
 ```go
 func WithWillPropertiesPayloadFormat(payloadFormat byte) SessionClientOption
@@ -840,7 +840,7 @@ func WithWillPropertiesPayloadFormat(payloadFormat byte) SessionClientOption
 WithWillPropertiesPayloadFormat sets the PayloadFormat for the WillProperties.
 
 <a name="WithWillPropertiesResponseTopic"></a>
-### func [WithWillPropertiesResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L259-L261>)
+### func [WithWillPropertiesResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L260-L262>)
 
 ```go
 func WithWillPropertiesResponseTopic(responseTopic string) SessionClientOption
@@ -849,7 +849,7 @@ func WithWillPropertiesResponseTopic(responseTopic string) SessionClientOption
 WithWillPropertiesResponseTopic sets the ResponseTopic for the WillProperties.
 
 <a name="WithWillPropertiesUser"></a>
-### func [WithWillPropertiesUser](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L278-L280>)
+### func [WithWillPropertiesUser](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L279-L281>)
 
 ```go
 func WithWillPropertiesUser(user map[string]string) SessionClientOption
@@ -858,7 +858,7 @@ func WithWillPropertiesUser(user map[string]string) SessionClientOption
 WithWillPropertiesUser sets the User properties for the WillProperties.
 
 <a name="WithWillPropertiesWillDelayInterval"></a>
-### func [WithWillPropertiesWillDelayInterval](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L230-L232>)
+### func [WithWillPropertiesWillDelayInterval](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L231-L233>)
 
 ```go
 func WithWillPropertiesWillDelayInterval(willDelayInterval time.Duration) SessionClientOption
@@ -885,36 +885,36 @@ func (*SessionLostError) Error() string
 
 
 <a name="SubscribeOption"></a>
-## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L19>)
+## type [SubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L20>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type SubscribeOption = mqtt.SubscribeOption
 ```
 
 <a name="SubscribeOptions"></a>
-## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L18>)
+## type [SubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L19>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type SubscribeOptions = mqtt.SubscribeOptions
 ```
 
 <a name="UnsubscribeOption"></a>
-## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L21>)
+## type [UnsubscribeOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L22>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type UnsubscribeOption = mqtt.UnsubscribeOption
 ```
 
 <a name="UnsubscribeOptions"></a>
-## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L20>)
+## type [UnsubscribeOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L21>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type UnsubscribeOptions = mqtt.UnsubscribeOptions
@@ -952,90 +952,90 @@ type WillProperties struct {
 ```
 
 <a name="WithContentType"></a>
-## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L25>)
+## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L26>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithContentType = mqtt.WithContentType
 ```
 
 <a name="WithCorrelationData"></a>
-## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L26>)
+## type [WithCorrelationData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L27>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithCorrelationData = mqtt.WithCorrelationData
 ```
 
 <a name="WithMessageExpiry"></a>
-## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L27>)
+## type [WithMessageExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L28>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithMessageExpiry = mqtt.WithMessageExpiry
 ```
 
 <a name="WithNoLocal"></a>
-## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L28>)
+## type [WithNoLocal](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L29>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithNoLocal = mqtt.WithNoLocal
 ```
 
 <a name="WithPayloadFormat"></a>
-## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L29>)
+## type [WithPayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L30>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithPayloadFormat = mqtt.WithPayloadFormat
 ```
 
 <a name="WithQoS"></a>
-## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L30>)
+## type [WithQoS](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L31>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithQoS = mqtt.WithQoS
 ```
 
 <a name="WithResponseTopic"></a>
-## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L31>)
+## type [WithResponseTopic](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L32>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithResponseTopic = mqtt.WithResponseTopic
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L32>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L33>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithRetain = mqtt.WithRetain
 ```
 
 <a name="WithRetainHandling"></a>
-## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L33>)
+## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L34>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithRetainHandling = mqtt.WithRetainHandling
 ```
 
 <a name="WithUserProperties"></a>
-## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L34>)
+## type [WithUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L35>)
 
-As the implementation of the shared interface, all of its types are aliased for convenience.
+
 
 ```go
 type WithUserProperties = mqtt.WithUserProperties

@@ -75,7 +75,7 @@ type (
 		connSettings *connectionSettings
 		connRetry    retry.Policy
 
-		log logger
+		log internal.Logger
 	}
 
 	connectionSettings struct {
@@ -147,7 +147,7 @@ func NewSessionClient(
 
 		connSettings: &connectionSettings{
 			serverURL: serverURL,
-			clientID:  randomClientID(),
+			clientID:  internal.RandomClientID(),
 			// If receiveMaximum is 0, we can't establish connection.
 			receiveMaximum: defaultReceiveMaximum,
 		},
