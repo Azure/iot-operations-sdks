@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -54,6 +53,9 @@ type (
 	// to the telemetry handlers.
 	TelemetryMessage[T any] struct {
 		Message[T]
+
+		// CloudEvent will be present if the message was sent with cloud events.
+		*CloudEvent
 
 		// Ack provides a function to manually ack if enabled; it will be nil
 		// otherwise.
@@ -153,12 +155,12 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
 
-	message.ClientID = pub.UserProperties[constants.SenderClientID]
-
 	message.Payload, err = tr.listener.payload(pub)
 	if err != nil {
 		return err
 	}
+
+	message.CloudEvent = cloudEventFromMessage(pub)
 
 	if tr.manualAck {
 		message.Ack = pub.Ack

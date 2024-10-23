@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -38,7 +37,8 @@ type (
 
 	// SendOptions are the resolved per-send options.
 	SendOptions struct {
-		Retain bool
+		CloudEvent *CloudEvent
+		Retain     bool
 
 		Timeout     time.Duration
 		TopicTokens map[string]string
@@ -48,6 +48,9 @@ type (
 	// WithRetain indicates that the telemetry event should be retained by the
 	// broker.
 	WithRetain bool
+
+	// This option is not used directly; see WithCloudEvent below.
+	withCloudEvent struct{ *CloudEvent }
 )
 
 const telemetrySenderErrStr = "telemetry send"
@@ -127,8 +130,10 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
+	if err := cloudEventToMessage(pub, opts.CloudEvent); err != nil {
+		return err
+	}
 	pub.Retain = opts.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
 	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
@@ -178,4 +183,18 @@ func (o *SendOptions) send(opt *SendOptions) {
 
 func (o WithRetain) send(opt *SendOptions) {
 	opt.Retain = bool(o)
+}
+
+// WithCloudEvent adds a cloud event payload to the telemetry message.
+func WithCloudEvent(ce *CloudEvent) SendOption {
+	return withCloudEvent{ce}
+}
+
+func (o withCloudEvent) send(opt *SendOptions) {
+	opt.CloudEvent = o.CloudEvent
+}
+
+// Support CloudEvent used as an option directly for convenience.
+func (o *CloudEvent) send(opt *SendOptions) {
+	opt.CloudEvent = o
 }

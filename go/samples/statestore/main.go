@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"os"
 	"time"
@@ -16,15 +15,10 @@ func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
-	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		"tcp://localhost:1883",
+		mqtt.WithSessionExpiry(10*time.Minute),
+	))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"

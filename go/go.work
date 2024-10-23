@@ -4,6 +4,9 @@ use (
 	./internal
 	./mqtt
 	./protocol
+	./samples/cloudevents/client
+	./samples/cloudevents/envoy
+	./samples/cloudevents/server
 	./samples/counter/client
 	./samples/counter/envoy
 	./samples/counter/server
