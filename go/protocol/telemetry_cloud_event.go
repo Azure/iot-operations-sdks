@@ -113,7 +113,6 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
 	if ce.DataSchema != nil {
 		msg.UserProperties["dataschema"] = ce.DataSchema.String()
 	}
-	// TODO: Default schema?
 
 	if ce.Subject != "" {
 		msg.UserProperties["subject"] = ce.Subject
