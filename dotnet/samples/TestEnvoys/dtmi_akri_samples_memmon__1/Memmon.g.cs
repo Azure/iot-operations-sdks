@@ -15,7 +15,6 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
     using Azure.Iot.Operations.Protocol.Telemetry;
     using TestEnvoys;
 
-    [ModelId("dtmi:akri:samples:memmon;1")]
     [CommandTopic("rpc/samples/{modelId}/{executorId}/{commandName}")]
     [TelemetryTopic("rpc/samples/{modelId}/{senderId}/{telemetryName}")]
     public static partial class Memmon
@@ -156,19 +155,22 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
             public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(executorId, new EmptyAvro(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new() { { "executorId", executorId } };
+                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async Task StartAsync(CancellationToken cancellationToken = default)

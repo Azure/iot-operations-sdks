@@ -131,13 +131,13 @@ public class GreeterEnvoy
         public RpcCallAsync<HelloResponse> SayHello(ExtendedRequest<HelloRequest> request, CommandRequestMetadata? md = default, TimeSpan? timeout = default)
         {
             CommandRequestMetadata metadata = md == default ? new CommandRequestMetadata() : md;
-            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(string.Empty, request.Request, metadata, timeout), metadata.CorrelationId);
+            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(request.Request, metadata, null, timeout), metadata.CorrelationId);
         }
 
         public RpcCallAsync<HelloResponse> SayHelloWithDelay(ExtendedRequest<HelloWithDelayRequest> request, TimeSpan? timeout = default)
         {
             CommandRequestMetadata metadata = new CommandRequestMetadata();
-            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(string.Empty, request.Request, metadata, timeout), metadata.CorrelationId);
+            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(request.Request, metadata, null, timeout), metadata.CorrelationId);
         }
 
         public async ValueTask DisposeAsync()

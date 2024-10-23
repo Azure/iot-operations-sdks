@@ -724,6 +724,9 @@
 		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
 			<Link>LanguageResources\csharp\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
+		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Support\*.cs">
+			<Link>LanguageResources\csharp\common\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
 		<EmbeddedResource Include="..\..\res\rust\**\*.rs">
 			<Link>LanguageResources\rust\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
