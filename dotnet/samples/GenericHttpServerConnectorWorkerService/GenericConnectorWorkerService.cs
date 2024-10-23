@@ -124,6 +124,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
         private async void SampleDataset(object? status)
         {
+            _logger.LogInformation($"wut");
             SamplerContext samplerContext = (SamplerContext)status!;
 
             string assetName = samplerContext.AssetName;
