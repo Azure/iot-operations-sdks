@@ -7,6 +7,7 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -130,9 +131,11 @@ func (c *SessionClient) Subscribe(
 		}
 		if suback != nil {
 			return &Ack{
-				ReasonCode:     suback.Reasons[0],
-				ReasonString:   suback.Properties.ReasonString,
-				UserProperties: userPropertiesToMap(suback.Properties.User),
+				ReasonCode:   suback.Reasons[0],
+				ReasonString: suback.Properties.ReasonString,
+				UserProperties: internal.UserPropertiesToMap(
+					suback.Properties.User,
+				),
 			}, nil
 		}
 
@@ -188,9 +191,11 @@ func (c *SessionClient) Unsubscribe(
 		}
 		if unsuback != nil {
 			return &Ack{
-				ReasonCode:     unsuback.Reasons[0],
-				ReasonString:   unsuback.Properties.ReasonString,
-				UserProperties: userPropertiesToMap(unsuback.Properties.User),
+				ReasonCode:   unsuback.Reasons[0],
+				ReasonString: unsuback.Properties.ReasonString,
+				UserProperties: internal.UserPropertiesToMap(
+					unsuback.Properties.User,
+				),
 			}, nil
 		}
 
@@ -234,7 +239,7 @@ func buildSubscribe(
 	}
 	if len(opt.UserProperties) > 0 {
 		sub.Properties = &paho.SubscribeProperties{
-			User: mapToUserProperties(opt.UserProperties),
+			User: internal.MapToUserProperties(opt.UserProperties),
 		}
 	}
 	return sub, nil
@@ -252,7 +257,7 @@ func buildUnsubscribe(
 	}
 	if len(opt.UserProperties) > 0 {
 		unsub.Properties = &paho.UnsubscribeProperties{
-			User: mapToUserProperties(opt.UserProperties),
+			User: internal.MapToUserProperties(opt.UserProperties),
 		}
 	}
 
@@ -270,7 +275,9 @@ func buildMessage(p incomingPublish) *Message {
 			QoS:             p.packet.QoS,
 			ResponseTopic:   p.packet.Properties.ResponseTopic,
 			Retain:          p.packet.Retain,
-			UserProperties:  userPropertiesToMap(p.packet.Properties.User),
+			UserProperties: internal.UserPropertiesToMap(
+				p.packet.Properties.User,
+			),
 		},
 		Ack: p.ack,
 	}

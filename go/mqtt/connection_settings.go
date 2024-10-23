@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/sosodev/duration"
 )
 
@@ -160,7 +161,7 @@ func (cs *connectionSettings) applySettingsMap(
 
 	// Provide a random clientID by default.
 	if cs.clientID == "" {
-		cs.clientID = randomClientID()
+		cs.clientID = internal.RandomClientID()
 	}
 
 	// Ensure receiveMaximum is set correctly.
