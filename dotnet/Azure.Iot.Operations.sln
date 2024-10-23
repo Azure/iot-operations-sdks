@@ -69,7 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericHttpServerConnectorWorkerService", "samples\GenericHttpServerConnectorWorkerService\GenericHttpServerConnectorWorkerService.csproj", "{A02D5985-7258-4A6D-8FD1-573A954FB22D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericConnectorWorkerService", "samples\GenericHttpServerConnectorWorkerService\GenericConnectorWorkerService.csproj", "{A02D5985-7258-4A6D-8FD1-573A954FB22D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

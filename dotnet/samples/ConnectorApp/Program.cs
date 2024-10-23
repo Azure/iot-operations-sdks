@@ -8,7 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddHostedService<GenericHttpConnectorWorkerService>();
+        services.AddHostedService<GenericConnectorWorkerService>();
     })
     .Build();
 
