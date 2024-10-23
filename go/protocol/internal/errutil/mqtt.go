@@ -6,13 +6,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
-// Translate a MQTT response to an SDK error. An actual error indicates a
-// failure in the client library, whereas a response with a failure code
-// indicates an issue in the MQTT request.
+// Translate a github.com/Azure/iot-operations-sdks/go/internal/mqtt ack/err
+// return to an SDK error. An actual error indicates a failure in the client
+// library, whereas a response with a failure code indicates an issue in the
+// MQTT request.
 func Mqtt(ctx context.Context, msg string, ack *mqtt.Ack, err error) error {
 	if ack != nil {
 		if ack.ReasonCode >= 0x80 {
