@@ -23,6 +23,7 @@ type (
 
 	// Client represents a client of the state store.
 	Client[K, V Bytes] struct {
+		client    protocol.MqttClient
 		listeners protocol.Listeners
 		done      func()
 
@@ -80,6 +81,7 @@ func New[K, V Bytes](
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
 	c := &Client[K, V]{
+		client:    client,
 		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
 		keynotify: map[string]uint{},
 	}
@@ -144,6 +146,11 @@ func (c *Client[K, V]) Start(ctx context.Context) error {
 func (c *Client[K, V]) Close() {
 	c.done()
 	c.listeners.Close()
+}
+
+// ID returns the ID of the underlying MQTT client.
+func (c *Client[K, V]) ID() string {
+	return c.client.ID()
 }
 
 // Shorthand to invoke and parse.
