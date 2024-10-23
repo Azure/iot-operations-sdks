@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         private Asset? _httpServerAsset;
         private AssetEndpointProfile? _httpServerAssetEndpointProfile;
+        private Topic? _defaultTopic;
 
         public HttpConnectorWorkerService(ILogger<HttpConnectorWorkerService> logger, MqttSessionClient mqttSessionClient)
         {
@@ -29,34 +30,36 @@ namespace Azure.Iot.Operations.ConnectorSample
             AzureDeviceRegistryClient adrClient = new();
             _logger.LogInformation("Successfully created ADR client");
 
-            string assetId = "todo - doesn't matter yet";
+            string assetName = "my-http-asset";
 
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
             // Additionally, the telemetry sent by this connector should be stamped as a cloud event
 
             try
             {
-                _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(assetId);
+                _httpServerAssetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
-                // TODO the asset is not currently deployed by the operator. Stubbing out this code in the meantime
-                //_httpServerAsset = await _adrClient.GetAssetAsync(assetId);
-                _httpServerAsset = GetStubAsset();
+                _httpServerAsset = await adrClient.GetAssetAsync(assetName);
+
+                if (_httpServerAsset == null)
+                {
+                    throw new InvalidOperationException("Missing HTTP server asset");
+                }
 
                 adrClient.AssetChanged += (sender, newAsset) =>
                 {
-                    _logger.LogInformation("Recieved a notification that the asset has changed.");
+                    _logger.LogInformation("Received a notification that the asset has changed.");
                     _httpServerAsset = newAsset;
                 };
 
                 adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
                 {
-                    _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
+                    _logger.LogInformation("Received a notification that the asset endpoint definition has changed.");
                     _httpServerAssetEndpointProfile = newAssetEndpointProfile;
                 };
 
-                // TODO unimplemented so far
-                //await adrClient.ObserveAssetAsync(assetId);
-                await adrClient.ObserveAssetEndpointProfileAsync(assetId);
+                await adrClient.ObserveAssetAsync(assetName);
+                await adrClient.ObserveAssetEndpointProfileAsync();
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
@@ -71,8 +74,9 @@ namespace Azure.Iot.Operations.ConnectorSample
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                string datasetName = _httpServerAsset.Datasets!.Keys.First();
-                Dataset thermostatDataset = _httpServerAsset.Datasets![datasetName];
+                _defaultTopic = _httpServerAsset.DefaultTopic;
+                string datasetName = _httpServerAsset.DatasetsDictionary!.Keys.First();
+                Dataset thermostatDataset = _httpServerAsset.DatasetsDictionary![datasetName];
                 TimeSpan samplingInterval = defaultSamplingInterval;
                 if (thermostatDataset.DatasetConfiguration != null
                     && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
@@ -90,26 +94,25 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _logger.LogInformation("Shutting down sample...");
 
-                // TODO unimplemented so far
-                //await adrClient.UnobserveAssetAsync(assetId);
-                await adrClient.UnobserveAssetEndpointProfileAsync(assetId);
+                await adrClient.UnobserveAssetAsync(assetName);
+                await adrClient.UnobserveAssetEndpointProfileAsync();
             }
         }
 
         private async void SampleThermostatStatus(object? status)
         {
             string datasetName = (string)status!;
-            Dataset httpServerStatusDataset = _httpServerAsset!.Datasets![datasetName];
+            Dataset httpServerStatusDataset = _httpServerAsset!.DatasetsDictionary![datasetName];
 
             string httpServerUsername = _httpServerAssetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = _httpServerAssetEndpointProfile.Credentials!.Password!;
 
-            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPoints![0];
+            DataPoint httpServerDesiredTemperatureDataPoint = httpServerStatusDataset.DataPointsDictionary!["desired_temperature"];
             HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerDesiredTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerDesiredTemperatureRequestPath, httpServerDesiredTemperatureHttpMethod, httpServerUsername, httpServerPassword);
 
-            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPoints![1];
+            DataPoint httpServerActualTemperatureDataPoint = httpServerStatusDataset.DataPointsDictionary!["actual_temperature"];
             HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
             using HttpDataRetriever httpServerActualTemperatureDataRetriever = new(_httpServerAssetEndpointProfile.TargetAddress, httpServerActualTemperatureRequestPath, httpServerActualTemperatureHttpMethod, httpServerUsername, httpServerPassword);
@@ -120,10 +123,11 @@ namespace Azure.Iot.Operations.ConnectorSample
             var thermostatStatus = new ThermostatStatus(desiredTemperatureValue, actualTemperatureValue);
             _logger.LogInformation($"Read thermostat status from HTTP server asset: {thermostatStatus}. Now publishing it to MQTT broker");
 
-            var mqttMessage = new MqttApplicationMessage(httpServerStatusDataset.Topic!.Path!)
+            var topic = httpServerStatusDataset.Topic != null ? httpServerStatusDataset.Topic! : _defaultTopic;
+            var mqttMessage = new MqttApplicationMessage(topic.Path!)
             {
                 PayloadSegment = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus)),
-                Retain = httpServerStatusDataset.Topic.Retain == RetainHandling.Keep,
+                Retain = topic.Retain == RetainHandling.Keep,
             };
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
@@ -132,39 +136,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             {
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
-        }
-
-        private Asset GetStubAsset()
-        {
-            return new()
-            {
-                DefaultDatasetsConfiguration = JsonDocument.Parse("{\"samplingInterval\": 4000}"),
-                Datasets = new Dictionary<string, Dataset>
-                {
-                    {
-                        "thermostat_status",
-                        new Dataset()
-                        {
-                            DataPoints =
-                            [
-                                new DataPoint("/api/machine/my_thermostat_1/status", "actual_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                                new DataPoint("/api/machine/my_thermostat_1/status", "desired_temperature")
-                                {
-                                    DataPointConfiguration = JsonDocument.Parse("{\"HttpRequestMethod\":\"GET\"}"),
-                                },
-                            ],
-                            Topic = new()
-                            {
-                                Path = "mqtt/machine/my_thermostat_1/status",
-                                Retain = RetainHandling.Keep,
-                            }
-                        }
-                    }
-                }
-            };
         }
     }
 }

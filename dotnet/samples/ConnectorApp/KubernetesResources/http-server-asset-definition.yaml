@@ -1,29 +1,29 @@
 apiVersion: deviceregistry.microsoft.com/v1beta2
 kind: Asset
 metadata:
-  name: REST-sample
+  name: my-http-asset
   namespace: azure-iot-operations
 spec:
   displayName: REST Sample Asset 1
   description: A sample for an Asset modeling a device with REST endpoint
-  assetEndpointProfileRef: some-name/some-namespace
-  datasetsConfiguration: |-
+  assetEndpointProfileRef: azure-iot-operations/my-http-aep # <namespace>/<assetEndpointProfile.metadata.name>
+  defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,
    }
-  topic:
+  defaultTopic:
     path: /mqtt/machine/status
     retain: Keep         
   datasets:
     - name: thermostat_status
       dataPoints:
-        - dataSource: /api/machine/my_machine_1/status
+        - dataSource: /api/machine/my_thermostat_1/status
           name: actual_temperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-        - dataSource: /api/machine/my_machine_1/status
+        - dataSource: /api/machine/my_thermostat_1/status
           name: desired_temperature
           dataPointConfiguration: |-
            {

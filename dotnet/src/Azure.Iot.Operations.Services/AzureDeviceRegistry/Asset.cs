@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Reflection;
+using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -85,6 +89,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? Attributes { get; init; }
 
         /// <summary>
@@ -95,11 +100,13 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DefaultDatasetsConfiguration { get; init; }
 
         /// <summary>
         /// Protocol-specific default configuration for all data sets. Each data set can have its own configuration that overrides the default settings here. This assumes that each asset instance has one protocol.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DefaultEventsConfiguration { get; init; }
 
         /// <summary>
@@ -110,11 +117,63 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The mapping of dataset names to datasets that are part of the asset. Each dataset can have per-dataset configuration.
         /// </summary>
-        public Dictionary<string, Dataset>? Datasets { get; init; }
+        [JsonIgnore]
+        public Dictionary<string, Dataset>? DatasetsDictionary
+        {
+            get
+            {
+                Dictionary<string, Dataset>? dictionary = null;
+                if (Datasets != null)
+                {
+                    dictionary = new();
+                    foreach (Dataset dataset in Datasets)
+                    {
+                        if (!string.IsNullOrWhiteSpace(dataset.Name))
+                        {
+                            dictionary[dataset.Name] = dataset;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        public Dataset[]? Datasets { get; init; }
 
         /// <summary>
-        /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
+        /// The mapping of event names to events in this asset.
         /// </summary>
+        [JsonIgnore]
+        public Dictionary<string, Event>? EventsDictionary
+        {
+            get
+            {
+                Dictionary<string, Event>? dictionary = null;
+                if (Events != null)
+                {
+                    dictionary = new();
+                    foreach (Event eventInternal in Events)
+                    {
+                        if (!string.IsNullOrWhiteSpace(eventInternal.Name))
+                        {
+                            dictionary[eventInternal.Name] = eventInternal;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected event with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
         public Event[]? Events { get; init; }
 
         /// <summary>
@@ -131,8 +190,14 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public record Dataset
     {
         /// <summary>
+        /// The name of the dataset.
+        /// </summary>
+        public string? Name { get; set; }
+
+        /// <summary>
         /// Protocol-specific JSON string that describes configuration for the specific dataset.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DatasetConfiguration { get; init; }
 
         /// <summary>
@@ -141,8 +206,34 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Topic? Topic { get; init; }
 
         /// <summary>
-        /// Array of data points that are part of the dataset. Each data point can have per-data point configuration.
+        /// The mapping of datapoint names to datapoints in this dataset.
         /// </summary>
+        [JsonIgnore]
+        public Dictionary<string, DataPoint>? DataPointsDictionary
+        {
+            get
+            {
+                Dictionary<string, DataPoint>? dictionary = null;
+                if (DataPoints != null)
+                {
+                    dictionary = new();
+                    foreach (DataPoint dataPointInternal in DataPoints)
+                    {
+                        if (!string.IsNullOrWhiteSpace(dataPointInternal.Name))
+                        {
+                            dictionary[dataPointInternal.Name] = dataPointInternal;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
         public DataPoint[]? DataPoints { get; init; }
     }
 
@@ -151,12 +242,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the data point.
         /// </summary>
-        public string Name { get; init; }
+        public string Name { get; init; } = "";
 
         /// <summary>
         /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
         /// </summary>
-        public string DataSource { get; init; }
+        public string DataSource { get; init; } = "";
 
         /// <summary>
         /// An indication of how the data point should be mapped to OpenTelemetry.
@@ -166,14 +257,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? DataPointConfiguration { get; init; }
-
-        //TODO make internal
-        public DataPoint(string dataSource, string name)
-        { 
-            Name = name;
-            DataSource = dataSource;
-        }
     }
 
     public record Event
@@ -196,6 +281,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Protocol-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
         /// </summary>
+        [JsonConverter(typeof(JsonDocumentConverter))]
         public JsonDocument? EventConfiguration { get; init; }
 
         /// <summary>
@@ -214,6 +300,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The topic retain attribute for the specific entry.
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter<RetainHandling>))]
         public RetainHandling? Retain { get; init; }
     }
 
@@ -243,14 +330,66 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public long? Version { get; init; }
 
         /// <summary>
-        /// Array of data set statuses that describe the status of each dataset.
+        /// The mapping of status dataset names to status datasets in this status.
         /// </summary>
+        [JsonIgnore]
+        public Dictionary<string, StatusDatasets>? StatusDatasets
+        {
+            get
+            {
+                Dictionary<string, StatusDatasets>? dictionary = null;
+                if (Datasets != null)
+                {
+                    dictionary = new();
+                    foreach (StatusDatasets statusDataset in Datasets)
+                    {
+                        if (!string.IsNullOrWhiteSpace(statusDataset.Name))
+                        {
+                            dictionary[statusDataset.Name] = statusDataset;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
         public StatusDatasets[]? Datasets { get; init; }
 
         /// <summary>
-        /// Array of event statuses that describe the status of each event.
+        /// The mapping of status event names to status events in this status.
         /// </summary>
-        public StatusEvents[]? Events { get; init; }
+        [JsonIgnore]
+        public Dictionary<string, StatusEvents>? EventsDictionary
+        {
+            get
+            {
+                Dictionary<string, StatusEvents>? dictionary = null;
+                if (Events != null)
+                {
+                    dictionary = new();
+                    foreach (StatusEvents statusEvents in Events)
+                    {
+                        if (!string.IsNullOrWhiteSpace(statusEvents.Name))
+                        {
+                            dictionary[statusEvents.Name] = statusEvents;
+                        }
+                        else
+                        {
+                            Trace.TraceWarning($"Unexpected statusEvents with null or empty name found.");
+                        }
+                    }
+                }
+
+                return dictionary;
+            }
+        }
+
+        internal StatusEvents[]? Events { get; init; }
     }
 
     public record StatusError
@@ -276,7 +415,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Defines the message schema reference properties.
         /// </summary>
-        public MessageSchemaReference? MessageSchemaReference { get; init; }
+        public MessageSchemaReference? MessageSchemaReference { get; init; } //TODO this should be populated during sample w/ the MQTT message schema
     }
 
     public record StatusEvents
