@@ -6,12 +6,10 @@ import (
 	"context"
 	"crypto/tls"
 	"sync"
-	"sync/atomic"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
@@ -34,11 +32,16 @@ type (
 		connCount int64
 
 		// Connection status signal.
-		isConnected atomic.Bool
+		connected bool
 
-		// Connection shut down channel.
-		// (Go revive) No nested structs are allowed so we use error here.
-		connStopC internal.BufferChan[error]
+		// Queue for storing pending packets when the connection fails.
+		pendingPackets *internal.Queue[queuedPacket]
+
+		// Protects connected and pendingPackets.
+		connectionMu sync.Mutex
+
+		// Connection shut down callback.
+		connStop context.CancelFunc
 
 		// Allowing session restoration upon reconnection.
 		session session.SessionManager
@@ -58,14 +61,6 @@ type (
 		// A list of functions that are called in goroutines to notify the user
 		// of a SessionClient termination due to a fatal error.
 		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
-
-		// Queue for storing pending packets when the connection fails.
-		pendingPackets *internal.Queue[queuedPacket]
-
-		// If pendingPackets is being processed,
-		// block other packets sending operations.
-		packetQueueMu   sync.Mutex
-		packetQueueCond sync.Cond
 
 		// Error channel for connection errors from Paho.
 		// Errors during connection will be captured in this channel.
@@ -186,16 +181,15 @@ func NewSessionClient(
 // from an user-defined connection string.
 func NewSessionClientFromConnectionString(
 	connStr string,
+	opts ...SessionClientOption,
 ) (*SessionClient, error) {
 	connSettings := &connectionSettings{}
 	if err := connSettings.fromConnectionString(connStr); err != nil {
 		return nil, err
 	}
 
-	client, err := NewSessionClient(
-		connSettings.serverURL,
-		withConnSettings(connSettings),
-	)
+	opts = append(opts, withConnSettings(connSettings))
+	client, err := NewSessionClient(connSettings.serverURL, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -204,16 +198,16 @@ func NewSessionClientFromConnectionString(
 
 // NewSessionClientFromEnv constructs a new session client
 // from user's environment variables.
-func NewSessionClientFromEnv() (*SessionClient, error) {
+func NewSessionClientFromEnv(
+	opts ...SessionClientOption,
+) (*SessionClient, error) {
 	connSettings := &connectionSettings{}
 	if err := connSettings.fromEnv(); err != nil {
 		return nil, err
 	}
 
-	client, err := NewSessionClient(
-		connSettings.serverURL,
-		withConnSettings(connSettings),
-	)
+	opts = append(opts, withConnSettings(connSettings))
+	client, err := NewSessionClient(connSettings.serverURL, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -227,9 +221,6 @@ func (c *SessionClient) ID() string {
 // initialize sets all default configurations
 // to ensure the SessionClient is properly initialized.
 func (c *SessionClient) initialize() {
-	atomic.StoreInt64(&c.connCount, 0)
-	c.setDisconnected()
-	c.connStopC = *internal.NewBufferChan[error](1)
 	c.connSettings = &connectionSettings{
 		clientID: randomClientID(),
 		// If receiveMaximum is 0, we can't establish connection.
@@ -247,7 +238,6 @@ func (c *SessionClient) initialize() {
 	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
 
 	c.pendingPackets = internal.NewQueue[queuedPacket](maxPacketQueueSize)
-	c.packetQueueCond = *sync.NewCond(&c.packetQueueMu)
 
 	c.clientErrC = *internal.NewBufferChan[error](1)
 	c.disconnErrC = *internal.NewBufferChan[error](1)
@@ -255,19 +245,4 @@ func (c *SessionClient) initialize() {
 	c.pahoClientFactory = func(config *paho.ClientConfig) PahoClient {
 		return paho.NewClient(*config)
 	}
-}
-
-// ensureClient checks that the Paho client is initialized.
-func (c *SessionClient) ensurePahoClient(ctx context.Context) error {
-	c.pahoClientMu.RLock()
-	defer c.pahoClientMu.RUnlock()
-	if c.pahoClient == nil {
-		err := &errors.Error{
-			Kind:    errors.StateInvalid,
-			Message: "Paho client was not initialized",
-		}
-		c.log.Error(ctx, err)
-		return err
-	}
-	return nil
 }

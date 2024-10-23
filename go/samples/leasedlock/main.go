@@ -25,7 +25,7 @@ func main() {
 	client := must(statestore.New[string, string](mqttClient))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	key := "someSharedResourceKey"
