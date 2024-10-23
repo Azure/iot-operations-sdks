@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.GenericHttpConnectorSample;
+using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,6 +13,11 @@ namespace Azure.Iot.Operations.ConnectorSample
 {
     internal class ThermostatStatusHttpServerSampler : IDatasetSampler, IDisposable
     {
+        public static Func<IServiceProvider, IDatasetSampler> ThermostatStatusHttpServerSamplerFactory = service =>
+        {
+            return new ThermostatStatusHttpServerSampler();
+        };
+
         private HttpClient? _httpClient;
 
         public async Task<byte[]> SampleAsync(AssetEndpointProfile assetEndpointProfile, Dataset dataset, CancellationToken cancellationToken = default)
