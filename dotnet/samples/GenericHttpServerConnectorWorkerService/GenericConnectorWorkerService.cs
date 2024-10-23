@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             try
             {
-                _assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
+                _assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(cancellationToken);
 
                 adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
                 {
@@ -46,7 +46,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                     _assetEndpointProfile = newAssetEndpointProfile;
                 };
 
-                await adrClient.ObserveAssetEndpointProfileAsync();
+                await adrClient.ObserveAssetEndpointProfileAsync(null, cancellationToken);
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
@@ -55,13 +55,14 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 mqttConnectionSettings.TcpPort = 18883;
                 _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
-                await _sessionClient.ConnectAsync(mqttConnectionSettings);
+                await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                foreach (string assetName in await adrClient.GetAssetNamesAsync())
+                foreach (string assetName in await adrClient.GetAssetNamesAsync(cancellationToken))
                 {
-                    Asset? asset = await adrClient.GetAssetAsync(assetName);
+                    _logger.LogInformation($"Discovered asset with name {assetName}");
+                    Asset? asset = await adrClient.GetAssetAsync(assetName, cancellationToken);
 
                     if (asset == null)
                     {
@@ -85,7 +86,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         }
                     };
 
-                    await adrClient.ObserveAssetAsync(assetName);
+                    await adrClient.ObserveAssetAsync(assetName, null, cancellationToken);
 
                     foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
                     {
