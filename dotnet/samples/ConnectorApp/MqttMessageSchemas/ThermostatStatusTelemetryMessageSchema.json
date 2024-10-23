@@ -1,0 +1,12 @@
+﻿{
+    "type": "object",
+    "properties": {
+        "actual_temperature": {
+            "type": "string"
+        },
+        "desired_temperature": {
+            "type": "string"
+        },
+    },
+    "required": [ "actual_temperature", "desired_temperature" ]
+}

@@ -77,15 +77,6 @@ namespace Azure.Iot.Operations.ConnectorSample
                 _defaultTopic = _httpServerAsset.DefaultTopic;
                 string datasetName = _httpServerAsset.DatasetsDictionary!.Keys.First();
                 Dataset thermostatDataset = _httpServerAsset.DatasetsDictionary![datasetName];
-
-                string mqttMessageSchema = thermostatDataset.GetMqttMessageSchema();
-
-                _logger.LogInformation($"Derived the schema for dataset with name {datasetName}:");
-                _logger.LogInformation(mqttMessageSchema);
-
-                //TODO put this schema in schema registry service. In the SR service's response, it should provide an Id of some sort. This sample should 
-                // put that Id into the cloud events headers for all published telemetry so that the service understands what schema to expect(?)
-
                 TimeSpan samplingInterval = defaultSamplingInterval;
                 if (thermostatDataset.DatasetConfiguration != null
                     && thermostatDataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
