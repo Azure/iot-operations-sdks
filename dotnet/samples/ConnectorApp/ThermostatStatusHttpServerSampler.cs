@@ -30,9 +30,10 @@ namespace Azure.Iot.Operations.ConnectorSample
                 };
             }
 
+            Console.WriteLine("Samping HTTP data...");
+
             string httpServerUsername = assetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = assetEndpointProfile.Credentials!.Password!;
-
 
             DataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desired_temperature"];
             HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
@@ -41,7 +42,6 @@ namespace Azure.Iot.Operations.ConnectorSample
             DataPoint httpServerActualTemperatureDataPoint = dataset.DataPointsDictionary!["actual_temperature"];
             HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
             string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
-
 
             var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
