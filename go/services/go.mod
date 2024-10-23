@@ -3,8 +3,8 @@ module github.com/Azure/iot-operations-sdks/go/services
 go 1.23.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.0.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1
+	github.com/Azure/iot-operations-sdks/go/internal v0.1.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.2.0
 	github.com/stretchr/testify v1.9.0
 )
 
@@ -24,5 +24,3 @@ require (
 	golang.org/x/sys v0.26.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/Azure/iot-operations-sdks/go/internal => ../internal
