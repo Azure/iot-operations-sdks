@@ -5,6 +5,7 @@ package mqtt
 import (
 	"context"
 	"errors"
+	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
@@ -73,6 +74,8 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 					nextOutgoingPublish.packet,
 					paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
 				)
+				c.log.PacketLog(ctx, slog.LevelWarn, "puback not available")
+
 				var result *publishResult
 				if err == nil ||
 					errors.Is(err, paho.ErrNetworkErrorAfterStored) {

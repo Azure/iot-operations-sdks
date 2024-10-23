@@ -123,12 +123,15 @@ func (c *SessionClient) Subscribe(
 
 		c.log.Packet(ctx, "subscribe", sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
+		c.log.Packet(ctx, "suback", suback)
+
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
 				wrappedError: err,
 				message:      "invalid arguments in Subscribe() options",
 			}
 		}
+
 		if suback != nil {
 			return &Ack{
 				ReasonCode:   suback.Reasons[0],
@@ -183,12 +186,15 @@ func (c *SessionClient) Unsubscribe(
 
 		c.log.Packet(ctx, "unsubscribe", unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
+		c.log.Packet(ctx, "unsuback", unsuback)
+
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
 				wrappedError: err,
 				message:      "invalid arguments in Unsubscribe() options",
 			}
 		}
+
 		if unsuback != nil {
 			return &Ack{
 				ReasonCode:   unsuback.Reasons[0],
