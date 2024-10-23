@@ -83,7 +83,11 @@ func (c *SessionClient) Reauthenticate(
 	}
 
 	// Connection lost; we can't buffer Auth packet for reconnection.
-	if !c.isConnected.Load() {
+	if func() bool {
+		c.connectionMu.Lock()
+		defer c.connectionMu.Unlock()
+		return !c.connected
+	}() {
 		return &errors.Error{
 			Kind:    errors.ExecutionException,
 			Message: "connection lost during reauthentication",

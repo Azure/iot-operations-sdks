@@ -25,8 +25,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type PublishOptions](<#PublishOptions>)
 - [type SessionClient](<#SessionClient>)
   - [func NewSessionClient\(serverURL string, opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClient>)
-  - [func NewSessionClientFromConnectionString\(connStr string\) \(\*SessionClient, error\)](<#NewSessionClientFromConnectionString>)
-  - [func NewSessionClientFromEnv\(\) \(\*SessionClient, error\)](<#NewSessionClientFromEnv>)
+  - [func NewSessionClientFromConnectionString\(connStr string, opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClientFromConnectionString>)
+  - [func NewSessionClientFromEnv\(opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClientFromEnv>)
   - [func \(c \*SessionClient\) ID\(\) string](<#SessionClient.ID>)
   - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...PublishOption\) \(\*Ack, error\)](<#SessionClient.Publish>)
   - [func \(c \*SessionClient\) Reauthenticate\(ctx context.Context, opts ...AuthOption\) error](<#SessionClient.Reauthenticate>)
@@ -164,7 +164,7 @@ type AuthOptions struct {
 ```
 
 <a name="AuthOptions.Apply"></a>
-### func \(\*AuthOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth.go#L122-L125>)
+### func \(\*AuthOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth.go#L126-L129>)
 
 ```go
 func (o *AuthOptions) Apply(opts []AuthOption, rest ...AuthOption)
@@ -291,7 +291,7 @@ type PublishOptions = mqtt.PublishOptions
 ```
 
 <a name="SessionClient"></a>
-## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L23-L90>)
+## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L22-L87>)
 
 SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1. TODO: Add support for QoS 2.
 
@@ -302,7 +302,7 @@ type SessionClient struct {
 ```
 
 <a name="NewSessionClient"></a>
-### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L152-L155>)
+### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L149-L152>)
 
 ```go
 func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionClient, error)
@@ -311,25 +311,25 @@ func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionCl
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromConnectionString"></a>
-### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L185-L187>)
+### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L182-L185>)
 
 ```go
-func NewSessionClientFromConnectionString(connStr string) (*SessionClient, error)
+func NewSessionClientFromConnectionString(connStr string, opts ...SessionClientOption) (*SessionClient, error)
 ```
 
 NewSessionClientFromConnectionString constructs a new session client from an user\-defined connection string.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L205>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L201-L203>)
 
 ```go
-func NewSessionClientFromEnv() (*SessionClient, error)
+func NewSessionClientFromEnv(opts ...SessionClientOption) (*SessionClient, error)
 ```
 
 NewSessionClientFromEnv constructs a new session client from user's environment variables.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L221>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L217>)
 
 ```go
 func (c *SessionClient) ID() string
