@@ -1,7 +1,3 @@
-github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1 h1:PFQUeZa5P/KJgvxlgxYvgWNTJD5WMSWpPm6PsMtjLMA=
-github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1/go.mod h1:gz2L0D+JpYs1VNje1XjmJY6axTKsIRyd0ssgz7DNnpA=
-github.com/Azure/iot-operations-sdks/go/protocol v0.1.1 h1:/aeXUk2J9XCoWf63ZSp9xgAnvWMQpQ9Dwd0BgXYbCA0=
-github.com/Azure/iot-operations-sdks/go/protocol v0.1.1/go.mod h1:avkA6R/MT5OYbqaD1Mrqp7C4rzNBAof92kNak6MUXQ8=
 github.com/BurntSushi/toml v1.3.2 h1:o7IhLm0Msx3BaB+n3Ag7L8EVlByGnpq14C4YWiu/gL8=
 github.com/BurntSushi/toml v1.3.2/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmxzcbUokwA=

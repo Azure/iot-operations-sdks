@@ -3,8 +3,8 @@ module github.com/Azure/iot-operations-sdks/go/samples/greeter/client
 go 1.23.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1
-	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.2.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.2.0
 	github.com/Azure/iot-operations-sdks/go/samples/greeter/envoy v0.0.0
 	github.com/lmittmann/tint v1.0.5
 )
