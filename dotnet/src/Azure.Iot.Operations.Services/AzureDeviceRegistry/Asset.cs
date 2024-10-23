@@ -6,6 +6,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
@@ -235,6 +236,36 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         }
 
         public DataPoint[]? DataPoints { get; init; }
+
+        public string GetMqttMessageSchema()
+        {
+            JsonNode messageSchemaJson = JsonNode.Parse("{}")!;
+
+            if (DataPoints == null || DataPoints.Length == 0)
+            {
+                return messageSchemaJson.ToJsonString();
+            }
+
+            messageSchemaJson["type"] = "object";
+
+            string messageSchemaRequiredProperties = "";
+
+            JsonNode messageSchemaProperties = JsonNode.Parse("{}")!;
+            foreach (DataPoint datapoint in DataPoints)
+            {
+                JsonNode messageSchemaPropertyContents = JsonNode.Parse("{}")!;
+                messageSchemaPropertyContents["type"] = "string"; //TODO how to discern the type? Won't always be a string
+                messageSchemaProperties[datapoint.Name] = messageSchemaPropertyContents;
+                messageSchemaRequiredProperties += datapoint.Name + ","; //TODO how do we know which properties are required?
+                //TODO some schemas include "format" or "unit" properties as well. Should this parsing logic live in application layer?
+            }
+
+            messageSchemaRequiredProperties = messageSchemaRequiredProperties.Trim(',');
+            messageSchemaJson["required"] = JsonNode.Parse("[" + messageSchemaRequiredProperties + "]");
+            messageSchemaJson["properties"] = messageSchemaProperties;
+
+            return messageSchemaJson.ToJsonString();
+        }
     }
 
     public record DataPoint
