@@ -137,8 +137,8 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 
 	// Parse required properties first. If any aren't present or valid, assume
 	// this isn't a cloud event.
-	ce.SpecVersion, ok = msg.UserProperties["specversion"]
-	if !ok || ce.SpecVersion != "1.0" {
+	ce.SpecVersion = msg.UserProperties["specversion"]
+	if ce.SpecVersion != "1.0" {
 		return nil
 	}
 
@@ -151,7 +151,6 @@ func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
 	if !ok {
 		return nil
 	}
-
 	ce.Source, err = url.Parse(src)
 	if err != nil {
 		return nil
