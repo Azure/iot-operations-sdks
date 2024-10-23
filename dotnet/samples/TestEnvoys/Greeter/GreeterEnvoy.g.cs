@@ -102,6 +102,7 @@ public class GreeterEnvoy
         public SayHelloCommandInvoker(IMqttPubSubClient mqttClient)
             : base(mqttClient, "sayHello", new Utf8JsonSerializer())
         {
+            ResponseTopicPrefix = "clients/{invokerClientId}";
         }
     }
 
@@ -111,16 +112,19 @@ public class GreeterEnvoy
         public SayHelloWithDelayCommandInvoker(IMqttPubSubClient mqttClient)
             : base(mqttClient, "sayHelloWithDelay", new Utf8JsonSerializer())
         {
+            ResponseTopicPrefix = "clients/{invokerClientId}";
         }
     }
 
     public class Client : IAsyncDisposable
     {
+        private IMqttPubSubClient mqttClient;
         readonly SayHelloCommandInvoker sayHelloInvoker;
         readonly SayHelloWithDelayCommandInvoker sayHelloWithDelayInvoker;
 
         public Client(IMqttPubSubClient mqttClient)
         {
+            this.mqttClient = mqttClient;
             sayHelloInvoker = new SayHelloCommandInvoker(mqttClient);
             sayHelloWithDelayInvoker = new SayHelloWithDelayCommandInvoker(mqttClient);
         }
@@ -131,13 +135,15 @@ public class GreeterEnvoy
         public RpcCallAsync<HelloResponse> SayHello(ExtendedRequest<HelloRequest> request, CommandRequestMetadata? md = default, TimeSpan? timeout = default)
         {
             CommandRequestMetadata metadata = md == default ? new CommandRequestMetadata() : md;
-            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(request.Request, metadata, null, timeout), metadata.CorrelationId);
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", this.mqttClient.ClientId! } };
+            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 
         public RpcCallAsync<HelloResponse> SayHelloWithDelay(ExtendedRequest<HelloWithDelayRequest> request, TimeSpan? timeout = default)
         {
             CommandRequestMetadata metadata = new CommandRequestMetadata();
-            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(request.Request, metadata, null, timeout), metadata.CorrelationId);
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", this.mqttClient.ClientId! } };
+            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 
         public async ValueTask DisposeAsync()
