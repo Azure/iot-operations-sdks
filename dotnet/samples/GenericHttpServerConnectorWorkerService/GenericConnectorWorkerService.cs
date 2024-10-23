@@ -121,15 +121,30 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
             }
         }
 
-        private async void SampleDataset(object? status) //TODO do all of this HTTP-specific work in the interface impl. Still do pub of MQTT at this level
+        private async void SampleDataset(object? status)
         {
             SamplerContext samplerContext = (SamplerContext)status!;
-            Dataset dataset = _assets[samplerContext.AssetName]!.DatasetsDictionary![samplerContext.DatasetName]; //TODO null checks. Asset or dataset may be deleted
 
-            string httpServerUsername = _assetEndpointProfile!.Credentials!.Username!;
-            byte[] httpServerPassword = _assetEndpointProfile.Credentials!.Password!;
+            string assetName = samplerContext.AssetName;
+            string datasetName = samplerContext.DatasetName;
 
-            byte[] serializedPayload = await _datasetSampler.SampleAsync(dataset);
+            Asset? asset = _assets[assetName];
+            if (asset == null)
+            {
+                _logger.LogInformation($"Asset with name {assetName} was deleted. This sample won't sample its data.");
+                return;
+            }
+
+            Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
+            if (assetDatasets == null || !assetDatasets.ContainsKey(datasetName))
+            {
+                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.AssetName} was deleted. This sample won't sample this dataset anymore.");
+                return;
+            }
+
+            Dataset dataset = assetDatasets[datasetName];
+
+            byte[] serializedPayload = await _datasetSampler.SampleAsync(_assetEndpointProfile!, dataset);
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker");
 

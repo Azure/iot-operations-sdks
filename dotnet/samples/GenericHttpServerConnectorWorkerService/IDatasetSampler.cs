@@ -6,6 +6,6 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
     public interface IDatasetSampler
     {
         //TODO something like this to be more generic
-        public Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default);
+        public Task<byte[]> SampleAsync(AssetEndpointProfile assetEndpointProfile, Dataset dataset, CancellationToken cancellationToken = default);
     }
 }
