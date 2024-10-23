@@ -99,7 +99,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
             }
         }
 
-        private async void SampleDataset(object? status)
+        private async void SampleDataset(object? status) //TODO do all of this HTTP-specific work in the interface impl. Still do pub of MQTT at this level
         {
             string datasetName = (string)status!;
             Dataset httpServerDataset = _httpServerAsset!.Datasets![datasetName];
