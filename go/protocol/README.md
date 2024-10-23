@@ -740,15 +740,16 @@ type TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
 ```
 
 <a name="TelemetryMessage"></a>
-## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L55-L61>)
+## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L55-L62>)
 
 TelemetryMessage contains per\-message data and methods that are exposed to the telemetry handlers.
 
 ```go
 type TelemetryMessage[T any] struct {
 
-    // Ack provides a function to manually ack if enabled; it will be nil
-    // otherwise.
+    // Ack provides a function to manually ack if enabled and if possible;
+    // it will be nil otherwise. Note that, since QoS0 messages cannot be
+    // acked, this will be nil in this case even if manual ack is enabled.
     Ack func() error
     // contains filtered or unexported fields
 }
@@ -766,7 +767,7 @@ type TelemetryReceiver[T any] struct {
 ```
 
 <a name="NewTelemetryReceiver"></a>
-### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L71-L77>)
+### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L72-L78>)
 
 ```go
 func NewTelemetryReceiver[T any](client MqttClient, encoding Encoding[T], topic string, handler TelemetryHandler[T], opt ...TelemetryReceiverOption) (tr *TelemetryReceiver[T], err error)
@@ -775,7 +776,7 @@ func NewTelemetryReceiver[T any](client MqttClient, encoding Encoding[T], topic 
 NewTelemetryReceiver creates a new telemetry receiver.
 
 <a name="TelemetryReceiver[T].Close"></a>
-### func \(\*TelemetryReceiver\[T\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L144>)
+### func \(\*TelemetryReceiver\[T\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L145>)
 
 ```go
 func (tr *TelemetryReceiver[T]) Close()
@@ -784,7 +785,7 @@ func (tr *TelemetryReceiver[T]) Close()
 Close the telemetry receiver to free its resources.
 
 <a name="TelemetryReceiver[T].Start"></a>
-### func \(\*TelemetryReceiver\[T\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L139>)
+### func \(\*TelemetryReceiver\[T\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L140>)
 
 ```go
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error
@@ -823,7 +824,7 @@ type TelemetryReceiverOptions struct {
 ```
 
 <a name="TelemetryReceiverOptions.Apply"></a>
-### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L250-L253>)
+### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L251-L254>)
 
 ```go
 func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ...TelemetryReceiverOption)
@@ -832,7 +833,7 @@ func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ..
 Apply resolves the provided list of options.
 
 <a name="TelemetryReceiverOptions.ApplyOptions"></a>
-### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L260>)
+### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L261>)
 
 ```go
 func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -948,7 +949,7 @@ type WithIdempotent bool
 ```
 
 <a name="WithManualAck"></a>
-## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L65>)
+## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L66>)
 
 WithManualAck indicates that the handler is responsible for manually acking the telemetry message.
 
