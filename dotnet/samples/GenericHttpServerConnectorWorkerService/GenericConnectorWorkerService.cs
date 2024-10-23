@@ -102,7 +102,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        using Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                        Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     }
                 }
 
