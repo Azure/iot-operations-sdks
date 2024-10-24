@@ -55,7 +55,7 @@ func main() {
 	))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	fmt.Println("Press enter to quit.")

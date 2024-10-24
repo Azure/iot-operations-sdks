@@ -26,7 +26,7 @@ func main() {
 	server := must(dtmi_akri_samples_oven__1.NewOvenService(mqttClient))
 	defer server.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(server.Start(ctx))
 
 	fmt.Println("Press enter to quit.")
