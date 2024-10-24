@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 {
     public class GenericConnectorWorkerService : BackgroundService
     {
+        private bool doSchemaWork = false;
         private readonly ILogger<GenericConnectorWorkerService> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSampler _datasetSampler;
@@ -114,35 +115,35 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
                         _logger.LogInformation(mqttMessageSchema);
 
-                        var schema = await schemaRegistryClient.PutAsync(
-                            mqttMessageSchema, 
-                            Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, 
-                            Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
-                            "1.0.0", //TODO version?
-                            new(),
-                            null,
-                            cancellationToken);
-
-                        if (schema == null)
+                        if (doSchemaWork)
                         {
-                            _logger.LogError("Failed to register the message schema with the schema registry service. Exiting sample...");
-                        }
+                            var schema = await schemaRegistryClient.PutAsync(
+                                mqttMessageSchema,
+                                Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
+                                Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
+                                "1.0.0", //TODO version?
+                                new(),
+                                null,
+                                cancellationToken);
 
-                        asset.Status ??= new();
-                        asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
-                        asset.Status.Events[0] = new StatusEvents()
-                        {
-                            Name = schema.Name,
-                            MessageSchemaReference = new()
+                            if (schema == null)
                             {
-                                SchemaName = schema.Name,
-                                SchemaRegistryNamespace = schema.Namespace,
-                                SchemaVersion = schema.Version,
+                                _logger.LogError("Failed to register the message schema with the schema registry service. Exiting sample...");
                             }
-                        };
 
-                        //TODO put this schema in schema registry service. In the SR service's response, it should provide an Id of some sort. This sample should 
-                        // put that Id into the cloud events headers for all published telemetry so that the service understands what schema to expect(?)
+                            asset.Status ??= new();
+                            asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
+                            asset.Status.Events[0] = new StatusEvents()
+                            {
+                                Name = schema.Name,
+                                MessageSchemaReference = new()
+                                {
+                                    SchemaName = schema.Name,
+                                    SchemaRegistryNamespace = schema.Namespace,
+                                    SchemaVersion = schema.Version,
+                                }
+                            };
+                        }
                     }
                 }
 
