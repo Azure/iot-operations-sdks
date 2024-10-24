@@ -5,17 +5,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class MqttTopicProcessorTests
     {
-        private static readonly Dictionary<string, string> ReplacementMap = new()
-        {
-            { "foo", "good" },
-            { "BAR", "QuiteGood" },
-            { "Baz", "not\tso\ngood" },
-            { "", "invalidKey1" },
-            { "hi33", "invalidKey2" },
-            { "héllo", "invalidKey3" },
-            { "oh no", "invalidKey4" },
-        };
-
         [Fact]
         public void InvalidReplacementsAreInvalid()
         {
@@ -51,279 +40,210 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(MqttTopicProcessor.IsValidReplacement("|~"));
         }
 
-        [Fact]
-        public void InvalidCommandTopicPatternThrows()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InvalidTopicPatternDoesNotValidate(bool requireReplacement)
         {
-            const string paramName = "CommandParam";
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern(null, paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern(string.Empty, paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello\tthere", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello\nthere", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/thére", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello+there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello#there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("{hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello}", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello{there}", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("/", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("//", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("/hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello//there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("$hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{foobar}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{my:hiya}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{name}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{telemetryName}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{senderId}/there", paramName)).ParamName);
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern(null, null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern(string.Empty, null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello there", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello\tthere", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello\nthere", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/thére", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello+there", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello#there", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("{hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello}", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello{there}", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("/", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("//", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("/hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello//there", null, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("$hello", null, null, requireReplacement, out _, out _, out _));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ValidTopicPatternValidates(bool requireReplacement)
+        {
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("Hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("HELLO", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/there", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/my/friend", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("!\"$%&'()*,-.", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern(":;<=>?@", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("[\\]^_`", null, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("|~", null, null, requireReplacement, out _, out _, out _));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InvalidFirstReplacementDoesNotValidate(bool requireReplacement)
+        {
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", null! } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", string.Empty } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\tthere" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\nthere" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@thére" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello+there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello#there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{commandName}" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{executorId}" } }, null, requireReplacement, out _, out _, out _));
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, null, requireReplacement, out _, out _, out _));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InvalidSecondReplacementDoesNotValidate(bool requireReplacement)
+        {
+            string? errToken;
+            string? errReplacement;
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", null! } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Null(errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", string.Empty } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal(string.Empty, errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello there", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\tthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello\tthere", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\nthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello\nthere", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@thére" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello@thére", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello+there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello+there", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello#there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello#there", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{commandName}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{commandName}", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{executorId}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{executorId}", errReplacement);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{invokerClientId}", errReplacement);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ValidReplacementValidates(bool requireReplacement)
+        {
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@there" } }, requireReplacement, out _, out _, out _));
+
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello/there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello/there" } }, requireReplacement, out _, out _, out _));
         }
 
         [Fact]
-        public void ValidCommandTopicPatternDoesNotThrow()
+        public void MissingReplacementDoesNotValidateIfRequired()
         {
-            const string paramName = "CommandParam";
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("Hello", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("HELLO", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/there", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/my/friend", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("!\"$%&'()*,-.", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern(":;<=>?@", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("[\\]^_`", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("|~", paramName);
+            string? errToken;
 
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello@there");
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello@there");
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{executorId}/there", paramName);
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{invokerClientId}/there", paramName);
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("myToken", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("foobar", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("my:hiya", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("name", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("telemetryName", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("senderId", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("name", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("commandName", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("executorId", errToken);
+
+            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal("invokerClientId", errToken);
         }
 
         [Fact]
-        public void InvalidCommandReplacementThrows()
+        public void MissingReplacementValidatesIfNotRequired()
         {
-            const string paramName = "CommandParam";
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: string.Empty)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: null)).ParamName);
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello\tthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello\nthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello/there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello@thére")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello+there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "hello#there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "{commandName}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "{executorId}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{commandName}/there", paramName, commandName: "{invokerClientId}")).ParamName);
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: false, out _, out _, out _));
         }
 
         [Fact]
-        public void InvalidCommandModelIdReplacementThrows()
+        public void ResolveTopicResolvesCorrectly()
         {
-            const string paramName = "CommandParam";
+            Assert.Equal("s1/reboot/svc/from/me", MqttTopicProcessor.ResolveTopic(
+                "{modelId}/{commandName}/{executorId}/from/{invokerClientId}",
+                new Dictionary<string, string>
+                {
+                    { "commandName", "reboot" },
+                    { "executorId", "svc" },
+                    { "invokerClientId", "me" },
+                    { "modelId", "s1" },
+                },
+                null));
 
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: string.Empty)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: null)).ParamName);
+            Assert.Equal("s1/reboot/svc/from/me", MqttTopicProcessor.ResolveTopic(
+                "{modelId}/{commandName}/{executorId}/from/{invokerClientId}",
+                null,
+                new Dictionary<string, string>
+                {
+                    { "commandName", "reboot" },
+                    { "executorId", "svc" },
+                    { "invokerClientId", "me" },
+                    { "modelId", "s1" },
+                }));
 
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello\tthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello\nthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello/there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello@thére")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello+there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "hello#there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "{modelId}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "{executorId}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{modelId}/there", paramName, modelId: "{invokerClientId}")).ParamName);
-        }
-
-        [Fact]
-        public void InvalidCommandCustomReplacementThrows()
-        {
-            const string paramName = "CommandParam";
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:hi33}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:héllo}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:oh no}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:foo}/there", paramName, customTokenMap: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:BAR}/there", paramName, customTokenMap: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:Baz}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:wawa}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-        }
-
-        [Fact]
-        public void ValidCommandCustomReplacementDoesNotThrow()
-        {
-            const string paramName = "CommandParam";
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:foo}/there", paramName, customTokenMap: ReplacementMap);
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:BAR}/there", paramName, customTokenMap: ReplacementMap);
-            MqttTopicProcessor.ValidateCommandTopicPattern("hello/{ex:foo}/{ex:BAR}/there", paramName, customTokenMap: ReplacementMap);
-        }
-
-        [Fact]
-        public void InvalidTelemetryTopicPatternThrows()
-        {
-            const string paramName = "TelemetryParam";
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern(null, paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern(string.Empty, paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello\tthere", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello\nthere", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/thére", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello+there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello#there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("{hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello}", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello{there}", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("/", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("//", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("/hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello//there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("$hello", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{foobar}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{my:hiya}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{name}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{commandName}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{executorId}/there", paramName)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{invokerClientId}/there", paramName)).ParamName);
-        }
-
-        [Fact]
-        public void ValidTelemetryTopicPatternDoesNotThrow()
-        {
-            const string paramName = "TelemetryParam";
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("Hello", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("HELLO", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/there", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/my/friend", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("!\"$%&'()*,-.", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern(":;<=>?@", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("[\\]^_`", paramName);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("|~", paramName);
-
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello@there");
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello@there");
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{senderId}/there", paramName);
-        }
-
-        [Fact]
-        public void InvalidTelemetryNameReplacementThrows()
-        {
-            const string paramName = "TelemetryParam";
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: string.Empty)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: null)).ParamName);
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello\tthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello\nthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello/there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello@thére")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello+there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "hello#there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "{telemetryName}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{telemetryName}/there", paramName, telemetryName: "{senderId}")).ParamName);
-        }
-
-        [Fact]
-        public void InvalidTelemetryModelIdReplacementThrows()
-        {
-            const string paramName = "TelemetryParam";
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: string.Empty)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: null)).ParamName);
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello\tthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello\nthere")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello/there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello@thére")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello+there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "hello#there")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "{modelId}")).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{modelId}/there", paramName, modelId: "{senderId}")).ParamName);
-        }
-
-        [Fact]
-        public void InvalidTelemetryCustomReplacementThrows()
-        {
-            const string paramName = "TelemetryParam";
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:hi33}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:héllo}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:oh no}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:foo}/there", paramName, customTokenMap: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:BAR}/there", paramName, customTokenMap: null)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:Baz}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-            Assert.Equal(paramName, Assert.Throws<ArgumentException>(() => MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:wawa}/there", paramName, customTokenMap: ReplacementMap)).ParamName);
-        }
-
-        [Fact]
-        public void ValidTelemetryCustomReplacementDoesNotThrow()
-        {
-            const string paramName = "TelemetryParam";
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:foo}/there", paramName, customTokenMap: ReplacementMap);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:BAR}/there", paramName, customTokenMap: ReplacementMap);
-            MqttTopicProcessor.ValidateTelemetryTopicPattern("hello/{ex:foo}/{ex:BAR}/there", paramName, customTokenMap: ReplacementMap);
-        }
-
-        [Fact]
-        public void NullOrEmptyCommandTopicThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() => MqttTopicProcessor.GetCommandTopic(null!));
-            Assert.Throws<ArgumentException>(() => MqttTopicProcessor.GetCommandTopic(string.Empty));
-        }
-
-        [Fact]
-        public void NullOrEmptyTelemetryTopicThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() => MqttTopicProcessor.GetTelemetryTopic(null!));
-            Assert.Throws<ArgumentException>(() => MqttTopicProcessor.GetTelemetryTopic(string.Empty));
-        }
-
-        [Fact]
-        public void VerifyCommandTokenReplacement()
-        {
-            Assert.Equal("s1/reboot/svc/from/me", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", commandName: "reboot", executorId: "svc", invokerId: "me", modelId: "s1"));
-            Assert.Equal("+/+/+/from/+", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}"));
-            Assert.Equal("+/reboot/+/from/+", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", commandName: "reboot"));
-            Assert.Equal("+/+/svc/from/+", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", executorId: "svc"));
-            Assert.Equal("+/+/+/from/me", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", invokerId: "me"));
-            Assert.Equal("s1/+/+/from/+", MqttTopicProcessor.GetCommandTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", modelId: "s1"));
-        }
-
-        [Fact]
-        public void VerifyTelemetryTokenReplacement()
-        {
-            Assert.Equal("s1/data/from/me", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{telemetryName}/from/{senderId}", telemetryName: "data", senderId: "me", modelId: "s1"));
-            Assert.Equal("+/+/from/+", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{telemetryName}/from/{senderId}"));
-            Assert.Equal("+/data/from/+", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{telemetryName}/from/{senderId}", telemetryName: "data"));
-            Assert.Equal("+/+/from/me", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{telemetryName}/from/{senderId}", senderId: "me"));
-            Assert.Equal("s1/+/from/+", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{telemetryName}/from/{senderId}", modelId: "s1"));
-        }
-
-        [Fact]
-        public void VerifyCommandCustomTokenReplacement()
-        {
-            Assert.Equal("s1/good/where/QuiteGood", MqttTopicProcessor.GetCommandTopic("{modelId}/{ex:foo}/where/{ex:BAR}", modelId: "s1", customTokenMap: ReplacementMap));
-        }
-
-        [Fact]
-        public void VerifyTelemetryCustomTokenReplacement()
-        {
-            Assert.Equal("s1/good/where/QuiteGood", MqttTopicProcessor.GetTelemetryTopic("{modelId}/{ex:foo}/where/{ex:BAR}", modelId: "s1", customTokenMap: ReplacementMap));
+            Assert.Equal("+/+/+/from/+", MqttTopicProcessor.ResolveTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}"));
+            Assert.Equal("+/reboot/+/from/+", MqttTopicProcessor.ResolveTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", new Dictionary<string, string> { { "commandName", "reboot" } }));
+            Assert.Equal("+/+/svc/from/+", MqttTopicProcessor.ResolveTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", new Dictionary<string, string> { { "executorId", "svc" } }));
+            Assert.Equal("+/+/+/from/me", MqttTopicProcessor.ResolveTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", new Dictionary<string, string> { { "invokerClientId", "me" } }));
+            Assert.Equal("s1/+/+/from/+", MqttTopicProcessor.ResolveTopic("{modelId}/{commandName}/{executorId}/from/{invokerClientId}", new Dictionary<string, string> { { "modelId", "s1" } }));
         }
     }
 }

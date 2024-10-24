@@ -25,8 +25,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         string telemetry = "someTelemetry";
@@ -42,8 +41,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         string telemetry = "someTelemetry";
@@ -71,8 +69,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         string telemetry = "someTelemetry";
@@ -103,7 +100,6 @@ public class TelemetrySenderTests
         Assert.Equal("TopicPattern", ex.PropertyName);
         Assert.Equal(string.Empty, ex.PropertyValue);
         Assert.Null(ex.CorrelationId);
-        Assert.True(ex.InnerException is ArgumentException);
     }
 
     [Fact]
@@ -112,8 +108,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V310);
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         string telemetry = "someTelemetry";
@@ -136,8 +131,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         FaultyTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         Task sendTelemetry = sender.SendTelemetryAsync("\\test");
@@ -153,18 +147,19 @@ public class TelemetrySenderTests
     }
 
     [Fact]
-    public void SendTelemetry_InvalidTopicNamespaceThrows()
+    public async Task SendTelemetry_InvalidTopicNamespaceThrows()
     {
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
             TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicNamespace = "/sample",
         };
 
-        void act() => sender.TopicNamespace = "/sample";
+        string telemetry = "someTelemetry";
+        Task sendTelemetry = sender.SendTelemetryAsync(telemetry);
 
-        AkriMqttException ex = Assert.Throws<AkriMqttException>(act);
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
         Assert.False(ex.InApplication);
         Assert.True(ex.IsShallow);
@@ -181,8 +176,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern/dropPubAck",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern/dropPubAck"
         };
 
         string telemetry = "someTelemetry";
@@ -206,8 +200,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         for (int i = 0; i < numberOfRequests; i++)
@@ -227,8 +220,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         for (int i = 0; i < numberOfRequests; i++)
@@ -248,8 +240,7 @@ public class TelemetrySenderTests
         string topic = "someTopicPattern/failPubAck";
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = topic,
-            ModelId = "someModel"
+            TopicPattern = topic
         };
 
         Task sendTelemetry = sender.SendTelemetryAsync("someTelemetry");
@@ -272,8 +263,7 @@ public class TelemetrySenderTests
         string topic = "someTopicPattern/failPubAck/notAuthorized";
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = topic,
-            ModelId = "someModel"
+            TopicPattern = topic
         };
 
         Task sendTelemetry = sender.SendTelemetryAsync("someTelemetry");
@@ -296,8 +286,7 @@ public class TelemetrySenderTests
         string topic = "someTopicPattern/failPubAck/noMatchingSubscribers";
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = topic,
-            ModelId = "someModel"
+            TopicPattern = topic
         };
 
         Task sendTelemetry = sender.SendTelemetryAsync("someTelemetry");
@@ -319,8 +308,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         CancellationTokenSource cts = new();
@@ -335,8 +323,7 @@ public class TelemetrySenderTests
         MockMqttPubSubClient mockClient = new();
         StringTelemetrySender sender = new(mockClient)
         {
-            TopicPattern = "someTopicPattern",
-            ModelId = "someModel"
+            TopicPattern = "someTopicPattern"
         };
 
         TimeSpan telemetryTimeout = TimeSpan.FromSeconds(3);
@@ -411,6 +398,8 @@ public class TelemetrySenderTests
         {
             TopicPattern = "someTopicPattern/{senderId}/telemetry",
         };
+
+        sender.TopicTokenMap["senderId"] = "mock-client";
 
         var telemetryMetadata = new OutgoingTelemetryMetadata
         {

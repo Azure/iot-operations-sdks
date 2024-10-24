@@ -1,0 +1,28 @@
+---
+test-name: CommandInvokerResponseTopicPrefixExecutorIdWithoutReplacement_ThrowsException
+aka:
+- InvalidResponseTopicPrefixThrowsException
+description:
+  condition: >-
+    CommandInvoker initialized with a response topic prefix that contains an '{executorId}' token but no replacement is specified.
+  expect: >-
+    CommandInvoker throws 'invalid argument' exception.
+
+prologue:
+  invokers:
+  - response-topic-prefix: "prefix/{executorId}"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  executor-id: ""
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'executorid'
+...

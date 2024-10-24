@@ -4,6 +4,7 @@
 
 namespace TestEnvoys.dtmi_akri_samples_memmon__1
 {
+    using System.Collections.Generic;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Protocol.Models;
@@ -16,12 +17,35 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
         /// </summary>
         public class MemoryStatsTelemetrySender : TelemetrySender<MemoryStatsTelemetry>
         {
+            private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
+
+            /// <summary>
+            /// Optionally initializes a custom token map to a dictionary that maps token values to replacement strings; defaults to new empty dictionary.
+            /// </summary>
+            public Dictionary<string, string> CustomTopicTokenMap { private get; init; } = new();
+
+            /// <summary>
+            /// Gets a dictionary for adding custom token keys and their replacement strings, which will be substituted in telemetry topic patterns.
+            /// Note that keys will automatically be prefixed by "ex:" when used for substitution searches in topic pattern strings.
+            /// </summary>
+            public override Dictionary<string, string> TopicTokenMap { get => CustomTopicTokenMap; }
+
+            /// <summary>
+            /// Gets a dictionary used by the base class's code for substituting tokens in telemetry topic patterns.
+            /// </summary>
+            protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="MemoryStatsTelemetrySender"/> class.
             /// </summary>
-            internal MemoryStatsTelemetrySender(IMqttPubSubClient mqttClient)
+            public MemoryStatsTelemetrySender(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "memoryStats", new AvroSerializer<MemoryStatsTelemetry, EmptyAvro>())
             {
+                this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
+
+                base.TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
+                base.TopicTokenMap["telemetryName"] = "memoryStats";
             }
         }
     }

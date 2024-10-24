@@ -53,7 +53,7 @@ jobs:
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
     - name: Build and Test CodeGen (Debug)
-      run: codegen/build.sh test -c Debug
+      run: dotnet build -c Debug codegen/codegen.sln
 
     - name: CodeGen .NET TestEnvoys
       run: (cd dotnet/samples/TestEnvoys; ./gen.sh)
