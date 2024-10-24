@@ -6,8 +6,11 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Data;
 using System.Text;
 using System.Text.Json;
 
@@ -32,7 +35,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             AzureDeviceRegistryClient adrClient = new();
-            _logger.LogInformation("Successfully created ADR client");
+            SchemaRegistryClient schemaRegistryClient = new(_sessionClient);
 
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
             // Additionally, the telemetry sent by this connector should be stamped as a cloud event
@@ -106,6 +109,40 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
                         Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                         samplers.Add(datasetSamplingTimer);
+
+                        string mqttMessageSchema = dataset.GetMqttMessageSchema();
+                        _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
+                        _logger.LogInformation(mqttMessageSchema);
+
+                        var schema = await schemaRegistryClient.PutAsync(
+                            mqttMessageSchema, 
+                            Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, 
+                            Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
+                            "1.0.0", //TODO version?
+                            new(),
+                            null,
+                            cancellationToken);
+
+                        if (schema == null)
+                        {
+                            _logger.LogError("Failed to register the message schema with the schema registry service. Exiting sample...");
+                        }
+
+                        asset.Status ??= new();
+                        asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
+                        asset.Status.Events[0] = new StatusEvents()
+                        {
+                            Name = schema.Name,
+                            MessageSchemaReference = new()
+                            {
+                                SchemaName = schema.Name,
+                                SchemaRegistryNamespace = schema.Namespace,
+                                SchemaVersion = schema.Version,
+                            }
+                        };
+
+                        //TODO put this schema in schema registry service. In the SR service's response, it should provide an Id of some sort. This sample should 
+                        // put that Id into the cloud events headers for all published telemetry so that the service understands what schema to expect(?)
                     }
                 }
 
