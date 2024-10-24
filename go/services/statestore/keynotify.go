@@ -98,6 +98,6 @@ func (o WithTimeout) keynotify(opt *KeyNotifyOptions) {
 
 func (o *KeyNotifyOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
+		Timeout: o.Timeout,
 	}
 }

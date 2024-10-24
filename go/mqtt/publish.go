@@ -15,10 +15,6 @@ func (c *SessionClient) Publish(
 	payload []byte,
 	opts ...PublishOption,
 ) (*Ack, error) {
-	if err := c.prepare(ctx); err != nil {
-		return nil, err
-	}
-
 	var opt PublishOptions
 	opt.Apply(opts)
 
@@ -64,22 +60,17 @@ func (c *SessionClient) Publish(
 		pub.Properties.MessageExpiry = &opt.MessageExpiry
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		err := c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: pub},
-		)
-		if err != nil {
-			return nil, err
-		}
+	queued, err := c.prepare(ctx, pub)
+	if err != nil {
+		return nil, err
+	}
+	if queued {
 		return zeroValueAck, nil
 	}
 
 	// Execute the publish.
 	c.log.Packet(ctx, "publish", pub)
-	err := pahoPub(ctx, c.pahoClient, pub)
-	if err != nil {
+	if err := pahoPub(ctx, c.pahoClient, pub); err != nil {
 		return nil, err
 	}
 	return zeroValueAck, nil
