@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, serviceName, genFormat, telemEl, telemSchemas, workingPath, schemaTypes))
+                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemSchemas, workingPath, schemaTypes))
                     {
                         yield return templateTransform;
                     }
@@ -63,7 +63,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(modelId, language, projectName, genNamespace, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes))
+                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes))
                     {
                         yield return templateTransform;
                     }
@@ -86,7 +86,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
@@ -98,8 +98,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
-                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                    yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
                     break;
                 case "go":
                     yield return new GoTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
@@ -131,7 +131,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             telemSchemas.Add(schemaClass);
         }
 
-        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string modelId, string language, string projectName, string genNamespace, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
@@ -147,8 +147,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass);
-                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                    yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
                     break;
                 case "go":
                     yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
@@ -198,7 +198,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
+                    yield return new DotNetService(projectName, genNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
                     break;
                 case "go":
                     yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi);

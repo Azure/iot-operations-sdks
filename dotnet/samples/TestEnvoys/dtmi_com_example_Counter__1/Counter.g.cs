@@ -15,18 +15,19 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
     using Azure.Iot.Operations.Protocol.Telemetry;
     using TestEnvoys;
 
-    [ModelId("dtmi:com:example:Counter;1")]
     [CommandTopic("rpc/command-samples/{executorId}/{commandName}")]
     public static partial class Counter
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly ReadCounterCommandExecutor readCounterCommandExecutor;
             private readonly IncrementCommandExecutor incrementCommandExecutor;
             private readonly ResetCommandExecutor resetCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.readCounterCommandExecutor = new ReadCounterCommandExecutor(mqttClient) { OnCommandReceived = ReadCounter_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -48,10 +49,21 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
-                    this.readCounterCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.incrementCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.resetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.readCounterCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.incrementCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.resetCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -94,12 +106,14 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly ReadCounterCommandInvoker readCounterCommandInvoker;
             private readonly IncrementCommandInvoker incrementCommandInvoker;
             private readonly ResetCommandInvoker resetCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.readCounterCommandInvoker = new ReadCounterCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -115,20 +129,56 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
 
             public RpcCallAsync<ReadCounterResponsePayload> ReadCounterAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(executorId, new EmptyJson(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<IncrementResponsePayload> IncrementAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(executorId, new EmptyJson(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyJson> ResetAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(executorId, new EmptyJson(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()
