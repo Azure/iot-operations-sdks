@@ -4,18 +4,18 @@ description:
   condition: >-
     CommandInvoker response topic prefix contains a '{modelId}' token but no model ID is specified.
   expect: >-
-    CommandInvoker throws 'invalid configuration' exception.
+    CommandInvoker throws 'invalid argument' exception.
 
 prologue:
   invokers:
   - response-topic-prefix: "valid/{modelId}"
     model-id:
   catch:
-    error-kind: invalid configuration
+    error-kind: invalid argument
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'responsetopicprefix'
-      property-value: "valid/{modelId}"
+      property-name: 'modelid'
+      property-value:
 ...

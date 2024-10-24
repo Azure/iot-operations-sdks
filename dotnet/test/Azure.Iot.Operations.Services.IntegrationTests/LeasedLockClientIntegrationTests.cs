@@ -544,4 +544,55 @@ public class LeasedLockClientIntegrationTests
         Assert.NotNull(getResponse.Value);
         Assert.Equal(sharedResourceInitialValue, getResponse.Value);
     }
+
+    [Fact]
+    public async Task TestFencingTokenLowerVersion()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        var sharedResourceName = Guid.NewGuid().ToString();
+
+        string holderId = Guid.NewGuid().ToString();
+        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using var leasedLockClient = new LeasedLockClient(mqttClient, Guid.NewGuid().ToString(), holderId);
+        
+        AcquireLockResponse acquireLockResponse = await leasedLockClient.TryAcquireLockAsync(TimeSpan.FromMinutes(10));
+        Assert.True(acquireLockResponse.Success);
+
+        // set a value in the state store with the fencing token
+        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+            sharedResourceName,
+            Guid.NewGuid().ToString(),
+            new StateStoreSetRequestOptions()
+            {
+                FencingToken = acquireLockResponse.FencingToken,
+            });
+        Assert.True(setResponse.Success);
+
+        // create a lower version of the fencing token
+        HybridLogicalClock lowerVersionFencingToken = new HybridLogicalClock()
+        {
+            Timestamp = DateTime.UnixEpoch
+        };
+
+        // attempt to set a value using the lower version fencing token (it should fail)
+        var setException = await Assert.ThrowsAsync<StateStoreOperationException>(
+            async () => await stateStoreClient.SetAsync(
+                sharedResourceName,
+                Guid.NewGuid().ToString(),
+                new StateStoreSetRequestOptions()
+                {
+                    FencingToken = lowerVersionFencingToken,
+                }));
+        Assert.Equal(ServiceError.FencingTokenLowerVersion, setException.Reason);
+
+        // attempt to delete the value using the lower version fencing token (it should fail)
+        var deleteException = await Assert.ThrowsAsync<StateStoreOperationException>(
+            async () => await stateStoreClient.DeleteAsync(
+                sharedResourceName,
+                new StateStoreDeleteRequestOptions()
+                {
+                    FencingToken = lowerVersionFencingToken,
+                }));
+        Assert.Equal(ServiceError.FencingTokenLowerVersion, deleteException.Reason);
+    }
 }

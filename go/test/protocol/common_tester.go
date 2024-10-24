@@ -3,7 +3,6 @@
 package protocol
 
 import (
-	"context"
 	"testing"
 	"time"
 

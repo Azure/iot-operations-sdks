@@ -20,16 +20,10 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
-	// EnableManualAcknowledgment must be set.
-	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		"tcp://localhost:1883",
+		mqtt.WithSessionExpiry(10*time.Minute),
+	))
 	client := must(envoy.NewGreeterClient(mqttClient))
 	defer client.Close()
 
@@ -83,9 +77,8 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithMessageExpiry(
-				protocol.DefaultMessageExpiry+uint32(duration.Seconds()),
-			)))
+			protocol.WithTimeout(protocol.DefaultTimeout+duration),
+		))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
 }
