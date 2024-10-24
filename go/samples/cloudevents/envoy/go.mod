@@ -5,6 +5,7 @@ go 1.23.0
 require github.com/Azure/iot-operations-sdks/go/protocol v0.2.0
 
 require (
+	github.com/Azure/iot-operations-sdks/go/internal v0.1.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.5 // indirect
 	github.com/fatih/color v1.18.0 // indirect
