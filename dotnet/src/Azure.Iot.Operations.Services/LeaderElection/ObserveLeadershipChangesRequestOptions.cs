@@ -9,11 +9,11 @@ namespace Azure.Iot.Operations.Services.LeaderElection
     public class ObserveLeadershipChangesRequestOptions
     {
         /// <summary>
-        /// If true, notifications about this electe changing will include the new holder of the lock after the change.
-        /// If false, notifications about this lock changing will not include the new holder.
+        /// If true, notifications about this leadership position changing will include the new leader after the change.
+        /// If false, notifications about this lock changing will not include the new leader.
         /// </summary>
         /// <remarks>
-        /// The new value will be set in <see cref="LockChangeEventArgs.NewValue"/>
+        /// The new value will be set in <see cref="LeadershipChangeEventArgs.NewLeader"/>
         /// </remarks>
         public bool GetNewLeader { get; set; } = false;
     }

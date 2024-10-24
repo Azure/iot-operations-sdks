@@ -221,7 +221,7 @@ public class LeaderElectionClientIntegrationTests
             });
 
         // The operation on a shared resource should still succeed because the leader election client
-        // kept re-capaigning to be leader (and no other client was campaigning on the same lock)
+        // kept re-campaigning to be leader (and no other client was campaigning on the same lock)
         Assert.True(setResponse.Success);
 
         var resignationRequestOptions = new ResignationRequestOptions()
