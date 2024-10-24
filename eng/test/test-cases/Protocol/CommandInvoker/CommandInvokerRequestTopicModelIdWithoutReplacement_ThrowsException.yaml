@@ -6,18 +6,18 @@ description:
   condition: >-
     CommandInvoker request topic contains a '{modelId}' token but no model ID is specified
   expect: >-
-    CommandInvoker throws 'invalid configuration' exception.
+    CommandInvoker throws 'invalid argument' exception.
 
 prologue:
   invokers:
   - request-topic: "mock/{modelId}/test"
     model-id:
   catch:
-    error-kind: invalid configuration
+    error-kind: invalid argument
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: "mock/{modelId}/test"
+      property-name: 'modelid'
+      property-value:
 ...
