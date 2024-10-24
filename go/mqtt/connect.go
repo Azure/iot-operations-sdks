@@ -239,6 +239,7 @@ func (c *SessionClient) buildPahoClient(
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
 	c.log.Packet(ctx, "connect", conn)
 	connack, err := pahoClient.Connect(ctx, conn)
+	c.log.Packet(ctx, "connack", connack)
 
 	if connack == nil {
 		// This assumes that all errors returned by Paho's connect method

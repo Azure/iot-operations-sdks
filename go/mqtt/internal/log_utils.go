@@ -14,6 +14,22 @@ import (
 
 type Logger struct{ log.Logger }
 
+func (l Logger) PacketLog(
+	ctx context.Context,
+	level slog.Level,
+	msg string,
+	attrs ...slog.Attr,
+) {
+	// We're logging a message at possibly a non-debug level, but packet
+	// information is only logged at a debug level, so don't spam messages
+	// when the context is missing.
+	if !l.Enabled(ctx, slog.LevelDebug) {
+		return
+	}
+
+	l.Log(ctx, level, msg, attrs...)
+}
+
 func (l Logger) Packet(ctx context.Context, name string, packet any) {
 	// This is expensive; bail out if we don't need it.
 	if !l.Enabled(ctx, slog.LevelDebug) {
@@ -61,6 +77,10 @@ func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	case "topics":
 		if topics, ok := val.Interface().([]string); ok {
 			return []slog.Attr{slog.String("topic", topics[0])}
+		}
+	case "reasons":
+		if reasons, ok := val.Interface().([]byte); ok {
+			return []slog.Attr{slog.Int("reason_code", int(reasons[0]))}
 		}
 
 	// Fix QoS not being actually PascalCased.

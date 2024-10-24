@@ -507,7 +507,7 @@ func (c *SessionClient) ID() string
 
 
 <a name="SessionClient.Publish"></a>
-### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L113-L118>)
+### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L116-L121>)
 
 ```go
 func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byte, opts ...PublishOption) (*Ack, error)
@@ -579,7 +579,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 
 
 <a name="SessionClient.Unsubscribe"></a>
-### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L156-L160>)
+### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L159-L163>)
 
 ```go
 func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)
