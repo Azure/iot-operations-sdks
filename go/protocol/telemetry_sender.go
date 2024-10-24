@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -134,6 +135,7 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 	pub.Retain = opts.Retain
+	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
 	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)

@@ -61,7 +61,6 @@ type (
 	CommandRequest[Req any] struct {
 		Message[Req]
 
-		ClientID     string
 		FencingToken hlc.HybridLogicalClock
 	}
 

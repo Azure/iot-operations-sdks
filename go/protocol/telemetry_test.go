@@ -47,6 +47,7 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 
 	res := <-results
+	require.Equal(t, stub.Client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
 	require.Equal(t, "https://contoso.com", res.Source.String())
 	require.Equal(t, "prefix/test/suffix", res.Subject)

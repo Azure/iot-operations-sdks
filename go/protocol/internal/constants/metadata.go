@@ -6,6 +6,7 @@ package constants
 const (
 	Protocol = "__"
 
+	SenderClientID  = Protocol + "sndId"
 	InvokerClientID = Protocol + "invId"
 	Timestamp       = Protocol + "ts"
 	FencingToken    = Protocol + "ft"
