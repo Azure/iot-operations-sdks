@@ -5,6 +5,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
@@ -20,7 +21,7 @@ import (
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        mqtt.Client
+		client        MqttClient
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -49,9 +50,9 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithResponseTopic specifies a translation function from the request topic
@@ -86,7 +87,7 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
-	client Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopic string,
@@ -157,13 +158,11 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		logger:         log.Wrap(opts.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ci,
 	}
 
-	if err := ci.listener.register(); err != nil {
-		return nil, err
-	}
+	ci.listener.register()
 	return ci, nil
 }
 
@@ -181,6 +180,20 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     commandInvokerErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+		return nil, err
+	}
+
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
 		return nil, err
@@ -191,13 +204,13 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ClientID()
-	pub.UserProperties[constants.Partition] = ci.client.ClientID()
+	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
+	pub.UserProperties[constants.Partition] = ci.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}
@@ -210,18 +223,14 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	defer done()
 
 	shallow = false
-	err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	_, err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
 	if err != nil {
 		return nil, err
 	}
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := internal.MessageExpiryTimeout(
-		ctx,
-		pub.MessageExpiry,
-		commandInvokerErrStr,
-	)
+	ctx, cancel := expiry.Context(ctx)
 	defer cancel()
 
 	select {

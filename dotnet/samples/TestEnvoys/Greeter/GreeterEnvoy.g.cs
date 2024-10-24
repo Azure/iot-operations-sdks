@@ -81,8 +81,8 @@ public class GreeterEnvoy
 
         public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
-            await sayHelloExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
-            await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
+            await sayHelloExecutor.StartAsync(preferredDispatchConcurrency, null, cancellationToken);
+            await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, null, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
@@ -102,6 +102,7 @@ public class GreeterEnvoy
         public SayHelloCommandInvoker(IMqttPubSubClient mqttClient)
             : base(mqttClient, "sayHello", new Utf8JsonSerializer())
         {
+            ResponseTopicPrefix = "clients/{invokerClientId}";
         }
     }
 
@@ -111,16 +112,19 @@ public class GreeterEnvoy
         public SayHelloWithDelayCommandInvoker(IMqttPubSubClient mqttClient)
             : base(mqttClient, "sayHelloWithDelay", new Utf8JsonSerializer())
         {
+            ResponseTopicPrefix = "clients/{invokerClientId}";
         }
     }
 
     public class Client : IAsyncDisposable
     {
+        private IMqttPubSubClient mqttClient;
         readonly SayHelloCommandInvoker sayHelloInvoker;
         readonly SayHelloWithDelayCommandInvoker sayHelloWithDelayInvoker;
 
         public Client(IMqttPubSubClient mqttClient)
         {
+            this.mqttClient = mqttClient;
             sayHelloInvoker = new SayHelloCommandInvoker(mqttClient);
             sayHelloWithDelayInvoker = new SayHelloWithDelayCommandInvoker(mqttClient);
         }
@@ -130,14 +134,28 @@ public class GreeterEnvoy
 
         public RpcCallAsync<HelloResponse> SayHello(ExtendedRequest<HelloRequest> request, CommandRequestMetadata? md = default, TimeSpan? timeout = default)
         {
+            string? clientId = this.mqttClient.ClientId;
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+            }
+
             CommandRequestMetadata metadata = md == default ? new CommandRequestMetadata() : md;
-            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(string.Empty, request.Request, metadata, timeout), metadata.CorrelationId);
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", clientId } };
+            return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 
         public RpcCallAsync<HelloResponse> SayHelloWithDelay(ExtendedRequest<HelloWithDelayRequest> request, TimeSpan? timeout = default)
         {
+            string? clientId = this.mqttClient.ClientId;
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+            }
+
             CommandRequestMetadata metadata = new CommandRequestMetadata();
-            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(string.Empty, request.Request, metadata, timeout), metadata.CorrelationId);
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", clientId } };
+            return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 
         public async ValueTask DisposeAsync()

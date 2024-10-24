@@ -189,10 +189,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var receiver = new StringTelemetryReceiver(mockClient);
 
             // Act
-            void act() => receiver.TopicNamespace = "/sample";
+            receiver.TopicNamespace = "/sample";
 
             // Assert
-            var ex = Assert.Throws<AkriMqttException>(act);
+            AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => receiver.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
@@ -223,7 +223,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal("TopicPattern", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
-            Assert.True(ex.InnerException is ArgumentException);
 
             await receiver.StopAsync();
         }
@@ -732,7 +731,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             // Assert
             await Assert.ThrowsAsync<ObjectDisposedException>(() => receiver.StartAsync());
             await Assert.ThrowsAsync<ObjectDisposedException>(() => receiver.StopAsync());
-            Assert.Throws<ObjectDisposedException>(() => receiver.TopicNamespace = "some new value");
         }
 
         [Fact]

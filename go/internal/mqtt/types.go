@@ -5,30 +5,6 @@ package mqtt
 import "context"
 
 type (
-	// Client represents the underlying MQTT client utilized by the protocol
-	// library.
-	Client interface {
-		// Register a topic subscription with a message handler on the client.
-		// Update must be called on the returned subscription to actually send
-		// the subscription to the MQTT broker.
-		Register(
-			topic string,
-			handler MessageHandler,
-		) (Subscription, error)
-
-		// Publish sends a publish request to the MQTT broker.
-		Publish(
-			ctx context.Context,
-			topic string,
-			payload []byte,
-			opts ...PublishOption,
-		) error
-
-		// ClientID returns the identifier used by this client. If one is not
-		// provided, a random ID must be generated for reconnection purposes.
-		ClientID() string
-	}
-
 	// Message represents a received message. The client implementation must
 	// support manual ack, since acks are managed by the protocol.
 	Message struct {
@@ -39,50 +15,35 @@ type (
 	}
 
 	// MessageHandler is a user-defined callback function used to handle
-	// messages received on the subscribed topic.
-	MessageHandler = func(context.Context, *Message) error
+	// messages received on the subscribed topic. Returns whether the handler
+	// takes ownership of the message.
+	MessageHandler = func(context.Context, *Message) bool
 
-	// Subscription represents an open subscription.
-	Subscription interface {
-		// Unsubscribe this subscription.
-		Unsubscribe(context.Context, ...UnsubscribeOption) error
-
-		// Update or initialize the actual underlying MQTT subscription.
-		Update(context.Context, ...SubscribeOption) error
+	// ConnectEvent contains the relevent metadata provided to the handler when
+	// the MQTT client connects to the broker.
+	ConnectEvent struct {
+		ReasonCode byte
 	}
 
-	// SubscribeOptions are the resolved subscribe options.
-	SubscribeOptions struct {
-		NoLocal        bool
-		QoS            byte
-		Retain         bool
-		RetainHandling byte
+	// Ack contains values from PUBACK/SUBACK/UNSUBACK packets received from the
+	// MQTT server.
+	Ack struct {
+		ReasonCode     byte
+		ReasonString   string
 		UserProperties map[string]string
 	}
 
-	// SubscribeOption represents a single subscribe option.
-	SubscribeOption interface{ subscribe(*SubscribeOptions) }
+	// ConnectEventHandler is a user-defined callback function used to respond
+	// to connection notifications from the MQTT client.
+	ConnectEventHandler = func(*ConnectEvent)
 
-	// UnsubscribeOptions are the resolve unsubscribe options.
-	UnsubscribeOptions struct {
-		UserProperties map[string]string
+	// DisconnectEvent contains the relevent metadata provided to the handler
+	// when the MQTT client disconnects from the broker.
+	DisconnectEvent struct {
+		ReasonCode *byte
 	}
 
-	// UnsubscribeOption represents a single unsubscribe option.
-	UnsubscribeOption interface{ unsubscribe(*UnsubscribeOptions) }
-
-	// PublishOptions are the resolved publish options.
-	PublishOptions struct {
-		ContentType     string
-		CorrelationData []byte
-		MessageExpiry   uint32
-		PayloadFormat   byte
-		QoS             byte
-		ResponseTopic   string
-		Retain          bool
-		UserProperties  map[string]string
-	}
-
-	// PublishOption represents a single publish option.
-	PublishOption interface{ publish(*PublishOptions) }
+	// DisconnectEventHandler is a user-defined callback function used to
+	// respond to disconnection notifications from the MQTT client.
+	DisconnectEventHandler = func(*DisconnectEvent)
 )

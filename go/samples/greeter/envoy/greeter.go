@@ -71,7 +71,7 @@ var (
 )
 
 func NewGreeterServer(
-	client protocol.Client,
+	client protocol.MqttClient,
 	handlers GreeterHandlers,
 	opts ...protocol.CommandExecutorOption,
 ) (*GreeterServer, error) {
@@ -80,7 +80,7 @@ func NewGreeterServer(
 
 	var opt protocol.CommandExecutorOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"executorId": client.ClientID(),
+		"executorId": client.ID(),
 	})
 
 	s.sayHelloExecutor, err = protocol.NewCommandExecutor(
@@ -106,7 +106,7 @@ func NewGreeterServer(
 		&opt,
 		protocol.WithIdempotent(true),
 		protocol.WithCacheTTL(10*time.Second),
-		protocol.WithExecutionTimeout(30*time.Second),
+		protocol.WithTimeout(30*time.Second),
 	)
 	if err != nil {
 		s.Close()
@@ -118,7 +118,7 @@ func NewGreeterServer(
 }
 
 func NewGreeterClient(
-	client protocol.Client,
+	client protocol.MqttClient,
 	opts ...protocol.CommandInvokerOption,
 ) (*GreeterClient, error) {
 	c := &GreeterClient{}
@@ -126,7 +126,7 @@ func NewGreeterClient(
 
 	var opt protocol.CommandInvokerOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"invokerClientId": client.ClientID(),
+		"invokerClientId": client.ID(),
 	})
 
 	if opt.ResponseTopicPrefix == "" && opt.ResponseTopicSuffix == "" {
@@ -141,8 +141,10 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	c.sayHelloWithDelayInvoker, err = protocol.NewCommandInvoker(
 		client,
@@ -152,8 +154,10 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	return c, nil
 }

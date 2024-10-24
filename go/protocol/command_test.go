@@ -51,16 +51,16 @@ func TestCommand(t *testing.T) {
 	require.NoError(t, err)
 
 	res, err := invoker.Invoke(ctx, value,
-		protocol.WithTopicTokens{"executorId": stub.Server.ClientID()},
+		protocol.WithTopicTokens{"executorId": stub.Server.ID()},
 	)
 	require.NoError(t, err)
 
-	expected := value + stub.Client.ClientID() + res.CorrelationData
+	expected := value + stub.Client.ID() + res.CorrelationData
 	require.Equal(t, expected, res.Payload)
 	require.Equal(t, map[string]string{"ex:token": "test"}, res.Metadata)
 	require.Equal(t, map[string]string{
 		"ex:token":   "test",
-		"executorId": stub.Server.ClientID(),
+		"executorId": stub.Server.ID(),
 	}, res.TopicTokens)
 }
 

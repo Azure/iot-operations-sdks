@@ -12,9 +12,9 @@ The following Azure IoT Operations packages are available:
 
 | Name | Package | Description |
 |-|-|-|
-| [**Protocol**](/doc/README.md#protocol) | `Azure.Iot.Operations.Protocol` | Protocol implementations built on MQTT5 such as telemetry and RPC |
-| [**Mqtt**](/doc/README.md#mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT5 fundamentals such as session management including connections and authentication |
-| [**Services**](/doc/README.md#services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
+| [**Protocol**](/doc/components.md#protocol) | `Azure.Iot.Operations.Protocol` | Protocol implementations built on MQTT5 such as telemetry and RPC |
+| [**Mqtt**](/doc/components.md#mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT5 fundamentals such as session management including connections and authentication |
+| [**Services**](/doc/components.md#services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
 
 ### Installing
 

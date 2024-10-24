@@ -41,8 +41,8 @@ func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
 		mqtt.WithConnectPropertiesUser(userProperties),
 	)
 	require.NoError(t, err)
-	require.NoError(t, client.Connect(context.Background()))
-	_ = client.Disconnect()
+	require.NoError(t, client.Start())
+	_ = client.Stop()
 }
 
 func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
@@ -52,17 +52,19 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
 	require.NoError(t, err)
 
-	require.NoError(t, client.Connect(context.Background()))
-	defer func() { _ = client.Disconnect() }()
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
+	done := client.RegisterMessageHandler(noopHandler)
+	defer done()
+
 	_, err = client.Subscribe(
 		context.Background(),
 		"test-topic",
-		func(context.Context, *mqtt.Message) error { return nil },
 		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
@@ -70,6 +72,7 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 			faultRequestID: uuidString,
 		},
 	)
+
 	require.NoError(t, err)
 }
 
@@ -81,22 +84,22 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
 	require.NoError(t, err)
 
-	require.NoError(t, client.Connect(context.Background()))
-	defer func() { _ = client.Disconnect() }()
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
-	subscription, err := client.Subscribe(
-		context.Background(),
-		"test-topic",
-		func(context.Context, *mqtt.Message) error { return nil },
-	)
+	done := client.RegisterMessageHandler(noopHandler)
+	defer done()
+
+	_, err = client.Subscribe(context.Background(), "test-topic")
 	require.NoError(t, err)
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
 	uuidString := uuidInstance.String()
 
-	err = subscription.Unsubscribe(
+	_, err = client.Unsubscribe(
 		context.Background(),
+		"test-topic",
 		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(
 				int(disconnectReasonCodeAdministrativeAction),
@@ -104,5 +107,6 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 			faultRequestID: uuidString,
 		},
 	)
+
 	require.NoError(t, err)
 }

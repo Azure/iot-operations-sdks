@@ -36,7 +36,7 @@ The focus of the SDKs it to assist customers in developing applications by provi
 Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine.
 
 > [!NOTE] 
-> For alternative platforms and more in-depth setup instruction, refer to the [environment setup](/doc/setup-environment.md) document.
+> For alternative platforms and more in-depth setup instruction, refer to the [environment setup](/doc/setup.md) document.
 
 1. Create a **codespace**, and enter your Azure details to store them as environment variables:
 
@@ -73,9 +73,9 @@ The following features are available or planned, along with the current language
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
 | **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :yellow_circle: |
-| **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :yellow_circle: | :yellow_circle: |
-| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :yellow_circle: | :yellow_circle: |
+| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
+| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
 | **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :orange_circle: | :orange_circle: |
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |

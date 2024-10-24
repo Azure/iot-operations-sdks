@@ -13,7 +13,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
@@ -203,7 +202,7 @@ func runOneCommandInvokerTest(
 
 func getCommandInvoker(
 	t *testing.T,
-	sessionClient mqtt.Client,
+	sessionClient protocol.MqttClient,
 	tci TestCaseInvoker,
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {
@@ -264,7 +263,6 @@ func getCommandInvoker(
 		if err == nil {
 			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
 				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-				protocol.WithTopicTokens{"commandName": *tci.CommandName},
 			)
 		}
 
@@ -288,9 +286,7 @@ func invokeCommand(
 	options := []protocol.InvokeOption{}
 	options = append(
 		options,
-		protocol.WithMessageExpiry(
-			uint32(actionInvokeCommand.Timeout.ToDuration().Seconds()),
-		),
+		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
 	)
 
 	if actionInvokeCommand.ExecutorID != nil {

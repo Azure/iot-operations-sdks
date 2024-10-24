@@ -4,9 +4,11 @@ package mqtt
 
 import (
 	"crypto/tls"
+	"log/slog"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt/retrypolicy"
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -34,12 +36,12 @@ func WithPahoClientConfig(
 	}
 }
 
-// WithDebugMode set the debugMode flag for the MQTT session client.
-func WithDebugMode(
-	debugMode bool,
+// WithLogger set the logger for the MQTT session client.
+func WithLogger(
+	l *slog.Logger,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		c.debugMode = debugMode
+		c.log = logger{log.Wrap(l)}
 	}
 }
 
@@ -47,44 +49,10 @@ func WithDebugMode(
 
 // WithConnRetry sets connRetry for the MQTT session client.
 func WithConnRetry(
-	connRetry retrypolicy.RetryPolicy,
+	connRetry retry.Policy,
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		c.connRetry = connRetry
-	}
-}
-
-// WithFatalErrHandler sets fatalErrHandler for the MQTT session client.
-// The user-defined fatalErrHandler would be called
-// when fatal (non-retryable) connection errors happens.
-func WithFatalErrHandler(
-	fatalErrHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.fatalErrHandler = fatalErrHandler
-	}
-}
-
-// WithAuthErrHandler sets authErrHandler for the MQTT session client.
-// The user-defined function authErrHandler would be called
-// when auto reauthentication returns an error.
-func WithAuthErrHandler(
-	authErrHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.authErrHandler = authErrHandler
-	}
-}
-
-// WithShutdownHandler sets shutdownHandler for the MQTT session client.
-// The user-defined function will be called
-// whenever the session client permanently disconnects
-// without automatic reconnection.
-func WithShutdownHandler(
-	shutdownHandler func(error),
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.shutdownHandler = shutdownHandler
 	}
 }
 
@@ -194,20 +162,21 @@ func WithReceiveMaximum(
 
 // WithConnectionTimeout sets the connectionTimeout for the connection settings.
 // If connectionTimeout is 0, connection will have no timeout.
-// Note the connectionTimeout would work with retrypolicy `connRetry`.
+// Note the connectionTimeout would work with connRetry.
 func WithConnectionTimeout(
 	connectionTimeout time.Duration,
 ) SessionClientOption {
 	return func(c *SessionClient) {
 		ensureConnSettings(c).connectionTimeout = connectionTimeout
 		if c.connRetry != nil {
-			if r, ok := c.connRetry.(*retrypolicy.ExponentialBackoffRetryPolicy); ok {
-				retrypolicy.WithTimeout(connectionTimeout)(r)
+			if r, ok := c.connRetry.(*retry.ExponentialBackoff); ok {
+				r.Timeout = connectionTimeout
 			}
 		} else {
-			c.connRetry = retrypolicy.NewExponentialBackoffRetryPolicy(
-				retrypolicy.WithTimeout(connectionTimeout),
-			)
+			c.connRetry = &retry.ExponentialBackoff{
+				Timeout: connectionTimeout,
+				Logger:  c.log.Wrapped,
+			}
 		}
 	}
 }

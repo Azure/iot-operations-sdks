@@ -6,7 +6,7 @@ description:
   condition: >-
     CommandInvoker response topic prefix contains a '{commandName}' token but commandName is not a valid replacement.
   expect: >-
-    CommandInvoker throws 'invalid configuration' exception.
+    CommandInvoker throws 'invalid argument' exception.
 
 prologue:
   invokers:
@@ -14,11 +14,11 @@ prologue:
     request-topic: "mock/test"
     response-topic-prefix: "valid/{commandName}"
   catch:
-    error-kind: invalid configuration
+    error-kind: invalid argument
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'responsetopicprefix'
-      property-value: "valid/{commandName}"
+      property-name: 'commandname'
+      property-value: "invalid#name"
 ...

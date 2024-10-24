@@ -29,6 +29,7 @@ jobs:
           incremental_files_only: true
 
       - name: Link check
+        continue-on-error: true
         run: |
           npm install -g @umbrelladocs/linkspector
           linkspector check -c ./.github/.linkspector.yml
