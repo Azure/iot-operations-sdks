@@ -5,7 +5,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private readonly string projectName;
         private readonly string genNamespace;
-        private readonly string modelId;
         private readonly string serviceName;
         private readonly string serializerSubNamespace;
         private readonly string serializerEmptyType;
@@ -23,7 +22,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public DotNetService(
             string projectName,
             string genNamespace,
-            string modelId,
             string serviceName,
             string serializerSubNamespace,
             string serializerEmptyType,
@@ -39,7 +37,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
-            this.modelId = modelId;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
             this.serializerEmptyType = serializerEmptyType == "" ? "byte[]" : serializerEmptyType;

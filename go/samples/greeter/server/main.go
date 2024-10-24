@@ -19,20 +19,14 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
-	// EnableManualAcknowledgment must be set.
-	clientID := fmt.Sprintf("sampleServer-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		"tcp://localhost:1883",
+		mqtt.WithSessionExpiry(10*time.Minute),
+	))
 	server := must(envoy.NewGreeterServer(mqttClient, &Handlers{}))
 	defer server.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(server.Start(ctx))
 
 	fmt.Println("Press enter to quit.")

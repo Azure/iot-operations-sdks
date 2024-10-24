@@ -152,7 +152,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
-                RequestTopicPattern = "mock/{unknown}/echo",
+                RequestTopicPattern = "mock/{improper/token}/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
@@ -163,27 +163,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
             Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{unknown}/echo", exception.PropertyValue);
-        }
-
-        [Fact]
-        public async Task RequestTopicModelIdWithoutReplacementThrowsException()
-        {
-            MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
-            {
-                RequestTopicPattern = "mock/{modelId}/echo",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
-            };
-
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
-            Assert.True(exception.IsShallow);
-            Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("mock/{improper/token}/echo", exception.PropertyValue);
         }
 
         [Fact]
@@ -193,9 +173,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/{modelId}/echo",
-                ModelId = "Invalid/Model",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
@@ -214,9 +195,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/{modelId}/echo",
-                ModelId = "MyModel",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "MyModel";
+
             await echoCommand.StartAsync();
         }
 
@@ -224,11 +207,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task RequestTopicCommandNameWithInvalidReplacementThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock, "invalid/name")
+            await using EchoCommandExecutor echoCommand = new(mock, "invalid//name")
             {
                 RequestTopicPattern = "mock/{commandName}/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
@@ -253,17 +238,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public void InvalidTopicNamespaceThrowsException()
+        public async Task InvalidTopicNamespaceThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new EchoCommandExecutor(mock)
-                {
-                    RequestTopicPattern = "mock/echo",
-                    OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
-                    TopicNamespace = "invalid/{modelId}",
-                });
+            await using EchoCommandExecutor echoCommand = new(mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
+                TopicNamespace = "invalid/{modelId}",
+            };
 
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -1971,9 +1956,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = topic,
-                ModelId = "MyModel",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "MyModel";
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.MqttError, ex.Kind);
@@ -1994,9 +1980,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = topic,
-                ModelId = "MyModel",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "MyModel";
 
             await echoCommand.StartAsync();
 
@@ -2019,9 +2006,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = topic,
-                ModelId = "MyModel",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "MyModel";
 
             await echoCommand.DisposeAsync();
 
@@ -2036,9 +2024,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "irrelevant",
-                ModelId = "MyModel",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
+
+            echoCommand.TopicTokenMap["modelId"] = "MyModel";
 
             CancellationTokenSource cts = new CancellationTokenSource();
             cts.Cancel();
