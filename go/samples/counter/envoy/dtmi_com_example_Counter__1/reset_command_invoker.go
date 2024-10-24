@@ -12,7 +12,7 @@ type ResetCommandInvoker struct {
 }
 
 func NewResetCommandInvoker(
-	client protocol.Client,
+	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
 ) (*ResetCommandInvoker, error) {
@@ -22,10 +22,8 @@ func NewResetCommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "reset",
-			"invokerClientId": client.ClientID(),
 		},
 	)
 

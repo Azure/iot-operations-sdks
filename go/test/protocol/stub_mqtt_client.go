@@ -25,8 +25,8 @@ type StubMqttClient struct {
 	onPublishReceived       []func(paho.PublishReceived) (bool, error)
 }
 
-func MakeStubMqttClient(clientID string) StubMqttClient {
-	return StubMqttClient{
+func MakeStubMqttClient(clientID string) *StubMqttClient {
+	return &StubMqttClient{
 		clientID:                clientID,
 		ackedPacketIDs:          make(chan uint16, 10),
 		publishedCorrelationIDs: make(chan []byte, 10),
@@ -208,15 +208,8 @@ func (c *StubMqttClient) getNewPacketID() uint16 {
 
 func (c *StubMqttClient) receiveMessage(p *paho.Publish) {
 	for _, h := range c.onPublishReceived {
-		handled, _ := h(paho.PublishReceived{Packet: p})
-		if handled {
-			return
-		}
+		_, _ = h(paho.PublishReceived{Packet: p})
 	}
-
-	// auto-ack when not claimed by any handler
-	c.acknowledgementCount++
-	c.ackedPacketIDs <- p.PacketID
 }
 
 func (c *StubMqttClient) awaitAcknowledgement() uint16 {

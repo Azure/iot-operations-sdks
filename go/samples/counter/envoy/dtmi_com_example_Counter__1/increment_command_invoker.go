@@ -12,7 +12,7 @@ type IncrementCommandInvoker struct {
 }
 
 func NewIncrementCommandInvoker(
-	client protocol.Client,
+	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
 ) (*IncrementCommandInvoker, error) {
@@ -22,10 +22,8 @@ func NewIncrementCommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "increment",
-			"invokerClientId": client.ClientID(),
 		},
 	)
 

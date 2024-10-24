@@ -1,0 +1,907 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ProtoDocument.xsd">
+
+  <Header>
+
+    <Undocumented item="Description" />
+
+    <ObjectPropertyTable>
+      <Column name="Key" field="propertyName"/>
+      <Column name="Test Kind" field="kind" conditionOn="kinds" />
+      <Column name="Required" field="required" true="yes" false="no" />
+      <Column name="Value Type" field="type" />
+      <Column name="Value" field="const" conditionOn="consts" />
+      <Column name="Default Value" field="default" conditionOn="defaults"/>
+      <Column name="Description" field="description" />
+    </ObjectPropertyTable>
+
+    <ExampleDefaults targetLines="5" />
+
+  </Header>
+
+  <Body>
+
+    <Title>METL (MQTT Envoy Testing Language) Specification</Title>
+
+    <Section>
+
+      <Paragraph>
+        This document describes the format of the domain-specific language METL, in which Akri.Mqtt unit tests are written.
+        The syntax of METL is [YAML](https://yaml.org/).
+        The vocabulary and usage of METL are partially dependent on the class under test, but every test case begins with some unprocessed descriptive matter, optionally followed by `requires`, followed by up to three regions: `prologue`, `actions`, `epilogue`.
+      </Paragraph>
+
+      <Paragraph>
+        A `prologue` region is always required, but `actions` and `epilogue` are optional.
+        For example, following is a small but complete test case, which verifies only successful initialization:
+      </Paragraph>
+
+      <Example key="">
+        <Exclude key="requires" />
+        <Exclude key="actions" />
+        <Exclude key="epilogue" />
+        <Exclude key="catch" />
+      </Example>
+
+      <Paragraph>
+        A common use for `prologue`-only cases is to test initialization error-checking:
+      </Paragraph>
+
+      <Example key="">
+        <Exclude key="requires" />
+        <Exclude key="actions" />
+        <Exclude key="epilogue" />
+        <Include key="catch" />
+      </Example>
+
+      <Paragraph>
+        Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
+      </Paragraph>
+
+      <Example key="" maxLines="25">
+        <Exclude key="requires" />
+        <Include key="actions" />
+        <Include key="epilogue" />
+      </Example>
+
+      <Subheading>Key/value kinds</Subheading>
+
+      <Paragraph>
+        There are three kinds of key/value pairs in test cases, with notably different semantics.
+        *Drive* keys specify values that are used to drive inputs to the test: configuration settings, class properties, method arguments, and message fields.
+        *Check* keys specify expectations for values that are produced by the class under test; these are roughly analogous to asserts in conventional imperative test code.
+        *Match* keys indicate abstract correspondences that will receive concrete substitute values when the test executes.
+        An example of a match key is `correlation-index`; each distinct value will be mapped by the test framework to a distinct correlation ID in a message.
+        The meaning of null values and omitted keys depends on the kind of key:
+      </Paragraph>
+      <Itemization>
+        <Item>**Drive**</Item>
+        <Indent>
+          <Item>Omitted key &amp;mdash; Use the default value to drive the test.</Item>
+          <Item>Non-null value &amp;mdash; Use the indicated value to drive the test.</Item>
+          <Item>Null value &amp;mdash; Use a missing or null value when driving the test.</Item>
+        </Indent>
+        <Item>**Check**</Item>
+        <Indent>
+          <Item>Omitted key &amp;mdash; The value is irrelevant or not expected for the test case.</Item>
+          <Item>Non-null value &amp;mdash; Check that the class under test produces the indicated value.</Item>
+          <Item>Null value &amp;mdash; Check that the class under test produces the null value or no value.</Item>
+        </Indent>
+        <Item>**Match**</Item>
+        <Indent>
+          <Item>Omitted key &amp;mdash; The value is irrelevant for the test case; no matching will be done.</Item>
+          <Item>Non-null value &amp;mdash; Match on the indicated value.</Item>
+          <Item>Null value &amp;mdash; Match on an absent property (e.g., a message with no correlation ID); permitted only when test should generate exactly one possible match, ensuring unambiguous reference.</Item>
+        </Indent>
+      </Itemization>
+
+      <Subheading>Quoted strings</Subheading>
+
+      <Paragraph>
+        Single and double quotation marks have [slightly different meanings in YAML](https://www.yaml.info/learn/quote.html) but are often interchangeable by making appropriate substitutions of embedded escape sequences.
+        For test cases written in METL, the following convention is observed:
+      </Paragraph>
+      <Itemization>
+        <Item>Double quotes surround strings that should be used in the test with absolutely literality.</Item>
+        <Item>Single quotes surround strings that may be mapped to programming-language-appropriate values by different test engines.</Item>
+      </Itemization>
+      <Paragraph>
+        Unquoted (bare) strings are used for keywords or key phrases in METL, such as the value of an `action` key.
+        For example:
+      </Paragraph>
+
+      <Example suite="CommandInvoker" key="actions" maxLines="20">
+        <Include key="metadata" />
+        <Include key="catch" />
+        <Include key="property-name" />
+      </Example>
+
+      <Paragraph>
+        In the above test case, the value of `metadata` is double quoted, indicating that the metadata key must be used verbatim in the test.
+        By contrast, the value of `property-name` is single quoted, indicating that it may incur non-semantic changes across programming languages.
+        Since language conventions dictate different casing of property and argument names, the value in the test case is lowercase and contains no separators.
+        Test engines should de-capitalize and de-separate property names that are camelCase, PascalCase, or snake_case before comparing them to the indicated value.
+      </Paragraph>
+
+      <Subheading>Test platform requirements</Subheading>
+
+      <Paragraph>
+        The value of `requires` is an enumeration of features that the test platform must support for the test case to be run, as in the following example:
+      </Paragraph>
+
+      <Example key="requires" />
+
+      <Paragraph>
+        If a test platform does not support all of the features enumerated by `requires`, the test case will not be run against the platform.
+        The platform features are identified via the following enumeration.
+      </Paragraph>
+
+      <Subsection item="FeatureKind">
+        <Subsubheading />
+
+        <Paragraph>
+          The feature kind is an enumeration that includes the following enumerated values:
+        </Paragraph>
+
+        <EnumValueTable>
+          <Column name="Value" field="const"/>
+          <Column name="Description" field="title" />
+        </EnumValueTable>
+
+      </Subsection>
+
+      <Paragraph>
+        The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite) and [`CommandInvoker`](#commandinvoker-test-suite) test cases.
+        A final section describes [common test elements](#common-test-elements) that are usable in both CommandExecutor and CommandInvoker test cases.
+      </Paragraph>
+
+    </Section>
+
+    <Section suite="CommandExecutor">
+      <Heading>CommandExecutor test suite</Heading>
+
+      <Subsection>
+
+        <Paragraph>
+          The DTDL that defines request and response types for testing the `CommandExecutor` is as follows.
+        </Paragraph>
+
+        <CodeBlock language="json" source="../../../../test/test-cases/dtdl/TestModel.json" />
+
+        <Paragraph>
+          Because tests can execute concurrently, and the response cache is shared across all `CommandExecutor` instances, it is necessary to prevent test cases from interfering with each other.
+          The test engine generates a unique integer for each executing test case and populates the `testCaseIndex` field of the request payload with this value.
+          This ensures that separate test cases do not generate identical requests, which could collide in the cache.
+        </Paragraph>
+        <Paragraph>
+          In the `CommandExecutor` execution function, the test engine copies the `testCaseIndex` from the request payload to the response payload.
+          Whenever a test case indicates that a response value should be checked, the test engine also checks the `testCaseIndex` value to ensure it matches the value for the test case.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandExecutor test language</Subheading>
+
+      <Subsection item="ExecutorTestCase">
+
+        <Paragraph>
+          The YAML file for a `CommandExecutor` test case can have the following top-level keys.
+        </Paragraph>
+
+        <ObjectPropertyTable />
+
+        <Paragraph>
+          The `test-name`, `aka`, and `descriptions` keys are to assist human readability.
+          The `requires` key is described above in the introduction to this document.
+          The `prologue`, `actions`, and `epilogue` keys define the three main regions of the test case.
+          These regions are detailed below, beginning with the simpler prologue and epilogue regions, followed by the set of supported actions.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandExecutor test prologue</Subheading>
+
+      <Paragraph>
+        The prologue defines initialization to perform prior to stepping through any test-case actions.
+        This includes configuring the MQTT client, instantiating one or more CommandExecutors, and preparing synchronization items for use in the test.
+        The prologue can also define an expectation of error behavior when the configuration or initialization is intentionally invalid.
+        Following is an example CommandExecutor prologue:
+      </Paragraph>
+
+      <Example key="prologue">
+        <Include key="catch" />
+      </Example>
+
+      <Paragraph>
+        When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
+      </Paragraph>
+
+      <Subsection item="ExecutorPrologue">
+        <Subsubheading />
+
+        <Paragraph>
+          A CommandExecutor prologue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
+          The value type for `executors` is specific to CommandExecutor and is defined in the next subsection.
+        </Paragraph>
+
+        <Paragraph>
+          The value of `countdown-events` is a map that defines a collection of named countdown events and their initial values.
+          Each of these events may be signaled and/or awaited by a CommandExecutor instance and/or by a test action.
+          An example usage follows:
+        </Paragraph>
+
+        <Example key="prologue">
+          <Include key="countdown-events" />
+        </Example>
+
+      </Subsection>
+
+      <Subsection item="Executor">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `executors` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.executor" kinds="include" />
+
+        <Paragraph>
+          The value of `request-responses-map` is used to emulate a user-code command execution function.
+          When a request is received, its value is looked up in the map, and a value from the mapped array is used as the response.
+          The values in each array are used in sequence, wrapping if the count of request instances exceeds the array length.
+          If the request value is not found in the map, or if the mapped array has no elements, a null response is used.
+        </Paragraph>
+
+        <Paragraph>
+          The value type for `cacheable-duration` and `executor-timeout` is common across classes, so it is defined towards the end of this document.
+          The value types for `raise-error` and `sync` are specific to CommandExecutor and are defined in the next subsections.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="Error">
+        <Subsubheading />
+
+        <Paragraph>
+          The 'raise-error' key causes the CommandExecutor's execution function to raise an error, as in the following example:
+        </Paragraph>
+
+        <Example key="raise-error" />
+
+        <Paragraph>
+          The Error can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The error kind is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ErrorKind">
+        <Subsubheading />
+
+        <Paragraph>
+          The error kind includes the following enumerated values:
+        </Paragraph>
+
+        <EnumValueTable>
+          <Column name="Value" field="const"/>
+          <Column name="Description" field="title" />
+        </EnumValueTable>
+
+      </Subsection>
+
+      <Subsection item="Sync">
+        <Subsubheading />
+
+        <Paragraph>
+          The `sync` key causes the CommandExecutor to perform a sequence of synchronization operations with one or more countdown events, as in the following example:
+        </Paragraph>
+
+        <Example key="sync" />
+
+        <Paragraph>
+          The synchronization operations in the array are executed in order, and the command execution function will not complete until all sync operations have executed.
+          Although it is possible for a single array element to contain keys for both signaling and waiting, by convention only one of these operations is indicated per element, to make their relative ordering explicit.
+          Each element of the `sync` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+      </Subsection>
+
+      <Subheading>CommandExecutor test epilogue</Subheading>
+
+      <Paragraph>
+        The epilogue defines finalization to perform after stepping through any test-case actions.
+        This mainly involves checking to ensure that various things have happened as they should have.
+        This includes MQTT subscriptions, publications, and acknowledgements, as well as executions of the user callback code.
+        The epilogue can also define an expectation of error behavior during finalization.
+        Following is an example CommandExecutor epilogue:
+      </Paragraph>
+
+      <Example key="epilogue" />
+
+      <Subsection item="ExecutorEpilogue">
+        <Subsubheading />
+
+        <Paragraph>
+          A CommandExecutor epilogue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value type for `catch` is common across classes, so it is defined towards the end of this document.
+          The value type for `published-messages` is specific to CommandExecutor and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="PublishedResponse">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `published-messages` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
+          The index value can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandExecutor test actions</Subheading>
+
+      <Paragraph>
+        The actions define a sequence of test operations to perform.
+        Following is an example CommandExecutor actions array:
+      </Paragraph>
+
+      <Example key="actions" maxWidth="50" />
+
+      <Subsection item="ExecutorAction">
+        <Subsubheading />
+
+        <Paragraph>
+          The elements in a CommandExecutor action array have polymorphic types, each of which defines a specific test action, as indicated by the following table:
+        </Paragraph>
+
+        <ObjectSubtypeTable discriminator="action">
+          <Column name="Action" field="const"/>
+          <Column name="Subtype" field="subtype" />
+          <Column name="Description" field="description" />
+        </ObjectSubtypeTable>
+
+        <Paragraph>
+          The details of actions `await acknowledgement`, `disconnect`, `sleep`, `freeze time`, and `unfreeze time` are common across classes, so they are defined towards the end of this document.
+          The details of actions `receive request`, `await publish`, and `sync` are described in the following subsections.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionReceiveRequest">
+        <Subsubheading />
+
+        <Paragraph>
+          A `receive request` action causes the CommandExecutor to receive a request message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="receive request" />
+
+        <Paragraph>
+          When the value of the `action` key is `receive request`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="actions.receive-request" consts="include" kinds="include" />
+
+        <Paragraph>
+          Values for `correlation-index`, `invoker-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+          The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionAwaitPublishResponse">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await publish` action causes the test system to wait for the CommandExecutor to publish a response message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await publish" />
+
+        <Paragraph>
+          When the value of the `action` key is `await publish`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `correlation-index` is an arbitrary number that corresponds to a replacement value given by the test engine.
+          The replacement value is checked against the correlation ID in the published response message.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionSync">
+        <Subsubheading />
+
+        <Paragraph>
+          A `sync` action causes the test system to synchronize with a countdown event, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="sync" />
+
+        <Paragraph>
+          Although it is possible for a single action to contain keys for both signaling and waiting, by convention only one of these operations is indicated per action, to make their relative ordering explicit.
+          When the value of the `action` key is `await publish`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+      </Subsection>
+
+    </Section>
+
+    <Section suite="CommandInvoker">
+      <Heading>CommandInvoker test suite</Heading>
+
+      <Subsection>
+
+        <Paragraph>
+          Request and response types of `string` are used for testing the `CommandInvoker`.
+          There are no shared components across `CommandInvoker` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandInvoker test language</Subheading>
+
+      <Subsection item="InvokerTestCase">
+
+        <Paragraph>
+          The YAML file for a `CommandInvoker` test case can have the following top-level keys.
+        </Paragraph>
+
+        <ObjectPropertyTable />
+
+        <Paragraph>
+          The `test-name`, `aka`, and `descriptions` keys are to assist human readability.
+          The `requires` key is described above in the introduction to this document.
+          The `prologue`, `actions`, and `epilogue` keys define the three main regions of the test case.
+          These regions are detailed below, beginning with the simpler prologue and epilogue regions, followed by the set of supported actions.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandInvoker test prologue</Subheading>
+
+      <Paragraph>
+        The prologue defines initialization to perform prior to stepping through any test-case actions.
+        This includes configuring the MQTT client and instantiating one or more CommandInvokers.
+        The prologue can also define an expectation of error behavior when the configuration or initialization is intentionally invalid.
+        Following is an example CommandInvoker prologue:
+      </Paragraph>
+
+      <Example key="prologue">
+        <Include key="catch" />
+      </Example>
+
+      <Paragraph>
+        When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
+      </Paragraph>
+
+      <Subsection item="InvokerPrologue">
+        <Subsubheading />
+
+        <Paragraph>
+          A CommandInvoker prologue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
+          The value type for `invokers` is specific to CommandInvkoker and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="Invoker">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `invokers` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.invoker" kinds="include" />
+
+      </Subsection>
+
+      <Subheading>CommandInvoker test epilogue</Subheading>
+
+      <Paragraph>
+        The epilogue defines finalization to perform after stepping through any test-case actions.
+        This mainly involves checking to ensure that various things have happened as they should have.
+        This includes MQTT subscriptions, publications, and acknowledgements.
+        The epilogue can also define an expectation of error behavior during finalization.
+        Following is an example CommandInvoker epilogue:
+      </Paragraph>
+
+      <Example key="epilogue" />
+
+      <Subsection item="InvokerEpilogue">
+        <Subsubheading />
+
+        <Paragraph>
+          A CommandInvoker epilogue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value type for `published-messages` is specific to CommandInvoker and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="PublishedRequest">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `published-messages` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
+          The index value can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>CommandInvoker test actions</Subheading>
+
+      <Paragraph>
+        The actions define a sequence of test operations to perform.
+        Following is an example CommandInvoker actions array:
+      </Paragraph>
+
+      <Example key="actions" maxWidth="50" minChildren="5" />
+
+      <Subsection item="InvokerAction">
+        <Subsubheading />
+
+        <Paragraph>
+          The elements in a CommandInvoker action array have polymorphic types, each of which defines a specific test action, as indicated by the following table:
+        </Paragraph>
+
+        <ObjectSubtypeTable discriminator="action">
+          <Column name="Action" field="const"/>
+          <Column name="Subtype" field="subtype" />
+          <Column name="Description" field="description" />
+        </ObjectSubtypeTable>
+
+        <Paragraph>
+          The details of actions `await acknowledgement`, `disconnect`, `sleep`, `freeze time`, and `unfreeze time` are common across classes, so they are defined towards the end of this document.
+          The details of actions `invoke command`, `await invocation`, `await publish`, and `receive response` are described in the following subsections.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionInvokeCommand">
+        <Subsubheading />
+
+        <Paragraph>
+          An `invoke command` action causes the CommandInvoker to invoke a command without waiting for its completion, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="invoke command" />
+
+        <Paragraph>
+          When the value of the `action` key is `invoke command`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="actions.invoke-command" consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `invocation-index` is an arbitrary number that will be given a replacement values by the test engine.
+          The index value can be used in multiple actions, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionAwaitInvocation">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await invocation` action causes the test system to wait for a command invocation to complete, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await invocation" />
+
+        <Paragraph>
+          When the value of the `action` key is `await invocation`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `invocation-index` is an arbitrary number that will be given a replacement values by the test engine.
+          The index value can be used in multiple actions, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionAwaitPublishRequest">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await publish` action causes the test system to wait for the CommandInvoker to publish a request message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await publish" />
+
+        <Paragraph>
+          When the value of the `action` key is `await publish`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `correlation-index` is an arbitrary number.
+          Unlike index values for the CommandExecutor, and unlike other index values for the CommandInvoker, the correlation index is not given a replacement values by the test engine.
+          Instead, it is mapped to the correlation identifier assigned by the CommandInvoker itself, which is embedded in the request message.
+          Therefore, the correlation index must be used in an `await publish` action before it is used in any other action or in the epilogue.
+          Thereafter, the identifier assigned by the CommandInvoker can be referenced in the remainder of the test.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionReceiveResponse">
+        <Subsubheading />
+
+        <Paragraph>
+          A `receive response` action causes the CommandInvoker to receive a response message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="receive response" />
+
+        <Paragraph>
+          When the value of the `action` key is `receive response`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="actions.receive-response" consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `correlation-index` is an arbitrary number.
+          Unlike index values for the CommandExecutor, and unlike other index values for the CommandInvoker, the correlation index is not given a replacement values by the test engine.
+          Instead, it is mapped to the correlation identifier assigned by the CommandInvoker itself, which is embedded in the request message.
+          Therefore, the correlation index must have been used in an `await publish` action before it can be used in a `receive response` action.
+        </Paragraph>
+
+      </Subsection>
+
+    </Section>
+
+    <Section>
+      <Heading>Common test elements</Heading>
+
+      <Paragraph>
+        Several test elements are usable in both CommandExecutor and CommandInvoker unit test cases.
+      </Paragraph>
+
+      <Subheading>Common test actions</Subheading>
+
+      <Paragraph>
+        Several action subtypes are usable in both CommandExecutor and CommandInvoker unit test cases.
+      </Paragraph>
+
+      <Subsection item="ActionAwaitAck">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await acknowledgement` action causes the test system to wait for the class under test to send an acknowledgement, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await acknowledgement" />
+
+        <Paragraph>
+          When the value of the `action` key is `await acknowledgement`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+        <Paragraph>
+          The value for `packet-index` is an arbitrary number that corresponds to a replacement value given by the test engine.
+          The replacement value is checked against the packet ID in the published acknowledgement.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionDisconnect">
+        <Subsubheading />
+
+        <Paragraph>
+          A `disconnect` action disconnects the class under test from the MQTT broker, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="disconnect" />
+
+        <Paragraph>
+          When the value of the `action` key is `disconnect`, no sibling keys are available.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionSleep">
+        <Subsubheading />
+
+        <Paragraph>
+          A `sleep` action causes the test system to sleep for a specified duration, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="sleep" />
+
+        <Paragraph>
+          When the value of the `action` key is `sleep`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="ActionFreezeTime">
+        <Subsubheading />
+
+        <Paragraph>
+          A `freeze time` action freezes the test time so the clock does not advance, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="freeze time" />
+
+        <Paragraph>
+          When the value of the `action` key is `freeze time`, no sibling keys are available.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionUnfreezeTime">
+        <Subsubheading />
+
+        <Paragraph>
+          An `unfreeze time` action unfreezes the test time so the clock resumes normal advancement, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="unfreeze time" />
+
+        <Paragraph>
+          When the value of the `action` key is `unfreeze time`, no sibling keys are available.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>Common prologue value types</Subheading>
+
+      <Paragraph>
+        Both CommandExecutor and CommandInvoker prologues have keys `mqtt-config`, `push-acks`, and `catch`, which have value types defined in this section.
+      </Paragraph>
+
+      <Subsection item="MqttConfig">
+        <Subsubheading />
+
+        <Paragraph>
+          The value of `mqtt-config` provides MQTT client configuration settings, as in the following example:
+        </Paragraph>
+        
+        <Example key="mqtt-config" />
+
+        <Paragraph>
+          The MQTT configuration can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.mqtt-config" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="PushAcks">
+        <Subsubheading />
+
+        <Paragraph>
+          The value of `push-acks` is a collection of queues of ACKs that are used sequentially to respond to various asynchronous MQTT messages, as in the following example:
+        </Paragraph>
+        
+        <Example key="push-acks" />
+
+        <Paragraph>
+          By convention, these arrays are written in YAML flow style.
+          Each element in a `push-acks` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          When a PUBLISH, SUBSCRIBE, or UNSUBSCRIBE is sent by the class under test, the test system attempts to dequeue an ACK from the appropriate queue.
+          If the queue is empty, the test system responds with a SUCCESS ACK; otherwise, the value from the head of the queue is used.
+        </Paragraph>
+
+        <Paragraph>
+          The value type for the elements in each queue is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="AckKind">
+        <Subsubheading />
+
+        <Paragraph>
+          The ACK kind is an enumeration that includes the following enumerated values:
+        </Paragraph>
+
+        <EnumValueTable>
+          <Column name="Value" field="const"/>
+          <Column name="Description" field="title" />
+        </EnumValueTable>
+
+      </Subsection>
+
+      <Subsection item="Catch">
+        <Subsubheading />
+
+        <Paragraph>
+          The value of `catch` defines an error that is expected to be caught, as in the following example:
+        </Paragraph>
+        
+        <Example key="catch" />
+
+        <Paragraph>
+          The catch can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          See the [error model document](./error-model.md) for further details, including the supplemental properties that can be set in an error.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>Common miscellaneous items</Subheading>
+
+      <Subsection item="Duration">
+        <Subsubheading />
+
+        <Paragraph>
+          A Duration defines a span of time, as in the following example:
+        </Paragraph>
+        
+        <Example key="message-expiry" />
+
+        <Paragraph>
+          By convention, this object is written in YAML flow style.
+          The duration can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable />
+
+      </Subsection>
+
+    </Section>
+
+  </Body>
+
+</Document>

@@ -23,8 +23,6 @@ type (
 	}
 )
 
-const vdel = "VDEL"
-
 // VDel deletes the given key if it is equal to the given value. It returns the
 // number of values deleted (typically 0 or 1) or -1 if the key was present but
 // did not match the given value.
@@ -41,7 +39,8 @@ func (c *Client[K, V]) VDel(
 	var opts VDelOptions
 	opts.Apply(opt)
 
-	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpKV(vdel, key, val))
+	req := resp.OpKV("VDEL", key, val)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 
 // Apply resolves the provided list of options.
@@ -67,7 +66,7 @@ func (o WithTimeout) vdel(opt *VDelOptions) {
 
 func (o *VDelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }

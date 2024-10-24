@@ -23,11 +23,11 @@ import (
 type (
 	// CommandExecutor provides the ability to execute a single command.
 	CommandExecutor[Req any, Res any] struct {
-		client    mqtt.Client
+		client    MqttClient
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 		cache     *caching.Cache
 	}
 
@@ -39,9 +39,9 @@ type (
 		Idempotent bool
 		CacheTTL   time.Duration
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -90,7 +90,7 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
-	client Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopic string,
@@ -129,11 +129,12 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(
-		opts.ExecutionTimeout,
-		commandExecutorErrStr,
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     commandExecutorErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
@@ -173,16 +174,14 @@ func NewCommandExecutor[Req, Res any](
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		logger:         log.Wrap(opts.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,
 	}
 
-	if err := ce.listener.register(); err != nil {
-		return nil, err
-	}
+	ce.listener.register()
 	return ce, nil
 }
 
@@ -239,14 +238,10 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			return nil, err
 		}
 
-		handlerCtx, cancel := ce.timeout(ctx)
+		handlerCtx, cancel := ce.timeout.Context(ctx)
 		defer cancel()
 
-		handlerCtx, cancel = internal.MessageExpiryTimeout(
-			handlerCtx,
-			pub.MessageExpiry,
-			commandExecutorErrStr,
-		)
+		handlerCtx, cancel = pubTimeout(pub).Context(handlerCtx)
 		defer cancel()
 
 		res, err := ce.handle(handlerCtx, req)
@@ -270,7 +265,12 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return nil
 	}
 
-	err = ce.client.Publish(ctx, rpub.Topic, rpub.Payload, &rpub.PublishOptions)
+	_, err = ce.client.Publish(
+		ctx,
+		rpub.Topic,
+		rpub.Payload,
+		&rpub.PublishOptions,
+	)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
@@ -299,12 +299,13 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	if err != nil {
 		return err
 	}
-	return ce.client.Publish(
+	_, err = ce.client.Publish(
 		ctx,
 		rpub.Topic,
 		rpub.Payload,
 		&rpub.PublishOptions,
 	)
+	return err
 }
 
 // Call handler with panic catch.
@@ -365,6 +366,31 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	}
 }
 
+// Build the response publish packet.
+func (ce *CommandExecutor[Req, Res]) build(
+	pub *mqtt.Message,
+	res *CommandResponse[Res],
+	resErr error,
+) (*mqtt.Message, error) {
+	var msg *Message[Res]
+	if res != nil {
+		msg = &res.Message
+	}
+	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
+	if err != nil {
+		return nil, err
+	}
+
+	rpub.CorrelationData = pub.CorrelationData
+	rpub.Topic = pub.ResponseTopic
+	rpub.MessageExpiry = pub.MessageExpiry
+	for key, val := range errutil.ToUserProp(resErr) {
+		rpub.UserProperties[key] = val
+	}
+
+	return rpub, nil
+}
+
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
@@ -385,29 +411,13 @@ func ignoreRequest(pub *mqtt.Message) error {
 	return nil
 }
 
-// Build the response publish packet.
-func (ce *CommandExecutor[Req, Res]) build(
-	pub *mqtt.Message,
-	res *CommandResponse[Res],
-	resErr error,
-) (*mqtt.Message, error) {
-	var msg *Message[Res]
-	if res != nil {
-		msg = &res.Message
+// Build a timeout based on the message's expiry.
+func pubTimeout(pub *mqtt.Message) *internal.Timeout {
+	return &internal.Timeout{
+		Duration: time.Duration(pub.MessageExpiry) * time.Second,
+		Name:     "MessageExpiry",
+		Text:     commandExecutorErrStr,
 	}
-	rpub, err := ce.publisher.build(msg, nil, 0)
-	if err != nil {
-		return nil, err
-	}
-
-	rpub.CorrelationData = pub.CorrelationData
-	rpub.Topic = pub.ResponseTopic
-	rpub.MessageExpiry = pub.MessageExpiry
-	for key, val := range errutil.ToUserProp(resErr) {
-		rpub.UserProperties[key] = val
-	}
-
-	return rpub, nil
 }
 
 // Respond is a shorthand to create a command response with required values and

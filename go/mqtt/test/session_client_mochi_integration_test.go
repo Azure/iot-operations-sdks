@@ -65,53 +65,51 @@ func TestWithMochi(t *testing.T) {
 	t.Run("TestConnect", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 	})
 
 	t.Run("TestSubscribeUnsubscribe", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 
-		sub, err := client.Subscribe(
-			context.Background(),
-			topicName,
-			func(context.Context, *mqtt.Message) error {
-				return nil
-			},
-		)
+		done := client.RegisterMessageHandler(noopHandler)
+		defer done()
+
+		_, err = client.Subscribe(context.Background(), topicName)
 		require.NoError(t, err)
 
-		require.NoError(t, sub.Unsubscribe(context.Background()))
+		_, err = client.Unsubscribe(context.Background(), topicName)
+		require.NoError(t, err)
 	})
 
 	t.Run("TestSubscribePublish", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 
 		subscribed := make(chan struct{})
-		_, err = client.Subscribe(
-			context.Background(),
-			topicName,
-			func(_ context.Context, msg *mqtt.Message) error {
+		done := client.RegisterMessageHandler(
+			func(_ context.Context, msg *mqtt.Message) bool {
 				require.Equal(t, topicName, msg.Topic)
 				require.Equal(t, []byte(publishMessage), msg.Payload)
 				close(subscribed)
-				return nil
+				return true
 			},
 		)
+		defer done()
+
+		_, err = client.Subscribe(context.Background(), topicName)
 		require.NoError(t, err)
 
-		err = client.Publish(
+		_, err = client.Publish(
 			context.Background(),
 			topicName,
 			[]byte(publishMessage),
 		)
-
 		require.NoError(t, err)
 
 		<-subscribed

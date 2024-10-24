@@ -2,6 +2,12 @@
 // Licensed under the MIT License.
 package test
 
+import (
+	"context"
+
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+)
+
 const (
 	clientID        string = "sandycheeks"
 	topicName       string = "patrick"
@@ -11,3 +17,5 @@ const (
 	publishMessage  string = "squidward"
 	publishMessage2 string = "squarepants"
 )
+
+func noopHandler(context.Context, *mqtt.Message) bool { return true }

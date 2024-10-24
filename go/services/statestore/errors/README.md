@@ -45,7 +45,7 @@ type Argument struct {
 ```
 
 <a name="Argument.Error"></a>
-### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L62>)
+### func \(Argument\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L63>)
 
 ```go
 func (e Argument) Error() string
@@ -54,7 +54,7 @@ func (e Argument) Error() string
 
 
 <a name="Argument.Unwrap"></a>
-### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L66>)
+### func \(Argument\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L67>)
 
 ```go
 func (Argument) Unwrap() error
@@ -72,7 +72,7 @@ type Payload string
 ```
 
 <a name="Payload.Error"></a>
-### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L54>)
+### func \(Payload\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L55>)
 
 ```go
 func (e Payload) Error() string
@@ -81,7 +81,7 @@ func (e Payload) Error() string
 
 
 <a name="Payload.Unwrap"></a>
-### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L58>)
+### func \(Payload\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L59>)
 
 ```go
 func (Payload) Unwrap() error
@@ -102,10 +102,10 @@ type Service string
 
 ```go
 const (
-    TimestampSkew            Service = "the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    TimestampSkew            Service = "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
     MissingFencingToken      Service = "a fencing token is required for this request"
-    FencingTokenSkew         Service = "the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
-    FencingTokenLowerVersion Service = "the requested fencing token is a lower version that the fencing token protecting the resource"
+    FencingTokenSkew         Service = "the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    FencingTokenLowerVersion Service = "the request fencing token is a lower version than the fencing token protecting the resource"
     QuotaExceeded            Service = "the quota has been exceeded"
     SyntaxError              Service = "syntax error"
     NotAuthorized            Service = "not authorized"
@@ -118,7 +118,7 @@ const (
 ```
 
 <a name="Service.Error"></a>
-### func \(Service\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L46>)
+### func \(Service\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L47>)
 
 ```go
 func (e Service) Error() string
@@ -127,7 +127,7 @@ func (e Service) Error() string
 
 
 <a name="Service.Unwrap"></a>
-### func \(Service\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L50>)
+### func \(Service\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/errors/errors.go#L51>)
 
 ```go
 func (Service) Unwrap() error

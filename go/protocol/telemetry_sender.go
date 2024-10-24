@@ -5,9 +5,10 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -16,7 +17,7 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    mqtt.Client
+		client    MqttClient
 		publisher *publisher[T]
 	}
 
@@ -37,21 +38,27 @@ type (
 
 	// SendOptions are the resolved per-send options.
 	SendOptions struct {
-		Retain bool
+		CloudEvent *CloudEvent
+		Retain     bool
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithRetain indicates that the telemetry event should be retained by the
 	// broker.
 	WithRetain bool
+
+	// This option is not used directly; see WithCloudEvent below.
+	withCloudEvent struct{ *CloudEvent }
 )
+
+const telemetrySenderErrStr = "telemetry send"
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
-	client Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	opt ...TelemetrySenderOption,
@@ -101,26 +108,38 @@ func (ts *TelemetrySender[T]) Send(
 	var opts SendOptions
 	opts.Apply(opt)
 
-	correlationData, err := errutil.NewUUID()
-	if err != nil {
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     telemetrySenderErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
 		return err
 	}
 
 	msg := &Message[T]{
-		CorrelationData: correlationData,
-		Payload:         val,
-		Metadata:        opts.Metadata,
+		Payload:  val,
+		Metadata: opts.Metadata,
 	}
-	pub, err := ts.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return err
 	}
 
+	if err := cloudEventToMessage(pub, opts.CloudEvent); err != nil {
+		return err
+	}
 	pub.Retain = opts.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ClientID()
+	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
-	return ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	return err
 }
 
 // Apply resolves the provided list of options.
@@ -166,4 +185,18 @@ func (o *SendOptions) send(opt *SendOptions) {
 
 func (o WithRetain) send(opt *SendOptions) {
 	opt.Retain = bool(o)
+}
+
+// WithCloudEvent adds a cloud event payload to the telemetry message.
+func WithCloudEvent(ce *CloudEvent) SendOption {
+	return withCloudEvent{ce}
+}
+
+func (o withCloudEvent) send(opt *SendOptions) {
+	opt.CloudEvent = o.CloudEvent
+}
+
+// Support CloudEvent used as an option directly for convenience.
+func (o *CloudEvent) send(opt *SendOptions) {
+	opt.CloudEvent = o
 }

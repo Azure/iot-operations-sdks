@@ -3,13 +3,34 @@
 package protocol
 
 import (
+	"context"
+
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 )
 
 type (
-	// Client is the client used for the underlying MQTT connection.
-	Client = mqtt.Client
+	// MqttClient is the client used for the underlying MQTT connection.
+	MqttClient interface {
+		ID() string
+		Publish(
+			context.Context,
+			string,
+			[]byte,
+			...mqtt.PublishOption,
+		) (*mqtt.Ack, error)
+		RegisterMessageHandler(mqtt.MessageHandler) func()
+		Subscribe(
+			context.Context,
+			string,
+			...mqtt.SubscribeOption,
+		) (*mqtt.Ack, error)
+		Unsubscribe(
+			context.Context,
+			string,
+			...mqtt.UnsubscribeOption,
+		) (*mqtt.Ack, error)
+	}
 
 	// Message contains common message data that is exposed to message handlers.
 	Message[T any] struct {

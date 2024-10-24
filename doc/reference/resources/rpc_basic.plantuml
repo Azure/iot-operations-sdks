@@ -1,0 +1,82 @@
+@startuml
+
+box Invoker
+participant "Invoker\napp logic" as ial
+participant "Invoker" as i
+end box
+
+participant "Broker" as b
+
+box Executor
+participant "Executor\nMQTT client" as emc
+participant "Executor" as e
+queue "MsgQueue" as q
+participant "Dispatcher" as d
+entity "Semaphore" as sem
+participant "Ack'er" as acker
+queue "AckQueue" as ack
+note over ack : thread-safe ordered IDictionary<TKey,TValue>
+participant "Executor\nThread 1" as t1
+
+database "Cache" as c
+note over c: cleared regularly by timer
+participant "Executor\napp logic" as al
+end box
+autonumber 
+
+group Initialization
+group Invoker initialization
+ial -> i : Initialize
+i -> b : SUB \n"response topic"
+b --> i : SUBACK
+end
+
+group Executor initialization
+e -> sem : init(1)
+create emc
+e -> emc : create
+create d
+e -> d : create
+create acker
+e -> acker : create
+e -> emc : SUB \n"request topic"
+emc -> b : SUB \n"request topic"
+b --> emc : SUBACK
+end
+end
+
+group Handle Basic Invocation
+ial -> i : Invoke method 1 \nRPC request
+i -> b : PUB MQTT msg\n(RPC invocation 1)\nPktId:1;CorId:1
+b --> i : PUBACK\nPktId:1;CorId:1
+
+group Executor handling
+b -> emc : PUB MQTT msg\n(RPC invocation 1)\nPktId:1;CorId:1
+emc -> e : Send request \nPktId:1;CorId:1
+e -> q : Enqueue request \nPktId:1;CorId:1
+d -> q : Read request \nPktId:1;CorId:1
+d -> ack : Try to add a placeholder for request PUBACK \nPktId:1
+ack --> d : Placeholder for request PUBACK added \nPktId:1
+d -> sem : request thread \nsemaphore
+sem --> d : semaphore \nacquired\n(0 remaining)
+d -> t1 ++ #005500 : Start request \nexecution \nPktId:1;CorId:1
+t1 -> c : Try to add a \nplaceholder for \nthe cached response \nCorId:1
+c --> t1 : Placeholder for \ncached response \ncreated \nCorId:1
+t1 -> al : Execute request
+al --> t1 : Response
+t1 -> c : Update placeholder \nwith cache \nrequest:response \nCorId:1
+t1 -> emc : Send response \nCorId:1
+emc -> b : PUB response\n(response topic) \nCorId:1
+b --> emc : PUBACK
+t1 -> ack : Enqueue \nPUBACK \nPktId:1
+t1 -> sem -- : Release semaphore\n(1 remaining)
+acker -> ack : Read ack
+acker --> b : PUBACK\n(for request)\nPktId:1
+end
+
+b -> i : PUB MQTT msg\n(RPC response 1)\nPktId:1;CorId:1
+i --> b : PUBACK \n(RPC response 1)\nPktId:1;CorId:1
+i --> ial : RPC Response\nCorId:1
+end
+
+@enduml

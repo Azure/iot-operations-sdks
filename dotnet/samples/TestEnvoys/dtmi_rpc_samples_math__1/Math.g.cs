@@ -15,18 +15,19 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
     using Azure.Iot.Operations.Protocol.Telemetry;
     using TestEnvoys;
 
-    [ModelId("dtmi:rpc:samples:math;1")]
     [CommandTopic("rpc/samples/{modelId}/{executorId}/{commandName}")]
     public static partial class Math
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly IsPrimeCommandExecutor isPrimeCommandExecutor;
             private readonly FibCommandExecutor fibCommandExecutor;
             private readonly GetRandomCommandExecutor getRandomCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(mqttClient) { OnCommandReceived = IsPrime_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -48,10 +49,21 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -94,12 +106,14 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly IsPrimeCommandInvoker isPrimeCommandInvoker;
             private readonly FibCommandInvoker fibCommandInvoker;
             private readonly GetRandomCommandInvoker getRandomCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -115,20 +129,56 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
 
             public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(executorId, new Google.Protobuf.WellKnownTypes.Empty(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()
