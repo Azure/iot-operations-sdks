@@ -134,15 +134,27 @@ public class GreeterEnvoy
 
         public RpcCallAsync<HelloResponse> SayHello(ExtendedRequest<HelloRequest> request, CommandRequestMetadata? md = default, TimeSpan? timeout = default)
         {
+            string? clientId = this.mqttClient.ClientId;
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+            }
+
             CommandRequestMetadata metadata = md == default ? new CommandRequestMetadata() : md;
-            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", this.mqttClient.ClientId! } };
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", clientId } };
             return new RpcCallAsync<HelloResponse>(sayHelloInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 
         public RpcCallAsync<HelloResponse> SayHelloWithDelay(ExtendedRequest<HelloWithDelayRequest> request, TimeSpan? timeout = default)
         {
+            string? clientId = this.mqttClient.ClientId;
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+            }
+
             CommandRequestMetadata metadata = new CommandRequestMetadata();
-            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", this.mqttClient.ClientId! } };
+            Dictionary<string, string> transientTopicTokenMap = new() { { "invokerClientId", clientId } };
             return new RpcCallAsync<HelloResponse>(sayHelloWithDelayInvoker.InvokeCommandAsync(request.Request, metadata, transientTopicTokenMap, timeout), metadata.CorrelationId);
         }
 

@@ -75,9 +75,15 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
                 Dictionary<string, string>? transientTopicTokenMap = new()
                 {
-                    { "executorId", this.mqttClient.ClientId! },
+                    { "executorId", clientId },
                 };
 
                 await Task.WhenAll(
@@ -169,10 +175,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public <#=this.CallAsyncType(cmdNameReqResp)#> <#=this.AsUpper(cmdNameReqResp.Item1)#>Async(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 Dictionary<string, string>? transientTopicTokenMap = new()
                 {
-                    { "invokerClientId", this.mqttClient.ClientId! },
+                    { "invokerClientId", clientId },
 <# if (this.doesCommandTargetExecutor) { #>
                     { "executorId", executorId },
 <# } #>
