@@ -263,7 +263,6 @@ func getCommandInvoker(
 		if err == nil {
 			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
 				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-				protocol.WithTopicTokens{"commandName": *tci.CommandName},
 			)
 		}
 
@@ -287,9 +286,7 @@ func invokeCommand(
 	options := []protocol.InvokeOption{}
 	options = append(
 		options,
-		protocol.WithMessageExpiry(
-			uint32(actionInvokeCommand.Timeout.ToDuration().Seconds()),
-		),
+		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
 	)
 
 	if actionInvokeCommand.ExecutorID != nil {

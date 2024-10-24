@@ -83,7 +83,11 @@ func (c *SessionClient) Reauthenticate(
 	}
 
 	// Connection lost; we can't buffer Auth packet for reconnection.
-	if !c.isConnected.Load() {
+	if func() bool {
+		c.connectionMu.Lock()
+		defer c.connectionMu.Unlock()
+		return !c.connected
+	}() {
 		return &errors.Error{
 			Kind:    errors.ExecutionException,
 			Message: "connection lost during reauthentication",
@@ -96,10 +100,7 @@ func (c *SessionClient) Reauthenticate(
 
 // autoAuth periodically reauthenticates the client at intervals
 // specified by AuthInterval in connection settings.
-func (c *SessionClient) autoAuth() {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
+func (c *SessionClient) autoAuth(ctx context.Context) {
 	ticker := time.NewTicker(c.connSettings.authOptions.AuthInterval)
 	defer ticker.Stop()
 
@@ -110,7 +111,7 @@ func (c *SessionClient) autoAuth() {
 			if err := c.Reauthenticate(ctx); err != nil {
 				c.log.Error(ctx, err)
 			}
-		case <-c.connStopC.C:
+		case <-ctx.Done():
 			c.log.Info(ctx, "stop auto reauthentication on client shutdown")
 			return
 		}

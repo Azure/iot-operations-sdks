@@ -33,7 +33,7 @@ func main() {
 	client := must(envoy.NewGreeterClient(mqttClient))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	n := flag.String("n", "User", "the name to greet (default: User)")
@@ -83,9 +83,8 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithMessageExpiry(
-				protocol.DefaultMessageExpiry+uint32(duration.Seconds()),
-			)))
+			protocol.WithTimeout(protocol.DefaultTimeout+duration),
+		))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
 }

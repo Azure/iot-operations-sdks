@@ -25,6 +25,14 @@ type (
 		ReasonCode byte
 	}
 
+	// Ack contains values from PUBACK/SUBACK/UNSUBACK packets received from the
+	// MQTT server.
+	Ack struct {
+		ReasonCode     byte
+		ReasonString   string
+		UserProperties map[string]string
+	}
+
 	// ConnectEventHandler is a user-defined callback function used to respond
 	// to connection notifications from the MQTT client.
 	ConnectEventHandler = func(*ConnectEvent)

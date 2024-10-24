@@ -28,7 +28,7 @@ func main() {
 	client := must(dtmi_com_example_Counter__1.NewCounterClient(mqttClient, protocol.WithResponseTopicPrefix("response")))
 	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	resp := must(client.ReadCounter(ctx, counterServer))

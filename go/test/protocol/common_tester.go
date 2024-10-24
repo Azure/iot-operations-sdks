@@ -3,7 +3,6 @@
 package protocol
 
 import (
-	"context"
 	"testing"
 	"time"
 
@@ -31,7 +30,7 @@ func getStubAndSessionClient(
 		mqtt.WithClientID(clientID),
 	)
 	require.NoError(t, err)
-	err = sessionClient.Connect(context.Background())
+	err = sessionClient.Start()
 	require.NoError(t, err)
 
 	return mqttClient, sessionClient
