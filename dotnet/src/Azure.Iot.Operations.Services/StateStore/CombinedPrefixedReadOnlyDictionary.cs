@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.StateStore
     using System.Linq;
 
     /// <summary>
-    /// An implementation of <c>IReadOnlyDictionary</c> that combines two <c>IReadOnlyDictionary</c> objects by prefixng their string keyes.
+    /// An implementation of <c>IReadOnlyDictionary</c> that combines two <c>IReadOnlyDictionary</c> objects by prefixng their string keys.
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the combined dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the combined dictionary.</typeparam>
