@@ -73,7 +73,6 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let read_payload = CommandRequestBuilder::default()
         .payload(&CounterRequestPayload::default())
         .unwrap()
-        .executor_id(executor_id.clone())
         .timeout(Duration::from_secs(10))
         .build()
         .unwrap();
@@ -87,7 +86,6 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             .payload(&CounterRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(10))
-            .executor_id(executor_id.clone())
             .build()
             .unwrap();
         let incr_response = incr_invoker.invoke(incr_payload).await;
@@ -99,7 +97,6 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let read_payload = CommandRequestBuilder::default()
         .payload(&CounterRequestPayload::default())
         .unwrap()
-        .executor_id(executor_id)
         .timeout(Duration::from_secs(10))
         .build()
         .unwrap();

@@ -290,7 +290,7 @@ where
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
         client: C,
-        executor_options: CommandExecutorOptions,
+        mut executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new_command_pattern
@@ -305,6 +305,11 @@ where
                 Some(executor_options.command_name),
             ));
         }
+        executor_options.custom_topic_token_map.insert(
+            "commandName".to_string(),
+            executor_options.command_name.clone(),
+        );
+
         if !executor_options.is_idempotent && !executor_options.cacheable_duration.is_zero() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
@@ -322,12 +327,8 @@ where
             .unwrap_or(client.client_id());
 
         // Create a new Command Pattern, validates topic pattern and options
-        let request_topic_pattern = TopicPattern::new_command_pattern(
+        let request_topic_pattern = TopicPattern::new(
             &executor_options.request_topic_pattern,
-            &executor_options.command_name,
-            executor_id,
-            WILDCARD,
-            executor_options.model_id.as_deref(),
             executor_options.topic_namespace.as_deref(),
             &executor_options.custom_topic_token_map,
         )?;
@@ -621,7 +622,7 @@ where
                                             }
                                         }
                                     },
-                                    Ok(UserProperty::CommandInvokerId) => {
+                                    Ok(UserProperty::SourceId) => {
                                         invoker_id = Some(value);
                                     },
                                     Err(()) => {
@@ -643,8 +644,8 @@ where
 
                             let Some(invoker_id) = invoker_id else {
                                  response_arguments.status_code = StatusCode::BadRequest;
-                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::CommandInvokerId));
-                                 response_arguments.invalid_property_name = Some(UserProperty::CommandInvokerId.to_string());
+                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::SourceId));
+                                 response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
                                  break 'process_request;
                              };
 

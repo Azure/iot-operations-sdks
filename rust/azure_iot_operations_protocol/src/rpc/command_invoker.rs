@@ -45,12 +45,12 @@ where
     /// Default is an empty vector.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    // FIN: Write documentation for this
+    #[builder(default)]
+    custom_tokens: HashMap<String, String>,
     /// Optional Fencing Token of the command request.
     #[builder(default = "None")]
     fencing_token: Option<HybridLogicalClock>,
-    /// Executor ID to use if required in the request topic
-    #[builder(default = "None")]
-    executor_id: Option<String>,
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
@@ -271,22 +271,14 @@ where
             }
         }
         // Generate the request and response topics
-        let request_topic_pattern = TopicPattern::new_command_pattern(
+        let request_topic_pattern = TopicPattern::new(
             &invoker_options.request_topic_pattern,
-            &invoker_options.command_name,
-            topic_processor::WILDCARD,
-            client.client_id(),
-            invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
         )?;
 
-        let response_topic_pattern = TopicPattern::new_command_pattern(
+        let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
-            &invoker_options.command_name,
-            topic_processor::WILDCARD,
-            client.client_id(),
-            invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.custom_topic_token_map,
         )?;
@@ -483,14 +475,15 @@ where
             }
         };
 
+        // FIN: Maybe find a way to distinguish between the request and response topic errors.
         // Get request topic. Validates executor_id
         let request_topic = self
             .request_topic_pattern
-            .as_publish_topic(request.executor_id.as_deref())?;
+            .as_publish_topic(&request.custom_tokens)?;
         // Get response topic. Validates executor_id
         let response_topic = self
             .response_topic_pattern
-            .as_publish_topic(request.executor_id.as_deref())?;
+            .as_publish_topic(&request.custom_tokens)?;
         // Get and validate content_type
         let content_type = TReq::content_type();
         if is_invalid_utf8(content_type) {
@@ -512,7 +505,7 @@ where
 
         // Add internal user properties
         request.custom_user_data.push((
-            UserProperty::CommandInvokerId.to_string(),
+            UserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
         request.custom_user_data.push((
@@ -993,12 +986,6 @@ mod tests {
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
             CommandInvoker::new(managed_client, invoker_options).unwrap();
-        assert!(command_invoker
-            .request_topic_pattern
-            .is_match("test/test_command_name/some_executor/request"));
-        assert!(command_invoker
-            .response_topic_pattern
-            .is_match("clients/test_client/test/test_command_name/some_executor/request"));
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/test_command_name/+/request"
@@ -1025,13 +1012,7 @@ mod tests {
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
             CommandInvoker::new(managed_client, invoker_options).unwrap();
-        assert!(command_invoker
-            .request_topic_pattern
-            .is_match("test_namespace/test/test_command_name/test_model_id/some_executor/request"));
         // prefix and suffix should be ignored if response_topic_pattern is provided
-        assert!(command_invoker.response_topic_pattern.is_match(
-            "test_namespace/test/test_command_name/test_model_id/some_executor/response"
-        ));
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/test_model_id/+/response"
@@ -1426,7 +1407,6 @@ mod tests {
                     .payload(&mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
-                    .executor_id(Some("+++".to_string()))
                     .build()
                     .unwrap(),
             )

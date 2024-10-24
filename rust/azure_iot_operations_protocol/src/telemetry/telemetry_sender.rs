@@ -121,6 +121,9 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Default is an empty `HashMap`.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    // FIN: Write documentation for this
+    #[builder(default)]
+    topic_tokens: HashMap<String, String>,
     /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
     /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
@@ -284,11 +287,8 @@ where
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
-        let topic_pattern = TopicPattern::new_telemetry_pattern(
+        let topic_pattern = TopicPattern::new(
             &sender_options.topic_pattern,
-            client.client_id(),
-            sender_options.telemetry_name.as_deref(),
-            sender_options.model_id.as_deref(),
             sender_options.topic_namespace.as_deref(),
             &sender_options.custom_topic_token_map,
         )?;
@@ -323,7 +323,7 @@ where
         };
 
         // Get topic.
-        let message_topic = self.topic_pattern.as_publish_topic(None)?;
+        let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
         // Get and validate content_type
         let content_type = T::content_type();
@@ -458,9 +458,6 @@ mod tests {
 
         let telemetry_sender: TelemetrySender<MockPayload, _> =
             TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
-        assert!(telemetry_sender
-            .topic_pattern
-            .is_match("test/test_telemetry"));
     }
 
     #[test]
@@ -477,9 +474,6 @@ mod tests {
 
         let telemetry_sender: TelemetrySender<MockPayload, _> =
             TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
-        assert!(telemetry_sender
-            .topic_pattern
-            .is_match("test_namespace/test/test_model/test_telemetry"));
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

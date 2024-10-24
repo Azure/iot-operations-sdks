@@ -20,6 +20,7 @@ tokio.workspace = true
 tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4"] }
 chrono = "0.4"
+regex = "1.11.0"
 
 [dev-dependencies]
 env_logger.workspace = true

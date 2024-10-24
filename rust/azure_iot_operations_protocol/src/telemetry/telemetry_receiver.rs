@@ -269,11 +269,8 @@ where
     ) -> Result<Self, AIOProtocolError> {
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new_telemetry_pattern`]
-        let topic_pattern = TopicPattern::new_telemetry_pattern(
+        let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
-            WILDCARD,
-            receiver_options.telemetry_name.as_deref(),
-            receiver_options.model_id.as_deref(),
             receiver_options.topic_namespace.as_deref(),
             &receiver_options.custom_topic_token_map,
         )?;
@@ -441,6 +438,7 @@ where
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
                             let mut cloud_event = None;
+                            let mut sender_id = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
@@ -471,6 +469,9 @@ where
                                                     break 'process_message;
                                                 }
                                             }
+                                        },
+                                        Ok(UserProperty::SourceId) => {
+                                            sender_id = Some(value);
                                         },
                                         Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
                                             // TODO: Implement protocol version check
@@ -545,14 +546,10 @@ where
                                 }
                             }
 
-                            // Parse the sender ID from the topic
-                            let Ok(received_topic) = String::from_utf8(m.topic.to_vec()) else {
-                                log::error!("[pkid: {}] Invalid telemetry topic", m.pkid);
-                                break 'process_message;
-                            };
-                            let Some(sender_id) = self.topic_pattern.parse_wildcard(&received_topic)
+                            // Parse sender ID
+                            let Some(sender_id) = sender_id
                             else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry topic", m.pkid);
+                                log::error!("[pkid: {}] Sender ID not found in telemetry message", m.pkid);
                                 break 'process_message;
                             };
 
@@ -665,10 +662,6 @@ mod tests {
 
         let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
             TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
-
-        assert!(telemetry_receiver
-            .topic_pattern
-            .is_match("test/test_sender/receiver"));
     }
 
     #[test]
@@ -685,11 +678,6 @@ mod tests {
             .unwrap();
         let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
             TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
-
-        assert!(telemetry_receiver.topic_pattern.is_match(
-            format!("test_namespace/test/test_sender/test_telemetry/123/{MODEL_ID}/receiver")
-                .as_str()
-        ));
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
