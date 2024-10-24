@@ -90,7 +90,7 @@ func NewTopicPattern(
 func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	topic := tp.pattern
 
-	if err := validateTokens(errors.ConfigurationInvalid, tokens); err != nil {
+	if err := validateTokens(errors.ArgumentInvalid, tokens); err != nil {
 		return "", err
 	}
 	for token, value := range tokens {

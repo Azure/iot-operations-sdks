@@ -82,14 +82,21 @@
         /// <param name="tokenMap2">A second optional token replacement map.</param>
         /// <param name="requireReplacement">True if a replacement value is required for any token in the pattern.</param>
         /// <param name="errMsg">Out parameter to receive error message if validation fails.</param>
+        /// <param name="errToken">Out parameter to receive the value of a missing or invalid token, if any.</param>
+        /// <param name="errReplacement">Out parameter to receive the value of a missing or invalid replacement, if any.</param>
         /// <returns>True if pattern is valid; false otherwise.</returns>
         public static bool TryValidateTopicPattern(
             string? pattern,
             IReadOnlyDictionary<string, string>? tokenMap1,
             IReadOnlyDictionary<string, string>? tokenMap2,
             bool requireReplacement,
-            out string errMsg)
+            out string errMsg,
+            out string? errToken,
+            out string? errReplacement)
         {
+            errToken = null;
+            errReplacement = null;
+
             if (string.IsNullOrEmpty(pattern))
             {
                 errMsg = "MQTT topic pattern must not be empty";
@@ -129,6 +136,7 @@
                         if (requireReplacement)
                         {
                             errMsg = $"Token '{level}' in MQTT topic pattern, but no replacement map provided";
+                            errToken = token;
                             return false;
                         }
                     }
@@ -138,12 +146,15 @@
                         if (requireReplacement)
                         {
                             errMsg = $"Token '{level}' in MQTT topic pattern, but key '{token}' not found in replacement map";
+                            errToken = token;
                             return false;
                         }
                     }
                     else if (!IsValidReplacement(replacement))
                     {
                         errMsg = $"Token '{level}' in MQTT topic pattern has replatement value '{replacement}' that is not valid";
+                        errToken = token;
+                        errReplacement = replacement;
                         return false;
                     }
                 }

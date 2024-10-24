@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException
-aka:
-- InvalidResponseTopicPrefixThrowsException
 description:
   condition: >-
     CommandInvoker initialized with a response topic prefix that is invalid.
@@ -10,7 +8,7 @@ description:
 
 prologue:
   invokers:
-  - response-topic-prefix: "invalid/{unknown}"
+  - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
     in-application: !!bool false
@@ -18,5 +16,5 @@ prologue:
     is-remote: !!bool false 
     supplemental:
       property-name: 'responsetopicprefix'
-      property-value: "invalid/{unknown}"
+      property-value: "prefix/{in/valid}"
 ...

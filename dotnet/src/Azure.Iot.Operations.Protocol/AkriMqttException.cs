@@ -124,9 +124,14 @@ namespace Azure.Iot.Operations.Protocol
             }
         }
 
-        internal static AkriMqttException GetArgumentInvalidException(string commandName, string argumentName, object arguentValue, string? message = default)
+        internal static AkriMqttException GetArgumentInvalidException(string commandName, string argumentName, object? arguentValue, string? message = default)
         {
-            return new AkriMqttException(message ?? $"argument {argumentName} has invalid value {arguentValue}")
+            string errMsg =
+                message != null ? message :
+                arguentValue != null ? $"argument {argumentName} has invalid value {arguentValue}" :
+                $"argument {argumentName} has no value";
+
+            return new AkriMqttException(errMsg)
             {
                 Kind = AkriMqttErrorKind.ArgumentInvalid,
                 InApplication = false,

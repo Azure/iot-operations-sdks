@@ -119,13 +119,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{unknown}/stub", exception.PropertyValue);
+            Assert.Equal("unknown", exception.PropertyName);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -139,13 +138,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -161,13 +159,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -183,13 +181,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{commandName}/echo", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -269,13 +267,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicPrefix", exception.PropertyName);
-            Assert.Equal("valid/{modelId}", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -292,13 +290,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicPrefix", exception.PropertyName);
-            Assert.Equal("valid/{commandName}", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -336,13 +334,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicSuffix", exception.PropertyName);
-            Assert.Equal("valid/{modelId}", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -359,13 +357,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicSuffix", exception.PropertyName);
-            Assert.Equal("valid/{commandName}", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 

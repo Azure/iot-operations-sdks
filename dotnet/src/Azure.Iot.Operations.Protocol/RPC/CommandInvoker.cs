@@ -93,9 +93,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicPrefix != null)
             {
-                if (!MqttTopicProcessor.TryValidateTopicPattern(ResponseTopicPrefix, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg))
+                if (!MqttTopicProcessor.TryValidateTopicPattern(ResponseTopicPrefix, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement))
                 {
-                    throw AkriMqttException.GetConfigurationInvalidException(nameof(ResponseTopicPrefix), ResponseTopicPrefix, errMsg, commandName: commandName);
+                    throw errToken != null ?
+                        AkriMqttException.GetArgumentInvalidException(commandName, errToken, errReplacement, errMsg) :
+                        AkriMqttException.GetConfigurationInvalidException(nameof(ResponseTopicPrefix), ResponseTopicPrefix, errMsg, commandName: commandName);
                 }
 
                 responseTopicPattern.Append(ResponseTopicPrefix);
@@ -106,9 +108,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicSuffix != null)
             {
-                if (!MqttTopicProcessor.TryValidateTopicPattern(ResponseTopicSuffix, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg))
+                if (!MqttTopicProcessor.TryValidateTopicPattern(ResponseTopicSuffix, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement))
                 {
-                    throw AkriMqttException.GetConfigurationInvalidException(nameof(ResponseTopicSuffix), ResponseTopicSuffix, errMsg, commandName: commandName);
+                    throw errToken != null ?
+                        AkriMqttException.GetArgumentInvalidException(commandName, errToken, errReplacement, errMsg) :
+                        AkriMqttException.GetConfigurationInvalidException(nameof(ResponseTopicSuffix), ResponseTopicSuffix, errMsg, commandName: commandName);
                 }
 
                 responseTopicPattern.Append('/');
@@ -454,9 +458,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            if (!MqttTopicProcessor.TryValidateTopicPattern(RequestTopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg))
+            if (!MqttTopicProcessor.TryValidateTopicPattern(RequestTopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement))
             {
-                throw AkriMqttException.GetConfigurationInvalidException(nameof(RequestTopicPattern), RequestTopicPattern, errMsg, commandName: commandName);
+                throw errToken != null ?
+                    AkriMqttException.GetArgumentInvalidException(commandName, errToken, errReplacement, errMsg) :
+                    AkriMqttException.GetConfigurationInvalidException(nameof(RequestTopicPattern), RequestTopicPattern, errMsg, commandName: commandName);
             }
 
             try
