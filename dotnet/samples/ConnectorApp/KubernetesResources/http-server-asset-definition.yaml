@@ -29,3 +29,11 @@ spec:
            {
               "HttpRequestMethod": "GET",
            }
+status: 
+  version: 1
+  datasets:
+    - name: thermostat_status
+      messageSchemaReference:
+        - schemaRegistryNamespace: contoso
+          schemaName: thermostat_schema
+          schemaVersion: 1.0.0

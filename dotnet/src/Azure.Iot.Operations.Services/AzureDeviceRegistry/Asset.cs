@@ -333,7 +333,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// The mapping of status dataset names to status datasets in this status.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, StatusDatasets>? StatusDatasets
+        public Dictionary<string, StatusDatasets>? DatasetsDictionary
         {
             get
             {

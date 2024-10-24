@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,8 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
             // Additionally, the telemetry sent by this connector should be stamped as a cloud event
+
+            List<Timer> samplers = new List<Timer>();
 
             try
             {
@@ -73,7 +76,6 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
                     adrClient.AssetChanged += (sender, newAsset) =>
                     {
-
                         if (newAsset == null)
                         {
                             _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been deleted.");
@@ -102,8 +104,8 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        //TODO using broke this
                         Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                        samplers.Add(datasetSamplingTimer);
                     }
                 }
 
@@ -113,6 +115,11 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
             finally
             {
                 _logger.LogInformation("Shutting down sample...");
+
+                foreach (Timer sampler in samplers)
+                {
+                    sampler.Dispose();
+                }
 
                 foreach (string assetName in _assets.Keys)
                 {
@@ -156,6 +163,22 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 PayloadSegment = serializedPayload,
                 Retain = topic.Retain == RetainHandling.Keep,
             };
+
+            if (asset.Status != null 
+                && asset.Status.DatasetsDictionary != null 
+                && asset.Status.DatasetsDictionary[datasetName] != null 
+                && asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference != null)
+            {
+                _logger.LogInformation("Message schema configured, will include cloud event headers");
+                var messageSchemaReference = asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference!;
+
+                mqttMessage.AddCloudEvents(
+                    new CloudEvent(
+                        new Uri(_assetEndpointProfile.TargetAddress),
+                        messageSchemaReference.SchemaRegistryNamespace + messageSchemaReference.SchemaName,
+                        messageSchemaReference.SchemaVersion));
+            }
+
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
             if (puback.ReasonCode != MqttClientPublishReasonCode.Success
