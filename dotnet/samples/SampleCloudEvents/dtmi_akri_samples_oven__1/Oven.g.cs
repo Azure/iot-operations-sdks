@@ -20,10 +20,12 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly TelemetryCollectionSender telemetryCollectionSender;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.telemetryCollectionSender = new TelemetryCollectionSender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -38,23 +40,25 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
                 await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public ValueTask DisposeAsync()
+            public async ValueTask DisposeAsync()
             {
-                return ValueTask.CompletedTask;
+                await this.telemetryCollectionSender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing)
             {
-                return ValueTask.CompletedTask;
+                await this.telemetryCollectionSender.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
 
         public abstract partial class Client
         {
+            private IMqttPubSubClient mqttClient;
             private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -76,6 +80,16 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
             {
                 await Task.WhenAll(
                     this.telemetryCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
+            public async ValueTask DisposeAsync()
+            {
+                await this.telemetryCollectionReceiver.DisposeAsync().ConfigureAwait(false);
+            }
+
+            public async ValueTask DisposeAsync(bool disposing)
+            {
+                await this.telemetryCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }

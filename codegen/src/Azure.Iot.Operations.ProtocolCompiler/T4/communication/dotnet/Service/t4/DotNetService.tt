@@ -113,25 +113,23 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             }
 <# } #>
 
-            public <#=this.cmdNameReqResps.Any() ? "async " : ""#>ValueTask DisposeAsync()
+            public async ValueTask DisposeAsync()
             {
-<# if (this.cmdNameReqResps.Any()) { #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# } else { #>
-                return ValueTask.CompletedTask;
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
-            public <#=this.cmdNameReqResps.Any() ? "async " : ""#>ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing)
             {
-<# if (this.cmdNameReqResps.Any()) { #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# } else { #>
-                return ValueTask.CompletedTask;
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -213,12 +211,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
             }
 <# } #>
-<# if (this.cmdNameReqResps.Any()) { #>
 
             public async ValueTask DisposeAsync()
             {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync().ConfigureAwait(false);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
@@ -227,8 +227,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-            }
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
+            }
         }
     }
 }
