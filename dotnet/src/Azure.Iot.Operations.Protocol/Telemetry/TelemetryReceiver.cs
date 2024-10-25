@@ -27,11 +27,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         private readonly string? telemetryName;
         private readonly IPayloadSerializer serializer;
 
+        private readonly Dictionary<string, string> topicTokenMap = new();
+
         private Dispatcher? dispatcher;
 
         private bool isRunning;
-
-        private string? topicNamespace;
 
         private bool isDisposed;
 
@@ -39,26 +39,21 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public string ServiceGroupId { get; init; }
 
-        public string ModelId { get; init; }
-
         public string TopicPattern { get; init; }
 
-        public Dictionary<string, string>? CustomTopicTokenMap { get; init; }
+        public string? TopicNamespace { get; set; }
 
-        public string? TopicNamespace
-        {
-            get => topicNamespace;
-            set
-            {
-                ObjectDisposedException.ThrowIf(isDisposed, this);
-                if (value != null && !MqttTopicProcessor.IsValidReplacement(value))
-                {
-                    throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), value, "MQTT topic namespace is not valid");
-                }
+        /// <summary>
+        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
+        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+        /// </summary>
+        public virtual Dictionary<string, string> TopicTokenMap { get => topicTokenMap; }
 
-                topicNamespace = value;
-            }
-        }
+        /// <summary>
+        /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
+        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+        /// </summary>
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => topicTokenMap; }
 
         public TelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
@@ -73,10 +68,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             dispatcher = null;
 
             ServiceGroupId = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(this)?.Id ?? string.Empty;
-            ModelId = AttributeRetriever.GetAttribute<ModelIdAttribute>(this)?.Id ?? string.Empty;
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
-            CustomTopicTokenMap = null;
-            topicNamespace = null;
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
         }
@@ -166,17 +158,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, PreferredDispatchConcurrency);
 
-                string telemTopicFilter;
-                try
+                if (TopicNamespace != null && !MqttTopicProcessor.IsValidReplacement(TopicNamespace))
                 {
-                    MqttTopicProcessor.ValidateTelemetryTopicPattern(TopicPattern, nameof(TopicPattern), telemetryName, ModelId, CustomTopicTokenMap);
+                    throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
+                }
 
-                    telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();
-                }
-                catch (ArgumentException ex)
+                if (!MqttTopicProcessor.TryValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out _, out _))
                 {
-                    throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, ex.Message, ex);
+                    throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg);
                 }
+
+                string telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();
 
                 var topicFilter = new MqttTopicFilter(telemTopicFilter, MqttQualityOfServiceLevel.AtLeastOnce);
 
@@ -221,13 +213,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         {
             StringBuilder telemTopic = new();
 
-            if (topicNamespace != null)
+            if (TopicNamespace != null)
             {
-                telemTopic.Append(topicNamespace);
+                telemTopic.Append(TopicNamespace);
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.GetTelemetryTopic(TopicPattern, telemetryName: telemetryName, modelId: ModelId, customTokenMap: CustomTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
 
             return telemTopic.ToString();
         }

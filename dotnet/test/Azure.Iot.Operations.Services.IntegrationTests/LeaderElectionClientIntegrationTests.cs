@@ -221,7 +221,7 @@ public class LeaderElectionClientIntegrationTests
             });
 
         // The operation on a shared resource should still succeed because the leader election client
-        // kept re-capaigning to be leader (and no other client was campaigning on the same lock)
+        // kept re-campaigning to be leader (and no other client was campaigning on the same lock)
         Assert.True(setResponse.Success);
 
         var resignationRequestOptions = new ResignationRequestOptions()
@@ -282,6 +282,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.Equal(LeadershipPositionState.LeaderElected, eventArgs.NewState);
         Assert.NotNull(eventArgs.NewLeader);
         Assert.Equal(candidateName, eventArgs.NewLeader.GetString());
+        Assert.NotNull(eventArgs.Timestamp);
 
         // Set a new TCS so that we can monitor the next callback as well
         onCallbackExecuted = new TaskCompletionSource<LeadershipChangeEventArgs>();

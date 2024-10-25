@@ -2,7 +2,7 @@
 test-name: CommandInvokerRequestTopicExecutorIdWithoutReplacement_ThrowsException
 description:
   condition: >-
-    CommandInvoker invokes command with request topic that contains an '{executorId}' token but no executor ID is specified
+    CommandInvoker invokes command with request topic that contains an '{executorId}' token but no replacement is specified
   expect: >-
     Invocation throws 'invalid argument' exception.
 
