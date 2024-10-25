@@ -25,6 +25,10 @@ pub(crate) enum Request {
         key: Vec<u8>,
         value: Vec<u8>,
     },
+    KeyNotify {
+        key: Vec<u8>,
+        options: KeyNotifyOptions,
+    },
 }
 
 /// Options for a `Set` Request
@@ -50,6 +54,13 @@ pub enum SetCondition {
     Unconditional,
 }
 
+/// `KeyNotifyOptions` is how a client specifies various KEYNOTIFY permutations
+#[derive(Clone, Debug, Default)]
+pub(crate) struct KeyNotifyOptions {
+    /// If there's an existing notification with the same `key` and `client_id` as this request, the state store removes it
+    pub stop: bool,
+}
+
 impl PayloadSerialize for Request {
     type Error = String;
     fn content_type() -> &'static str {
@@ -68,6 +79,7 @@ impl PayloadSerialize for Request {
                 options,
             } => serialize_set(key, value, options),
             Request::Get { key } => serialize_get(key),
+            Request::KeyNotify { key, options } => serialize_key_notify(key, options),
             Request::Del { key } => serialize_del(key),
             Request::VDel { key, value } => serialize_v_del(key, value),
         })
@@ -189,6 +201,25 @@ fn serialize_v_del(key: &[u8], value: &[u8]) -> Vec<u8> {
     builder.get_buffer()
 }
 
+fn serialize_key_notify(key: &[u8], options: &KeyNotifyOptions) -> Vec<u8> {
+    let mut num_arguments = 2;
+    let mut builder = RequestBufferBuilder::new();
+
+    if options.stop {
+        num_arguments += 1;
+    }
+
+    builder.append_array_number(num_arguments);
+    builder.append_argument(b"KEYNOTIFY");
+    builder.append_argument(key);
+
+    if options.stop {
+        builder.append_argument(b"STOP");
+    }
+
+    builder.get_buffer()
+}
+
 // ----------------------- Response Types -----------------------
 
 #[derive(Clone, Debug, PartialEq)]
@@ -261,6 +292,48 @@ impl PayloadSerialize for Response {
                     )),
                 }
             }
+            _ => Err(format!("Unknown response: {payload:?}")),
+        }
+    }
+}
+
+/// Provides detail about the state change that occurred on a key
+#[derive(Clone, Debug, PartialEq)]
+pub enum Operation {
+    /// Operation was a `SET`, and the argument is the new value
+    Set(Vec<u8>),
+    /// Operation was a `DELETE`
+    Del,
+}
+
+impl Operation {
+    /// All delete notifications have identical bodies.
+    const OPERATION_DELETE: &'static [u8] = b"*2\r\n$6\r\nNOTIFY\r\n$6\r\nDELETE\r\n";
+    /// All set notifications start with an identical prefix.
+    const SET_WITH_VALUE_PREFIX: &'static [u8] =
+        b"*4\r\n$6\r\nNOTIFY\r\n$3\r\nSET\r\n$5\r\nVALUE\r\n$";
+}
+
+impl PayloadSerialize for Operation {
+    type Error = String;
+    fn content_type() -> &'static str {
+        "application/octet-stream"
+    }
+
+    fn format_indicator() -> FormatIndicator {
+        FormatIndicator::UnspecifiedBytes
+    }
+
+    fn serialize(&self) -> Result<Vec<u8>, String> {
+        Err("Not implemented".into())
+    }
+
+    fn deserialize(payload: &[u8]) -> Result<Self, String> {
+        match payload {
+            Operation::OPERATION_DELETE => Ok(Operation::Del),
+            _ if payload.starts_with(Operation::SET_WITH_VALUE_PREFIX) => Ok(Operation::Set(
+                parse_value(payload, Operation::SET_WITH_VALUE_PREFIX)?,
+            )),
             _ => Err(format!("Unknown response: {payload:?}")),
         }
     }

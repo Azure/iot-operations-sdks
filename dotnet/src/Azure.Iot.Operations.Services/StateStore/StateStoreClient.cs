@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Events;
@@ -91,6 +90,12 @@ namespace Azure.Iot.Operations.Services.StateStore
                     return;
                 }
 
+                if (version == null)
+                {
+                    Trace.TraceWarning("Received a message on the key-notify topic without a timestamp. Ignoring it");
+                    return;
+                }
+
                 StateStoreKeyNotification notification;
                 try
                 {
@@ -99,7 +104,8 @@ namespace Azure.Iot.Operations.Services.StateStore
                         Trace.TraceWarning("Received a message on the key-notify topic with no payload. Ignoring it.");
                         return;
                     }
-                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.PayloadSegment.Array, keyBeingNotified);
+
+                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.PayloadSegment.Array, keyBeingNotified, version);
                 }
                 catch (Exception ex)
                 {
@@ -107,8 +113,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     return;
                 }
 
-                //TODO where to get previous value? Support added later?
-                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState);
+                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState, version);
                 keyChangeArgs.NewValue = notification.Value;
                 if (KeyChangeMessageReceivedAsync != null)
                 {

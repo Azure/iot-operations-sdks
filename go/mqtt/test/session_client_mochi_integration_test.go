@@ -65,28 +65,31 @@ func TestWithMochi(t *testing.T) {
 	t.Run("TestConnect", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 	})
 
 	t.Run("TestSubscribeUnsubscribe", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 
 		done := client.RegisterMessageHandler(noopHandler)
 		defer done()
 
-		require.NoError(t, client.Subscribe(context.Background(), topicName))
-		require.NoError(t, client.Unsubscribe(context.Background(), topicName))
+		_, err = client.Subscribe(context.Background(), topicName)
+		require.NoError(t, err)
+
+		_, err = client.Unsubscribe(context.Background(), topicName)
+		require.NoError(t, err)
 	})
 
 	t.Run("TestSubscribePublish", func(t *testing.T) {
 		client, err := createSessionClientOnMochi()
 		require.NoError(t, err)
-		require.NoError(t, client.Connect(context.Background()))
-		t.Cleanup(func() { _ = client.Disconnect() })
+		require.NoError(t, client.Start())
+		t.Cleanup(func() { _ = client.Stop() })
 
 		subscribed := make(chan struct{})
 		done := client.RegisterMessageHandler(
@@ -99,12 +102,15 @@ func TestWithMochi(t *testing.T) {
 		)
 		defer done()
 
-		require.NoError(t, client.Subscribe(context.Background(), topicName))
-		require.NoError(t, client.Publish(
+		_, err = client.Subscribe(context.Background(), topicName)
+		require.NoError(t, err)
+
+		_, err = client.Publish(
 			context.Background(),
 			topicName,
 			[]byte(publishMessage),
-		))
+		)
+		require.NoError(t, err)
 
 		<-subscribed
 	})

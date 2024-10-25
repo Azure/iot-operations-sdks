@@ -18,7 +18,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using Azure.Iot.Operations.Protocol.Telemetry;
     using <#=this.projectName#>;
 
-    [ModelId("<#=this.modelId#>")]
 <# if (this.commandTopic != null) { #>
     [CommandTopic("<#=this.commandTopic#>")]
 <# } #>
@@ -32,6 +31,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor <#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor;
 <# } #>
@@ -41,6 +41,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -74,9 +75,20 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 
@@ -101,31 +113,30 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             }
 <# } #>
 
-            public <#=this.cmdNameReqResps.Any() ? "async " : ""#>ValueTask DisposeAsync()
+            public async ValueTask DisposeAsync()
             {
-<# if (this.cmdNameReqResps.Any()) { #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# } else { #>
-                return ValueTask.CompletedTask;
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
-            public <#=this.cmdNameReqResps.Any() ? "async " : ""#>ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing)
             {
-<# if (this.cmdNameReqResps.Any()) { #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# } else { #>
-                return ValueTask.CompletedTask;
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
 
         public abstract partial class Client<#=this.cmdNameReqResps.Any() ? " : IAsyncDisposable" : ""#>
         {
+            private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker <#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker;
 <# } #>
@@ -135,6 +146,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -161,8 +173,22 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public <#=this.CallAsyncType(cmdNameReqResp)#> <#=this.AsUpper(cmdNameReqResp.Item1)#>Async(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.InvokeCommandAsync(<#=this.ExecArg()#><#=cmdNameReqResp.Item2 != null ? $"request" : this.allocateEmpty #>, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+<# if (this.doesCommandTargetExecutor) { #>
+                    { "executorId", executorId },
+<# } #>
+                };
+
+                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.allocateEmpty #>, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
 <# if (this.telemSchemas.Any()) { #>
@@ -185,12 +211,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
             }
 <# } #>
-<# if (this.cmdNameReqResps.Any()) { #>
 
             public async ValueTask DisposeAsync()
             {
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync().ConfigureAwait(false);
+<# } #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
@@ -199,8 +227,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-            }
+<# foreach (string telemSchema in this.telemSchemas) { #>
+                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
+            }
         }
     }
 }
@@ -222,8 +252,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     private string SchemaType(string schema) => schema == null ? this.serializerEmptyType : schema == "" ? "byte[]" : schema;
 
     private string ExecParam() => this.doesCommandTargetExecutor ? "string executorId, " : "";
-
-    private string ExecArg() => this.doesCommandTargetExecutor ? "executorId, " : "\"\", ";
 
     private bool IsLast((string, string, string) cmdNameReqResp) => cmdNameReqResp.Item1 == this.cmdNameReqResps.Last().Item1;
 

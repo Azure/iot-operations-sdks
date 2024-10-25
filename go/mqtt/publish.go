@@ -14,17 +14,13 @@ func (c *SessionClient) Publish(
 	topic string,
 	payload []byte,
 	opts ...PublishOption,
-) error {
-	if err := c.prepare(ctx); err != nil {
-		return err
-	}
-
+) (*Ack, error) {
 	var opt PublishOptions
 	opt.Apply(opts)
 
 	// Validate options.
 	if opt.QoS >= 2 {
-		return &errors.Error{
+		return nil, &errors.Error{
 			Kind:          errors.ArgumentInvalid,
 			Message:       "unsupported QoS",
 			PropertyName:  "QoS",
@@ -32,12 +28,17 @@ func (c *SessionClient) Publish(
 		}
 	}
 	if opt.PayloadFormat >= 2 {
-		return &errors.Error{
+		return nil, &errors.Error{
 			Kind:          errors.ArgumentInvalid,
 			Message:       "invalid payload format",
 			PropertyName:  "PayloadFormat",
 			PropertyValue: opt.PayloadFormat,
 		}
+	}
+
+	var zeroValueAck *Ack
+	if opt.QoS == 1 {
+		zeroValueAck = &Ack{}
 	}
 
 	// Build MQTT publish packet.
@@ -59,15 +60,18 @@ func (c *SessionClient) Publish(
 		pub.Properties.MessageExpiry = &opt.MessageExpiry
 	}
 
-	// Connection lost; buffer the packet for reconnection.
-	if !c.isConnected.Load() {
-		return c.bufferPacket(
-			ctx,
-			&queuedPacket{packet: pub},
-		)
+	queued, err := c.prepare(ctx, pub)
+	if err != nil {
+		return nil, err
+	}
+	if queued {
+		return zeroValueAck, nil
 	}
 
 	// Execute the publish.
 	c.log.Packet(ctx, "publish", pub)
-	return pahoPub(ctx, c.pahoClient, pub)
+	if err := pahoPub(ctx, c.pahoClient, pub); err != nil {
+		return nil, err
+	}
+	return zeroValueAck, nil
 }

@@ -47,6 +47,10 @@ pub enum CloudEventFields {
 }
 
 impl CloudEventFields {
+    /// Validates that the cloud event field is valid based on the spec version.
+    ///
+    /// # Errors
+    /// Returns a string containing the error message if either the field or spec version are invalid.
     pub fn validate(&self, value: &str, spec_version: &str) -> Result<(), String> {
         if spec_version == "1.0" {
             match self {

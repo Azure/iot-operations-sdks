@@ -2,12 +2,12 @@
 {
     internal class Program
     {
-        private const string SchemaFolderPath = @"../../../../lib/test-cases/schemas";
-        private const string TestCaseRoot = @"../../../../lib/test-cases/Protocol";
-        private const string TestCaseDocFilePath = @"../../../../docs/specs/MetlCases.md";
-        private const string TestCaseProtoDocFilePath = @"../../../../docs/proto/MetlCasesProto.xml";
-        private const string LanguageDocFilePath = @"../../../../docs/specs/MetlSpec.md";
-        private const string LanguageProtoDocFilePath = @"../../../../docs/proto/MetlSpecProto.xml";
+        private const string SchemaFolderPath = @"../../../test-cases/schemas";
+        private const string TestCaseRoot = @"../../../test-cases/Protocol";
+        private const string TestCaseDocFilePath = @"../../../../../doc/dev/generated/MetlCases.md";
+        private const string TestCaseProtoDocFilePath = @"../../../../../doc/dev/proto/MetlCasesProto.xml";
+        private const string LanguageDocFilePath = @"../../../../../doc/dev/generated/MetlSpec.md";
+        private const string LanguageProtoDocFilePath = @"../../../../../doc/dev/proto/MetlSpecProto.xml";
 
         static void Main()
         {

@@ -50,9 +50,8 @@ func TestConnectMQ(t *testing.T) {
 	client, err := mqtt.NewSessionClient(mqServerURL)
 	require.NoError(t, err)
 
-	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
-	require.NoError(t, client.Disconnect())
+	require.NoError(t, client.Start())
+	require.NoError(t, client.Stop())
 }
 
 func TestConnectWithTimeoutMQ(t *testing.T) {
@@ -65,19 +64,21 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 	// ensuring the connection remains active.
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
 
 	cancel()
 
 	// connection is still active so we can still subscribe.
 	ctx2 := context.Background()
-	require.NoError(t, client.Subscribe(ctx2, topicName2))
-	require.NoError(t, client.Disconnect())
+	_, err = client.Subscribe(ctx2, topicName2)
+	require.NoError(t, err)
+	require.NoError(t, client.Stop())
 }
 
 func TestDisconnectWithoutConnectMQ(t *testing.T) {
@@ -85,7 +86,7 @@ func TestDisconnectWithoutConnectMQ(t *testing.T) {
 
 	client, err := mqtt.NewSessionClient(mqServerURL)
 	require.NoError(t, err)
-	require.Error(t, client.Disconnect())
+	require.Error(t, client.Stop())
 }
 
 func TestConnectFromEnvMQ(t *testing.T) {
@@ -110,8 +111,7 @@ func TestConnectFromEnvMQ(t *testing.T) {
 	client, err := mqtt.NewSessionClientFromEnv()
 	require.NoError(t, err)
 
-	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 }
 
 func TestConnectFromConnectionStringMQ(t *testing.T) {
@@ -124,8 +124,7 @@ func TestConnectFromConnectionStringMQ(t *testing.T) {
 	client, err := mqtt.NewSessionClientFromConnectionString(connStr)
 	require.NoError(t, err)
 
-	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 }
 
 func TestSubscribeUnsubscribeMQ(t *testing.T) {
@@ -135,13 +134,16 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
-	require.NoError(t, client.Unsubscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
+
+	_, err = client.Unsubscribe(ctx, topicName)
+	require.NoError(t, err)
 }
 
 // This test may take 4-5 seconds as it involves a connection interruption.
@@ -152,7 +154,7 @@ func TestRequestQueueMQ(t *testing.T) {
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 
 	executed := make(chan struct{})
 	done := client.RegisterMessageHandler(
@@ -167,13 +169,15 @@ func TestRequestQueueMQ(t *testing.T) {
 	defer done()
 
 	// Operations tested with a good connection.
-	require.NoError(t, client.Subscribe(ctx, topicName))
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
 
-	require.NoError(t, client.Publish(
+	_, err = client.Publish(
 		ctx,
 		topicName,
 		[]byte(publishMessage),
-	))
+	)
+	require.NoError(t, err)
 
 	<-executed
 
@@ -195,7 +199,7 @@ func TestRequestQueueMQ(t *testing.T) {
 
 	// Operations are blocking so we put them into goroutines.
 	go func(ch chan struct{}) {
-		err := client.Publish(
+		_, err := client.Publish(
 			ctx,
 			topicName,
 			[]byte(publishMessage),
@@ -218,19 +222,22 @@ func TestRequestQueueMQ(t *testing.T) {
 		)
 		defer done()
 
-		require.NoError(t, client.Subscribe(ctx, topicName2))
-		require.NoError(t, client.Publish(
+		_, err = client.Subscribe(ctx, topicName2)
+		require.NoError(t, err)
+
+		_, err = client.Publish(
 			ctx,
 			topicName2,
 			[]byte(publishMessage2),
-		))
+		)
+		require.NoError(t, err)
 		<-ch2
 	}(executed2)
 
 	<-executed2
 	<-executed
 
-	require.NoError(t, client.Disconnect())
+	require.NoError(t, client.Stop())
 }
 
 func TestPublishMQ(t *testing.T) {
@@ -240,7 +247,7 @@ func TestPublishMQ(t *testing.T) {
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	require.NoError(t, client.Connect(ctx))
+	require.NoError(t, client.Start())
 
 	executed := make(chan struct{})
 
@@ -255,16 +262,19 @@ func TestPublishMQ(t *testing.T) {
 	)
 	defer done()
 
-	require.NoError(t, client.Subscribe(ctx, topicName))
-	require.NoError(t, client.Publish(
+	_, err = client.Subscribe(ctx, topicName)
+	require.NoError(t, err)
+
+	_, err = client.Publish(
 		ctx,
 		topicName,
 		[]byte(publishMessage),
-	))
+	)
+	require.NoError(t, err)
 
 	<-executed
 
-	require.NoError(t, client.Disconnect())
+	require.NoError(t, client.Stop())
 }
 
 func startSessionClientWithWillMessage(t *testing.T) (
@@ -311,7 +321,7 @@ func TestLastWillMessageMQ(t *testing.T) {
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	require.NoError(t, client1.Connect(ctx))
+	require.NoError(t, client1.Start())
 
 	subscribed := make(chan struct{})
 
@@ -325,12 +335,13 @@ func TestLastWillMessageMQ(t *testing.T) {
 	)
 	defer done()
 
-	require.NoError(t, client1.Subscribe(ctx, LWTTopicName))
+	_, err = client1.Subscribe(ctx, LWTTopicName)
+	require.NoError(t, err)
 
-	ctx, cancel, client2 := startSessionClientWithWillMessage(t)
+	_, cancel, client2 := startSessionClientWithWillMessage(t)
 	defer cancel()
 
-	require.NoError(t, client2.Connect(ctx))
+	require.NoError(t, client2.Start())
 
 	<-subscribed
 }

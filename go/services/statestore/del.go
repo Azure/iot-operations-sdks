@@ -23,8 +23,6 @@ type (
 	}
 )
 
-const del = "DEL"
-
 // Del deletes the given key. It returns the number of keys deleted
 // (typically 0 or 1).
 func (c *Client[K, V]) Del(
@@ -39,7 +37,8 @@ func (c *Client[K, V]) Del(
 	var opts DelOptions
 	opts.Apply(opt)
 
-	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpK(del, key))
+	req := resp.OpK("DEL", key)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 
 // Apply resolves the provided list of options.
@@ -65,7 +64,7 @@ func (o WithTimeout) del(opt *DelOptions) {
 
 func (o *DelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }
