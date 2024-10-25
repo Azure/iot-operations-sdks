@@ -14,10 +14,6 @@ type (
 	ConnectionTracker[Client comparable] struct {
 		current   CurrentConnection[Client]
 		currentMu sync.RWMutex
-
-		shutdownCtx  context.Context
-		shutdownFunc context.CancelCauseFunc
-		shutdownErr  error
 	}
 
 	// Mutex-protected connection data.
@@ -43,24 +39,14 @@ type (
 	}
 )
 
-func NewConnectionTracker[Client comparable](
-	shutdown error,
-) *ConnectionTracker[Client] {
-	c := &ConnectionTracker[Client]{
-		shutdownErr: shutdown,
-		current: CurrentConnection[Client]{
-			Up:   make(chan struct{}),
-			Down: make(chan struct{}),
-		},
-	}
+func NewConnectionTracker[Client comparable]() *ConnectionTracker[Client] {
+	c := &ConnectionTracker[Client]{}
+	c.current.Up = make(chan struct{})
+	c.current.Down = make(chan struct{})
 
 	// Immediately close Down to maintain the invariant that Down is closed iff
 	// the client is disconnected.
 	close(c.current.Down)
-
-	c.shutdownCtx, c.shutdownFunc = context.WithCancelCause(
-		context.Background(),
-	)
 
 	return c
 }
@@ -129,26 +115,4 @@ func (c *ConnectionTracker[Client]) Get(
 			}
 		}
 	}
-}
-
-func (c *ConnectionTracker[Client]) Context() context.Context {
-	return c.shutdownCtx
-}
-
-func (c *ConnectionTracker[Client]) WithShutdown(
-	ctx context.Context,
-) (context.Context, context.CancelFunc) {
-	// https://pkg.go.dev/context#example-AfterFunc-Merge
-	ctx, cancel := context.WithCancelCause(ctx)
-	stop := context.AfterFunc(c.shutdownCtx, func() {
-		cancel(context.Cause(c.shutdownCtx))
-	})
-	return ctx, func() {
-		stop()
-		cancel(context.Canceled)
-	}
-}
-
-func (c *ConnectionTracker[Client]) Shutdown() {
-	c.shutdownFunc(c.shutdownErr)
 }

@@ -3,6 +3,7 @@
 package mqtt
 
 import (
+	"context"
 	"crypto/tls"
 	"math"
 	"sync/atomic"
@@ -21,6 +22,11 @@ type (
 		// Used to ensure Start() is called only once and that user operations
 		// are only started after Start() is called.
 		sessionStarted atomic.Bool
+
+		// Used to internally to signal client shutdown for cleaning up
+		// background goroutines and inflight operations
+		shutdown func(context.Context) (context.Context, context.CancelFunc)
+		stop     func()
 
 		// Tracker for the connection. Only valid once started.
 		conn *internal.ConnectionTracker[PahoClient]
@@ -109,6 +115,7 @@ func NewSessionClient(
 ) (*SessionClient, error) {
 	// Default client options.
 	client := &SessionClient{
+		conn:                    internal.NewConnectionTracker[PahoClient](),
 		incomingPublishHandlers: internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
 		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
 		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),

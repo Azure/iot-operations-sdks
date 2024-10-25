@@ -98,7 +98,7 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.conn.WithShutdown(ctx)
+	ctx, cancel := c.shutdown(ctx)
 	defer cancel()
 
 	for pahoClient := range c.conn.Get(ctx) {
@@ -137,7 +137,7 @@ func (c *SessionClient) Unsubscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.conn.WithShutdown(ctx)
+	ctx, cancel := c.shutdown(ctx)
 	defer cancel()
 
 	for pahoClient := range c.conn.Get(ctx) {

@@ -49,20 +49,33 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	c.conn = internal.NewConnectionTracker[PahoClient](
-		&ClientStateError{State: ShutDown},
-	)
+	ctx, cancel := context.WithCancelCause(context.Background())
+
+	// https://pkg.go.dev/context#example-AfterFunc-Merge
+	c.shutdown = func(
+		c context.Context,
+	) (context.Context, context.CancelFunc) {
+		c, fn := context.WithCancelCause(c)
+		stop := context.AfterFunc(ctx, func() {
+			fn(context.Cause(ctx))
+		})
+		return c, func() {
+			stop()
+			fn(context.Canceled)
+		}
+	}
+	c.stop = func() { cancel(&ClientStateError{State: ShutDown}) }
 
 	go func() {
-		defer c.conn.Shutdown()
-		if err := c.manageConnection(c.conn.Context()); err != nil {
+		defer c.stop()
+		if err := c.manageConnection(ctx); err != nil {
 			for handler := range c.fatalErrorHandlers.All() {
 				go handler(err)
 			}
 		}
 	}()
 
-	go c.manageOutgoingPublishes(c.conn.Context())
+	go c.manageOutgoingPublishes(ctx)
 
 	return nil
 }
@@ -73,7 +86,7 @@ func (c *SessionClient) Stop() error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}
 	}
-	c.conn.Shutdown()
+	c.stop()
 	return nil
 }
 
