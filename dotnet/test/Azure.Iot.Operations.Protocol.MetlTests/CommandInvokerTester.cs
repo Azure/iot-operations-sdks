@@ -256,20 +256,31 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 TestCommandInvoker commandInvoker = new TestCommandInvoker(mqttClient, testCaseInvoker.CommandName!)
                 {
                     RequestTopicPattern = testCaseInvoker.RequestTopic!,
-                    ModelId = testCaseInvoker.ModelId!,
                     TopicNamespace = testCaseInvoker.TopicNamespace,
                     ResponseTopicPrefix = testCaseInvoker.ResponseTopicPrefix,
                     ResponseTopicSuffix = testCaseInvoker.ResponseTopicSuffix,
-                    CustomTopicTokenMap = testCaseInvoker.CustomTokenMap,
                     GetResponseTopic = testCaseInvoker.ResponseTopicMap != null ? (reqTopic) => testCaseInvoker.ResponseTopicMap[reqTopic]! : null,
                 };
+
+                commandInvoker.TopicTokenMap!["modelId"] = testCaseInvoker.ModelId!;
+                commandInvoker.TopicTokenMap!["commandName"] = testCaseInvoker.CommandName!;
+                commandInvoker.TopicTokenMap!["commandInvokerId"] = mqttClient.ClientId!;
+
+                if (testCaseInvoker.CustomTokenMap != null)
+                {
+                    foreach (KeyValuePair<string, string> kvp in testCaseInvoker.CustomTokenMap)
+                    {
+                        commandInvoker.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                    }
+                }
 
                 if (testCaseCatch != null)
                 {
                     // CommandInvoker has no Start method, so if an exception is expected, Invoke may be needed to trigger it.
                     try
                     {
-                        await commandInvoker.InvokeCommandAsync(TestCaseActionInvokeCommand.DefaultExecutorId!, TestCaseActionInvokeCommand.DefaultRequestValue!).WaitAsync(TestTimeout);
+                        var transientTopicTokenMap = new Dictionary<string, string> { { "executorId", TestCaseActionInvokeCommand.DefaultExecutorId! } };
+                        await commandInvoker.InvokeCommandAsync(TestCaseActionInvokeCommand.DefaultRequestValue!, transientTopicTokenMap: transientTopicTokenMap).WaitAsync(TestTimeout);
                     }
                     catch (AkriMqttException exception)
                     {
@@ -309,7 +320,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 }
             }
 
-            invocationTasks[(int)actionInvokeCommand.InvocationIndex!] = commandInvokers[actionInvokeCommand.CommandName!].InvokeCommandAsync(actionInvokeCommand.ExecutorId!, actionInvokeCommand.RequestValue!, metadata, actionInvokeCommand.Timeout?.ToTimeSpan());
+            var transientTopicTokenMap = new Dictionary<string, string> { { "executorId", actionInvokeCommand.ExecutorId! } };
+            invocationTasks[(int)actionInvokeCommand.InvocationIndex!] = commandInvokers[actionInvokeCommand.CommandName!].InvokeCommandAsync(actionInvokeCommand.RequestValue!, metadata, transientTopicTokenMap, actionInvokeCommand.Timeout?.ToTimeSpan());
         }
 
         private async Task AwaitInvocationAsync(TestCaseActionAwaitInvocation actionAwaitInvocation, ConcurrentDictionary<int, Task<ExtendedResponse<string>>> invocationTasks)

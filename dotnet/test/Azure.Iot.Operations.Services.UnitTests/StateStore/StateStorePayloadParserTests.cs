@@ -267,7 +267,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationSetPayload = Encoding.ASCII.GetBytes($"*4\r\n$6\r\nNOTIFY\r\n$3\r\nSET\r\n$5\r\nVALUE\r\n${value.Bytes.Length}\r\n{value.GetString()}\r\n");
 
             // act
-            StateStoreKeyNotification keyNotification = StateStorePayloadParser.ParseKeyNotification(keyNotificationSetPayload, key.Bytes);
+            StateStoreKeyNotification keyNotification = StateStorePayloadParser.ParseKeyNotification(keyNotificationSetPayload, key.Bytes, new());
 
             // assert
             Assert.Equal(KeyState.Updated, keyNotification.KeyState);
@@ -283,7 +283,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationDelPayload = Encoding.ASCII.GetBytes("*2\r\n$6\r\nNOTIFY\r\n$6\r\nDELETE\r\n");
 
             // act
-            StateStoreKeyNotification keyNotification = StateStorePayloadParser.ParseKeyNotification(keyNotificationDelPayload, key.Bytes);
+            StateStoreKeyNotification keyNotification = StateStorePayloadParser.ParseKeyNotification(keyNotificationDelPayload, key.Bytes, new());
 
             // assert
             Assert.Equal(KeyState.Deleted, keyNotification.KeyState);
@@ -299,7 +299,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationInvalidPayload = Encoding.ASCII.GetBytes($"*1\r\n$6\r\nNOTIFY\r\n");
 
             // act, assert
-            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes));
+            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes, new()));
         }
 
         [Fact]
@@ -310,7 +310,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationInvalidPayload = Encoding.ASCII.GetBytes("*2\r\n$9\r\nNotNOTIFY\r\n$6\r\nDELETE\r\n");
 
             // act, assert
-            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes));
+            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes, new()));
         }
 
         [Fact]
@@ -321,7 +321,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationInvalidPayload = Encoding.ASCII.GetBytes("*2\r\n$6\r\nNOTIFY\r\n$7\r\nUNKNOWN\r\n");
 
             // act, assert
-            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes));
+            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidPayload, key.Bytes, new()));
         }
 
         [Fact]
@@ -332,7 +332,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationInvalidDeletePayload = Encoding.ASCII.GetBytes($"*3\r\n$6\r\nNOTIFY\r\n$6\r\nDELETE\r\n$10\r\nExtraStuff\r\n");
 
             // act, assert
-            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidDeletePayload, key.Bytes));
+            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidDeletePayload, key.Bytes, new()));
         }
 
         [Fact]
@@ -344,7 +344,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] keyNotificationInvalidSetPayload = Encoding.ASCII.GetBytes($"*5\r\n$6\r\nNOTIFY\r\n$3\r\nSET\r\n$5\r\nVALUE\r\n${value.Bytes.Length}\r\n{value.GetString()}\r\n$10\r\nExtraStuff\r\n");
 
             // act, assert
-            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidSetPayload, key.Bytes));
+            Assert.Throws<StateStoreOperationException>(() => StateStorePayloadParser.ParseKeyNotification(keyNotificationInvalidSetPayload, key.Bytes, new()));
         }
     }
 }

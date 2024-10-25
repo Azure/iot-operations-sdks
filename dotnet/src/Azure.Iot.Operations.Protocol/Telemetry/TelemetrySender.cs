@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
-using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry;
 
@@ -21,8 +20,6 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     private readonly IPayloadSerializer _serializer;
     private bool _isDisposed;
     private bool _hasBeenValidated;
-    private string? _topicNamespace;
-
 
     /// <summary>
     /// The timeout value that every telemetry message sent by this sender will use if no timeout is specified.
@@ -37,25 +34,23 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     /// </remarks>
     private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
-    public string ModelId { get; init; }
+    private readonly Dictionary<string, string> topicTokenMap = new();
 
     public string TopicPattern { get; init; }
 
-    public Dictionary<string, string>? CustomTopicTokenMap { get; init; }
+    public string? TopicNamespace { get; set; }
 
-    public string? TopicNamespace
-    {
-        get => _topicNamespace;
-        set
-        {
-            if (value != null && !MqttTopicProcessor.IsValidReplacement(value))
-            {
-                throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), value, "MQTT topic namespace is not valid");
-            }
+    /// <summary>
+    /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
+    /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+    /// </summary>
+    public virtual Dictionary<string, string> TopicTokenMap { get => topicTokenMap; }
 
-            _topicNamespace = value;
-        }
-    }
+    /// <summary>
+    /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
+    /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+    /// </summary>
+    protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => topicTokenMap; }
 
     public TelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
     {
@@ -63,11 +58,8 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
         _telemetryName = telemetryName;
         _serializer = serializer;
         _hasBeenValidated = false;
-        _topicNamespace = null;
 
-        ModelId = AttributeRetriever.GetAttribute<ModelIdAttribute>(this)?.Id ?? string.Empty;
         TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
-        CustomTopicTokenMap = null;
     }
 
     public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
@@ -95,22 +87,21 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
 
         StringBuilder telemTopic = new();
 
-        if (_topicNamespace != null)
+        if (TopicNamespace != null)
         {
-            telemTopic.Append(_topicNamespace);
+            if (!MqttTopicProcessor.IsValidReplacement(TopicNamespace))
+            {
+                throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
+            }
+
+            telemTopic.Append(TopicNamespace);
             telemTopic.Append('/');
         }
 
+        telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
+
         try
         {
-            string? clientId = _mqttClient.ClientId;
-            if (string.IsNullOrEmpty(clientId))
-            {
-                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry receiver");
-            }
-
-            telemTopic.Append(MqttTopicProcessor.GetTelemetryTopic(TopicPattern, _telemetryName, clientId, ModelId, CustomTopicTokenMap));
-
             if (metadata?.CloudEvent is not null)
             {
                 metadata.CloudEvent.Id = Guid.NewGuid().ToString();
@@ -150,10 +141,6 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
                 };
             }
         }
-        catch (ArgumentException ex)
-        {
-            throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, ex.Message, ex);
-        }
         catch (SerializationException ex)
         {
             throw new AkriMqttException("The message payload cannot be serialized.", ex)
@@ -191,13 +178,9 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
                 "The provided MQTT client is not configured for MQTT version 5");
         }
 
-        try
+        if (!MqttTopicProcessor.TryValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out _, out _))
         {
-            MqttTopicProcessor.ValidateTelemetryTopicPattern(TopicPattern, nameof(TopicPattern), _telemetryName, ModelId, CustomTopicTokenMap);
-        }
-        catch (ArgumentException ex)
-        {
-            throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, ex.Message, ex);
+            throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg);
         }
 
         _hasBeenValidated = true;
