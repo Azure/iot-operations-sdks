@@ -84,6 +84,7 @@ type (
 
 		userNameProvider UserNameProvider
 		passwordProvider PasswordProvider
+		authProvider     EnhancedAuthenticationProvider
 
 		// If keepAlive is 0,the Client is not obliged to send
 		// MQTT Control Packets on any particular schedule.
@@ -105,7 +106,7 @@ type (
 
 // NewSessionClient constructs a new session client with user options.
 func NewSessionClient(
-	serverURL string,
+	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
 	// Default client options.
