@@ -383,13 +383,20 @@ async fn run_background(
     async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl InternalClient) -> ! {
         loop {
             // Get the next ready ack
-            let (ack, pkid) = unacked_pubs.next_ready().await;
+            //let (ack, pkid) = unacked_pubs.next_ready().await;
+            let publish = unacked_pubs.next_ready().await;
             // Ack the publish
-            match acker.manual_ack(ack).await {
-                Ok(()) => log::debug!("Sent ACK for PKID {pkid}"),
-                Err(e) => log::error!("ACK failed for PKID {pkid}: {e:?}"),
+            match acker.ack(&publish).await {
+                Ok(()) => log::debug!("Sent ACK for PKID {}", publish.pkid),
+                Err(e) => log::error!("ACK failed for PKID {}: {e:?}", publish.pkid),
                 // TODO: how realistically can this fail? And how to respond if it does?
             }
+
+            // match acker.manual_ack(ack).await {
+            //     Ok(()) => log::debug!("Sent ACK for PKID {pkid}"),
+            //     Err(e) => log::error!("ACK failed for PKID {pkid}: {e:?}"),
+            //     // TODO: how realistically can this fail? And how to respond if it does?
+            // }
         }
     }
 

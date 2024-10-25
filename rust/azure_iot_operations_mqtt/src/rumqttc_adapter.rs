@@ -97,7 +97,9 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
     async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        Ok(self.ack(publish).await?)
+        let manual_ack = self.get_manual_ack(publish);
+        self.manual_ack(manual_ack).await
+        //Ok(self.ack(publish).await?)
     }
 }
 
