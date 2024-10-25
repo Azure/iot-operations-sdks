@@ -28,7 +28,7 @@ type (
 // Blocks until ctx is cancelled.
 func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 	var pub *outgoingPublish
-	for pahoClient, connDown := range c.conn.Get(ctx) {
+	for pahoClient, connDown := range c.conn.Client(ctx) {
 		// If we have a pending publish, try to send it now.
 		if pub != nil && !c.sendOutgoingPublish(ctx, pahoClient, pub) {
 			continue

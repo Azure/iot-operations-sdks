@@ -83,7 +83,7 @@ func (c *ConnectionTracker[Client]) Current() CurrentConnection[Client] {
 // return from the loop once the call they're trying to make is complete, or
 // continue the loop if we need to reconnect and try again. The loop will only
 // terminate on its own via the context.
-func (c *ConnectionTracker[Client]) Get(
+func (c *ConnectionTracker[Client]) Client(
 	ctx context.Context,
 ) iter.Seq2[Client, <-chan struct{}] {
 	return func(yield func(Client, <-chan struct{}) bool) {

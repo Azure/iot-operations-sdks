@@ -52,16 +52,14 @@ func (c *SessionClient) Start() error {
 	ctx, cancel := context.WithCancelCause(context.Background())
 
 	// https://pkg.go.dev/context#example-AfterFunc-Merge
-	c.shutdown = func(
-		c context.Context,
-	) (context.Context, context.CancelFunc) {
-		c, fn := context.WithCancelCause(c)
+	c.shutdown = func(c context.Context) (context.Context, context.CancelFunc) {
+		c, cause := context.WithCancelCause(c)
 		stop := context.AfterFunc(ctx, func() {
-			fn(context.Cause(ctx))
+			cause(context.Cause(ctx))
 		})
 		return c, func() {
 			stop()
-			fn(context.Canceled)
+			cause(context.Canceled)
 		}
 	}
 	c.stop = func() { cancel(&ClientStateError{State: ShutDown}) }
