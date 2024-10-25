@@ -6,6 +6,13 @@ on:
     paths:
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
+      - 'codegen/src/**'
+      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/common'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/go'
+      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
   push:
     branches:
     - main  
