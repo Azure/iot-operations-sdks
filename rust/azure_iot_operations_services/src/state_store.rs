@@ -26,6 +26,7 @@ pub struct StateStoreError(#[from] StateStoreErrorKind);
 
 impl StateStoreError {
     /// Returns the [`SessionErrorKind`] of the error.
+    #[must_use]
     pub fn kind(&self) -> &StateStoreErrorKind {
         &self.0
     }

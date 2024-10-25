@@ -27,6 +27,7 @@ pub struct SessionError(#[from] SessionErrorKind);
 
 impl SessionError {
     /// Returns the [`SessionErrorKind`] of the error.
+    #[must_use]
     pub fn kind(&self) -> &SessionErrorKind {
         &self.0
     }
