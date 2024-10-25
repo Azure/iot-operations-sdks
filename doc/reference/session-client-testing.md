@@ -35,8 +35,6 @@ Stress tests for the MQTT session client should follow these principles:
     * Any actual/accidental network outage should be handled by the MQTT session client even if the test isn't about that outage.
 * The MQTT Broker has some fault injection capabilities and these should be used to aggressively stress the session client's ability to maintain a connection and session.
 
-**<span style="color:red"><TBD: List may not be exhaustive. Update as needed>**
-
 ## Normative Definition of Unit Tests
 
 ### MQTT Session Client happy paths
