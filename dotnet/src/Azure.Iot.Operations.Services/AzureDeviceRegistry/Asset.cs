@@ -180,7 +180,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.
         /// </summary>
-        public Status? Status { get; init; }
+        public Status? Status { get; set; }
 
         /// <summary>
         /// Provisioning state of the resource.
@@ -364,7 +364,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// The mapping of status dataset names to status datasets in this status.
         /// </summary>
         [JsonIgnore]
-        public Dictionary<string, StatusDatasets>? StatusDatasets
+        public Dictionary<string, StatusDatasets>? DatasetsDictionary
         {
             get
             {
@@ -420,7 +420,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
         }
 
-        internal StatusEvents[]? Events { get; init; }
+        public StatusEvents[]? Events { get; set; }
     }
 
     public record StatusError

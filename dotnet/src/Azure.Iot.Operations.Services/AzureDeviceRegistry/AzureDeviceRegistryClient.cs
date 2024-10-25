@@ -255,7 +255,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 {
                     foreach (string fileName in Directory.EnumerateFiles(directory))
                     {
-                        assetNames.Add(fileName);
+                        assetNames.Add(Path.GetFileName(fileName));
                     }
                 }
             }
