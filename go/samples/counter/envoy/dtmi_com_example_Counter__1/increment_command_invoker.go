@@ -22,10 +22,8 @@ func NewIncrementCommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "increment",
-			"invokerClientId": client.ID(),
 		},
 	)
 

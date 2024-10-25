@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/stub",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -78,7 +78,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/stub",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -98,7 +98,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/stub",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -118,14 +118,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/{unknown}/stub",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{unknown}/stub", exception.PropertyValue);
+            Assert.Equal("unknown", exception.PropertyName);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -138,14 +137,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/{modelId}/echo",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -156,17 +154,18 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "mock/{modelId}/echo",
-                ModelId = "Invalid/Model",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            stub.TopicTokenMap["modelId"] = "Invalid//Model";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -174,19 +173,21 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task RequestTopicCommandNameWithInvalidReplacementThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            InvokerStub stub = new(mock, "invalid/name")
+            InvokerStub stub = new(mock, "invalid//name")
             {
                 RequestTopicPattern = "mock/{commandName}/echo",
             };
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            stub.TopicTokenMap["commandName"] = "invalid//name";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{commandName}/echo", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -202,7 +203,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["__hasReservePrefix"] = "userValue";
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request", requestMetadata));
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request", requestMetadata));
             Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -212,16 +213,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public void InvalidTopicNamespaceThrowsException()
+        public async Task InvalidTopicNamespaceThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock)
-                {
-                    RequestTopicPattern = "mock/stub",
-                    TopicNamespace = "invalid/{modelId}",
-                });
+            InvokerStub stub = new(mock)
+            {
+                RequestTopicPattern = "mock/stub",
+                TopicNamespace = "invalid/{modelId}",
+            };
 
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -233,130 +234,136 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public void InvalidResponseTopicPrefixThrowsException()
+        public async Task InvalidResponseTopicPrefixThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock)
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ResponseTopicPrefix = "invalid/{unknown}",
-                });
+            InvokerStub stub = new(mock)
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicPrefix = "invalid//{unknown}",
+            };
 
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
             Assert.Equal("ResponseTopicPrefix", exception.PropertyName);
-            Assert.Equal("invalid/{unknown}", exception.PropertyValue);
+            Assert.Equal("invalid//{unknown}", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
         [Fact]
-        public void ResponseTopicPrefixModelIdWithInvalidReplacementThrowsException()
+        public async Task ResponseTopicPrefixModelIdWithInvalidReplacementThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock)
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ModelId = "Invalid/Model",
-                    ResponseTopicPrefix = "valid/{modelId}",
-                });
+            InvokerStub stub = new(mock)
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicPrefix = "valid/{modelId}",
+            };
 
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            stub.TopicTokenMap["modelId"] = "Invalid//Model";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicPrefix", exception.PropertyName);
-            Assert.Equal("valid/{modelId}", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
         [Fact]
-        public void ResponseTopicPrefixCommandNameWithInvalidReplacementThrowsException()
+        public async Task ResponseTopicPrefixCommandNameWithInvalidReplacementThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock, "invalid/name")
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ResponseTopicPrefix = "valid/{commandName}",
-                });
+            InvokerStub stub = new(mock, "invalid//name")
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicPrefix = "valid/{commandName}",
+            };
 
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            stub.TopicTokenMap["commandName"] = "invalid//name";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicPrefix", exception.PropertyName);
-            Assert.Equal("valid/{commandName}", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
         [Fact]
-        public void InvalidResponseTopicSuffixThrowsException()
+        public async Task InvalidResponseTopicSuffixThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock)
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ResponseTopicSuffix = "invalid/{unknown}",
-                });
+            InvokerStub stub = new(mock, "invalid//name")
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicSuffix = "invalid//{unknown}",
+            };
 
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
-            Assert.True(exception.IsShallow);
-            Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicSuffix", exception.PropertyName);
-            Assert.Equal("invalid/{unknown}", exception.PropertyValue);
-            Assert.Null(exception.CorrelationId);
-        }
-
-        [Fact]
-        public void ResponseTopicSuffixModelIdWithInvalidReplacementThrowsException()
-        {
-            MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock)
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ModelId = "Invalid/Model",
-                    ResponseTopicSuffix = "valid/{modelId}"
-                });
-
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
             Assert.Equal("ResponseTopicSuffix", exception.PropertyName);
-            Assert.Equal("valid/{modelId}", exception.PropertyValue);
+            Assert.Equal("invalid//{unknown}", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
         [Fact]
-        public void ResponseTopicSuffixCommandNameWithInvalidReplacementThrowsException()
+        public async Task ResponseTopicSuffixModelIdWithInvalidReplacementThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            var exception = Assert.Throws<AkriMqttException>(
-                () => new InvokerStub(mock, "invalid/name")
-                {
-                    RequestTopicPattern = "mock/stub",
-                    ResponseTopicSuffix = "valid/{commandName}"
-                });
+            InvokerStub stub = new(mock)
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicSuffix = "valid/{modelId}"
+            };
 
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
+            stub.TopicTokenMap["modelId"] = "Invalid//Model";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("ResponseTopicSuffix", exception.PropertyName);
-            Assert.Equal("valid/{commandName}", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
+            Assert.Null(exception.CorrelationId);
+        }
+
+        [Fact]
+        public async Task ResponseTopicSuffixCommandNameWithInvalidReplacementThrowsException()
+        {
+            MockMqttPubSubClient mock = new("mockClient");
+            InvokerStub stub = new(mock, "invalid//name")
+            {
+                RequestTopicPattern = "mock/stub",
+                ResponseTopicSuffix = "valid/{commandName}"
+            };
+
+            stub.TopicTokenMap["commandName"] = "invalid//name";
+
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.False(exception.InApplication);
+            Assert.True(exception.IsShallow);
+            Assert.False(exception.IsRemote);
+            Assert.Null(exception.HttpStatusCode);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
         }
 
@@ -366,7 +373,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             InvokerStub stub = new(mock);
 
-            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("mock", "request"));
+            var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
@@ -384,9 +391,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = stub.InvokeCommandAsync("myVirtualService", "req Payload");
+            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "myVirtualService" } });
             Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/myVirtualService/mockCommand", mock.MessagePublished.Topic);
             Assert.Equal(MqttPayloadFormatIndicator.CharacterData, mock.MessagePublished.PayloadFormatIndicator);
@@ -422,7 +430,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopicSuffix = "_for/{invokerClientId}",
             };
 
-            var invokeTask = stub.InvokeCommandAsync("stubServer", "req Payload");
+            stub.TopicTokenMap["commandName"] = "myCmd";
+            stub.TopicTokenMap["invokerClientId"] = "mockClient";
+
+            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
             Assert.Equal(namespacePrefix + "/+/commands/myCmd/_for/mockClient", mock.SubscribedTopicReceived);
             Assert.Equal(namespacePrefix + "/stubServer/commands/myCmd", mock.MessagePublished.Topic);
 
@@ -450,12 +461,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "{executorId}/commands/{commandName}/{ex:foobar}",
-                CustomTopicTokenMap = new Dictionary<string, string> { { "foobar", "MyValue" } },
                 ResponseTopicPrefix = null,
                 ResponseTopicSuffix = "_for/{invokerClientId}",
             };
 
-            var invokeTask = stub.InvokeCommandAsync("stubServer", "req Payload");
+            stub.TopicTokenMap["commandName"] = "myCmd";
+            stub.TopicTokenMap["invokerClientId"] = "mockClient";
+            stub.TopicTokenMap["ex:foobar"] = "MyValue";
+
+            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
             Assert.Equal("+/commands/myCmd/MyValue/_for/mockClient", mock.SubscribedTopicReceived);
             Assert.Equal("stubServer/commands/myCmd/MyValue", mock.MessagePublished.Topic);
 
@@ -486,7 +500,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 GetResponseTopic = (string _) => { return "my/uns/prefix/command/someExecutor/mockCommand"; },
             };
 
-            var invokeTask = stub.InvokeCommandAsync("stubServer", "req Payload");
+            var invokeTask = stub.InvokeCommandAsync("req Payload");
             Assert.Equal("my/uns/prefix/command/someExecutor/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
@@ -516,7 +530,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopicPrefix = "not-uns/prefix/{invokerClientId}"
             };
 
-            var invokeTask = stub.InvokeCommandAsync("stubServer", "req Payload");
+            stub.TopicTokenMap["invokerClientId"] = "mockClient";
+
+            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
             Assert.Equal("not-uns/prefix/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/stubServer/mockCommand", mock.MessagePublished.Topic);
 
@@ -544,9 +560,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "command/{executorId}/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = stub.InvokeCommandAsync("stubServer", "req Payload");
+            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
             Assert.Equal("clients/mockClient/command/+/+/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/stubServer/stubServer/mockCommand", mock.MessagePublished.Topic);
 
@@ -574,9 +591,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "command/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = stub.InvokeCommandAsync("", "req Payload");
+            var invokeTask = stub.InvokeCommandAsync("req Payload");
             Assert.Equal("clients/mockClient/command/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/mockCommand", mock.MessagePublished.Topic);
 
@@ -604,9 +622,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "command/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            Task<ExtendedResponse<string>> invokeTask1 = stub.InvokeCommandAsync("", "req Payload");
+            Task<ExtendedResponse<string>> invokeTask1 = stub.InvokeCommandAsync("req Payload");
             Assert.Equal("clients/mockClient/command/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/mockCommand", mock.MessagePublished.Topic);
             Assert.NotNull(mock.MessagePublished.CorrelationData);
@@ -621,7 +640,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             responseMsg.AddUserProperty(AkriSystemProperties.Status, "200");
 
-            Task<ExtendedResponse<string>> invokeTask2 = stub.InvokeCommandAsync("", "req Payload");
+            Task<ExtendedResponse<string>> invokeTask2 = stub.InvokeCommandAsync("req Payload");
             Assert.Equal("command/mockCommand", mock.MessagePublished.Topic);
             Assert.NotNull(mock.MessagePublished.CorrelationData);
             byte[] cid2 = mock.MessagePublished.CorrelationData;
@@ -657,11 +676,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             InvokerStub stub = new(mock)
             {
                 RequestTopicPattern = "command/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             for (int i = 0; i < 2; i++)
             {
-                var invokeTask = stub.InvokeCommandAsync("", $"req Payload {i}");
+                var invokeTask = stub.InvokeCommandAsync($"req Payload {i}");
                 Assert.Equal("clients/mockClient/command/mockCommand", mock.SubscribedTopicReceived);
                 Assert.Equal("command/mockCommand", mock.MessagePublished.Topic);
 
@@ -690,11 +710,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             for (int i = 0; i < 2; i++)
             {
-                var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload");
+                var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                 Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
                 Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
@@ -724,6 +745,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // Complete maxConcurrentRequests concurrent requests totalRequests times in a row
@@ -732,7 +754,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 var tasks = new Task[maxConcurrentRequests];
                 for (int j = 0; j < maxConcurrentRequests; j++)
                 {
-                    var task = invoker.InvokeCommandAsync($"executor{j}", "req Payload");
+                    var task = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", $"executor{j}" } });
                     Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
                     Assert.Equal($"command/executor{j}/mockCommand", mock.MessagePublished.Topic);
 
@@ -766,6 +788,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // Complete maxConcurrentRequests concurrent requests totalRequests times in a row
@@ -774,7 +797,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 var tasks = new Task[maxConcurrentRequests];
                 for (int j = 0; j < maxConcurrentRequests; j++)
                 {
-                    var task = invoker.InvokeCommandAsync($"someExecutor", "req Payload");
+                    var task = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                     Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
                     Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
@@ -805,9 +828,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "malformed?");
+            var invokeTask = invoker.InvokeCommandAsync("malformed?", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
@@ -832,9 +856,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "malformed?");
+            var invokeTask = invoker.InvokeCommandAsync("malformed?", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
@@ -861,10 +886,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // String encoded version of invalid payload type
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "12");
+            var invokeTask = invoker.InvokeCommandAsync("12", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
@@ -895,9 +921,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStubProtobuf(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload");
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
@@ -931,10 +958,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // String encoded version of invalid payload type
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "12");
+            var invokeTask = invoker.InvokeCommandAsync("12", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Deserialization of executor response throws on invoker side
@@ -966,7 +994,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", null, TimeSpan.FromSeconds(-1));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", null, commandTimeout: TimeSpan.FromSeconds(-1));
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
@@ -988,7 +1016,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", commandTimeout: TimeSpan.FromSeconds(3));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
@@ -1009,7 +1037,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", commandTimeout: TimeSpan.FromSeconds(1));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(1));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic); ;
 
             // No response, connection "dropped"
@@ -1036,10 +1064,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_dropPubAck"] = "true";
 
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor",
+            var invokeTask = invoker.InvokeCommandAsync(
                 "req Payload",
                 requestMetadata,
-                TimeSpan.FromSeconds(3));
+                transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } },
+                commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Puback dropped, keeps on retrying until timeout
@@ -1064,7 +1093,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_failPubAck"] = "true";
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", requestMetadata, TimeSpan.FromSeconds(3));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", requestMetadata, transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
@@ -1088,7 +1117,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_failPubAck"] = "true";
             requestMetadata.UserData["_notAuthorized"] = "true";
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", requestMetadata, TimeSpan.FromSeconds(3));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", requestMetadata, transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
@@ -1113,7 +1142,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_failPubAck"] = "true";
             requestMetadata.UserData["_noMatchingSubscribers"] = "true";
-            var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload", requestMetadata, TimeSpan.FromSeconds(3));
+            var invokeTask = invoker.InvokeCommandAsync("req Payload", requestMetadata, transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
@@ -1138,11 +1167,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             {
                 // Each request is different
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             for (int i = 0; i < numberOfRequests; i++)
             {
-                var invokeTask = invoker.InvokeCommandAsync("someExecutor", "req Payload");
+                var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                 Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 var response = new MqttApplicationMessage($"clients/mockClient/command/someExecutor/mockCommand")
@@ -1176,12 +1206,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             for (int i = 0; i < numberOfRequests; i++)
             {
                 // Each request is different
-                var invokeTask = invoker.InvokeCommandAsync("someExecutor", $"req Payload{i}");
+                var invokeTask = invoker.InvokeCommandAsync($"req Payload{i}", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                 Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 var response = new MqttApplicationMessage($"clients/mockClient/command/someExecutor/mockCommand")
@@ -1224,13 +1255,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             List<ExtendedResponse<string>> responses = new();
 
             for (int i = 0; i < numberOfRequests; i++)
             {
-                var invokeTask = invoker.InvokeCommandAsync("someExecutor", $"req Payload", commandTimeout: TimeSpan.FromSeconds(3));
+                var invokeTask = invoker.InvokeCommandAsync($"req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
                 Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 if (i == 0)
@@ -1284,15 +1316,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // Default timeout
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_dropPubAck"] = "true";
-            var invokeRequest = invoker.InvokeCommandAsync("someExecutor",
+            var invokeRequest = invoker.InvokeCommandAsync(
                 "req Payload",
                 requestMetadata,
-                TimeSpan.FromSeconds(3));
+                transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } },
+                commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Puback dropped, invoker disconnects
@@ -1306,8 +1340,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             // Invoker reconnects and receives response
-            invokeRequest = invoker.InvokeCommandAsync("someExecutor",
-                "req Payload");
+            invokeRequest = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
             {
@@ -1331,11 +1364,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             // Default timeout
-            var invokeRequest = invoker.InvokeCommandAsync("someExecutor",
-                "req Payload");
+            var invokeRequest = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Puback accepted but invoker disconnects before receiving a response
@@ -1348,8 +1381,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             // Invoker reconnects and receives response
-            invokeRequest = invoker.InvokeCommandAsync("someExecutor",
-                "req Payload");
+            invokeRequest = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
             {
@@ -1373,12 +1405,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using var invoker = new InvokerStub(mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
             };
 
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_dropPubAck"] = "true";
 
-            var firstInvoke = invoker.InvokeCommandAsync("someExecutor", "req Payload", requestMetadata, TimeSpan.FromSeconds(3));
+            var firstInvoke = invoker.InvokeCommandAsync("req Payload", requestMetadata, transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Puback dropped, invoker disconnects
@@ -1390,7 +1423,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
-            var secondInvoke = invoker.InvokeCommandAsync("someExecutor", "req Payload");
+            var secondInvoke = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             // Invoker reconnects and receives response
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
             {
@@ -1441,8 +1474,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await invoker.DisposeAsync();
 
-            await Assert.ThrowsAsync<ObjectDisposedException>(() => invoker.InvokeCommandAsync("someExecutorId", "someRequest"));
-            Assert.Throws<ObjectDisposedException>(() => invoker.TopicNamespace = "someTopicNamespace");
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => invoker.InvokeCommandAsync("someRequest", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }));
         }
 
         [Fact]
@@ -1457,7 +1489,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CancellationTokenSource cts = new CancellationTokenSource();
             cts.Cancel();
 
-            await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someExecutorId", "someRequest", cancellationToken: cts.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someRequest", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, cancellationToken: cts.Token));
         }
     }
 }

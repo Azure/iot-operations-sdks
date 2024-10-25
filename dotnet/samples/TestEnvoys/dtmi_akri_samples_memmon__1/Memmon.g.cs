@@ -15,13 +15,13 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
     using Azure.Iot.Operations.Protocol.Telemetry;
     using TestEnvoys;
 
-    [ModelId("dtmi:akri:samples:memmon;1")]
     [CommandTopic("rpc/samples/{modelId}/{executorId}/{commandName}")]
     [TelemetryTopic("rpc/samples/{modelId}/{senderId}/{telemetryName}")]
     public static partial class Memmon
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandExecutor startTelemetryCommandExecutor;
             private readonly StopTelemetryCommandExecutor stopTelemetryCommandExecutor;
             private readonly GetRuntimeStatsCommandExecutor getRuntimeStatsCommandExecutor;
@@ -31,6 +31,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(mqttClient) { OnCommandReceived = StartTelemetry_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -73,10 +74,21 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -107,6 +119,9 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
                 await this.startTelemetryCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.stopTelemetryCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.getRuntimeStatsCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.workingSetTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.managedMemoryTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.memoryStatsTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
@@ -114,11 +129,15 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
                 await this.startTelemetryCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.stopTelemetryCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getRuntimeStatsCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.workingSetTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.managedMemoryTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.memoryStatsTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandInvoker startTelemetryCommandInvoker;
             private readonly StopTelemetryCommandInvoker stopTelemetryCommandInvoker;
             private readonly GetRuntimeStatsCommandInvoker getRuntimeStatsCommandInvoker;
@@ -128,6 +147,7 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -155,20 +175,56 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
 
             public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(executorId, new EmptyAvro(), metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(executorId, request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                    { "executorId", executorId },
+                };
+
+                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async Task StartAsync(CancellationToken cancellationToken = default)
@@ -192,6 +248,9 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
                 await this.startTelemetryCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.stopTelemetryCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.getRuntimeStatsCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.workingSetTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.managedMemoryTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.memoryStatsTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
@@ -199,6 +258,9 @@ namespace TestEnvoys.dtmi_akri_samples_memmon__1
                 await this.startTelemetryCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.stopTelemetryCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getRuntimeStatsCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.workingSetTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.managedMemoryTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.memoryStatsTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }
