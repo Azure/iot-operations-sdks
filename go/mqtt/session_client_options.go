@@ -3,8 +3,10 @@
 package mqtt
 
 import (
+	"context"
 	"crypto/tls"
 	"log/slog"
+	"os"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -23,6 +25,8 @@ func WithLogger(
 	}
 }
 
+// TODO: organize this better
+
 // ******CONNECTION******
 
 // WithConnRetry sets connRetry for the MQTT session client.
@@ -34,22 +38,14 @@ func WithConnRetry(
 	}
 }
 
-// withConnSettings sets connSettings for the MQTT session client.
+// withConnectionConfig sets config for the MQTT session client.
 // Note that this is not publicly exposed to users.
-func withConnSettings(
-	connSettings *connectionSettings,
+func withConnectionConfig(
+	config *connectionConfig,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		c.connSettings = connSettings
+		c.config = config
 	}
-}
-
-// ensureConnSettings ensures the existence of the connectionSettings.
-func ensureConnSettings(c *SessionClient) *connectionSettings {
-	if c.connSettings == nil {
-		c.connSettings = &connectionSettings{}
-	}
-	return c.connSettings
 }
 
 // WithClientID sets clientID for the connection settings.
@@ -57,35 +53,101 @@ func WithClientID(
 	clientID string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).clientID = clientID
+		c.config.clientID = clientID
 	}
 }
 
-// WithUsername sets the username for the connection settings.
-func WithUsername(
-	username string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).username = username
+// UserNameProvider is a function that returns an MQTT User Name Flag and
+// User Name. Note that if the return value userNameFlag is false, the return
+// value userName is ignored.
+type UserNameProvider func(context.Context) (userNameFlag bool, userName string, err error)
+
+// defaultUserNameProvider is a UserNameProvider that returns no MQTT User Name.
+// Note that this is unexported because users don't have to use this directly.
+// It is used by default if no UserNameProvider is provided by the user.
+func defaultUserNameProvider(context.Context) (bool, string, error) {
+	return false, "", nil
+}
+
+// constantUserNameProvider is a UserNameProvider that returns an unchanging
+// User Name. This can be used if the User Name does not need to be updated
+// between MQTT connections. Note that this is unexported because users should
+// not call this directly and instead use WithUserName.
+func constantUserNameProvider(userName string) UserNameProvider {
+	return func(context.Context) (bool, string, error) {
+		return true, userName, nil
 	}
 }
 
-// WithPassword sets the password for the connection settings.
-func WithPassword(
-	password []byte,
-) SessionClientOption {
+// WithUserNameProvider sets the UserNameProvider that the SessionClient uses
+// to get the MQTT User Name for each MQTT connection. This is an advanced
+// option that most users will not need to use. Consider using WithUsername
+// instead.
+func WithUserNameProvider(provider UserNameProvider) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).password = password
+		c.config.userNameProvider = provider
 	}
 }
 
-// WithPasswordFile sets the passwordFile for the connection settings.
-func WithPasswordFile(
-	passwordFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).passwordFile = passwordFile
+// WithUserName sets a constant MQTT User Name for each MQTT connection.
+func WithUserName(userName string) SessionClientOption {
+	return WithUserNameProvider(constantUserNameProvider(userName))
+}
+
+// PasswordProvider is a function that returns an MQTT Password Flag and
+// Password. Note that if the return value passwordFlag is false, the return
+// value password is ignored.
+type PasswordProvider func(context.Context) (passwordFlag bool, password []byte, err error)
+
+// defaultPasswordProvider is a PasswordProvider that returns no MQTT Password.
+// Note that this is unexported because users don't have to use this directly.
+// It is used by default if no PasswordProvider is provided by the user.
+func defaultPasswordProvider(context.Context) (bool, []byte, error) {
+	return false, nil, nil
+}
+
+// constantPasswordProvider is a PasswordProvider that returns an unchanging
+// Password. This can be used if the Password does not need to be updated
+// between MQTT connections. Note that this is unexported because users should
+// not call this directly and instead use WithPassword.
+func constantPasswordProvider(password []byte) PasswordProvider {
+	return func(context.Context) (bool, []byte, error) {
+		return true, password, nil
 	}
+}
+
+// filePasswordProvider is a PasswordProvider that reads an MQTT Password from a
+// given filename for each MQTT connection. Note that this is unexported because
+// users should not call this directly and instead use WithPasswordFile.
+func filePasswordProvider(filename string) PasswordProvider {
+	return func(context.Context) (bool, []byte, error) {
+		data, err := os.ReadFile(filename)
+		if err != nil {
+			return false, nil, err
+		}
+		return true, data, nil
+	}
+}
+
+// WithPasswordProvider sets the PasswordProvider that the SessionClient uses to
+// get the MQTT Password for each MQTT connection. This is an advanced option
+// that most users will not need to use. Consider using WithPassword or
+// WithPasswordFile instead.
+func WithPasswordProvider(provider PasswordProvider) SessionClientOption {
+	return func(c *SessionClient) {
+		c.config.passwordProvider = provider
+	}
+}
+
+// WithPassword sets a constant MQTT Password for each MQTT connection.
+func WithPassword(password []byte) SessionClientOption {
+	return WithPasswordProvider(constantPasswordProvider(password))
+}
+
+// WithPasswordFile sets up the SessionClient to read an MQTT Password from the
+// given filename for each MQTT connection.
+func WithPasswordFile(filename string) SessionClientOption {
+	return WithPasswordProvider(filePasswordProvider(filename))
 }
 
 // WithKeepAlive sets the keepAlive interval for the MQTT connection.
@@ -93,7 +155,7 @@ func WithKeepAlive(
 	keepAlive time.Duration,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).keepAlive = keepAlive
+		c.config.keepAlive = keepAlive
 	}
 }
 
@@ -102,14 +164,13 @@ func WithSessionExpiry(
 	sessionExpiry time.Duration,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c)
 		// Convert the duration to seconds and then to uint32
-		c.connSettings.sessionExpiry = sessionExpiry
+		c.config.sessionExpiry = sessionExpiry
 		// Provide a convenient way for user to set maximum interval,
 		// since if the sessionExpiry is 0xFFFFFFFF (UINT_MAX),
 		// the session does not expire.
 		if sessionExpiry == -1 {
-			c.connSettings.sessionExpiry = time.Duration(
+			c.config.sessionExpiry = time.Duration(
 				maxSessionExpiry,
 			) * time.Second
 		}
@@ -121,7 +182,7 @@ func WithReceiveMaximum(
 	receiveMaximum uint16,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).receiveMaximum = receiveMaximum
+		c.config.receiveMaximum = receiveMaximum
 	}
 }
 
@@ -132,7 +193,7 @@ func WithConnectionTimeout(
 	connectionTimeout time.Duration,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).connectionTimeout = connectionTimeout
+		c.config.connectionTimeout = connectionTimeout
 		if c.connRetry != nil {
 			if r, ok := c.connRetry.(*retry.ExponentialBackoff); ok {
 				r.Timeout = connectionTimeout
@@ -154,7 +215,7 @@ func WithConnectPropertiesUser(
 	user map[string]string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).userProperties = user
+		c.config.userProperties = user
 	}
 }
 
@@ -163,11 +224,10 @@ func WithConnectPropertiesUser(
 // ensureWillMessage ensures the existence of the WillMessage
 // for the connectionSettings.
 func ensureWillMessage(c *SessionClient) *WillMessage {
-	ensureConnSettings(c)
-	if c.connSettings.willMessage == nil {
-		c.connSettings.willMessage = &WillMessage{}
+	if c.config.willMessage == nil {
+		c.config.willMessage = &WillMessage{}
 	}
-	return c.connSettings.willMessage
+	return c.config.willMessage
 }
 
 // WithWillMessageRetain sets the Retain for the WillMessage.
@@ -209,11 +269,10 @@ func WithWillMessagePayload(
 // ensureWillProperties ensures the existence of the WillProperties
 // for the connectionSettings.
 func ensureWillProperties(c *SessionClient) *WillProperties {
-	ensureConnSettings(c)
-	if c.connSettings.willProperties == nil {
-		c.connSettings.willProperties = &WillProperties{}
+	if c.config.willProperties == nil {
+		c.config.willProperties = &WillProperties{}
 	}
-	return c.connSettings.willProperties
+	return c.config.willProperties
 }
 
 // WithWillPropertiesPayloadFormat sets the PayloadFormat for the
@@ -291,16 +350,18 @@ func WithUseTLS(
 	useTLS bool,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).useTLS = useTLS
+		c.config.useTLS = useTLS
 	}
 }
 
 // WithTLSConfig sets the TLS configuration for the connection settings.
+// Note that this only has an effect if the server URL scheme is "mqtts", "tls",
+// or "ssl".
 func WithTLSConfig(
 	tlsConfig *tls.Config,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).tlsConfig = tlsConfig
+		c.config.tlsConfig = tlsConfig
 	}
 }
 
@@ -309,7 +370,7 @@ func WithCertFile(
 	certFile string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).certFile = certFile
+		c.config.certFile = certFile
 	}
 }
 
@@ -318,7 +379,7 @@ func WithKeyFile(
 	keyFile string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).keyFile = keyFile
+		c.config.keyFile = keyFile
 	}
 }
 
@@ -327,7 +388,7 @@ func WithKeyFilePassword(
 	keyFilePassword string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).keyFilePassword = keyFilePassword
+		c.config.keyFilePassword = keyFilePassword
 	}
 }
 
@@ -336,7 +397,7 @@ func WithCaFile(
 	caFile string,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).caFile = caFile
+		c.config.caFile = caFile
 	}
 }
 
@@ -346,7 +407,7 @@ func WithCaRequireRevocationCheck(
 	revocationCheck bool,
 ) SessionClientOption {
 	return func(c *SessionClient) {
-		ensureConnSettings(c).caRequireRevocationCheck = revocationCheck
+		c.config.caRequireRevocationCheck = revocationCheck
 	}
 }
 

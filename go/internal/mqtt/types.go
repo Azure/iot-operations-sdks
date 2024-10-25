@@ -33,6 +33,13 @@ type (
 		UserProperties map[string]string
 	}
 
+	// AuthValues contains values from AUTH packets sent to and received from
+	// the MQTT server
+	AuthValues struct {
+		AuthenticationMethod string
+		AuthenticationData   []byte
+	}
+
 	// ConnectEventHandler is a user-defined callback function used to respond
 	// to connection notifications from the MQTT client.
 	ConnectEventHandler = func(*ConnectEvent)

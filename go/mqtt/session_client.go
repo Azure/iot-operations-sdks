@@ -3,7 +3,6 @@
 package mqtt
 
 import (
-	"crypto/tls"
 	"math"
 	"sync"
 	"sync/atomic"
@@ -72,21 +71,19 @@ type (
 		// Paho client constructor (by default paho.NewClient + Conn)
 		pahoConstructor PahoConstructor
 
-		connSettings *connectionSettings
-		connRetry    retry.Policy
+		config    *connectionConfig
+		connRetry retry.Policy
 
 		log internal.Logger
 	}
 
-	connectionSettings struct {
+	connectionConfig struct {
+		connectionProvider ConnectionProvider
+
 		clientID string
-		// serverURL would be parsed into url.URL.
-		serverURL string
-		username  string
-		password  []byte
-		// Path to the password file. It would override password
-		// if both are provided.
-		passwordFile string
+
+		userNameProvider UserNameProvider
+		passwordProvider PasswordProvider
 
 		// If keepAlive is 0,the Client is not obliged to send
 		// MQTT Control Packets on any particular schedule.
@@ -99,25 +96,6 @@ type (
 		// Note the connectionTimeout would work with connRetry.
 		connectionTimeout time.Duration
 		userProperties    map[string]string
-
-		// TLS transport protocol.
-		useTLS bool
-		// User can provide either a complete TLS configuration
-		// or specify individual TLS parameters.
-		// If both are provided, the individual parameters will take precedence.
-		tlsConfig *tls.Config
-		// Path to the client certificate file (PEM-encoded).
-		certFile string
-		// keyFilePassword would allow loading
-		// an RFC 7468 PEM-encoded certificate
-		// along with its password-protected private key,
-		// similar to the .NET method CreateFromEncryptedPemFile.
-		keyFile         string
-		keyFilePassword string
-		// Path to the certificate authority (CA) file (PEM-encoded).
-		caFile string
-		// TODO: check the revocation status of the CA.
-		caRequireRevocationCheck bool
 
 		// Last Will and Testament (LWT) option.
 		willMessage    *WillMessage
@@ -145,7 +123,7 @@ func NewSessionClient(
 
 		session: state.NewInMemory(),
 
-		connSettings: &connectionSettings{
+		config: &connectionConfig{
 			serverURL: serverURL,
 			clientID:  internal.RandomClientID(),
 			// If receiveMaximum is 0, we can't establish connection.
@@ -170,7 +148,7 @@ func NewSessionClient(
 	}
 
 	// Validate connection settings.
-	if err := client.connSettings.validate(); err != nil {
+	if err := client.config.validate(); err != nil {
 		return nil, err
 	}
 
@@ -178,34 +156,36 @@ func NewSessionClient(
 }
 
 // NewSessionClientFromConnectionString constructs a new session client
-// from an user-defined connection string.
+// from an user-defined connection string. Note that values from the
+// connection string take priority over any functional options.
 func NewSessionClientFromConnectionString(
 	connStr string,
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
-	connSettings := &connectionSettings{}
-	if err := connSettings.fromConnectionString(connStr); err != nil {
+	config := &connectionConfig{}
+	if err := config.fromConnectionString(connStr); err != nil {
 		return nil, err
 	}
 
-	opts = append(opts, withConnSettings(connSettings))
-	return NewSessionClient(connSettings.serverURL, opts...)
+	opts = append(opts, withConnectionConfig(config))
+	return NewSessionClient(config.serverURL, opts...)
 }
 
 // NewSessionClientFromEnv constructs a new session client
-// from user's environment variables.
+// from user's environment variables. Note that values from environment
+// variables take priorty over any functional options.
 func NewSessionClientFromEnv(
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
-	connSettings := &connectionSettings{}
-	if err := connSettings.fromEnv(); err != nil {
+	config := &connectionConfig{}
+	if err := config.fromEnv(); err != nil {
 		return nil, err
 	}
 
-	opts = append(opts, withConnSettings(connSettings))
-	return NewSessionClient(connSettings.serverURL, opts...)
+	opts = append(opts, withConnectionConfig(config))
+	return NewSessionClient(config.serverURL, opts...)
 }
 
 func (c *SessionClient) ID() string {
-	return c.connSettings.clientID
+	return c.config.clientID
 }

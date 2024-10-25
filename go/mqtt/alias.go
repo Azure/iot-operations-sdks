@@ -15,6 +15,7 @@ type (
 	DisconnectEvent        = mqtt.DisconnectEvent
 	DisconnectEventHandler = mqtt.DisconnectEventHandler
 	Ack                    = mqtt.Ack
+	AuthValues             = mqtt.AuthValues
 
 	SubscribeOptions   = mqtt.SubscribeOptions
 	SubscribeOption    = mqtt.SubscribeOption
