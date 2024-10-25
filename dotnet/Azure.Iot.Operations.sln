@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThermostatHttpServerWorkerService", "samples\ConnectorApp\ThermostatHttpServerWorkerService.csproj", "{DAF8BA9B-3A50-4546-8505-724F63E94E72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpThermostatConnectorApp", "samples\HttpThermostatConnectorApp\HttpThermostatConnectorApp.csproj", "{DAF8BA9B-3A50-4546-8505-724F63E94E72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}"
 EndProject
