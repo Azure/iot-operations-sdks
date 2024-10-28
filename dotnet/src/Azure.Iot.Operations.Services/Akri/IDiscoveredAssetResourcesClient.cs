@@ -6,22 +6,15 @@ using AssetResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResou
 using AssetRequestDatasetsElementSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_Datasets_ElementSchema;
 using AssetRequestDefaultTopic = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_DefaultTopic;
 using AssetRequestEventsSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_Events_ElementSchema;
+using Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1;
+
 public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
 {
     public Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
-        string additionalConfiguration,
-        string daepName,
-        string endpointProfileType,
-        List<AssetEndpointProfileRequestAuthMethodSchema> assetEndpointProfileRequestAuthMethodSchemas,
-        string targetAddress,
+        CreateDiscoveredAssetEndpointProfileCommandRequest discoveredAssetEndpointProfileCommandRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
     public Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
-        string assetEndpointProfileRef, string assetName,
-        List<AssetRequestDatasetsElementSchema> datasets, string defaultDatasetsConfiguration,
-        string defaultEventsConfiguration, AssetRequestDefaultTopic defaultTopic,
-        string documentationUri, List<AssetRequestEventsSchema> eventsSchema, string hardwareRevision,
-        string manufacturer, string manufacturerUri, string productCode,
-        string model, string serialNumber, string softwareRevision,
+        CreateDiscoveredAssetCommandRequest discoveredAssetCommandRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }
 
