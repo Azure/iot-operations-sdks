@@ -141,8 +141,17 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		err := c.connRetry.Start(ctx, "connect",
 			func(ctx context.Context) (bool, error) {
 				var err error
+
+				connCtx := ctx
+				if c.config.connectionTimeout != 0 {
+					// timeout for this single connection attempt
+					var cancel func()
+					connCtx, cancel = context.WithTimeout(ctx, c.config.connectionTimeout)
+					defer cancel()
+				}
+
 				pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(
-					ctx,
+					connCtx,
 					c.conn.Current().Count,
 				)
 				return !isFatalError(err), err
@@ -269,21 +278,8 @@ func (c *SessionClient) defaultPahoConstructor(
 	ctx context.Context,
 	cfg *paho.ClientConfig,
 ) (PahoClient, error) {
-	// Refresh TLS config for new connection.
-	if err := c.config.validateTLS(); err != nil {
-		// TODO: this currently returns immediately if refreshing TLS config
-		// fails. Do we want to instead attempt to connect with the stale TLS
-		// config?
-		return nil, fatalError{err}
-	}
-
-	conn, err := buildNetConn(
-		ctx,
-		c.connSettings.serverURL,
-		c.connSettings.tlsConfig,
-	)
+	conn, err := c.config.connectionProvider(ctx)
 	if err != nil {
-		// buildNetConn will wrap the error in fatalError if it's fatal
 		return nil, err
 	}
 
@@ -296,9 +292,7 @@ func buildConnectPacket(
 	config *connectionConfig,
 	isInitialConn bool,
 ) (*paho.Connect, error) {
-	// Bound checks have already been performed during the connection settings
-	// initialization.
-	sessionExpiryInterval := uint32(config.sessionExpiry.Seconds())
+	sessionExpiryInterval := config.sessionExpiryInterval
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
 		ReceiveMaximum:        &config.receiveMaximum,
@@ -310,49 +304,14 @@ func buildConnectPacket(
 		),
 	}
 
-	// LWT.
-	var willMessage *paho.WillMessage
-	if config.willMessage != nil {
-		willMessage = &paho.WillMessage{
-			Retain:  config.willMessage.Retain,
-			QoS:     config.willMessage.QoS,
-			Topic:   config.willMessage.Topic,
-			Payload: config.willMessage.Payload,
-		}
-	}
-
-	var willProperties *paho.WillProperties
-	if config.willProperties != nil {
-		willDelayInterval := uint32(
-			config.willProperties.WillDelayInterval.Seconds(),
-		)
-		messageExpiry := uint32(
-			config.willProperties.MessageExpiry.Seconds(),
-		)
-
-		willProperties = &paho.WillProperties{
-			WillDelayInterval: &willDelayInterval,
-			PayloadFormat:     &config.willProperties.PayloadFormat,
-			MessageExpiry:     &messageExpiry,
-			ContentType:       config.willProperties.ContentType,
-			ResponseTopic:     config.willProperties.ResponseTopic,
-			CorrelationData:   config.willProperties.CorrelationData,
-			User: internal.MapToUserProperties(
-				config.willProperties.User,
-			),
-		}
-	}
-
 	packet := &paho.Connect{
-		ClientID:       config.clientID,
-		CleanStart:     isInitialConn,
-		KeepAlive:      uint16(config.keepAlive.Seconds()),
-		WillMessage:    willMessage,
-		WillProperties: willProperties,
-		Properties:     &properties,
+		ClientID:   config.clientID,
+		CleanStart: isInitialConn,
+		KeepAlive:  config.keepAlive,
+		Properties: &properties,
 	}
 
-	userNameFlag, userName, err := config.userNameProvider(ctx)
+	userName, userNameFlag, err := config.userNameProvider(ctx)
 	if err != nil {
 		return nil, &InvalidArgumentError{
 			wrappedError: err,
@@ -364,7 +323,7 @@ func buildConnectPacket(
 		packet.Username = userName
 	}
 
-	passwordFlag, password, err := config.passwordProvider(ctx)
+	password, passwordFlag, err := config.passwordProvider(ctx)
 	if err != nil {
 		return nil, &InvalidArgumentError{
 			wrappedError: err,

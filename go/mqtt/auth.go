@@ -4,6 +4,13 @@ package mqtt
 
 import "context"
 
+// AuthValues contains values from AUTH packets sent to and received from
+// the MQTT server
+type AuthValues struct {
+	AuthenticationMethod string
+	AuthenticationData   []byte
+}
+
 type EnhancedAuthenticationProvider interface {
 	// InitiateAuthExchange is called by the SessionClient when an enhanced
 	// authentication exchange is initiated. An enhanced authentication exchange

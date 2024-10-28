@@ -41,7 +41,7 @@ func withConnectionConfig(
 
 // ******RETRY POLICY******
 
-// WithConnRetry sets connRetry for the MQTT session client.
+// WithConnRetry sets the connection retry policy for the MQTT session client.
 func WithConnRetry(
 	connRetry retry.Policy,
 ) SessionClientOption {
@@ -50,9 +50,9 @@ func WithConnRetry(
 	}
 }
 
-// ******CLIENT ID******
+// ******CLIENT IDENTIFIER******
 
-// WithClientID sets clientID for the connection settings.
+// WithClientID sets MQTT Client Identifier
 func WithClientID(
 	clientID string,
 ) SessionClientOption {
@@ -63,99 +63,78 @@ func WithClientID(
 
 // ******USER NAME******
 
-// UserNameProvider is a function that returns an MQTT User Name Flag and
-// User Name. Note that if the return value userNameFlag is false, the return
-// value userName is ignored.
-type UserNameProvider func(context.Context) (userNameFlag bool, userName string, err error)
+// UserNameProvider is a function that returns an MQTT User Name and User Name
+// Flag. Note that if the return value userNameFlag is false, the return value
+// userName is ignored.
+type UserNameProvider func(context.Context) (userName string, userNameFlag bool, err error)
 
-// defaultUserNameProvider is a UserNameProvider that returns no MQTT User Name.
-// Note that this is unexported because users don't have to use this directly.
-// It is used by default if no UserNameProvider is provided by the user.
-func defaultUserNameProvider(context.Context) (bool, string, error) {
-	return false, "", nil
-}
-
-// constantUserNameProvider is a UserNameProvider that returns an unchanging
-// User Name. This can be used if the User Name does not need to be updated
-// between MQTT connections. Note that this is unexported because users should
-// not call this directly and instead use WithUserName.
-func constantUserNameProvider(userName string) UserNameProvider {
-	return func(context.Context) (bool, string, error) {
-		return true, userName, nil
-	}
-}
-
-// WithUserNameProvider sets the UserNameProvider that the SessionClient uses
-// to get the MQTT User Name for each MQTT connection. This is an advanced
-// option that most users will not need to use. Consider using WithUsername
-// instead.
-func WithUserNameProvider(provider UserNameProvider) SessionClientOption {
+// WithUserName sets the UserNameProvider that the SessionClient uses to get the
+// MQTT User Name for each MQTT connection.
+func WithUserName(provider UserNameProvider) SessionClientOption {
 	return func(c *SessionClient) {
 		c.config.userNameProvider = provider
 	}
 }
 
-// WithUserName sets a constant MQTT User Name for each MQTT connection.
-func WithUserName(userName string) SessionClientOption {
-	return WithUserNameProvider(constantUserNameProvider(userName))
+// defaultUserName is a UserNameProvider implementation that returns no MQTT
+// User Name. Note that this is unexported because users don't have to use this
+// directly. It is used by default if no UserNameProvider is provided by the
+// user.
+func defaultUserName(context.Context) (string, bool, error) {
+	return "", false, nil
+}
+
+// ConstantUserName is a UserNameProvider implementation that returns an
+// unchanging User Name. This can be used if the User Name does not need to be
+// updated between MQTT connections.
+func ConstantUserName(userName string) UserNameProvider {
+	return func(context.Context) (string, bool, error) {
+		return userName, true, nil
+	}
 }
 
 // ******PASSWORD******
 
-// PasswordProvider is a function that returns an MQTT Password Flag and
-// Password. Note that if the return value passwordFlag is false, the return
-// value password is ignored.
-type PasswordProvider func(context.Context) (passwordFlag bool, password []byte, err error)
+// PasswordProvider is a function that returns an MQTT Password and Password
+// Flag. Note that if the return value passwordFlag is false, the return value
+// password is ignored.
+type PasswordProvider func(context.Context) (password []byte, passwordFlag bool, err error)
 
-// defaultPasswordProvider is a PasswordProvider that returns no MQTT Password.
-// Note that this is unexported because users don't have to use this directly.
-// It is used by default if no PasswordProvider is provided by the user.
-func defaultPasswordProvider(context.Context) (bool, []byte, error) {
-	return false, nil, nil
-}
-
-// constantPasswordProvider is a PasswordProvider that returns an unchanging
-// Password. This can be used if the Password does not need to be updated
-// between MQTT connections. Note that this is unexported because users should
-// not call this directly and instead use WithPassword.
-func constantPasswordProvider(password []byte) PasswordProvider {
-	return func(context.Context) (bool, []byte, error) {
-		return true, password, nil
-	}
-}
-
-// filePasswordProvider is a PasswordProvider that reads an MQTT Password from a
-// given filename for each MQTT connection. Note that this is unexported because
-// users should not call this directly and instead use WithPasswordFile.
-func filePasswordProvider(filename string) PasswordProvider {
-	return func(context.Context) (bool, []byte, error) {
-		data, err := os.ReadFile(filename)
-		if err != nil {
-			return false, nil, err
-		}
-		return true, data, nil
-	}
-}
-
-// WithPasswordProvider sets the PasswordProvider that the SessionClient uses to
-// get the MQTT Password for each MQTT connection. This is an advanced option
-// that most users will not need to use. Consider using WithPassword or
-// WithPasswordFile instead.
-func WithPasswordProvider(provider PasswordProvider) SessionClientOption {
+// WithPassword sets the PasswordProvider that the SessionClient uses to get the
+// MQTT Password for each MQTT connection.
+func WithPassword(provider PasswordProvider) SessionClientOption {
 	return func(c *SessionClient) {
 		c.config.passwordProvider = provider
 	}
 }
 
-// WithPassword sets a constant MQTT Password for each MQTT connection.
-func WithPassword(password []byte) SessionClientOption {
-	return WithPasswordProvider(constantPasswordProvider(password))
+// defaultPassword is a PasswordProvider implementation that returns no MQTT
+// Password. Note that this is unexported because users don't have to use this
+// directly. It is used by default if no PasswordProvider is provided by the
+// user.
+func defaultPassword(context.Context) ([]byte, bool, error) {
+	return nil, false, nil
 }
 
-// WithPasswordFile sets up the SessionClient to read an MQTT Password from the
-// given filename for each MQTT connection.
-func WithPasswordFile(filename string) SessionClientOption {
-	return WithPasswordProvider(filePasswordProvider(filename))
+// ConstantPassword is a PasswordProvider implementation that returns an
+// unchanging Password. This can be used if the Password does not need to be
+// updated between MQTT connections.
+func ConstantPassword(password []byte) PasswordProvider {
+	return func(context.Context) ([]byte, bool, error) {
+		return password, true, nil
+	}
+}
+
+// FilePassword is a PasswordProvider implementation that reads an MQTT Password
+// from a given filename for each MQTT connection.
+func FilePassword(filename string) PasswordProvider {
+	return func(context.Context) ([]byte, bool, error) {
+		data, err := os.ReadFile(filename)
+		if err != nil {
+			return nil, false, err
+		}
+		return data, true, nil
+	}
 }
 
 // ******KEEP ALIVE******
@@ -171,7 +150,7 @@ func WithKeepAlive(
 
 // ******SESSION EXPIRY INTERVAL******
 
-// WithSessionExpiryInterval sets the sessionExpiry for the connection settings.
+// WithSessionExpiryInterval sets the MQTT Session Expiry Interval.
 func WithSessionExpiryInterval(
 	sessionExpiryInterval uint32,
 ) SessionClientOption {
@@ -182,7 +161,7 @@ func WithSessionExpiryInterval(
 
 // ******RECEIVE MAXIMUM******
 
-// WithReceiveMaximum sets the receive maximum for the connection settings.
+// WithReceiveMaximum sets the MQTT client-side Receive Maximum.
 func WithReceiveMaximum(
 	receiveMaximum uint16,
 ) SessionClientOption {
@@ -193,12 +172,14 @@ func WithReceiveMaximum(
 
 // ******CONNECTION TIMEOUT******
 
-// WithConnectionTimeout sets the connectionTimeout for the connection settings.
-// If connectionTimeout is 0, connection will have no timeout.
-// Note the connectionTimeout would work with connRetry.
+// WithConnectionTimeout sets the connection timeout.
 func WithConnectionTimeout(
 	connectionTimeout time.Duration,
 ) SessionClientOption {
+	// TODO: this is currently treated as the timeout for a single connection
+	// attempt. Once discussion on this occurs, ensure this is aligned with the
+	// other session client implementations and document the specific meaning
+	// of "connection timeout" here.
 	return func(c *SessionClient) {
 		c.config.connectionTimeout = connectionTimeout
 	}

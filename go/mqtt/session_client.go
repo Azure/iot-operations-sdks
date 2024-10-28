@@ -75,7 +75,15 @@ type (
 		userProperties        map[string]string
 
 		// If connectionTimeout is 0, connection will have no timeout.
-		// TODO: use this timeout
+		//
+		// NOTE: this timeout applies to a single connection attempt.
+		// Configuring a timeout accross multiple attempts can be done through
+		// the retry policy.
+		//
+		// TODO: this is currently treated as the timeout for a single
+		// connection attempt. Once discussion on this occurs, ensure this is
+		// aligned with the other session client implementations and update the
+		// note above if this has changed.
 		connectionTimeout time.Duration
 	}
 )
@@ -99,6 +107,8 @@ func NewSessionClient(
 
 		config: &connectionConfig{
 			connectionProvider: connectionProvider,
+			userNameProvider:   defaultUserName,
+			passwordProvider:   defaultPassword,
 			clientID:           internal.RandomClientID(),
 			// TODO: check defaults for keep alive, receive maximum session expiry interval
 			receiveMaximum: defaultReceiveMaximum,
@@ -106,7 +116,6 @@ func NewSessionClient(
 	}
 	client.pahoConstructor = client.defaultPahoConstructor
 
-	// User client settings.
 	for _, opt := range opts {
 		opt(client)
 	}
