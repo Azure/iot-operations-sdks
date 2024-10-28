@@ -9,15 +9,6 @@ use std::collections::HashMap;
 /// Wildcard token
 pub const WILDCARD: &str = "+";
 
-/// Regex checking if a string contains empty levels. Empty levels are levels that contain only
-/// whitespace characters or no characters at all.
-///
-/// Matches if the string contains any of the following:
-/// - Empty level at the start of the string
-/// - Empty level in the middle of the string
-/// - Empty level at the end of the string
-const EMPTY_LEVEL_REGEX: &str = r"(^\s*\/)|(\/\s*\/)|(\/\s*$)";
-
 /// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
 ///
 /// Returns true if the string contains any of the following:
@@ -59,7 +50,8 @@ pub struct TopicPattern {
 }
 
 impl TopicPattern {
-    // FIN: Make sure to write the docs for this, save it for last.
+    /// FIN: Make sure to write the docs for this, save it for last.
+    /// # Panic
     pub fn new<'a>(
         pattern: &'a str,
         topic_namespace: Option<&str>,
@@ -87,10 +79,39 @@ impl TopicPattern {
             ));
         }
 
+        // Check for invalid characters, also needed to safely use pattern.as_bytes() later
+        if !pattern.is_ascii() {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "pattern",
+                Value::String(pattern.to_string()),
+                Some("MQTT topic pattern contains non-ASCII characters".to_string()),
+                None,
+            ));
+        }
+
+        // Needed to check for tokens being next to each other, i.e {token}{token}, without using
+        // chars() which is O(n).
+        let pattern_as_bytes = pattern.as_bytes();
+
+        // Matches empty levels at the start, middle, or end of the string
+        let empty_level_regex =
+            Regex::new(r"((^\s*/)|(/\s*/)|(/\s*$))").expect("Static regex string should not fail");
+
+        if empty_level_regex.is_match(pattern) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "pattern",
+                Value::String(pattern.to_string()),
+                Some("MQTT topic pattern contains empty levels".to_string()),
+                None,
+            ));
+        }
+
         let mut working_pattern = String::new();
 
         if let Some(topic_namespace) = topic_namespace {
-            if is_valid_replacement(topic_namespace) {
+            if !is_valid_replacement(topic_namespace) {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     "topic_namespace",
@@ -103,25 +124,17 @@ impl TopicPattern {
             working_pattern.push('/');
         }
 
-        if Regex::new(EMPTY_LEVEL_REGEX)
-            .expect("Static regex string should not fail")
-            .is_match(&pattern)
-        {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "pattern",
-                Value::String(pattern.to_string()),
-                Some("MQTT topic pattern contains empty level".to_string()),
-                None,
-            ));
-        }
-
+        // Matches any tokens in the pattern
         let pattern_regex =
-            Regex::new(r"\{(?<token>[^}]+)\}").expect("Static regex string should not fail"); // FIN: Add this to a test
+            Regex::new(r"(?P<token>\{[^}]+\})").expect("Static regex string should not fail");
+        let invalid_regex =
+            Regex::new(r"([^\x21-\x7E]|[+#{}])").expect("Static regex string should not fail");
 
         let mut last_match = 0;
-        for caps in pattern_regex.captures_iter(&pattern) {
-            let token_capture = caps.name("token").expect("Token should always be present");
+        for caps in pattern_regex.captures_iter(pattern) {
+            let token_capture = caps
+                .name("token")
+                .expect("Checked the other two groups, token should always be present"); // FIN: better docs
             let token = token_capture.as_str();
 
             if token.trim().is_empty() {
@@ -134,22 +147,50 @@ impl TopicPattern {
                 ));
             }
 
-            if !token.is_ascii() {
+            if let Some(c) = pattern_as_bytes.get(token_capture.end()) {
+                if *c == b'{' {
+                    return Err(AIOProtocolError::new_configuration_invalid_error(
+                        None,
+                        "pattern",
+                        Value::String(pattern.to_string()),
+                        Some("MQTT topic pattern contains adjacent tokens".to_string()),
+                        None,
+                    ));
+                }
+            }
+
+            let acc_pattern = &pattern[last_match..token_capture.start()]; // FIN: Check if this is correct
+
+            if invalid_regex.is_match(acc_pattern) {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     "pattern",
                     Value::String(pattern.to_string()),
-                    Some("MQTT topic pattern contains non-ASCII token".to_string()),
+                    Some("MQTT topic pattern contains invalid characters".to_string()),
                     None,
                 ));
             }
 
-            working_pattern.push_str(&pattern[last_match..token_capture.start()]);
-            if let Some(val) = token_map.get(token_capture.as_str()) {
+            working_pattern.push_str(acc_pattern);
+            let stripped_token = &token[1..token.len() - 1];
+
+            if invalid_regex.is_match(stripped_token) || stripped_token.contains('/') {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "pattern",
+                    Value::String(stripped_token.to_string()),
+                    Some(format!(
+                        "MQTT topic pattern contains invalid characters in token '{token}'",
+                    )),
+                    None,
+                ));
+            }
+
+            if let Some(val) = token_map.get(stripped_token) {
                 if !is_valid_replacement(val) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
-                        token,
+                        stripped_token,
                         Value::String(val.to_string()),
                         Some(format!(
                             "MQTT topic pattern contains token '{token}', but replacement value '{val}' is not valid",
@@ -157,34 +198,32 @@ impl TopicPattern {
                         None,
                     ));
                 }
-
                 working_pattern.push_str(val);
             } else {
-                token.to_string();
+                working_pattern.push_str(token);
             }
             last_match = token_capture.end();
         }
 
-        working_pattern.push_str(&pattern[last_match..]);
+        let acc_pattern = &pattern[last_match..];
+
+        // Check the last part of the pattern
+        if invalid_regex.is_match(acc_pattern) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "pattern",
+                Value::String(pattern.to_string()),
+                Some("MQTT topic pattern contains invalid characters".to_string()),
+                None,
+            ));
+        }
+
+        working_pattern.push_str(acc_pattern);
 
         Ok(TopicPattern {
             topic_pattern: working_pattern,
             pattern_regex,
         })
-    }
-
-    // Convenience function to create a no replacement error
-    fn no_replacement_error(token: &str, command_name: Option<String>) -> AIOProtocolError {
-        let param_name = token.trim_start_matches('{').trim_end_matches('}');
-        AIOProtocolError::new_configuration_invalid_error(
-            None,
-            param_name,
-            Value::String(String::new()),
-            Some(format!(
-                "MQTT topic pattern contains token '{token}', but no replacement value provided",
-            )),
-            command_name,
-        )
     }
 
     /// Get the subscribe topic for the pattern
@@ -220,23 +259,34 @@ impl TopicPattern {
         let mut last_match = 0;
 
         for caps in self.pattern_regex.captures_iter(&self.topic_pattern) {
-            let key = caps.name("token").expect("Token should always be present");
-            publish_topic.push_str(&self.topic_pattern[last_match..key.start()]);
-            if let Some(val) = tokens.get(key.as_str()) {
+            let key_cap = caps.name("token").expect("Token should always be present");
+            let key = &key_cap.as_str()[1..key_cap.as_str().len() - 1];
+            publish_topic.push_str(&self.topic_pattern[last_match..key_cap.start()]);
+            if let Some(val) = tokens.get(key) {
+                if !is_valid_replacement(val) {
+                    return Err(AIOProtocolError::new_configuration_invalid_error(
+                        None,
+                        key,
+                        Value::String(val.to_string()),
+                        Some(format!(
+                            "MQTT topic pattern contains token '{key}', but replacement value '{val}' is not valid",
+                        )),
+                        None,
+                    ));
+                }
                 publish_topic.push_str(val);
             } else {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    key.as_str(),
+                    key,
                     Value::String(String::new()),
                     Some(format!(
-                        "MQTT topic pattern contains token '{}', but no replacement value provided",
-                        key.as_str(),
+                        "MQTT topic pattern contains token '{key}', but no replacement value provided"
                     )),
                     None,
                 ));
             }
-            last_match = key.end();
+            last_match = key_cap.end();
         }
 
         publish_topic.push_str(&self.topic_pattern[last_match..]);
@@ -268,7 +318,10 @@ impl TopicPattern {
             let (value, rest) = topic_ref.split_once('/').unwrap_or((topic_ref, ""));
             topic_ref = rest;
 
-            tokens.insert(find.as_str().to_string(), value.to_string());
+            tokens.insert(
+                find.as_str()[1..find.as_str().len() - 1].to_string(),
+                value.to_string(),
+            );
         }
 
         tokens
@@ -282,25 +335,46 @@ mod tests {
     use super::*;
     use crate::common::aio_protocol_error::AIOProtocolErrorKind;
 
-    #[test]
-    fn test_topic_pattern_new_pattern_valid() {
-        let pattern = "test/{testToken}";
+    #[test_case("test", "test"; "no token")]
+    #[test_case("test/test", "test/test"; "no token multiple levels")]
+    #[test_case("{wildToken}", "{wildToken}"; "only wildcard")]
+    #[test_case("{testToken}", "testRepl"; "only token")]
+    #[test_case("test/{testToken}", "test/testRepl"; "token at end")]
+    #[test_case("{testToken}/test", "testRepl/test"; "token at start")]
+    #[test_case("test/{testToken}/test", "test/testRepl/test"; "token in middle")]
+    #[test_case("test/{testToken}/test/{testToken}", "test/testRepl/test/testRepl"; "multiple tokens")]
+    #[test_case("{wildToken}/{testToken}", "{wildToken}/testRepl"; "wildcard token")]
+    #[test_case("test/{testToken}/{wildToken}", "test/testRepl/{wildToken}"; "wildcard token at end")]
+    #[test_case("{wildToken}/test/{testToken}", "{wildToken}/test/testRepl"; "wildcard token at start")]
+    #[test_case("test/{testToken}/{wildToken}/test", "test/testRepl/{wildToken}/test"; "wildcard token in middle")]
+    fn test_topic_pattern_new_pattern_valid(pattern: &str, result: &str) {
         let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
-        TopicPattern::new(pattern, None, &token_map).unwrap();
+        let pattern = TopicPattern::new(pattern, None, &token_map).unwrap();
+
+        assert_eq!(pattern.topic_pattern, result);
     }
 
     #[test_case(""; "empty")]
     #[test_case(" "; "whitespace")]
-    #[test_case("$invalidPattern"; "starts with dollar")]
-    #[test_case("/invalidPattern"; "starts with slash")]
-    #[test_case("invalidPattern/"; "ends with slash")]
-    #[test_case("invalid//Pattern"; "contains double slash")]
-    #[test_case(" /invalidPattern"; "level starts with space")]
-    #[test_case("invalidPattern/ "; "level ends with space")]
-    #[test_case("invalidPattern/ /invalidPattern"; "level contains space")]
+    #[test_case("$invalidPattern/{testToken}"; "starts with dollar")]
+    #[test_case("/invalidPattern/{testToken}"; "starts with slash")]
+    #[test_case("{testToken}/invalidPattern/"; "ends with slash")]
+    #[test_case("invalid//Pattern/{testToken}"; "contains double slash")]
+    #[test_case(" /invalidPattern/{testToken}"; "starts with whitespace")]
+    #[test_case("{testToken}/invalidPattern/ "; "ends with whitespace")]
+    #[test_case("invalidPattern/ /invalidPattern/{testToken}"; "level contains only whitespace")]
+    #[test_case("invalidPattern/invalid Pattern/invalidPattern/{testToken}"; "level contains whitespace")]
+    #[test_case("invalidPattern/invalid+Pattern/invalidPattern/{testToken}"; "level contains plus")]
+    #[test_case("invalidPattern/invalid#Pattern/invalidPattern/{testToken}"; "level contains hash")]
+    #[test_case("invalidPattern/invalid}Pattern/invalidPattern/{testToken}"; "level contains close brace")]
+    #[test_case("invalidPattern/invalid\u{0000}Pattern/invalidPattern/{testToken}"; "level contains non-ASCII")]
+    #[test_case("{testToken}{testToken}"; "adjacent tokens")]
+    #[test_case("{testToken}{}"; "one adjacent empty")]
+    #[test_case("{}{}"; "two adjacent empty")]
+    #[test_case("test/{testToken}}"; "curly brace end")]
     fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
-        let token_map = HashMap::new();
+        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
         let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -308,40 +382,28 @@ mod tests {
         assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
     }
 
-    #[test]
-    fn test_command_pattern_command_name_empty() {
-        let request_pattern = "test/{commandName}";
-        let command_name = "";
-        let mut token_map = HashMap::new();
-        token_map.insert("commandName".to_string(), "".to_string());
+    #[test_case("validNamespace"; "single level")]
+    #[test_case("validNamespace/validNamespace"; "multiple levels")]
+    fn test_topic_pattern_new_pattern_valid_topic_namespace(topic_namespace: &str) {
+        let pattern = "test/{testToken}";
+        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
-        let err = TopicPattern::new(request_pattern, None, &token_map).unwrap_err();
-        assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-        assert_eq!(err.property_name, Some("commandName".to_string()));
-        assert_eq!(
-            err.property_value,
-            Some(Value::String(command_name.to_string()))
-        );
+        TopicPattern::new(pattern, Some(topic_namespace), &token_map).unwrap();
     }
 
-    #[test_case("/invalidNamespace"; "namespace starts with slash")]
-    #[test_case("invalidNamespace/"; "namespace ends with slash")]
-    #[test_case("invalid//Namespace"; "namespace contains double_slash")]
-    #[test_case("invalid Namespace"; "namespace contains space")]
-    #[test_case("invalid+Namespace"; "namespace contains plus")]
-    #[test_case("invalid#Namespace"; "namespace contains hash")]
-    #[test_case("invalid{Namespace"; "namespace contains open brace")]
-    #[test_case("invalid}Namespace"; "namespace contains close brace")]
-    #[test_case("invalidNamespace\u{0000}"; "namespace contains non ASCII character")]
-    #[test_case(" "; "namespace contains only space")]
-    #[test_case(""; "namespace is empty")]
-    fn test_topic_processor_topic_namespace_invalid(topic_namespace: &str) {
-        let request_pattern = "test";
-        let mut token_map = HashMap::new();
+    #[test_case(""; "empty")]
+    #[test_case(" "; "whitespace")]
+    #[test_case("invalid Namespace"; "contains space")]
+    #[test_case("invalid+Namespace"; "contains plus")]
+    #[test_case("invalid#Namespace"; "contains hash")]
+    #[test_case("invalid{Namespace"; "contains open brace")]
+    #[test_case("invalid}Namespace"; "contains close brace")]
+    #[test_case("invalid\u{0000}Namespace"; "contains non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
+        let pattern = "test/{testToken}";
+        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
-        let err =
-            TopicPattern::new(request_pattern, Some(topic_namespace), &token_map).unwrap_err();
-
+        let err = TopicPattern::new(pattern, Some(topic_namespace), &token_map).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("topic_namespace".to_string()));
         assert_eq!(
@@ -350,24 +412,20 @@ mod tests {
         );
     }
 
-    #[test_case("$invalidPattern/{modelId}"; "pattern starts with dollar")]
-    #[test_case("/invalidPattern/{modelId}"; "pattern starts with slash")]
-    #[test_case("invalidPattern/{modelId}/"; "pattern ends with slash")]
-    #[test_case("invalid//pattern/{modelId}"; "pattern contains double slash")]
-    #[test_case("invalid pattern/{modelId}"; "pattern contains space")]
-    #[test_case("invalid+pattern/{modelId}"; "pattern contains plus")]
-    #[test_case("invalid#pattern/{modelId}"; "pattern contains hash")]
-    #[test_case("invalid{pattern/{modelId}"; "pattern contains open brace")]
-    #[test_case("invalid}pattern/{modelId}"; "pattern contains close brace")]
-    #[test_case("invalid\u{0000}pattern/{modelId}"; "pattern contains non ASCII character")]
-    #[test_case(" "; "pattern contains only space")]
-    #[test_case(""; "pattern is empty")]
-    fn test_topic_processor_pattern_invalid(pattern: &str) {
+    #[test_case("test/{{testToken}", "{testToken"; "open brace")]
+    #[test_case("test/{test+Token}", "test+Token"; "plus")]
+    #[test_case("test/{test#Token}", "test#Token"; "hash")]
+    #[test_case("test/{test/Token}", "test/Token"; "slash")]
+    #[test_case("test/{test\u{0000}Token}", "test\u{0000}Token"; "non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
         let token_map = HashMap::new();
         let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
-        assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
+        assert_eq!(
+            err.property_value,
+            Some(Value::String(property_value.to_string()))
+        );
     }
 
     #[test_case("invalid replacement"; "replacement contains space")]
@@ -381,58 +439,92 @@ mod tests {
     #[test_case("invalidReplacement/"; "replacement ends with slash")]
     #[test_case(""; "replacement is empty")]
     #[test_case(" "; "replacement contains only space")]
-    fn test_topic_processor_replacement_invalid(replacement: &str) {
-        let request_pattern = "test/{modelId}";
-        let mut token_map = HashMap::new();
-        token_map.insert("modelId".to_string(), replacement.to_string());
+    fn test_topic_pattern_new_pattern_invalid_replacement(replacement: &str) {
+        let pattern = "test/{testToken}/test";
+        let token_map = HashMap::from([("testToken".to_string(), replacement.to_string())]);
 
-        let err = TopicPattern::new(request_pattern, None, &token_map).unwrap_err();
+        let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-        assert_eq!(err.property_name, Some("modelId".to_string()));
+        assert_eq!(err.property_name, Some("testToken".to_string()));
         assert_eq!(
             err.property_value,
             Some(Value::String(replacement.to_string()))
         );
     }
 
-    #[test]
-    fn test_topic_processor_as_subscribe_topic_valid() {
-        let executor_pattern =
-            "command/{commandName}/{executorId}/{invokerClientId}/{executorId}/{modelId}/{invokerClientId}";
-        let mut token_map = HashMap::new();
-        token_map.insert("commandName".to_string(), "testCommand".to_string());
-        token_map.insert("modelId".to_string(), "testModel".to_string());
-        token_map.insert("executorId".to_string(), "testExecutor".to_string());
+    #[test_case("test", "test"; "no token")]
+    #[test_case("{wildToken}", "+"; "single token")]
+    #[test_case("{wildToken}/test", "+/test"; "token at start")]
+    #[test_case("test/{wildToken}", "test/+"; "token at end")]
+    #[test_case("test/{wildToken}/test", "test/+/test"; "token in middle")]
+    #[test_case("{wildToken}/{wildToken}", "+/+"; "multiple tokens")]
+    #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
+    #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
+    fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
+        let token_map = HashMap::new();
+        let pattern = TopicPattern::new(pattern, None, &token_map).unwrap();
 
-        let executor_pattern = TopicPattern::new(executor_pattern, None, &token_map).unwrap();
+        assert_eq!(pattern.as_subscribe_topic(), result);
+    }
 
-        let subscribe_request_topic = executor_pattern.as_subscribe_topic();
+    #[test_case("test", &HashMap::new(), "test"; "no token")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl"; "single token")]
+    #[test_case("{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "testRepl/test"; "token at start")]
+    #[test_case("test/{testToken}", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl"; "token at end")]
+    #[test_case("test/{testToken}/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]), "test/testRepl/test"; "token in middle")]
+    #[test_case("{testToken1}/{testToken2}", &HashMap::from([("testToken1".to_string(), "testRepl1".to_string()), ("testToken2".to_string(), "testRepl2".to_string())]), "testRepl1/testRepl2"; "multiple tokens")]
+    fn test_topic_pattern_as_publish_topic_valid(
+        pattern: &str,
+        tokens: &HashMap<String, String>,
+        result: &str,
+    ) {
+        let pattern = TopicPattern::new(pattern, None, tokens).unwrap();
+
+        assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
+    }
+
+    #[test_case("{testToken}", &HashMap::new(), "testToken", ""; "no replacement")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid Replacement".to_string())]), "testToken", "invalid Replacement"; "replacement contains space")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid+Replacement".to_string())]), "testToken", "invalid+Replacement"; "replacement contains plus")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid#Replacement".to_string())]), "testToken", "invalid#Replacement"; "replacement contains hash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid{Replacement".to_string())]), "testToken", "invalid{Replacement"; "replacement contains open brace")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid}Replacement".to_string())]), "testToken", "invalid}Replacement"; "replacement contains close brace")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid//Replacement".to_string())]), "testToken", "invalid//Replacement"; "replacement contains double slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid\u{0000}Replacement".to_string())]), "testToken", "invalid\u{0000}Replacement"; "replacement contains non ASCII character")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "/invalidReplacement".to_string())]), "testToken", "/invalidReplacement"; "replacement starts with slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalidReplacement/".to_string())]), "testToken", "invalidReplacement/"; "replacement ends with slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), String::new())]), "testToken", ""; "replacement is empty")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), " ".to_string())]), "testToken", " "; "replacement contains only space")]
+    fn test_topic_pattern_as_publish_topic_invalid(
+        pattern: &str,
+        tokens: &HashMap<String, String>,
+        property_name: &str,
+        property_value: &str,
+    ) {
+        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
+
+        let err = pattern.as_publish_topic(tokens).unwrap_err();
+        assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+        assert_eq!(err.property_name, Some(property_name.to_string()));
         assert_eq!(
-            subscribe_request_topic,
-            format!("command/testCommand/testExecutor/+/testExecutor/testModel/+")
+            err.property_value,
+            Some(Value::String(property_value.to_string()))
         );
     }
 
-    #[test]
-    fn test_topic_processor_as_publish_topic_valid() {
-        let invoker_pattern = "command/{commandName}/{executorId}/{invokerClientId}/{modelId}";
-        let mut token_map = HashMap::new();
-        token_map.insert("commandName".to_string(), "testCommand".to_string());
-        token_map.insert("modelId".to_string(), "testModel".to_string());
-        token_map.insert("executorId".to_string(), "testExecutor".to_string());
+    #[test_case("test", "test", &HashMap::new(); "no token")]
+    #[test_case("{testToken}", "testRepl", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]); "single token")]
+    #[test_case("{testToken}/test", "testRepl/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]); "token at start")]
+    #[test_case("test/{testToken}", "test/testRepl", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]); "token at end")]
+    #[test_case("test/{testToken}/test", "test/testRepl/test", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]); "token in middle")]
+    #[test_case("{testToken1}/{testToken2}", "testRepl1/testRepl2", &HashMap::from([("testToken1".to_string(), "testRepl1".to_string()),("testToken2".to_string(), "testRepl2".to_string())]); "multiple tokens")]
+    fn test_topic_pattern_parse_tokens(
+        pattern: &str,
+        topic: &str,
+        result: &HashMap<String, String>,
+    ) {
+        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
 
-        let invoker_pattern = TopicPattern::new(invoker_pattern, None, &token_map).unwrap();
-
-        let mut publish_token_map = HashMap::new();
-        publish_token_map.insert("invokerClientId".to_string(), "testInvoker".to_string());
-
-        let publish_request_topic = invoker_pattern
-            .as_publish_topic(&publish_token_map)
-            .unwrap();
-
-        assert_eq!(
-            publish_request_topic,
-            format!("command/testCommand/testExecutor/testInvoker/testModel")
-        );
+        assert_eq!(pattern.parse_tokens(topic), *result);
     }
 }
