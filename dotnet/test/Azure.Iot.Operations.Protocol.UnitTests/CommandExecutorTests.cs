@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
                 };
             });
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -77,7 +77,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
                 };
             });
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -184,8 +184,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{modelId}/echo", exception.PropertyValue);
+            Assert.Equal("modelId", exception.PropertyName);
+            Assert.Equal("Invalid//Model", exception.PropertyValue);
         }
 
         [Fact]
@@ -221,8 +221,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("RequestTopicPattern", exception.PropertyName);
-            Assert.Equal("mock/{commandName}/echo", exception.PropertyValue);
+            Assert.Equal("commandName", exception.PropertyName);
+            Assert.Equal("invalid//name", exception.PropertyValue);
         }
 
         [Fact]

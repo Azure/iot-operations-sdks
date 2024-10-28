@@ -115,19 +115,18 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 
 	if !ValidTopic(topic) {
 		missingToken := matchToken.FindString(topic)
-		if (missingToken != "") {
+		if missingToken != "" {
 			return "", &errors.Error{
-				Message:       "topic contains token " + missingToken + " but no replacement value provided",
-				Kind:          errors.ArgumentInvalid,
-				PropertyName:  missingToken[1:len(missingToken) - 1],
+				Message:      "topic contains token " + missingToken + " but no replacement value provided",
+				Kind:         errors.ArgumentInvalid,
+				PropertyName: missingToken[1 : len(missingToken)-1],
 			}
-		} else {
-			return "", &errors.Error{
-				Message:       "invalid topic",
-				Kind:          errors.ArgumentInvalid,
-				PropertyName:  tp.name,
-				PropertyValue: topic,
-			}
+
+		return "", &errors.Error{
+			Message:       "invalid topic",
+			Kind:          errors.ArgumentInvalid,
+			PropertyName:  tp.name,
+			PropertyValue: topic,
 		}
 	}
 	return topic, nil
