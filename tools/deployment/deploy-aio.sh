@@ -61,4 +61,10 @@ kubectl apply -f yaml/aio-$deploy_type.yaml
 # Update the credientials locally for connecting to MQTT Broker
 ./update-credentials.sh
 
+# Deploy ADR
+helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
+
+# Deploy Operator helm chart
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241018.4-buddy -n azure-iot-operations --wait
+
 echo Setup complete, session related files are in the '.session' directory
