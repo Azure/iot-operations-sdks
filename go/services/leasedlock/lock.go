@@ -107,7 +107,7 @@ func waitForDelete[K, V Bytes](
 				return nil
 			}
 		case <-ctx.Done():
-			return ctx.Err()
+			return context.Cause(ctx)
 		}
 	}
 }

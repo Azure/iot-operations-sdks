@@ -5,112 +5,113 @@ package mqtt
 import (
 	"context"
 	"errors"
+	"iter"
 	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
 )
 
-type publishResult struct {
-	ack *Ack
-	err error
-}
+type (
+	publishResult struct {
+		ack *paho.PublishResponse
+		err error
+	}
 
-type outgoingPublish struct {
-	packet     *paho.Publish
-	resultChan chan *publishResult
-}
+	outgoingPublish struct {
+		packet *paho.Publish
+		result chan *publishResult
+	}
+)
 
 // Background goroutine that sends queue publishes while the connection is up.
 // Blocks until ctx is cancelled.
 func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
-	var nextOutgoingPublish *outgoingPublish
-
-	for {
-		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
-			c.pahoClientMu.RLock()
-			defer c.pahoClientMu.RUnlock()
-			return c.pahoClient, c.connUp, c.connDown
-		}()
-
-		if pahoClient == nil {
-			select {
-			case <-ctx.Done():
-				return
-			case <-connUp:
-			}
+	var pub *outgoingPublish
+	for pahoClient, connDown := range c.conn.Client(ctx) {
+		// If we have a pending publish, try to send it now.
+		if pub != nil && !c.sendOutgoingPublish(ctx, pahoClient, pub) {
 			continue
 		}
 
-		waitForNextConnection := func() bool {
-			for {
-				select {
-				case <-ctx.Done():
-					return false
-				case <-connDown:
-					return true
-				case nextOutgoingPublish = <-func() chan *outgoingPublish {
-					// NOTE: This function either returns a nil channel (for
-					// which a read from blocks indefinitely) or
-					// c.outgoingPublishes depending on whether we are retrying
-					// the PUBLISH from the previous iteration or whether we are
-					// pulling in a new PUBLISH.
-					if nextOutgoingPublish != nil {
-						// We already have a PUBLISH we need to send, so don't
-						// read the next PUBLISH from c.outgoingPublishes.
-						return nil
-					}
-					return c.outgoingPublishes
-				}():
-				}
-
-				c.log.Packet(ctx, "publish", nextOutgoingPublish.packet)
-				// NOTE: we cannot get back the PUBACK on this due to a
-				// limitation in Paho (see
-				// https://github.com/eclipse/paho.golang/issues/216). We should
-				// consider submitting a PR to Paho to address this gap.
-				_, err := pahoClient.PublishWithOptions(
-					ctx,
-					nextOutgoingPublish.packet,
-					paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
-				)
-				c.log.PacketLog(ctx, slog.LevelWarn, "puback not available")
-
-				var result *publishResult
-				if err == nil ||
-					errors.Is(err, paho.ErrNetworkErrorAfterStored) {
-					// Paho has accepted control of the PUBLISH (i.e., either
-					// the PUBLISH was sent or the PUBLISH was stored in Paho's
-					// session tracker), so we relinquish control of the
-					// PUBLISH.
-					result = &publishResult{
-						// TODO: Add PUBACK information once Paho exposes it.
-						// (see: https://github.com/eclipse/paho.golang/issues/216)
-						ack: &Ack{},
-					}
-				} else if errors.Is(err, paho.ErrInvalidArguments) {
-					// Paho says the PUBLISH is invalid (likely due to an MQTT
-					// spec violation). There is no hope of this PUBLISH
-					// succeeding, so we will give up on this PUBLISH and notify
-					// the application.
-					result = &publishResult{
-						err: &InvalidArgumentError{
-							wrappedError: err,
-							message:      "invalid arguments in Publish() options",
-						},
-					}
-				}
-				if result != nil {
-					// should never block because it should be buffered by 1
-					nextOutgoingPublish.resultChan <- result
-					nextOutgoingPublish = nil
-				}
+		// Get outgoing publishes. If one fails, break the loop before niling it
+		// out in order to retry it.
+		for pub = range c.nextOutgoingPublish(ctx, connDown) {
+			if !c.sendOutgoingPublish(ctx, pahoClient, pub) {
+				break
 			}
-		}()
-		if !waitForNextConnection {
-			return
+			pub = nil
 		}
 	}
+}
+
+// Get the next outgoing publish until the connection or context drops.
+func (c *SessionClient) nextOutgoingPublish(
+	ctx context.Context,
+	connDown <-chan struct{},
+) iter.Seq[*outgoingPublish] {
+	return func(yield func(*outgoingPublish) bool) {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-connDown:
+				return
+			case pub := <-c.outgoingPublishes:
+				if !yield(pub) {
+					return
+				}
+			}
+		}
+	}
+}
+
+// Attempt to send an outgoing publish packet and return the result to its
+// channel. Returns whether it was successful.
+func (c *SessionClient) sendOutgoingPublish(
+	ctx context.Context,
+	pahoClient PahoClient,
+	pub *outgoingPublish,
+) bool {
+	// NOTE: we cannot get back the PUBACK on this due to a limitation in Paho
+	// (see https://github.com/eclipse/paho.golang/issues/216). We should
+	// consider submitting a PR to Paho to address this gap.
+	c.log.Packet(ctx, "publish", pub.packet)
+	_, err := pahoClient.PublishWithOptions(
+		ctx,
+		pub.packet,
+		paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
+	)
+	c.log.PacketLog(ctx, slog.LevelWarn, "puback not available")
+
+	if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
+		// Paho has accepted control of the PUBLISH (i.e., either the PUBLISH
+		// was sent or the PUBLISH was stored in Paho's session tracker), so we
+		// relinquish control of the PUBLISH.
+		pub.result <- &publishResult{
+			// TODO: Add real PUBACK information once Paho exposes it.
+			// (see: https://github.com/eclipse/paho.golang/issues/216)
+			ack: &paho.PublishResponse{
+				Properties: &paho.PublishResponseProperties{},
+			},
+		}
+		return true
+	}
+
+	if errors.Is(err, paho.ErrInvalidArguments) {
+		// Paho says the PUBLISH is invalid (likely due to an MQTT spec
+		// violation). There is no hope of this PUBLISH succeeding, so we will
+		// give up on this PUBLISH and notify the application.
+		pub.result <- &publishResult{
+			err: &InvalidArgumentError{
+				wrappedError: err,
+				message:      "invalid arguments in Publish() options",
+			},
+		}
+		return true
+	}
+
+	return false
 }
 
 func (c *SessionClient) Publish(
@@ -123,6 +124,46 @@ func (c *SessionClient) Publish(
 		return nil, &ClientStateError{State: NotStarted}
 	}
 
+	pub, err := buildPublish(topic, payload, opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx, cancel := c.shutdown(ctx)
+	defer cancel()
+
+	// Buffered in case the ctx is cancelled before we are able to read the
+	// result.
+	queuedPublish := &outgoingPublish{pub, make(chan *publishResult, 1)}
+	select {
+	case c.outgoingPublishes <- queuedPublish:
+	default:
+		return nil, &PublishQueueFullError{}
+	}
+
+	select {
+	case result := <-queuedPublish.result:
+		if result.ack != nil {
+			return &Ack{
+				ReasonCode:   result.ack.ReasonCode,
+				ReasonString: result.ack.Properties.ReasonString,
+				UserProperties: internal.UserPropertiesToMap(
+					result.ack.Properties.User,
+				),
+			}, nil
+		}
+		return nil, result.err
+
+	case <-ctx.Done():
+		return nil, context.Cause(ctx)
+	}
+}
+
+func buildPublish(
+	topic string,
+	payload []byte,
+	opts ...PublishOption,
+) (*paho.Publish, error) {
 	var opt PublishOptions
 	opt.Apply(opts)
 
@@ -157,26 +198,5 @@ func (c *SessionClient) Publish(
 		pub.Properties.MessageExpiry = &opt.MessageExpiry
 	}
 
-	// Buffered in case the ctx is cancelled before we are able to read the
-	// result
-	resultChan := make(chan *publishResult, 1)
-	queuedPublish := &outgoingPublish{
-		packet:     pub,
-		resultChan: resultChan,
-	}
-	select {
-	case c.outgoingPublishes <- queuedPublish:
-	default:
-		return nil, &PublishQueueFullError{}
-	}
-	var result *publishResult
-	select {
-	case result = <-resultChan:
-	case <-ctx.Done():
-		return nil, ctx.Err()
-	case <-c.shutdown:
-		return nil, &ClientStateError{State: ShutDown}
-	}
-
-	return result.ack, result.err
+	return pub, nil
 }

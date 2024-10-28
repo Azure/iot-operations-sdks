@@ -3,8 +3,8 @@
 package mqtt
 
 import (
+	"context"
 	"math"
-	"sync"
 	"sync/atomic"
 	"time"
 
@@ -18,40 +18,23 @@ type (
 	// SessionClient implements an MQTT Session client supporting MQTT v5 with
 	// QoS 0 and QoS 1 support.
 	SessionClient struct {
-		// Used to ensure Connect() is called only once and that user operations
-		// are only started after Connect() is called
+		// Used to ensure Start() is called only once and that user operations
+		// are only started after Start() is called.
 		sessionStarted atomic.Bool
 
 		// Used to internally to signal client shutdown for cleaning up
 		// background goroutines and inflight operations
-		shutdown <-chan struct{}
+		shutdown func(context.Context) (context.Context, context.CancelFunc)
 		stop     func()
 
-		// RWMutex to protect pahoClient, connUp, connDown, and connCount
-		pahoClientMu sync.RWMutex
-		// Instance of a Paho client. Underlying implmentation may be an
-		// instance of a real paho.Client or it may be a stub client used for
-		// testing
-		pahoClient PahoClient
-		// Channel that is closed when the connection is up (i.e., a new Paho
-		// client instance is created and connected to the server with a
-		// successful CONNACK), used to notify goroutines that are waiting on a
-		// connection to be re-establised
-		connUp chan struct{}
-		// Channel that is closed when the the connection is down. Used to
-		// notify goroutines that expect the connection to go down that the
-		// manageConnection() goroutine has detected the disconnection and is
-		// attempting to start a new connection
-		connDown chan struct{}
-		// The number of successful connections that have ocurred on the session
-		// client, up to and including the current Paho client instance
-		connCount uint64
+		// Tracker for the connection. Only valid once started.
+		conn *internal.ConnectionTracker[PahoClient]
 
-		// A list of functions that listen for incoming publishes
+		// A list of functions that listen for incoming publishes.
 		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish) bool]
 
 		// A list of functions that are called in order to notify the user of
-		// successful MQTT connections
+		// successful MQTT connections.
 		connectEventHandlers *internal.AppendableListWithRemoval[ConnectEventHandler]
 
 		// A list of functions that are called in order to notify the user of a
@@ -62,13 +45,13 @@ type (
 		// of a SessionClient termination due to a fatal error.
 		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
 
-		// Buffered channel containing the PUBLISH packets to be sent
+		// Buffered channel containing the PUBLISH packets to be sent.
 		outgoingPublishes chan *outgoingPublish
 
-		// Paho's internal MQTT session tracker
+		// Paho's internal MQTT session tracker.
 		session session.SessionManager
 
-		// Paho client constructor (by default paho.NewClient + Conn)
+		// Paho client constructor (by default paho.NewClient + Conn).
 		pahoConstructor PahoConstructor
 
 		config    *connectionConfig
@@ -103,9 +86,7 @@ func NewSessionClient(
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
 	client := &SessionClient{
-		connUp:   make(chan struct{}),
-		connDown: make(chan struct{}),
-
+		conn:                    internal.NewConnectionTracker[PahoClient](),
 		incomingPublishHandlers: internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
 		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
 		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),
@@ -124,10 +105,6 @@ func NewSessionClient(
 		},
 	}
 	client.pahoConstructor = client.defaultPahoConstructor
-
-	// Immediately close connDown to maintain the invariant that connDown is
-	// closed iff the session client is disconnected.
-	close(client.connDown)
 
 	// User client settings.
 	for _, opt := range opts {
