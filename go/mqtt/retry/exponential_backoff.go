@@ -68,7 +68,7 @@ func (e *ExponentialBackoff) Start(
 			return err
 		}
 
-		l.retry(ctx, name, attempt, err)
+		l.retry(ctx, name, attempt, err, interval)
 
 		select {
 		case <-wallclock.Instance.After(interval):

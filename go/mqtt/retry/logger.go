@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 )
@@ -27,10 +28,12 @@ func (l *logger) retry(
 	task string,
 	attempt uint64,
 	err error,
+	interval time.Duration,
 ) {
 	l.Log(ctx, slog.LevelWarn, fmt.Sprintf("%s retrying", task),
 		slog.Uint64("attempt", attempt),
 		slog.String("error", err.Error()),
+		slog.Duration("after", interval),
 	)
 }
 
