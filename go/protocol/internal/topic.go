@@ -55,7 +55,7 @@ func ValidateTopicPatternComponent(
 ) error {
 	if !matchPattern.MatchString(pattern) {
 		return &errors.Error{
-			Message:       "invalid" + displayName,
+			Message:       "invalid " + displayName,
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  name,
 			PropertyValue: pattern,
@@ -121,6 +121,7 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 				Kind:         errors.ArgumentInvalid,
 				PropertyName: missingToken[1 : len(missingToken)-1],
 			}
+		}
 
 		return "", &errors.Error{
 			Message:       "invalid topic",
