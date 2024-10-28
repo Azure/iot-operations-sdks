@@ -2,14 +2,6 @@
 // Licensed under the MIT License.
 package mqtt
 
-// An error with this wrapper is considered fatal.
-type fatalError struct{ error }
-
-func isFatalError(err error) bool {
-	_, ok := err.(fatalError)
-	return ok
-}
-
 // isFatalConnackReasonCode checks if the reason code in the CONNACK received
 // from the server is fatal.
 func isFatalConnackReasonCode(reasonCode byte) bool {

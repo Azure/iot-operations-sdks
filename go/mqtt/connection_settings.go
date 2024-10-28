@@ -119,8 +119,8 @@ func (cs *connectionSettings) applySettingsMap(
 		keepAlive, err := duration.Parse(value)
 		if err != nil {
 			return &InvalidArgumentError{
-				message:      "invalid KeepAlive in connection string",
-				wrappedError: err,
+				message: "invalid KeepAlive in connection string",
+				wrapped: err,
 			}
 		}
 		cs.keepAlive = keepAlive.ToTimeDuration()
@@ -130,8 +130,8 @@ func (cs *connectionSettings) applySettingsMap(
 		sessionExpiry, err := duration.Parse(value)
 		if err != nil {
 			return &InvalidArgumentError{
-				message:      "invalid SessionExpiry in connection string",
-				wrappedError: err,
+				message: "invalid SessionExpiry in connection string",
+				wrapped: err,
 			}
 		}
 		cs.sessionExpiry = sessionExpiry.ToTimeDuration()
@@ -141,8 +141,8 @@ func (cs *connectionSettings) applySettingsMap(
 		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
 		if err != nil {
 			return &InvalidArgumentError{
-				message:      "invalid ReceiveMaximum in connection string",
-				wrappedError: err,
+				message: "invalid ReceiveMaximum in connection string",
+				wrapped: err,
 			}
 		}
 		cs.receiveMaximum = uint16(receiveMaximum)
@@ -152,8 +152,8 @@ func (cs *connectionSettings) applySettingsMap(
 		connectionTimeout, err := duration.Parse(value)
 		if err != nil {
 			return &InvalidArgumentError{
-				message:      "invalid ConnectionTimeout in connection string",
-				wrappedError: err,
+				message: "invalid ConnectionTimeout in connection string",
+				wrapped: err,
 			}
 		}
 		cs.connectionTimeout = connectionTimeout.ToTimeDuration()
@@ -176,8 +176,8 @@ func (cs *connectionSettings) applySettingsMap(
 func (cs *connectionSettings) validate() error {
 	if _, err := url.Parse(cs.serverURL); err != nil {
 		return &InvalidArgumentError{
-			message:      "server URL is not valid",
-			wrappedError: err,
+			message: "server URL is not valid",
+			wrapped: err,
 		}
 	}
 
@@ -233,8 +233,8 @@ func (cs *connectionSettings) validateTLS() error {
 
 			if err != nil {
 				return &InvalidArgumentError{
-					message:      "X509 key pair cannot be loaded",
-					wrappedError: err,
+					message: "X509 key pair cannot be loaded",
+					wrapped: err,
 				}
 			}
 
@@ -245,8 +245,8 @@ func (cs *connectionSettings) validateTLS() error {
 			caCertPool, err := loadCACertPool(cs.caFile)
 			if err != nil {
 				return &InvalidArgumentError{
-					message:      "cannot load a CA certificate pool from caFile",
-					wrappedError: err,
+					message: "cannot load a CA certificate pool from caFile",
+					wrapped: err,
 				}
 			}
 			// Set RootCAs for server verification.

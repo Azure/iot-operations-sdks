@@ -104,8 +104,8 @@ func (c *SessionClient) sendOutgoingPublish(
 		// give up on this PUBLISH and notify the application.
 		pub.result <- &publishResult{
 			err: &InvalidArgumentError{
-				wrappedError: err,
-				message:      "invalid arguments in Publish() options",
+				wrapped: err,
+				message: "invalid arguments in Publish() options",
 			},
 		}
 		return true
@@ -170,12 +170,12 @@ func buildPublish(
 	// Validate options.
 	if opt.QoS >= 2 {
 		return nil, &InvalidArgumentError{
-			message: "Invalid QoS. Supported QoS value are 0 and 1",
+			message: "invalid or unsupported QoS",
 		}
 	}
 	if opt.PayloadFormat >= 2 {
 		return nil, &InvalidArgumentError{
-			message: "Invalid payload format indicator. Supported values are 0 and 1",
+			message: "invalid payload format indicator",
 		}
 	}
 

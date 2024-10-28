@@ -4,127 +4,89 @@ package mqtt
 
 import "fmt"
 
-/* ClientStateError */
+// ClientState indicates the current state of the session client.
+type ClientState byte
 
 const (
-	// Run() has not yet been called on this SessionClient instance.
-	NotStarted = iota
-	// Run() has been called on this SessionClient instance and it has not been
-	// shut down.
+	// The session client has not yet been started.
+	NotStarted ClientState = iota
+
+	// The session client has been started and has not yet been stopped by the
+	// user or terminated due to a fatal error.
 	Started
-	// This SessionClient instance ran but was shut down due the user's request
-	// or due to a fatal error.
+
+	// The session client has been stopped by the user or terminated due to a
+	// fatal error.
 	ShutDown
 )
 
 // ClientStateError is returned when the operation cannot proceed due to the
-// state of the SessionClient.
+// state of the session client.
 type ClientStateError struct {
-	// Must be NotStarted, Started, or ShutDown
-	State int
+	State ClientState
 }
 
 func (e *ClientStateError) Error() string {
 	switch e.State {
 	case NotStarted:
-		return "Run() not yet called on this SessionClient instance"
+		return "the session client has not yet been started"
 	case Started:
-		return "Run() already called on this SessionClient instance"
+		return "the session client has already been started"
 	case ShutDown:
-		return "SessionClient has shut down"
+		return "the session client has been shut down"
 	default:
-		// it should not be possible to get here
+		// It should not be possible to get here.
 		return ""
 	}
 }
 
-/* FatalDisconnectError */
-
-// FatalDisconnectError is returned by Run() if the SessionClient terminates due
-// to receiving a DISCONNECT packet from the server with a reason code that is
+// FatalDisconnectError indicates that the session client has terminated due
+// to receiving a DISCONNECT packet from the broker with a reason code that is
 // deemed to be fatal.
 type FatalDisconnectError struct {
-	// Must be set
 	ReasonCode byte
 }
 
 func (e *FatalDisconnectError) Error() string {
 	return fmt.Sprintf(
-		"received DISCONNECT packet with fatal reason code %X",
+		"received DISCONNECT packet with fatal reason code %x",
 		e.ReasonCode,
 	)
 }
 
-/* SessionLostError */
-
-// SessionLostError is returned by Run() if the SessionClient terminates due to
-// receiving a CONNACK from the server with session present false when
+// SessionLostError indicates that the session client has terminated due to
+// receiving a CONNACK from the broker with session present false when
 // reconnecting.
 type SessionLostError struct{}
 
 func (*SessionLostError) Error() string {
-	return "expected server have session information, but received a CONNACK packet with session present false"
+	return "expected broker to have session information, but received a CONNACK packet with session present false"
 }
 
-/* RetryFailureError */
-
-// RetryFailureError is returned by Run() if the session client terminates due
-// to reconnections failing and exhausting the retry policy. It wraps the last
-// seen error using standard Go error wrapping.
-type RetryFailureError struct {
-	// Must be set
-	lastError error
-}
-
-func (e *RetryFailureError) Error() string {
-	return fmt.Sprintf(
-		"retries failed according to retry policy. last seen error: %v",
-		e.lastError,
-	)
-}
-
-func (e *RetryFailureError) Unwrap() error {
-	if err, ok := e.lastError.(fatalError); ok {
-		return err.error
-	}
-	return e.lastError
-}
-
-/* ConnectionError */
-
-// ConnectionError is returned by Run() if the SessionClient terminates due to
-// an issue opening the network connection to the MQTT server. ConnectionError
-// is always wrapped by RetryFailureError, and may be checked using errors.As()
-// from the Go standard library. ConnectionError may wrap the underlying error
-// that occurred when attempting to open the network connection, which is done
-// using Go standard error wrapping.
+// ConnectionError indicates that the session client has terminated due to an
+// issue opening the network connection to the MQTT broker. It may wrap an
+// underlying error using Go standard error wrapping.
 type ConnectionError struct {
-	// May or may not be set depending on whether there is actually an error to
-	// wrap
-	wrappedError error
-	// Must be set
+	wrapped error
 	message string
 }
 
 func (e *ConnectionError) Error() string {
-	if e.wrappedError != nil {
-		return fmt.Sprintf("%s: %v", e.message, e.wrappedError)
+	if e.wrapped != nil {
+		return fmt.Sprintf("%s: %v", e.message, e.wrapped)
 	}
 	return e.message
 }
 
 func (e *ConnectionError) Unwrap() error {
-	return e.wrappedError
+	return e.wrapped
 }
 
-/* ConnackError */
-
-// ConnackError is returned by Run() if the SessionClient terminates due to
-// receiving a CONNACK with an error reason code. ConnackError is always wrapped
-// by RetryFailureError, and may be checked using errors.As() from the Go
-// standard library.
+// ConnackError indicates that the session client received a CONNACK with an
+// reason code that indicates an error but is not deemed to be fatal. It may
+// appear as a fatal error if it is the final error returned once the session
+// client has exhausted its connection retries.
 type ConnackError struct {
-	// Must be set
 	ReasonCode byte
 }
 
@@ -135,44 +97,48 @@ func (e *ConnackError) Error() string {
 	)
 }
 
-/* InvalidArgumentError */
+// FatalConnackError indicates that the session client has terminated due to
+// receiving a CONNACK with with a reason code that is deemed to be fatal.
+type FatalConnackError struct {
+	ReasonCode byte
+}
 
-// InvalidArgumentError is used to indicate when the user has provided an
-// invalid value for an option. InvalidArgumentError may wrap any relevant
-// using Go standard error warpping.
+func (e *FatalConnackError) Error() string {
+	return fmt.Sprintf(
+		"received CONNACK packet with fatal reason code %x",
+		e.ReasonCode,
+	)
+}
+
+// InvalidArgumentError indicates that the user has provided an invalid value
+// for an option. It may wrap an underlying error using Go standard error
+// wrapping.
 type InvalidArgumentError struct {
-	// May or may not be set depending on whether there is actually an error to
-	// wrap
-	wrappedError error
-	// Must be set
+	wrapped error
 	message string
 }
 
 func (e *InvalidArgumentError) Error() string {
-	if e.wrappedError != nil {
-		return fmt.Sprintf("%s: %v", e.message, e.wrappedError)
+	if e.wrapped != nil {
+		return fmt.Sprintf("%s: %v", e.message, e.wrapped)
 	}
 	return e.message
 }
 
 func (e *InvalidArgumentError) Unwrap() error {
-	return e.wrappedError
+	return e.wrapped
 }
 
-/* PublishQueueFullError */
-
-// PublishQueueFullError is returned by Publish() to indicate that there are too
-// many publishes enqueued and the SessionClient is not accepting any more. This
-// should very rarely occur, and if it does, it is a sign that either the
-// connection is unstable or the application is sending messages at a faster
-// rate than can be handled by the SessionClient or broker.
+// PublishQueueFullError is returned if there are too many publishes enqueued
+// and the session client is not accepting any more. This should very rarely
+// occur, and if it does, it is a sign that either the connection is unstable
+// or the application is sending messages at a faster rate than can be handled
+// by the session client or broker.
 type PublishQueueFullError struct{}
 
 func (*PublishQueueFullError) Error() string {
 	return "publish queue full"
 }
-
-/* InvalidOperationError */
 
 // InvalidOperationError is returned if the user attempts to make a function
 // call that is invalid (e.g., attempting to ack a QoS 0 message).
