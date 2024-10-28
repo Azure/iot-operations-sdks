@@ -46,6 +46,7 @@ pub struct MqttConnectionSettings {
     #[builder(default = "None")]
     pub(crate) ca_file: Option<String>,
     /// Check the revocation status of the CA
+    /// NOTE: CURRENTLY UNUSED
     #[builder(default = "false")]
     pub(crate) ca_require_revocation_check: bool,
     /// Path to PEM file to establish X509 client authentication

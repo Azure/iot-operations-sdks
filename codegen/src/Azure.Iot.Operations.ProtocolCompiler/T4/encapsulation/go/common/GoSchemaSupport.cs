@@ -30,6 +30,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 UuidType _ => $"{optRef}uuid.UUID",
                 StringType _ => $"{optRef}string",
                 BytesType _ => $"{optRef}iso.ByteSlice",
+                DecimalType _ => $"{optRef}decimal.Decimal",
                 ReferenceType referenceType => $"{optRef}{referenceType.SchemaName}",
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
@@ -48,6 +49,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     return true;
                 case UuidType:
                     schemaImport = "github.com/google/uuid";
+                    return true;
+                case DecimalType:
+                    schemaImport = "github.com/shopspring/decimal";
                     return true;
                 default:
                     schemaImport = string.Empty;

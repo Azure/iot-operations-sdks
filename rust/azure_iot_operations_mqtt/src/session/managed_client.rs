@@ -15,11 +15,10 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
-use crate::interface::{ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::PubTracker;
 use crate::topic::{TopicFilter, TopicParseError};
-use crate::CompletionToken;
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
 /// Can be used to send messages and create receivers for incoming messages.
@@ -100,15 +99,7 @@ where
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, ClientError> {
-        match qos {
-            QoS::AtMostOnce => {
-                unimplemented!("QoS 0 is not yet supported for subscribe operations")
-            }
-            QoS::AtLeastOnce => self.pub_sub.subscribe(topic, qos).await,
-            QoS::ExactlyOnce => {
-                unimplemented!("QoS 2 is not yet supported for subscribe operations")
-            }
-        }
+        self.pub_sub.subscribe(topic, qos).await
     }
 
     async fn subscribe_with_properties(
@@ -117,19 +108,9 @@ where
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        match qos {
-            QoS::AtMostOnce => {
-                unimplemented!("QoS 0 is not yet supported for subscribe operations")
-            }
-            QoS::AtLeastOnce => {
-                self.pub_sub
-                    .subscribe_with_properties(topic, qos, properties)
-                    .await
-            }
-            QoS::ExactlyOnce => {
-                unimplemented!("QoS 2 is not yet supported for subscribe operations")
-            }
-        }
+        self.pub_sub
+            .subscribe_with_properties(topic, qos, properties)
+            .await
     }
 
     async fn unsubscribe(

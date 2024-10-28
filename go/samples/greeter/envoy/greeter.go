@@ -6,7 +6,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/iso"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
@@ -36,6 +35,7 @@ type (
 	}
 
 	GreeterServer struct {
+		protocol.Listeners
 		sayHelloExecutor *protocol.CommandExecutor[
 			HelloRequest,
 			HelloResponse,
@@ -47,6 +47,7 @@ type (
 	}
 
 	GreeterClient struct {
+		protocol.Listeners
 		sayHelloInvoker *protocol.CommandInvoker[
 			HelloRequest,
 			HelloResponse,
@@ -70,7 +71,7 @@ var (
 )
 
 func NewGreeterServer(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	handlers GreeterHandlers,
 	opts ...protocol.CommandExecutorOption,
 ) (*GreeterServer, error) {
@@ -79,7 +80,7 @@ func NewGreeterServer(
 
 	var opt protocol.CommandExecutorOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"executorId": client.ClientID(),
+		"executorId": client.ID(),
 	})
 
 	s.sayHelloExecutor, err = protocol.NewCommandExecutor(
@@ -91,8 +92,10 @@ func NewGreeterServer(
 		&opt,
 	)
 	if err != nil {
+		s.Close()
 		return nil, err
 	}
+	s.Listeners = append(s.Listeners, s.sayHelloExecutor)
 
 	s.sayHelloWithDelayExecutor, err = protocol.NewCommandExecutor(
 		client,
@@ -103,21 +106,19 @@ func NewGreeterServer(
 		&opt,
 		protocol.WithIdempotent(true),
 		protocol.WithCacheTTL(10*time.Second),
-		protocol.WithExecutionTimeout(30*time.Second),
+		protocol.WithTimeout(30*time.Second),
 	)
 	if err != nil {
+		s.Close()
 		return nil, err
 	}
+	s.Listeners = append(s.Listeners, s.sayHelloWithDelayExecutor)
 
 	return s, nil
 }
 
-func (s *GreeterServer) Listen(ctx context.Context) (func(), error) {
-	return protocol.Listen(ctx, s.sayHelloExecutor, s.sayHelloWithDelayExecutor)
-}
-
 func NewGreeterClient(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	opts ...protocol.CommandInvokerOption,
 ) (*GreeterClient, error) {
 	c := &GreeterClient{}
@@ -125,7 +126,7 @@ func NewGreeterClient(
 
 	var opt protocol.CommandInvokerOptions
 	opt.Apply(opts, protocol.WithTopicTokens{
-		"invokerClientId": client.ClientID(),
+		"invokerClientId": client.ID(),
 	})
 
 	if opt.ResponseTopicPrefix == "" && opt.ResponseTopicSuffix == "" {
@@ -140,8 +141,10 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	c.sayHelloWithDelayInvoker, err = protocol.NewCommandInvoker(
 		client,
@@ -151,14 +154,12 @@ func NewGreeterClient(
 		&opt,
 	)
 	if err != nil {
+		c.Close()
 		return nil, err
 	}
+	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	return c, nil
-}
-
-func (c *GreeterClient) Listen(ctx context.Context) (func(), error) {
-	return protocol.Listen(ctx, c.sayHelloInvoker, c.sayHelloWithDelayInvoker)
 }
 
 func (c *GreeterClient) SayHello(

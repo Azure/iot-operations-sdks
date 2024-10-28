@@ -210,18 +210,18 @@ public class MemMonEnvoyTests
         await memmonClient.StartAsync();
         await memMonService.StartAsync();
 
-        var resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsCommandRequest() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        var resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
 
         Assert.NotNull(resp);
 
-        var startResp = await memmonClient.StartTelemetryAsync(executorId, new StartTelemetryCommandRequest() { interval = 4 });
+        var startResp = await memmonClient.StartTelemetryAsync(executorId, new StartTelemetryRequestPayload() { interval = 4 });
 
-        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsCommandRequest() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
         Assert.Equal("4", resp.diagnosticResults["interval"]);
         Assert.Equal("True", resp.diagnosticResults["enabled"]);
 
         await memmonClient.StopTelemetryAsync(executorId);
-        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsCommandRequest() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { diagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
         Assert.Equal("False", resp.diagnosticResults["enabled"]);
     }
 

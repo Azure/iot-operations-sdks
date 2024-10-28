@@ -144,4 +144,13 @@ public class OrderedAckMqttClientIntegrationTests
 
         await mqttClient.DisconnectAsync();
     }
+
+    [Fact]
+    public async Task OrderedAckMqttClientCanUseBrokerAssignedClientId()
+    {
+        await using OrderedAckMqttClient mqttClient = await ClientFactory.CreateClientAsyncFromEnvAsync("", false, true);
+
+        Assert.NotNull(mqttClient.ClientId);
+        Assert.NotEmpty(mqttClient.ClientId);
+    }
 }

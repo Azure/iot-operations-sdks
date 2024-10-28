@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -6,27 +8,27 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
+	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
-	"github.com/Azure/iot-operations-sdks/go/protocol/wallclock"
 )
 
 type (
 	// CommandExecutor provides the ability to execute a single command.
 	CommandExecutor[Req any, Res any] struct {
-		client    mqtt.Client
+		client    MqttClient
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 		cache     *caching.Cache
-		ttl       time.Duration
 	}
 
 	// CommandExecutorOption represents a single command executor option.
@@ -37,9 +39,9 @@ type (
 		Idempotent bool
 		CacheTTL   time.Duration
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -88,33 +90,33 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
-	client mqtt.Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	handler CommandHandler[Req, Res],
 	opt ...CommandExecutorOption,
 ) (ce *CommandExecutor[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
 
-	var options CommandExecutorOptions
-	options.Apply(opt)
+	var opts CommandExecutorOptions
+	opts.Apply(opt)
 
-	if !options.Idempotent && options.CacheTTL != 0 {
+	if !opts.Idempotent && opts.CacheTTL != 0 {
 		return nil, &errors.Error{
 			Message:       "CacheTTL must be zero for non-idempotent commands",
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "CacheTTL",
-			PropertyValue: options.CacheTTL,
+			PropertyValue: opts.CacheTTL,
 		}
 	}
 
-	if options.CacheTTL < 0 {
+	if opts.CacheTTL < 0 {
 		return nil, &errors.Error{
 			Message:       "CacheTTL must not have a negative value",
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "CacheTTL",
-			PropertyValue: options.CacheTTL,
+			PropertyValue: opts.CacheTTL,
 		}
 	}
 
@@ -127,23 +129,24 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(
-		options.ExecutionTimeout,
-		commandExecutorErrStr,
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     commandExecutorErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
-	if err := internal.ValidateShareName(options.ShareName); err != nil {
+	if err := internal.ValidateShareName(opts.ShareName); err != nil {
 		return nil, err
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		"requestTopicPattern",
+		requestTopicPattern,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -160,37 +163,36 @@ func NewCommandExecutor[Req, Res any](
 		timeout: to,
 		cache: caching.New(
 			wallclock.Instance,
-			options.CacheTTL,
-			requestTopic,
+			opts.CacheTTL,
+			requestTopicPattern,
 		),
-		ttl: options.CacheTTL,
 	}
 	ce.listener = &listener[Req]{
 		client:         ce.client,
 		encoding:       requestEncoding,
 		topic:          reqTF,
-		shareName:      options.ShareName,
-		concurrency:    options.Concurrency,
+		shareName:      opts.ShareName,
+		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		logger:         log.Wrap(options.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
 		encoding: responseEncoding,
 	}
 
-	if err := ce.listener.register(); err != nil {
-		return nil, err
-	}
+	ce.listener.register()
 	return ce, nil
 }
 
-// Listen to the MQTT request topic. Returns a function to stop listening. Note
-// that cancelling this context will cause the unsubscribe call to fail.
-func (ce *CommandExecutor[Req, Res]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the MQTT request topic.
+func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 	return ce.listener.listen(ctx)
+}
+
+// Close the command executor to free its resources.
+func (ce *CommandExecutor[Req, Res]) Close() {
+	ce.listener.close()
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -236,14 +238,10 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			return nil, err
 		}
 
-		handlerCtx, cancel := ce.timeout(ctx)
+		handlerCtx, cancel := ce.timeout.Context(ctx)
 		defer cancel()
 
-		handlerCtx, cancel = internal.MessageExpiryTimeout(
-			handlerCtx,
-			pub.MessageExpiry,
-			commandExecutorErrStr,
-		)
+		handlerCtx, cancel = pubTimeout(pub).Context(handlerCtx)
 		defer cancel()
 
 		res, err := ce.handle(handlerCtx, req)
@@ -267,7 +265,12 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return nil
 	}
 
-	err = ce.client.Publish(ctx, rpub.Topic, rpub.Payload, &rpub.PublishOptions)
+	_, err = ce.client.Publish(
+		ctx,
+		rpub.Topic,
+		rpub.Payload,
+		&rpub.PublishOptions,
+	)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
@@ -296,12 +299,13 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	if err != nil {
 		return err
 	}
-	return ce.client.Publish(
+	_, err = ce.client.Publish(
 		ctx,
 		rpub.Topic,
 		rpub.Payload,
 		&rpub.PublishOptions,
 	)
+	return err
 }
 
 // Call handler with panic catch.
@@ -362,6 +366,31 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	}
 }
 
+// Build the response publish packet.
+func (ce *CommandExecutor[Req, Res]) build(
+	pub *mqtt.Message,
+	res *CommandResponse[Res],
+	resErr error,
+) (*mqtt.Message, error) {
+	var msg *Message[Res]
+	if res != nil {
+		msg = &res.Message
+	}
+	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
+	if err != nil {
+		return nil, err
+	}
+
+	rpub.CorrelationData = pub.CorrelationData
+	rpub.Topic = pub.ResponseTopic
+	rpub.MessageExpiry = pub.MessageExpiry
+	for key, val := range errutil.ToUserProp(resErr) {
+		rpub.UserProperties[key] = val
+	}
+
+	return rpub, nil
+}
+
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
@@ -382,29 +411,13 @@ func ignoreRequest(pub *mqtt.Message) error {
 	return nil
 }
 
-// Build the response publish packet.
-func (ce *CommandExecutor[Req, Res]) build(
-	pub *mqtt.Message,
-	res *CommandResponse[Res],
-	resErr error,
-) (*mqtt.Message, error) {
-	var msg *Message[Res]
-	if res != nil {
-		msg = &res.Message
+// Build a timeout based on the message's expiry.
+func pubTimeout(pub *mqtt.Message) *internal.Timeout {
+	return &internal.Timeout{
+		Duration: time.Duration(pub.MessageExpiry) * time.Second,
+		Name:     "MessageExpiry",
+		Text:     commandExecutorErrStr,
 	}
-	rpub, err := ce.publisher.build(msg, nil, 0)
-	if err != nil {
-		return nil, err
-	}
-
-	rpub.CorrelationData = pub.CorrelationData
-	rpub.Topic = pub.ResponseTopic
-	rpub.MessageExpiry = pub.MessageExpiry
-	for key, val := range errutil.ToUserProp(resErr) {
-		rpub.UserProperties[key] = val
-	}
-
-	return rpub, nil
 }
 
 // Respond is a shorthand to create a command response with required values and
@@ -414,15 +427,15 @@ func Respond[Res any](
 	payload Res,
 	opt ...RespondOption,
 ) (*CommandResponse[Res], error) {
-	var options RespondOptions
-	options.Apply(opt)
+	var opts RespondOptions
+	opts.Apply(opt)
 
 	// TODO: Valid metadata keys will be validated by the response publish, but
 	// consider whether we also want to validate them here preemptively.
 
 	return &CommandResponse[Res]{Message[Res]{
 		Payload:  payload,
-		Metadata: options.Metadata,
+		Metadata: opts.Metadata,
 	}}, nil
 }
 
@@ -431,29 +444,15 @@ func (o *CommandExecutorOptions) Apply(
 	opts []CommandExecutorOption,
 	rest ...CommandExecutorOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.commandExecutor(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.commandExecutor(o)
-		}
+	for opt := range options.Apply[CommandExecutorOption](opts, rest...) {
+		opt.commandExecutor(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *CommandExecutorOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(CommandExecutorOption); ok {
-			op.commandExecutor(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(CommandExecutorOption); ok {
-			op.commandExecutor(o)
-		}
+	for opt := range options.Apply[CommandExecutorOption](opts, rest...) {
+		opt.commandExecutor(o)
 	}
 }
 
@@ -482,15 +481,8 @@ func (o *RespondOptions) Apply(
 	opts []RespondOption,
 	rest ...RespondOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.respond(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.respond(o)
-		}
+	for opt := range options.Apply[RespondOption](opts, rest...) {
+		opt.respond(o)
 	}
 }
 

@@ -1,4 +1,6 @@
-﻿namespace Azure.Iot.Operations.Services.LeaderElection
+﻿using Azure.Iot.Operations.Protocol;
+
+namespace Azure.Iot.Operations.Services.LeaderElection
 {
     public sealed class LeadershipChangeEventArgs : EventArgs
     {
@@ -13,13 +15,14 @@
         public LeaderElectionCandidate? NewLeader { get; internal set; }
 
         /// <summary>
-        /// The leader before this change. This value is null if there was no previous leader.
+        /// The timestamp associated with this event.
         /// </summary>
-        public LeaderElectionCandidate? PreviousLeader { get; internal set; }
+        public HybridLogicalClock Timestamp { get; internal set; }
 
-        internal LeadershipChangeEventArgs(LeaderElectionCandidate? newLeader)
+        internal LeadershipChangeEventArgs(LeaderElectionCandidate? newLeader, HybridLogicalClock timestamp)
         {
             NewLeader = newLeader;
+            Timestamp = timestamp;
         }
     }
 }

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -11,7 +13,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
@@ -201,7 +202,7 @@ func runOneCommandInvokerTest(
 
 func getCommandInvoker(
 	t *testing.T,
-	sessionClient mqtt.Client,
+	sessionClient protocol.MqttClient,
 	tci TestCaseInvoker,
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {
@@ -248,7 +249,7 @@ func getCommandInvoker(
 		options...)
 
 	if err == nil {
-		_, err = invoker.base.Listen(context.Background())
+		err = invoker.base.Start(context.Background())
 	}
 
 	if catch == nil {
@@ -262,11 +263,11 @@ func getCommandInvoker(
 		if err == nil {
 			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
 				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-				protocol.WithTopicTokens{"commandName": *tci.CommandName},
 			)
 		}
 
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return invoker
@@ -286,9 +287,7 @@ func invokeCommand(
 	options := []protocol.InvokeOption{}
 	options = append(
 		options,
-		protocol.WithMessageExpiry(
-			uint32(actionInvokeCommand.Timeout.ToDuration().Seconds()),
-		),
+		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
 	)
 
 	if actionInvokeCommand.ExecutorID != nil {

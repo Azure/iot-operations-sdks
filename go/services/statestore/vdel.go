@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package statestore
 
 import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
@@ -19,8 +22,6 @@ type (
 		Timeout      time.Duration
 	}
 )
-
-const vdel = "VDEL"
 
 // VDel deletes the given key if it is equal to the given value. It returns the
 // number of values deleted (typically 0 or 1) or -1 if the key was present but
@@ -38,23 +39,14 @@ func (c *Client[K, V]) VDel(
 	var opts VDelOptions
 	opts.Apply(opt)
 
-	return invoke(ctx, c.invoker, resp.Number, &opts, resp.OpKV(vdel, key, val))
+	req := resp.OpKV("VDEL", key, val)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 
 // Apply resolves the provided list of options.
-func (o *VDelOptions) Apply(
-	opts []VDelOption,
-	rest ...VDelOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.vdel(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.vdel(o)
-		}
+func (o *VDelOptions) Apply(opts []VDelOption, rest ...VDelOption) {
+	for opt := range options.Apply[VDelOption](opts, rest...) {
+		opt.vdel(o)
 	}
 }
 
@@ -74,7 +66,7 @@ func (o WithTimeout) vdel(opt *VDelOptions) {
 
 func (o *VDelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
-		MessageExpiry: uint32(o.Timeout.Seconds()),
-		FencingToken:  o.FencingToken,
+		Timeout:      o.Timeout,
+		FencingToken: o.FencingToken,
 	}
 }

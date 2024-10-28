@@ -20,6 +20,7 @@
         "vscode": {
             "extensions": [
                 "vsciot-vscode.vscode-dtdl",
+                "ms-azuretools.vscode-bicep",
                 "ms-azuretools.vscode-docker",
                 "ms-kubernetes-tools.vscode-kubernetes-tools"
             ]
@@ -36,6 +37,7 @@
     },
     "containerEnv": {
         "CLUSTER_NAME": "${localEnv:CODESPACE_NAME}",
+        "SESSION": "${localEnv:CODESPACE_VSCODE_FOLDER}/.session",
         "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "forwardPorts": [

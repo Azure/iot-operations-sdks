@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol_test
 
 import (
 	"context"
+	"net/url"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -27,20 +30,26 @@ func TestTelemetry(t *testing.T) {
 		},
 	)
 	require.NoError(t, err)
+	defer receiver.Close()
 
 	sender, err := protocol.NewTelemetrySender(stub.Client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)
 
-	done, err := protocol.Listen(ctx, receiver)
+	err = receiver.Start(ctx)
 	require.NoError(t, err)
-	defer done()
 
-	err = sender.Send(ctx, value)
+	source, err := url.Parse("https://contoso.com")
+	require.NoError(t, err)
+
+	err = sender.Send(ctx, value, &protocol.CloudEvent{Source: source})
 	require.NoError(t, err)
 
 	res := <-results
-	require.Equal(t, stub.Client.ClientID(), res.ClientID)
+	require.Equal(t, stub.Client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
+	require.Equal(t, "https://contoso.com", res.Source.String())
+	require.Equal(t, "prefix/test/suffix", res.Subject)
+	require.Equal(t, enc.ContentType(), res.DataContentType)
 }

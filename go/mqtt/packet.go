@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package mqtt
 
 import (
@@ -37,7 +39,7 @@ func buildConnectPacket(
 	if connSettings.willMessage != nil {
 		willMessage = &paho.WillMessage{
 			Retain:  connSettings.willMessage.Retain,
-			QoS:     byte(connSettings.willMessage.QoS),
+			QoS:     connSettings.willMessage.QoS,
 			Topic:   connSettings.willMessage.Topic,
 			Payload: connSettings.willMessage.Payload,
 		}
@@ -51,11 +53,10 @@ func buildConnectPacket(
 		messageExpiry := uint32(
 			connSettings.willProperties.MessageExpiry.Seconds(),
 		)
-		payloadFormat := byte(connSettings.willProperties.PayloadFormat)
 
 		willProperties = &paho.WillProperties{
 			WillDelayInterval: &willDelayInterval,
-			PayloadFormat:     &payloadFormat,
+			PayloadFormat:     &connSettings.willProperties.PayloadFormat,
 			MessageExpiry:     &messageExpiry,
 			ContentType:       connSettings.willProperties.ContentType,
 			ResponseTopic:     connSettings.willProperties.ResponseTopic,
@@ -102,8 +103,8 @@ func buildDisconnectPacket(
 }
 
 // packetType gets the string name of a paho packet.
-func (qp *queuedPacket) packetType() string {
-	switch qp.packet.(type) {
+func packetType(packet any) string {
+	switch packet.(type) {
 	case *paho.Subscribe:
 		return subscribePacket
 	case *paho.Unsubscribe:

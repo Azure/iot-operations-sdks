@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package internal
 
 import (
@@ -46,6 +48,22 @@ var (
 		`^` + topicLevel + `(/` + topicLevel + `)*$`,
 	)
 )
+
+// Perform initial validation of a topic pattern component.
+func ValidateTopicPatternComponent(
+	name, msgOnErr, pattern string,
+) error {
+	if !matchPattern.MatchString(pattern) {
+		return &errors.Error{
+			Message:       msgOnErr,
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  name,
+			PropertyValue: pattern,
+		}
+	}
+
+	return nil
+}
 
 // Create a new topic pattern and perform initial validations.
 func NewTopicPattern(
@@ -96,9 +114,18 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	}
 
 	if !ValidTopic(topic) {
+		missingToken := matchToken.FindString(topic)
+		if missingToken != "" {
+			return "", &errors.Error{
+				Message:      "invalid topic",
+				Kind:         errors.ArgumentInvalid,
+				PropertyName: missingToken[1 : len(missingToken)-1],
+			}
+		}
+
 		return "", &errors.Error{
 			Message:       "invalid topic",
-			Kind:          errors.ConfigurationInvalid,
+			Kind:          errors.ArgumentInvalid,
 			PropertyName:  tp.name,
 			PropertyValue: topic,
 		}
@@ -136,14 +163,19 @@ func (tf *TopicFilter) Filter() string {
 	return tf.filter
 }
 
-// Tokens resolves the topic tokens from the topic.
-func (tf *TopicFilter) Tokens(topic string) map[string]string {
+// Tokens indicates whether the topic matched and resolves its topic tokens.
+func (tf *TopicFilter) Tokens(topic string) (map[string]string, bool) {
+	match := tf.regex.FindStringSubmatch(topic)
+	if match == nil {
+		return nil, false
+	}
+
 	tokens := make(map[string]string, len(tf.names)+len(tf.tokens))
-	for i, val := range tf.regex.FindStringSubmatch(topic)[1:] {
+	for i, val := range match[1:] {
 		tokens[tf.names[i]] = val
 	}
 	maps.Copy(tokens, tf.tokens)
-	return tokens
+	return tokens, true
 }
 
 // Return whether the provided string is a fully-resolved topic.

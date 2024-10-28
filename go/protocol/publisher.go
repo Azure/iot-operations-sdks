@@ -1,12 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
+	"time"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 	"github.com/google/uuid"
 )
 
@@ -16,14 +20,13 @@ type publisher[T any] struct {
 	topic    *internal.TopicPattern
 }
 
-// DefaultMessageExpiry is the MessageExpiry applied to Invoke or Send if none
-// is specified (10 seconds).
-const DefaultMessageExpiry = 10
+// DefaultTimeout is the timeout applied to Invoke or Send if none is specified.
+const DefaultTimeout = 10 * time.Second
 
 func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
-	expiry uint32,
+	timeout *internal.Timeout,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
@@ -35,13 +38,9 @@ func (p *publisher[T]) build(
 		}
 	}
 
-	if expiry == 0 {
-		expiry = DefaultMessageExpiry
-	}
-
 	pub.PublishOptions = mqtt.PublishOptions{
 		QoS:           1,
-		MessageExpiry: expiry,
+		MessageExpiry: timeout.MessageExpiry(),
 	}
 
 	if msg != nil {
@@ -51,7 +50,7 @@ func (p *publisher[T]) build(
 		}
 
 		pub.ContentType = p.encoding.ContentType()
-		pub.PayloadFormat = mqtt.PayloadFormat(p.encoding.PayloadFormat())
+		pub.PayloadFormat = p.encoding.PayloadFormat()
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)

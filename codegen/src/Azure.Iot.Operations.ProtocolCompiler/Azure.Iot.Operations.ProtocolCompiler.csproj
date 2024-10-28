@@ -1,5 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- T4 build support for .NET Core (Begin) -->
+    <Target Name="CheckT4Installed">
+        <Exec Command="t4 -h > NUL" IgnoreExitCode="true">
+            <Output TaskParameter="ExitCode" PropertyName="T4ExitCode" />
+        </Exec>
+    </Target>
+    <Target Name="InstallT4" DependsOnTargets="CheckT4Installed">
+        <Exec Command="dotnet tool install -g dotnet-t4" Condition="'$(T4ExitCode)' != '0'" />
+    </Target>
+
+    <ItemGroup>
+        <TextTemplate Include="**\*.tt" />
+    </ItemGroup>
+    <Target Name="T4Transform" BeforeTargets="BeforeBuild" DependsOnTargets="InstallT4" Inputs="@(TextTemplate)" Outputs="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Condition="'$(MSBuildRuntimeType)'=='Core'">
+        <Exec Command="t4 --class=Azure.Iot.Operations.ProtocolCompiler.%(TextTemplate.Filename) %(TextTemplate.Identity)" />
+        <ItemGroup>
+            <Compile Include="@(TextTemplate->'%(RelativeDir)%(Filename).cs')" Exclude="@(Compile)" />
+        </ItemGroup>
+    </Target>
+    <!-- T4 build support for .NET Core (End) -->
+
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<VersionPrefix>0.5.0</VersionPrefix>
@@ -8,10 +29,11 @@
 		<Nullable>enable</Nullable>
 		<PackAsTool>True</PackAsTool>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TransformOnBuild>true</TransformOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.1.19-preview-g0e42fbf36b" />
+		<PackageReference Include="DTDLParser" Version="1.1.20-preview-g772de8e50f" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.9.1" />
@@ -723,6 +745,9 @@
 		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
 			<Link>LanguageResources\csharp\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
+		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Support\*.cs">
+			<Link>LanguageResources\csharp\common\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
 		<EmbeddedResource Include="..\..\res\rust\**\*.rs">
 			<Link>LanguageResources\rust\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
@@ -736,5 +761,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets')" />
 
 </Project>

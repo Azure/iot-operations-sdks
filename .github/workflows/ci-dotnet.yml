@@ -6,6 +6,7 @@ on:
     paths:
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
+      - 'eng/test/faultablemqttbroker/**'      
       - 'tools/dsscli/**'
       - 'codegen/**'
   push:
@@ -52,11 +53,8 @@ jobs:
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
-    - name: Build CodeGen (Debug)
+    - name: Build and Test CodeGen (Debug)
       run: dotnet build -c Debug codegen/codegen.sln
-
-    - name: Test CodeGen
-      run: dotnet test codegen/codegen.sln
 
     - name: CodeGen .NET TestEnvoys
       run: (cd dotnet/samples/TestEnvoys; ./gen.sh)

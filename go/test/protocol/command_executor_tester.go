@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -14,7 +16,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
 	"github.com/eclipse/paho.golang/paho"
@@ -224,7 +225,7 @@ func runOneCommandExecutorTest(
 
 func getCommandExecutor(
 	t *testing.T,
-	sessionClient mqtt.Client,
+	sessionClient protocol.MqttClient,
 	tce *TestCaseExecutor,
 	countdownEvents map[string]*CountdownEvent,
 	catch *TestCaseCatch,
@@ -232,7 +233,7 @@ func getCommandExecutor(
 	options := []protocol.CommandExecutorOption{
 		protocol.WithIdempotent(tce.Idempotent),
 		protocol.WithCacheTTL(tce.CacheableDuration.ToDuration()),
-		protocol.WithExecutionTimeout(tce.ExecutionTimeout.ToDuration()),
+		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 
 	if tce.TopicNamespace != nil {
@@ -265,7 +266,7 @@ func getCommandExecutor(
 		options...)
 
 	if err == nil {
-		_, err = executor.base.Listen(context.Background())
+		err = executor.base.Start(context.Background())
 	}
 
 	if catch == nil {
@@ -277,6 +278,7 @@ func getCommandExecutor(
 		)
 	} else {
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandExecutor", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return executor

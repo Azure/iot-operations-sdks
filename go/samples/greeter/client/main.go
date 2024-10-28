@@ -20,21 +20,15 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
-	// EnableManualAcknowledgment must be set.
-	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		"tcp://localhost:1883",
+		mqtt.WithSessionExpiry(10*time.Minute),
+	))
 	client := must(envoy.NewGreeterClient(mqttClient))
+	defer client.Close()
 
-	check(mqttClient.Connect(ctx))
-	done := must(client.Listen(ctx))
-	defer done()
+	check(mqttClient.Start())
+	check(client.Start(ctx))
 
 	n := flag.String("n", "User", "the name to greet (default: User)")
 	d := flag.String("d", "", "how long to delay (in Go duration format)")
@@ -83,9 +77,8 @@ func call(
 			Delay:        iso.Duration(duration),
 		}
 		res = must(client.SayHelloWithDelay(ctx, delayReq,
-			protocol.WithMessageExpiry(
-				protocol.DefaultMessageExpiry+uint32(duration.Seconds()),
-			)))
+			protocol.WithTimeout(protocol.DefaultTimeout+duration),
+		))
 	}
 	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
 }

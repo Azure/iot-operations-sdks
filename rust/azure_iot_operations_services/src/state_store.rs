@@ -11,19 +11,26 @@ use azure_iot_operations_protocol::{
 };
 use thiserror::Error;
 
-/// State store client implementation
+/// State Store Client implementation
 mod client;
 /// Serialization and deserialization implementations for resp3 state store payloads
 mod resp3;
 
-/// State store client implementation
-pub use client::Client;
-pub use resp3::{SetCondition, SetOptions};
+pub use client::{Client, ClientOptions, ClientOptionsBuilder, KeyObservation};
+pub use resp3::{Operation, SetCondition, SetOptions};
 
 /// Represents an error that occurred in the Azure IoT Operations State Store implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct StateStoreError(#[from] StateStoreErrorKind);
+
+impl StateStoreError {
+    /// Returns the [`SessionErrorKind`] of the error.
+    #[must_use]
+    pub fn kind(&self) -> &StateStoreErrorKind {
+        &self.0
+    }
+}
 
 /// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
 #[derive(Error, Debug)]
@@ -46,22 +53,25 @@ pub enum StateStoreErrorKind {
     /// The payload of the response does not match the expected type for the request.
     #[error("Unexpected response payload for the request type: {0}")]
     UnexpectedPayload(String),
+    /// A key may only have one [`KeyObservation`] at a time.
+    #[error("key may only be observed once at a time")]
+    DuplicateObserve,
 }
 
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
 #[derive(Error, Debug)]
 pub enum ServiceError {
-    /// The requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
+    #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     TimestampSkew,
     /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
     #[error("a fencing token is required for this request")]
     MissingFencingToken,
-    /// The requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    /// the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
+    #[error("the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
     FencingTokenSkew,
-    /// The requested fencing token is a lower version than the fencing token protecting the resource.
-    #[error("the requested fencing token is a lower version that the fencing token protecting the resource")]
+    /// The request fencing token is a lower version than the fencing token protecting the resource.
+    #[error("the request fencing token is a lower version than the fencing token protecting the resource")]
     FencingTokenLowerVersion,
     /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
     #[error("the quota has been exceeded")]
@@ -96,10 +106,10 @@ impl From<Vec<u8>> for ServiceError {
     fn from(s: Vec<u8>) -> Self {
         let s_bytes: &[u8] = &s;
         match s_bytes {
-            b"the requested timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::TimestampSkew,
+            b"the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::TimestampSkew,
             b"a fencing token is required for this request" => ServiceError::MissingFencingToken,
-            b"the requested fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::FencingTokenSkew,
-            b"the requested fencing token is a lower version that the fencing token protecting the resource" => ServiceError::FencingTokenLowerVersion,
+            b"the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized" => ServiceError::FencingTokenSkew,
+            b"the request fencing token is a lower version than the fencing token protecting the resource" => ServiceError::FencingTokenLowerVersion,
             b"the quota has been exceeded" => ServiceError::KeyQuotaExceeded,
             b"syntax error" => ServiceError::SyntaxError,
             b"not authorized" => ServiceError::NotAuthorized,
@@ -149,4 +159,15 @@ where
             ))),
         },
     }
+}
+
+/// A notification about a state change on a key in the State Store Service
+#[derive(Debug, Clone)]
+pub struct KeyNotification {
+    /// The Key that this notification is for
+    pub key: Vec<u8>,
+    /// The [`Operation`] that was performed on the key
+    pub operation: Operation,
+    /// The version of the key as a [`HybridLogicalClock`].
+    pub version: Option<HybridLogicalClock>,
 }

@@ -1,23 +1,27 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
 	"context"
 	"log/slog"
+	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        mqtt.Client
+		client        MqttClient
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -46,9 +50,9 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithResponseTopic specifies a translation function from the request topic
@@ -83,16 +87,16 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
-	client mqtt.Client,
+	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
 
-	var options CommandInvokerOptions
-	options.Apply(opt)
+	var opts CommandInvokerOptions
+	opts.Apply(opt)
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -103,23 +107,39 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	// Generate the response topic based on the provided options.
-	responseTopic := requestTopic
-	if options.ResponseTopic != nil {
-		responseTopic = options.ResponseTopic(requestTopic)
+	responseTopic := requestTopicPattern
+	if opts.ResponseTopic != nil {
+		responseTopic = opts.ResponseTopic(requestTopicPattern)
 	} else {
-		if options.ResponseTopicPrefix != "" {
-			responseTopic = options.ResponseTopicPrefix + "/" + responseTopic
+		if opts.ResponseTopicPrefix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicPrefix",
+				"invalid response topic prefix",
+				opts.ResponseTopicPrefix,
+			)
+			if err != nil {
+				return nil, err
+			}
+			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
-		if options.ResponseTopicSuffix != "" {
-			responseTopic = responseTopic + "/" + options.ResponseTopicSuffix
+		if opts.ResponseTopicSuffix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicSuffix",
+				"invalid response topic suffix",
+				opts.ResponseTopicSuffix,
+			)
+			if err != nil {
+				return nil, err
+			}
+			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		"requestTopicPattern",
+		requestTopicPattern,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -128,8 +148,8 @@ func NewCommandInvoker[Req, Res any](
 	resTP, err := internal.NewTopicPattern(
 		"responseTopic",
 		responseTopic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -154,13 +174,11 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		logger:         log.Wrap(options.Logger),
+		log:            log.Wrap(opts.Logger),
 		handler:        ci,
 	}
 
-	if err := ci.listener.register(); err != nil {
-		return nil, err
-	}
+	ci.listener.register()
 	return ci, nil
 }
 
@@ -175,8 +193,22 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	shallow := true
 	defer func() { err = errutil.Return(err, shallow) }()
 
-	var options InvokeOptions
-	options.Apply(opt)
+	var opts InvokeOptions
+	opts.Apply(opt)
+
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     commandInvokerErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+		return nil, err
+	}
 
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
@@ -186,23 +218,19 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	msg := &Message[Req]{
 		CorrelationData: correlationData,
 		Payload:         req,
-		Metadata:        options.Metadata,
+		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(
-		msg,
-		options.TopicTokens,
-		options.MessageExpiry,
-	)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ClientID()
-	pub.UserProperties[constants.Partition] = ci.client.ClientID()
-	if !options.FencingToken.IsZero() {
-		pub.UserProperties[constants.FencingToken] = options.FencingToken.String()
+	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
+	pub.UserProperties[constants.Partition] = ci.client.ID()
+	if !opts.FencingToken.IsZero() {
+		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}
-	pub.ResponseTopic, err = ci.responseTopic.Topic(options.TopicTokens)
+	pub.ResponseTopic, err = ci.responseTopic.Topic(opts.TopicTokens)
 	if err != nil {
 		return nil, err
 	}
@@ -211,18 +239,14 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	defer done()
 
 	shallow = false
-	err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	_, err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
 	if err != nil {
 		return nil, err
 	}
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := internal.MessageExpiryTimeout(
-		ctx,
-		pub.MessageExpiry,
-		commandInvokerErrStr,
-	)
+	ctx, cancel := expiry.Context(ctx)
 	defer cancel()
 
 	select {
@@ -239,9 +263,9 @@ func (ci *CommandInvoker[Req, Res]) initPending(
 ) (<-chan commandReturn[Res], func()) {
 	ret := make(chan commandReturn[Res])
 	done := make(chan struct{})
-	ci.pending.Store(correlation, commandPending[Res]{ret, done})
+	ci.pending.Set(correlation, commandPending[Res]{ret, done})
 	return ret, func() {
-		ci.pending.Delete(correlation)
+		ci.pending.Del(correlation)
 		close(done)
 	}
 }
@@ -256,7 +280,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	defer ci.listener.ack(ctx, pub)
 
 	cdata := string(pub.CorrelationData)
-	if pending, ok := ci.pending.Load(cdata); ok {
+	if pending, ok := ci.pending.Get(cdata); ok {
 		select {
 		case pending.ret <- commandReturn[Res]{res, err}:
 		case <-pending.done:
@@ -273,13 +297,15 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	}
 }
 
-// Listen to the response topic(s). Returns a function to stop listening. Must
-// be called before any calls to Invoke. Note that cancelling this context will
-// cause the unsubscribe call to fail.
-func (ci *CommandInvoker[Req, Res]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the response topic(s). Must be called before any calls to
+// Invoke.
+func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
 	return ci.listener.listen(ctx)
+}
+
+// Close the command invoker to free its resources.
+func (ci *CommandInvoker[Req, Res]) Close() {
+	ci.listener.close()
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(
@@ -321,29 +347,15 @@ func (o *CommandInvokerOptions) Apply(
 	opts []CommandInvokerOption,
 	rest ...CommandInvokerOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.commandInvoker(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.commandInvoker(o)
-		}
+	for opt := range options.Apply[CommandInvokerOption](opts, rest...) {
+		opt.commandInvoker(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(CommandInvokerOption); ok {
-			op.commandInvoker(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(CommandInvokerOption); ok {
-			op.commandInvoker(o)
-		}
+	for opt := range options.Apply[CommandInvokerOption](opts, rest...) {
+		opt.commandInvoker(o)
 	}
 }
 
@@ -378,15 +390,8 @@ func (o *InvokeOptions) Apply(
 	opts []InvokeOption,
 	rest ...InvokeOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.invoke(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.invoke(o)
-		}
+	for opt := range options.Apply[InvokeOption](opts, rest...) {
+		opt.invoke(o)
 	}
 }
 

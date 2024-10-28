@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
@@ -6,12 +8,13 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/log"
-	"github.com/Azure/iot-operations-sdks/go/protocol/mqtt"
 )
 
 type (
@@ -21,7 +24,7 @@ type (
 		listener  *listener[T]
 		handler   TelemetryHandler[T]
 		manualAck bool
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 	}
 
 	// TelemetryReceiverOption represents a single telemetry receiver option.
@@ -33,9 +36,9 @@ type (
 	TelemetryReceiverOptions struct {
 		ManualAck bool
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -52,8 +55,12 @@ type (
 	TelemetryMessage[T any] struct {
 		Message[T]
 
-		// Ack provides a function to manually ack if enabled; it will be nil
-		// otherwise.
+		// CloudEvent will be present if the message was sent with cloud events.
+		*CloudEvent
+
+		// Ack provides a function to manually ack if enabled and if possible;
+		// it will be nil otherwise. Note that, since QoS0 messages cannot be
+		// acked, this will be nil in this case even if manual ack is enabled.
 		Ack func() error
 	}
 
@@ -66,7 +73,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
-	client mqtt.Client,
+	client MqttClient,
 	encoding Encoding[T],
 	topic string,
 	handler TelemetryHandler[T],
@@ -74,8 +81,8 @@ func NewTelemetryReceiver[T any](
 ) (tr *TelemetryReceiver[T], err error) {
 	defer func() { err = errutil.Return(err, true) }()
 
-	var options TelemetryReceiverOptions
-	options.Apply(opt)
+	var opts TelemetryReceiverOptions
+	opts.Apply(opt)
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -85,22 +92,24 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(options.ExecutionTimeout,
-		"telemetry handler timed out",
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     telemetryReceiverErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
-	if err := internal.ValidateShareName(options.ShareName); err != nil {
+	if err := internal.ValidateShareName(opts.ShareName); err != nil {
 		return nil, err
 	}
 
 	tp, err := internal.NewTopicPattern(
 		"topic",
 		topic,
-		options.TopicTokens,
-		options.TopicNamespace,
+		opts.TopicTokens,
+		opts.TopicNamespace,
 	)
 	if err != nil {
 		return nil, err
@@ -113,31 +122,31 @@ func NewTelemetryReceiver[T any](
 
 	tr = &TelemetryReceiver[T]{
 		handler:   handler,
-		manualAck: options.ManualAck,
+		manualAck: opts.ManualAck,
 		timeout:   to,
 	}
 	tr.listener = &listener[T]{
 		client:      client,
 		encoding:    encoding,
 		topic:       tf,
-		shareName:   options.ShareName,
-		concurrency: options.Concurrency,
-		logger:      log.Wrap(options.Logger),
+		shareName:   opts.ShareName,
+		concurrency: opts.Concurrency,
+		log:         log.Wrap(opts.Logger),
 		handler:     tr,
 	}
 
-	if err := tr.listener.register(); err != nil {
-		return nil, err
-	}
+	tr.listener.register()
 	return tr, nil
 }
 
-// Listen to the MQTT telemetry topic. Returns a function to stop listening.
-// Note that cancelling this context will cause the unsubscribe call to fail.
-func (tr *TelemetryReceiver[T]) Listen(
-	ctx context.Context,
-) (func(), error) {
+// Start listening to the MQTT telemetry topic.
+func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
 	return tr.listener.listen(ctx)
+}
+
+// Close the telemetry receiver to free its resources.
+func (tr *TelemetryReceiver[T]) Close() {
+	tr.listener.close()
 }
 
 func (tr *TelemetryReceiver[T]) onMsg(
@@ -155,18 +164,20 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		return err
 	}
 
-	if tr.manualAck {
+	message.CloudEvent = cloudEventFromMessage(pub)
+
+	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
 	}
 
-	handlerCtx, cancel := tr.timeout(ctx)
+	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
 	if err := tr.handle(handlerCtx, message); err != nil {
 		return err
 	}
 
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return nil
@@ -177,7 +188,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return errutil.Return(err, false)
@@ -246,29 +257,15 @@ func (o *TelemetryReceiverOptions) Apply(
 	opts []TelemetryReceiverOption,
 	rest ...TelemetryReceiverOption,
 ) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.telemetryReceiver(o)
-		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.telemetryReceiver(o)
-		}
+	for opt := range options.Apply[TelemetryReceiverOption](opts, rest...) {
+		opt.telemetryReceiver(o)
 	}
 }
 
 // ApplyOptions filters and resolves the provided list of options.
 func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option) {
-	for _, opt := range opts {
-		if op, ok := opt.(TelemetryReceiverOption); ok {
-			op.telemetryReceiver(o)
-		}
-	}
-	for _, opt := range rest {
-		if op, ok := opt.(TelemetryReceiverOption); ok {
-			op.telemetryReceiver(o)
-		}
+	for opt := range options.Apply[TelemetryReceiverOption](opts, rest...) {
+		opt.telemetryReceiver(o)
 	}
 }
 

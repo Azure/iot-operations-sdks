@@ -1,10 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 package protocol
 
 import (
 	"context"
 	"sync"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
@@ -24,7 +25,7 @@ type (
 )
 
 func NewTestingCommandInvoker(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	modelID *string,
@@ -36,38 +37,40 @@ func NewTestingCommandInvoker(
 	if commandName == nil {
 		return nil, &errors.Error{
 			Message:       "commandName is nil",
-			Kind:          errors.ArgumentInvalid,
+			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Error{
 			Message:       "requestTopic is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "requestTopic",
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-		}
-	}
-
-	if modelID == nil {
-		return nil, &errors.Error{
-			Message:       "modelId is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "modelId",
-			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	var opts protocol.CommandInvokerOptions
-	opts.Apply(
-		opt,
-		protocol.WithTopicTokens{
-			"modelId":         *modelID,
-			"invokerClientId": client.ClientID(),
-		},
-	)
+	if modelID != nil {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"modelId":         *modelID,
+				"invokerClientId": client.ID(),
+			},
+		)
+	} else {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"invokerClientId": client.ID(),
+			},
+		)
+	}
 
 	invoker.base, err = protocol.NewCommandInvoker(
 		client,
@@ -82,7 +85,7 @@ func NewTestingCommandInvoker(
 }
 
 func NewTestingCommandExecutor(
-	client mqtt.Client,
+	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
 	handler func(context.Context, *protocol.CommandRequest[string], *sync.Map) (*protocol.CommandResponse[string], error),
@@ -98,38 +101,32 @@ func NewTestingCommandExecutor(
 	if commandName == nil {
 		return nil, &errors.Error{
 			Message:       "commandName is nil",
-			Kind:          errors.ArgumentInvalid,
+			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Error{
 			Message:       "requestTopic is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "requestTopic",
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-		}
-	}
-
-	if modelID == nil {
-		return nil, &errors.Error{
-			Message:       "modelId is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "modelId",
-			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	var opts protocol.CommandExecutorOptions
-	opts.Apply(
-		opt,
-		protocol.WithTopicTokens{
-			"modelId":    *modelID,
-			"executorId": client.ClientID(),
-		},
-	)
+	if modelID != nil {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"modelId": *modelID,
+			},
+		)
+	}
 
 	if executorID != nil {
 		opts.Apply(
@@ -142,7 +139,7 @@ func NewTestingCommandExecutor(
 		opts.Apply(
 			opt,
 			protocol.WithTopicTokens{
-				"executorId": client.ClientID(),
+				"executorId": client.ID(),
 			},
 		)
 	}
