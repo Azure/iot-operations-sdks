@@ -22,10 +22,8 @@ func NewReadCounterCommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "readCounter",
-			"invokerClientId": client.ID(),
 		},
 	)
 

@@ -5,6 +5,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
@@ -49,9 +50,9 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithResponseTopic specifies a translation function from the request topic
@@ -89,7 +90,7 @@ func NewCommandInvoker[Req, Res any](
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
@@ -106,21 +107,37 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	// Generate the response topic based on the provided options.
-	responseTopic := requestTopic
+	responseTopic := requestTopicPattern
 	if opts.ResponseTopic != nil {
-		responseTopic = opts.ResponseTopic(requestTopic)
+		responseTopic = opts.ResponseTopic(requestTopicPattern)
 	} else {
 		if opts.ResponseTopicPrefix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicPrefix",
+				"invalid response topic prefix",
+				opts.ResponseTopicPrefix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
 		if opts.ResponseTopicSuffix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicSuffix",
+				"invalid response topic suffix",
+				opts.ResponseTopicSuffix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
+		"requestTopicPattern",
+		requestTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -179,6 +196,20 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     commandInvokerErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+		return nil, err
+	}
+
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
 		return nil, err
@@ -189,7 +220,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return nil, err
 	}
@@ -215,11 +246,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := internal.MessageExpiryTimeout(
-		ctx,
-		pub.MessageExpiry,
-		commandInvokerErrStr,
-	)
+	ctx, cancel := expiry.Context(ctx)
 	defer cancel()
 
 	select {

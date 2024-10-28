@@ -6,6 +6,13 @@ on:
     paths:
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
+      - 'codegen/src/**'
+      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/common'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/go'
+      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
+      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
       - 'eng/test/faultablemqttbroker/**'
   push:
     branches:
@@ -110,17 +117,6 @@ jobs:
         version: latest
         args: civerify
         workdir: ./go/test/protocol
-
-    - name: Install dotnet-t4
-      run: dotnet tool install -g dotnet-t4
-
-    - name: Generate code from T4 templates
-      run: |
-        DIR=./codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4
-        NAMESPACE=Azure.Iot.Operations.ProtocolCompiler
-        find "$DIR" -name '*.tt' | while IFS= read -r f; do
-          t4 --class=$NAMESPACE.$(basename "$f" .tt) "$f"
-        done
 
     - name: Build codegen
       run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj

@@ -263,11 +263,11 @@ func getCommandInvoker(
 		if err == nil {
 			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
 				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-				protocol.WithTopicTokens{"commandName": *tci.CommandName},
 			)
 		}
 
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return invoker
@@ -287,9 +287,7 @@ func invokeCommand(
 	options := []protocol.InvokeOption{}
 	options = append(
 		options,
-		protocol.WithMessageExpiry(
-			uint32(actionInvokeCommand.Timeout.ToDuration().Seconds()),
-		),
+		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
 	)
 
 	if actionInvokeCommand.ExecutorID != nil {

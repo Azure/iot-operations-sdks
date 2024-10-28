@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private static readonly Dictionary<string, LanguageDirective> languageDirectives = new()
         {
-            { "csharp", new LanguageDirective("", @"Azure\.Iot\.Operations\.Protocol\.UnitTests\.Serializers\.\w+") },
+            { "csharp", new LanguageDirective("", @"Azure\.Iot\.Operations\.Protocol\.UnitTests\.(?:Serializers\.\w+|Support)") },
             { "rust", new LanguageDirective(SubPaths.Rust, @"resources::{0}") },
         };
 

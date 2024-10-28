@@ -11,14 +11,12 @@ type (
 	// WithConcurrency indicates how many handlers can execute in parallel.
 	WithConcurrency uint
 
-	// WithExecutionTimeout applies a context timeout to the handler execution.
-	WithExecutionTimeout time.Duration
+	// WithTimeout applies a context timeout to the message invocation or
+	// handler execution, as appropriate.
+	WithTimeout time.Duration
 
 	// WithShareName connects this listener to a shared MQTT subscription.
 	WithShareName string
-
-	// WithMessageExpiry applies an MQTT message expiry (in seconds).
-	WithMessageExpiry uint32
 
 	// WithTopicTokens specifies topic token values.
 	WithTopicTokens map[string]string
@@ -50,14 +48,22 @@ func (o WithConcurrency) telemetryReceiver(opt *TelemetryReceiverOptions) {
 	opt.Concurrency = uint(o)
 }
 
-func (o WithExecutionTimeout) commandExecutor(opt *CommandExecutorOptions) {
-	opt.ExecutionTimeout = time.Duration(o)
+func (o WithTimeout) commandExecutor(opt *CommandExecutorOptions) {
+	opt.Timeout = time.Duration(o)
 }
 
-func (WithExecutionTimeout) option() {}
+func (o WithTimeout) invoke(opt *InvokeOptions) {
+	opt.Timeout = time.Duration(o)
+}
 
-func (o WithExecutionTimeout) telemetryReceiver(opt *TelemetryReceiverOptions) {
-	opt.ExecutionTimeout = time.Duration(o)
+func (WithTimeout) option() {}
+
+func (o WithTimeout) send(opt *SendOptions) {
+	opt.Timeout = time.Duration(o)
+}
+
+func (o WithTimeout) telemetryReceiver(opt *TelemetryReceiverOptions) {
+	opt.Timeout = time.Duration(o)
 }
 
 func (o WithShareName) commandExecutor(opt *CommandExecutorOptions) {
@@ -68,14 +74,6 @@ func (WithShareName) option() {}
 
 func (o WithShareName) telemetryReceiver(opt *TelemetryReceiverOptions) {
 	opt.ShareName = string(o)
-}
-
-func (o WithMessageExpiry) invoke(opt *InvokeOptions) {
-	opt.MessageExpiry = uint32(o)
-}
-
-func (o WithMessageExpiry) send(opt *SendOptions) {
-	opt.MessageExpiry = uint32(o)
 }
 
 func (o WithTopicNamespace) commandExecutor(opt *CommandExecutorOptions) {
