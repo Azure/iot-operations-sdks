@@ -40,7 +40,7 @@ func NewTestingCommandInvoker(
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
-			IsShallow:    true,
+			IsShallow:     true,
 		}
 	}
 
@@ -50,7 +50,7 @@ func NewTestingCommandInvoker(
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-			IsShallow:    true,
+			IsShallow:     true,
 		}
 	}
 
@@ -104,7 +104,7 @@ func NewTestingCommandExecutor(
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
-			IsShallow:    true,
+			IsShallow:     true,
 		}
 	}
 
@@ -114,7 +114,7 @@ func NewTestingCommandExecutor(
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-			IsShallow:    true,
+			IsShallow:     true,
 		}
 	}
 

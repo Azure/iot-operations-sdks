@@ -51,11 +51,11 @@ var (
 
 // Perform initial validation of a topic pattern component.
 func ValidateTopicPatternComponent(
-	name, displayName, pattern string,
+	name, msgOnErr, pattern string,
 ) error {
 	if !matchPattern.MatchString(pattern) {
 		return &errors.Error{
-			Message:       "invalid " + displayName,
+			Message:       msgOnErr,
 			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  name,
 			PropertyValue: pattern,
