@@ -70,6 +70,9 @@ jobs:
     - name: Build SDK (Release)
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
 
+    - name: Deploy HTTP thermostat connector sample
+      run: (cd dotnet/samples/HttpThermostatConnectorApp; ./deploy-connector-and-asset.sh)
+
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
