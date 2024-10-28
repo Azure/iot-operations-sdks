@@ -48,6 +48,8 @@ namespace Azure.Iot.Operations.Services.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for a thermostat status message to be received. The sample connector app isn't working as expected.");
             }
+
+            Assert.Fail("Hello");
         }
     }
 }
