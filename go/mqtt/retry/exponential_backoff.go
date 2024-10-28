@@ -71,8 +71,9 @@ func (e *ExponentialBackoff) Start(
 		select {
 		case <-wallclock.Instance.After(interval):
 		case <-ctx.Done():
-			l.complete(ctx, name, attempt, ctx.Err())
-			return ctx.Err()
+			err := context.Cause(ctx)
+			l.complete(ctx, name, attempt, err)
+			return err
 		}
 	}
 }

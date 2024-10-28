@@ -38,19 +38,14 @@ func (c *SessionClient) makeOnPublishReceived(
 				}
 			}
 
-			pahoClient, currConnCount := func() (PahoClient, uint64) {
-				c.pahoClientMu.RLock()
-				defer c.pahoClientMu.RUnlock()
-				return c.pahoClient, c.connCount
-			}()
-
-			if pahoClient == nil || connCount != currConnCount {
+			current := c.conn.Current()
+			if current.Client == nil || current.Count != connCount {
 				// if any disconnections occurred since receiving this
 				// PUBLISH, discard the ack.
 				return nil
 			}
 
-			return pahoClient.Ack(publishReceived.Packet)
+			return current.Client.Ack(publishReceived.Packet)
 		})
 
 		// We track wether any of the handlers take ownership of the message
@@ -103,24 +98,10 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	for {
-		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
-			c.pahoClientMu.RLock()
-			defer c.pahoClientMu.RUnlock()
-			return c.pahoClient, c.connUp, c.connDown
-		}()
+	ctx, cancel := c.shutdown(ctx)
+	defer cancel()
 
-		if pahoClient == nil {
-			select {
-			case <-c.shutdown:
-				return nil, &ClientStateError{State: ShutDown}
-			case <-ctx.Done():
-				return nil, ctx.Err()
-			case <-connUp:
-			}
-			continue
-		}
-
+	for pahoClient := range c.conn.Client(ctx) {
 		c.log.Packet(ctx, "subscribe", sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		c.log.Packet(ctx, "suback", suback)
@@ -141,19 +122,9 @@ func (c *SessionClient) Subscribe(
 				),
 			}, nil
 		}
-
-		// If we get here, the SUBSCRIBE failed because the connection is down
-		// or because ctx was cancelled.
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		case <-c.shutdown:
-			return nil, &ClientStateError{State: ShutDown}
-		case <-connDown:
-			// Connection is down, wait for the connection to come back up and
-			// retry
-		}
 	}
+
+	return nil, context.Cause(ctx)
 }
 
 func (c *SessionClient) Unsubscribe(
@@ -166,24 +137,10 @@ func (c *SessionClient) Unsubscribe(
 		return nil, err
 	}
 
-	for {
-		pahoClient, connUp, connDown := func() (PahoClient, chan struct{}, chan struct{}) {
-			c.pahoClientMu.RLock()
-			defer c.pahoClientMu.RUnlock()
-			return c.pahoClient, c.connUp, c.connDown
-		}()
+	ctx, cancel := c.shutdown(ctx)
+	defer cancel()
 
-		if pahoClient == nil {
-			select {
-			case <-c.shutdown:
-				return nil, &ClientStateError{State: ShutDown}
-			case <-ctx.Done():
-				return nil, ctx.Err()
-			case <-connUp:
-			}
-			continue
-		}
-
+	for pahoClient := range c.conn.Client(ctx) {
 		c.log.Packet(ctx, "unsubscribe", unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		c.log.Packet(ctx, "unsuback", unsuback)
@@ -204,19 +161,9 @@ func (c *SessionClient) Unsubscribe(
 				),
 			}, nil
 		}
-
-		// If we get here, the UNSUBSCRIBE failed because the connection is down
-		// or because ctx was cancelled.
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		case <-c.shutdown:
-			return nil, &ClientStateError{State: ShutDown}
-		case <-connDown:
-			// Connection is down, wait for the connection to come back up and
-			// retry
-		}
 	}
+
+	return nil, context.Cause(ctx)
 }
 
 func buildSubscribe(

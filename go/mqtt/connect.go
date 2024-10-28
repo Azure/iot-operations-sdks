@@ -49,10 +49,20 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancelCause(context.Background())
 
-	c.shutdown = ctx.Done()
-	c.stop = cancel
+	// https://pkg.go.dev/context#example-AfterFunc-Merge
+	c.shutdown = func(c context.Context) (context.Context, context.CancelFunc) {
+		c, cause := context.WithCancelCause(c)
+		stop := context.AfterFunc(ctx, func() {
+			cause(context.Cause(ctx))
+		})
+		return c, func() {
+			stop()
+			cause(context.Canceled)
+		}
+	}
+	c.stop = func() { cancel(&ClientStateError{State: ShutDown}) }
 
 	go func() {
 		defer c.stop()
@@ -88,15 +98,7 @@ type pahoClientDisconnectedEvent struct {
 // longer be maintained (due to a fatal error or retry policy exhaustion).
 func (c *SessionClient) manageConnection(ctx context.Context) error {
 	signalConnection := func(client PahoClient, reasonCode byte) {
-		func() {
-			c.pahoClientMu.Lock()
-			defer c.pahoClientMu.Unlock()
-
-			c.pahoClient = client
-			close(c.connUp)
-			c.connDown = make(chan struct{})
-			c.connCount++
-		}()
+		c.conn.Connect(client)
 
 		connectEvent := ConnectEvent{ReasonCode: reasonCode}
 		for handler := range c.connectEventHandlers.All() {
@@ -105,14 +107,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 	}
 
 	signalDisconnection := func(reasonCode *byte) {
-		func() {
-			c.pahoClientMu.Lock()
-			defer c.pahoClientMu.Unlock()
-
-			c.pahoClient = nil
-			c.connUp = make(chan struct{})
-			close(c.connDown)
-		}()
+		c.conn.Disconnect()
 
 		disconnectEvent := DisconnectEvent{ReasonCode: reasonCode}
 		for handler := range c.disconnectEventHandlers.All() {
@@ -123,10 +118,8 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 	// On cleanup, send a DISCONNECT packet if possible and signal a
 	// disconnection to other goroutines if needed.
 	defer func() {
-		// NOTE: accessing c.pahoClient is thread safe here because
-		// manageConnection is no longer writing to c.pahoClient if we get to
-		// this deferred function.
-		if c.pahoClient == nil {
+		pahoClient := c.conn.Current().Client
+		if pahoClient == nil {
 			return
 		}
 		immediateSessionExpiry := uint32(0)
@@ -137,7 +130,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			},
 		}
 		c.log.Packet(ctx, "disconnect", disconn)
-		_ = c.pahoClient.Disconnect(disconn)
+		_ = pahoClient.Disconnect(disconn)
 		signalDisconnection(nil)
 	}()
 
@@ -150,7 +143,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				var err error
 				pahoClient, connectReasonCode, disconnected, err = c.buildPahoClient(
 					ctx,
-					c.connCount,
+					c.conn.Current().Count,
 				)
 				return !isFatalError(err), err
 			},
