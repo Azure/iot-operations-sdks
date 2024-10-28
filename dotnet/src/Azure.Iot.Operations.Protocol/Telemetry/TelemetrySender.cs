@@ -178,9 +178,15 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
                 "The provided MQTT client is not configured for MQTT version 5");
         }
 
-        if (!MqttTopicProcessor.TryValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out _, out _))
+        PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+        if (patternValidity != PatternValidity.Valid)
         {
-            throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg);
+            throw patternValidity switch
+            {
+                PatternValidity.MissingReplacement => AkriMqttException.GetArgumentInvalidException(null, errToken!, null, errMsg),
+                PatternValidity.InvalidResidentReplacement => AkriMqttException.GetConfigurationInvalidException(errToken!, errReplacement!, errMsg),
+                _ => AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg),
+            };
         }
 
         _hasBeenValidated = true;

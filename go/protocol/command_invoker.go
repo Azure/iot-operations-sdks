@@ -112,15 +112,31 @@ func NewCommandInvoker[Req, Res any](
 		responseTopic = opts.ResponseTopic(requestTopic)
 	} else {
 		if opts.ResponseTopicPrefix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicPrefix",
+				"response topic prefix",
+				opts.ResponseTopicPrefix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
 		if opts.ResponseTopicSuffix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicSuffix",
+				"response topic suffix",
+				opts.ResponseTopicSuffix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
+		"requestTopicPattern",
 		requestTopic,
 		opts.TopicTokens,
 		opts.TopicNamespace,

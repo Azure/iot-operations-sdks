@@ -49,6 +49,22 @@ var (
 	)
 )
 
+// Perform initial validation of a topic pattern component.
+func ValidateTopicPatternComponent(
+	name, displayName, pattern string,
+) error {
+	if !matchPattern.MatchString(pattern) {
+		return &errors.Error{
+			Message:       "invalid" + displayName,
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  name,
+			PropertyValue: pattern,
+		}
+	}
+
+	return nil
+}
+
 // Create a new topic pattern and perform initial validations.
 func NewTopicPattern(
 	name, pattern string,
@@ -98,11 +114,20 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	}
 
 	if !ValidTopic(topic) {
-		return "", &errors.Error{
-			Message:       "invalid topic",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  tp.name,
-			PropertyValue: topic,
+		missingToken := matchToken.FindString(topic)
+		if (missingToken != "") {
+			return "", &errors.Error{
+				Message:       "topic contains token " + missingToken + " but no replacement value provided",
+				Kind:          errors.ArgumentInvalid,
+				PropertyName:  missingToken[1:len(missingToken) - 1],
+			}
+		} else {
+			return "", &errors.Error{
+				Message:       "invalid topic",
+				Kind:          errors.ArgumentInvalid,
+				PropertyName:  tp.name,
+				PropertyValue: topic,
+			}
 		}
 	}
 	return topic, nil

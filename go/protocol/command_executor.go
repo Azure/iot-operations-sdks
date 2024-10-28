@@ -143,7 +143,7 @@ func NewCommandExecutor[Req, Res any](
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
+		"requestTopicPattern",
 		requestTopic,
 		opts.TopicTokens,
 		opts.TopicNamespace,
