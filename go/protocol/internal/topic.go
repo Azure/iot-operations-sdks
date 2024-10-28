@@ -117,7 +117,7 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 		missingToken := matchToken.FindString(topic)
 		if missingToken != "" {
 			return "", &errors.Error{
-				Message:      "topic contains token " + missingToken + " but no replacement value provided",
+				Message:      "invalid topic",
 				Kind:         errors.ArgumentInvalid,
 				PropertyName: missingToken[1 : len(missingToken)-1],
 			}
