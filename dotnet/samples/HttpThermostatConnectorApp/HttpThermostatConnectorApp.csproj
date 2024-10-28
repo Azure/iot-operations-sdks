@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GenericHttpServerConnectorWorkerService\GenericConnectorWorkerService.csproj" />
+    <ProjectReference Include="..\GenericConnectorWorkerService\GenericConnectorWorkerService.csproj" />
   </ItemGroup>
 </Project>
