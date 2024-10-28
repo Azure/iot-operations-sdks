@@ -86,21 +86,14 @@ type (
 		passwordProvider PasswordProvider
 		authProvider     EnhancedAuthenticationProvider
 
-		// If keepAlive is 0,the Client is not obliged to send
-		// MQTT Control Packets on any particular schedule.
-		keepAlive time.Duration
-		// If sessionExpiry is absent, its value 0 is used.
-		sessionExpiry time.Duration
-		// If receiveMaximum value is absent, its value defaults to 65,535.
-		receiveMaximum uint16
-		// If connectionTimeout is 0, connection will have no timeout.
-		// Note the connectionTimeout would work with connRetry.
-		connectionTimeout time.Duration
-		userProperties    map[string]string
+		keepAlive             uint16
+		sessionExpiryInterval uint32
+		receiveMaximum        uint16
+		userProperties        map[string]string
 
-		// Last Will and Testament (LWT) option.
-		willMessage    *WillMessage
-		willProperties *WillProperties
+		// If connectionTimeout is 0, connection will have no timeout.
+		// TODO: use this timeout
+		connectionTimeout time.Duration
 	}
 )
 
@@ -109,7 +102,6 @@ func NewSessionClient(
 	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
 ) (*SessionClient, error) {
-	// Default client options.
 	client := &SessionClient{
 		connUp:   make(chan struct{}),
 		connDown: make(chan struct{}),
@@ -125,9 +117,9 @@ func NewSessionClient(
 		session: state.NewInMemory(),
 
 		config: &connectionConfig{
-			serverURL: serverURL,
-			clientID:  internal.RandomClientID(),
-			// If receiveMaximum is 0, we can't establish connection.
+			connectionProvider: connectionProvider,
+			clientID:           internal.RandomClientID(),
+			// TODO: check defaults for keep alive, receive maximum session expiry interval
 			receiveMaximum: defaultReceiveMaximum,
 		},
 	}
@@ -146,11 +138,6 @@ func NewSessionClient(
 	// default retry.
 	if client.connRetry == nil {
 		client.connRetry = &retry.ExponentialBackoff{Logger: client.log.Wrapped}
-	}
-
-	// Validate connection settings.
-	if err := client.config.validate(); err != nil {
-		return nil, err
 	}
 
 	return client, nil
