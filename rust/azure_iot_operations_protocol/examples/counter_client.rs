@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::{env, num::ParseIntError, str::Utf8Error, time::Duration};
 
 use env_logger::Builder;
@@ -51,6 +52,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let read_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("readCounter")
+        .topic_token_map(HashMap::from([(
+            "executorId".to_string(),
+            "readCounter".to_string(),
+        )]))
         .build()
         .unwrap();
     let read_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =
@@ -60,13 +65,17 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
+        .topic_token_map(HashMap::from([(
+            "executorId".to_string(),
+            "increment".to_string(),
+        )]))
         .build()
         .unwrap();
     let incr_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Get the target executor ID from the environment
-    let executor_id = env::var("COUNTER_SERVER_ID").ok();
+    let executor_id = env::var("COUNTER_SERVER_ID").unwrap();
 
     // Initial counter read from the server
     log::info!("Calling readCounter");
@@ -74,6 +83,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .payload(&CounterRequestPayload::default())
         .unwrap()
         .timeout(Duration::from_secs(10))
+        .custom_tokens(HashMap::from([(
+            "executorId".to_string(),
+            executor_id.clone(),
+        )]))
         .build()
         .unwrap();
     let read_response = read_invoker.invoke(read_payload).await.unwrap();
@@ -82,10 +95,15 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     // Increment the counter 15 times on the server
     for _ in 1..15 {
         log::info!("Calling increment");
+        let executor_id_clone = executor_id.clone();
         let incr_payload = CommandRequestBuilder::default()
             .payload(&CounterRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(10))
+            .custom_tokens(HashMap::from([(
+                "executorId".to_string(),
+                executor_id_clone,
+            )]))
             .build()
             .unwrap();
         let incr_response = incr_invoker.invoke(incr_payload).await;

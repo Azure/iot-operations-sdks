@@ -22,7 +22,7 @@ use crate::common::{
     hybrid_logical_clock::HybridLogicalClock,
     is_invalid_utf8,
     payload_serialize::{FormatIndicator, PayloadSerialize},
-    topic_processor::{self, contains_invalid_char, TopicPattern},
+    topic_processor::{contains_invalid_char, TopicPattern},
     user_properties::{self, validate_user_properties, UserProperty},
 };
 
@@ -121,15 +121,12 @@ pub struct CommandInvokerOptions {
     response_topic_pattern: Option<String>,
     /// Command name
     command_name: String,
-    /// Model ID if required by the topic patterns
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic patterns
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Custom topic token keys/values to be replaced in the topic patterns
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// Prefix for the response topic
     #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
     response_topic_prefix: Option<String>,
@@ -169,9 +166,8 @@ pub struct CommandInvokerOptions {
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
-///   .model_id("test_model".to_string())
 ///   .topic_namespace("test_namespace".to_string())
-///   .custom_topic_token_map(HashMap::new())
+///   .topic_token_map(HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]))
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
@@ -179,7 +175,7 @@ pub struct CommandInvokerOptions {
 /// let request = CommandRequestBuilder::default()
 ///   .payload(&SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
-///   .executor_id(Some("test_executor".to_string()))
+///   .custom_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
 /// let result = command_invoker.invoke(request);
 /// //let response: CommandResponse<SamplePayload> = result.await.unwrap();
@@ -274,13 +270,13 @@ where
         let request_topic_pattern = TopicPattern::new(
             &invoker_options.request_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.custom_topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
         let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.custom_topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
         // Create mutex to track subscription state
@@ -978,9 +974,14 @@ mod tests {
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map = HashMap::from([
+            ("commandName".to_string(), "test_command_name".to_string()),
+            ("invokerClientId".to_string(), "test_client".to_string()),
+        ]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -996,15 +997,14 @@ mod tests {
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map =
+            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{modelId}/{executorId}/request")
-            .response_topic_pattern(
-                "test/{commandName}/{modelId}/{executorId}/response".to_string(),
-            )
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
             .command_name("test_command_name")
-            .model_id("test_model_id".to_string())
             .topic_namespace("test_namespace".to_string())
-            .custom_topic_token_map(HashMap::new())
+            .topic_token_map(topic_token_map)
             .response_topic_prefix("custom/{invokerClientId}".to_string())
             .response_topic_suffix("custom/response".to_string())
             .build()
@@ -1015,7 +1015,7 @@ mod tests {
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
-            "test_namespace/test/test_command_name/test_model_id/+/response"
+            "test_namespace/test/test_command_name/+/response"
         );
     }
 
@@ -1130,6 +1130,8 @@ mod tests {
     async fn test_new_response_pattern_default_prefix() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
 
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
@@ -1137,6 +1139,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
@@ -1162,9 +1165,12 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
 
@@ -1241,9 +1247,12 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
 
@@ -1311,9 +1320,12 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
 
@@ -1387,6 +1399,8 @@ mod tests {
     async fn test_invoke_executor_id_invalid_value() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
@@ -1407,6 +1421,10 @@ mod tests {
                     .payload(&mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
+                    .custom_tokens(HashMap::from([(
+                        "executorId".to_string(),
+                        "+++".to_string(),
+                    )]))
                     .build()
                     .unwrap(),
             )
@@ -1432,9 +1450,12 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_tokens =
+            HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]);
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
 

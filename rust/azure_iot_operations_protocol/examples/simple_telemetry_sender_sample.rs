@@ -20,7 +20,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myClient";
 const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/dtmi:akri:samples:oven;1/{senderId}/new";
+const TOPIC: &str = "akri/samples/dtmi:akri:samples:oven;1/new";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -49,7 +49,6 @@ async fn main() {
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .telemetry_name("test_telemetry")
         .build()
         .unwrap();
     let telemetry_sender: TelemetrySender<SampleTelemetry, _> =

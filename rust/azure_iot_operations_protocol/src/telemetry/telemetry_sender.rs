@@ -194,18 +194,12 @@ pub struct TelemetrySenderOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
-    /// Telemetry name
-    #[builder(default = "None")]
-    telemetry_name: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Custom topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
 }
 
 /// Telemetry Sender struct
@@ -238,10 +232,8 @@ pub struct TelemetrySenderOptions {
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
-///   .telemetry_name("test_telemetry")
-///   .model_id("test_model")
 ///   .topic_namespace("test_namespace")
-///   .custom_topic_token_map(HashMap::new())
+///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
@@ -290,7 +282,7 @@ where
         let topic_pattern = TopicPattern::new(
             &sender_options.topic_pattern,
             sender_options.topic_namespace.as_deref(),
-            &sender_options.custom_topic_token_map,
+            &sender_options.topic_token_map,
         )?;
 
         Ok(Self {
@@ -359,6 +351,10 @@ where
         message
             .custom_user_data
             .push((UserProperty::Timestamp.to_string(), timestamp.to_string()));
+        message.custom_user_data.push((
+            UserProperty::SourceId.to_string(),
+            self.mqtt_client.client_id().to_string(),
+        ));
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
@@ -456,24 +452,24 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_sender: TelemetrySender<MockPayload, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
+            .unwrap();
     }
 
     #[test]
     fn test_new_override_defaults() {
         let session = get_session();
+        let topic_tokens =
+            HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]);
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/{modelId}/{telemetryName}")
-            .telemetry_name("test_telemetry")
-            .model_id("test_model")
+            .topic_pattern("test/{telemetryName}")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(HashMap::new())
+            .topic_token_map(topic_tokens)
             .build()
             .unwrap();
 
-        let telemetry_sender: TelemetrySender<MockPayload, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
+            .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 use std::time::Duration;
@@ -17,7 +18,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myReceiver";
 const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/{modelId}/{senderId}/new";
+const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
@@ -60,7 +61,10 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .model_id(MODEL_ID)
+        .topic_token_map(HashMap::from([(
+            "modelId".to_string(),
+            MODEL_ID.to_string(),
+        )]))
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =

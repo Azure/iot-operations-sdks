@@ -51,7 +51,8 @@ pub struct TopicPattern {
 
 impl TopicPattern {
     /// FIN: Make sure to write the docs for this, save it for last.
-    /// # Panic
+    /// # Errors
+    /// # Panics
     pub fn new<'a>(
         pattern: &'a str,
         topic_namespace: Option<&str>,
@@ -251,6 +252,8 @@ impl TopicPattern {
     /// # Errors
     /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the topic
     /// contains a wildcard and `id` is `None`, the wildcard value, or invalid
+    ///
+    /// # Panics
     pub fn as_publish_topic(
         &self,
         tokens: &HashMap<String, String>, // FIN: Better name

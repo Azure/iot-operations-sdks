@@ -16,7 +16,7 @@ use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
     payload_serialize::{FormatIndicator, PayloadSerialize},
-    topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
+    topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
     user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
 };
 
@@ -59,7 +59,8 @@ where
     pub timestamp: Option<HybridLogicalClock>,
     /// Client ID of the invoker.
     pub invoker_id: String,
-
+    /// Resolved topic tokens from the incoming request's topic.
+    pub topic_tokens: HashMap<String, String>,
     // Internal fields
     response_tx: oneshot::Sender<Result<CommandResponse<TResp>, String>>,
 }
@@ -174,18 +175,12 @@ pub struct CommandExecutorOptions {
     request_topic_pattern: String,
     /// Command name if required by the topic pattern
     command_name: String,
-    /// Executor ID if required by the topic pattern
-    #[builder(default = "None")]
-    executor_id: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Static topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// Duration to cache the command response
     #[builder(default = "Duration::from_secs(0)")]
     cacheable_duration: Duration,
@@ -250,7 +245,7 @@ where
     mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
     is_idempotent: bool,
-    request_topic: String,
+    request_topic_pattern: TopicPattern,
     command_name: String,
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
@@ -293,7 +288,7 @@ where
         mut executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
-        // TopicPattern::new_command_pattern
+        // TopicPattern::new
         if executor_options.command_name.is_empty()
             || contains_invalid_char(&executor_options.command_name)
         {
@@ -305,10 +300,6 @@ where
                 Some(executor_options.command_name),
             ));
         }
-        executor_options.custom_topic_token_map.insert(
-            "commandName".to_string(),
-            executor_options.command_name.clone(),
-        );
 
         if !executor_options.is_idempotent && !executor_options.cacheable_duration.is_zero() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -320,21 +311,12 @@ where
             ));
         }
 
-        // If executor_id is not provided, use the client_id
-        let executor_id = executor_options
-            .executor_id
-            .as_deref()
-            .unwrap_or(client.client_id());
-
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
             &executor_options.request_topic_pattern,
             executor_options.topic_namespace.as_deref(),
-            &executor_options.custom_topic_token_map,
+            &executor_options.topic_token_map,
         )?;
-
-        // Get the request topic
-        let request_topic = request_topic_pattern.as_subscribe_topic();
 
         // Create cancellation token for the request receive loop
         let recv_cancellation_token = CancellationToken::new();
@@ -360,7 +342,7 @@ where
             mqtt_client: client,
             mqtt_receiver,
             is_idempotent: executor_options.is_idempotent,
-            request_topic,
+            request_topic_pattern,
             command_name: executor_options.command_name,
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
@@ -378,7 +360,10 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.request_topic).await;
+        let unsubscribe_result = self
+            .mqtt_client
+            .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+            .await;
 
         match unsubscribe_result {
             Ok(unsub_ct) => {
@@ -419,7 +404,10 @@ where
         if !self.is_subscribed {
             let subscribe_result = self
                 .mqtt_client
-                .subscribe(&self.request_topic, QoS::AtLeastOnce)
+                .subscribe(
+                    self.request_topic_pattern.as_subscribe_topic(),
+                    QoS::AtLeastOnce,
+                )
                 .await;
 
             match subscribe_result {
@@ -647,7 +635,19 @@ where
                                  response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::SourceId));
                                  response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
                                  break 'process_request;
-                             };
+                            };
+
+                            let topic = match std::str::from_utf8(&m.topic) {
+                                Ok(topic) => topic,
+                                Err(e) => {
+                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                    response_arguments.status_code = StatusCode::BadRequest;
+                                    response_arguments.status_message = Some(format!("Error deserializing topic: {e:?}"));
+                                    break 'process_request;
+                                }
+                            };
+
+                            let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
                             let payload = match TReq::deserialize(&m.payload) {
@@ -667,6 +667,7 @@ where
                                 fencing_token: None, // TODO: Add fencing token
                                 timestamp,
                                 invoker_id,
+                                topic_tokens,
                                 response_tx,
                             };
 
@@ -923,7 +924,10 @@ where
 
 #[cfg(test)]
 mod tests {
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+    use azure_iot_operations_mqtt::{
+        session::{Session, SessionOptionsBuilder},
+        topic,
+    };
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -951,9 +955,14 @@ mod tests {
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map = HashMap::from([
+            ("executorId".to_string(), "test_server".to_string()),
+            ("commandName".to_string(), "test_command_name".to_string()),
+        ]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -961,7 +970,7 @@ mod tests {
             CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
-            command_executor.request_topic,
+            command_executor.request_topic_pattern.as_subscribe_topic(),
             "test/test_command_name/test_server/request"
         );
 
@@ -974,14 +983,17 @@ mod tests {
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map = HashMap::from([
+            ("executorId".to_string(), "test_executor_id".to_string()),
+            ("commandName".to_string(), "test_command_name".to_string()),
+        ]);
         let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/{modelId}/request")
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
-            .executor_id("test_executor_id")
-            .model_id("test_model_id")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(HashMap::new())
+            .topic_token_map(HashMap::new())
             .cacheable_duration(Duration::from_secs(10))
+            .topic_token_map(topic_token_map)
             .is_idempotent(true)
             .build()
             .unwrap();
@@ -990,8 +1002,8 @@ mod tests {
             CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
-            command_executor.request_topic,
-            "test_namespace/test/test_command_name/test_executor_id/test_model_id/request"
+            command_executor.request_topic_pattern.as_subscribe_topic(),
+            "test_namespace/test/test_command_name/test_executor_id/request"
         );
 
         assert!(command_executor.is_idempotent);
@@ -1004,10 +1016,13 @@ mod tests {
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map =
+            HashMap::from([("commandName".to_string(), command_name.to_string())]);
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name(command_name.to_string())
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -1037,10 +1052,13 @@ mod tests {
     async fn test_invalid_request_topic_string(request_topic: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map =
+            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
             .command_name("test_command_name")
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -1070,10 +1088,13 @@ mod tests {
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map =
+            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .topic_namespace(topic_namespace.to_string())
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -1101,11 +1122,14 @@ mod tests {
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map =
+            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .cacheable_duration(cacheable_duration)
             .is_idempotent(true)
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 
@@ -1118,10 +1142,16 @@ mod tests {
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
         let session = create_session();
         let managed_client = session.create_managed_client();
+        let topic_token_map = HashMap::from([
+            ("executorId".to_string(), "test_executor_id".to_string()),
+            ("commandName".to_string(), "test_command_name".to_string()),
+        ]);
+
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .cacheable_duration(Duration::from_secs(10))
+            .topic_token_map(topic_token_map)
             .build()
             .unwrap();
 

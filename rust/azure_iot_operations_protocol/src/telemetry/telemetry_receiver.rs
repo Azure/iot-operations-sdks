@@ -13,7 +13,7 @@ use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
     payload_serialize::PayloadSerialize,
-    topic_processor::{TopicPattern, WILDCARD},
+    topic_processor::TopicPattern,
     user_properties::{UserProperty, RESERVED_PREFIX},
 };
 use crate::telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
@@ -157,6 +157,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
     pub cloud_event: Option<CloudEvent>,
+    /// Resolved topic tokens from the telemetry message.
+    pub topic_tokens: HashMap<String, String>,
 }
 
 /// Telemetry Receiver Options struct
@@ -166,18 +168,12 @@ pub struct TelemetryReceiverOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
-    /// Telemetry name if required by the topic pattern
-    #[builder(default = "None")]
-    telemetry_name: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Custom topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// If true, telemetry messages are auto-acknowledged
     #[builder(default = "true")]
     auto_ack: bool,
@@ -272,7 +268,7 @@ where
         let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
             receiver_options.topic_namespace.as_deref(),
-            &receiver_options.custom_topic_token_map,
+            &receiver_options.topic_token_map,
         )?;
 
         // Get the telemetry topic
@@ -553,6 +549,17 @@ where
                                 break 'process_message;
                             };
 
+                            let topic = match std::str::from_utf8(&m.topic) {
+                                Ok(topic) => topic,
+                                Err(e) => {
+                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                    log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
+                                    break 'process_message;
+                                }
+                            };
+
+                            let topic_tokens = self.topic_pattern.parse_tokens(topic);
+
                             // Deserialize payload
                             let payload = match T::deserialize(&m.payload) {
                                 Ok(p) => p,
@@ -568,6 +575,7 @@ where
                                 sender_id,
                                 timestamp,
                                 cloud_event,
+                                topic_tokens,
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
@@ -635,8 +643,6 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    const MODEL_ID: &str = "test_model";
-
     // TODO: This should return a mock Session instead
     fn get_session() -> Session {
         // TODO: Make a real mock that implements Session
@@ -660,24 +666,24 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
     }
 
     #[test]
     fn test_new_override_defaults() {
         let session = get_session();
-        let custom_token_map = HashMap::from([("customToken".to_string(), "123".to_string())]);
+        let token_map =
+            HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{telemetryName}/{ex:customToken}/{modelId}/receiver")
-            .telemetry_name("test_telemetry")
-            .model_id("test_model")
+            .topic_pattern("test/{senderId}/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(custom_token_map)
+            .topic_token_map(token_map)
             .build()
             .unwrap();
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
