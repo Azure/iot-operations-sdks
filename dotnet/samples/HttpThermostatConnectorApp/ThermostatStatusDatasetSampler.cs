@@ -11,25 +11,17 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
-    internal class ThermostatStatusHttpServerSampler : IDatasetSampler, IDisposable
+    internal class ThermostatStatusDatasetSampler : IDatasetSampler, IDisposable
     {
-        public static Func<IServiceProvider, IDatasetSampler> ThermostatStatusHttpServerSamplerFactory = service =>
-        {
-            return new ThermostatStatusHttpServerSampler();
-        };
+        private HttpClient _httpClient;
 
-        private HttpClient? _httpClient;
+        public ThermostatStatusDatasetSampler(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
         public async Task<byte[]> SampleAsync(AssetEndpointProfile assetEndpointProfile, Dataset dataset, CancellationToken cancellationToken = default)
         {
-            if (_httpClient == null)
-            {
-                _httpClient = new HttpClient()
-                {
-                    BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
-                };
-            }
-
             string httpServerUsername = assetEndpointProfile!.Credentials!.Username!;
             byte[] httpServerPassword = assetEndpointProfile.Credentials!.Password!;
 
