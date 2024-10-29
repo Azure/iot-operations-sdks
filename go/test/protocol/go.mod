@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/test/protocol
 go 1.21.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.2
 	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1
 	github.com/BurntSushi/toml v1.3.2
 	github.com/eclipse/paho.golang v0.21.0

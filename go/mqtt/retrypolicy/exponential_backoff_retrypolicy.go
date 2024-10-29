@@ -104,11 +104,10 @@ func (e *ExponentialBackoffRetryPolicy) shouldRetry(
 	retries int,
 	cond bool,
 ) time.Duration {
-	if e.maxRetries != nil &&
-		(*e.maxRetries <= 0 ||
-			retries >= *e.maxRetries-1 ||
-			!cond ||
-			ctx.Err() != nil) {
+	switch {
+	case !cond,
+		e.maxRetries != nil && retries >= *e.maxRetries-1,
+		ctx.Err() != nil:
 		return 0
 	}
 

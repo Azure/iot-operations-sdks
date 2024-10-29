@@ -176,7 +176,10 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 func TestRequestQueueMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqServerURL,
+		mqtt.WithSessionExpiry(30*time.Second),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -221,15 +224,14 @@ func TestRequestQueueMQ(t *testing.T) {
 	executed2 := make(chan struct{})
 
 	// Operations are blocking so we put them into goroutines.
-	go func(ch chan struct{}) {
+	go func() {
 		err := client.Publish(
 			ctx,
 			topicName,
 			[]byte(publishMessage),
 		)
 		require.NoError(t, err)
-		close(ch)
-	}(executed)
+	}()
 
 	go func(ch chan struct{}) {
 		ch2 := make(chan struct{})
