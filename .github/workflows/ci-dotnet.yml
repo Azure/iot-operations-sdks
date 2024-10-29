@@ -51,13 +51,12 @@ jobs:
 
     - name: Output Connector App Logs
       run:  |
-        for node in $(kubectl get pods -o name);
+        for pod in $(kubectl get pods -o name);
         do
-          echo ${pod}
-          if [[ ${pod} == my-http-*]]
-          then
-            kubectl logs ${pod} 
-          fi
+            echo ${pod}
+            if [[ ${pod} == pod/my-http-* ]]; then
+                kubectl logs ${pod} 
+            fi
         done
 
     - uses: dorny/test-reporter@v1
