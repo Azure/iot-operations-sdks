@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"iter"
-	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
@@ -82,7 +81,7 @@ func (c *SessionClient) sendOutgoingPublish(
 		pub.packet,
 		paho.PublishOptions{Method: paho.PublishMethod_AsyncSend},
 	)
-	c.log.PacketLog(ctx, slog.LevelWarn, "puback not available")
+	c.log.Packet(ctx, "puback", nil)
 
 	if err == nil || errors.Is(err, paho.ErrNetworkErrorAfterStored) {
 		// Paho has accepted control of the PUBLISH (i.e., either the PUBLISH

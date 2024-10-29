@@ -37,7 +37,7 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 
 
 <a name="Ack"></a>
-## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L30-L34>)
+## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L45-L49>)
 
 Ack contains values from PUBACK/SUBACK/UNSUBACK packets received from the MQTT server.
 
@@ -61,7 +61,7 @@ type ConnectEvent struct {
 ```
 
 <a name="ConnectEventHandler"></a>
-## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L38>)
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L30>)
 
 ConnectEventHandler is a user\-defined callback function used to respond to connection notifications from the MQTT client.
 
@@ -70,18 +70,19 @@ type ConnectEventHandler = func(*ConnectEvent)
 ```
 
 <a name="DisconnectEvent"></a>
-## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L42-L44>)
+## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L37>)
 
 DisconnectEvent contains the relevent metadata provided to the handler when the MQTT client disconnects from the broker.
 
 ```go
 type DisconnectEvent struct {
     ReasonCode *byte
+    Error      error
 }
 ```
 
 <a name="DisconnectEventHandler"></a>
-## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L48>)
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L41>)
 
 DisconnectEventHandler is a user\-defined callback function used to respond to disconnection notifications from the MQTT client.
 
