@@ -923,10 +923,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use azure_iot_operations_mqtt::{
-        session::{Session, SessionOptionsBuilder},
-        topic,
-    };
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -950,18 +947,21 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([
+            ("executorId".to_string(), "test_executor_id".to_string()),
+            ("commandName".to_string(), "test_command_name".to_string()),
+        ])
+    }
+
     #[tokio::test]
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map = HashMap::from([
-            ("executorId".to_string(), "test_server".to_string()),
-            ("commandName".to_string(), "test_command_name".to_string()),
-        ]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -970,7 +970,7 @@ mod tests {
 
         assert_eq!(
             command_executor.request_topic_pattern.as_subscribe_topic(),
-            "test/test_command_name/test_server/request"
+            "test/test_command_name/test_executor_id/request"
         );
 
         assert!(!command_executor.is_idempotent);
@@ -982,17 +982,12 @@ mod tests {
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map = HashMap::from([
-            ("executorId".to_string(), "test_executor_id".to_string()),
-            ("commandName".to_string(), "test_command_name".to_string()),
-        ]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_namespace("test_namespace")
-            .topic_token_map(HashMap::new())
             .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .is_idempotent(true)
             .build()
             .unwrap();
@@ -1015,13 +1010,11 @@ mod tests {
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map =
-            HashMap::from([("commandName".to_string(), command_name.to_string())]);
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name(command_name.to_string())
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1051,13 +1044,11 @@ mod tests {
     async fn test_invalid_request_topic_string(request_topic: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map =
-            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
             .command_name("test_command_name")
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1087,13 +1078,11 @@ mod tests {
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map =
-            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .topic_namespace(topic_namespace.to_string())
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1121,14 +1110,12 @@ mod tests {
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map =
-            HashMap::from([("commandName".to_string(), "test_command_name".to_string())]);
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .cacheable_duration(cacheable_duration)
             .is_idempotent(true)
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1141,16 +1128,12 @@ mod tests {
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let topic_token_map = HashMap::from([
-            ("executorId".to_string(), "test_executor_id".to_string()),
-            ("commandName".to_string(), "test_command_name".to_string()),
-        ]);
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(topic_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 

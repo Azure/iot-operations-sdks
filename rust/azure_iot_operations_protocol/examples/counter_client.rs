@@ -53,7 +53,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("readCounter")
         .topic_token_map(HashMap::from([(
-            "executorId".to_string(),
+            "commandName".to_string(),
             "readCounter".to_string(),
         )]))
         .build()
@@ -66,7 +66,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
         .topic_token_map(HashMap::from([(
-            "executorId".to_string(),
+            "commandName".to_string(),
             "increment".to_string(),
         )]))
         .build()

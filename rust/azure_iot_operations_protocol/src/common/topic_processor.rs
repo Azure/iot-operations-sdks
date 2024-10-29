@@ -68,12 +68,13 @@ impl TopicPattern {
     ///
     /// # Panics
     /// If any regex fails to compile which is impossible given that the regex are pre-defined.
+    ///
     /// If any regex group is not present when it is expected to be, which is impossible given
     /// that there is only one group in the regex pattern.
     pub fn new<'a>(
         pattern: &'a str,
         topic_namespace: Option<&str>,
-        topic_token_map: &'a HashMap<String, String>, // FIN: Check that this is the correct name
+        topic_token_map: &'a HashMap<String, String>,
     ) -> Result<Self, AIOProtocolError> {
         if pattern.trim().is_empty() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -81,7 +82,7 @@ impl TopicPattern {
                 "pattern",
                 Value::String(pattern.to_string()),
                 Some("MQTT topic pattern must not be empty".to_string()),
-                None, // ASK: From now on we won't have a command name?
+                None,
             ));
         }
 
@@ -106,10 +107,10 @@ impl TopicPattern {
             ));
         }
 
-        // Needed to check for adjacent tokens, i.e {token}{token}, without using chars() which is O(n).
+        // Needed to check for adjacent tokens, i.e {token}{token}, without using chars() which is O(topic length).
         let pattern_as_bytes = pattern.as_bytes();
 
-        // Matches empty levels at the start, middle, or end of the string
+        // Matches empty levels at the start, middle, or end of the pattern
         let empty_level_regex =
             Regex::new(r"((^\s*/)|(/\s*/)|(/\s*$))").expect("Static regex string should not fail");
 
@@ -123,7 +124,7 @@ impl TopicPattern {
             ));
         }
 
-        // Used to accumulate the pattern as checks are made
+        // Used to accumulate the pattern as checks and replacements are made
         let mut acc_pattern = String::new();
 
         if let Some(topic_namespace) = topic_namespace {
@@ -140,7 +141,7 @@ impl TopicPattern {
             acc_pattern.push('/');
         }
 
-        // Matches any tokens in the pattern
+        // Matches any tokens in the pattern, i.e foo/{bar} would match {bar}
         let pattern_regex =
             Regex::new(r"(\{[^}]+\})").expect("Static regex string should not fail");
         // Matches any invalid characters in the pattern
@@ -166,6 +167,8 @@ impl TopicPattern {
                 ));
             }
 
+            // Check for adjacent tokens, need to use as_bytes() to avoid O(topic length) chars() call
+            // regex library does not support lookbehind or lookahead assertions
             if let Some(c) = pattern_as_bytes.get(token_capture.end()) {
                 if *c == b'{' {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -181,6 +184,7 @@ impl TopicPattern {
             // Accumulate the pattern up to the token
             let acc = &pattern[last_match..token_capture.start()];
 
+            // Check if the accumulated part of the pattern is valid
             if invalid_regex.is_match(acc) {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
@@ -193,6 +197,7 @@ impl TopicPattern {
 
             acc_pattern.push_str(acc);
 
+            // Check if the token is valid
             if invalid_regex.is_match(token_without_braces) || token_without_braces.contains('/') {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
@@ -205,6 +210,7 @@ impl TopicPattern {
                 ));
             }
 
+            // Check if the replacement is valid
             if let Some(val) = topic_token_map.get(token_without_braces) {
                 if !is_valid_replacement(val) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -219,6 +225,7 @@ impl TopicPattern {
                 }
                 acc_pattern.push_str(val);
             } else {
+                // Token is not replaced, so append the token with braces
                 acc_pattern.push_str(token_with_braces);
             }
             last_match = token_capture.end();
@@ -270,16 +277,24 @@ impl TopicPattern {
     /// that there is only one group in the regex pattern.
     pub fn as_publish_topic(
         &self,
-        tokens: &HashMap<String, String>, // FIN: Better name
+        tokens: &HashMap<String, String>,
     ) -> Result<String, AIOProtocolError> {
+        // Initialize the publish topic with the same capacity as the pattern to avoid reallocations
         let mut publish_topic = String::with_capacity(self.topic_pattern.len());
-        let mut last_match = 0;
 
+        // Marks the index of the last match in the pattern
+        let mut last_match = 0;
         for caps in self.pattern_regex.captures_iter(&self.topic_pattern) {
             // Regex library guarantees that the capture group is always present when it is only one
             let key_cap = caps.get(0).unwrap();
+
+            // Token is captured with surrounding curly braces as per the regex pattern, removed here
             let key = &key_cap.as_str()[1..key_cap.as_str().len() - 1];
+
+            // Accumulate the pattern up to the token
             publish_topic.push_str(&self.topic_pattern[last_match..key_cap.start()]);
+
+            // Check if the replacement is valid
             if let Some(val) = tokens.get(key) {
                 if !is_valid_replacement(val) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -320,22 +335,36 @@ impl TopicPattern {
     pub fn parse_tokens(&self, topic: &str) -> HashMap<String, String> {
         let mut tokens = HashMap::new();
 
+        // Create a mutable reference to the topic string
         let mut topic_ref = topic;
+
+        // Marks the index of the last match in the topic
         let mut last_token_end = 0;
 
+        // Find all the tokens in the pattern
         for find in self.pattern_regex.find_iter(&self.topic_pattern) {
+            // Get the start and end indices of the current match
             let token_start = find.start();
             let token_end = find.end();
 
+            // Calculate the start index of the value in the topic
             let value_start = token_start - last_token_end;
+            // Update the last_token_end to the end of the current match + 1 to skip the '/'
+            // Note: We won't have an out of bounds error here because if this is the last token,
+            // we won't have another match
             last_token_end = token_end + 1;
 
+            // Slice the topic string to start from the start of the token
             topic_ref = &topic_ref[value_start..];
+
+            // Split the topic string at the next '/' to get the value of the token and the rest of the topic
             let (value, rest) = topic_ref.split_once('/').unwrap_or((topic_ref, ""));
+            // Update topic_ref to the rest of the topic
             topic_ref = rest;
 
+            // Insert the token and value into the tokens map
             tokens.insert(
-                find.as_str()[1..find.as_str().len() - 1].to_string(),
+                find.as_str()[1..find.as_str().len() - 1].to_string(), // Remove the curly braces
                 value.to_string(),
             );
         }
@@ -351,6 +380,10 @@ mod tests {
     use super::*;
     use crate::common::aio_protocol_error::AIOProtocolErrorKind;
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([("testToken".to_string(), "testRepl".to_string())])
+    }
+
     #[test_case("test", "test"; "no token")]
     #[test_case("test/test", "test/test"; "no token multiple levels")]
     #[test_case("{wildToken}", "{wildToken}"; "only wildcard")]
@@ -364,9 +397,7 @@ mod tests {
     #[test_case("{wildToken}/test/{testToken}", "{wildToken}/test/testRepl"; "wildcard token at start")]
     #[test_case("test/{testToken}/{wildToken}/test", "test/testRepl/{wildToken}/test"; "wildcard token in middle")]
     fn test_topic_pattern_new_pattern_valid(pattern: &str, result: &str) {
-        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
-
-        let pattern = TopicPattern::new(pattern, None, &token_map).unwrap();
+        let pattern = TopicPattern::new(pattern, None, &create_topic_tokens()).unwrap();
 
         assert_eq!(pattern.topic_pattern, result);
     }
@@ -390,9 +421,7 @@ mod tests {
     #[test_case("{}{}"; "two adjacent empty")]
     #[test_case("test/{testToken}}"; "curly brace end")]
     fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
-        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
-
-        let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
+        let err = TopicPattern::new(pattern, None, &create_topic_tokens()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
@@ -402,9 +431,8 @@ mod tests {
     #[test_case("validNamespace/validNamespace"; "multiple levels")]
     fn test_topic_pattern_new_pattern_valid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken}";
-        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
-        TopicPattern::new(pattern, Some(topic_namespace), &token_map).unwrap();
+        TopicPattern::new(pattern, Some(topic_namespace), &create_topic_tokens()).unwrap();
     }
 
     #[test_case(""; "empty")]
@@ -417,9 +445,9 @@ mod tests {
     #[test_case("invalid\u{0000}Namespace"; "contains non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken}";
-        let token_map = HashMap::from([("testToken".to_string(), "testRepl".to_string())]);
 
-        let err = TopicPattern::new(pattern, Some(topic_namespace), &token_map).unwrap_err();
+        let err =
+            TopicPattern::new(pattern, Some(topic_namespace), &create_topic_tokens()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("topic_namespace".to_string()));
         assert_eq!(
@@ -434,8 +462,7 @@ mod tests {
     #[test_case("test/{test/Token}", "test/Token"; "slash")]
     #[test_case("test/{test\u{0000}Token}", "test\u{0000}Token"; "non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
-        let token_map = HashMap::new();
-        let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
+        let err = TopicPattern::new(pattern, None, &HashMap::new()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(
@@ -457,9 +484,13 @@ mod tests {
     #[test_case(" "; "replacement contains only space")]
     fn test_topic_pattern_new_pattern_invalid_replacement(replacement: &str) {
         let pattern = "test/{testToken}/test";
-        let token_map = HashMap::from([("testToken".to_string(), replacement.to_string())]);
 
-        let err = TopicPattern::new(pattern, None, &token_map).unwrap_err();
+        let err = TopicPattern::new(
+            pattern,
+            None,
+            &HashMap::from([("testToken".to_string(), replacement.to_string())]),
+        )
+        .unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("testToken".to_string()));
         assert_eq!(
@@ -477,8 +508,7 @@ mod tests {
     #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
     #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
     fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
-        let token_map = HashMap::new();
-        let pattern = TopicPattern::new(pattern, None, &token_map).unwrap();
+        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.as_subscribe_topic(), result);
     }
