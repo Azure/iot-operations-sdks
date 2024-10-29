@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.GenericHttpConnectorSample;
-using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
@@ -45,7 +42,7 @@ namespace Azure.Iot.Operations.ConnectorSample
 
         public void Dispose()
         {
-            _httpClient?.Dispose();
+            _httpClient.Dispose();
         }
     }
 }
