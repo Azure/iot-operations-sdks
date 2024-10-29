@@ -262,9 +262,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                     GetResponseTopic = testCaseInvoker.ResponseTopicMap != null ? (reqTopic) => testCaseInvoker.ResponseTopicMap[reqTopic]! : null,
                 };
 
-                commandInvoker.TopicTokenMap!["modelId"] = testCaseInvoker.ModelId!;
-                commandInvoker.TopicTokenMap!["commandName"] = testCaseInvoker.CommandName!;
-                commandInvoker.TopicTokenMap!["commandInvokerId"] = mqttClient.ClientId!;
+                if (testCaseInvoker.ModelId != null)
+                {
+                    commandInvoker.TopicTokenMap!["modelId"] = testCaseInvoker.ModelId;
+                }
+
+                if (testCaseInvoker.CommandName != null)
+                {
+                    commandInvoker.TopicTokenMap!["commandName"] = testCaseInvoker.CommandName;
+                }
+
+                if (mqttClient.ClientId != null)
+                {
+                    commandInvoker.TopicTokenMap!["invokerClientId"] = mqttClient.ClientId;
+                }
 
                 if (testCaseInvoker.CustomTokenMap != null)
                 {
@@ -320,7 +331,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 }
             }
 
-            var transientTopicTokenMap = new Dictionary<string, string> { { "executorId", actionInvokeCommand.ExecutorId! } };
+            var transientTopicTokenMap = new Dictionary<string, string>();
+            if (actionInvokeCommand.ExecutorId != null)
+            {
+                transientTopicTokenMap["executorId"] = actionInvokeCommand.ExecutorId;
+            }
+
             invocationTasks[(int)actionInvokeCommand.InvocationIndex!] = commandInvokers[actionInvokeCommand.CommandName!].InvokeCommandAsync(actionInvokeCommand.RequestValue!, metadata, transientTopicTokenMap, actionInvokeCommand.Timeout?.ToTimeSpan());
         }
 
