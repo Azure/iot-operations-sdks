@@ -36,9 +36,7 @@ func buildNetConn(
 	case "wss":
 		conn, err = buildWebsocketConnection(ctx, tlsConfig, u)
 	default:
-		return nil, fatalError{
-			&InvalidArgumentError{message: "unsupported URL scheme"},
-		}
+		return nil, &InvalidArgumentError{message: "unsupported URL scheme"}
 	}
 
 	if err != nil {
@@ -57,8 +55,8 @@ func buildTCPConnection(
 	conn, err := d.DialContext(ctx, "tcp", address)
 	if err != nil {
 		return nil, &ConnectionError{
-			message:      "error creating TCP connection",
-			wrappedError: err,
+			message: "error creating TCP connection",
+			wrapped: err,
 		}
 	}
 	return conn, nil
@@ -75,8 +73,8 @@ func buildTLSConnection(
 	conn, err := d.DialContext(ctx, "tcp", address)
 	if err != nil {
 		return nil, &ConnectionError{
-			message:      "error creating TLS connection",
-			wrappedError: err,
+			message: "error creating TLS connection",
+			wrapped: err,
 		}
 	}
 	return packets.NewThreadSafeConn(conn), nil
@@ -97,8 +95,8 @@ func buildWebsocketConnection(
 	conn, _, err := d.DialContext(ctx, serverURL.String(), nil)
 	if err != nil {
 		return nil, &ConnectionError{
-			message:      "error creating websocket connection",
-			wrappedError: err,
+			message: "error creating websocket connection",
+			wrapped: err,
 		}
 	}
 	return conn.NetConn(), nil

@@ -5,7 +5,6 @@ package mqtt
 import (
 	"context"
 	"crypto/tls"
-	"math"
 	"sync/atomic"
 	"time"
 
@@ -122,7 +121,7 @@ func NewSessionClient(
 		fatalErrorHandlers:      internal.NewAppendableListWithRemoval[func(error)](),
 
 		// TODO: make this queue size configurable
-		outgoingPublishes: make(chan *outgoingPublish, math.MaxUint16),
+		outgoingPublishes: make(chan *outgoingPublish, maxPublishQueueSize),
 
 		session: state.NewInMemory(),
 

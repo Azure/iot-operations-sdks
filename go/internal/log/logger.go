@@ -56,6 +56,11 @@ func (l Logger) Error(ctx context.Context, err error, attrs ...slog.Attr) {
 	}
 }
 
+// Warn logs a message with structured logging.
+func (l Logger) Warn(ctx context.Context, msg string, attrs ...slog.Attr) {
+	l.Log(ctx, slog.LevelWarn, msg, attrs...)
+}
+
 // Info logs a message with structured logging.
 func (l Logger) Info(ctx context.Context, msg string, attrs ...slog.Attr) {
 	l.Log(ctx, slog.LevelInfo, msg, attrs...)

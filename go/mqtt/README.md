@@ -8,9 +8,9 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 
 ## Index
 
-- [Constants](<#constants>)
 - [func IsTopicFilterMatch\(topicFilter, topicName string\) bool](<#IsTopicFilterMatch>)
 - [type Ack](<#Ack>)
+- [type ClientState](<#ClientState>)
 - [type ClientStateError](<#ClientStateError>)
   - [func \(e \*ClientStateError\) Error\(\) string](<#ClientStateError.Error>)
 - [type ConnackError](<#ConnackError>)
@@ -22,6 +22,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(e \*ConnectionError\) Unwrap\(\) error](<#ConnectionError.Unwrap>)
 - [type DisconnectEvent](<#DisconnectEvent>)
 - [type DisconnectEventHandler](<#DisconnectEventHandler>)
+- [type FatalConnackError](<#FatalConnackError>)
+  - [func \(e \*FatalConnackError\) Error\(\) string](<#FatalConnackError.Error>)
 - [type FatalDisconnectError](<#FatalDisconnectError>)
   - [func \(e \*FatalDisconnectError\) Error\(\) string](<#FatalDisconnectError.Error>)
 - [type InvalidArgumentError](<#InvalidArgumentError>)
@@ -37,9 +39,6 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type PublishOptions](<#PublishOptions>)
 - [type PublishQueueFullError](<#PublishQueueFullError>)
   - [func \(\*PublishQueueFullError\) Error\(\) string](<#PublishQueueFullError.Error>)
-- [type RetryFailureError](<#RetryFailureError>)
-  - [func \(e \*RetryFailureError\) Error\(\) string](<#RetryFailureError.Error>)
-  - [func \(e \*RetryFailureError\) Unwrap\(\) error](<#RetryFailureError.Unwrap>)
 - [type SessionClient](<#SessionClient>)
   - [func NewSessionClient\(serverURL string, opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClient>)
   - [func NewSessionClientFromConnectionString\(connStr string, opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClientFromConnectionString>)
@@ -105,23 +104,6 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type WithUserProperties](<#WithUserProperties>)
 
 
-## Constants
-
-<a name="NotStarted"></a>
-
-```go
-const (
-    // Run() has not yet been called on this SessionClient instance.
-    NotStarted = iota
-    // Run() has been called on this SessionClient instance and it has not been
-    // shut down.
-    Started
-    // This SessionClient instance ran but was shut down due the user's request
-    // or due to a fatal error.
-    ShutDown
-)
-```
-
 <a name="IsTopicFilterMatch"></a>
 ## func [IsTopicFilterMatch](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/topic_filter.go#L10>)
 
@@ -140,20 +122,45 @@ IsTopicFilterMatch checks if a topic name matches a topic filter.
 type Ack = mqtt.Ack
 ```
 
-<a name="ClientStateError"></a>
-## type [ClientStateError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L22-L25>)
+<a name="ClientState"></a>
+## type [ClientState](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L8>)
 
-ClientStateError is returned when the operation cannot proceed due to the state of the SessionClient.
+ClientState indicates the current state of the session client.
+
+```go
+type ClientState byte
+```
+
+<a name="NotStarted"></a>
+
+```go
+const (
+    // The session client has not yet been started.
+    NotStarted ClientState = iota
+
+    // The session client has been started and has not yet been stopped by the
+    // user or terminated due to a fatal error.
+    Started
+
+    // The session client has been stopped by the user or terminated due to a
+    // fatal error.
+    ShutDown
+)
+```
+
+<a name="ClientStateError"></a>
+## type [ClientStateError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L25-L27>)
+
+ClientStateError is returned when the operation cannot proceed due to the state of the session client.
 
 ```go
 type ClientStateError struct {
-    // Must be NotStarted, Started, or ShutDown
-    State int
+    State ClientState
 }
 ```
 
 <a name="ClientStateError.Error"></a>
-### func \(\*ClientStateError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L27>)
+### func \(\*ClientStateError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L29>)
 
 ```go
 func (e *ClientStateError) Error() string
@@ -162,19 +169,18 @@ func (e *ClientStateError) Error() string
 
 
 <a name="ConnackError"></a>
-## type [ConnackError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L126-L129>)
+## type [ConnackError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L89-L91>)
 
-ConnackError is returned by Run\(\) if the SessionClient terminates due to receiving a CONNACK with an error reason code. ConnackError is always wrapped by RetryFailureError, and may be checked using errors.As\(\) from the Go standard library.
+ConnackError indicates that the session client received a CONNACK with an reason code that indicates an error but is not deemed to be fatal. It may appear as a fatal error if it is the final error returned once the session client has exhausted its connection retries.
 
 ```go
 type ConnackError struct {
-    // Must be set
     ReasonCode byte
 }
 ```
 
 <a name="ConnackError.Error"></a>
-### func \(\*ConnackError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L131>)
+### func \(\*ConnackError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L93>)
 
 ```go
 func (e *ConnackError) Error() string
@@ -201,9 +207,9 @@ type ConnectEventHandler = mqtt.ConnectEventHandler
 ```
 
 <a name="ConnectionError"></a>
-## type [ConnectionError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L101-L107>)
+## type [ConnectionError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L69-L72>)
 
-ConnectionError is returned by Run\(\) if the SessionClient terminates due to an issue opening the network connection to the MQTT server. ConnectionError is always wrapped by RetryFailureError, and may be checked using errors.As\(\) from the Go standard library. ConnectionError may wrap the underlying error that occurred when attempting to open the network connection, which is done using Go standard error wrapping.
+ConnectionError indicates that the session client has terminated due to an issue opening the network connection to the MQTT server. It may wrap an underlying error using Go standard error wrapping.
 
 ```go
 type ConnectionError struct {
@@ -212,7 +218,7 @@ type ConnectionError struct {
 ```
 
 <a name="ConnectionError.Error"></a>
-### func \(\*ConnectionError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L109>)
+### func \(\*ConnectionError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L74>)
 
 ```go
 func (e *ConnectionError) Error() string
@@ -221,7 +227,7 @@ func (e *ConnectionError) Error() string
 
 
 <a name="ConnectionError.Unwrap"></a>
-### func \(\*ConnectionError\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L116>)
+### func \(\*ConnectionError\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L81>)
 
 ```go
 func (e *ConnectionError) Unwrap() error
@@ -247,20 +253,39 @@ type DisconnectEvent = mqtt.DisconnectEvent
 type DisconnectEventHandler = mqtt.DisconnectEventHandler
 ```
 
-<a name="FatalDisconnectError"></a>
-## type [FatalDisconnectError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L46-L49>)
+<a name="FatalConnackError"></a>
+## type [FatalConnackError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L102-L104>)
 
-FatalDisconnectError is returned by Run\(\) if the SessionClient terminates due to receiving a DISCONNECT packet from the server with a reason code that is deemed to be fatal.
+FatalConnackError indicates that the session client has terminated due to receiving a CONNACK with with a reason code that is deemed to be fatal.
+
+```go
+type FatalConnackError struct {
+    ReasonCode byte
+}
+```
+
+<a name="FatalConnackError.Error"></a>
+### func \(\*FatalConnackError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L106>)
+
+```go
+func (e *FatalConnackError) Error() string
+```
+
+
+
+<a name="FatalDisconnectError"></a>
+## type [FatalDisconnectError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L46-L48>)
+
+FatalDisconnectError indicates that the session client has terminated due to receiving a DISCONNECT packet from the server with a reason code that is deemed to be fatal.
 
 ```go
 type FatalDisconnectError struct {
-    // Must be set
     ReasonCode byte
 }
 ```
 
 <a name="FatalDisconnectError.Error"></a>
-### func \(\*FatalDisconnectError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L51>)
+### func \(\*FatalDisconnectError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L50>)
 
 ```go
 func (e *FatalDisconnectError) Error() string
@@ -269,9 +294,9 @@ func (e *FatalDisconnectError) Error() string
 
 
 <a name="InvalidArgumentError"></a>
-## type [InvalidArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L143-L149>)
+## type [InvalidArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L116-L119>)
 
-InvalidArgumentError is used to indicate when the user has provided an invalid value for an option. InvalidArgumentError may wrap any relevant using Go standard error warpping.
+InvalidArgumentError indicates that the user has provided an invalid value for an option. It may wrap an underlying error using Go standard error wrapping.
 
 ```go
 type InvalidArgumentError struct {
@@ -280,7 +305,7 @@ type InvalidArgumentError struct {
 ```
 
 <a name="InvalidArgumentError.Error"></a>
-### func \(\*InvalidArgumentError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L151>)
+### func \(\*InvalidArgumentError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L121>)
 
 ```go
 func (e *InvalidArgumentError) Error() string
@@ -289,7 +314,7 @@ func (e *InvalidArgumentError) Error() string
 
 
 <a name="InvalidArgumentError.Unwrap"></a>
-### func \(\*InvalidArgumentError\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L158>)
+### func \(\*InvalidArgumentError\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L128>)
 
 ```go
 func (e *InvalidArgumentError) Unwrap() error
@@ -298,7 +323,7 @@ func (e *InvalidArgumentError) Unwrap() error
 
 
 <a name="InvalidOperationError"></a>
-## type [InvalidOperationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L179-L181>)
+## type [InvalidOperationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L145-L147>)
 
 InvalidOperationError is returned if the user attempts to make a function call that is invalid \(e.g., attempting to ack a QoS 0 message\).
 
@@ -309,7 +334,7 @@ type InvalidOperationError struct {
 ```
 
 <a name="InvalidOperationError.Error"></a>
-### func \(\*InvalidOperationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L183>)
+### func \(\*InvalidOperationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L149>)
 
 ```go
 func (e *InvalidOperationError) Error() string
@@ -413,16 +438,16 @@ type PublishOptions = mqtt.PublishOptions
 ```
 
 <a name="PublishQueueFullError"></a>
-## type [PublishQueueFullError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L169>)
+## type [PublishQueueFullError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L137>)
 
-PublishQueueFullError is returned by Publish\(\) to indicate that there are too many publishes enqueued and the SessionClient is not accepting any more. This should very rarely occur, and if it does, it is a sign that either the connection is unstable or the application is sending messages at a faster rate than can be handled by the SessionClient or broker.
+PublishQueueFullError is returned if there are too many publishes enqueued and the session client is not accepting any more. This should very rarely occur, and if it does, it is a sign that either the connection is unstable or the application is sending messages at a faster rate than can be handled by the session client or server.
 
 ```go
 type PublishQueueFullError struct{}
 ```
 
 <a name="PublishQueueFullError.Error"></a>
-### func \(\*PublishQueueFullError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L171>)
+### func \(\*PublishQueueFullError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L139>)
 
 ```go
 func (*PublishQueueFullError) Error() string
@@ -430,37 +455,8 @@ func (*PublishQueueFullError) Error() string
 
 
 
-<a name="RetryFailureError"></a>
-## type [RetryFailureError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L74-L77>)
-
-RetryFailureError is returned by Run\(\) if the session client terminates due to reconnections failing and exhausting the retry policy. It wraps the last seen error using standard Go error wrapping.
-
-```go
-type RetryFailureError struct {
-    // contains filtered or unexported fields
-}
-```
-
-<a name="RetryFailureError.Error"></a>
-### func \(\*RetryFailureError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L79>)
-
-```go
-func (e *RetryFailureError) Error() string
-```
-
-
-
-<a name="RetryFailureError.Unwrap"></a>
-### func \(\*RetryFailureError\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L86>)
-
-```go
-func (e *RetryFailureError) Unwrap() error
-```
-
-
-
 <a name="SessionClient"></a>
-## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L21-L62>)
+## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L20-L61>)
 
 SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1 support.
 
@@ -471,7 +467,7 @@ type SessionClient struct {
 ```
 
 <a name="NewSessionClient"></a>
-### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L112-L115>)
+### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L111-L114>)
 
 ```go
 func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionClient, error)
@@ -480,7 +476,7 @@ func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionCl
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromConnectionString"></a>
-### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L159-L162>)
+### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L158-L161>)
 
 ```go
 func NewSessionClientFromConnectionString(connStr string, opts ...SessionClientOption) (*SessionClient, error)
@@ -489,7 +485,7 @@ func NewSessionClientFromConnectionString(connStr string, opts ...SessionClientO
 NewSessionClientFromConnectionString constructs a new session client from an user\-defined connection string.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L174-L176>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L173-L175>)
 
 ```go
 func NewSessionClientFromEnv(opts ...SessionClientOption) (*SessionClient, error)
@@ -498,7 +494,7 @@ func NewSessionClientFromEnv(opts ...SessionClientOption) (*SessionClient, error
 NewSessionClientFromEnv constructs a new session client from user's environment variables.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L186>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L185>)
 
 ```go
 func (c *SessionClient) ID() string
@@ -516,7 +512,7 @@ func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byt
 
 
 <a name="SessionClient.RegisterConnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L19-L21>)
+### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L20-L22>)
 
 ```go
 func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler) (unregisterHandler func())
@@ -525,7 +521,7 @@ func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler)
 RegisterConnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
 <a name="SessionClient.RegisterDisconnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L30-L32>)
+### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L31-L33>)
 
 ```go
 func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHandler) (unregisterHandler func())
@@ -534,7 +530,7 @@ func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHa
 RegisterDisconnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the SessionClient detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the SessionClient.
 
 <a name="SessionClient.RegisterFatalErrorHandler"></a>
-### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L38-L40>)
+### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L39-L41>)
 
 ```go
 func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregisterHandler func())
@@ -552,7 +548,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
 RegisterMessageHandler registers a message handler on this client. Returns a callback to remove the message handler.
 
 <a name="SessionClient.Start"></a>
-### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L47>)
+### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L48>)
 
 ```go
 func (c *SessionClient) Start() error
@@ -561,7 +557,7 @@ func (c *SessionClient) Start() error
 Start starts the SessionClient, spawning any necessary background goroutines. In order to terminate the SessionClient and clean up any running goroutines, Stop\(\) must be called after calling Start\(\).
 
 <a name="SessionClient.Stop"></a>
-### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L83>)
+### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L85>)
 
 ```go
 func (c *SessionClient) Stop() error
@@ -867,16 +863,16 @@ func WithWillPropertiesWillDelayInterval(willDelayInterval time.Duration) Sessio
 WithWillPropertiesWillDelayInterval sets the WillDelayInterval for the WillProperties.
 
 <a name="SessionLostError"></a>
-## type [SessionLostError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L63>)
+## type [SessionLostError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L60>)
 
-SessionLostError is returned by Run\(\) if the SessionClient terminates due to receiving a CONNACK from the server with session present false when reconnecting.
+SessionLostError indicates that the session client has terminated due to receiving a CONNACK from the server with session present false when reconnecting.
 
 ```go
 type SessionLostError struct{}
 ```
 
 <a name="SessionLostError.Error"></a>
-### func \(\*SessionLostError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L65>)
+### func \(\*SessionLostError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L62>)
 
 ```go
 func (*SessionLostError) Error() string

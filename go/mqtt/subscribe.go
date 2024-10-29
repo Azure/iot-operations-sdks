@@ -108,8 +108,8 @@ func (c *SessionClient) Subscribe(
 
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
-				wrappedError: err,
-				message:      "invalid arguments in Subscribe() options",
+				wrapped: err,
+				message: "invalid arguments in Subscribe() options",
 			}
 		}
 
@@ -147,8 +147,8 @@ func (c *SessionClient) Unsubscribe(
 
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
-				wrappedError: err,
-				message:      "invalid arguments in Unsubscribe() options",
+				wrapped: err,
+				message: "invalid arguments in Unsubscribe() options",
 			}
 		}
 
@@ -176,7 +176,7 @@ func buildSubscribe(
 	// Validate options.
 	if opt.QoS >= 2 {
 		return nil, &InvalidArgumentError{
-			message: "Invalid QoS. Supported QoS value are 0 and 1",
+			message: "invalid or unsupported QoS",
 		}
 	}
 
