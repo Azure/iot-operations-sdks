@@ -875,7 +875,7 @@
         <ObjectPropertyTable kinds="include" />
 
         <Paragraph>
-          See the [error model document](./error-model.md) for further details, including the supplemental properties that can be set in an error.
+          See the [error model document](../../reference/error-model.md) for further details, including the supplemental properties that can be set in an error.
         </Paragraph>
 
       </Subsection>

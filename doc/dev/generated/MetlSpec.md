@@ -10,17 +10,16 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorRequestTopicCommandNameWithValidReplacement_StartsSuccessfully
-aka:
-- RequestTopicCommandNameWithValidReplacementDoesNotThrow
+test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{commandName}' token and command name is a valid replacement.
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
   expect: >-
-    CommandExecutor starts successfully.
+    CommandExecutor starts successfully
 prologue:
   executors:
-  - request-topic: "mock/{commandName}/test"
+  - request-topic: "mock/{modelId}/test"
+    model-id:
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
@@ -248,14 +247,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - execution-timeout: { seconds: 0 }
+  - idempotent: !!bool false
+    cacheable-duration: { seconds: 1 }
   catch:
     error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'executiontimeout'
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -972,7 +971,7 @@ The catch can have the following child keys:
 | message | check | no | string | The error message; should be checked only when explicitly set in a test case. |
 | supplemental | check | no | map from string to string | Additional properties that may be set for some error kinds. |
 
-See the [error model document](./error-model.md) for further details, including the supplemental properties that can be set in an error.
+See the [error model document](../../reference/error-model.md) for further details, including the supplemental properties that can be set in an error.
 
 ### Common miscellaneous items
 
