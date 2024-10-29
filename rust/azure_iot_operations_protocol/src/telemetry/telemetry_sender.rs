@@ -118,7 +118,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     qos: QoS,
     /// User data that will be set as custom MQTT User Properties on the telemetry message.
     /// Can be used to pass additional metadata to the receiver.
-    /// Default is an empty `HashMap`.
+    /// Default is an empty `Vec`.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
     /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
