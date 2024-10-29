@@ -14,7 +14,7 @@ namespace HttpThermostatConnectorApp
 
         public IDatasetSampler ConstructSampler(AssetEndpointProfile assetEndpointProfile, Dataset dataset)
         {
-            if (dataset.Name.Equals("status"))
+            if (dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {
