@@ -61,6 +61,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
         .model_id(MODEL_ID)
+        .auto_ack(false)
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
@@ -69,7 +70,6 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
-            // For auto-acknowledgement: Ok((message, _))
             Ok((message, ack_token)) => {
                 println!(
                     "Sender {} sent temperature reading: {:?}",
