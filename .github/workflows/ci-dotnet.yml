@@ -130,6 +130,16 @@ jobs:
     - name: Build DSS CLI (Release)
       run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
 
+    - name: Output Connector App Logs
+      run:  |
+        for pod in $(kubectl get pods -o name);
+        do
+            echo ${pod}
+            if [[ ${pod} == pod/my-http-* ]]; then
+                kubectl logs ${pod} 
+            fi
+        done
+
     - uses: dorny/test-reporter@v1
       id: test-reporter
       if: always()
