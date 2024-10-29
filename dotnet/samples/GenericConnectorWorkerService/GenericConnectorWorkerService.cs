@@ -15,6 +15,14 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.GenericHttpConnectorSample
 {
+    /// <summary>
+    /// This worker service is a template for all connector applications. It holds all of the general logic for reading assets, periodically sampling datasets,
+    /// and forwarding those sampled datasets to the MQTT broker as cloud events.
+    /// </summary>
+    /// <remarks>
+    /// To use this template to make an actual connector application, follow the HttpThermostatConnectorApp sample project which shows how to create dataset 
+    /// samplers using the <see cref="IDatasetSamplerFactory"/> and <see cref="IDatasetSampler"/> interfaces.
+    /// </remarks>
     public class GenericConnectorWorkerService : BackgroundService
     {
         private bool doSchemaWork = false;
@@ -201,7 +209,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset);
             }
 
-            byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(_assetEndpointProfile!, dataset);
+            byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(dataset, _assetEndpointProfile!.Credentials);
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
