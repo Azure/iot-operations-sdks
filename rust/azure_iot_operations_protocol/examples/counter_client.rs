@@ -4,6 +4,7 @@
 use std::collections::HashMap;
 use std::{env, num::ParseIntError, str::Utf8Error, time::Duration};
 
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use env_logger::Builder;
 use thiserror::Error;
 
@@ -48,6 +49,7 @@ async fn main() {
 
 /// Send a read request, 15 increment command requests, and another read request and wait for their responses, then disconnect
 async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+    let client_id = client.client_id().to_string();
     // Create a command invoker for the readCounter command
     let read_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -83,10 +85,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .payload(&CounterRequestPayload::default())
         .unwrap()
         .timeout(Duration::from_secs(10))
-        .custom_tokens(HashMap::from([(
-            "executorId".to_string(),
-            executor_id.clone(),
-        )]))
+        .topic_tokens(HashMap::from([
+            ("executorId".to_string(), executor_id.clone()),
+            ("invokerClientId".to_string(), client_id.clone()),
+        ]))
         .build()
         .unwrap();
     let read_response = read_invoker.invoke(read_payload).await.unwrap();
@@ -100,10 +102,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             .payload(&CounterRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(10))
-            .custom_tokens(HashMap::from([(
-                "executorId".to_string(),
-                executor_id_clone,
-            )]))
+            .topic_tokens(HashMap::from([
+                ("executorId".to_string(), executor_id_clone),
+                ("invokerClientId".to_string(), client_id.clone()),
+            ]))
             .build()
             .unwrap();
         let incr_response = incr_invoker.invoke(incr_payload).await;
@@ -116,6 +118,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .payload(&CounterRequestPayload::default())
         .unwrap()
         .timeout(Duration::from_secs(10))
+        .topic_tokens(HashMap::from([
+            ("executorId".to_string(), executor_id),
+            ("invokerClientId".to_string(), client_id),
+        ]))
         .build()
         .unwrap();
     let read_response = read_invoker.invoke(read_payload).await.unwrap();

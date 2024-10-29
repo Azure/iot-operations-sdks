@@ -47,7 +47,7 @@ where
     custom_user_data: Vec<(String, String)>,
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
-    custom_tokens: HashMap<String, String>,
+    topic_tokens: HashMap<String, String>,
     /// Optional Fencing Token of the command request.
     #[builder(default = "None")]
     fencing_token: Option<HybridLogicalClock>,
@@ -175,7 +175,7 @@ pub struct CommandInvokerOptions {
 /// let request = CommandRequestBuilder::default()
 ///   .payload(&SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
-///   .custom_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
+///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
 /// let result = command_invoker.invoke(request);
 /// //let response: CommandResponse<SamplePayload> = result.await.unwrap();
@@ -474,11 +474,11 @@ where
         // Get request topic. Validates executor_id
         let request_topic = self
             .request_topic_pattern
-            .as_publish_topic(&request.custom_tokens)?;
+            .as_publish_topic(&request.topic_tokens)?;
         // Get response topic. Validates executor_id
         let response_topic = self
             .response_topic_pattern
-            .as_publish_topic(&request.custom_tokens)?;
+            .as_publish_topic(&request.topic_tokens)?;
         // Get and validate content_type
         let content_type = TReq::content_type();
         if is_invalid_utf8(content_type) {
@@ -1411,7 +1411,7 @@ mod tests {
                     .payload(&mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
-                    .custom_tokens(HashMap::from([(
+                    .topic_tokens(HashMap::from([(
                         "executorId".to_string(),
                         "+++".to_string(),
                     )]))
