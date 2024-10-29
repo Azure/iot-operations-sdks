@@ -2,7 +2,7 @@
 
 The following document contains developer information on packaging the various SDKs and tools in this repository.
 
-## .NET SDK
+## .NET
 
 The Azure IoT Operations NuGet feed is configured to use the https://api.nuget.org/v3/index.json as an upstream feed. 
 
@@ -14,13 +14,18 @@ Response status code does not indicate success: 401 (Unauthorized - No local ver
 
 To refresh the dependencies, execute the following:
 
-1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions:
+1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions.
 
-1. Change into the `dotnet` directory, authenticate using the PAT from previous step and restore the project:
+1. Authenticate using the PAT you created:
+
+    ```bash
+    dotnet nuget update source preview -u {USERNAME} -p {PAT_TOKEN} --store-password-in-clear-text
+    ```
+
+1. Restore the SDK project to pull dependencies from upstream:
 
     ```bash
     cd dotnet
-    dotnet nuget update source preview -u {USERNAME} -p {PAT} --store-password-in-clear-text
     dotnet restore --no-cache
     ```
 
@@ -36,4 +41,32 @@ To refresh the dependencies, execute the following:
     ```bash
     cd ../eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker
     dotnet restore --no-cache
-    ```    
+    ```
+
+## Rust
+
+To refresh the dependencies, execute the following:
+
+1. Create a personal access token with with Packaging | Read & write permissions.
+
+1. Authenticate using the PAT:
+
+    ```bash
+    export $PAT={PAT_TOKEN}
+    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
+    ```
+
+1. Change into the rust directory and publish the crates:
+
+    ```bash
+    cd rust
+    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks-auth
+    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks-auth
+    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks-auth
+    ```
+
+1. **[Optional]** Build the rumqttc dependency:
+
+    ```bash
+    cargo publish --manfest-path rumqttc/Cargo.toml --registry aio-sdks --features use-native-tls
+    ```

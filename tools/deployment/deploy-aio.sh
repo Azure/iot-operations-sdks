@@ -36,7 +36,7 @@ if [ "$deploy_type" = "nightly" ]; then
 
     # install AIO Broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --values ./yaml/broker-values.yaml --wait
+    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 fi
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable

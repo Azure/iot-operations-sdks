@@ -6,7 +6,7 @@
 [![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml)
 
 > [!CAUTION]
-> The assets in this repository are currently in Private Preview and have been made available for early access and feedback purposes.
+> The assets in this repository are currently in **Private Preview** and have been made available for early access and feedback purposes.
 
 ## What is Azure IoT Operations?
 
@@ -56,20 +56,26 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
-## SDK Features
+## Languages
 
-| State | Support | Location |
-|-|-|-|
-| :green_circle:&nbsp;Complete | Feature is released and actively supported by the team. | [Releases](https://github.com/Azure/iot-operations-sdks/releases) |
-| :yellow_circle:&nbsp;In&nbsp;progress | Under development, no support provided. | `main` and `feature` branches |
-| :orange_circle:&nbsp;Planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on planned features. | - |
-| :red_circle:&nbsp;Not&nbsp;planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for detail on unplanned features. | - |
+The SDKs are available in the following languages. Refer to each language directory for specific instructions on using each SDK:
 
-### Feature status
+* **.NET** - [/dotnet](/dotnet)
+* **Go** - [/go](/go)
+* **Rust** - [/rust](/rust)
 
-The following features are available or planned, along with the current language support:
+## Features
 
-| Feature | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
+The following tables outlines the current feature set, along with the associated language support:
+
+| State | Support |
+|-|-|
+| :green_circle:&nbsp;Complete | Feature is released and **actively** supported by the team. |
+| :yellow_circle:&nbsp;In&nbsp;progress | Under development, **no support** provided. |
+| :orange_circle:&nbsp;Planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on planned features. |
+| :red_circle:&nbsp;Not&nbsp;planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on unplanned features. |
+
+| Feature | Description | .NET | Go | Rust |
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
 | **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
@@ -81,24 +87,16 @@ The following features are available or planned, along with the current language
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
 | **Akri** client | Record discovered assets and asset endpoints | :yellow_circle: | :orange_circle: | :orange_circle: |
 
-### Protocol compiler
+## Protocol compiler
 
-The Protocol compiler is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
+The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
 
-| Component | Description | [.NET](/dotnet) | [Go](/go) | [Rust](/rust) |
+| Component | Description | .NET | Go | Rust |
 |-|-|-|-|-|
 | [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :yellow_circle:  |
 | [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :yellow_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
 | [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
-
-### Other tooling
-
-Tools available for use during development of IoT Operation applications.
-
-| Tool | Description | Status |
-|-|-|-|
-| [**State store CLI**](/tools/dsscli) | Interact with the state store via a CLI. Get, set and delete keys. | :green_circle: |
 
 ## Need help?
 
