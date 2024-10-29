@@ -51,7 +51,9 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 
 Installation via Helm provides allows you to get started quicker, however this is missing the Azure integration so may not be suitable for some development.
 
-1. Make sure the shell is in the root directory of this repository
+1. [Install Helm](https://helm.sh/docs/intro/install/)
+
+1. Open a shell in the root directory of this repository
 
 1. Create a new k3d cluster:
 
@@ -59,15 +61,14 @@ Installation via Helm provides allows you to get started quicker, however this i
     ./tools/deployment/initialize-cluster.sh
     ```
 
-1. [Install Helm](https://helm.sh/docs/intro/install/)
-
 1. Install Azure IoT Operations:
 
     ```bash
     ./tools/deployment/deploy-aio.sh nightly
     ```
 
-Scripts can be executed with the above commands for ease of use, however if you would like to see the exact steps being performed or would like more information on he process, navigate to the [deployment folder](/tools/deployment/).
+> [!NOTE]
+> The above scrips provide an easy way to setup an environment, however if you would like to see the exact steps being performed or would like more information on he process, review the scripts in the [deployment directory](/tools/deployment/).
 
 ## What gets Installed?
 
