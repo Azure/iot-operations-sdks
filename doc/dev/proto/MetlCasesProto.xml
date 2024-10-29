@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ProtoDocument.xsd">
+
+  <Header>
+  </Header>
+
+  <Body>
+
+    <Title>Testing for RPC Protocol</Title>
+
+    <Section>
+
+      <Paragraph>
+        RPC Protocol is based on well-defined sequences of PUB and PUBACK packets to implement a request/response pattern.
+      </Paragraph>
+
+      <Paragraph>
+        RPC protocol must be tested using normative unit tests that assert the _expected_ behavior of the protocol. This MUST include at the very least:
+      </Paragraph>
+      <Itemization>
+        <Item>Correct MQTT semantic for PUB and PUBACK ordering: PUBs have to be re-trasmitted and ACKed in the same order they have been sent and observed by the participating clients. See [section 4.6 Message Ordering](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901240) in MQTT5 specification.</Item>
+        <Item>Correct de-duplication of requests.</Item>
+        <Item>Correct execution of [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.</Item>
+        <Item>Correct lifetime for cached responses.</Item>
+        <Item>Correct handling of orphan requests in presence terminal failures of a client or server using [_message_expiry_](http://link_to_message_expiry) at broker side.</Item>
+      </Itemization>
+
+      <Paragraph>
+        Unit tests must account for at least the following occurrences:
+      </Paragraph>
+      <Itemization>
+        <Item>PUB packet loss.</Item>
+        <Item>PUBACK packet loss.</Item>
+        <Item>Duplicate requests and/or responses.</Item>
+        <Item>Disconnection and re-connection (both for sender and receiver), both due to client failure and/or client being disconnected by the broker (e.g., on account of backpressure).</Item>
+        <Item>Failure and sub-sequent re-connection, both on invoker and executor side.</Item>
+        <Item>Serving requests inside and outside the [_timeout_](http://link_to_timeout) window indicated by request invokation, both for [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.</Item>
+      </Itemization>
+
+      <Paragraph>
+        Unit tests MUST be exhaustive, and therefore MUST neither assume correct behavior of MQTT client nor assume correct behavior of protocol stack in SDK and broker.
+        See below for categorized tests.
+      </Paragraph>
+
+    </Section>
+
+    <Section suite="CommandExecutor">
+      <Heading>CommandExecutor test cases</Heading>
+
+      <TestCaseTable>
+        <Column name="Normative statement" field="condition" />
+        <Column name="Expected behavior" field="expect"/>
+      </TestCaseTable>
+
+    </Section>
+
+    <Section suite="CommandInvoker">
+      <Heading>CommandInvoker test cases</Heading>
+
+      <TestCaseTable>
+        <Column name="Normative statement" field="condition" />
+        <Column name="Expected behavior" field="expect"/>
+      </TestCaseTable>
+
+    </Section>
+
+  </Body>
+
+</Document>

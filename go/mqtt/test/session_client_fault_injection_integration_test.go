@@ -41,8 +41,8 @@ func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
 		mqtt.WithConnectPropertiesUser(userProperties),
 	)
 	require.NoError(t, err)
-	require.NoError(t, client.Connect(context.Background()))
-	_ = client.Disconnect()
+	require.NoError(t, client.Start())
+	_ = client.Stop()
 }
 
 func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
@@ -52,8 +52,8 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
 	require.NoError(t, err)
 
-	require.NoError(t, client.Connect(context.Background()))
-	defer func() { _ = client.Disconnect() }()
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
 	uuidInstance, err := uuid.NewV7()
 	require.NoError(t, err)
@@ -84,8 +84,8 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 	client, err := mqtt.NewSessionClient(faultInjectableBrokerURL)
 	require.NoError(t, err)
 
-	require.NoError(t, client.Connect(context.Background()))
-	defer func() { _ = client.Disconnect() }()
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
 
 	done := client.RegisterMessageHandler(noopHandler)
 	defer done()

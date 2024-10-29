@@ -136,10 +136,9 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 LeaderElectionCandidate? newLeader = args.NewLockHolder == null ? null : new LeaderElectionCandidate(args.NewLockHolder.Bytes);
                 await LeadershipChangeEventReceivedAsync.Invoke(
                     this,
-                    new LeadershipChangeEventArgs(newLeader)
+                    new LeadershipChangeEventArgs(newLeader, args.Timestamp)
                     {
                         NewState = args.NewState == LockState.Acquired ? LeadershipPositionState.LeaderElected : LeadershipPositionState.NoLeader,
-                        PreviousLeader = args.PreviousLockHolder == null ? null : new LeaderElectionCandidate(args.PreviousLockHolder.Bytes)
                     }).ConfigureAwait(false);
             }
         }
@@ -322,7 +321,6 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 new ObserveLockRequestOptions()
                 { 
                     GetNewValue = options.GetNewLeader,
-                    GetPreviousValue = options.GetPreviousLeader,
                 }, 
                 cancellationToken).ConfigureAwait(false);
         }

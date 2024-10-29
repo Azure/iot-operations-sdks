@@ -6,18 +6,17 @@ description:
   condition: >-
     CommandInvoker initialized with empty string as command name.
   expect: >-
-    CommandInvoker throws 'invalid argument' exception.
+    CommandInvoker throws 'invalid configuration' exception.
 
 prologue:
   invokers:
   - command-name: ""
     request-topic: "mock/{commandName}/test"
   catch:
-    error-kind: invalid argument
+    error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false
-    status-code:
     supplemental:
       property-name: 'commandname'
 ...

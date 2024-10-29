@@ -25,10 +25,21 @@ pub use wrapper::*;
 #[error(transparent)]
 pub struct SessionError(#[from] SessionErrorKind);
 
+impl SessionError {
+    /// Returns the [`SessionErrorKind`] of the error.
+    #[must_use]
+    pub fn kind(&self) -> &SessionErrorKind {
+        &self.0
+    }
+}
+
 /// Error kind for [`SessionError`].
 #[derive(Error, Debug)]
 pub enum SessionErrorKind {
     /// Invalid configuration options provided to the [`Session`].
+    // TODO: Revisit how this config err is designed. Matching is strange due to the adapter error not being exposed (must use _ in match).
+    // Ideally, inner value should not be accessible, although this might not be the worst thing either, it's not uncommon for libraries to do this.
+    // Also arguably, should be on a different error type entirely since it's pre-run validation.
     #[error("invalid configuration: {0}")]
     ConfigError(#[from] adapter::ConnectionSettingsAdapterError),
     /// MQTT session was lost due to a connection error.
