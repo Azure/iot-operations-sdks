@@ -335,7 +335,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
-                        ModelId = testCaseExecutor.ModelId!,
                         ExecutorId = testCaseExecutor.ExecutorId,
                         TopicNamespace = testCaseExecutor.TopicNamespace,
                         IsIdempotent = testCaseExecutor.Idempotent,
@@ -345,12 +344,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
-                        ModelId = testCaseExecutor.ModelId!,
                         ExecutorId = testCaseExecutor.ExecutorId,
                         TopicNamespace = testCaseExecutor.TopicNamespace,
                         IsIdempotent = testCaseExecutor.Idempotent,
                         OnCommandReceived = null!,
                     };
+
+                if (testCaseExecutor.ModelId != null)
+                {
+                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
+                }
+
+                if (testCaseExecutor.CommandName != null)
+                {
+                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
+                }
+
+                if (testCaseExecutor.ExecutorId != null)
+                {
+                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
+                }
 
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {

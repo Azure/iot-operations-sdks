@@ -1,5 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Xunit;
 using Xunit.Sdk;
 
@@ -210,6 +211,7 @@ public class StateStoreClientIntegrationTests
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
         Assert.NotNull(mostRecentKeyChange.NewValue);
         Assert.Equal(value, mostRecentKeyChange.NewValue.GetString());
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
         onKeyChange = new TaskCompletionSource(); // create new TCS so that we can wait for another key change later
 
         Assert.Equal(1, (await stateStoreClient.DeleteAsync(key)).DeletedItemsCount);
@@ -269,6 +271,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.NotNull(mostRecentKeyChange);
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
 
         onKeyChange = new TaskCompletionSource(); // create new TCS so that we can wait for another key change later
         try
@@ -282,6 +285,7 @@ public class StateStoreClientIntegrationTests
         }
 
         Assert.Equal(KeyState.Deleted, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
     }
 
     [Fact]
@@ -320,6 +324,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.NotNull(mostRecentKeyChange);
         Assert.Equal(KeyState.Updated, mostRecentKeyChange.NewState);
+        Assert.NotNull(mostRecentKeyChange.Timestamp);
 
         await stateStoreClient.UnobserveAsync(key);
 
@@ -391,5 +396,51 @@ public class StateStoreClientIntegrationTests
         StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Equal(value, getResponse.Value);
+    }
+
+    [Fact]
+    public async Task TestKeyLengthZero()
+    // ensures the proper error reason is given for a key length of zero
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using var stateStoreClient = new StateStoreClient(mqttClient);
+
+        try
+        {
+            await stateStoreClient.GetAsync("");
+        }
+        catch (StateStoreOperationException e)
+        {
+            Assert.Equal(ServiceError.KeyLengthZero, e.Reason);
+        }
+    }
+
+    [Fact]
+    public async Task TestStateStoreFencingTokenSkew()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using var stateStoreClient = new StateStoreClient(mqttClient);
+
+        var key = Guid.NewGuid().ToString();
+        var value = Guid.NewGuid().ToString();
+
+        // create a HybridLogicalClock instance with a timestamp far in the future
+        var futureTimestamp = DateTime.UtcNow.AddYears(10);
+        var fencingToken = new HybridLogicalClock(futureTimestamp);
+
+        try
+        {
+            await stateStoreClient.SetAsync(
+                key,
+                value,
+                new StateStoreSetRequestOptions()
+                {
+                    FencingToken = fencingToken
+                });
+        }
+        catch (StateStoreOperationException e)
+        {
+            Assert.Equal(ServiceError.FencingTokenSkew, e.Reason);
+        }
     }
 }

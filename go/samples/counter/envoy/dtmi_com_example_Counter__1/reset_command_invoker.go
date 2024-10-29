@@ -22,10 +22,8 @@ func NewResetCommandInvoker(
 	var opts protocol.CommandInvokerOptions
 	opts.Apply(
 		opt,
-		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"commandName":     "reset",
-			"invokerClientId": client.ID(),
 		},
 	)
 

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="UndocumentedType">
+    <xs:attribute name="item" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ObjectPropertyColumnType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="field" type="xs:string" use="required" />
+    <xs:attribute name="conditionOn" type="xs:string" />
+    <xs:attribute name="true" type="xs:string" />
+    <xs:attribute name="false" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="ObjectPropertyTableType">
+    <xs:sequence>
+      <xs:element name="Column" type="ObjectPropertyColumnType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="object" type="xs:string" />
+    <xs:attribute name="defaults" type="xs:string" />
+    <xs:attribute name="consts" type="xs:string" />
+    <xs:attribute name="kinds" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="ObjectSubtypeColumnType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="field" type="xs:string" use="required" />
+    <xs:attribute name="conditionOn" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="ObjectSubtypeTableType">
+    <xs:sequence>
+      <xs:element name="Column" type="ObjectSubtypeColumnType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="object" type="xs:string" />
+    <xs:attribute name="discriminator" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="EnumValueColumnType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="field" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="EnumValueTableType">
+    <xs:sequence>
+      <xs:element name="Column" type="EnumValueColumnType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="object" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="TestCaseColumnType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="field" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="TestCaseTableType">
+    <xs:sequence>
+      <xs:element name="Column" type="TestCaseColumnType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="suite" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="ItemizationType">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Item" type="xs:string" />
+        <xs:element name="Indent" type="ItemizationType" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="baseExampleType">
+    <xs:attribute name="minChildren" type="xs:integer" />
+    <xs:attribute name="maxWidth" type="xs:integer" />
+    <xs:attribute name="minLines" type="xs:integer" />
+    <xs:attribute name="maxLines" type="xs:integer" />
+  </xs:complexType>
+
+  <xs:complexType name="ExampleDefaultsType">
+    <xs:complexContent>
+      <xs:extension base="baseExampleType">
+        <xs:attribute name="targetLines" type="xs:integer" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IncludeExcludeType">
+    <xs:attribute name="key" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ExampleType" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="baseExampleType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Include" type="IncludeExcludeType" />
+            <xs:element name="Exclude" type="IncludeExcludeType" />
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="suite" type="xs:string" />
+        <xs:attribute name="key" type="xs:string" use="required" />
+        <xs:attribute name="value" type="xs:string" />
+        <xs:attribute name="targetLines" type="xs:integer" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CodeBlockType" mixed="true">
+    <xs:attribute name="language" type="xs:string" />
+    <xs:attribute name="source" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="HeaderType" mixed="true">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Undocumented" type="UndocumentedType" />
+        <xs:element name="ObjectPropertyTable" type="ObjectPropertyTableType" />
+        <xs:element name="ExampleDefaults" type="ExampleDefaultsType" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HeadingType" mixed="true">
+  </xs:complexType>
+
+  <xs:group name="sectionContentGroup">
+    <xs:choice>
+      <xs:element name="Subsubheading" type="HeadingType" />
+      <xs:element name="Paragraph" type="xs:string" />
+      <xs:element name="Itemization" type="ItemizationType" />
+      <xs:element name="ObjectPropertyTable" type="ObjectPropertyTableType" />
+      <xs:element name="ObjectSubtypeTable" type="ObjectSubtypeTableType" />
+      <xs:element name="EnumValueTable" type="EnumValueTableType" />
+      <xs:element name="TestCaseTable" type="TestCaseTableType" />
+      <xs:element name="Example" type="ExampleType" />
+      <xs:element name="CodeBlock" type="CodeBlockType" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:complexType name="SubsectionType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="sectionContentGroup" />
+    </xs:choice>
+    <xs:attribute name="item" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="SectionType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="sectionContentGroup" />
+      <xs:element name="Heading" type="HeadingType" />
+      <xs:element name="Subheading" type="HeadingType" />
+      <xs:element name="Subsection" type="SubsectionType" />
+    </xs:choice>
+    <xs:attribute name="suite" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="BodyType">
+    <xs:sequence>
+      <xs:element name="Title" type="xs:string" minOccurs="0" />
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Heading" type="HeadingType" />
+        <xs:element name="Section" type="SectionType" />
+        <xs:element name="Paragraph" type="xs:string" />
+        <xs:element name="Itemization" type="ItemizationType" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DocumentType">
+    <xs:sequence>
+      <xs:element name="Header" type="HeaderType" />
+      <xs:element name="Body" type="BodyType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="Document" type="DocumentType" />
+
+</xs:schema>
