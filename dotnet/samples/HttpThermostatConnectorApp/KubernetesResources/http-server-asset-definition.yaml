@@ -1,7 +1,7 @@
 apiVersion: deviceregistry.microsoft.com/v1beta2
 kind: Asset
 metadata:
-  name: my-http-asset
+  name: my-http-thermostat-asset
   namespace: azure-iot-operations
 spec:
   displayName: REST Sample Asset 1

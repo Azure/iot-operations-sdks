@@ -198,7 +198,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers[datasetName] = _datasetSamplerFactory.ConstructSampler(_assetEndpointProfile!, dataset);
+                _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset);
             }
 
             byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(_assetEndpointProfile!, dataset);

@@ -12,7 +12,7 @@ namespace HttpThermostatConnectorApp
             return new ThermostatDatasetSamplerFactory();
         };
 
-        public IDatasetSampler ConstructSampler(AssetEndpointProfile assetEndpointProfile, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Dataset dataset)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
