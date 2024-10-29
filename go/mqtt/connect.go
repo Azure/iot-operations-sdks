@@ -159,7 +159,8 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				)
 
 				// Decide to retry depending on whether we consider this error
-				// to be fatal.
+				// to be fatal. We don't wrap these errors, so we can use a
+				// simple type-switch instead of Go error wrapping.
 				switch err.(type) {
 				case *InvalidArgumentError,
 					*SessionLostError,

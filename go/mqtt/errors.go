@@ -41,7 +41,7 @@ func (e *ClientStateError) Error() string {
 }
 
 // FatalDisconnectError indicates that the session client has terminated due
-// to receiving a DISCONNECT packet from the broker with a reason code that is
+// to receiving a DISCONNECT packet from the server with a reason code that is
 // deemed to be fatal.
 type FatalDisconnectError struct {
 	ReasonCode byte
@@ -55,16 +55,16 @@ func (e *FatalDisconnectError) Error() string {
 }
 
 // SessionLostError indicates that the session client has terminated due to
-// receiving a CONNACK from the broker with session present false when
+// receiving a CONNACK from the server with session present false when
 // reconnecting.
 type SessionLostError struct{}
 
 func (*SessionLostError) Error() string {
-	return "expected broker to have session information, but received a CONNACK packet with session present false"
+	return "expected server to have session information, but received a CONNACK packet with session present false"
 }
 
 // ConnectionError indicates that the session client has terminated due to an
-// issue opening the network connection to the MQTT broker. It may wrap an
+// issue opening the network connection to the MQTT server. It may wrap an
 // underlying error using Go standard error wrapping.
 type ConnectionError struct {
 	wrapped error
@@ -133,7 +133,7 @@ func (e *InvalidArgumentError) Unwrap() error {
 // and the session client is not accepting any more. This should very rarely
 // occur, and if it does, it is a sign that either the connection is unstable
 // or the application is sending messages at a faster rate than can be handled
-// by the session client or broker.
+// by the session client or server.
 type PublishQueueFullError struct{}
 
 func (*PublishQueueFullError) Error() string {

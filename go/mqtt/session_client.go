@@ -121,7 +121,7 @@ func NewSessionClient(
 		fatalErrorHandlers:      internal.NewAppendableListWithRemoval[func(error)](),
 
 		// TODO: make this queue size configurable
-		outgoingPublishes: make(chan *outgoingPublish, maxPacketQueueSize),
+		outgoingPublishes: make(chan *outgoingPublish, maxPublishQueueSize),
 
 		session: state.NewInMemory(),
 

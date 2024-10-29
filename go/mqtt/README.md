@@ -209,7 +209,7 @@ type ConnectEventHandler = mqtt.ConnectEventHandler
 <a name="ConnectionError"></a>
 ## type [ConnectionError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L69-L72>)
 
-ConnectionError indicates that the session client has terminated due to an issue opening the network connection to the MQTT broker. It may wrap an underlying error using Go standard error wrapping.
+ConnectionError indicates that the session client has terminated due to an issue opening the network connection to the MQTT server. It may wrap an underlying error using Go standard error wrapping.
 
 ```go
 type ConnectionError struct {
@@ -276,7 +276,7 @@ func (e *FatalConnackError) Error() string
 <a name="FatalDisconnectError"></a>
 ## type [FatalDisconnectError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L46-L48>)
 
-FatalDisconnectError indicates that the session client has terminated due to receiving a DISCONNECT packet from the broker with a reason code that is deemed to be fatal.
+FatalDisconnectError indicates that the session client has terminated due to receiving a DISCONNECT packet from the server with a reason code that is deemed to be fatal.
 
 ```go
 type FatalDisconnectError struct {
@@ -440,7 +440,7 @@ type PublishOptions = mqtt.PublishOptions
 <a name="PublishQueueFullError"></a>
 ## type [PublishQueueFullError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L137>)
 
-PublishQueueFullError is returned if there are too many publishes enqueued and the session client is not accepting any more. This should very rarely occur, and if it does, it is a sign that either the connection is unstable or the application is sending messages at a faster rate than can be handled by the session client or broker.
+PublishQueueFullError is returned if there are too many publishes enqueued and the session client is not accepting any more. This should very rarely occur, and if it does, it is a sign that either the connection is unstable or the application is sending messages at a faster rate than can be handled by the session client or server.
 
 ```go
 type PublishQueueFullError struct{}
@@ -865,7 +865,7 @@ WithWillPropertiesWillDelayInterval sets the WillDelayInterval for the WillPrope
 <a name="SessionLostError"></a>
 ## type [SessionLostError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L60>)
 
-SessionLostError indicates that the session client has terminated due to receiving a CONNACK from the broker with session present false when reconnecting.
+SessionLostError indicates that the session client has terminated due to receiving a CONNACK from the server with session present false when reconnecting.
 
 ```go
 type SessionLostError struct{}
