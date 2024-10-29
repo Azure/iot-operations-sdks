@@ -11,7 +11,7 @@
     {
         public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo workingDir, DirectoryInfo outDir, string genNamespace, string? sdkPath, bool syncApi, HashSet<string> sourceFilePaths)
         {
-            string? relativeSdkPath = sdkPath != null ? Path.GetRelativePath(outDir.FullName, sdkPath) : null;
+            string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
             using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace, annexFileName)).ReadToEnd()))
             {
                 foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, sourceFilePaths))
