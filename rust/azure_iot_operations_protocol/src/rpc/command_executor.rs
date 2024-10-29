@@ -178,7 +178,7 @@ pub struct CommandExecutorOptions {
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Static topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
     /// Duration to cache the command response
@@ -285,7 +285,7 @@ where
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
         client: C,
-        mut executor_options: CommandExecutorOptions,
+        executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
@@ -300,7 +300,6 @@ where
                 Some(executor_options.command_name),
             ));
         }
-
         if !executor_options.is_idempotent && !executor_options.cacheable_duration.is_zero() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,

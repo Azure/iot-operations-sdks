@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
+
 use regex::Regex;
 
 use super::aio_protocol_error::{AIOProtocolError, Value};
-use std::collections::HashMap;
 
 /// Wildcard token
 pub const WILDCARD: &str = "+";
@@ -19,7 +20,7 @@ pub const WILDCARD: &str = "+";
 /// # Arguments
 /// * `s` - A string slice to check for invalid characters
 #[must_use]
-pub fn contains_invalid_char(s: &str) -> bool {
+pub(crate) fn contains_invalid_char(s: &str) -> bool {
     s.chars().any(|c| {
         !c.is_ascii() || !('!'..='~').contains(&c) || c == '+' || c == '#' || c == '{' || c == '}'
     })
@@ -34,7 +35,7 @@ pub fn contains_invalid_char(s: &str) -> bool {
 /// # Arguments
 /// * `s` - A string slice to check for validity
 #[must_use]
-pub fn is_valid_replacement(s: &str) -> bool {
+pub(crate) fn is_valid_replacement(s: &str) -> bool {
     !(s.is_empty()
         || contains_invalid_char(s)
         || s.starts_with('/')
@@ -45,21 +46,35 @@ pub fn is_valid_replacement(s: &str) -> bool {
 /// Represents a topic pattern for Azure IoT Operations Protocol topics
 #[derive(Debug)]
 pub struct TopicPattern {
+    /// The topic pattern after initial replacement
     topic_pattern: String,
+    /// The regex pattern to match tokens in the topic pattern
     pattern_regex: Regex,
 }
 
 impl TopicPattern {
-    /// FIN: Make sure to write the docs for this, save it for last.
+    /// Creates a new topic pattern from a pattern string
+    ///
+    /// Returns a new [`TopicPattern`] on success, or an [`AIOProtocolError`] on failure
+    ///
+    /// # Arguments
+    /// * `pattern` - A string slice representing the topic pattern
+    /// * `topic_namespace` - An optional string slice representing the topic namespace
+    /// * `token_map` - A map of token replacements for initial replacement
+    ///
     /// # Errors
+    /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the pattern
+    /// is empty or invalid, the topic namespace is invalid, or a token replacement is invalid
+    ///
     /// # Panics
+    /// If any regex fails to compile which is impossible given that the regex are pre-defined.
+    /// If any regex group is not present when it is expected to be, which is impossible given
+    /// that there is only one group in the regex pattern.
     pub fn new<'a>(
         pattern: &'a str,
         topic_namespace: Option<&str>,
-        token_map: &'a HashMap<String, String>, // FIN: Check that this is the correct name
+        topic_token_map: &'a HashMap<String, String>, // FIN: Check that this is the correct name
     ) -> Result<Self, AIOProtocolError> {
-        // FIN: Add error checking
-        // FIN: Tests
         if pattern.trim().is_empty() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
@@ -80,7 +95,7 @@ impl TopicPattern {
             ));
         }
 
-        // Check for invalid characters, also needed to safely use pattern.as_bytes() later
+        // Check for any non-ascii characters, needed to safely use pattern.as_bytes()
         if !pattern.is_ascii() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
@@ -91,8 +106,7 @@ impl TopicPattern {
             ));
         }
 
-        // Needed to check for tokens being next to each other, i.e {token}{token}, without using
-        // chars() which is O(n).
+        // Needed to check for adjacent tokens, i.e {token}{token}, without using chars() which is O(n).
         let pattern_as_bytes = pattern.as_bytes();
 
         // Matches empty levels at the start, middle, or end of the string
@@ -109,7 +123,8 @@ impl TopicPattern {
             ));
         }
 
-        let mut working_pattern = String::new();
+        // Used to accumulate the pattern as checks are made
+        let mut acc_pattern = String::new();
 
         if let Some(topic_namespace) = topic_namespace {
             if !is_valid_replacement(topic_namespace) {
@@ -121,24 +136,27 @@ impl TopicPattern {
                     None,
                 ));
             }
-            working_pattern.push_str(topic_namespace);
-            working_pattern.push('/');
+            acc_pattern.push_str(topic_namespace);
+            acc_pattern.push('/');
         }
 
         // Matches any tokens in the pattern
         let pattern_regex =
-            Regex::new(r"(?P<token>\{[^}]+\})").expect("Static regex string should not fail");
+            Regex::new(r"(\{[^}]+\})").expect("Static regex string should not fail");
+        // Matches any invalid characters in the pattern
         let invalid_regex =
             Regex::new(r"([^\x21-\x7E]|[+#{}])").expect("Static regex string should not fail");
 
+        // Marks the index of the last match in the pattern
         let mut last_match = 0;
         for caps in pattern_regex.captures_iter(pattern) {
-            let token_capture = caps
-                .name("token")
-                .expect("Checked the other two groups, token should always be present"); // FIN: better docs
-            let token = token_capture.as_str();
+            // Regex library guarantees that the capture group is always present when it is only one
+            let token_capture = caps.get(0).unwrap();
+            // Token is captured with surrounding curly braces as per the regex pattern
+            let token_with_braces = token_capture.as_str();
+            let token_without_braces = &token_with_braces[1..token_with_braces.len() - 1];
 
-            if token.trim().is_empty() {
+            if token_without_braces.trim().is_empty() {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     "pattern",
@@ -160,9 +178,10 @@ impl TopicPattern {
                 }
             }
 
-            let acc_pattern = &pattern[last_match..token_capture.start()]; // FIN: Check if this is correct
+            // Accumulate the pattern up to the token
+            let acc = &pattern[last_match..token_capture.start()];
 
-            if invalid_regex.is_match(acc_pattern) {
+            if invalid_regex.is_match(acc) {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     "pattern",
@@ -172,44 +191,42 @@ impl TopicPattern {
                 ));
             }
 
-            working_pattern.push_str(acc_pattern);
-            let stripped_token = &token[1..token.len() - 1];
+            acc_pattern.push_str(acc);
 
-            if invalid_regex.is_match(stripped_token) || stripped_token.contains('/') {
+            if invalid_regex.is_match(token_without_braces) || token_without_braces.contains('/') {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     "pattern",
-                    Value::String(stripped_token.to_string()),
+                    Value::String(token_without_braces.to_string()),
                     Some(format!(
-                        "MQTT topic pattern contains invalid characters in token '{token}'",
+                        "MQTT topic pattern contains invalid characters in token '{token_without_braces}'",
                     )),
                     None,
                 ));
             }
 
-            if let Some(val) = token_map.get(stripped_token) {
+            if let Some(val) = topic_token_map.get(token_without_braces) {
                 if !is_valid_replacement(val) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
-                        stripped_token,
+                        token_without_braces,
                         Value::String(val.to_string()),
                         Some(format!(
-                            "MQTT topic pattern contains token '{token}', but replacement value '{val}' is not valid",
+                            "MQTT topic pattern contains token '{token_without_braces}', but replacement value '{val}' is not valid",
                         )),
                         None,
                     ));
                 }
-                working_pattern.push_str(val);
+                acc_pattern.push_str(val);
             } else {
-                working_pattern.push_str(token);
+                acc_pattern.push_str(token_with_braces);
             }
             last_match = token_capture.end();
         }
 
-        let acc_pattern = &pattern[last_match..];
-
         // Check the last part of the pattern
-        if invalid_regex.is_match(acc_pattern) {
+        let acc = &pattern[last_match..];
+        if invalid_regex.is_match(acc) {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
                 "pattern",
@@ -219,10 +236,10 @@ impl TopicPattern {
             ));
         }
 
-        working_pattern.push_str(acc_pattern);
+        acc_pattern.push_str(acc);
 
         Ok(TopicPattern {
-            topic_pattern: working_pattern,
+            topic_pattern: acc_pattern,
             pattern_regex,
         })
     }
@@ -237,23 +254,20 @@ impl TopicPattern {
             .to_string()
     }
 
-    /// FIN: Update the docs
     /// Get the publish topic for the pattern
-    ///
-    /// If the pattern has a wildcard, the replacement value (`executor_id`) will be used to replace
-    /// it. If the pattern is known to not have a wildcard (i.e a Telemetry topic), `None` may be
-    /// passed in as the `executor_id` value
     ///
     /// Returns the publish topic on success, or an [`AIOProtocolError`] on failure
     ///
     /// # Arguments
-    /// * `executor_id` - An optional string slice representing the executor ID to replace the wildcard
+    /// * `tokens` - A map of token replacements for the topic pattern
     ///
     /// # Errors
-    /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the topic
-    /// contains a wildcard and `id` is `None`, the wildcard value, or invalid
+    /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
+    /// if the topic contains a token without a replacement, or if the replacement is invalid
     ///
     /// # Panics
+    /// Panics if regex group is not present when it is expected to be, which is impossible given
+    /// that there is only one group in the regex pattern.
     pub fn as_publish_topic(
         &self,
         tokens: &HashMap<String, String>, // FIN: Better name
@@ -262,7 +276,8 @@ impl TopicPattern {
         let mut last_match = 0;
 
         for caps in self.pattern_regex.captures_iter(&self.topic_pattern) {
-            let key_cap = caps.name("token").expect("Token should always be present");
+            // Regex library guarantees that the capture group is always present when it is only one
+            let key_cap = caps.get(0).unwrap();
             let key = &key_cap.as_str()[1..key_cap.as_str().len() - 1];
             publish_topic.push_str(&self.topic_pattern[last_match..key_cap.start()]);
             if let Some(val) = tokens.get(key) {
@@ -297,12 +312,10 @@ impl TopicPattern {
         Ok(publish_topic)
     }
 
-    // FIN: Update documentation
-    /// Compare an MQTT topic name to the [`TopicPattern`], identifying the wildcard level in the
-    /// pattern, and returning the corresponding value in the MQTT topic name.
+    /// Compare an MQTT topic name to the [`TopicPattern`], identifying tokens in the topic name and
+    /// returning the corresponding values.
     ///
-    /// Returns value corresponding to the wildcard level in the pattern, or `None` if the topic
-    /// does not match the pattern or the pattern does not contain a wildcard.
+    /// Returns a map of tokens to values in the topic name.
     #[must_use]
     pub fn parse_tokens(&self, topic: &str) -> HashMap<String, String> {
         let mut tokens = HashMap::new();

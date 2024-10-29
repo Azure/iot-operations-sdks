@@ -157,7 +157,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
     pub cloud_event: Option<CloudEvent>,
-    /// Resolved topic tokens from the telemetry message.
+    /// Resolved topic tokens from the incoming message's topic.
     pub topic_tokens: HashMap<String, String>,
 }
 
@@ -171,7 +171,7 @@ pub struct TelemetryReceiverOptions {
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
     /// If true, telemetry messages are auto-acknowledged

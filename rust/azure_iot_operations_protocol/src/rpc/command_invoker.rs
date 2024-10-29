@@ -45,7 +45,7 @@ where
     /// Default is an empty vector.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
-    // FIN: Write documentation for this
+    /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     custom_tokens: HashMap<String, String>,
     /// Optional Fencing Token of the command request.
@@ -124,7 +124,7 @@ pub struct CommandInvokerOptions {
     /// Optional Topic namespace to be prepended to the topic patterns
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic patterns
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
     /// Prefix for the response topic
@@ -471,7 +471,6 @@ where
             }
         };
 
-        // FIN: Maybe find a way to distinguish between the request and response topic errors.
         // Get request topic. Validates executor_id
         let request_topic = self
             .request_topic_pattern

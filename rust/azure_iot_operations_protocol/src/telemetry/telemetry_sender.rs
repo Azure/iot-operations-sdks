@@ -121,7 +121,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Default is an empty `HashMap`.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
-    // FIN: Write documentation for this
+    /// Topic token keys/values to be replaced into the publish topic of the telemetry message.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
     /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
@@ -197,7 +197,7 @@ pub struct TelemetrySenderOptions {
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
 }
