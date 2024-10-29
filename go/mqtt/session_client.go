@@ -69,10 +69,11 @@ type (
 		passwordProvider PasswordProvider
 		authProvider     EnhancedAuthenticationProvider
 
-		keepAlive             uint16
-		sessionExpiryInterval uint32
-		receiveMaximum        uint16
-		userProperties        map[string]string
+		firstConnectionCleanStart bool
+		keepAlive                 uint16
+		sessionExpiryInterval     uint32
+		receiveMaximum            uint16
+		userProperties            map[string]string
 
 		// If connectionTimeout is 0, connection will have no timeout.
 		//
@@ -106,10 +107,11 @@ func NewSessionClient(
 		session: state.NewInMemory(),
 
 		config: &connectionConfig{
-			connectionProvider: connectionProvider,
-			userNameProvider:   defaultUserName,
-			passwordProvider:   defaultPassword,
-			clientID:           internal.RandomClientID(),
+			connectionProvider:        connectionProvider,
+			userNameProvider:          defaultUserName,
+			passwordProvider:          defaultPassword,
+			clientID:                  internal.RandomClientID(),
+			firstConnectionCleanStart: true,
 			// TODO: check defaults for keep alive, receive maximum session expiry interval
 			receiveMaximum: defaultReceiveMaximum,
 		},

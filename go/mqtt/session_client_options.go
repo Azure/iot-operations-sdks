@@ -39,6 +39,22 @@ func withConnectionConfig(
 	}
 }
 
+// ******CLEAN START******
+
+// WithFirstConnectionCleanStart sets the value of Clean Start in the CONNECT
+// packet for the first connection. Note that Clean Start will always be false
+// on reconnections.
+//
+// This setting is true by default, and it should not be changed unless you are
+// aware of the implications. If there is a possibility of a session on the
+// MQTT server for this Client ID with inflight QoS 1+ PUBLISHes or QoS 2
+// SUBSCRIBEs, it may result in message loss and/or MQTT protocol violations.
+func WithFirstConnectionCleanStart(firstConnectionCleanStart bool) SessionClientOption {
+	return func(c *SessionClient) {
+		c.config.firstConnectionCleanStart = firstConnectionCleanStart
+	}
+}
+
 // ******RETRY POLICY******
 
 // WithConnRetry sets the connection retry policy for the MQTT session client.

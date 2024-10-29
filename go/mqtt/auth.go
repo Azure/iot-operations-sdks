@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 package mqtt
 
-import "context"
+import (
+	"context"
+	"sync/atomic"
+
+	"github.com/eclipse/paho.golang/paho"
+)
 
 // AuthValues contains values from AUTH packets sent to and received from
 // the MQTT server
@@ -46,4 +51,59 @@ type EnhancedAuthenticationProvider interface {
 	// or AUTH packet with a success reason code (0x00) after an enhanced
 	// authentication exchange was initiated.
 	AuthSuccess()
+}
+
+type pahoAuther struct {
+	c        *SessionClient
+	inflight atomic.Bool
+	cancel   func()
+}
+
+func (a *pahoAuther) StartAuth() (done func()) {
+	if !a.inflight.CompareAndSwap(false, true) {
+		return
+	}
+	return func() {
+		if a.cancel != nil {
+			a.cancel()
+		}
+		a.inflight.Store(false)
+	}
+}
+
+func (a *pahoAuther) Authenticate(auth *paho.Auth) *paho.Auth {
+	if !a.inflight.Load() {
+		// we should never get here
+		return &paho.Auth{}
+	}
+
+	// TODO: there is a race condition here. consider what happens when done is
+	// called right before the next line.
+	ctx, cancel := context.WithCancel(context.Background())
+	a.cancel = cancel
+
+	values, err := a.c.config.authProvider.ContinueAuthExchange(
+		context.TODO(),
+		&AuthValues{
+			AuthenticationMethod: auth.Properties.AuthMethod,
+			AuthenticationData:   auth.Properties.AuthData,
+		},
+	)
+	if err != nil {
+		// returning an AUTH packet with zero values rather than nil because
+		// Paho dereferences this return value without a nil check. Since we are
+		// returning an invalid auth packet, we will eventually get disconnected
+		// by the server anyway.
+		return &paho.Auth{}
+	}
+	return &paho.Auth{
+		Properties: &paho.AuthProperties{
+			AuthMethod: values.AuthenticationMethod,
+			AuthData:   values.AuthenticationData,
+		},
+	}
+}
+
+func (a *pahoAuther) Authenticated() {
+	a.c.config.authProvider.AuthSuccess()
 }

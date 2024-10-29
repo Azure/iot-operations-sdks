@@ -203,8 +203,9 @@ func (c *SessionClient) buildPahoClient(
 	var clientErrOnce, serverDisconnectOnce sync.Once
 
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
-		ClientID: c.config.clientID,
-		Session:  c.session,
+		ClientID:    c.config.clientID,
+		Session:     c.session,
+		AuthHandler: &pahoAuther{c: c},
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			// add 1 to the conn count for this because this listener is
 			// effective AFTER the connection succeeds
@@ -260,6 +261,10 @@ func (c *SessionClient) buildPahoClient(
 		}
 		return nil, &connack.ReasonCode, nil, connackError
 	}
+
+	// NOTE: there is no way for the user to know if the session was present if
+	// this is the first connection and firstConnectionCleanStart is set to
+	// false
 	if !isInitialConn && !connack.SessionPresent {
 		immediateSessionExpiry := uint32(0)
 		_ = pahoClient.Disconnect(&paho.Disconnect{
@@ -306,7 +311,7 @@ func buildConnectPacket(
 
 	packet := &paho.Connect{
 		ClientID:   config.clientID,
-		CleanStart: isInitialConn,
+		CleanStart: isInitialConn && config.firstConnectionCleanStart,
 		KeepAlive:  config.keepAlive,
 		Properties: &properties,
 	}
