@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/counter/client
 go 1.21.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.2
 	github.com/Azure/iot-operations-sdks/go/protocol v0.1.1
 	github.com/Azure/iot-operations-sdks/go/samples/counter/envoy v0.0.0
 	github.com/lmittmann/tint v1.0.5

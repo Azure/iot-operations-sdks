@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/statestore
 go 1.21.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.1
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.1.2
 	github.com/Azure/iot-operations-sdks/go/services v0.0.1
 	github.com/lmittmann/tint v1.0.5
 )

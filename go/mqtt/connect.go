@@ -239,10 +239,12 @@ func (c *SessionClient) attemptConnect(ctx context.Context) error {
 		WithAuthData(c.connSettings.authOptions.AuthDataProvider(ctx))(c)
 	}
 
+	isInitialConn := atomic.LoadInt64(&c.connCount) == 0
+
 	cp := buildConnectPacket(
 		c.connSettings.clientID,
 		c.connSettings,
-		atomic.LoadInt64(&c.connCount) == 0,
+		isInitialConn,
 	)
 
 	// TODO: Handle connack packet in the specific handler/callback.
@@ -251,9 +253,19 @@ func (c *SessionClient) attemptConnect(ctx context.Context) error {
 	connack, err := pahoConn(ctx, c.pahoClient, cp)
 
 	// Non-Retryable.
-	if connack != nil &&
-		!isRetryableConnack(reasonCode(connack.ReasonCode)) {
-		return err
+	if connack != nil {
+		if connack.ReasonCode < 0x80 &&
+			!isInitialConn &&
+			!connack.SessionPresent {
+			return &errors.Error{
+				Kind:    errors.StateInvalid,
+				Message: "Session lost",
+			}
+		}
+
+		if !isRetryableConnack(reasonCode(connack.ReasonCode)) {
+			return err
+		}
 	}
 
 	// Retryable.
