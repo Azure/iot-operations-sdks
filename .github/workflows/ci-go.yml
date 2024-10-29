@@ -13,6 +13,7 @@ on:
       - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation'
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
+      - 'eng/test/faultablemqttbroker/**'
   push:
     branches:
     - main  

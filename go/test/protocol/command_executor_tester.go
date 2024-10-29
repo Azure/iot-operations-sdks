@@ -278,6 +278,7 @@ func getCommandExecutor(
 		)
 	} else {
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandExecutor", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return executor

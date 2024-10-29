@@ -29,10 +29,10 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
         {   
             await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
 
-            TaskCompletionSource faultWasInjectedTcs = new();
+            TaskCompletionSource<MqttClientDisconnectedEventArgs> faultWasInjectedTcs = new();
             sessionClient.DisconnectedAsync += (args) =>
             {
-                faultWasInjectedTcs.TrySetResult();
+                faultWasInjectedTcs.TrySetResult(args);
                 return Task.CompletedTask;
             };
 
@@ -61,7 +61,8 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
             Assert.True(result.IsSuccess);
 
             // Wait until the fault injection happens or until a timeout
-            await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
+            var faultDetails = await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
+            Assert.Equal(expectedReason, faultDetails.Reason);
 
             // The session client should handle the fault and reconnect either prior to this publish or after this publish
             // is initiated. In either case, the publish should be sent successfully
@@ -73,10 +74,10 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
         {
             await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
 
-            bool faultWasInjected = false;
+            TaskCompletionSource<MqttClientDisconnectedEventArgs> faultWasInjectedTcs = new();
             sessionClient.DisconnectedAsync += (args) =>
             {
-                faultWasInjected = true;
+                faultWasInjectedTcs.TrySetResult(args);
                 return Task.CompletedTask;
             };
 
@@ -94,7 +95,7 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
 
             var result = await sessionClient.PublishAsync(faultMessage).WaitAsync(TimeSpan.FromMinutes(1));
 
-            Assert.True(faultWasInjected);
+            Assert.Equal(expectedReason, (await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromMinutes(1))).Reason);
             Assert.True(result.IsSuccess);
         }
 
@@ -103,10 +104,10 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
         {
             await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
 
-            bool faultWasInjected = false;
+            TaskCompletionSource<MqttClientDisconnectedEventArgs> faultWasInjectedTcs = new();
             sessionClient.DisconnectedAsync += (args) =>
             {
-                faultWasInjected = true;
+                faultWasInjectedTcs.TrySetResult(args);
                 return Task.CompletedTask;
             };
 
@@ -118,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
 
             MqttClientSubscribeResult subscribeResult = await sessionClient.SubscribeAsync(subscribeOptions).WaitAsync(TimeSpan.FromMinutes(1));
 
-            Assert.True(faultWasInjected);
+            Assert.Equal(expectedReason, (await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromMinutes(1))).Reason);
             Assert.Single(subscribeResult.Items);
         }
 
@@ -127,10 +128,10 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
         {
             await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
 
-            bool faultWasInjected = false;
+            TaskCompletionSource<MqttClientDisconnectedEventArgs> faultWasInjectedTcs = new();
             sessionClient.DisconnectedAsync += (args) =>
             {
-                faultWasInjected = true;
+                faultWasInjectedTcs.TrySetResult(args);
                 return Task.CompletedTask;
             };
 
@@ -144,7 +145,7 @@ namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests
             MqttClientUnsubscribeResult unsubscribeResult =
                 await sessionClient.UnsubscribeAsync(unsubscribeOptions).WaitAsync(TimeSpan.FromMinutes(1));
 
-            Assert.True(faultWasInjected);
+            Assert.Equal(expectedReason, (await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromMinutes(1))).Reason);
             Assert.Single(unsubscribeResult.Items);
         }
     }

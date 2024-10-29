@@ -45,23 +45,23 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [InlineData(true)]
         public void InvalidTopicPatternDoesNotValidate(bool requireReplacement)
         {
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern(null, null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern(string.Empty, null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello there", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello\tthere", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello\nthere", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/thére", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello+there", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello#there", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("{hello", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello}", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello{there}", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("/", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("//", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("/hello", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello//there", null, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("$hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern(null, null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern(string.Empty, null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello there", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello\tthere", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello\nthere", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello/thére", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello+there", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello#there", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("{hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello}", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello{there}", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("/", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("//", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("/hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello/", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("hello//there", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.InvalidPattern, MqttTopicProcessor.ValidateTopicPattern("$hello", null, null, requireReplacement, out _, out _, out _));
         }
 
         [Theory]
@@ -69,84 +69,111 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [InlineData(true)]
         public void ValidTopicPatternValidates(bool requireReplacement)
         {
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("Hello", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("HELLO", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/there", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/my/friend", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("!\"$%&'()*,-.", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern(":;<=>?@", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("[\\]^_`", null, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("|~", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("Hello", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("HELLO", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/there", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/my/friend", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("!\"$%&'()*,-.", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern(":;<=>?@", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("[\\]^_`", null, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("|~", null, null, requireReplacement, out _, out _, out _));
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void InvalidFirstReplacementDoesNotValidate(bool requireReplacement)
-        {
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", null! } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", string.Empty } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello there" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\tthere" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\nthere" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@thére" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello+there" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello#there" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{commandName}" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{executorId}" } }, null, requireReplacement, out _, out _, out _));
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, null, requireReplacement, out _, out _, out _));
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void InvalidSecondReplacementDoesNotValidate(bool requireReplacement)
+        public void InvalidResidentReplacementDoesNotValidate(bool requireReplacement)
         {
             string? errToken;
             string? errReplacement;
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", null! } }, requireReplacement, out _, out errToken, out errReplacement));
-            Assert.Equal("myToken", errToken);
-            Assert.Null(errReplacement);
-
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", string.Empty } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", string.Empty } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal(string.Empty, errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello there" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello there", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\tthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\tthere" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello\tthere", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\nthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello\nthere" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello\nthere", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@thére" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@thére" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello@thére", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello+there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello+there" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello+there", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello#there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello#there" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("hello#there", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{commandName}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{commandName}" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("{commandName}", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{executorId}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{executorId}" } }, null, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("{executorId}", errReplacement);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal(PatternValidity.InvalidResidentReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, null, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{invokerClientId}", errReplacement);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InvalidTransientReplacementDoesNotValidate(bool requireReplacement)
+        {
+            string? errToken;
+            string? errReplacement;
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", string.Empty } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal(string.Empty, errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello there", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\tthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello\tthere", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello\nthere" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello\nthere", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@thére" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello@thére", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello+there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello+there", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello#there" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("hello#there", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{commandName}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{commandName}", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{executorId}" } }, requireReplacement, out _, out errToken, out errReplacement));
+            Assert.Equal("myToken", errToken);
+            Assert.Equal("{executorId}", errReplacement);
+
+            Assert.Equal(PatternValidity.InvalidTransientReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "{invokerClientId}" } }, requireReplacement, out _, out errToken, out errReplacement));
             Assert.Equal("myToken", errToken);
             Assert.Equal("{invokerClientId}", errReplacement);
         }
@@ -156,11 +183,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [InlineData(true)]
         public void ValidReplacementValidates(bool requireReplacement)
         {
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@there" } }, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@there" } }, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello@there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello@there" } }, requireReplacement, out _, out _, out _));
 
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello/there" } }, null, requireReplacement, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello/there" } }, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", new Dictionary<string, string> { { "myToken", "hello/there" } }, null, requireReplacement, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, new Dictionary<string, string> { { "myToken", "hello/there" } }, requireReplacement, out _, out _, out _));
         }
 
         [Fact]
@@ -168,50 +195,50 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             string? errToken;
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("myToken", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("foobar", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("my:hiya", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("name", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("telemetryName", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("senderId", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("name", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("commandName", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("executorId", errToken);
 
-            Assert.False(MqttTopicProcessor.TryValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
+            Assert.Equal(PatternValidity.MissingReplacement, MqttTopicProcessor.ValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: true, out _, out errToken, out _));
             Assert.Equal("invokerClientId", errToken);
         }
 
         [Fact]
         public void MissingReplacementValidatesIfNotRequired()
         {
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: false, out _, out _, out _));
-            Assert.True(MqttTopicProcessor.TryValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{myToken}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{foobar}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{my:hiya}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{telemetryName}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{senderId}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{name}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{commandName}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{executorId}/there", null, null, requireReplacement: false, out _, out _, out _));
+            Assert.Equal(PatternValidity.Valid, MqttTopicProcessor.ValidateTopicPattern("hello/{invokerClientId}/there", null, null, requireReplacement: false, out _, out _, out _));
         }
 
         [Fact]

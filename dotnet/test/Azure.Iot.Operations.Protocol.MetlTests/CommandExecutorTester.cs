@@ -350,9 +350,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                         OnCommandReceived = null!,
                     };
 
-                commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId!;
-                commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName!;
-                commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId!;
+                if (testCaseExecutor.ModelId != null)
+                {
+                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
+                }
+
+                if (testCaseExecutor.CommandName != null)
+                {
+                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
+                }
+
+                if (testCaseExecutor.ExecutorId != null)
+                {
+                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
+                }
 
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {

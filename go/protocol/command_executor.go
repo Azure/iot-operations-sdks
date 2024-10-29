@@ -93,7 +93,7 @@ func NewCommandExecutor[Req, Res any](
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	handler CommandHandler[Req, Res],
 	opt ...CommandExecutorOption,
 ) (ce *CommandExecutor[Req, Res], err error) {
@@ -143,8 +143,8 @@ func NewCommandExecutor[Req, Res any](
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
+		"requestTopicPattern",
+		requestTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -164,7 +164,7 @@ func NewCommandExecutor[Req, Res any](
 		cache: caching.New(
 			wallclock.Instance,
 			opts.CacheTTL,
-			requestTopic,
+			requestTopicPattern,
 		),
 	}
 	ce.listener = &listener[Req]{
