@@ -15,6 +15,7 @@ use super::StatusCode;
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
+    is_invalid_utf8,
     payload_serialize::{FormatIndicator, PayloadSerialize},
     topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
     user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
@@ -863,6 +864,16 @@ where
             return;
         };
 
+        let content_type = TResp::content_type();
+        if is_invalid_utf8(content_type) {
+            log::error!(
+                "[{}][pkid: {}] Response payload's content type '{content_type}' isn't valid utf-8",
+                response_arguments.command_name,
+                pkid
+            );
+            return;
+        }
+
         // Create publish properties
         let publish_properties = PublishProperties {
             payload_format_indicator: Some(TResp::format_indicator() as u8),
@@ -872,7 +883,7 @@ where
             correlation_data: response_arguments.correlation_data,
             user_properties,
             subscription_identifiers: Vec::new(),
-            content_type: Some(TResp::content_type().to_string()),
+            content_type: Some(content_type.to_string()),
         };
 
         // Try to publish
