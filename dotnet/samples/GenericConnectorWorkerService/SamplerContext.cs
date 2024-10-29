@@ -1,6 +1,9 @@
 ﻿
 namespace Azure.Iot.Operations.GenericHttpConnectorSample
 {
+    /// <summary>
+    /// A bundle of asset name + dataset name in one class to fit how <see cref="Timer"/> passes around context
+    /// </summary>
     internal class SamplerContext
     {
         internal string AssetName { get; set; }

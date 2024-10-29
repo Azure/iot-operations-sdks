@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.ConnectorSample
 {
+    /// <summary>
+    /// This is the expected message schema for both the HTTP responses sent by the asset when sampled and the expected message schema of the MQTT 
+    /// messages that the connector app will forward to the MQTT broker.
+    /// </summary>
     public class ThermostatStatus
     {
         [JsonPropertyName("desired_temperature")]

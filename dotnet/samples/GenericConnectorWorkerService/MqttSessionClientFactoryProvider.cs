@@ -17,10 +17,7 @@ public static class MqttSessionClientFactoryProvider
             RetryOnFirstConnect = true,
         };
 
-        if (mqttDiag)
-        {
-            Trace.Listeners.Add(new ConsoleTraceListener());
-        }
+        Trace.Listeners.Add(new ConsoleTraceListener());
 
         return new MqttSessionClient(sessionClientOptions);
     };

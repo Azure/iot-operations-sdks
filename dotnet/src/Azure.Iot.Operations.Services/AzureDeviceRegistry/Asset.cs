@@ -193,7 +193,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the dataset.
         /// </summary>
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Protocol-specific JSON string that describes configuration for the specific dataset.
@@ -273,12 +273,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the data point.
         /// </summary>
-        public string Name { get; init; } = "";
+        public string Name { get; init; } = string.Empty;
 
         /// <summary>
         /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
         /// </summary>
-        public string DataSource { get; init; } = "";
+        public string DataSource { get; init; } = string.Empty;
 
         /// <summary>
         /// An indication of how the data point should be mapped to OpenTelemetry.
@@ -297,7 +297,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the event.
         /// </summary>
-        public string? Name { get; init; }
+        public string Name { get; init; } = string.Empty;
 
         /// <summary>
         /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
@@ -326,7 +326,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The topic path for messages sent for the specific entry.
         /// </summary>
-        public string? Path { get; init; }
+        public string Path { get; init; } = string.Empty;
 
         /// <summary>
         /// The topic retain attribute for the specific entry.
@@ -441,7 +441,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the data set. Must be unique within the status.datasets array. This name is used to correlate between the spec and status data set information.
         /// </summary>
-        public string? Name { get; init; }
+        public string Name { get; init; } = string.Empty;
 
         /// <summary>
         /// Defines the message schema reference properties.
@@ -454,7 +454,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <summary>
         /// The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information.
         /// </summary>
-        public string? Name { get; init; }
+        public string Name { get; init; } = string.Empty;
 
         /// <summary>
         /// Defines the message schema reference properties.

@@ -10,27 +10,35 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Data;
 using System.Text;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.GenericHttpConnectorSample
 {
+    /// <summary>
+    /// This worker service is a template for all connector applications. It holds all of the general logic for reading assets, periodically sampling datasets,
+    /// and forwarding those sampled datasets to the MQTT broker as cloud events.
+    /// </summary>
+    /// <remarks>
+    /// To use this template to make an actual connector application, follow the HttpThermostatConnectorApp sample project which shows how to create dataset 
+    /// samplers using the <see cref="IDatasetSamplerFactory"/> and <see cref="IDatasetSampler"/> interfaces.
+    /// </remarks>
     public class GenericConnectorWorkerService : BackgroundService
     {
         private bool doSchemaWork = false;
         private readonly ILogger<GenericConnectorWorkerService> _logger;
         private MqttSessionClient _sessionClient;
-        private IDatasetSampler _datasetSampler;
+        private IDatasetSamplerFactory _datasetSamplerFactory;
+        private Dictionary<string, IDatasetSampler> _datasetSamplers = new();
 
         private Dictionary<string, Asset> _assets = new();
         private AssetEndpointProfile? _assetEndpointProfile;
 
-        public GenericConnectorWorkerService(ILogger<GenericConnectorWorkerService> logger, MqttSessionClient mqttSessionClient, IDatasetSampler datasetSampler)
+        public GenericConnectorWorkerService(ILogger<GenericConnectorWorkerService> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
-            _datasetSampler = datasetSampler;
+            _datasetSamplerFactory = datasetSamplerFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -47,6 +55,11 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
             {
                 _assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(cancellationToken);
 
+                if (_assetEndpointProfile == null)
+                {
+                    throw new InvalidOperationException("Missing asset endpoint profile configuration");
+                }
+
                 adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
                 {
                     _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
@@ -59,7 +72,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
-                mqttConnectionSettings.TcpPort = 18883;
+                mqttConnectionSettings.TcpPort = 18883; //TODO configurable?
                 _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
                 await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
@@ -128,7 +141,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
                             if (schema == null)
                             {
-                                _logger.LogError("Failed to register the message schema with the schema registry service. Exiting sample...");
+                                throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
                             }
 
                             asset.Status ??= new();
@@ -191,7 +204,12 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             Dataset dataset = assetDatasets[datasetName];
 
-            byte[] serializedPayload = await _datasetSampler.SampleAsync(_assetEndpointProfile!, dataset);
+            if (!_datasetSamplers.ContainsKey(datasetName))
+            {
+                _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset);
+            }
+
+            byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(dataset, _assetEndpointProfile!.Credentials);
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
@@ -212,7 +230,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
                 mqttMessage.AddCloudEvents(
                     new CloudEvent(
-                        new Uri(_assetEndpointProfile.TargetAddress),
+                        new Uri(_assetEndpointProfile!.TargetAddress),
                         messageSchemaReference.SchemaRegistryNamespace + messageSchemaReference.SchemaName,
                         messageSchemaReference.SchemaVersion));
             }
