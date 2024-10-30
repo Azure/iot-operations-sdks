@@ -1,4 +1,4 @@
-name: Run Azure Login with OIDC
+name: CI-dotnet
 on:
   workflow_dispatch:
 
