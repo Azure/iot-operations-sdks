@@ -1,24 +1,46 @@
 name: CI-dotnet
+
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'dotnet/**'
+      - 'eng/test/test-cases/Protocol/**'
+      - 'eng/test/faultablemqttbroker/**'      
+      - 'tools/dsscli/**'
+      - 'codegen/**'
+  push:
+    branches:
+    - main  
+  schedule:
+  - cron: '0 11 * * *'  # Nightly at 4am PST
 
 permissions:
-  id-token: write
   contents: read
   actions: read
   checks: write
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Az CLI login'
-        uses: azure/login@a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  id-token: write # Require write permission to Fetch an OIDC token.
 
-      - name: 'Run az commands'
-        run: |
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    
+    - uses: azure/cli@v2
+      with:
+        azcliversion: latest
+        inlineScript: |
           az account show
-          az group list
+          # You can write your Azure CLI inline scripts here.
