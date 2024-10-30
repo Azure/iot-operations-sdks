@@ -32,11 +32,11 @@ See below for categorized tests.
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
 | CommandExecutor initialized with empty string as command name. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with idempotent command that has a positive cacheable duration. | CommandExecutor starts successfully. |
-| CommandExecutor initialized with idempotent command that has a zero cacheable duration. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with idempotent command that has a positive cache TTL. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a positive cacheable duration. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a zero cacheable duration. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with non-idempotent command that has a positive cache TTL. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor initialized with non-idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor initialized with null command name. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |

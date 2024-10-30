@@ -232,7 +232,7 @@ func getCommandExecutor(
 ) *TestingCommandExecutor {
 	options := []protocol.CommandExecutorOption{
 		protocol.WithIdempotent(tce.Idempotent),
-		protocol.WithCacheTTL(tce.CacheableDuration.ToDuration()),
+		protocol.WithCacheTTL(tce.CacheTtl.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 

@@ -66,7 +66,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Two requests are considered to be duplicate when the requests have identical correlation ID.
         /// Two requests are considered to be equivalent when they have the same payload, parameters and topic, but different correlation ID.
         /// </remarks>
-        public TimeSpan CacheableDuration { get; init; }
+        public TimeSpan CacheTtl { get; init; }
 
         /// <summary>
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             ServiceGroupId = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(this)?.Id ?? string.Empty;
             RequestTopicPattern = AttributeRetriever.GetAttribute<CommandTopicAttribute>(this)?.RequestTopic ?? string.Empty;
             IsIdempotent = AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.IsIdempotent ?? false;
-            CacheableDuration = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheableDuration ?? "PT0H0M0S");
+            CacheTtl = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheTtl ?? "PT0H0M0S");
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
         }
@@ -125,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // MessageExpiryInterval is required; if it is missing, this.ExecutionTimeout is substituted as a fail-safe value when sending the error response.
                 TimeSpan commandTimeout = args.ApplicationMessage.MessageExpiryInterval != default ? TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval) : ExecutionTimeout;
                 DateTime commandExpirationTime = messageReceivedTime + commandTimeout;
-                DateTime ttl = messageReceivedTime + CacheableDuration;
+                DateTime ttl = messageReceivedTime + CacheTtl;
 
                 string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? null;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
@@ -153,7 +153,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         invokerId,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.PayloadSegment.Array ?? Array.Empty<byte>(),
-                        isCacheable: CacheableDuration > TimeSpan.Zero,
+                        isCacheable: CacheTtl > TimeSpan.Zero,
                         canReuseAcrossInvokers: !isExecutorSpecific)
                     .ConfigureAwait(false);
 
@@ -628,14 +628,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            if (CacheableDuration < TimeSpan.Zero)
+            if (CacheTtl < TimeSpan.Zero)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("CacheableDuration", CacheableDuration, "CacheableDuration must not have a negative value", commandName: commandName);
+                throw AkriMqttException.GetConfigurationInvalidException("CacheTtl", CacheTtl, "CacheTtl must not have a negative value", commandName: commandName);
             }
 
-            if (!IsIdempotent && CacheableDuration != TimeSpan.Zero)
+            if (!IsIdempotent && CacheTtl != TimeSpan.Zero)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("CacheableDuration", CacheableDuration, "CacheableDuration must be zero when IsIdempotent=false", commandName: commandName);
+                throw AkriMqttException.GetConfigurationInvalidException("CacheTtl", CacheTtl, "CacheTtl must be zero when IsIdempotent=false", commandName: commandName);
             }
 
             if (ExecutionTimeout <= TimeSpan.Zero)
