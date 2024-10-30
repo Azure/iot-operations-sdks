@@ -43,5 +43,9 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          az account show
-          # You can write your Azure CLI inline scripts here.
+          az provider register -n "Microsoft.ExtendedLocation"
+          az provider register -n "Microsoft.Kubernetes"
+          az provider register -n "Microsoft.KubernetesConfiguration"
+          az provider register -n "Microsoft.IoTOperations"
+          az provider register -n "Microsoft.DeviceRegistry"
+          az provider register -n "Microsoft.SecretSyncController"
