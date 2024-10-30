@@ -31,10 +31,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    
-    - name: Setup cluster
-      run: |
-        az account list
 
     - uses: azure/login@v2
       with:
