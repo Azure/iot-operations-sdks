@@ -722,7 +722,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
         }
 
-        [Fact(Skip = "Flacky")]
+        [Fact(Skip = "Flaky")]
         public async Task DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicWithoutExecutorId_NotRetrievedFromCache()
         {
             MockMqttPubSubClient mock = new();
