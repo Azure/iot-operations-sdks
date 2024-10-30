@@ -4,6 +4,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"reflect"
 
@@ -14,22 +15,6 @@ import (
 
 type Logger struct{ log.Logger }
 
-func (l Logger) PacketLog(
-	ctx context.Context,
-	level slog.Level,
-	msg string,
-	attrs ...slog.Attr,
-) {
-	// We're logging a message at possibly a non-debug level, but packet
-	// information is only logged at a debug level, so don't spam messages
-	// when the context is missing.
-	if !l.Enabled(ctx, slog.LevelDebug) {
-		return
-	}
-
-	l.Log(ctx, level, msg, attrs...)
-}
-
 func (l Logger) Packet(ctx context.Context, name string, packet any) {
 	// This is expensive; bail out if we don't need it.
 	if !l.Enabled(ctx, slog.LevelDebug) {
@@ -37,7 +22,11 @@ func (l Logger) Packet(ctx context.Context, name string, packet any) {
 	}
 
 	val := realValue(reflect.ValueOf(packet))
-	l.Log(ctx, slog.LevelDebug, name, reflectAttrs(val)...)
+	if missingValue(val) {
+		l.Log(ctx, slog.LevelWarn, fmt.Sprintf("%s not available", name))
+	} else {
+		l.Log(ctx, slog.LevelDebug, name, reflectAttrs(val)...)
+	}
 }
 
 func reflectAttrs(val reflect.Value) []slog.Attr {
@@ -60,7 +49,7 @@ func reflectAttrs(val reflect.Value) []slog.Attr {
 
 func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	// Ignore zero values to keep the log cleaner.
-	if val.Kind() == reflect.Invalid || val.IsZero() {
+	if missingValue(val) {
 		return nil
 	}
 
@@ -119,9 +108,13 @@ func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	return []slog.Attr{slog.Any(name, val.Interface())}
 }
 
-func realValue(typ reflect.Value) reflect.Value {
-	for typ.Kind() == reflect.Pointer {
-		typ = typ.Elem()
+func realValue(val reflect.Value) reflect.Value {
+	for val.Kind() == reflect.Pointer {
+		val = val.Elem()
 	}
-	return typ
+	return val
+}
+
+func missingValue(val reflect.Value) bool {
+	return val.Kind() == reflect.Invalid || val.IsZero()
 }

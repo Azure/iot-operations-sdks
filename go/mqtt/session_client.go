@@ -42,7 +42,7 @@ type (
 		disconnectEventHandlers *internal.AppendableListWithRemoval[DisconnectEventHandler]
 
 		// A list of functions that are called in goroutines to notify the user
-		// of a SessionClient termination due to a fatal error.
+		// of a session client termination due to a fatal error.
 		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
 
 		// Buffered channel containing the PUBLISH packets to be sent.
