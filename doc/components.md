@@ -33,23 +33,27 @@ The following is the major components of the SDKs which are currently available 
 
 ## Services
 
-1. **State store client**
+### State store client
 
-    The state store client communicates with the [state store](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol)(a distributed highly available key value store), providing the ability to set, get, delete and observe key/value pairs. This provides applications on the edge a place to securely persist data which can be used later or shared with other applications.
+The state store client communicates with the [state store](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol)(a distributed highly available key value store), providing the ability to set, get, delete and observe key/value pairs. This provides applications on the edge a place to securely persist data which can be used later or shared with other applications.
 
-1. **Schema registry client**
+### Schema registry client
 
-    The schema registry client provides an interface to get and set Schemas from the Azure IoT Operations [schema registry](https://learn.microsoft.com/en-us/azure/iot-operations/connect-to-cloud/concept-schema-registry). The registry would typically contain schemas describing the different assets available to be consumed by the an edge application.
+The schema registry client provides an interface to get and set Schemas from the Azure IoT Operations [schema registry](https://learn.microsoft.com/en-us/azure/iot-operations/connect-to-cloud/concept-schema-registry). The registry would typically contain schemas describing the different assets available to be consumed by the an edge application.
 
-1. **ADR client**
+### ADR client
 
-    The ADR *(Azure Device Registry)* client provides the application the AEP *(Asset Endpoint Profile)*. The configuration will contain information such as the hostname, port, username, password and certificates needed to connect to customers edge service.
+The ADR *(Azure Device Registry)* client provides the application the AEP *(Asset Endpoint Profile)*. The configuration will contain information such as the hostname, port, username, password and certificates needed to connect to customers edge service.
 
-1. **Leader election client**
+### Akri client
 
-    The leader election client utilized the state store to designate which instance of an application is the leader. Once a single leader is assigned, that instance can then be given special responsibilities that allow all the instances to work together.
+Notifies of newly discovered assets, which can then be triaged by the operator.
 
-1. **Lease lock client**
+### Leader election client
 
-    The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
+The leader election client utilized the state store to designate which instance of an application is the leader. Once a single leader is assigned, that instance can then be given special responsibilities that allow all the instances to work together.
+
+### Lease lock client
+
+The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
 

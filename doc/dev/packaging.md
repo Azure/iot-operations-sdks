@@ -52,7 +52,7 @@ To refresh the dependencies, execute the following:
 1. Authenticate using the PAT:
 
     ```bash
-    export $PAT={PAT_TOKEN}
+    export PAT={PAT_TOKEN}
     echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
     ```
 
@@ -60,9 +60,9 @@ To refresh the dependencies, execute the following:
 
     ```bash
     cd rust
-    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks-auth
-    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks-auth
-    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks-auth
+    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks
+    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks
+    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks
     ```
 
 1. **[Optional]** Build the rumqttc dependency:
