@@ -6,6 +6,7 @@ on:
     paths:
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
+      - 'eng/test/faultablemqttbroker/**'      
       - 'tools/dsscli/**'
       - 'codegen/**'
   push:

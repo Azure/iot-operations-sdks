@@ -367,7 +367,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
         public async Task ObserveLeadershipChangesAsyncSuccess()
         {
             // arrange
-            bool expectedGetLastKnownLeader = true;
             bool expectedGetNewLeader = true;
             Mock<LeasedLockClient> mockedLeasedLockClient = GetMockLeasedLockClient();
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -376,13 +375,12 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             mockedLeasedLockClient.Setup(
                 mock => mock.ObserveLockAsync(
                     It.Is<ObserveLockRequestOptions>(options =>
-                        options.GetNewValue == expectedGetNewLeader && options.GetPreviousValue == expectedGetLastKnownLeader),
+                        options.GetNewValue == expectedGetNewLeader),
                     tokenSource.Token));
 
             ObserveLeadershipChangesRequestOptions options = new ObserveLeadershipChangesRequestOptions()
             {
                 GetNewLeader = expectedGetNewLeader,
-                GetPreviousLeader = expectedGetLastKnownLeader
             };
 
             // act
@@ -392,7 +390,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             mockedLeasedLockClient.Verify(mock =>
                 mock.ObserveLockAsync(
                     It.Is<ObserveLockRequestOptions>(options =>
-                        options.GetNewValue == expectedGetNewLeader && options.GetPreviousValue == expectedGetLastKnownLeader),
+                        options.GetNewValue == expectedGetNewLeader),
                     tokenSource.Token),
                 Times.Once());
 

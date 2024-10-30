@@ -267,6 +267,7 @@ func getCommandInvoker(
 		}
 
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return invoker

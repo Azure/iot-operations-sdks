@@ -8,8 +8,9 @@
 
     public class AvroSchemaStandardizer : ISchemaStandardizer
     {
-        public IEnumerable<SchemaType> GetStandardizedSchemas(StreamReader schemaReader)
+        public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
         {
+            StreamReader schemaReader = File.OpenText(schemaFilePath);
             List<SchemaType> schemaTypes = new();
 
             using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))

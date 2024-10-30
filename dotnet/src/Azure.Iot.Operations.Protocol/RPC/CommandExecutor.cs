@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (commandName == null || commandName == string.Empty)
             {
-                throw AkriMqttException.GetArgumentInvalidException(string.Empty, nameof(commandName), string.Empty);
+                throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
             }
 
             this.mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
@@ -618,9 +618,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid", commandName: commandName);
             }
 
-            if (!MqttTopicProcessor.TryValidateTopicPattern(RequestTopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out _, out _))
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+            if (patternValidity != PatternValidity.Valid)
             {
-                throw AkriMqttException.GetConfigurationInvalidException(nameof(RequestTopicPattern), RequestTopicPattern, errMsg, commandName: commandName);
+                throw patternValidity switch
+                {
+                    PatternValidity.InvalidResidentReplacement => AkriMqttException.GetConfigurationInvalidException(errToken!, errReplacement!, errMsg, commandName: commandName),
+                    _ => AkriMqttException.GetConfigurationInvalidException(nameof(RequestTopicPattern), RequestTopicPattern, errMsg, commandName: commandName),
+                };
             }
 
             if (CacheableDuration < TimeSpan.Zero)

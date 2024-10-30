@@ -124,7 +124,7 @@ namespace Azure.Iot.Operations.Protocol
             }
         }
 
-        internal static AkriMqttException GetArgumentInvalidException(string commandName, string argumentName, object? arguentValue, string? message = default)
+        internal static AkriMqttException GetArgumentInvalidException(string? commandName, string argumentName, object? arguentValue, string? message = default)
         {
             string errMsg =
                 message != null ? message :

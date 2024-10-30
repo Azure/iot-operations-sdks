@@ -44,8 +44,8 @@ internal class Program
 
         var sdkPathOption = new Option<string?>(
             name: "--sdkPath",
-            description: "ProjectReference path to Azure.Iot.Operations.Protocol SDK (omit for PackageReference)")
-            { ArgumentHelpName = "FILEPATH" };
+            description: "Local path or feed URL for Azure.Iot.Operations.Protocol SDK")
+            { ArgumentHelpName = "FILEPATH | URL" };
 #endif
 
         var langOption = new Option<string>(
