@@ -238,10 +238,31 @@ where
     ///     or [`model_id`](CommandInvokerOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](CommandInvokerOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of request is valid utf-8
+        if is_invalid_utf8(TReq::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TReq::content_type().to_string()),
+                Some("Content type of request is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
+        // Validate content type of request is valid utf-8
+        if is_invalid_utf8(TResp::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TResp::content_type().to_string()),
+                Some("Content type of response is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
             || contains_invalid_char(&invoker_options.command_name)
@@ -491,20 +512,6 @@ where
         let response_topic = self
             .response_topic_pattern
             .as_publish_topic(request.executor_id.as_deref())?;
-        // Get and validate content_type
-        let content_type = TReq::content_type();
-        if is_invalid_utf8(content_type) {
-            return Err(AIOProtocolError::new_payload_invalid_error(
-                true,
-                false,
-                None,
-                None,
-                Some(format!(
-                    "The payload's content type '{content_type}' isn't valid utf-8"
-                )),
-                Some(self.command_name.clone()),
-            ));
-        }
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -531,7 +538,7 @@ where
             correlation_data: Some(correlation_data.clone()),
             response_topic: Some(response_topic),
             payload_format_indicator: Some(TReq::format_indicator() as u8),
-            content_type: Some(content_type.to_string()),
+            content_type: Some(TReq::content_type().to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,

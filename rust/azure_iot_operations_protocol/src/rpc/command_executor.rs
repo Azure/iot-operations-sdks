@@ -289,10 +289,31 @@ where
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](CommandExecutorOptions::custom_topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
+    /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of request is valid utf-8
+        if is_invalid_utf8(TReq::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TReq::content_type().to_string()),
+                Some("Content type of request is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
+        // Validate content type of request is valid utf-8
+        if is_invalid_utf8(TResp::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TResp::content_type().to_string()),
+                Some("Content type of response is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new_command_pattern
         if executor_options.command_name.is_empty()
@@ -864,16 +885,6 @@ where
             return;
         };
 
-        let content_type = TResp::content_type();
-        if is_invalid_utf8(content_type) {
-            log::error!(
-                "[{}][pkid: {}] Response payload's content type '{content_type}' isn't valid utf-8",
-                response_arguments.command_name,
-                pkid
-            );
-            return;
-        }
-
         // Create publish properties
         let publish_properties = PublishProperties {
             payload_format_indicator: Some(TResp::format_indicator() as u8),
@@ -883,7 +894,7 @@ where
             correlation_data: response_arguments.correlation_data,
             user_properties,
             subscription_identifiers: Vec::new(),
-            content_type: Some(content_type.to_string()),
+            content_type: Some(TResp::content_type().to_string()),
         };
 
         // Try to publish

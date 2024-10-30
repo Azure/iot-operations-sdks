@@ -11,6 +11,7 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
+use crate::common::aio_protocol_error::Value;
 use crate::common::{
     aio_protocol_error::AIOProtocolError,
     hybrid_logical_clock::HybridLogicalClock,
@@ -279,10 +280,21 @@ where
     ///     or [`model_id`](TelemetrySenderOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](TelemetrySenderOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - Content type of the telemetry message is not valid utf-8
     pub fn new(
         client: C,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of telemetry message is valid UTF-8
+        if is_invalid_utf8(T::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(T::content_type().to_string()),
+                Some("Content type of telemetry message is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
         // Validate parameters
         let topic_pattern = TopicPattern::new_telemetry_pattern(
             &sender_options.topic_pattern,
@@ -325,21 +337,6 @@ where
         // Get topic.
         let message_topic = self.topic_pattern.as_publish_topic(None)?;
 
-        // Get and validate content_type
-        let content_type = T::content_type();
-        if is_invalid_utf8(content_type) {
-            return Err(AIOProtocolError::new_payload_invalid_error(
-                true,
-                false,
-                None,
-                None,
-                Some(format!(
-                    "The payload's content type '{content_type}' isn't valid utf-8"
-                )),
-                None,
-            ));
-        }
-
         // Create timestamp
         let timestamp = HybridLogicalClock::new();
 
@@ -365,7 +362,7 @@ where
             correlation_data: Some(correlation_data),
             response_topic: None,
             payload_format_indicator: Some(T::format_indicator() as u8),
-            content_type: Some(content_type.to_string()),
+            content_type: Some(T::content_type().to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,

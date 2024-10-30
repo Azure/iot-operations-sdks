@@ -12,6 +12,7 @@ use tokio::{sync::oneshot, task::JoinSet};
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
     hybrid_logical_clock::HybridLogicalClock,
+    is_invalid_utf8,
     payload_serialize::PayloadSerialize,
     topic_processor::{TopicPattern, WILDCARD},
     user_properties::{UserProperty, RESERVED_PREFIX},
@@ -263,10 +264,21 @@ where
     ///   or contain a token with no valid replacement
     /// - [`custom_topic_token_map`](TelemetryReceiverOptions::custom_topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
+    /// - Content type of the telemetry message is not valid utf-8
     pub fn new(
         client: C,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of telemetry message is valid UTF-8
+        if is_invalid_utf8(T::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(T::content_type().to_string()),
+                Some("Content type of telemetry message is not valid UTF-8".to_string()),
+                None,
+            ));
+        }
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new_telemetry_pattern`]
         let topic_pattern = TopicPattern::new_telemetry_pattern(
