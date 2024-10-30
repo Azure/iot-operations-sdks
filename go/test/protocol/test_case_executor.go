@@ -13,7 +13,7 @@ type testCaseExecutor struct {
 	ExecutorID           *string             `yaml:"executor-id"`
 	TopicNamespace       *string             `yaml:"topic-namespace"`
 	Idempotent           bool                `yaml:"idempotent"`
-	CacheTtl             *TestCaseDuration   `yaml:"cache-ttl"`
+	CacheTTL             *TestCaseDuration   `yaml:"cache-ttl"`
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
@@ -40,9 +40,9 @@ func (executor *TestCaseExecutor) UnmarshalYAML(node *yaml.Node) error {
 
 	err := node.Decode(&executor.testCaseExecutor)
 
-	if executor.CacheTtl == nil {
-		defaultCacheTtl := TestCaseDefaultInfo.Prologue.Executor.GetCacheTtl()
-		executor.CacheTtl = &defaultCacheTtl
+	if executor.CacheTTL == nil {
+		defaultCacheTTL := TestCaseDefaultInfo.Prologue.Executor.GetCacheTTL()
+		executor.CacheTTL = &defaultCacheTTL
 	}
 
 	if executor.ExecutionTimeout == nil {

@@ -9,7 +9,7 @@ type DefaultExecutor struct {
 	ExecutorID           *string             `toml:"executor-id"`
 	TopicNamespace       *string             `toml:"topic-namespace"`
 	Idempotent           bool                `toml:"idempotent"`
-	CacheTtl             TestCaseDuration    `toml:"cache-ttl"`
+	CacheTTL             TestCaseDuration    `toml:"cache-ttl"`
 	ExecutionTimeout     TestCaseDuration    `toml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `toml:"request-responses-map"`
 	ExecutionConcurrency *uint               `toml:"execution-concurrency"`
@@ -64,8 +64,8 @@ func (executor *DefaultExecutor) GetIdempotent() bool {
 	return executor.Idempotent
 }
 
-func (executor *DefaultExecutor) GetCacheTtl() TestCaseDuration {
-	return executor.CacheTtl
+func (executor *DefaultExecutor) GetCacheTTL() TestCaseDuration {
+	return executor.CacheTTL
 }
 
 func (executor *DefaultExecutor) GetExecutionTimeout() TestCaseDuration {
