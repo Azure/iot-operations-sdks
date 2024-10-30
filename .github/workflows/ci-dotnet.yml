@@ -5,6 +5,8 @@ on:
 permissions:
   id-token: write
   contents: read
+  actions: read
+  checks: write
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
