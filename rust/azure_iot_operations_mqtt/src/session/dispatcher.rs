@@ -39,6 +39,9 @@ pub struct IncomingPublishDispatcher {
 
 impl IncomingPublishDispatcher {
     pub fn new() -> (Self, UnboundedReceiver<Publish>) {
+        // NOTE: We need to use unbounded channels, because there is no way to know how many
+        // publishes may be in-flight. The MQTT client can specify a receive_maximum, yes,
+        // but that only applies to QoS1 and QoS2. There is no limit on QoS0.
         let (tx, rx) = unbounded_channel();
         (
             IncomingPublishDispatcher {
