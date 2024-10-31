@@ -2,7 +2,7 @@
 
 The following instructions will get your started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
 
-## Setup the Platform
+## Setup the platform
 
 We recommend three different platform paths for developing with Azure IoT Operations, all of which are use [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
@@ -31,7 +31,11 @@ The installation steps below have been testing with [Ubuntu 24.04](https://ubunt
 
 1. If you already use WSL, make sure your using [WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
 
-## Install with Azure Arc
+## Install Azure IoT Operations
+
+Installation of Azure IoT Operations can be performed by connecting your cluster to Azure Arc (simulating a production environment) or by installing directly to the cluster with Helm.
+
+### Install with Azure Arc
 
 Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy need Assets.
 
@@ -50,7 +54,7 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 
 1. [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli) to your cluster
 
-## Install with Helm
+### Install with Helm
 
 Installation via Helm provides allows you to get started quicker, however this is missing the Azure integration so may not be suitable for some development.
 
@@ -73,7 +77,7 @@ Installation via Helm provides allows you to get started quicker, however this i
 > [!NOTE]
 > The above scrips provide an easy way to setup an environment, however if you would like to see the exact steps being performed or would like more information on he process, review the scripts in the [deployment directory](/tools/deployment/).
 
-## Broker configuration
+## Configure the Broker
 
 The cluster will contain the following:
 
@@ -84,7 +88,6 @@ The cluster will contain the following:
 | `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
 | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
 | `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
-
 
 ## Local artifacts
 
