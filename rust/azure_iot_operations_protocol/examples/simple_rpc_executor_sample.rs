@@ -101,7 +101,7 @@ impl PayloadSerialize for IncrRequestPayload {
     }
 
     fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, String> {
-        Ok(IncrRequestPayload {})
+        Ok(IncrRequestPayload::default())
     }
 }
 
@@ -120,9 +120,7 @@ impl PayloadSerialize for IncrResponsePayload {
         Ok(payload.into_bytes())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
-        let counter_response = payload.parse::<i32>().unwrap();
-        Ok(IncrResponsePayload { counter_response })
+    fn deserialize(_payload: &[u8]) -> Result<IncrResponsePayload, String> {
+        Ok(IncrResponsePayload::default())
     }
 }

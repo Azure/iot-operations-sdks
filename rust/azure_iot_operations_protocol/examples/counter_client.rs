@@ -156,21 +156,28 @@ impl PayloadSerialize for CounterResponsePayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
+
     fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
-        Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
+        Ok(Vec::<u8>::new())
     }
 
     fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
-        log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
-        if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
-            match std::str::from_utf8(&payload[19..payload.len() - 1]) {
-                Ok(s) => match s.parse::<u64>() {
-                    Ok(n) => Ok(CounterResponsePayload {
-                        counter_response: n,
-                    }),
-                    Err(e) => Err(CounterSerializerError::ParseIntError(e)),
-                },
-                Err(e) => Err(CounterSerializerError::Utf8Error(e)),
+        let payload = match std::str::from_utf8(payload) {
+            Ok(p) => {
+                log::info!("payload: {:?}", p);
+                p
+            }
+            Err(e) => return Err(CounterSerializerError::Utf8Error(e)),
+        };
+
+        let start_str = "{\"CounterResponse\":";
+
+        if (payload.starts_with(start_str) && payload.ends_with('}')) {
+            match payload[start_str.len()..payload.len() - 1].parse::<u64>() {
+                Ok(n) => Ok(CounterResponsePayload {
+                    counter_response: n,
+                }),
+                Err(e) => Err(CounterSerializerError::ParseIntError(e)),
             }
         } else {
             Err(CounterSerializerError::InvalidPayload(payload.into()))

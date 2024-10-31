@@ -119,18 +119,27 @@ impl PayloadSerialize for SampleTelemetry {
     }
 
     fn deserialize(payload: &[u8]) -> Result<SampleTelemetry, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
+        let payload = match String::from_utf8(payload.to_vec()) {
+            Ok(p) => p,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
-        let external_temperature = payload[0]
+        let external_temperature = match payload[0]
             .trim_start_matches("{\"externalTemperature\":")
             .parse::<f64>()
-            .unwrap();
-        let internal_temperature = payload[1]
+        {
+            Ok(ext_temp) => ext_temp,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
+        let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
             .trim_end_matches('}')
             .parse::<f64>()
-            .unwrap();
+        {
+            Ok(int_temp) => int_temp,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
 
         Ok(SampleTelemetry {
             external_temperature,

@@ -122,8 +122,21 @@ impl PayloadSerialize for IncrResponsePayload {
     }
 
     fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
-        let counter_response = payload.parse::<i32>().unwrap();
-        Ok(IncrResponsePayload { counter_response })
+        let payload = match String::from_utf8(payload.to_vec()) {
+            Ok(p) => p,
+            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+        };
+
+        let start_str = "{\"CounterResponse\":";
+
+        if payload.starts_with(start_str) && payload.ends_with('}') {
+            let counter_str = &payload[start_str.len()..payload.len() - 1];
+            match counter_str.parse::<i32>() {
+                Ok(counter_response) => Ok(IncrResponsePayload { counter_response }),
+                Err(e) => Err(format!("Error while deserializing response: {e}")),
+            }
+        } else {
+            Err(format!("Error while deserializing response: {payload}"))
+        }
     }
 }
