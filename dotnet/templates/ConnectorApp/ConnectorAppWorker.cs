@@ -110,7 +110,7 @@ namespace ConnectorAppProjectTemplate
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                        Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                         samplers.Add(datasetSamplingTimer);
 
                         string mqttMessageSchema = dataset.GetMqttMessageSchema();
@@ -172,7 +172,7 @@ namespace ConnectorAppProjectTemplate
 
         private async void SampleDataset(object? status)
         {
-            SamplerContext samplerContext = (SamplerContext)status!;
+            DatasetSamplerContext samplerContext = (DatasetSamplerContext)status!;
 
             string assetName = samplerContext.AssetName;
             string datasetName = samplerContext.DatasetName;
