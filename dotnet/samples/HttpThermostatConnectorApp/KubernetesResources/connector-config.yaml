@@ -11,7 +11,7 @@ spec:
   mqTls:
     enabled: true
     caTrustBundle:
-      bundleName: aio-selfsigned-root-cacert-trust-bundle
+      bundleName: azure-iot-operations-aio-ca-trust-bundle
       certificateName: ca.crt
   mqAuthentication:
     audience: aio-internal
