@@ -156,8 +156,8 @@ public class MqttConnectionSettings
     /// </summary>
     public static MqttConnectionSettings FromFileMount()
     {
-        string configMapPath = Environment.GetEnvironmentVariable("AEP_MQ_CONFIGMAP_MOUNT_PATH") 
-            ?? throw new InvalidOperationException("AEP_MQ_CONFIGMAP_MOUNT_PATH is not set.");
+        string configMapPath = Environment.GetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH") 
+            ?? throw new InvalidOperationException("AEP_CONFIGMAP_MOUNT_PATH is not set.");
         
         string? targetAddress;
         bool useTls = true;
@@ -202,8 +202,7 @@ public class MqttConnectionSettings
 
         try
         {
-            string tlsCaCertMountFolder = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
-            tlsCaCertMountPath = Path.Combine(tlsCaCertMountFolder, "ca.crt"); //TODO where is this cert name given to us by operator?
+            tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
         }
         catch
         {

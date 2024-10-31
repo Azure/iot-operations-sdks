@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: my-backend-api-secrets
+  name: http-server-auth-creds
 type: Opaque
 data:
-  SERVICE_USERNAME: c29tZS11c2VybmFtZQ== # "some-username"
-  SERVICE_PASSWORD: c29tZS1wYXNzd29yZA== # "some-password"
+  username: c29tZS11c2VybmFtZQ== # "some-username"
+  password: c29tZS1wYXNzd29yZA== # "some-password"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -31,13 +31,13 @@ spec:
         - name: SERVICE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: my-backend-api-secrets
-              key: SERVICE_USERNAME
+              name: http-server-auth-creds
+              key: username
         - name: SERVICE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-backend-api-secrets
-              key: SERVICE_PASSWORD
+              name: http-server-auth-creds
+              key: password
 ---
 apiVersion: v1
 kind: Service

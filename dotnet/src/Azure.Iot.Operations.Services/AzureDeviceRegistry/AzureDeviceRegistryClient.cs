@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     public class AzureDeviceRegistryClient
     {
         // The operator will deploy the connector pod with these environment variables set.
-        internal const string AssetEndpointProfileConfigMapMountPathEnvVar = "AEP_MQ_CONFIGMAP_MOUNT_PATH";
+        internal const string AssetEndpointProfileConfigMapMountPathEnvVar = "AEP_CONFIGMAP_MOUNT_PATH";
         internal const string AssetConfigMapMountPathEnvVar = "ASSET_CONFIGMAP_MOUNT_PATH";
         internal const string AepUsernameSecretMountPathEnvVar = "AEP_USERNAME_SECRET_MOUNT_PATH";
         internal const string AepPasswordSecretMountPathEnvVar = "AEP_PASSWORD_SECRET_MOUNT_PATH";
