@@ -1,0 +1,16 @@
+apiVersion: deviceregistry.microsoft.com/v1beta2 # This is spec.group/versions.name from aep_crd.yaml
+kind: AssetEndpointProfile
+metadata:
+  name: my-http-aep
+  namespace: azure-iot-operations
+spec:
+  additionalConfiguration: '{"DataSourceType": "Http", "HttpPath": "contexts/quality", "RequestIntervalInSeconds":15, "DssKey": "quality", "MqttClientId": "myHttpDssClient"}'
+  authentication:
+    method: UsernamePassword
+    usernamePasswordCredentials:
+      usernameSecretName: http-server-auth-creds/username
+      passwordSecretName: http-server-auth-creds/password
+  discoveredAssetEndpointProfileRef: my-http-dss-discovered-asset-endpoint-profile
+  endpointProfileType: http-dss
+  targetAddress: http://http-server-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+  uuid: 1234-5678-9012-3456

@@ -1,0 +1,17 @@
+apiVersion: akri.microsoft.com/v1  # This is spec.group/versions.name from connector_config_crd.yaml
+kind: ConnectorConfig
+metadata:
+  name: http-connector-app-config
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  endpointProfileType: http-dss
+  image: httpthermostatconnectorapp:latest
+  mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local  # kubectl get services => type = clusterIP => (<name>.<namespace>.svc.cluster.local)
+  mqTls:
+    enabled: true
+    caTrustBundle:
+      bundleName: azure-iot-operations-aio-ca-trust-bundle
+      certificateName: ca.crt
+  mqAuthentication:
+    audience: aio-internal
