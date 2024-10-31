@@ -272,7 +272,7 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
                 value.ca_require_revocation_check,
                 value.cert_file,
                 value.key_file,
-                value.key_file_password,
+                value.key_password_file,
             )
             .map_err(|e| ConnectionSettingsAdapterError {
                 msg: "tls config error".to_string(),
@@ -335,7 +335,7 @@ fn tls_config(
     _ca_require_revocation_check: bool,
     cert_file: Option<String>,
     key_file: Option<String>,
-    key_file_password: Option<String>,
+    key_password_file: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
     let mut tls_connector_builder = native_tls::TlsConnector::builder();
     tls_connector_builder.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
@@ -366,10 +366,10 @@ fn tls_config(
         // Key, with or without password
         let private_key_pem = {
             let key_file_contents = fs::read(key_file)?;
-            if let Some(key_file_password) = key_file_password {
+            if let Some(key_password_file) = key_password_file {
                 let private_key = PKey::private_key_from_pem_passphrase(
                     &key_file_contents,
-                    key_file_password.as_bytes(),
+                    key_password_file.as_bytes(),
                 )?;
                 private_key.private_key_to_pem_pkcs8()?
             } else {
@@ -542,7 +542,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mqtt_connection_settings_cert_key_file_password() {
+    fn test_mqtt_connection_settings_cert_key_password_file() {
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let mut cert_file = dir.clone();
         cert_file.push(
@@ -558,7 +558,7 @@ mod tests {
             .host_name("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
-            .key_file_password("sdklite".to_string())
+            .key_password_file("sdklite".to_string())
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =

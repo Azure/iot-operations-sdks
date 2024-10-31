@@ -60,7 +60,7 @@ pub struct MqttConnectionSettings {
     pub(crate) key_file: Option<String>,
     /// Path to a file with the password used to decrypt the KEY
     #[builder(default = "None")]
-    pub(crate) key_file_password: Option<String>,
+    pub(crate) key_password_file: Option<String>,
     /// Path to a SAT file to be used for SAT auth
     #[builder(default = "None")]
     pub(crate) sat_auth_file: Option<String>,
@@ -131,7 +131,7 @@ impl MqttConnectionSettingsBuilder {
             .unwrap_or(None);
         let cert_file = Some(env::var("MQTT_CERT_FILE").ok());
         let key_file = Some(env::var("MQTT_KEY_FILE").ok());
-        let key_file_password = Some(env::var("MQTT_KEY_FILE_PASSWORD").ok());
+        let key_password_file = Some(env::var("MQTT_KEY_PASSWORD_FILE").ok());
         let sat_auth_file = Some(env::var("MQTT_SAT_AUTH_FILE").ok());
 
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
@@ -153,7 +153,7 @@ impl MqttConnectionSettingsBuilder {
             ca_require_revocation_check,
             cert_file,
             key_file,
-            key_file_password,
+            key_password_file,
             sat_auth_file,
         }
     }
