@@ -156,8 +156,8 @@ public class MqttConnectionSettings
     /// </summary>
     public static MqttConnectionSettings FromFileMount()
     {
-        string configMapPath = Environment.GetEnvironmentVariable("AEP_MQ_CONFIGMAP_MOUNT_PATH") 
-            ?? throw new InvalidOperationException("AEP_MQ_CONFIGMAP_MOUNT_PATH is not set.");
+        string configMapPath = Environment.GetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH") 
+            ?? throw new InvalidOperationException("AEP_CONFIGMAP_MOUNT_PATH is not set.");
         
         string? targetAddress;
         bool useTls = true;
