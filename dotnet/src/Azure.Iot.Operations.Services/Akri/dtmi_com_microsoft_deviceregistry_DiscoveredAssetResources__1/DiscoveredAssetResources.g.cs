@@ -15,18 +15,19 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Services.Akri;
 
-    [ModelId("dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1")]
     [CommandTopic("akri/discovery/{modelId}/{invokerClientId}/command/{commandName}")]
     [ServiceGroupId("MyServiceGroup")]
     public static partial class DiscoveredAssetResources
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly CreateDiscoveredAssetEndpointProfileCommandExecutor createDiscoveredAssetEndpointProfileCommandExecutor;
             private readonly CreateDiscoveredAssetCommandExecutor createDiscoveredAssetCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfile_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -38,15 +39,26 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public abstract Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileCommandResponse>> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<CreateDiscoveredAssetCommandResponse>> CreateDiscoveredAssetAsync(CreateDiscoveredAssetCommandRequest request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.createDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.createDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -55,15 +67,15 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
                     this.createDiscoveredAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken),
                     this.createDiscoveredAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileCommandResponse>> CreateDiscoveredAssetEndpointProfile_Int(ExtendedRequest<CreateDiscoveredAssetEndpointProfileCommandRequest> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfile_Int(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<CreateDiscoveredAssetEndpointProfileCommandResponse> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<CreateDiscoveredAssetEndpointProfileCommandResponse> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<CreateDiscoveredAssetCommandResponse>> CreateDiscoveredAsset_Int(ExtendedRequest<CreateDiscoveredAssetCommandRequest> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAsset_Int(ExtendedRequest<CreateDiscoveredAssetRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<CreateDiscoveredAssetCommandResponse> extended = await this.CreateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<CreateDiscoveredAssetCommandResponse> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<CreateDiscoveredAssetResponsePayload> extended = await this.CreateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<CreateDiscoveredAssetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
             public async ValueTask DisposeAsync()
@@ -81,11 +93,13 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly CreateDiscoveredAssetEndpointProfileCommandInvoker createDiscoveredAssetEndpointProfileCommandInvoker;
             private readonly CreateDiscoveredAssetCommandInvoker createDiscoveredAssetCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -97,16 +111,38 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public RpcCallAsync<CreateDiscoveredAssetEndpointProfileCommandResponse> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileCommandRequest request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileCommandResponse>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync("", request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                };
+
+                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<CreateDiscoveredAssetCommandResponse> CreateDiscoveredAssetAsync(CreateDiscoveredAssetCommandRequest request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateDiscoveredAssetResponsePayload> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<CreateDiscoveredAssetCommandResponse>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync("", request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                };
+
+                return new RpcCallAsync<CreateDiscoveredAssetResponsePayload>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

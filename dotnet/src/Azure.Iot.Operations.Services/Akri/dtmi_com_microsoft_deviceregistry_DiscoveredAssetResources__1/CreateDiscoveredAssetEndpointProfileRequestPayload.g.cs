@@ -7,8 +7,9 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Services.Akri;
 
-    public class CreateDiscoveredAssetEndpointProfileCommandRequest : IJsonOnDeserialized, IJsonOnSerializing
+    public class CreateDiscoveredAssetEndpointProfileRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command request argument.

@@ -7,6 +7,7 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Services.Akri;
 
     public class Object_CreateDiscoveredAsset_Request_DefaultTopic
     {
