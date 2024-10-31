@@ -10,9 +10,6 @@ k3d image import http-server:latest -c k3s-default
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-config.yaml
 
-# Deploy HTTP connector secrets
-kubectl apply -f ./KubernetesResources/http-connector-secrets.yaml
-
 # Deploy HTTP server (as an asset)
 kubectl apply -f ./KubernetesResources/http-server.yaml
 
