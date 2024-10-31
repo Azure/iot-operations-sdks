@@ -31,13 +31,13 @@ spec:
         - name: SERVICE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: my-backend-api-secrets
-              key: SERVICE_USERNAME
+              name: http-server-auth-creds
+              key: username
         - name: SERVICE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-backend-api-secrets
-              key: SERVICE_PASSWORD
+              name: http-server-auth-creds
+              key: password
 ---
 apiVersion: v1
 kind: Service
