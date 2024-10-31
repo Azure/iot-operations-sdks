@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -13,20 +10,12 @@ using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Text.Json;
 
-namespace Azure.Iot.Operations.GenericHttpConnectorSample
+namespace ConnectorAppProjectTemplate
 {
-    /// <summary>
-    /// This worker service is a template for all connector applications. It holds all of the general logic for reading assets, periodically sampling datasets,
-    /// and forwarding those sampled datasets to the MQTT broker as cloud events.
-    /// </summary>
-    /// <remarks>
-    /// To use this template to make an actual connector application, follow the HttpThermostatConnectorApp sample project which shows how to create dataset 
-    /// samplers using the <see cref="IDatasetSamplerFactory"/> and <see cref="IDatasetSampler"/> interfaces.
-    /// </remarks>
-    public class GenericConnectorWorkerService : BackgroundService
+    public class ConnectorAppWorker : BackgroundService
     {
         private bool doSchemaWork = false;
-        private readonly ILogger<GenericConnectorWorkerService> _logger;
+        private readonly ILogger<ConnectorAppWorker> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private Dictionary<string, IDatasetSampler> _datasetSamplers = new();
@@ -34,7 +23,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
         private Dictionary<string, Asset> _assets = new();
         private AssetEndpointProfile? _assetEndpointProfile;
 
-        public GenericConnectorWorkerService(ILogger<GenericConnectorWorkerService> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
+        public ConnectorAppWorker(ILogger<ConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -220,9 +209,9 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            if (asset.Status != null 
-                && asset.Status.DatasetsDictionary != null 
-                && asset.Status.DatasetsDictionary[datasetName] != null 
+            if (asset.Status != null
+                && asset.Status.DatasetsDictionary != null
+                && asset.Status.DatasetsDictionary[datasetName] != null
                 && asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference != null)
             {
                 _logger.LogInformation("Message schema configured, will include cloud event headers");

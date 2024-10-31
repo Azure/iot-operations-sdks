@@ -63,13 +63,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpThermostatConnectorApp", "samples\HttpThermostatConnectorApp\HttpThermostatConnectorApp.csproj", "{DAF8BA9B-3A50-4546-8505-724F63E94E72}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericConnectorWorkerService", "samples\GenericConnectorWorkerService\GenericConnectorWorkerService.csproj", "{A02D5985-7258-4A6D-8FD1-573A954FB22D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project templates", "project templates", "{4E653BC6-AE32-4B4A-B643-EB6B7A8A96C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectorAppProjectTemplate", "templates\ConnectorAppProjectTemplate\ConnectorAppProjectTemplate.csproj", "{91E9EB0A-BB28-4678-A616-ACFA1A528B9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,18 +169,14 @@ Global
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAF8BA9B-3A50-4546-8505-724F63E94E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAF8BA9B-3A50-4546-8505-724F63E94E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAF8BA9B-3A50-4546-8505-724F63E94E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAF8BA9B-3A50-4546-8505-724F63E94E72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C70F181D-8264-498D-B0B4-671746E0F93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C70F181D-8264-498D-B0B4-671746E0F93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C70F181D-8264-498D-B0B4-671746E0F93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C70F181D-8264-498D-B0B4-671746E0F93B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A02D5985-7258-4A6D-8FD1-573A954FB22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A02D5985-7258-4A6D-8FD1-573A954FB22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A02D5985-7258-4A6D-8FD1-573A954FB22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A02D5985-7258-4A6D-8FD1-573A954FB22D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E9EB0A-BB28-4678-A616-ACFA1A528B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E9EB0A-BB28-4678-A616-ACFA1A528B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E9EB0A-BB28-4678-A616-ACFA1A528B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E9EB0A-BB28-4678-A616-ACFA1A528B9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,9 +209,8 @@ Global
 		{D4804411-6DE8-4FEA-A5EA-6BFA7499ABEE} = {1A010448-5B06-42B9-95FE-C31008C700FB}
 		{0636DA59-E153-4F22-9093-3E1E0702B190} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{278D47EA-8CFA-4493-972B-DA7DD94D06A5} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
-		{DAF8BA9B-3A50-4546-8505-724F63E94E72} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{C70F181D-8264-498D-B0B4-671746E0F93B} = {DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}
-		{A02D5985-7258-4A6D-8FD1-573A954FB22D} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
+		{91E9EB0A-BB28-4678-A616-ACFA1A528B9A} = {4E653BC6-AE32-4B4A-B643-EB6B7A8A96C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

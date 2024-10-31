@@ -1,5 +1,5 @@
 ﻿
-namespace Azure.Iot.Operations.GenericHttpConnectorSample
+namespace ConnectorAppProjectTemplate
 {
     /// <summary>
     /// A bundle of asset name + dataset name in one class to fit how <see cref="Timer"/> passes around context
