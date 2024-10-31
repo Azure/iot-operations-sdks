@@ -28,7 +28,7 @@ use crate::telemetry::cloud_event::{
 ///
 /// Implements the cloud event spec 1.0 for the telemetry sender.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct CloudEvent {
     /// Identifies the context in which an event happened. Often this will include information such
@@ -105,7 +105,7 @@ impl CloudEvent {
 
 /// Telemetry Message struct
 /// Used by the telemetry sender.
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
