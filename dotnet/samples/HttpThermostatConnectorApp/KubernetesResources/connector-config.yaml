@@ -14,4 +14,4 @@ spec:
       bundleName: aio-selfsigned-root-cacert-trust-bundle
       certificateName: ca.crt
   mqAuthentication:
-    audience: aio-internal # to change
+    audience: aio-internal
