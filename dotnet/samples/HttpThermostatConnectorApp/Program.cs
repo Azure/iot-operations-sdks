@@ -4,7 +4,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(ThermostatDatasetSamplerFactory.DatasetSamplerFactoryProvider);
+        services.AddSingleton(ThermostatDatasetSamplerFactory.ThermostatDatasetSamplerFactoryProvider);
         services.AddHostedService<HttpThermostatConnectorAppWorker>();
     })
     .Build();
