@@ -161,7 +161,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
                     ));
                 }
             }
-            return validate_user_properties(custom_user_data);
+            validate_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.message_expiry {
             // If timeout is set, it must be at least 1 ms. If zero, message will never expire.
