@@ -217,6 +217,8 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
             rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
+        // Receive Maximum
+        mqtt_options.set_receive_maximum(Some(value.receive_max));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {

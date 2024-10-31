@@ -20,9 +20,12 @@ pub struct MqttConnectionSettings {
     /// Max time between communications
     #[builder(default = "Duration::from_secs(60)")]
     pub(crate) keep_alive: Duration,
+    /// Max number of in-flight Quality of Service 1 and 2 messages
+    #[builder(default = u16::MAX)] // This is per MQTT spec
+    pub(crate) receive_max: u16,
     /// Session Expiry Interval
     #[builder(default = "Duration::from_secs(3600)")]
-    // What is the default for this? Spec is unclear
+    // TODO: Would this would be better represented as an integer (probably, due to max value having distinct meaning in MQTT)
     pub(crate) session_expiry: Duration,
     /// Connection timeout
     #[builder(default = "Duration::from_secs(30)")]
@@ -55,7 +58,7 @@ pub struct MqttConnectionSettings {
     /// Path to a KEY file to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) key_file: Option<String>,
-    /// Password (aka pass-phrase) to protect the KEY file
+    /// Path to a file with the password used to decrypt the KEY
     #[builder(default = "None")]
     pub(crate) key_file_password: Option<String>,
     /// Path to a SAT file to be used for SAT auth
@@ -92,6 +95,11 @@ impl MqttConnectionSettingsBuilder {
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
+        let receive_max = env::var("MQTT_RECEIVE_MAX")
+            .ok()
+            .map(|v| v.parse::<u16>())
+            .transpose()
+            .unwrap_or(None);
         let session_expiry = env::var("MQTT_SESSION_EXPIRY")
             .ok()
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
@@ -126,7 +134,6 @@ impl MqttConnectionSettingsBuilder {
         let key_file_password = Some(env::var("MQTT_KEY_FILE_PASSWORD").ok());
         let sat_auth_file = Some(env::var("MQTT_SAT_AUTH_FILE").ok());
 
-        // TODO: `keep_alive`, `session_expiry` and `connection_timeout` are supposed to be serialized using ISO 8601
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
 
         Self {
@@ -134,6 +141,7 @@ impl MqttConnectionSettingsBuilder {
             host_name,
             tcp_port,
             keep_alive,
+            receive_max,
             session_expiry,
             connection_timeout,
             clean_start,

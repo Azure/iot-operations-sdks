@@ -59,7 +59,6 @@ async fn mock_event_loop() {
         Box::new(ExponentialBackoffWithJitter::default()),
         CLIENT_ID.to_string(),
         None,
-        MAX_PENDING_MESSAGES,
     );
 
     let mut pub_receiver = session
