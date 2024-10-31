@@ -101,7 +101,7 @@ impl PayloadSerialize for IncrRequestPayload {
     }
 
     fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, String> {
-        Ok(IncrRequestPayload::default())
+        Ok(IncrRequestPayload {})
     }
 }
 
