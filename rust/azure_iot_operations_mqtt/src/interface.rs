@@ -7,16 +7,10 @@ use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::control_packet::{
-    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+    AuthProperties, PubAckReason, PubAckProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties
 };
 use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
-
-// TODO: restrict the visibility of these to match InternalClient
-/// Data for acking a publish. Currently internal use only.
-pub type ManualAck = rumqttc::v5::ManualAck;
-/// Reason Code for ack. Currently internal use only.
-pub type ManualAckReason = rumqttc::v5::ManualAckReason;
 
 // ---------- Concrete Types ----------
 
@@ -123,7 +117,10 @@ pub trait MqttPubSub {
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError>;
+    async fn ack(&self, publish: &Publish, reason: PubAckReason) -> Result<(), ClientError>;
+
+    /// Acknowledge a received Publish with a reason.
+    async fn ack_with_properties(&self, publish: &Publish, reason: PubAckReason, properties: PubAckProperties) -> Result<(), ClientError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
@@ -139,12 +136,6 @@ pub trait MqttDisconnect {
 /// Use of this trait is not currently recommended except for mocking.
 #[async_trait]
 pub trait InternalClient: MqttPubSub + MqttAck + MqttDisconnect {
-    /// Get a [`ManualAck`] for the given [`Publish`] to send later
-    fn get_manual_ack(&self, publish: &Publish) -> ManualAck;
-
-    /// Send a [`ManualAck`] to acknowledge the publish it was created from
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError>;
-
     /// Reauthenticate with the MQTT broker
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError>;
 }

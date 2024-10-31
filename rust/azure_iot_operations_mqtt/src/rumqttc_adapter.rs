@@ -13,11 +13,11 @@ use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
 use crate::control_packet::{
-    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+    AuthProperties, Publish, PublishProperties, PubAckReason, PubAckProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    CompletionToken, Event, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop,
+    CompletionToken, Event, InternalClient, MqttAck, MqttDisconnect, MqttEventLoop,
     MqttPubSub,
 };
 
@@ -96,23 +96,23 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        let manual_ack = self.get_manual_ack(publish);
+    async fn ack(&self, publish: &Publish, reason: PubAckReason) -> Result<(), ClientError> {
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(reason.into());
         self.manual_ack(manual_ack).await
-        //Ok(self.ack(publish).await?)
+    }
+
+    async fn ack_with_properties(&self, publish: &Publish, reason: PubAckReason, properties: PubAckProperties) -> Result<(), ClientError> {
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(reason.into());
+        manual_ack.set_reason_string(properties.reason_string);
+        manual_ack.set_user_properties(properties.user_properties);
+        self.manual_ack(manual_ack).await
     }
 }
 
 #[async_trait]
 impl InternalClient for rumqttc::v5::AsyncClient {
-    fn get_manual_ack(&self, publish: &Publish) -> rumqttc::v5::ManualAck {
-        self.get_manual_ack(publish)
-    }
-
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError> {
-        self.manual_ack(ack).await
-    }
-
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
         self.reauth(Some(auth_props)).await
     }
@@ -148,6 +148,22 @@ pub fn client(
         mqtt_options,
         channel_capacity,
     ))
+}
+
+impl From<PubAckReason> for rumqttc::v5::ManualAckReason {
+    fn from(reason: PubAckReason) -> Self {
+        match reason {
+            PubAckReason::Success => rumqttc::v5::ManualAckReason::Success,
+            PubAckReason::NoMatchingSubscribers => rumqttc::v5::ManualAckReason::NoMatchingSubscribers,
+            PubAckReason::UnspecifiedError => rumqttc::v5::ManualAckReason::UnspecifiedError,
+            PubAckReason::ImplementationSpecificError => rumqttc::v5::ManualAckReason::ImplementationSpecificError,
+            PubAckReason::NotAuthorized => rumqttc::v5::ManualAckReason::NotAuthorized,
+            PubAckReason::TopicNameInvalid => rumqttc::v5::ManualAckReason::TopicNameInvalid,
+            PubAckReason::PacketIdentifierInUse => rumqttc::v5::ManualAckReason::PacketIdentifierInUse,
+            PubAckReason::QuotaExceeded => rumqttc::v5::ManualAckReason::QuotaExceeded,
+            PubAckReason::PayloadFormatInvalid => rumqttc::v5::ManualAckReason::PayloadFormatInvalid,
+        }
+    }
 }
 
 // TODO: This error story needs improvement once we find out how much of this

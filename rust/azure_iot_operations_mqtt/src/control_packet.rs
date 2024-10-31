@@ -21,7 +21,24 @@ pub type SubscribeProperties = rumqttc::v5::mqttbytes::v5::SubscribeProperties;
 pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperties;
 /// Properties for an AUTH packet
 pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
+/// Properties for a PUBACK packet
+pub type PubAckProperties = rumqttc::v5::mqttbytes::v5::PubAckProperties;
 
-#[cfg(test)]
-/// PUBACK data. Internal/testing use only.
-pub type PubAck = rumqttc::v5::mqttbytes::v5::PubAck;
+pub enum PubAckReason {
+    Success,
+    NoMatchingSubscribers,
+    UnspecifiedError,
+    ImplementationSpecificError,
+    NotAuthorized,
+    TopicNameInvalid,
+    PacketIdentifierInUse,
+    QuotaExceeded,
+    PayloadFormatInvalid,
+}
+
+// pub struct PubAckReason {
+//     /// Reason code for the PUBACK packet
+//     pub reason_code: PubAckReasonCode,
+//     /// Properties for the PUBACK packet
+//     pub reason_string: Option<String>,
+// }

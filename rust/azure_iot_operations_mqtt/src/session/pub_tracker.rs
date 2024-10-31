@@ -9,8 +9,7 @@ use std::sync::Mutex;
 use thiserror::Error;
 use tokio::sync::Notify;
 
-use crate::control_packet::Publish;
-use crate::interface::{ManualAck, ManualAckReason};
+use crate::control_packet::{Publish, PubAckReason};
 
 #[derive(Error, Debug)]
 pub enum RegisterError {
@@ -35,12 +34,13 @@ pub enum TryNextReadyError {
 /// Represents tracking data for a pending publish.
 struct PendingPub {
     /// Packet ID of the pending publish
-    pub pkid: u16,
+    pub pkid: u16,  // TODO: eliminate?
+    /// Publish that is pending, waiting for acks
     pub publish: Publish,
-    /// Data to send back to the server when the publish is ready
-    pub ack: ManualAck,
     /// Number of acks remaining before the publish is ready
     pub remaining_acks: usize,
+    /// Reason for the ack
+    pub ack_reason: PubAckReason
 }
 
 /// Tracking structure for determining when a [`Publish`] has been acknowledged
@@ -74,7 +74,6 @@ impl PubTracker {
     pub fn register_pending(
         &self,
         publish: &Publish,
-        manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
         // Ignore PKID 0, as it is reserved for QoS 0 messages
@@ -96,7 +95,6 @@ impl PubTracker {
         let pending_pub = PendingPub {
             pkid: publish.pkid,
             publish: publish.clone(),
-            ack: manual_ack,
             remaining_acks: acks_required,
         };
         pending.push_back(pending_pub);
@@ -115,7 +113,7 @@ impl PubTracker {
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
-        self.ack_rc(publish, ManualAckReason::Success, None).await
+        self.ack_rc(publish, PubAckReasonCode::Success, None).await
     }
 
     /// Acknowledge a pending [`Publish`].
@@ -134,7 +132,7 @@ impl PubTracker {
     pub async fn ack_rc(
         &self,
         publish: &Publish,
-        reason: ManualAckReason,
+        reason: PubAckReasonCode,
         reason_string: Option<String>,
     ) -> Result<(), AckError> {
         // Ignore PKID 0, as it is reserved for QoS 0 messages
