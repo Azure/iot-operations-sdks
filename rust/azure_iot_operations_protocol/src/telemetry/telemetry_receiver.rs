@@ -70,14 +70,16 @@ impl Display for CloudEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "id: {} \n\
-            source: {} \n\
-            event_type: {} \n\
-            subject: {:?} \n\
-            data_schema: {:?} \n\
-            data_content_type: {:?} \n\
+            "cloud event id: {}\n  \
+            spec_version: {}\n  \
+            source: {}\n  \
+            event_type: {}\n  \
+            subject: {:?}\n  \
+            data_schema: {:?}\n  \
+            data_content_type: {:?}\n  \
             time: {:?}",
             self.id,
+            self.spec_version,
             self.source,
             self.event_type,
             self.subject,
