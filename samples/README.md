@@ -1,6 +1,6 @@
 # Samples and Tutorials
 
-## Developer Environment Setup
+## Setup
 
 Refer to the [Getting Started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
 

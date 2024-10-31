@@ -1,14 +1,17 @@
 # Setup
 
-The following instructions will get your started with setting up a development environment for building the samples and creating Azure IoT Operations applications.
+The following instructions will get your started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
 
 ## Setup the Platform
 
-We recommend three different platform paths for developing with Azure IoT Operations, all of which are utilize [k3d](https://k3d.io/#what-is-k3d) (a [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
+We recommend three different platform paths for developing with Azure IoT Operations, all of which are use [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
-### Codespaces
+> [!NOTE]
+> For development, its recommendation is make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
 
-The easiest way to get started:
+The Codespaces approach is the recommended option and it provides all the necessary tools pre-installed.
+
+### Codespaces *(Recommended)*
 
 1. [Install VS Code](https://code.visualstudio.com/). This is required to correctly authenticate with Azure.
 
@@ -20,7 +23,7 @@ The easiest way to get started:
 
 ### Linux
 
-1. We have tested the installation steps below using the latest [Ubuntu](https://ubuntu.com/#get-ubuntu) LTS.
+The installation steps below have been testing with [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
 
 ### Linux on Windows (WSL)
 
@@ -45,7 +48,7 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 1. [Connect your cluster](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster?tabs=ubuntu#arc-enable-your-cluster)
  to Azure Arc
 
-1. [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli) to your cluster]
+1. [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli) to your cluster
 
 ## Install with Helm
 
@@ -70,7 +73,7 @@ Installation via Helm provides allows you to get started quicker, however this i
 > [!NOTE]
 > The above scrips provide an easy way to setup an environment, however if you would like to see the exact steps being performed or would like more information on he process, review the scripts in the [deployment directory](/tools/deployment/).
 
-## What gets Installed?
+## Broker configuration
 
 The cluster will contain the following:
 
@@ -82,14 +85,20 @@ The cluster will contain the following:
 | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
 | `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
 
-It also creates the following artifacts in the local environments. These files can be found in the `.session` directory found at the repository root:
+
+## Local artifacts
+
+As part of the deployment script, the following files are created in the local environment, to facilitate connection and authentication to the MQTT broker. These files are located in the `.session` directory found at the repository root.
+
+> [!NOTE]
+> For applications that will be deployed to the cluster in production, SAT authentication is the preferred method of connecting to the MQTT broker.
 
 | File | Description |
 |-|-|
 | `broker-ca.crt` | The MQTT broker trust bundle required to validate the MQTT broker on ports `8883` and `8884`
-| `client.crt` | A client certificate for accessing the MQTT broker on port `8883`
-| `client.key` | A client private key for accessing the MQTT broker on port `8883`
-| `token.txt` | A Service authentication token (SAT) for accessing port `8884`
+| `token.txt` | A Service authentication token (SAT) for authenticating with the MQTT broker on `8884`
+| `client.crt` | A x509 client certificate for authenticating with the MQTT broker on port `8883`
+| `client.key` | A x509 client private key for authenticating with the MQTT broker on port `8883`
 
 ## Testing the Setup
 

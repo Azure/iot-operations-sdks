@@ -47,12 +47,21 @@ The Azure IoT Operations SDKs provide a number of layers for a customer to engag
 
 1. The Protocol Compiler allows clients and servers to communicate via a schema contract. Describe the communication (Telemetry, RPC and serialization) using DTDL, then generate a set of client libraries and server library stubs across a set of popular programming languages.
 
+## Applications types
+
+The SDK supports the following application types:
+
+| Application type | Description |
+|-|-|
+| [Akri Connector](/doc/akri_connector) | A specialized edge application deployed by the Akri Operator and designed to interface with on-premises asset endpoints. The Akri connector is responsible for discovering assets available on the endpoint, and relaying information to and from those assets. </br>*The Akri Connector's deployment is managed automatically by the Akri Operator.* |
+| [Edge Application](/doc/edge_application) | A generic edge application that needs to interface with various Azure IoT Operations services such as the MQTT broker and state store. The SDKs provides convenient clients to simplify the development experience. </br>*An Edge Application is a customer managed artifact, including deployment to the cluster and monitor execution. |
+
 ## Samples and Tutorials
 
-See the [samples](/samples) directory for links to available samples and tutorials across the SDKs.
+See the [samples](/samples) directory for samples and tutorials across the SDKs.
 
 ## Reference
 
 Reference information about the fundamentals primitives and protocols and that make up the SDKs.
 
-1. [Reference documentation](reference)
+1. [Reference documentation](/doc/reference)
