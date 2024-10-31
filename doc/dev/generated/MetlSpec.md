@@ -247,14 +247,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - idempotent: !!bool false
-    cacheable-duration: { seconds: 1 }
+  - execution-timeout: { seconds: 0 }
   catch:
     error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
+      property-name: 'executiontimeout'
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -303,7 +303,7 @@ Each element of the `executors` array can have the following child keys:
 | executor-id | drive | no | string or null | "someExecutor" | Identifier of the asset that is targeted to execute a Command. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request MQTT topic pattern. |
 | idempotent | drive | no | boolean | False | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
-| cacheable-duration | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
+| cache-ttl | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |
@@ -591,7 +591,7 @@ A CommandInvoker prologue can have the following child keys:
 | catch | check | no | [Catch](#catch) | An error that is expected to be caught during initialization. |
 
 The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
-The value type for `invokers` is specific to CommandInvkoker and is defined in the next subsection.
+The value type for `invokers` is specific to CommandInvoker and is defined in the next subsection.
 
 #### Invoker
 

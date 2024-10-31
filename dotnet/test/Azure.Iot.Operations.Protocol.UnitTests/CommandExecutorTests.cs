@@ -259,14 +259,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public async Task NonIdempotentCommandNegativeCacheableDurationThrowsException()
+        public async Task NonIdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
-                CacheableDuration = TimeSpan.FromSeconds(-1),
+                CacheTtl = TimeSpan.FromSeconds(-1),
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
@@ -276,19 +276,19 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("CacheableDuration", exception.PropertyName);
+            Assert.Equal("CacheTtl", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), exception.PropertyValue);
         }
 
         [Fact]
-        public async Task IdempotentCommandNegativeCacheableDurationThrowsException()
+        public async Task IdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.FromSeconds(-1),
+                CacheTtl = TimeSpan.FromSeconds(-1),
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
@@ -298,47 +298,47 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("CacheableDuration", exception.PropertyName);
+            Assert.Equal("CacheTtl", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), exception.PropertyValue);
         }
 
         [Fact]
-        public async Task NonIdempotentCommandZeroCacheableDurationDoesNotThrow()
+        public async Task NonIdempotentCommandZeroCacheTtlDoesNotThrow()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
-                CacheableDuration = TimeSpan.Zero,
+                CacheTtl = TimeSpan.Zero,
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
             await echoCommand.StartAsync();
         }
 
         [Fact]
-        public async Task IdempotentCommandZeroCacheableDurationDoesNotThrow()
+        public async Task IdempotentCommandZeroCacheTtlDoesNotThrow()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.Zero,
+                CacheTtl = TimeSpan.Zero,
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
             await echoCommand.StartAsync();
         }
 
         [Fact]
-        public async Task NonIdempotentCommandPositiveCacheableDurationThrowsException()
+        public async Task NonIdempotentCommandPositiveCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
-                CacheableDuration = TimeSpan.FromSeconds(1),
+                CacheTtl = TimeSpan.FromSeconds(1),
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
@@ -348,19 +348,19 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
             Assert.Null(exception.HttpStatusCode);
-            Assert.Equal("CacheableDuration", exception.PropertyName);
+            Assert.Equal("CacheTtl", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(1), exception.PropertyValue);
         }
 
         [Fact]
-        public async Task IdempotentCommandPositiveCacheableDurationDoesNotThrow()
+        public async Task IdempotentCommandPositiveCacheTtlDoesNotThrow()
         {
             MockMqttPubSubClient mock = new();
             await using EchoCommandExecutor echoCommand = new(mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.FromSeconds(1),
+                CacheTtl = TimeSpan.FromSeconds(1),
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
             await echoCommand.StartAsync();
@@ -722,7 +722,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
         }
 
-        [Fact(Skip = "Flacky")]
+        [Fact(Skip = "Flaky")]
         public async Task DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicWithoutExecutorId_NotRetrievedFromCache()
         {
             MockMqttPubSubClient mock = new();
@@ -868,7 +868,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     });
                 },
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.Zero,
+                CacheTtl = TimeSpan.Zero,
             };
             await echoCommand.StartAsync();
 
@@ -914,7 +914,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     });
                 },
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.FromSeconds(30),
+                CacheTtl = TimeSpan.FromSeconds(30),
             };
             await echoCommand.StartAsync();
 
@@ -961,7 +961,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     });
                 },
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.FromSeconds(30),
+                CacheTtl = TimeSpan.FromSeconds(30),
             };
             await echoCommand.StartAsync();
 
@@ -1013,7 +1013,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     });
                 },
                 IsIdempotent = true,
-                CacheableDuration = TimeSpan.Zero,
+                CacheTtl = TimeSpan.Zero,
             };
             await echoCommand.StartAsync();
 

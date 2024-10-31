@@ -33,7 +33,7 @@
             "type": "boolean",
             "kind": "drive"
         },
-        "cacheable-duration": {
+        "cache-ttl": {
             "description": "Maximum duration for which a response to a Command instance may be reused as a response to other Command instances.",
             "anyOf": [
                 { "$ref": "Duration.schema.json" },
