@@ -6,4 +6,3 @@ mkdir ./Common
 cp -f /tmp/Azure.Iot.Operations.Services.Akri.Akri/dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1/*.cs dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1 -v
 cp -f /tmp/Azure.Iot.Operations.Services.Akri.Akri/*.cs Common -v
 rm -rf /tmp/Azure.Iot.Operations.Services.Akri.Akri -v
-# end
