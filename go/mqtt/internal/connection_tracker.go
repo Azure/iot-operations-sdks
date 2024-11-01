@@ -89,7 +89,7 @@ func (c *ConnectionTracker[Client]) Disconnect(attempt uint64, err error) {
 	}
 
 	// Record the error if there isn't already one recorded.
-	if err == nil {
+	if c.current.Error == nil {
 		c.current.Error = err
 	}
 
