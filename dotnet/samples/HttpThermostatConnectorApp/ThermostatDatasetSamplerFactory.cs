@@ -17,7 +17,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            if (asset.DisplayName!.Equals("my-http-thermostat-asset") && dataset.Name.Equals("thermostat_status"))
+            if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {
