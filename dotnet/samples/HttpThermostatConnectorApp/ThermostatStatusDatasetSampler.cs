@@ -7,10 +7,12 @@ namespace HttpThermostatConnectorAppProjectTemplate
     internal class ThermostatStatusDatasetSampler : IDatasetSampler
     {
         private HttpClient _httpClient;
+        private string _assetName;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName)
         {
             _httpClient = httpClient;
+            _assetName = assetName;
         }
 
         /// <summary>
@@ -22,27 +24,34 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// <returns>The serialized payload containing the sampled dataset.</returns>
         public async Task<byte[]> SampleAsync(Dataset dataset, AssetEndpointProfileCredentials? assetEndpointProfileCredentials = null, CancellationToken cancellationToken = default)
         {
-            DataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desired_temperature"];
-            HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-            string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
-
-            DataPoint httpServerActualTemperatureDataPoint = dataset.DataPointsDictionary!["actual_temperature"];
-            HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
-            string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
-
-            if (assetEndpointProfileCredentials != null)
+            try
             {
-                string httpServerUsername = assetEndpointProfileCredentials.Username!;
-                byte[] httpServerPassword = assetEndpointProfileCredentials.Password!;
-                var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                DataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desired_temperature"];
+                HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
+
+                DataPoint httpServerActualTemperatureDataPoint = dataset.DataPointsDictionary!["actual_temperature"];
+                HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
+                string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
+
+                if (assetEndpointProfileCredentials != null)
+                {
+                    string httpServerUsername = assetEndpointProfileCredentials.Username!;
+                    byte[] httpServerPassword = assetEndpointProfileCredentials.Password!;
+                    var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                }
+
+                // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
+                var response = await _httpClient.GetAsync(httpServerActualTemperatureRequestPath);
+
+                // The HTTP response payload matches the expected message schema, so return it as-is
+                return Encoding.UTF8.GetBytes(await response.Content.ReadAsStringAsync());
             }
-
-            // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
-            var response = await _httpClient.GetAsync(httpServerActualTemperatureRequestPath);
-
-            // The HTTP response payload matches the expected message schema, so return it as-is
-            return Encoding.UTF8.GetBytes(await response.Content.ReadAsStringAsync());
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
+            }
         }
 
         public void Dispose()
