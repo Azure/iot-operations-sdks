@@ -60,13 +60,13 @@ To refresh the dependencies, execute the following:
 
     ```bash
     cd rust
-    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks
-    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks
-    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks
+    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdk
+    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdk
+    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdk
     ```
 
 1. **[Optional]** Build the rumqttc dependency:
 
     ```bash
-    cargo publish --manfest-path rumqttc/Cargo.toml --registry aio-sdks --features use-native-tls
+    cargo publish --manfest-path rumqttc/Cargo.toml --registry aio-sdk --features use-native-tls --no-default-features
     ```
