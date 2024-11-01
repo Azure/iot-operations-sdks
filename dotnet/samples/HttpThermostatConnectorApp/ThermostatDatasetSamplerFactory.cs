@@ -28,7 +28,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
             }
             else
             {
-                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name}");
+                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName}");
             }
         }
     }
