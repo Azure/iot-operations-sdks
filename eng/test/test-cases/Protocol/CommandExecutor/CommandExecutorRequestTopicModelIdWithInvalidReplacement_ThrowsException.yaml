@@ -18,6 +18,6 @@ prologue:
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: "mock/{modelId}/test"
+      property-name: 'modelid'
+      property-value: "Invalid#Model"
 ...

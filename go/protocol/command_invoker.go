@@ -90,7 +90,7 @@ func NewCommandInvoker[Req, Res any](
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
@@ -107,21 +107,37 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	// Generate the response topic based on the provided options.
-	responseTopic := requestTopic
+	responseTopic := requestTopicPattern
 	if opts.ResponseTopic != nil {
-		responseTopic = opts.ResponseTopic(requestTopic)
+		responseTopic = opts.ResponseTopic(requestTopicPattern)
 	} else {
 		if opts.ResponseTopicPrefix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicPrefix",
+				"invalid response topic prefix",
+				opts.ResponseTopicPrefix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
 		if opts.ResponseTopicSuffix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicSuffix",
+				"invalid response topic suffix",
+				opts.ResponseTopicSuffix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
+		"requestTopicPattern",
+		requestTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)

@@ -19,6 +19,6 @@ prologue:
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'responsetopicprefix'
-      property-value: "valid/{commandName}"
+      property-name: 'commandname'
+      property-value: "invalid#name"
 ...

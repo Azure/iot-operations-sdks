@@ -20,13 +20,13 @@ pub const TELEMETRY_TOPIC_PATTERN: &str = "<#=this.telemetryTopic#>";
 <# } #>
 
 pub mod client {
-<# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_serialization")) { #>
+<# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_sender") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
 
 pub mod service {
-<# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_serialization")) { #>
+<# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_receiver") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }

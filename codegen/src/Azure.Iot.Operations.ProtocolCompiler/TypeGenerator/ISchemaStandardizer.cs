@@ -5,6 +5,6 @@
 
     public interface ISchemaStandardizer
     {
-        IEnumerable<SchemaType> GetStandardizedSchemas(StreamReader schemaReader);
+        IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath);
     }
 }

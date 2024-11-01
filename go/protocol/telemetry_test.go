@@ -4,6 +4,7 @@ package protocol_test
 
 import (
 	"context"
+	"net/url"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -39,10 +40,16 @@ func TestTelemetry(t *testing.T) {
 	err = receiver.Start(ctx)
 	require.NoError(t, err)
 
-	err = sender.Send(ctx, value)
+	source, err := url.Parse("https://contoso.com")
+	require.NoError(t, err)
+
+	err = sender.Send(ctx, value, &protocol.CloudEvent{Source: source})
 	require.NoError(t, err)
 
 	res := <-results
 	require.Equal(t, stub.Client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
+	require.Equal(t, "https://contoso.com", res.Source.String())
+	require.Equal(t, "prefix/test/suffix", res.Subject)
+	require.Equal(t, enc.ContentType(), res.DataContentType)
 }
