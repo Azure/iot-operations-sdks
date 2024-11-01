@@ -1,17 +1,8 @@
-﻿using Azure.Iot.Operations.ConnectorSample;
-using Azure.Iot.Operations.GenericHttpConnectorSample;
-using Azure.Iot.Operations.Services.AzureDeviceRegistry;
-using System.Net.Http;
+﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace HttpThermostatConnectorApp
+namespace HttpThermostatConnectorAppProjectTemplate
 {
-    /// <summary>
-    /// Factory for creating dataset samplers for the asset defined in http-server-asset-definition.yaml
-    /// </summary>
-    /// <remarks>
-    /// This sample only contains one dataset ("thermostat_status") but this factory should expect to be invoked for each dataset in an asset.
-    /// </remarks>
-    internal class ThermostatDatasetSamplerFactory : IDatasetSamplerFactory
+    public class ThermostatDatasetSamplerFactory : IDatasetSamplerFactory
     {
         public static Func<IServiceProvider, IDatasetSamplerFactory> ThermostatDatasetSamplerFactoryProvider = service =>
         {
@@ -27,18 +18,18 @@ namespace HttpThermostatConnectorApp
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            if (dataset.Name.Equals("thermostat_status"))
+            if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {
                     BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSampler(httpClient);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!);
             }
             else
             {
-                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name}");
+                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName}");
             }
         }
     }

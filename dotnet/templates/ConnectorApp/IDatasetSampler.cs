@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace Azure.Iot.Operations.GenericHttpConnectorSample
+namespace ConnectorAppProjectTemplate
 {
     /// <summary>
     /// A sampler of a single dataset within an asset. For an example, see the HttpThermostatConnectorApp sample code.

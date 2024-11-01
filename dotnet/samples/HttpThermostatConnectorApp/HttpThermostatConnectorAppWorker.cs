@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -14,20 +11,12 @@ using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
-namespace Azure.Iot.Operations.GenericHttpConnectorSample
+namespace HttpThermostatConnectorAppProjectTemplate
 {
-    /// <summary>
-    /// This worker service is a template for all connector applications. It holds all of the general logic for reading assets, periodically sampling datasets,
-    /// and forwarding those sampled datasets to the MQTT broker as cloud events.
-    /// </summary>
-    /// <remarks>
-    /// To use this template to make an actual connector application, follow the HttpThermostatConnectorApp sample project which shows how to create dataset 
-    /// samplers using the <see cref="IDatasetSamplerFactory"/> and <see cref="IDatasetSampler"/> interfaces.
-    /// </remarks>
-    public class GenericConnectorWorkerService : BackgroundService
+    public class HttpThermostatConnectorAppWorker : BackgroundService
     {
         private bool doSchemaWork = false;
-        private readonly ILogger<GenericConnectorWorkerService> _logger;
+        private readonly ILogger<HttpThermostatConnectorAppWorker> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
@@ -35,7 +24,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
         private Dictionary<string, Asset> _assets = new();
         private AssetEndpointProfile? _assetEndpointProfile;
 
-        public GenericConnectorWorkerService(ILogger<GenericConnectorWorkerService> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
+        public HttpThermostatConnectorAppWorker(ILogger<HttpThermostatConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -122,7 +111,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        Timer datasetSamplingTimer = new(SampleDataset, new SamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                        Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                         samplers.Add(datasetSamplingTimer);
 
                         string mqttMessageSchema = dataset.GetMqttMessageSchema();
@@ -184,7 +173,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
         private async void SampleDataset(object? status)
         {
-            SamplerContext samplerContext = (SamplerContext)status!;
+            DatasetSamplerContext samplerContext = (DatasetSamplerContext)status!;
 
             string assetName = samplerContext.AssetName;
             string datasetName = samplerContext.DatasetName;
@@ -227,9 +216,9 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            if (asset.Status != null 
-                && asset.Status.DatasetsDictionary != null 
-                && asset.Status.DatasetsDictionary[datasetName] != null 
+            if (asset.Status != null
+                && asset.Status.DatasetsDictionary != null
+                && asset.Status.DatasetsDictionary[datasetName] != null
                 && asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference != null)
             {
                 _logger.LogInformation("Message schema configured, will include cloud event headers");

@@ -4,7 +4,7 @@ metadata:
   name: my-http-thermostat-asset
   namespace: azure-iot-operations
 spec:
-  displayName: REST Sample Asset 1
+  displayName: My HTTP Thermostat Asset
   description: A sample for an Asset modeling a device with REST endpoint
   assetEndpointProfileRef: azure-iot-operations/my-http-aep # <namespace>/<assetEndpointProfile.metadata.name>
   defaultDatasetsConfiguration: |-
