@@ -24,7 +24,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSampler(httpClient);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!);
             }
             else
             {
