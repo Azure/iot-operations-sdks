@@ -2,7 +2,7 @@
 
     <!-- T4 build support for .NET Core (Begin) -->
     <Target Name="CheckT4Installed">
-        <Exec Command="t4 -h > NUL" IgnoreExitCode="true">
+        <Exec Command="t4 -h &gt; NUL" IgnoreExitCode="true">
             <Output TaskParameter="ExitCode" PropertyName="T4ExitCode" />
         </Exec>
     </Target>
@@ -33,7 +33,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.1.20-preview-g772de8e50f" />
+		<PackageReference Include="DTDLParser" Version="1.1.23-preview-g4910426791" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.9.1" />

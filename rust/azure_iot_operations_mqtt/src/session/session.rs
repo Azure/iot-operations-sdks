@@ -249,7 +249,6 @@ where
                     {
                         Ok(num_dispatches) => {
                             log::debug!("Dispatched PUB to {num_dispatches} receivers");
-                            let manual_ack = self.client.get_manual_ack(&publish);
 
                             match publish.qos {
                                 QoS::AtMostOnce => {
@@ -258,11 +257,10 @@ where
                                 // QoS 1 or 2
                                 _ => {
                                     // Register the dispatched publish to track the acks
-                                    match self.unacked_pubs.register_pending(
-                                        &publish,
-                                        manual_ack,
-                                        num_dispatches,
-                                    ) {
+                                    match self
+                                        .unacked_pubs
+                                        .register_pending(&publish, num_dispatches)
+                                    {
                                         Ok(()) => {
                                             log::debug!(
                                                 "Registered PUB. Waiting for {num_dispatches} acks"
@@ -382,12 +380,12 @@ async fn run_background(
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
     async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl InternalClient) -> ! {
         loop {
-            // Get the next ready ack
-            let (ack, pkid) = unacked_pubs.next_ready().await;
+            // Get the next ready publish
+            let publish = unacked_pubs.next_ready().await;
             // Ack the publish
-            match acker.manual_ack(ack).await {
-                Ok(()) => log::debug!("Sent ACK for PKID {pkid}"),
-                Err(e) => log::error!("ACK failed for PKID {pkid}: {e:?}"),
+            match acker.ack(&publish).await {
+                Ok(()) => log::debug!("Sent ACK for PKID {}", publish.pkid),
+                Err(e) => log::error!("ACK failed for PKID {}: {e:?}", publish.pkid),
                 // TODO: how realistically can this fail? And how to respond if it does?
             }
         }

@@ -6,14 +6,14 @@ description:
   condition: >-
     CommandExecutor initialized with empty string as command name.
   expect: >-
-    CommandExecutor throws 'invalid argument' exception.
+    CommandExecutor throws 'invalid configuration' exception.
 
 prologue:
   executors:
   - command-name: ""
     request-topic: "mock/{commandName}/test"
   catch:
-    error-kind: invalid argument
+    error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 

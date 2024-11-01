@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 TestCaseExecutor.DefaultExecutorId = defaultTestCase.Prologue.Executor.ExecutorId;
                 TestCaseExecutor.DefaultTopicNamespace = defaultTestCase.Prologue.Executor.TopicNamespace;
                 TestCaseExecutor.DefaultIdempotent = defaultTestCase.Prologue.Executor.Idempotent;
-                TestCaseExecutor.DefaultCacheableDuration = defaultTestCase.Prologue.Executor.CacheableDuration;
+                TestCaseExecutor.DefaultCacheTtl = defaultTestCase.Prologue.Executor.CacheTtl;
                 TestCaseExecutor.DefaultExecutorTimeout = defaultTestCase.Prologue.Executor.ExecutionTimeout;
                 TestCaseExecutor.DefaultRequestResponsesMap = defaultTestCase.Prologue.Executor.RequestResponsesMap;
                 TestCaseExecutor.DefaultExecutionConcurrency = defaultTestCase.Prologue.Executor.ExecutionConcurrency;
@@ -331,14 +331,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         {
             try
             {
-                TestCommandExecutor commandExecutor = testCaseExecutor.CacheableDuration != null ?
+                TestCommandExecutor commandExecutor = testCaseExecutor.CacheTtl != null ?
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
                         TopicNamespace = testCaseExecutor.TopicNamespace,
                         IsIdempotent = testCaseExecutor.Idempotent,
-                        CacheableDuration = testCaseExecutor.CacheableDuration.ToTimeSpan(),
+                        CacheTtl = testCaseExecutor.CacheTtl.ToTimeSpan(),
                         OnCommandReceived = null!,
                     } :
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
@@ -350,9 +350,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                         OnCommandReceived = null!,
                     };
 
-                commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId!;
-                commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName!;
-                commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId!;
+                if (testCaseExecutor.ModelId != null)
+                {
+                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
+                }
+
+                if (testCaseExecutor.CommandName != null)
+                {
+                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
+                }
+
+                if (testCaseExecutor.ExecutorId != null)
+                {
+                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
+                }
 
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {

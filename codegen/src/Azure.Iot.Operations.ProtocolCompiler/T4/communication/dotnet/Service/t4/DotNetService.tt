@@ -24,11 +24,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# if (this.telemetryTopic != null) { #>
     [TelemetryTopic("<#=this.telemetryTopic#>")]
 <# } #>
-<# if (this.serviceGroupId != null) { #>
-    [ServiceGroupId("<#=this.serviceGroupId#>")]
-<# } #>
     public static partial class <#=this.serviceName#>
     {
+<# if (this.cmdServiceGroupId != null) { #>
+        [ServiceGroupId("<#=this.cmdServiceGroupId#>")]
+<# } #>
         public abstract partial class Service : IAsyncDisposable
         {
             private IMqttPubSubClient mqttClient;
@@ -134,6 +134,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             }
         }
 
+<# if (this.telemServiceGroupId != null) { #>
+        [ServiceGroupId("<#=this.telemServiceGroupId#>")]
+<# } #>
         public abstract partial class Client<#=this.cmdNameReqResps.Any() ? " : IAsyncDisposable" : ""#>
         {
             private IMqttPubSubClient mqttClient;

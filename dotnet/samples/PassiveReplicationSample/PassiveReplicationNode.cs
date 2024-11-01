@@ -79,8 +79,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
                     _logger.LogInformation("This node was alerted that node {0} was elected leader. Current timestamp: {1}", args.NewLeader!.GetString(), new HybridLogicalClock());
                     _lastKnownLeader = args.NewLeader!.GetString();
                 }
-                else if (args.NewState == LeadershipPositionState.NoLeader
-                    && !args.PreviousLeader!.Equals(_leaderElectionClient.CandidateName))
+                else if (args.NewState == LeadershipPositionState.NoLeader)
                 {
                     _logger.LogInformation("Node {0} was alerted that it is no longer the leader. Current timestamp: {1}", _leaderElectionClient.CandidateName, new HybridLogicalClock());
                 }

@@ -497,7 +497,6 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 new StateStoreObserveRequestOptions()
                 {
                     GetNewValue = options.GetNewValue,
-                    GetPreviousValue = options.GetPreviousValue,
                 },
                 cancellationToken: cancellationToken).ConfigureAwait(false);
             
@@ -558,7 +557,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         private Task OnKeyChangeNotification(object? sender, KeyChangeMessageReceivedEventArgs keyChangeEventArgs)
         {
             bool isLockAvailable = keyChangeEventArgs.NewState == KeyState.Deleted;
-            var lockChangeArgs = new LockChangeEventArgs(isLockAvailable ? LockState.Released : LockState.Acquired);
+            var lockChangeArgs = new LockChangeEventArgs(isLockAvailable ? LockState.Released : LockState.Acquired, keyChangeEventArgs.Timestamp);
             if (keyChangeEventArgs.NewValue != null)
             {
                 lockChangeArgs.NewLockHolder = new LeasedLockHolder(keyChangeEventArgs.NewValue.Bytes);

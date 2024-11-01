@@ -182,13 +182,10 @@ impl MqttAck for SessionPubReceiver {
         {
             let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
             // TODO: don't panic here. This is bad.
-            // Will be addressed in next PR about errors, but don't want to expand
-            // the scope of this one.
             assert!(!self.auto_ack, "Auto-ack is enabled. Cannot manually ack.");
             assert!(unacked_pkids_g.contains(&publish.pkid), "");
             unacked_pkids_g.remove(&publish.pkid);
         }
-        // TODO: Convert this error into the correct type
         self.unacked_pubs.ack(publish).await.unwrap();
         Ok(())
     }

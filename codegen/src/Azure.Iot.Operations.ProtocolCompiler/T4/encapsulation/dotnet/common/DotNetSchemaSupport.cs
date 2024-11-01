@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 StringType _ => true,
                 BytesType _ => true,
                 DecimalType _ => true,
-                ReferenceType _ => true,
+                ReferenceType refType => refType.IsNullable,
                 _ => false,
             };
         }
