@@ -56,13 +56,15 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
-## Languages
+## Next steps
 
-The SDKs are available in the following languages. Refer to each language directory for specific instructions on using each SDK:
+1. [Read the documentation](./doc) on building an edge applications using the Azure IoT Operations SDKs.
 
-* **.NET** - [/dotnet](/dotnet)
-* **Go** - [/go](/go)
-* **Rust** - [/rust](/rust)
+1. Refer to each language directory for specific instructions on using each SDK:
+
+   * **.NET** - [/dotnet](/dotnet)
+   * **Go** - [/go](/go)
+   * **Rust** - [/rust](/rust)
 
 ## Features
 

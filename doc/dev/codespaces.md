@@ -1,4 +1,4 @@
-# Developing with CodeSpaces
+# Developing with GitHub Codespaces
 
 ## VSCode to Codespaces
 

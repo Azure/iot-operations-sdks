@@ -1,6 +1,6 @@
-# Components
+# Components of the SDKs
 
-The following is the major components of the SDKs which are currently available in three main packages.
+The following is the major components of the SDKs which are generally available in three packages.
 
 ## MQTT 
 
