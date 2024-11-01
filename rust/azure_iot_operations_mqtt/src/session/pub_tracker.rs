@@ -161,7 +161,7 @@ impl PubTracker {
     /// This method should not be called in parallel with itself.
     pub async fn next_ready(&self) -> Publish {
         loop {
-            // Check if there is a PendingPub ready to ack to server, and it.
+            // Check if there is a PendingPub ready to ack to server, and return it.
             // If no PendingPub is ready, wait for one to be ready.
             match self.try_next_ready() {
                 Ok(publish) => return publish,
