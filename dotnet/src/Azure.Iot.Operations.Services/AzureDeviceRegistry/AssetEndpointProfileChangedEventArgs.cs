@@ -8,6 +8,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 {
     public class AssetEndpointProfileChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Specifies if the change in this asset endpoint profile was that it was updated, deleted, or created
+        /// </summary>
         public ChangeType ChangeType { get; set; }
 
         public AssetEndpointProfile? AssetEndpointProfile { get; set; }
