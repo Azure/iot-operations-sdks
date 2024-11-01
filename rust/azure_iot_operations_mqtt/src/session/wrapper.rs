@@ -57,7 +57,7 @@ pub struct SessionOptions {
     pub reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    pub max_outgoing: usize,
+    pub outgoing_max: usize,
 }
 
 impl Session {
@@ -69,7 +69,7 @@ impl Session {
         let client_id = options.connection_settings.client_id.clone();
         let sat_auth_file = options.connection_settings.sat_auth_file.clone();
         let (client, event_loop) =
-            adapter::client(options.connection_settings, options.max_outgoing, true)
+            adapter::client(options.connection_settings, options.outgoing_max, true)
                 .map_err(SessionErrorKind::from)?;
         Ok(Session(session::Session::new_from_injection(
             client,
