@@ -195,7 +195,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset);
+                _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, asset, dataset);
             }
 
             byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(dataset, _assetEndpointProfile!.Credentials);

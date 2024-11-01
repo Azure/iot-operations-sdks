@@ -15,9 +15,9 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// <param name="assetEndpointProfile">The asset endpoint profile to connect to when sampling this dataset.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            if (dataset.Name.Equals("thermostat_status"))
+            if (asset.DisplayName!.Equals("my-http-thermostat-asset") && dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {

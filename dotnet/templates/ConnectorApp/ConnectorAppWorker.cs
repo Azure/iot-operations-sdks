@@ -196,7 +196,7 @@ namespace ConnectorAppProjectTemplate
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset));
+                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, asset, dataset));
             }
 
             if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSampler? datasetSampler))

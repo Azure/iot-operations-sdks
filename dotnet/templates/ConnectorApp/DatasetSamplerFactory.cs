@@ -9,7 +9,7 @@ namespace ConnectorAppProjectTemplate
             throw new NotImplementedException();
         };
 
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
             throw new NotImplementedException();
         }
