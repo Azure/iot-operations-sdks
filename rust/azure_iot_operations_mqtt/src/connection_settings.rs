@@ -21,7 +21,7 @@ pub struct MqttConnectionSettings {
     #[builder(default = "Duration::from_secs(60)")]
     pub(crate) keep_alive: Duration,
     /// Max number of in-flight Quality of Service 1 and 2 messages
-    #[builder(default = u16::MAX)] // This is per MQTT spec
+    #[builder(default = "u16::MAX")] // See: MQTT 5.0 spec, 3.1.2.11.3
     pub(crate) receive_max: u16,
     /// Session Expiry Interval
     #[builder(default = "Duration::from_secs(3600)")]

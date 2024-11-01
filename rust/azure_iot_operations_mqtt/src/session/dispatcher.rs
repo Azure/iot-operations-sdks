@@ -42,6 +42,7 @@ impl IncomingPublishDispatcher {
         // NOTE: We need to use unbounded channels, because there is no way to know how many
         // publishes may be in-flight. The MQTT client can specify a receive_maximum, yes,
         // but that only applies to QoS1 and QoS2. There is no limit on QoS0.
+        // See 3.1.2.11.3 in the MQTT 5.0 spec.
         let (tx, rx) = unbounded_channel();
         (
             IncomingPublishDispatcher {
