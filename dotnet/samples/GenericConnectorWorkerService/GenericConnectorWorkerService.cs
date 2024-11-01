@@ -10,6 +10,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
@@ -29,7 +30,7 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
         private readonly ILogger<GenericConnectorWorkerService> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
-        private Dictionary<string, IDatasetSampler> _datasetSamplers = new();
+        private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
 
         private Dictionary<string, Asset> _assets = new();
         private AssetEndpointProfile? _assetEndpointProfile;
@@ -206,10 +207,16 @@ namespace Azure.Iot.Operations.GenericHttpConnectorSample
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers[datasetName] = _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset);
+                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, dataset));
             }
 
-            byte[] serializedPayload = await _datasetSamplers[datasetName].SampleAsync(dataset, _assetEndpointProfile!.Credentials);
+            if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSampler? datasetSampler))
+            {
+                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.AssetName} was deleted. This sample won't sample this dataset anymore.");
+                return;
+            }
+
+            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
 
             _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
