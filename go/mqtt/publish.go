@@ -27,15 +27,15 @@ type (
 // Blocks until ctx is cancelled.
 func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 	var pub *outgoingPublish
-	for pahoClient, connDown := range c.conn.Client(ctx) {
+	for ctx, pahoClient := range c.conn.Client(ctx) {
 		// If we have a pending publish, try to send it now.
 		if pub != nil && !c.sendOutgoingPublish(ctx, pahoClient, pub) {
 			continue
 		}
 
-		// Get outgoing publishes. If one fails, break the loop before niling it
-		// out in order to retry it.
-		for pub = range c.nextOutgoingPublish(ctx, connDown) {
+		// Get outgoing publishes. If one fails, break the loop before nilling
+		// it out in order to retry it.
+		for pub = range c.nextOutgoingPublish(ctx) {
 			if !c.sendOutgoingPublish(ctx, pahoClient, pub) {
 				break
 			}
@@ -47,14 +47,11 @@ func (c *SessionClient) manageOutgoingPublishes(ctx context.Context) {
 // Get the next outgoing publish until the connection or context drops.
 func (c *SessionClient) nextOutgoingPublish(
 	ctx context.Context,
-	connDown <-chan struct{},
 ) iter.Seq[*outgoingPublish] {
 	return func(yield func(*outgoingPublish) bool) {
 		for {
 			select {
 			case <-ctx.Done():
-				return
-			case <-connDown:
 				return
 			case pub := <-c.outgoingPublishes:
 				if !yield(pub) {
@@ -128,7 +125,7 @@ func (c *SessionClient) Publish(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown(ctx)
+	ctx, cancel := c.shutdown.Follow(ctx)
 	defer cancel()
 
 	// Buffered in case the ctx is cancelled before we are able to read the

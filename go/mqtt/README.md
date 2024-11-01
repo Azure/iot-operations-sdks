@@ -478,7 +478,7 @@ func (*PublishQueueFullError) Error() string
 
 
 <a name="SessionClient"></a>
-## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L20-L61>)
+## type [SessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L19-L59>)
 
 SessionClient implements an MQTT Session client supporting MQTT v5 with QoS 0 and QoS 1 support.
 
@@ -489,7 +489,7 @@ type SessionClient struct {
 ```
 
 <a name="NewSessionClient"></a>
-### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L111-L114>)
+### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L109-L112>)
 
 ```go
 func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionClient, error)
@@ -498,7 +498,7 @@ func NewSessionClient(serverURL string, opts ...SessionClientOption) (*SessionCl
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromConnectionString"></a>
-### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L158-L161>)
+### func [NewSessionClientFromConnectionString](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L156-L159>)
 
 ```go
 func NewSessionClientFromConnectionString(connStr string, opts ...SessionClientOption) (*SessionClient, error)
@@ -507,7 +507,7 @@ func NewSessionClientFromConnectionString(connStr string, opts ...SessionClientO
 NewSessionClientFromConnectionString constructs a new session client from an user\-defined connection string.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L173-L175>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L171-L173>)
 
 ```go
 func NewSessionClientFromEnv(opts ...SessionClientOption) (*SessionClient, error)
@@ -516,7 +516,7 @@ func NewSessionClientFromEnv(opts ...SessionClientOption) (*SessionClient, error
 NewSessionClientFromEnv constructs a new session client from user's environment variables.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L185>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L183>)
 
 ```go
 func (c *SessionClient) ID() string
@@ -525,7 +525,7 @@ func (c *SessionClient) ID() string
 
 
 <a name="SessionClient.Publish"></a>
-### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L116-L121>)
+### func \(\*SessionClient\) [Publish](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/publish.go#L113-L118>)
 
 ```go
 func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byte, opts ...PublishOption) (*Ack, error)
@@ -579,7 +579,7 @@ func (c *SessionClient) Start() error
 Start starts the session client, spawning any necessary background goroutines. In order to terminate the session client and clean up any running goroutines, Stop\(\) must be called after calling Start\(\).
 
 <a name="SessionClient.Stop"></a>
-### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L84>)
+### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L72>)
 
 ```go
 func (c *SessionClient) Stop() error
