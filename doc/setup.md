@@ -23,13 +23,13 @@ The Codespaces approach is the recommended option and it provides all the necess
 
 ### Linux
 
-The installation steps below have been testing with [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
+This setup has been tested on [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
 
-### Linux on Windows (WSL)
+### Windows Subsystem for Linux (WSL)
 
-1. Install [WSL](https://learn.microsoft.com/windows/wsl/install)
+1. [Install WSL](https://learn.microsoft.com/windows/wsl/install)
 
-1. If you already use WSL, make sure your using [WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
+1. If you already use WSL, [confirm it's WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
 
 ## Install Azure IoT Operations
 
@@ -41,7 +41,7 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 
 1. Make sure the shell is in the root directory of this repository
 
-1. Run the init script which will install k3d and create a new cluster:
+1. Run the init script which will install k3d (plus other dependencies) and create a new cluster:
 
     ```bash
     ./tools/deployment/initialize-cluster.sh
@@ -133,16 +133,16 @@ The easiest way to test the setup is working correctly is to use `mosquitto_pub`
 
 ## Next Steps
 
-Setting your environment depending on which language you want, and then get started!
+Continue setting your environment depending on which language you want, and then get started!
 
- * **.NET** :
+ ### **.NET** :
 
-    Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux), then head to the [.NET SDK ](/dotnet/)
+Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux), then head to the [.NET SDK ](/dotnet/)
 
-* **Go** 
+### **Go** 
 
-    Install [Go](https://go.dev/doc/install), then head to the [Go SDK](/go/)
+Install [Go](https://go.dev/doc/install), then head to the [Go SDK](/go/)
 
-* **Rust** 
+### **Rust** 
 
-    Install [Rust](https://www.rust-lang.org/tools/install), then head to the [Rust SDK](/rust/)
+Install [Rust](https://www.rust-lang.org/tools/install), then head to the [Rust SDK](/rust/)
