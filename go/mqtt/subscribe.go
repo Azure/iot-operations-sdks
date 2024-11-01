@@ -22,7 +22,7 @@ type incomingPublish struct {
 // Creates the single callback to register to the underlying Paho client for
 // incoming PUBLISH packets.
 func (c *SessionClient) makeOnPublishReceived(
-	connCount uint64,
+	attempt uint64,
 ) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
 		c.log.Packet(
@@ -39,7 +39,7 @@ func (c *SessionClient) makeOnPublishReceived(
 			}
 
 			current := c.conn.Current()
-			if current.Client == nil || current.Count != connCount {
+			if current.Client == nil || current.Attempt != attempt {
 				// if any disconnections occurred since receiving this
 				// PUBLISH, discard the ack.
 				return nil

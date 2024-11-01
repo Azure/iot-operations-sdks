@@ -40,9 +40,24 @@ func (e *ClientStateError) Error() string {
 	}
 }
 
+// DisconnectError indicates that the session client received a DISCONNECT
+// packet from the server with a reason code that is not deemed to be fatal.
+// It is primarily used for internal tracking and should not be expected by
+// users except in rare cases in logs.
+type DisconnectError struct {
+	ReasonCode byte
+}
+
+func (e *DisconnectError) Error() string {
+	return fmt.Sprintf(
+		"received DISCONNECT packet with reason code %x",
+		e.ReasonCode,
+	)
+}
+
 // FatalDisconnectError indicates that the session client has terminated due
-// to receiving a DISCONNECT packet from the server with a reason code that is
-// deemed to be fatal.
+// to receiving a DISCONNECT packet from the server with a reason code that
+// is deemed to be fatal.
 type FatalDisconnectError struct {
 	ReasonCode byte
 }
@@ -55,8 +70,7 @@ func (e *FatalDisconnectError) Error() string {
 }
 
 // SessionLostError indicates that the session client has terminated due to
-// receiving a CONNACK from the server with session present false when
-// reconnecting.
+// receiving a CONNACK with session present false when reconnecting.
 type SessionLostError struct{}
 
 func (*SessionLostError) Error() string {
@@ -82,7 +96,7 @@ func (e *ConnectionError) Unwrap() error {
 	return e.wrapped
 }
 
-// ConnackError indicates that the session client received a CONNACK with an
+// ConnackError indicates that the session client received a CONNACK with a
 // reason code that indicates an error but is not deemed to be fatal. It may
 // appear as a fatal error if it is the final error returned once the session
 // client has exhausted its connection retries.
