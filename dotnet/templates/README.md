@@ -5,7 +5,7 @@ applications for your Azure IoT Operations environment.
 
 ## How To Install A .NET Project Template
 
-To install a project template, simply navigate to the directory of the tempate you want to install and execute:
+To install a project template, simply navigate to the directory of the tempate you want to install and run the command:
 
 ```
 dotnet new install .\
@@ -23,4 +23,13 @@ Alternatively, you can create a new project from an installed template from comm
 dotnet new aioconnectorapp -n MyConnectorApp
 ```
 
-Where "aioconnectorapp" is the short name defined in the project template's [template.josn file](./ConnectorApp/.template.config/template.json).
+Where "aioconnectorapp" is the short name defined in the project template's [template.josn file](./ConnectorApp/.template.config/template.json) and where "MyConnectorApp" is the name of your project.
+
+
+## How To Uninstall A .NET Project Template
+
+Navigate to the directory with the project template to uninstall and run the command:
+
+```
+dotnet new uninstall .\
+```
