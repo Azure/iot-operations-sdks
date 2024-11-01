@@ -16,7 +16,9 @@
 
         public const string CommandRequestTopic = "commandTopic";
 
-        public const string ServiceGroupId = "serviceGroupId";
+        public const string TelemServiceGroupId = "telemServiceGroupId";
+
+        public const string CmdServiceGroupId = "cmdServiceGroupId";
 
         public const string TelemetryList = "telemetries";
 

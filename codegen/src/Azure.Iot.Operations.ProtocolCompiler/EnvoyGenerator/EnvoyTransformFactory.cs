@@ -28,7 +28,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             string? telemetryTopic = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemetryTopic, out JsonElement telemTopicElt) ? telemTopicElt.GetString() : null;
             string? commandTopic = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.CommandRequestTopic, out JsonElement cmdTopicElt) ? cmdTopicElt.GetString() : null;
-            string? serviceGroupId = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.ServiceGroupId, out JsonElement groupIdElt) ? groupIdElt.GetString() : null;
+            string? telemServiceGroupId = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemServiceGroupId, out JsonElement tGroupIdElt) ? tGroupIdElt.GetString() : null;
+            string? cmdServiceGroupId = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.CmdServiceGroupId, out JsonElement cGroupIdElt) ? cGroupIdElt.GetString() : null;
 
             string? version = modelId.IndexOf(";") > 0 ? modelId.Substring(modelId.IndexOf(";") + 1) : null;
             string? normalizedVersionSuffix = version?.Replace(".", "_");
@@ -70,7 +71,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, sourceFilePaths, syncApi))
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, sourceFilePaths, syncApi))
             {
                 yield return templateTransform;
             }
@@ -187,7 +188,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             cmdNameReqResps.Add((commandName, reqSchemaClass, respSchemaClass));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? serviceGroupId, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, HashSet<string> sourceFilePaths, bool syncApi)
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, HashSet<string> sourceFilePaths, bool syncApi)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
@@ -198,19 +199,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
+                    yield return new DotNetService(projectName, genNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi);
                     break;
                 case "go":
-                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi);
+                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi);
                     break;
                 case "java":
-                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "python":
-                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
-                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, serviceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, sourceFilePaths);
+                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, sourceFilePaths);
                     break;
                 case "c":
                     break;
