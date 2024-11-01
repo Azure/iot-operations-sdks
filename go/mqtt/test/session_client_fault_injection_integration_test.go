@@ -135,6 +135,5 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 			faultRequestID:  uuid.NewString(),
 		},
 	)
-
 	require.NoError(t, err)
 }
