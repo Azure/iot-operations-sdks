@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 AllowTrailingCommas = true,
             };
 
-            byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetConfigMapMountPath}/{assetName}/{assetName}");
+            byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetConfigMapMountPath}/{assetName}");
             Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
 
             return asset;
