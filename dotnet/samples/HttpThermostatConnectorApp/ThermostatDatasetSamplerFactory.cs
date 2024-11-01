@@ -13,6 +13,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// Creates a dataset sampler for the given dataset.
         /// </summary>
         /// <param name="assetEndpointProfile">The asset endpoint profile to connect to when sampling this dataset.</param>
+        /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
