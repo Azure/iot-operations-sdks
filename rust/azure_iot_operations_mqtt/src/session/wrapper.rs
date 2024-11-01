@@ -55,7 +55,7 @@ pub struct SessionOptions {
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     pub reconnect_policy: Box<dyn ReconnectPolicy>,
-    /// Maximum number of outgoing messages not yet accepted by the MQTT Session
+    /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
     pub max_outgoing: usize,
 }
