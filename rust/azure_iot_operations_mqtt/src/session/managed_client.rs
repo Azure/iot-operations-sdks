@@ -12,7 +12,7 @@ use bytes::Bytes;
 use tokio::sync::mpsc::Receiver;
 
 use crate::control_packet::{
-    PubAckProperties, PubAckReason, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties
+    Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::ClientError;
 use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
@@ -178,7 +178,7 @@ impl PubReceiver for SessionPubReceiver {
 
 #[async_trait]
 impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, publish: &Publish, reason: PubAckReason) -> Result<(), ClientError> {
+    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
         {
             let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
             // TODO: don't panic here. This is bad.
@@ -186,21 +186,7 @@ impl MqttAck for SessionPubReceiver {
             assert!(unacked_pkids_g.contains(&publish.pkid), "");
             unacked_pkids_g.remove(&publish.pkid);
         }
-        self.unacked_pubs.ack_rc(publish, reason, None).await.unwrap();
-        Ok(())
-    }
-
-    async fn ack_with_properties(&self, publish: &Publish, reason: PubAckReason, properties: PubAckProperties) -> Result<(), ClientError> {
-        {
-            let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
-            // TODO: don't panic here. This is bad.
-            assert!(!self.auto_ack, "Auto-ack is enabled. Cannot manually ack.");
-            assert!(unacked_pkids_g.contains(&publish.pkid), "");
-            unacked_pkids_g.remove(&publish.pkid);
-        }
-        // TODO: Convert this error into the correct type
-        // TODO: reason string
-        self.unacked_pubs.ack_rc(publish, reason, None).await.unwrap();
+        self.unacked_pubs.ack(publish).await.unwrap();
         Ok(())
     }
 }

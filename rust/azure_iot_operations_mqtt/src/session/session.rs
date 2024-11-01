@@ -257,10 +257,10 @@ where
                                 // QoS 1 or 2
                                 _ => {
                                     // Register the dispatched publish to track the acks
-                                    match self.unacked_pubs.register_pending(
-                                        &publish,
-                                        num_dispatches,
-                                    ) {
+                                    match self
+                                        .unacked_pubs
+                                        .register_pending(&publish, num_dispatches)
+                                    {
                                         Ok(()) => {
                                             log::debug!(
                                                 "Registered PUB. Waiting for {num_dispatches} acks"

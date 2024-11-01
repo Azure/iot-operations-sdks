@@ -7,7 +7,7 @@ use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::control_packet::{
-    AuthProperties, PubAckReason, PubAckProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties
+    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
@@ -117,10 +117,7 @@ pub trait MqttPubSub {
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish, reason: PubAckReason) -> Result<(), ClientError>;
-
-    /// Acknowledge a received Publish with a reason.
-    async fn ack_with_properties(&self, publish: &Publish, reason: PubAckReason, properties: PubAckProperties) -> Result<(), ClientError>;
+    async fn ack(&self, publish: &Publish) -> Result<(), ClientError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
