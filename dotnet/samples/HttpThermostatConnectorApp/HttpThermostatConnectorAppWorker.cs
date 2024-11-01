@@ -50,10 +50,10 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     throw new InvalidOperationException("Missing asset endpoint profile configuration");
                 }
 
-                adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
+                adrClient.AssetEndpointProfileChanged += (sender, args) =>
                 {
                     _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
-                    _assetEndpointProfile = newAssetEndpointProfile;
+                    _assetEndpointProfile = args.AssetEndpointProfile;
                 };
 
                 await adrClient.ObserveAssetEndpointProfileAsync(null, cancellationToken);
@@ -69,6 +69,26 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
+                adrClient.AssetChanged += (sender, args) =>
+                {
+                    if (args.ChangeType == ChangeType.Deleted)
+                    {
+                        _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been deleted.");
+                        _assets.Remove(args.AssetName);
+                    }
+                    else if (args.ChangeType == ChangeType.Created)
+                    { 
+                        //TODO
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been updated.");
+                        _assets[args.AssetName] = args.Asset!;
+                    }
+                };
+
+                await adrClient.ObserveAssetsAsync(null, cancellationToken);
+
                 foreach (string assetName in await adrClient.GetAssetNamesAsync(cancellationToken))
                 {
                     _logger.LogInformation($"Discovered asset with name {assetName}");
@@ -80,22 +100,6 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     }
 
                     _assets.Add(assetName, asset);
-
-                    adrClient.AssetChanged += (sender, newAsset) =>
-                    {
-                        if (newAsset == null)
-                        {
-                            _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been deleted.");
-                            _assets.Remove(assetName);
-                        }
-                        else
-                        {
-                            _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been updated.");
-                            _assets[assetName] = newAsset;
-                        }
-                    };
-
-                    await adrClient.ObserveAssetAsync(assetName, null, cancellationToken);
 
                     foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
                     {
@@ -162,10 +166,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     sampler.Dispose();
                 }
 
-                foreach (string assetName in _assets.Keys)
-                {
-                    await adrClient.UnobserveAssetAsync(assetName);
-                }
+                await adrClient.UnobserveAssetsAsync();
 
                 await adrClient.UnobserveAssetEndpointProfileAsync();
             }

@@ -59,9 +59,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
                 TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
-                adrClient.AssetEndpointProfileChanged += (sender, assetEndpointProfile) =>
+                adrClient.AssetEndpointProfileChanged += (sender, args) =>
                 {
-                    assetEndpointProfileTcs.TrySetResult(assetEndpointProfile);
+                    assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
                 };
 
                 await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
@@ -138,9 +138,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
                 TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
-                adrClient.AssetEndpointProfileChanged += (sender, assetEndpointProfile) =>
+                adrClient.AssetEndpointProfileChanged += (sender, args) =>
                 {
-                    assetEndpointProfileTcs.TrySetResult(assetEndpointProfile);
+                    assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
                 };
 
                 await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
