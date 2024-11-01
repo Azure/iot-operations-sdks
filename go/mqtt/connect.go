@@ -49,8 +49,8 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	var ctx context.Context
-	ctx, c.shutdown = internal.NewBackground(&ClientStateError{State: ShutDown})
+	c.shutdown = internal.NewBackground(&ClientStateError{State: ShutDown})
+	ctx, _ := c.shutdown.With(context.Background())
 
 	go func() {
 		defer c.shutdown.Close()

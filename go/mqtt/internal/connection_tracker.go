@@ -45,7 +45,7 @@ type (
 func NewConnectionTracker[Client comparable]() *ConnectionTracker[Client] {
 	c := &ConnectionTracker[Client]{}
 	c.current.up = make(chan struct{})
-	_, c.current.down = NewBackground(context.Canceled)
+	c.current.down = NewBackground(context.Canceled)
 
 	// Immediately close down to maintain the invariant that down is closed iff
 	// the client is disconnected.
@@ -75,7 +75,7 @@ func (c *ConnectionTracker[Client]) Connect(client Client) error {
 
 	c.current.Client = client
 	close(c.current.up)
-	_, c.current.down = NewBackground(context.Canceled)
+	c.current.down = NewBackground(context.Canceled)
 	return nil
 }
 
@@ -135,7 +135,7 @@ func (c *ConnectionTracker[Client]) Client(
 			}
 
 			if !func() bool {
-				ctx, cancel := current.down.Follow(ctx)
+				ctx, cancel := current.down.With(ctx)
 				defer cancel()
 				return yield(ctx, current.Client)
 			}() {

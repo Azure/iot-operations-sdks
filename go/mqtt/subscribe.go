@@ -98,7 +98,7 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown.Follow(ctx)
+	ctx, cancel := c.shutdown.With(ctx)
 	defer cancel()
 
 	for ctx, pahoClient := range c.conn.Client(ctx) {
@@ -137,7 +137,7 @@ func (c *SessionClient) Unsubscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown.Follow(ctx)
+	ctx, cancel := c.shutdown.With(ctx)
 	defer cancel()
 
 	for ctx, pahoClient := range c.conn.Client(ctx) {

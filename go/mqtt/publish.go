@@ -125,7 +125,7 @@ func (c *SessionClient) Publish(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown.Follow(ctx)
+	ctx, cancel := c.shutdown.With(ctx)
 	defer cancel()
 
 	// Buffered in case the ctx is cancelled before we are able to read the
