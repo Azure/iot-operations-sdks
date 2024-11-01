@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
 
     internal static class TypesGenerator
@@ -63,7 +62,7 @@
                 ITypeGenerator typeGenerator = TypeGenerators[language];
                 ISchemaStandardizer schemaStandardizer = SchemaStandardizers.First(ss => schemaFileName.EndsWith(ss.Key)).Value;
 
-                foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(File.OpenText(schemaFilePath)))
+                foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
                     typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, outDir.FullName, sourceFilePaths);
                 }

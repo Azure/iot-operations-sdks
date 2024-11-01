@@ -26,6 +26,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             {
                 Assert.Equal(testCaseCatch.Message, exception.Message);
             }
+            if (testCaseCatch.Supplemental == null)
+            {
+                return;
+            }
 
             if (testCaseCatch.Supplemental.TryGetValue(TestCaseCatch.HeaderNameKey, out string? headerName))
             {

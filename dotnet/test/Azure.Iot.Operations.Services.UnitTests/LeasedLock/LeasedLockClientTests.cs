@@ -469,7 +469,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
         public async Task ObserveLockAsyncSuccess()
         {
             // arrange
-            bool getPreviousValue = true;
             bool getNewValue = true;
             Mock<StateStoreClient> mockStateStoreClient = GetMockStateStoreClient();
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -479,8 +478,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 mock => mock.ObserveAsync(
                     It.Is<StateStoreKey>(value => value.GetString().Equals("someLockName", StringComparison.Ordinal)),
                     It.Is<StateStoreObserveRequestOptions>(
-                        options => options.GetPreviousValue == getPreviousValue
-                        && options.GetNewValue == getNewValue),
+                        options => options.GetNewValue == getNewValue),
                     It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.CompletedTask);
@@ -488,7 +486,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             ObserveLockRequestOptions requestOptions = new ObserveLockRequestOptions()
             {
                 GetNewValue = getNewValue,
-                GetPreviousValue = getPreviousValue,
             };
 
             // act
@@ -499,8 +496,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 mock => mock.ObserveAsync(
                     It.Is<StateStoreKey>(value => value.GetString().Equals("someLockName", StringComparison.Ordinal)),
                     It.Is<StateStoreObserveRequestOptions>(
-                        options => options.GetPreviousValue == getPreviousValue
-                        && options.GetNewValue == getNewValue),
+                        options => options.GetNewValue == getNewValue),
                     It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                         Times.Once());

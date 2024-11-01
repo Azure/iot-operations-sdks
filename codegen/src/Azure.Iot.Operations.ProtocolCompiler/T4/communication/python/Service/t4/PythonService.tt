@@ -31,8 +31,8 @@ from <#=this.AsUpper(telemSchema)#>Receiver_g import <#=this.AsUpper(telemSchema
 <# if (this.telemetryTopic != null) { #>
 @telemetry_topic("<#=this.telemetryTopic#>")
 <# } #>
-<# if (this.serviceGroupId != null) { #>
-@service_group_id("<#=this.serviceGroupId#>")
+<# if (this.cmdServiceGroupId != null) { #>
+@service_group_id("<#=this.cmdServiceGroupId#>")
 <# } #>
 
 class <#=this.serviceName#>(object):

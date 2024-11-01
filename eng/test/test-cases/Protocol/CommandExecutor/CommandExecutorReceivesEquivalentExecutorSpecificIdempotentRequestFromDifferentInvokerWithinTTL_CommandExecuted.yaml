@@ -11,7 +11,7 @@ prologue:
   - request-topic: "mock/{executorId}/test"
     executor-id: "someExecutor"
     idempotent: !!bool true
-    cacheable-duration: { seconds: 2 }
+    cache-ttl: { seconds: 2 }
     request-responses-map:
       "Test_Request": [ "Test_Response0", "Test_Response1" ]
 

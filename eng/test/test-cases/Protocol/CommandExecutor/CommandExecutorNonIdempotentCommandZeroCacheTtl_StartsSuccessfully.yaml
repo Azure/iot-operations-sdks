@@ -1,0 +1,18 @@
+---
+test-name: CommandExecutorNonIdempotentCommandZeroCacheTtl_StartsSuccessfully
+aka:
+- NonIdempotentCommandZeroCacheTtlDoesNotThrow
+description:
+  condition: >-
+    CommandExecutor initialized with non-idempotent command that has a zero cache TTL.
+  expect: >-
+    CommandExecutor starts successfully.
+
+requires:
+- caching
+
+prologue:
+  executors:
+  - idempotent: !!bool false
+    cache-ttl: { seconds: 0 }
+...

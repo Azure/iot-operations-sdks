@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'get'.
         /// </summary>
-        [CommandBehavior(idempotent: true, cacheableDuration: "P1D")]
+        [CommandBehavior(idempotent: true, cacheTtl: "P1D")]
         public class GetCommandExecutor : CommandExecutor<GetRequestPayload, GetResponsePayload>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;

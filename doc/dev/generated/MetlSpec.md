@@ -10,17 +10,16 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorRequestTopicCommandNameWithValidReplacement_StartsSuccessfully
-aka:
-- RequestTopicCommandNameWithValidReplacementDoesNotThrow
+test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{commandName}' token and command name is a valid replacement.
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
   expect: >-
-    CommandExecutor starts successfully.
+    CommandExecutor starts successfully
 prologue:
   executors:
-  - request-topic: "mock/{commandName}/test"
+  - request-topic: "mock/{modelId}/test"
+    model-id:
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
@@ -304,7 +303,7 @@ Each element of the `executors` array can have the following child keys:
 | executor-id | drive | no | string or null | "someExecutor" | Identifier of the asset that is targeted to execute a Command. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request MQTT topic pattern. |
 | idempotent | drive | no | boolean | False | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
-| cacheable-duration | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
+| cache-ttl | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |
@@ -592,7 +591,7 @@ A CommandInvoker prologue can have the following child keys:
 | catch | check | no | [Catch](#catch) | An error that is expected to be caught during initialization. |
 
 The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
-The value type for `invokers` is specific to CommandInvkoker and is defined in the next subsection.
+The value type for `invokers` is specific to CommandInvoker and is defined in the next subsection.
 
 #### Invoker
 
@@ -972,7 +971,7 @@ The catch can have the following child keys:
 | message | check | no | string | The error message; should be checked only when explicitly set in a test case. |
 | supplemental | check | no | map from string to string | Additional properties that may be set for some error kinds. |
 
-See the [error model document](./error-model.md) for further details, including the supplemental properties that can be set in an error.
+See the [error model document](../../reference/error-model.md) for further details, including the supplemental properties that can be set in an error.
 
 ### Common miscellaneous items
 

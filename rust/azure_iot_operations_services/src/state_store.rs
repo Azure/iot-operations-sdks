@@ -24,6 +24,14 @@ pub use resp3::{Operation, SetCondition, SetOptions};
 #[error(transparent)]
 pub struct StateStoreError(#[from] StateStoreErrorKind);
 
+impl StateStoreError {
+    /// Returns the [`SessionErrorKind`] of the error.
+    #[must_use]
+    pub fn kind(&self) -> &StateStoreErrorKind {
+        &self.0
+    }
+}
+
 /// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
 #[derive(Error, Debug)]
 pub enum StateStoreErrorKind {

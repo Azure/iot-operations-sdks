@@ -12,12 +12,6 @@ use crate::control_packet::{
 use crate::error::{ClientError, CompletionError, ConnectionError};
 use crate::topic::TopicParseError;
 
-// TODO: restrict the visibility of these to match InternalClient
-/// Data for acking a publish. Currently internal use only.
-pub type ManualAck = rumqttc::v5::ManualAck;
-/// Reason Code for ack. Currently internal use only.
-pub type ManualAckReason = rumqttc::v5::ManualAckReason;
-
 // ---------- Concrete Types ----------
 
 /// Awaitable token indicating completion of MQTT message delivery.
@@ -139,12 +133,6 @@ pub trait MqttDisconnect {
 /// Use of this trait is not currently recommended except for mocking.
 #[async_trait]
 pub trait InternalClient: MqttPubSub + MqttAck + MqttDisconnect {
-    /// Get a [`ManualAck`] for the given [`Publish`] to send later
-    fn get_manual_ack(&self, publish: &Publish) -> ManualAck;
-
-    /// Send a [`ManualAck`] to acknowledge the publish it was created from
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError>;
-
     /// Reauthenticate with the MQTT broker
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError>;
 }
