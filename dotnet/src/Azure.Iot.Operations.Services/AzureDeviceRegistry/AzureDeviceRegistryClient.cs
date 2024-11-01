@@ -191,18 +191,27 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 _assetEndpointProfileConfigFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 await _assetEndpointProfileConfigFilesObserver.StartAsync();
 
-                _assetEndpointProfileUsernameSecretFilesObserver = new($"{_aepUsernameSecretMountPath}", pollingInterval);
-                _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
+                //TODO how to observe for these secrets being created? We don't know the directory to observe?
+                if (_aepUsernameSecretMountPath != null)
+                {
+                    _assetEndpointProfileUsernameSecretFilesObserver = new($"{_aepUsernameSecretMountPath}", pollingInterval);
+                    _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
+                }
 
-                _assetEndpointProfilePasswordSecretFilesObserver = new($"{_aepPasswordSecretMountPath}", pollingInterval);
-                _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                await _assetEndpointProfilePasswordSecretFilesObserver.StartAsync();
+                if (_aepPasswordSecretMountPath != null)
+                {
+                    _assetEndpointProfilePasswordSecretFilesObserver = new($"{_aepPasswordSecretMountPath}", pollingInterval);
+                    _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfilePasswordSecretFilesObserver.StartAsync();
+                }
 
-                _assetEndpointProfileCertificateSecretFilesObserver = new($"{_aepCertMountPath}", pollingInterval);
-                _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                await _assetEndpointProfileCertificateSecretFilesObserver.StartAsync();
-
+                if (_aepCertMountPath != null)
+                {
+                    _assetEndpointProfileCertificateSecretFilesObserver = new($"{_aepCertMountPath}", pollingInterval);
+                    _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfileCertificateSecretFilesObserver.StartAsync();
+                }
             }
         }
 
