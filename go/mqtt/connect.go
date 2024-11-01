@@ -6,7 +6,6 @@ import (
 	"context"
 	"log/slog"
 	"math"
-	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
@@ -106,11 +105,11 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 	}()
 
 	for {
-		var disconnected <-chan error
+		var connack *paho.Connack
 		err := c.connRetry.Start(ctx, "connect",
 			func(ctx context.Context) (bool, error) {
 				var err error
-				disconnected, err = c.connect(ctx, c.conn.Current().Count)
+				connack, err = c.connect(ctx)
 
 				// Decide to retry depending on whether we consider this error
 				// to be fatal. We don't wrap these errors, so we can use a
@@ -118,7 +117,8 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				switch err.(type) {
 				case *InvalidArgumentError,
 					*SessionLostError,
-					*FatalConnackError:
+					*FatalConnackError,
+					*FatalDisconnectError:
 					return false, err
 				default:
 					return true, err
@@ -129,15 +129,33 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			return err
 		}
 
+		// NOTE: signalConnection and signalDisconnection must only be called
+		// together in this loop to ensure ordering between the two.
+		c.signalConnection(ctx, &ConnectEvent{ReasonCode: connack.ReasonCode})
+
 		select {
-		case err := <-disconnected:
-			// Current paho instance got disconnected
-			if err != nil {
+		case <-c.conn.Current().Down:
+			// Current paho instance got disconnected.
+			switch err := c.conn.Current().Error.(type) {
+			case *FatalDisconnectError:
+				c.signalDisconnection(ctx, &DisconnectEvent{
+					ReasonCode: &err.ReasonCode,
+				})
 				return err
+
+			case *DisconnectError:
+				c.signalDisconnection(ctx, &DisconnectEvent{
+					ReasonCode: &err.ReasonCode,
+				})
+
+			default:
+				c.signalDisconnection(ctx, &DisconnectEvent{
+					Error: err,
+				})
 			}
 
 		case <-ctx.Done():
-			// Session client is shutting down
+			// Session client is shutting down.
 			return nil
 		}
 
@@ -149,14 +167,9 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 // server. If the client is successfully connected, return a channel which will
 // be notified when the connection on that client instance goes down, and
 // whether or not that disconnection is due to a fatal error.
-func (c *SessionClient) connect(
-	ctx context.Context,
-	connCount uint64,
-) (<-chan error, error) {
-	isInitialConn := connCount == 0
-
-	disconnected := make(chan error)
-	var disconnectOnce sync.Once
+func (c *SessionClient) connect(ctx context.Context) (*paho.Connack, error) {
+	attempt := c.conn.Attempt()
+	isInitialConn := attempt == 1
 
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
 		ClientID: c.connSettings.clientID,
@@ -174,32 +187,19 @@ func (c *SessionClient) connect(
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			// Add 1 to the conn count for this because this listener is
 			// effective AFTER the connection succeeds.
-			c.makeOnPublishReceived(connCount + 1),
+			c.makeOnPublishReceived(attempt),
 		},
 
 		OnServerDisconnect: func(d *paho.Disconnect) {
-			disconnectOnce.Do(func() {
-				c.signalDisconnection(ctx, &DisconnectEvent{
-					ReasonCode: &d.ReasonCode,
-				})
-
-				if isFatalDisconnectReasonCode(d.ReasonCode) {
-					disconnected <- &FatalDisconnectError{d.ReasonCode}
-				} else {
-					disconnected <- nil
-				}
-			})
+			if isFatalDisconnectReasonCode(d.ReasonCode) {
+				c.conn.Disconnect(attempt, &FatalDisconnectError{d.ReasonCode})
+			} else {
+				c.conn.Disconnect(attempt, &DisconnectError{d.ReasonCode})
+			}
 		},
 
 		OnClientError: func(err error) {
-			disconnectOnce.Do(func() {
-				c.signalDisconnection(ctx, &DisconnectEvent{
-					Error: err,
-				})
-
-				// Client errors are not fatal.
-				disconnected <- nil
-			})
+			c.conn.Disconnect(attempt, err)
 		},
 	})
 	if err != nil {
@@ -230,20 +230,17 @@ func (c *SessionClient) connect(
 		return nil, &SessionLostError{}
 
 	default:
-		c.signalConnection(ctx, pahoClient, &ConnectEvent{
-			ReasonCode: connack.ReasonCode,
-		})
-		return disconnected, nil
+		if err := c.conn.Connect(pahoClient); err != nil {
+			return nil, err
+		}
+		return connack, nil
 	}
 }
 
 func (c *SessionClient) signalConnection(
 	ctx context.Context,
-	client PahoClient,
 	event *ConnectEvent,
 ) {
-	c.conn.Connect(client)
-
 	c.log.Info(ctx, "connected",
 		slog.Int("reason_code", int(event.ReasonCode)),
 	)
@@ -257,8 +254,6 @@ func (c *SessionClient) signalDisconnection(
 	ctx context.Context,
 	event *DisconnectEvent,
 ) {
-	c.conn.Disconnect()
-
 	switch {
 	case event.ReasonCode != nil:
 		c.log.Warn(ctx, "disconnected",
