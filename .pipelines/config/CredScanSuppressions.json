@@ -12,6 +12,10 @@
       {
         "file": "testEnvFiles/validVarsWithCertificateRevocationCheck.txt",
         "_justification": "Not a real password but used for testing."
+      },
+      {
+        "file": "http-server.yaml",
+        "_justification": "Not a real password."
       }
   ]
 }
