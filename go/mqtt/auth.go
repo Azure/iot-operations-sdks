@@ -88,7 +88,7 @@ func (a *pahoAuther) requestReauthentication() {
 			return
 		}
 		a.inflight = true
-		// TODO: what to do with done chan
+		// TODO: what to do with done chan.
 
 		values, err := a.c.config.authProvider.InitiateAuthExchange(
 			context.TODO(),
@@ -106,6 +106,10 @@ func (a *pahoAuther) requestReauthentication() {
 				AuthData:   values.AuthenticationData,
 			},
 		})
+	}()
+
+	go func() {
+		for pa
 	}()
 }
 
