@@ -23,13 +23,30 @@ The Codespaces approach is the recommended option and it provides all the necess
 
 ### Linux
 
-This setup has been tested on [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
+1. Install [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
 
 ### Windows Subsystem for Linux (WSL)
 
 1. [Install WSL](https://learn.microsoft.com/windows/wsl/install)
 
 1. If you already use WSL, [confirm it's WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
+
+## Install prerequisites
+
+> [!NOTE]
+> Codespaces comes pre-installed with all required prerequisites. If you have deployed a codespace from the Azure IoT Operations SDKs repository, then you can skip this step.
+
+1. Install Git:
+
+    ```bash
+    sudo apt-get install git
+    ```
+
+1. Clone the Azure IoT Operations SDK repository:
+
+    ```bash
+    git clone https://github.com/Azure/iot-operations-sdks
+    ```
 
 ## Install Azure IoT Operations
 
@@ -44,7 +61,7 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 1. Run the init script which will install k3d (plus other dependencies) and create a new cluster:
 
     ```bash
-    ./tools/deployment/initialize-cluster.sh
+    sudo ./tools/deployment/initialize-cluster.sh
     ```
 
 1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to connect your cluster to Azure Arc and deploy Azure IoT Operations.
@@ -65,7 +82,7 @@ Installation via Helm provides allows you to get started quicker, however this i
 1. Create a new k3d cluster:
 
     ```bash
-    ./tools/deployment/initialize-cluster.sh
+    sudo ./tools/deployment/initialize-cluster.sh
     ```
 
 1. Install Azure IoT Operations:
