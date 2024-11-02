@@ -20,43 +20,45 @@ namespace ConnectorAppProjectTemplate
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
+        private SchemaRegistryClient _schemaRegistryClient;
+        private AzureDeviceRegistryClient _adrClient;
 
         private Dictionary<string, Asset> _assets = new();
         private AssetEndpointProfile? _assetEndpointProfile;
+
+        // Mapping of asset name to the dictionary that maps a dataset name to its sampler
+        private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
 
         public ConnectorAppWorker(ILogger<ConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
             _datasetSamplerFactory = datasetSamplerFactory;
+            _schemaRegistryClient = new(_sessionClient);
+            _adrClient = new();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            AzureDeviceRegistryClient adrClient = new();
-            SchemaRegistryClient schemaRegistryClient = new(_sessionClient);
-
             //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
             // Additionally, the telemetry sent by this connector should be stamped as a cloud event
 
-            List<Timer> samplers = new List<Timer>();
-
             try
             {
-                _assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync(cancellationToken);
+                _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
 
                 if (_assetEndpointProfile == null)
                 {
                     throw new InvalidOperationException("Missing asset endpoint profile configuration");
                 }
 
-                adrClient.AssetEndpointProfileChanged += (sender, newAssetEndpointProfile) =>
+                _adrClient.AssetEndpointProfileChanged += (sender, args) =>
                 {
                     _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
-                    _assetEndpointProfile = newAssetEndpointProfile;
+                    _assetEndpointProfile = args.AssetEndpointProfile;
                 };
 
-                await adrClient.ObserveAssetEndpointProfileAsync(null, cancellationToken);
+                await _adrClient.ObserveAssetEndpointProfileAsync(null, cancellationToken);
 
                 _logger.LogInformation("Successfully retrieved asset endpoint profile");
 
@@ -69,85 +71,41 @@ namespace ConnectorAppProjectTemplate
 
                 _logger.LogInformation($"Successfully connected to MQTT broker");
 
-                foreach (string assetName in await adrClient.GetAssetNamesAsync(cancellationToken))
+                _adrClient.AssetChanged += (sender, args) =>
                 {
-                    _logger.LogInformation($"Discovered asset with name {assetName}");
-                    Asset? asset = await adrClient.GetAssetAsync(assetName, cancellationToken);
-
-                    if (asset == null)
+                    if (args.ChangeType == ChangeType.Deleted)
                     {
-                        continue;
+                        _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been deleted.");
+
+                        // Stop sampling this asset since it was deleted
+                        foreach (Timer datasetSampler in _samplers[args.AssetName].Values)
+                        {
+                            datasetSampler.Dispose();
+                        }
+
+                        _samplers.Remove(args.AssetName);
+                        _assets.Remove(args.AssetName);
                     }
-
-                    _assets.Add(assetName, asset);
-
-                    adrClient.AssetChanged += (sender, newAsset) =>
+                    else if (args.ChangeType == ChangeType.Created)
                     {
-                        if (newAsset == null)
-                        {
-                            _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been deleted.");
-                            _assets.Remove(assetName);
-                        }
-                        else
-                        {
-                            _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been updated.");
-                            _assets[assetName] = newAsset;
-                        }
-                    };
+                        _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been created.");
+                        _assets[args.AssetName] = args.Asset!;
 
-                    await adrClient.ObserveAssetAsync(assetName, null, cancellationToken);
-
-                    foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
-                    {
-                        Dataset dataset = _assets[assetName].DatasetsDictionary![datasetName];
-
-                        TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(_assets[assetName].DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
-
-                        TimeSpan samplingInterval = defaultSamplingInterval;
-                        if (dataset.DatasetConfiguration != null
-                            && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
-                        {
-                            samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
-                        }
-
-                        _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
-                        samplers.Add(datasetSamplingTimer);
-
-                        string mqttMessageSchema = dataset.GetMqttMessageSchema();
-                        _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
-                        _logger.LogInformation(mqttMessageSchema);
-
-                        if (doSchemaWork)
-                        {
-                            var schema = await schemaRegistryClient.PutAsync(
-                                mqttMessageSchema,
-                                Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
-                                Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
-                                "1.0.0", //TODO version?
-                                new(),
-                                null,
-                                cancellationToken);
-
-                            if (schema == null)
-                            {
-                                throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
-                            }
-
-                            asset.Status ??= new();
-                            asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
-                            asset.Status.Events[0] = new StatusEvents()
-                            {
-                                Name = schema.Name,
-                                MessageSchemaReference = new()
-                                {
-                                    SchemaName = schema.Name,
-                                    SchemaRegistryNamespace = schema.Namespace,
-                                    SchemaVersion = schema.Version,
-                                }
-                            };
-                        }
+                        _ = StartSamplingAssetAsync(args.AssetName, cancellationToken);
                     }
+                    else
+                    {
+                        _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been updated.");
+                        _assets[args.AssetName] = args.Asset!;
+                    }
+                };
+
+                await _adrClient.ObserveAssetsAsync(null, cancellationToken);
+
+                foreach (string assetName in await _adrClient.GetAssetNamesAsync(cancellationToken))
+                {
+                    _logger.LogInformation($"Initial discovered assetname: {assetName}");
+                    await StartSamplingAssetAsync(assetName, cancellationToken);
                 }
 
                 // Wait until the worker is cancelled
@@ -157,17 +115,85 @@ namespace ConnectorAppProjectTemplate
             {
                 _logger.LogInformation("Shutting down sample...");
 
-                foreach (Timer sampler in samplers)
+                foreach (Dictionary<string, Timer> datasetSamplers in _samplers.Values)
                 {
-                    sampler.Dispose();
+                    foreach (Timer datasetSampler in datasetSamplers.Values)
+                    {
+                        datasetSampler.Dispose();
+                    }
                 }
 
-                foreach (string assetName in _assets.Keys)
+                _samplers.Clear();
+
+                await _adrClient.UnobserveAssetsAsync();
+
+                await _adrClient.UnobserveAssetEndpointProfileAsync();
+            }
+        }
+
+        private async Task StartSamplingAssetAsync(string assetName, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation($"Discovered asset with name {assetName}");
+            Asset? asset = await _adrClient.GetAssetAsync(assetName, cancellationToken);
+
+            if (asset == null)
+            {
+                return;
+            }
+
+            _assets.Add(assetName, asset);
+
+            _samplers[assetName] = new();
+            foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
+            {
+                Dataset dataset = _assets[assetName].DatasetsDictionary![datasetName];
+
+                TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(_assets[assetName].DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
+
+                TimeSpan samplingInterval = defaultSamplingInterval;
+                if (dataset.DatasetConfiguration != null
+                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
                 {
-                    await adrClient.UnobserveAssetAsync(assetName);
+                    samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                 }
 
-                await adrClient.UnobserveAssetEndpointProfileAsync();
+                _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
+                Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                _samplers[assetName][datasetName] = datasetSamplingTimer;
+
+                string mqttMessageSchema = dataset.GetMqttMessageSchema();
+                _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
+                _logger.LogInformation(mqttMessageSchema);
+
+                if (doSchemaWork)
+                {
+                    var schema = await _schemaRegistryClient.PutAsync(
+                        mqttMessageSchema,
+                        Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
+                        Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
+                        "1.0.0", //TODO version?
+                    new(),
+                        null,
+                        cancellationToken);
+
+                    if (schema == null)
+                    {
+                        throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
+                    }
+
+                    asset.Status ??= new();
+                    asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
+                    asset.Status.Events[0] = new StatusEvents()
+                    {
+                        Name = schema.Name,
+                        MessageSchemaReference = new()
+                        {
+                            SchemaName = schema.Name,
+                            SchemaRegistryNamespace = schema.Namespace,
+                            SchemaVersion = schema.Version,
+                        }
+                    };
+                }
             }
         }
 
