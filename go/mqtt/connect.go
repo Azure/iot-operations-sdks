@@ -49,23 +49,11 @@ func (c *SessionClient) Start() error {
 		return &ClientStateError{State: Started}
 	}
 
-	ctx, cancel := context.WithCancelCause(context.Background())
-
-	// https://pkg.go.dev/context#example-AfterFunc-Merge
-	c.shutdown = func(c context.Context) (context.Context, context.CancelFunc) {
-		c, cause := context.WithCancelCause(c)
-		stop := context.AfterFunc(ctx, func() {
-			cause(context.Cause(ctx))
-		})
-		return c, func() {
-			stop()
-			cause(context.Canceled)
-		}
-	}
-	c.stop = func() { cancel(&ClientStateError{State: ShutDown}) }
+	c.shutdown = internal.NewBackground(&ClientStateError{State: ShutDown})
+	ctx, _ := c.shutdown.With(context.Background())
 
 	go func() {
-		defer c.stop()
+		defer c.shutdown.Close()
 		if err := c.manageConnection(ctx); err != nil {
 			c.log.Error(ctx, err)
 			for handler := range c.fatalErrorHandlers.All() {
@@ -85,7 +73,7 @@ func (c *SessionClient) Stop() error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}
 	}
-	c.stop()
+	c.shutdown.Close()
 	return nil
 }
 
@@ -104,12 +92,13 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		c.signalDisconnection(ctx, &DisconnectEvent{})
 	}()
 
+	var reconnect bool
 	for {
 		var connack *paho.Connack
 		err := c.connRetry.Start(ctx, "connect",
 			func(ctx context.Context) (bool, error) {
 				var err error
-				connack, err = c.connect(ctx)
+				connack, err = c.connect(ctx, reconnect)
 
 				// Decide to retry depending on whether we consider this error
 				// to be fatal. We don't wrap these errors, so we can use a
@@ -132,9 +121,10 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		// NOTE: signalConnection and signalDisconnection must only be called
 		// together in this loop to ensure ordering between the two.
 		c.signalConnection(ctx, &ConnectEvent{ReasonCode: connack.ReasonCode})
+		reconnect = true
 
 		select {
-		case <-c.conn.Current().Down:
+		case <-c.conn.Current().Down():
 			// Current paho instance got disconnected.
 			switch err := c.conn.Current().Error.(type) {
 			case *FatalDisconnectError:
@@ -167,9 +157,11 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 // server. If the client is successfully connected, return a channel which will
 // be notified when the connection on that client instance goes down, and
 // whether or not that disconnection is due to a fatal error.
-func (c *SessionClient) connect(ctx context.Context) (*paho.Connack, error) {
+func (c *SessionClient) connect(
+	ctx context.Context,
+	reconnect bool,
+) (*paho.Connack, error) {
 	attempt := c.conn.Attempt()
-	isInitialConn := attempt == 1
 
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
 		ClientID: c.connSettings.clientID,
@@ -206,7 +198,7 @@ func (c *SessionClient) connect(ctx context.Context) (*paho.Connack, error) {
 		return nil, err
 	}
 
-	conn := buildConnectPacket(c.connSettings, isInitialConn)
+	conn := buildConnectPacket(c.connSettings, reconnect)
 
 	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
 	c.log.Packet(ctx, "connect", conn)
@@ -225,7 +217,7 @@ func (c *SessionClient) connect(ctx context.Context) (*paho.Connack, error) {
 	case connack.ReasonCode >= 80:
 		return nil, &ConnackError{connack.ReasonCode}
 
-	case !isInitialConn && !connack.SessionPresent:
+	case reconnect && !connack.SessionPresent:
 		c.forceDisconnect(ctx, pahoClient)
 		return nil, &SessionLostError{}
 
@@ -317,7 +309,7 @@ func (c *SessionClient) defaultPahoConstructor(
 
 func buildConnectPacket(
 	connSettings *connectionSettings,
-	isInitialConn bool,
+	reconnect bool,
 ) *paho.Connect {
 	// Bound checks have already been performed during the connection settings
 	// initialization.
@@ -368,7 +360,7 @@ func buildConnectPacket(
 
 	return &paho.Connect{
 		ClientID:       connSettings.clientID,
-		CleanStart:     isInitialConn,
+		CleanStart:     !reconnect,
 		Username:       connSettings.username,
 		UsernameFlag:   connSettings.username != "",
 		Password:       connSettings.password,

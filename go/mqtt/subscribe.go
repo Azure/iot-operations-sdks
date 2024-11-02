@@ -98,10 +98,10 @@ func (c *SessionClient) Subscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown(ctx)
+	ctx, cancel := c.shutdown.With(ctx)
 	defer cancel()
 
-	for pahoClient := range c.conn.Client(ctx) {
+	for ctx, pahoClient := range c.conn.Client(ctx) {
 		c.log.Packet(ctx, "subscribe", sub)
 		suback, err := pahoClient.Subscribe(ctx, sub)
 		c.log.Packet(ctx, "suback", suback)
@@ -137,10 +137,10 @@ func (c *SessionClient) Unsubscribe(
 		return nil, err
 	}
 
-	ctx, cancel := c.shutdown(ctx)
+	ctx, cancel := c.shutdown.With(ctx)
 	defer cancel()
 
-	for pahoClient := range c.conn.Client(ctx) {
+	for ctx, pahoClient := range c.conn.Client(ctx) {
 		c.log.Packet(ctx, "unsubscribe", unsub)
 		unsuback, err := pahoClient.Unsubscribe(ctx, unsub)
 		c.log.Packet(ctx, "unsuback", unsuback)

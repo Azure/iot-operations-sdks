@@ -3,7 +3,6 @@
 package mqtt
 
 import (
-	"context"
 	"crypto/tls"
 	"sync/atomic"
 	"time"
@@ -24,8 +23,7 @@ type (
 
 		// Used to internally to signal client shutdown for cleaning up
 		// background goroutines and inflight operations
-		shutdown func(context.Context) (context.Context, context.CancelFunc)
-		stop     func()
+		shutdown *internal.Background
 
 		// Tracker for the connection. Only valid once started.
 		conn *internal.ConnectionTracker[PahoClient]

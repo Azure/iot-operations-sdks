@@ -28,13 +28,13 @@ type (
 		// instance is created and connected to the server with a successful
 		// CONNACK), used to notify goroutines that are waiting on a connection
 		// to be re-established.
-		Up chan struct{}
+		up chan struct{}
 
-		// Channel that is closed when the the connection is down. Used to
-		// notify goroutines that expect the connection to go down that the
-		// manageConnection() goroutine has detected the disconnection and is
-		// attempting to start a new connection.
-		Down chan struct{}
+		// Background state that is stopped when the the connection is down.
+		// Used to notify goroutines that expect the connection to go down that
+		// the manageConnection() goroutine has detected the disconnection and
+		// is attempting to start a new connection.
+		down *Background
 
 		// Counter for the current connection attempt. This is independent from
 		// the client, since it also records unsuccessful connect attempts.
@@ -44,12 +44,12 @@ type (
 
 func NewConnectionTracker[Client comparable]() *ConnectionTracker[Client] {
 	c := &ConnectionTracker[Client]{}
-	c.current.Up = make(chan struct{})
-	c.current.Down = make(chan struct{})
+	c.current.up = make(chan struct{})
+	c.current.down = NewBackground(context.Canceled)
 
-	// Immediately close Down to maintain the invariant that Down is closed iff
+	// Immediately close down to maintain the invariant that down is closed iff
 	// the client is disconnected.
-	close(c.current.Down)
+	c.current.down.Close()
 
 	return c
 }
@@ -74,8 +74,8 @@ func (c *ConnectionTracker[Client]) Connect(client Client) error {
 	}
 
 	c.current.Client = client
-	close(c.current.Up)
-	c.current.Down = make(chan struct{})
+	close(c.current.up)
+	c.current.down = NewBackground(context.Canceled)
 	return nil
 }
 
@@ -100,8 +100,8 @@ func (c *ConnectionTracker[Client]) Disconnect(attempt uint64, err error) {
 	}
 
 	c.current.Client = zero
-	c.current.Up = make(chan struct{})
-	close(c.current.Down)
+	c.current.up = make(chan struct{})
+	c.current.down.Close()
 }
 
 func (c *ConnectionTracker[Client]) Current() CurrentConnection[Client] {
@@ -115,11 +115,12 @@ func (c *ConnectionTracker[Client]) Current() CurrentConnection[Client] {
 // when the we reconnect, this is represented as an iterator. The caller should
 // return from the loop once the call they're trying to make is complete, or
 // continue the loop if we need to reconnect and try again. The loop will only
-// terminate on its own via the context.
+// terminate on its own via the context. It also provides a context which will
+// be closed if the client disconnects, in order to terminate any requests.
 func (c *ConnectionTracker[Client]) Client(
 	ctx context.Context,
-) iter.Seq2[Client, <-chan struct{}] {
-	return func(yield func(Client, <-chan struct{}) bool) {
+) iter.Seq2[context.Context, Client] {
+	return func(yield func(context.Context, Client) bool) {
 		for {
 			current := c.Current()
 
@@ -128,12 +129,16 @@ func (c *ConnectionTracker[Client]) Client(
 				select {
 				case <-ctx.Done():
 					return
-				case <-current.Up:
+				case <-current.up:
 					continue
 				}
 			}
 
-			if !yield(current.Client, current.Down) {
+			if !func() bool {
+				ctx, cancel := current.down.With(ctx)
+				defer cancel()
+				return yield(ctx, current.Client)
+			}() {
 				return
 			}
 
@@ -142,10 +147,14 @@ func (c *ConnectionTracker[Client]) Client(
 			select {
 			case <-ctx.Done():
 				return
-			case <-current.Down:
+			case <-current.down.Done():
 				// Connection is down, wait for the connection to come back up
 				// and retry.
 			}
 		}
 	}
+}
+
+func (c CurrentConnection[Client]) Down() <-chan struct{} {
+	return c.down.Done()
 }
