@@ -54,5 +54,5 @@ echo ===========================================================================
 echo The k3d cluster has been created and the default context has been set to azure-iot-operations.
 echo If you need non-root access to the cluster, run the following command:
 echo
-echo "mkdir ~/.kube; sudo install -o $USER -g $USER /root/.kube/config ~/.kube/config"
+echo "mkdir ~/.kube; sudo install -o $USER -g $USER -m 600 /root/.kube/config ~/.kube/config"
 echo =================================================================================================
