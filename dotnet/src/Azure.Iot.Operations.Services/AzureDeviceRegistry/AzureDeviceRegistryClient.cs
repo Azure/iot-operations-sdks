@@ -263,12 +263,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             List<string> assetNames = new();
             if (Directory.Exists(_assetConfigMapMountPath))
             {
-                foreach (string directory in Directory.EnumerateDirectories(_assetConfigMapMountPath))
+                foreach (string fileName in Directory.EnumerateFiles(_assetConfigMapMountPath))
                 {
-                    foreach (string fileName in Directory.EnumerateFiles(directory))
-                    {
-                        assetNames.Add(Path.GetFileName(fileName));
-                    }
+                    assetNames.Add(Path.GetFileName(fileName));
                 }
             }
 

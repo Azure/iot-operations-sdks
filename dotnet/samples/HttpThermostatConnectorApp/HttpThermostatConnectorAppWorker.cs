@@ -102,6 +102,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
                 foreach (string assetName in await _adrClient.GetAssetNamesAsync(cancellationToken))
                 {
+                    _logger.LogInformation($"Initial discovered assetname: {assetName}");
                     await StartSamplingAssetAsync(assetName, cancellationToken);
                 }
 
