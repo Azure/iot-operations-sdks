@@ -13,7 +13,19 @@ fi
 if [ ! $(which step) ] 
 then
     wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
-    sudo dpkg -i /tmp/step-cli_amd64.deb
+    dpkg -i /tmp/step-cli_amd64.deb
+fi
+
+# install az cli
+if [ ! $(which az) ] 
+then
+    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+fi
+
+# install kubectl
+if [ ! $(which kubectl) ] 
+then
+    az aks install-cli
 fi
 
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
