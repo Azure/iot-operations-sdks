@@ -9,7 +9,14 @@ then
     wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 fi
 
-# install Step
+# install helm
+if [ ! $(which helm) ]
+then
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+fi
+
+
+# install step
 if [ ! $(which step) ]
 then
     wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
@@ -20,11 +27,6 @@ fi
 if [ ! $(which az) ]
 then
     curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-fi
-
-# install kubectl
-if [ ! $(which kubectl) ]
-then
     az aks install-cli
 fi
 
