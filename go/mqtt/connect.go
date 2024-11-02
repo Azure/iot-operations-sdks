@@ -205,7 +205,7 @@ func (c *SessionClient) buildPahoClient(
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
 		ClientID:    c.config.clientID,
 		Session:     c.session,
-		AuthHandler: &pahoAuther{c: c},
+		AuthHandler: c.auther,
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			// add 1 to the conn count for this because this listener is
 			// effective AFTER the connection succeeds
@@ -314,6 +314,18 @@ func buildConnectPacket(
 		CleanStart: isInitialConn && config.firstConnectionCleanStart,
 		KeepAlive:  config.keepAlive,
 		Properties: &properties,
+	}
+
+	if config.authProvider != nil {
+		auth, err := config.authProvider.InitiateAuthExchange(ctx, false, func() {})
+		if err != nil {
+			return nil, &InvalidArgumentError{
+				wrappedError: err,
+				message:      "error getting auth values from EnhancedAuthenticationProvider",
+			}
+		}
+		packet.Properties.AuthData = auth.AuthenticationData
+		packet.Properties.AuthMethod = auth.AuthenticationMethod
 	}
 
 	userName, userNameFlag, err := config.userNameProvider(ctx)

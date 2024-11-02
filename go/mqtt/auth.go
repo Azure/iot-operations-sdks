@@ -4,8 +4,9 @@ package mqtt
 
 import (
 	"context"
-	"sync/atomic"
+	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -54,34 +55,61 @@ type EnhancedAuthenticationProvider interface {
 }
 
 type pahoAuther struct {
-	c        *SessionClient
-	inflight atomic.Bool
-	cancel   func()
+	c *SessionClient
+
+	mu       sync.Mutex
+	inflight bool
+	done     chan struct{}
+	current  internal.CurrentConnection[PahoClient]
 }
 
-func (a *pahoAuther) StartAuth() (done func()) {
-	if !a.inflight.CompareAndSwap(false, true) {
+func newPahoAuther() *pahoAuther {
+	a := &pahoAuther{done: make(chan struct{})}
+	close(a.done)
+	return a
+}
+
+func (a *pahoAuther) clear() {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	if !a.inflight {
 		return
 	}
-	return func() {
-		if a.cancel != nil {
-			a.cancel()
+	close(a.done)
+	a.inflight = false
+}
+
+func (a *pahoAuther) requestReauthentication() {
+	go func() {
+		a.mu.Lock()
+		defer a.mu.Unlock()
+
+		if a.inflight {
+			return
 		}
-		a.inflight.Store(false)
-	}
+		a.inflight = true
+		// TODO: what to do with done chan
+
+		values, err := a.c.config.authProvider.InitiateAuthExchange(
+			context.TODO(),
+			true,
+			func() { a.requestReauthentication(a.c.conn.Current()) },
+		)
+		if err != nil {
+			return
+		}
+
+		// TODO: we are not holding lock here
+		current.Client.Authenticate(context.TODO(), &paho.Auth{
+			Properties: &paho.AuthProperties{
+				AuthMethod: values.AuthenticationMethod,
+				AuthData:   values.AuthenticationData,
+			},
+		})
+	}()
 }
 
 func (a *pahoAuther) Authenticate(auth *paho.Auth) *paho.Auth {
-	if !a.inflight.Load() {
-		// we should never get here
-		return &paho.Auth{}
-	}
-
-	// TODO: there is a race condition here. consider what happens when done is
-	// called right before the next line.
-	ctx, cancel := context.WithCancel(context.Background())
-	a.cancel = cancel
-
 	values, err := a.c.config.authProvider.ContinueAuthExchange(
 		context.TODO(),
 		&AuthValues{

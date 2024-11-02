@@ -36,6 +36,10 @@ type (
 		// The number of successful connections that have ocurred on the session
 		// client, up to and including the current client instance.
 		Count uint64
+
+		// InflightReauth is true iff there is an MQTT Enhanced Authentication
+		// exchange in progress for re-authentication.
+		InflightReauth bool
 	}
 )
 
@@ -49,6 +53,17 @@ func NewConnectionTracker[Client comparable]() *ConnectionTracker[Client] {
 	close(c.current.Down)
 
 	return c
+}
+
+func (c *ConnectionTracker[Client]) RequestReauthentication() {
+	c.currentMu.Lock()
+	defer c.currentMu.Unlock()
+
+	var zero Client
+	if c.current.Client == zero || c.current.InflightReauth {
+		return
+	}
+
 }
 
 func (c *ConnectionTracker[Client]) Connect(client Client) {

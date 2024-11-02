@@ -30,6 +30,10 @@ type (
 		// Tracker for the connection. Only valid once started.
 		conn *internal.ConnectionTracker[PahoClient]
 
+		// internal paho.Auther implementation to register to paho for Enhanced
+		// Authentication
+		auther *pahoAuther
+
 		// A list of functions that listen for incoming publishes.
 		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish) bool]
 
@@ -116,6 +120,7 @@ func NewSessionClient(
 			receiveMaximum: defaultReceiveMaximum,
 		},
 	}
+	client.auther = &pahoAuther{c: client}
 	client.pahoConstructor = client.defaultPahoConstructor
 
 	for _, opt := range opts {
