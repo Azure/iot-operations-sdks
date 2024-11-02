@@ -28,8 +28,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         internal const string AepDiscoveredAssetEndpointProfileRefRelativeMountPath = "AEP_DISCOVERED_ASSET_ENDPOINT_PROFILE_REF";
         internal const string AepUuidRelativeMountPath = "AEP_UUID";
 
-        private FilesObserver? assetEndpointProfileFileObserver;
-        private Dictionary<string, FilesObserver> assetFileObservers = new();
+        private FilesObserver? _assetEndpointProfileConfigFilesObserver;
+        private FilesObserver? _assetEndpointProfileUsernameSecretFilesObserver;
+        private FilesObserver? _assetEndpointProfilePasswordSecretFilesObserver;
+        private FilesObserver? _assetEndpointProfileCertificateSecretFilesObserver;
+        private FilesObserver? _assetFilesObserver;
 
         private string? _assetConfigMapMountPath;
         private string _assetEndpointConfigMapMountPath;
@@ -37,23 +40,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         private string? _aepPasswordSecretMountPath;
         private string? _aepCertMountPath;
 
+        private string? _aepUsernameSecretName;
+        private string? _aepPasswordSecretName;
+        private string? _aepCertificateSecretName;
+
         /// <summary>
         /// The callback that executes when an asset has changed once you start observing an asset with 
         /// <see cref="ObserveAssetAsync(string, TimeSpan?, CancellationToken)"/>.
         /// </summary>
-        /// <remarks>
-        /// If the update about the asset is that it was deleted, then the provided <see cref="Asset?"/> will be null.
-        /// </remarks>
-        public event EventHandler<Asset?>? AssetChanged;
+        public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
         /// <summary>
         /// The callback that executes when the asset endpoint profile has changed once you start observing it with
         /// <see cref="ObserveAssetEndpointProfileAsync(TimeSpan?, CancellationToken)"/>.
         /// </summary>
-        /// <remarks>
-        /// If the update about the asset is that it was deleted, then the provided <see cref="Asset?"/> will be null.
-        /// </remarks>
-        public event EventHandler<AssetEndpointProfile>? AssetEndpointProfileChanged;
+        public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
 
         public AzureDeviceRegistryClient()
         {
@@ -100,12 +101,13 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
-            string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
-            string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
-            string? aepUsernameSecretFileContents = _aepUsernameSecretMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}") : null;
-            byte[]? aepPasswordSecretFileContents = _aepPasswordSecretMountPath != null ? await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}") : null;
-            string? aepCertFileContents = _aepCertMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{aepCertificateSecretName}"): null;
+            _aepUsernameSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
+            _aepPasswordSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
+            _aepCertificateSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
+            
+            string? aepUsernameSecretFileContents = _aepUsernameSecretMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{_aepUsernameSecretName}") : null;
+            byte[]? aepPasswordSecretFileContents = _aepPasswordSecretMountPath != null ? await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{_aepPasswordSecretName}") : null;
+            string? aepCertFileContents = _aepCertMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{_aepCertificateSecretName}"): null;
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
@@ -135,45 +137,35 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         }
 
         /// <summary>
-        /// Start receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
+        /// Start receiving notifications on <see cref="AssetFileChanged"/> when any asset changes.
         /// </summary>
-        /// <param name="assetName">The Id of the asset to observe.</param>
         /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ObserveAssetAsync(string assetName, TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public async Task ObserveAssetsAsync(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (!assetFileObservers.ContainsKey(assetName))
+            if (_assetFilesObserver == null)
             {
-                var assetObserver = new FilesObserver(
-                    new(){
-                        $"{_assetConfigMapMountPath}/{assetName}/{assetName}",
-                    },
-                    pollingInterval);
-
-                assetFileObservers.Add(assetName, assetObserver);
-
-                await assetObserver.StartAsync();
-
-                assetObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                _assetFilesObserver = new($"{_assetConfigMapMountPath}", pollingInterval);
+                _assetFilesObserver.OnFileChanged += OnAssetFileChanged;
+                await _assetFilesObserver.StartAsync();
             }
         }
 
         /// <summary>
-        /// Stop receiving notifications on <see cref="AssetFileChanged"/> when the asset with the provided Id changes.
+        /// Stop receiving notifications on <see cref="AssetFileChanged"/> when an asset changes.
         /// </summary>
-        /// <param name="assetName">The Id of the asset to unobserve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task UnobserveAssetAsync(string assetName, CancellationToken cancellationToken = default)
+        public async Task UnobserveAssetsAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (assetFileObservers.Remove(assetName, out FilesObserver? assetObserver))
+            if (_assetFilesObserver != null)
             {
-                await assetObserver.StopAsync();
-
-                assetObserver.OnFileChanged -= OnAssetEndpointProfileFileChanged;
+                await _assetFilesObserver.StopAsync();
+                _assetFilesObserver.OnFileChanged -= OnAssetFileChanged;
+                _assetFilesObserver = null;
             }
         }
 
@@ -187,41 +179,39 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (assetEndpointProfileFileObserver == null)
+            if (_assetEndpointProfileConfigFilesObserver == null)
             {
-                assetEndpointProfileFileObserver = new FilesObserver(
-                    new(){
-                        $"{_assetEndpointConfigMapMountPath}/{AepTargetAddressRelativeMountPath}",
-                        $"{_assetEndpointConfigMapMountPath}/{AepAuthenticationMethodRelativeMountPath}",
-                        $"{_assetEndpointConfigMapMountPath}/{EndpointProfileTypeRelativeMountPath}",
-                        $"{_assetEndpointConfigMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}"
-                    }, 
-                    pollingInterval);
+                _aepUsernameSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
+                _aepPasswordSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
+                _aepCertificateSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
 
+                // Asset endpoint profile files live in a few different directories, so several file directory observers
+                // are needed
+                _assetEndpointProfileConfigFilesObserver = new($"{_assetEndpointConfigMapMountPath}", pollingInterval);
+                _assetEndpointProfileConfigFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                await _assetEndpointProfileConfigFilesObserver.StartAsync();
+
+                //TODO how to observe for these secrets being created? We don't know the directory to observe?
                 if (_aepUsernameSecretMountPath != null)
                 {
-                    string? aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
-                    Debug.Assert(aepUsernameSecretName != null);
-                    assetEndpointProfileFileObserver.ObserveAdditionalFilePath($"{_aepUsernameSecretMountPath}/{aepUsernameSecretName}");
+                    _assetEndpointProfileUsernameSecretFilesObserver = new($"{_aepUsernameSecretMountPath}", pollingInterval);
+                    _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
                 }
 
                 if (_aepPasswordSecretMountPath != null)
                 {
-                    string? aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
-                    Debug.Assert(aepPasswordSecretName != null);
-                    assetEndpointProfileFileObserver.ObserveAdditionalFilePath($"{_aepPasswordSecretMountPath}/{aepPasswordSecretName}");
+                    _assetEndpointProfilePasswordSecretFilesObserver = new($"{_aepPasswordSecretMountPath}", pollingInterval);
+                    _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfilePasswordSecretFilesObserver.StartAsync();
                 }
 
                 if (_aepCertMountPath != null)
                 {
-                    string? aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
-                    Debug.Assert(aepCertificateSecretName != null);
-                    assetEndpointProfileFileObserver.ObserveAdditionalFilePath($"{_aepCertMountPath}/{aepCertificateSecretName}");
+                    _assetEndpointProfileCertificateSecretFilesObserver = new($"{_aepCertMountPath}", pollingInterval);
+                    _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                    await _assetEndpointProfileCertificateSecretFilesObserver.StartAsync();
                 }
-
-                await assetEndpointProfileFileObserver.StartAsync();
-
-                assetEndpointProfileFileObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
             }
         }
 
@@ -234,10 +224,32 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (assetEndpointProfileFileObserver != null)
+            if (_assetEndpointProfileConfigFilesObserver != null)
             {
-                await assetEndpointProfileFileObserver.StopAsync();
-                assetEndpointProfileFileObserver = null;
+                await _assetEndpointProfileConfigFilesObserver.StopAsync();
+                _assetEndpointProfileConfigFilesObserver.OnFileChanged -= OnAssetFileChanged;
+                _assetEndpointProfileConfigFilesObserver = null;
+            }
+
+            if (_assetEndpointProfileUsernameSecretFilesObserver != null)
+            {
+                await _assetEndpointProfileUsernameSecretFilesObserver!.StopAsync();
+                _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
+                _assetEndpointProfileUsernameSecretFilesObserver = null;
+            }
+
+            if (_assetEndpointProfilePasswordSecretFilesObserver != null)
+            {
+                await _assetEndpointProfilePasswordSecretFilesObserver!.StopAsync();
+                _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
+                _assetEndpointProfilePasswordSecretFilesObserver = null;
+            }
+
+            if (_assetEndpointProfileCertificateSecretFilesObserver != null)
+            {
+                await _assetEndpointProfileCertificateSecretFilesObserver!.StopAsync();
+                _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
+                _assetEndpointProfileCertificateSecretFilesObserver = null;
             }
         }
 
@@ -251,32 +263,45 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             List<string> assetNames = new();
             if (Directory.Exists(_assetConfigMapMountPath))
             {
-                foreach (string directory in Directory.EnumerateDirectories(_assetConfigMapMountPath))
+                foreach (string fileName in Directory.EnumerateFiles(_assetConfigMapMountPath))
                 {
-                    foreach (string fileName in Directory.EnumerateFiles(directory))
-                    {
-                        assetNames.Add(Path.GetFileName(fileName));
-                    }
+                    assetNames.Add(Path.GetFileName(fileName));
                 }
             }
 
             return Task.FromResult(assetNames);
         }
 
-        private void OnAssetEndpointProfileFileChanged(object? sender, EventArgs e)
+        private void OnAssetEndpointProfileFileChanged(object? sender, FileChangedEventArgs e)
         {
+            string fileName = e.FileName;
+            if (!fileName.Equals($"{AepTargetAddressRelativeMountPath}")
+                && !fileName.Equals($"{AepAuthenticationMethodRelativeMountPath}")
+                && !fileName.Equals($"{EndpointProfileTypeRelativeMountPath}")
+                && !fileName.Equals($"{AepAdditionalConfigurationRelativeMountPath}")
+                && !fileName.Equals($"{_aepUsernameSecretName}")
+                && !fileName.Equals($"{_aepPasswordSecretName}")
+                && !fileName.Equals($"{_aepCertificateSecretName}"))
+            {
+                // The file that changed wasn't one of the AEP files, so it can be ignored
+                return;
+            }
+
             new Task(async () =>
             {
-                AssetEndpointProfileChanged?.Invoke(this, await GetAssetEndpointProfileAsync());
+                //TODO an AEP can only be updated, right? Some files that hold information about the AEP
+                // may be created/deleted over time (password file may disappear if credentials no longer needed)
+                // but it may be a stretch to mark all file changes as "updates"
+                AssetEndpointProfileChanged?.Invoke(this, new(ChangeType.Updated, await GetAssetEndpointProfileAsync()));
             }).Start();
         }
 
-        private void OnAssetFileChanged(object? sender, EventArgs e)
+        private void OnAssetFileChanged(object? sender, FileChangedEventArgs e)
         {
             string assetName = (string)sender!;
             new Task(async () =>
             {
-                AssetChanged?.Invoke(this, await GetAssetAsync(assetName));
+                AssetChanged?.Invoke(this, new(assetName, e.ChangeType, await GetAssetAsync(assetName)));
             }).Start();
         }
 

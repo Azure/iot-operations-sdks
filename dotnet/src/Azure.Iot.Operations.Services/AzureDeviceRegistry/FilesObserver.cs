@@ -13,30 +13,21 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
-        // The most recent write update for each file
-        private Dictionary<string, DateTime> _mostRecentWriteUpdate = new();
+        // The set of file paths and their last known state
+        private Dictionary<string, FileState> _lastKnownDirectoryState = new();
         
-        // The most recent hash of the contents of each file
-        private Dictionary<string, byte[]> _mostRecentContentsHash = new();
-        
-        // The list of files to observe. They may be in different directories.
-        private List<string> _filePathsToObserve;
+        private string _directoryToObserve;
 
         private TimeSpan _pollingInterval;
 
-        internal event EventHandler? OnFileChanged;
+        internal event EventHandler<FileChangedEventArgs>? OnFileChanged;
 
         private bool _startedObserving = false;
 
-        internal FilesObserver(List<string> filePathsToObserve, TimeSpan? pollingInterval = null)
+        internal FilesObserver(string directoryToObserve, TimeSpan? pollingInterval = null)
         {
-            _filePathsToObserve = filePathsToObserve;
+            _directoryToObserve = directoryToObserve;
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
-        }
-
-        internal void ObserveAdditionalFilePath(string filePathToObserve)
-        {
-            _filePathsToObserve.Add(filePathToObserve);
         }
 
         internal async Task StartAsync()
@@ -50,10 +41,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             _observationTaskCancellationTokenSource = new();
 
-            foreach (string filePath in _filePathsToObserve)
+            foreach (string filePath in Directory.EnumerateFiles(_directoryToObserve))
             {
-                _mostRecentContentsHash.Add(filePath, SHA1.HashData(await FileUtilities.ReadFileWithRetryAsync(filePath)));
-                _mostRecentWriteUpdate.Add(filePath, File.GetLastWriteTimeUtc(filePath));
+                await SaveFileStateAsync(filePath);
             }
 
             var observationTask = new Task(
@@ -63,26 +53,47 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                     {
                         while (!_observationTaskCancellationTokenSource.Token.IsCancellationRequested)
                         {
-                            foreach (string filePath in _filePathsToObserve)
+                            var currentFilesInDirectory = Directory.EnumerateFiles(_directoryToObserve);
+
+                            // Check if any previously known files are gone now
+                            foreach (string filePath in _lastKnownDirectoryState.Keys)
+                            {
+                                if (!currentFilesInDirectory.Contains(filePath))
+                                {
+                                    _lastKnownDirectoryState.Remove(filePath);
+                                    OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Deleted));
+                                }
+                            }
+
+                            // Check if any previously known files were updated or if any unknown files have been added to this directory
+                            foreach (string filePath in currentFilesInDirectory)
                             {
                                 try
                                 {
-                                    DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
-                                    if (lastWriteUpdate == _mostRecentWriteUpdate[filePath])
+                                    //TODO need testing on file create/delete cases
+                                    if (!_lastKnownDirectoryState.ContainsKey(filePath))
                                     {
-                                        // File hasn't been updated recently. Skip reading this file's contents.
-                                        continue;
+                                        await SaveFileStateAsync(filePath);
+                                        OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Created));
                                     }
-
-                                    byte[] contents = await FileUtilities.ReadFileWithRetryAsync(filePath);
-
-                                    byte[] contentsHash = SHA1.HashData(contents);
-
-                                    if (!Enumerable.SequenceEqual(_mostRecentContentsHash[filePath], contentsHash))
+                                    else
                                     {
-                                        _mostRecentContentsHash[filePath] = contentsHash;
-                                        _mostRecentWriteUpdate[filePath] = lastWriteUpdate;
-                                        OnFileChanged?.Invoke(this, new());
+                                        DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
+                                        if (lastWriteUpdate == _lastKnownDirectoryState[filePath].MostRecentWrite)
+                                        {
+                                            // File hasn't been updated recently. Skip reading this file's contents.
+                                            continue;
+                                        }
+
+                                        byte[] contents = await FileUtilities.ReadFileWithRetryAsync(filePath);
+
+                                        byte[] contentsHash = SHA1.HashData(contents);
+
+                                        if (!Enumerable.SequenceEqual(_lastKnownDirectoryState[filePath].MostRecentContentsHash, contentsHash))
+                                        {
+                                            _lastKnownDirectoryState[filePath] = new(contentsHash, lastWriteUpdate);
+                                            OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Updated));
+                                        }
                                     }
                                 }
                                 catch (IOException e)
@@ -108,6 +119,11 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             _observationTaskCancellationTokenSource?.Cancel();
             return Task.CompletedTask;
+        }
+
+        internal async Task SaveFileStateAsync(string filePath)
+        {
+            _lastKnownDirectoryState.Add(filePath, new(SHA1.HashData(await FileUtilities.ReadFileWithRetryAsync(filePath)), File.GetLastWriteTimeUtc(filePath)));
         }
     }
 }
