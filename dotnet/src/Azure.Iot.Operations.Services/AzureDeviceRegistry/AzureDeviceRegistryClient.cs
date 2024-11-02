@@ -229,15 +229,24 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 await _assetEndpointProfileConfigFilesObserver.StopAsync();
                 _assetEndpointProfileConfigFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileConfigFilesObserver = null;
+            }
 
+            if (_assetEndpointProfileUsernameSecretFilesObserver != null)
+            {
                 await _assetEndpointProfileUsernameSecretFilesObserver!.StopAsync();
                 _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileUsernameSecretFilesObserver = null;
+            }
 
+            if (_assetEndpointProfilePasswordSecretFilesObserver != null)
+            {
                 await _assetEndpointProfilePasswordSecretFilesObserver!.StopAsync();
                 _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfilePasswordSecretFilesObserver = null;
+            }
 
+            if (_assetEndpointProfileCertificateSecretFilesObserver != null)
+            {
                 await _assetEndpointProfileCertificateSecretFilesObserver!.StopAsync();
                 _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileCertificateSecretFilesObserver = null;
