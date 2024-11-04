@@ -18,22 +18,13 @@ func (c *SessionClient) requestReauthentication() {
 		return
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
-		defer cancel()
-
-		select {
-		case <-current.Down():
-		case <-ctx.Done():
-		}
-	}()
-
-	go func() {
+		ctx, cancel := current.Down.With(context.Background())
 		defer cancel()
 
 		values, err := c.config.authProvider.InitiateAuthExchange(true)
 		if err != nil {
-			// TODO: log this error
+			c.log.Error(ctx, err)
 			return
 		}
 
@@ -48,9 +39,10 @@ func (c *SessionClient) requestReauthentication() {
 		// NOTE: we ignore the return values of client.Authenticate() because
 		// if it fails, there's nothing we can do except let the client
 		// eventually disconnect and try to reconnect.
-		_, _ = current.Client.Authenticate(ctx, packet)
-
-		// TODO: log any errors from client.Authenticate()
+		_, err = current.Client.Authenticate(ctx, packet)
+		if err != nil {
+			c.log.Error(ctx, err)
+		}
 	}()
 }
 

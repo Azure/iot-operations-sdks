@@ -135,7 +135,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		reconnect = true
 
 		select {
-		case <-c.conn.Current().Down():
+		case <-c.conn.Current().Down.Done():
 			// Current paho instance got disconnected.
 			switch err := c.conn.Current().Error.(type) {
 			case *FatalDisconnectError:

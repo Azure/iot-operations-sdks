@@ -34,7 +34,7 @@ type (
 		// Used to notify goroutines that expect the connection to go down that
 		// the manageConnection() goroutine has detected the disconnection and
 		// is attempting to start a new connection.
-		down *Background
+		Down *Background
 
 		// Counter for the current connection attempt. This is independent from
 		// the client, since it also records unsuccessful connect attempts.
@@ -45,11 +45,11 @@ type (
 func NewConnectionTracker[Client comparable]() *ConnectionTracker[Client] {
 	c := &ConnectionTracker[Client]{}
 	c.current.up = make(chan struct{})
-	c.current.down = NewBackground(context.Canceled)
+	c.current.Down = NewBackground(context.Canceled)
 
 	// Immediately close down to maintain the invariant that down is closed iff
 	// the client is disconnected.
-	c.current.down.Close()
+	c.current.Down.Close()
 
 	return c
 }
@@ -75,7 +75,7 @@ func (c *ConnectionTracker[Client]) Connect(client Client) error {
 
 	c.current.Client = client
 	close(c.current.up)
-	c.current.down = NewBackground(context.Canceled)
+	c.current.Down = NewBackground(context.Canceled)
 	return nil
 }
 
@@ -101,7 +101,7 @@ func (c *ConnectionTracker[Client]) Disconnect(attempt uint64, err error) {
 
 	c.current.Client = zero
 	c.current.up = make(chan struct{})
-	c.current.down.Close()
+	c.current.Down.Close()
 }
 
 func (c *ConnectionTracker[Client]) Current() CurrentConnection[Client] {
@@ -135,7 +135,7 @@ func (c *ConnectionTracker[Client]) Client(
 			}
 
 			if !func() bool {
-				ctx, cancel := current.down.With(ctx)
+				ctx, cancel := current.Down.With(ctx)
 				defer cancel()
 				return yield(ctx, current.Client)
 			}() {
@@ -147,14 +147,10 @@ func (c *ConnectionTracker[Client]) Client(
 			select {
 			case <-ctx.Done():
 				return
-			case <-current.down.Done():
+			case <-current.Down.Done():
 				// Connection is down, wait for the connection to come back up
 				// and retry.
 			}
 		}
 	}
-}
-
-func (c CurrentConnection[Client]) Down() <-chan struct{} {
-	return c.down.Done()
 }
