@@ -298,10 +298,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         private void OnAssetFileChanged(object? sender, FileChangedEventArgs e)
         {
-            string assetName = (string)sender!;
             new Task(async () =>
             {
-                AssetChanged?.Invoke(this, new(assetName, e.ChangeType, await GetAssetAsync(assetName)));
+                AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, await GetAssetAsync(e.FileName)));
             }).Start();
         }
 
