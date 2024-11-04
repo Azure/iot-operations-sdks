@@ -15,6 +15,7 @@ using Xunit;
 using Xunit.Abstractions;
 using global::Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
+using System.Reflection.Emit;
 
 [Trait("Category", "DiscoveredAsset")]
 public class DiscoveredAssetResourcesClientIntegrationTests
@@ -140,5 +141,72 @@ public class DiscoveredAssetResourcesClientIntegrationTests
         var createDiscoveredAssetEndpointProfileResponse = await mrpcClient.CreateDiscoveredAssetEndpointProfileAsync(dReq);
         Assert.NotNull(createDiscoveredAssetEndpointProfileResponse);
         Assert.Equal(createDiscoveredAssetEndpointProfileResponse.Status, Enum_CreateDiscoveredAssetEndpointProfile_Response_Status.Created);
+    }
+
+    [Fact]
+    public async Task CreateAFailTest()
+    {
+        await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("opcdafail-" + Guid.NewGuid().ToString());
+        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        CreateDiscoveredAssetRequestPayload request = new CreateDiscoveredAssetRequestPayload
+        {
+            CreateDiscoveredAssetRequest = new()
+            {
+                AssetEndpointProfileRef = "opc-asset-endpoint-profile",
+                AssetName = "aiodasset-opc1",
+                Datasets = new()
+                        {
+                            new ()
+                            {
+                                Name = "dataset1",
+                                DataSetConfiguration = "{ \"test\": \"test\" }",
+                                DataPoints = new ()
+                                {
+                                    new ()
+                                    {
+                                        Name = "test",
+                                        DataPointConfiguration = "test",
+                                        DataSource = "test",
+                                    },
+                                },
+                                Topic = new ()
+                                {
+                                    Path = "akri/test",
+                                    Retain = Enum_Com_Microsoft_Deviceregistry_DiscoveredTopicRetain__1.Keep,
+                                },
+                            },
+                        },
+                DefaultDatasetsConfiguration = "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+                DefaultEventsConfiguration = "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+                DefaultTopic = new()
+                {
+                    Path = "akri/test",
+                    Retain = Enum_Com_Microsoft_Deviceregistry_DiscoveredTopicRetain__1.Keep,
+                },
+                DocumentationUri = "test",
+                Events = new()
+                        {
+                            new ()
+                            {
+                                Name = "event1",
+                                EventConfiguration = "{\"publishingInterval\":10,\"samplingInterval\":15,\"queueSize\":20}",
+                                EventNotifier = "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt1",
+                                Topic = new ()
+                                {
+                                    Path = "akri/test",
+                                    Retain = Enum_Com_Microsoft_Deviceregistry_DiscoveredTopicRetain__1.Never,
+                                },
+                            },
+                        },
+            },
+        };
+
+        var createDiscoveredAssetResponse = await mrpcClient.CreateDiscoveredAssetAsync(request);
+        Assert.NotNull(createDiscoveredAssetResponse);
+        Assert.Equal(createDiscoveredAssetResponse.Status, Enum_CreateDiscoveredAsset_Response_Status.Failed);
+
+
+
+
     }
 }
