@@ -189,7 +189,6 @@ func (c *SessionClient) connect(
 			// effective AFTER the connection succeeds.
 			c.makeOnPublishReceived(attempt),
 		},
-
 		OnServerDisconnect: func(d *paho.Disconnect) {
 			if isFatalDisconnectReasonCode(d.ReasonCode) {
 				c.conn.Disconnect(attempt, &FatalDisconnectError{d.ReasonCode})
@@ -201,12 +200,23 @@ func (c *SessionClient) connect(
 		OnClientError: func(err error) {
 			c.conn.Disconnect(attempt, err)
 		},
+
+		// Set the AuthHandler as nil user did not provide an
+		// EnhancedAuthenticationProvider implementation, else set it as our
+		// our paho.Auther implementation that adapts the
+		// EnhancedAuthenticationProvider for use with Paho.
+		AuthHandler: func() paho.Auther {
+			if c.config.authProvider == nil {
+				return nil
+			}
+			return &pahoAuther{c: c}
+		}(),
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	conn, err := buildConnectPacket(ctx, c.config, reconnect)
+	conn, err := c.buildConnectPacket(ctx, reconnect)
 	if err != nil {
 		return nil, err
 	}
@@ -307,29 +317,28 @@ func (c *SessionClient) defaultPahoConstructor(
 	return paho.NewClient(*cfg), nil
 }
 
-func buildConnectPacket(
+func (c *SessionClient) buildConnectPacket(
 	ctx context.Context,
-	config *connectionConfig,
 	reconnect bool,
 ) (*paho.Connect, error) {
-	sessionExpiryInterval := config.sessionExpiryInterval
+	sessionExpiryInterval := c.config.sessionExpiryInterval
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
-		ReceiveMaximum:        &config.receiveMaximum,
+		ReceiveMaximum:        &c.config.receiveMaximum,
 		RequestProblemInfo:    true,
 		User: internal.MapToUserProperties(
-			config.userProperties,
+			c.config.userProperties,
 		),
 	}
 
 	packet := &paho.Connect{
-		ClientID:   config.clientID,
-		CleanStart: !reconnect && config.firstConnectionCleanStart,
-		KeepAlive:  config.keepAlive,
+		ClientID:   c.config.clientID,
+		CleanStart: !reconnect && c.config.firstConnectionCleanStart,
+		KeepAlive:  c.config.keepAlive,
 		Properties: &properties,
 	}
 
-	userName, userNameFlag, err := config.userNameProvider(ctx)
+	userName, userNameFlag, err := c.config.userNameProvider(ctx)
 	if err != nil {
 		return nil, &InvalidArgumentError{
 			wrapped: err,
@@ -341,7 +350,7 @@ func buildConnectPacket(
 		packet.Username = userName
 	}
 
-	password, passwordFlag, err := config.passwordProvider(ctx)
+	password, passwordFlag, err := c.config.passwordProvider(ctx)
 	if err != nil {
 		return nil, &InvalidArgumentError{
 			wrapped: err,
@@ -351,6 +360,18 @@ func buildConnectPacket(
 	if passwordFlag {
 		packet.PasswordFlag = true
 		packet.Password = password
+	}
+
+	if c.config.authProvider != nil {
+		authValues, err := c.config.authProvider.InitiateAuthExchange(false, c.requestReauthentication)
+		if err != nil {
+			return nil, &InvalidArgumentError{
+				wrapped: err,
+				message: "error getting auth values from EnhancedAuthenticationProvider",
+			}
+		}
+		packet.Properties.AuthData = authValues.AuthenticationData
+		packet.Properties.AuthMethod = authValues.AuthenticationMethod
 	}
 
 	return packet, nil

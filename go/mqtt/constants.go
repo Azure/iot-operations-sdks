@@ -71,3 +71,10 @@ const (
 	disconnectSubscriptionIdentifiersNotSupported byte = 0xA1
 	disconnectWildcardSubscriptionsNotSupported   byte = 0xA2
 )
+
+// AUTH packet reason codes
+// (https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901220)
+const (
+	authContinueAuthentication byte = 0x18
+	authReauthenticate         byte = 0x19
+)

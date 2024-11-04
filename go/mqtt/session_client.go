@@ -60,6 +60,7 @@ type (
 
 	connectionConfig struct {
 		connectionProvider ConnectionProvider
+		authProvider       EnhancedAuthenticationProvider
 
 		clientID string
 
