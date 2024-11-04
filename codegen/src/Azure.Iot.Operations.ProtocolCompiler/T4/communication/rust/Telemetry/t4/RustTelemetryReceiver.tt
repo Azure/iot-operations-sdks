@@ -10,6 +10,9 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
 
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
 use super::MODEL_ID;
+<# if (this.useSharedSubscription) { #>
+use super::TELEMETRY_SERVICE_GROUP_ID;
+<# } #>
 use super::TELEMETRY_TOPIC_PATTERN;
 use crate::common_types::common_options::CommonOptions;
 
@@ -39,6 +42,9 @@ where
             .telemetry_name("<#=this.telemetryName#>")
 <# } #>
             .custom_topic_token_map(options.custom_topic_token_map.clone())
+<# if (this.useSharedSubscription) { #>
+            .service_group_id(TELEMETRY_SERVICE_GROUP_ID.to_string())
+<# } #>
             .build()
             .expect("DTDL schema generated invalid arguments");
         Self(
