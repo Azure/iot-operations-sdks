@@ -22,14 +22,13 @@ func (c *SessionClient) makeOnPublishReceived(
 	return func(publishReceived paho.PublishReceived) (bool, error) {
 		packet := publishReceived.Packet
 		c.log.Packet(ctx, "publish received", packet)
-		msg := buildMessage(packet)
 
 		// We track whether any of the handlers take ownership of the message
 		// so that we only actually ack once all of them have done so.
 		var willAck sync.WaitGroup
 		for handler := range c.messageHandlers.All() {
-			cpy := *msg
-			cpy.Ack = sync.OnceValue(func() error {
+			willAck.Add(1)
+			if !handler(buildMessage(packet, sync.OnceValue(func() error {
 				if packet.QoS == 0 {
 					return &InvalidOperationError{
 						message: "QoS 0 messages may not be acked",
@@ -37,10 +36,7 @@ func (c *SessionClient) makeOnPublishReceived(
 				}
 				willAck.Done()
 				return nil
-			})
-
-			willAck.Add(1)
-			if !handler(&cpy) {
+			}))) {
 				willAck.Done()
 			}
 		}
@@ -211,9 +207,8 @@ func buildUnsubscribe(
 	return unsub, nil
 }
 
-// Build message for the message handler. The resulting value should be cloned
-// (by dereferencing) and have an ack added before being passed to the handler.
-func buildMessage(packet *paho.Publish) *Message {
+// Build message for the message handler.
+func buildMessage(packet *paho.Publish, ack func() error) *Message {
 	msg := &Message{
 		Topic:   packet.Topic,
 		Payload: packet.Payload,
@@ -227,6 +222,7 @@ func buildMessage(packet *paho.Publish) *Message {
 				packet.Properties.User,
 			),
 		},
+		Ack: ack,
 	}
 	if packet.Properties.MessageExpiry != nil {
 		msg.MessageExpiry = *packet.Properties.MessageExpiry
