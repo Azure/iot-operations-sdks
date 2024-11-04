@@ -155,7 +155,7 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		password = FilePassword(passwordFileStr)
 	}
 
-	var authProvider auth.EnhancedAuthenticationProvider
+	var authProvider auth.Provider
 	if satAuthFileStr := settingsMap["satauthfile"]; satAuthFileStr != "" {
 		authProvider = auth.NewMQServiceAccountToken(satAuthFileStr)
 	}

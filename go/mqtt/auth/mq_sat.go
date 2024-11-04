@@ -20,9 +20,9 @@ func NewMQServiceAccountToken(filename string) *MQServiceAccountToken {
 
 func (sat *MQServiceAccountToken) InitiateAuthExchange(
 	reauthentication bool,
-	_ func(),
 ) (*Values, error) {
 	if reauthentication {
+		// TODO: remove this error when we implement re-authentication
 		return nil, fmt.Errorf(
 			"reauthentication request received when it wasn't implemented yet",
 		)
@@ -46,7 +46,7 @@ func (*MQServiceAccountToken) ContinueAuthExchange(
 	)
 }
 
-func (*MQServiceAccountToken) AuthSuccess() {
+func (*MQServiceAccountToken) AuthSuccess(func()) {
 	// TODO: start a timer or a file watcher for re-authentication. It is not
 	// strictly necessary for the session client to function with MQ, but it
 	// will prevent reconnections from ocurring when the token expires.

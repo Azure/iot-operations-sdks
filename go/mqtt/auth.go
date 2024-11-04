@@ -31,10 +31,7 @@ func (c *SessionClient) requestReauthentication() {
 	go func() {
 		defer cancel()
 
-		values, err := c.config.authProvider.InitiateAuthExchange(
-			true,
-			c.requestReauthentication,
-		)
+		values, err := c.config.authProvider.InitiateAuthExchange(true)
 		if err != nil {
 			// TODO: log this error
 			return
@@ -57,6 +54,7 @@ func (c *SessionClient) requestReauthentication() {
 	}()
 }
 
+// Implements paho.Auther.
 type pahoAuther struct {
 	c *SessionClient
 }
@@ -85,5 +83,5 @@ func (a *pahoAuther) Authenticate(packet *paho.Auth) *paho.Auth {
 }
 
 func (a *pahoAuther) Authenticated() {
-	a.c.config.authProvider.AuthSuccess()
+	a.c.config.authProvider.AuthSuccess(a.c.requestReauthentication)
 }

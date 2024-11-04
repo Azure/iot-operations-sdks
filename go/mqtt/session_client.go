@@ -61,7 +61,7 @@ type (
 
 	connectionConfig struct {
 		connectionProvider ConnectionProvider
-		authProvider       auth.EnhancedAuthenticationProvider
+		authProvider       auth.Provider
 
 		clientID string
 

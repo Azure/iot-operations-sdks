@@ -8,61 +8,14 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 
 ## Index
 
-- [type EnhancedAuthenticationProvider](<#EnhancedAuthenticationProvider>)
 - [type MQServiceAccountToken](<#MQServiceAccountToken>)
   - [func NewMQServiceAccountToken\(filename string\) \*MQServiceAccountToken](<#NewMQServiceAccountToken>)
-  - [func \(\*MQServiceAccountToken\) AuthSuccess\(\)](<#MQServiceAccountToken.AuthSuccess>)
+  - [func \(\*MQServiceAccountToken\) AuthSuccess\(func\(\)\)](<#MQServiceAccountToken.AuthSuccess>)
   - [func \(\*MQServiceAccountToken\) ContinueAuthExchange\(\_ \*Values\) \(\*Values, error\)](<#MQServiceAccountToken.ContinueAuthExchange>)
-  - [func \(sat \*MQServiceAccountToken\) InitiateAuthExchange\(reauthentication bool, \_ func\(\)\) \(\*Values, error\)](<#MQServiceAccountToken.InitiateAuthExchange>)
+  - [func \(sat \*MQServiceAccountToken\) InitiateAuthExchange\(reauthentication bool\) \(\*Values, error\)](<#MQServiceAccountToken.InitiateAuthExchange>)
+- [type Provider](<#Provider>)
 - [type Values](<#Values>)
 
-
-<a name="EnhancedAuthenticationProvider"></a>
-## type [EnhancedAuthenticationProvider](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/types.go#L12-L50>)
-
-
-
-```go
-type EnhancedAuthenticationProvider interface {
-    // InitiateAuthExchange is called by the SessionClient when an enhanced
-    // authentication exchange is initiated. An enhanced authentication exchange
-    // is initiated when a new MQTT connection is being created or when the
-    // implementation of the EnhancedAuthenticationProvider calls the
-    // requestReauthentication function passed to it from previous calls to
-    // to InitiateAuthentication.
-    //
-    // reauthentication is true if this is a reauthentication on a live MQTT
-    // connection and false it is on new MQTT connection.
-    //
-    // requestReauthentication is a function that the implementation of
-    // EnhancedAuthenticationProvider may call to tell the SessionClient to
-    // initiate a reauthentication on the live MQTT connection. Note that this
-    // function is valid for use for the entire lifetime of the SessionClient.
-    //
-    // The return value is a pointer to an Values struct that contains values
-    // that will be sent to the server via a CONNECT or AUTH packet.
-    InitiateAuthExchange(
-        reauthentication bool,
-        requestReauthentication func(),
-    ) (*Values, error)
-
-    // ContinueAuthExchange is called by the SessionClient when it receives an
-    // AUTH packet from the server with reason code 0x18 (Continue
-    // authentication).
-    //
-    // values contains the the values from the aforementioned AUTH packet.
-    //
-    // The return value is a pointer to to an Values struct that contains
-    // values that will be sent to the server via an AUTH packet for this round
-    // of the enhanced authentication exchange.
-    ContinueAuthExchange(values *Values) (*Values, error)
-
-    // AuthSuccess is called by the SessionClient when it receives a CONNACK
-    // or AUTH packet with a success reason code (0x00) after an enhanced
-    // authentication exchange was initiated.
-    AuthSuccess()
-}
-```
 
 <a name="MQServiceAccountToken"></a>
 ## type [MQServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L13-L15>)
@@ -88,7 +41,7 @@ func NewMQServiceAccountToken(filename string) *MQServiceAccountToken
 ### func \(\*MQServiceAccountToken\) [AuthSuccess](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L49>)
 
 ```go
-func (*MQServiceAccountToken) AuthSuccess()
+func (*MQServiceAccountToken) AuthSuccess(func())
 ```
 
 
@@ -103,13 +56,57 @@ func (*MQServiceAccountToken) ContinueAuthExchange(_ *Values) (*Values, error)
 
 
 <a name="MQServiceAccountToken.InitiateAuthExchange"></a>
-### func \(\*MQServiceAccountToken\) [InitiateAuthExchange](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L21-L24>)
+### func \(\*MQServiceAccountToken\) [InitiateAuthExchange](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L21-L23>)
 
 ```go
-func (sat *MQServiceAccountToken) InitiateAuthExchange(reauthentication bool, _ func()) (*Values, error)
+func (sat *MQServiceAccountToken) InitiateAuthExchange(reauthentication bool) (*Values, error)
 ```
 
 
+
+<a name="Provider"></a>
+## type [Provider](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/types.go#L12-L47>)
+
+
+
+```go
+type Provider interface {
+    // InitiateAuthExchange is called by the SessionClient when an enhanced
+    // authentication exchange is initiated. An enhanced authentication exchange
+    // is initiated when a new MQTT connection is being created or when the
+    // implementation of the EnhancedAuthenticationProvider calls the
+    // requestReauthentication function passed to it from previous calls to
+    // to InitiateAuthentication.
+    //
+    // reauthentication is true if this is a reauthentication on a live MQTT
+    // connection and false it is on new MQTT connection.
+    //
+    // The return value is a pointer to an Values struct that contains values
+    // that will be sent to the server via a CONNECT or AUTH packet.
+    InitiateAuthExchange(reauthentication bool) (*Values, error)
+
+    // ContinueAuthExchange is called by the SessionClient when it receives an
+    // AUTH packet from the server with reason code 0x18 (Continue
+    // authentication).
+    //
+    // values contains the the values from the aforementioned AUTH packet.
+    //
+    // The return value is a pointer to to an Values struct that contains
+    // values that will be sent to the server via an AUTH packet for this round
+    // of the enhanced authentication exchange.
+    ContinueAuthExchange(values *Values) (*Values, error)
+
+    // AuthSuccess is called by the SessionClient when it receives a CONNACK
+    // or AUTH packet with a success reason code (0x00) after an enhanced
+    // authentication exchange was initiated.
+    //
+    // requestReauthentication is a function that the implementation of
+    // EnhancedAuthenticationProvider may call to tell the SessionClient to
+    // initiate a reauthentication on the live MQTT connection. Note that this
+    // function is valid for use for the entire lifetime of the SessionClient.
+    AuthSuccess(requestReauthentication func())
+}
+```
 
 <a name="Values"></a>
 ## type [Values](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/types.go#L7-L10>)

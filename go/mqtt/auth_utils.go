@@ -15,15 +15,6 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-// readFileAsBytes reads the entire file content into a byte slice.
-func readFileAsBytes(filePath string) ([]byte, error) {
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
-}
-
 // loadCACertPool loads a CA certificate pool from the specified file.
 func loadCACertPool(caFile string) (*x509.CertPool, error) {
 	caCert, err := os.ReadFile(caFile)

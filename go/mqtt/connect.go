@@ -174,6 +174,11 @@ func (c *SessionClient) connect(
 ) (*paho.Connack, error) {
 	attempt := c.conn.Attempt()
 
+	var auther paho.Auther
+	if c.config.authProvider != nil {
+		auther = &pahoAuther{c: c}
+	}
+
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
 		ClientID: c.config.clientID,
 		Session:  c.session,
@@ -204,16 +209,7 @@ func (c *SessionClient) connect(
 			c.conn.Disconnect(attempt, err)
 		},
 
-		// Set the AuthHandler as nil user did not provide an
-		// EnhancedAuthenticationProvider implementation, else set it as our
-		// our paho.Auther implementation that adapts the
-		// EnhancedAuthenticationProvider for use with Paho.
-		AuthHandler: func() paho.Auther {
-			if c.config.authProvider == nil {
-				return nil
-			}
-			return &pahoAuther{c: c}
-		}(),
+		AuthHandler: auther,
 	})
 	if err != nil {
 		return nil, err
@@ -366,10 +362,7 @@ func (c *SessionClient) buildConnectPacket(
 	}
 
 	if c.config.authProvider != nil {
-		authValues, err := c.config.authProvider.InitiateAuthExchange(
-			false,
-			c.requestReauthentication,
-		)
+		authValues, err := c.config.authProvider.InitiateAuthExchange(false)
 		if err != nil {
 			return nil, &InvalidArgumentError{
 				wrapped: err,

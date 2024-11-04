@@ -9,7 +9,7 @@ type Values struct {
 	AuthenticationData   []byte
 }
 
-type EnhancedAuthenticationProvider interface {
+type Provider interface {
 	// InitiateAuthExchange is called by the SessionClient when an enhanced
 	// authentication exchange is initiated. An enhanced authentication exchange
 	// is initiated when a new MQTT connection is being created or when the
@@ -20,17 +20,9 @@ type EnhancedAuthenticationProvider interface {
 	// reauthentication is true if this is a reauthentication on a live MQTT
 	// connection and false it is on new MQTT connection.
 	//
-	// requestReauthentication is a function that the implementation of
-	// EnhancedAuthenticationProvider may call to tell the SessionClient to
-	// initiate a reauthentication on the live MQTT connection. Note that this
-	// function is valid for use for the entire lifetime of the SessionClient.
-	//
 	// The return value is a pointer to an Values struct that contains values
 	// that will be sent to the server via a CONNECT or AUTH packet.
-	InitiateAuthExchange(
-		reauthentication bool,
-		requestReauthentication func(),
-	) (*Values, error)
+	InitiateAuthExchange(reauthentication bool) (*Values, error)
 
 	// ContinueAuthExchange is called by the SessionClient when it receives an
 	// AUTH packet from the server with reason code 0x18 (Continue
@@ -46,5 +38,10 @@ type EnhancedAuthenticationProvider interface {
 	// AuthSuccess is called by the SessionClient when it receives a CONNACK
 	// or AUTH packet with a success reason code (0x00) after an enhanced
 	// authentication exchange was initiated.
-	AuthSuccess()
+	//
+	// requestReauthentication is a function that the implementation of
+	// EnhancedAuthenticationProvider may call to tell the SessionClient to
+	// initiate a reauthentication on the live MQTT connection. Note that this
+	// function is valid for use for the entire lifetime of the SessionClient.
+	AuthSuccess(requestReauthentication func())
 }
