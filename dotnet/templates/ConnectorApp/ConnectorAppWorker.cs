@@ -40,9 +40,6 @@ namespace ConnectorAppProjectTemplate
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
-            // Additionally, the telemetry sent by this connector should be stamped as a cloud event
-
             try
             {
                 _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
