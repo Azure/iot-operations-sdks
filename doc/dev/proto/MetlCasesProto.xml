@@ -18,7 +18,7 @@
         RPC protocol must be tested using normative unit tests that assert the _expected_ behavior of the protocol. This MUST include at the very least:
       </Paragraph>
       <Itemization>
-        <Item>Correct MQTT semantic for PUB and PUBACK ordering: PUBs have to be re-trasmitted and ACKed in the same order they have been sent and observed by the participating clients. See [section 4.6 Message Ordering](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901240) in MQTT5 specification.</Item>
+        <Item>Correct MQTT semantic for PUB and PUBACK ordering: PUBs have to be re-transmitted and ACKed in the same order they have been sent and observed by the participating clients. See [section 4.6 Message Ordering](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901240) in MQTT5 specification.</Item>
         <Item>Correct de-duplication of requests.</Item>
         <Item>Correct execution of [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.</Item>
         <Item>Correct lifetime for cached responses.</Item>
@@ -34,7 +34,7 @@
         <Item>Duplicate requests and/or responses.</Item>
         <Item>Disconnection and re-connection (both for sender and receiver), both due to client failure and/or client being disconnected by the broker (e.g., on account of backpressure).</Item>
         <Item>Failure and sub-sequent re-connection, both on invoker and executor side.</Item>
-        <Item>Serving requests inside and outside the [_timeout_](http://link_to_timeout) window indicated by request invokation, both for [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.</Item>
+        <Item>Serving requests inside and outside the [_timeout_](http://link_to_timeout) window indicated by request invocation, both for [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.</Item>
       </Itemization>
 
       <Paragraph>

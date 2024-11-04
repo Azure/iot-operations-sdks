@@ -48,8 +48,8 @@ func New<#=this.serviceName#>Service(
 	var err error
 
 	serverOpts := []protocol.Option{
-<# if (this.serviceGroupId != null) { #>
-		protocol.WithShareName("<#=this.serviceGroupId#>"),
+<# if (this.cmdServiceGroupId != null) { #>
+		protocol.WithShareName("<#=this.cmdServiceGroupId#>"),
 <# } #>
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
@@ -116,6 +116,9 @@ func New<#=this.serviceName#>Client(
 	var err error
 
 	clientOpts := []protocol.Option{
+<# if (this.telemServiceGroupId != null) { #>
+		protocol.WithShareName("<#=this.telemServiceGroupId#>"),
+<# } #>
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 <# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
