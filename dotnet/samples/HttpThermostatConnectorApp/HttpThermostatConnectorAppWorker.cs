@@ -5,6 +5,9 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+using HttpThermostatConnectorAppProjectTemplate;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
@@ -38,9 +41,6 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            //TODO once schema registry client is ready, connector should register the schema on startup. The connector then puts the schema in the asset status field.
-            // Additionally, the telemetry sent by this connector should be stamped as a cloud event
-
             try
             {
                 _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
@@ -74,7 +74,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been deleted.");
-                        
+
                         // Stop sampling this asset since it was deleted
                         foreach (Timer datasetSampler in _samplers[args.AssetName].Values)
                         {
@@ -142,55 +142,63 @@ namespace HttpThermostatConnectorAppProjectTemplate
             _assets.Add(assetName, asset);
 
             _samplers[assetName] = new();
-            foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
+            if (_assets[assetName].DatasetsDictionary == null)
             {
-                Dataset dataset = _assets[assetName].DatasetsDictionary![datasetName];
-
-                TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(_assets[assetName].DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
-
-                TimeSpan samplingInterval = defaultSamplingInterval;
-                if (dataset.DatasetConfiguration != null
-                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
+                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
+                return;
+            }
+            else
+            {
+                foreach (string datasetName in _assets[assetName].DatasetsDictionary!.Keys)
                 {
-                    samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
-                }
+                    Dataset dataset = _assets[assetName].DatasetsDictionary![datasetName];
 
-                _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
-                _samplers[assetName][datasetName] = datasetSamplingTimer;
+                    TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(_assets[assetName].DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
 
-                string mqttMessageSchema = dataset.GetMqttMessageSchema();
-                _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
-                _logger.LogInformation(mqttMessageSchema);
-
-                if (doSchemaWork)
-                {
-                    var schema = await _schemaRegistryClient.PutAsync(
-                        mqttMessageSchema,
-                        Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
-                        Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
-                        "1.0.0", //TODO version?
-                    new(),
-                        null,
-                        cancellationToken);
-
-                    if (schema == null)
+                    TimeSpan samplingInterval = defaultSamplingInterval;
+                    if (dataset.DatasetConfiguration != null
+                        && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
                     {
-                        throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
+                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
                     }
 
-                    asset.Status ??= new();
-                    asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
-                    asset.Status.Events[0] = new StatusEvents()
+                    _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
+                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                    _samplers[assetName][datasetName] = datasetSamplingTimer;
+
+                    string mqttMessageSchema = dataset.GetMqttMessageSchema();
+                    _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
+                    _logger.LogInformation(mqttMessageSchema);
+
+                    if (doSchemaWork)
                     {
-                        Name = schema.Name,
-                        MessageSchemaReference = new()
+                        var schema = await _schemaRegistryClient.PutAsync(
+                            mqttMessageSchema,
+                            Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
+                            Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
+                            "1.0.0", //TODO version?
+                        new(),
+                            null,
+                            cancellationToken);
+
+                        if (schema == null)
                         {
-                            SchemaName = schema.Name,
-                            SchemaRegistryNamespace = schema.Namespace,
-                            SchemaVersion = schema.Version,
+                            throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
                         }
-                    };
+
+                        asset.Status ??= new();
+                        asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
+                        asset.Status.Events[0] = new StatusEvents()
+                        {
+                            Name = schema.Name,
+                            MessageSchemaReference = new()
+                            {
+                                SchemaName = schema.Name,
+                                SchemaRegistryNamespace = schema.Namespace,
+                                SchemaVersion = schema.Version,
+                            }
+                        };
+                    }
                 }
             }
         }
