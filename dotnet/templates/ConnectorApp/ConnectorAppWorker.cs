@@ -99,10 +99,17 @@ namespace ConnectorAppProjectTemplate
 
                 await _adrClient.ObserveAssetsAsync(null, cancellationToken);
 
+                bool assetFound = false;
                 foreach (string assetName in await _adrClient.GetAssetNamesAsync(cancellationToken))
                 {
                     _logger.LogInformation($"Initial discovered assetname: {assetName}");
                     await StartSamplingAssetAsync(assetName, cancellationToken);
+                    assetFound = true;
+                }
+
+                if (!assetFound)
+                { 
+                    _logger.LogInformation($"No assets discovered on startup.");
                 }
 
                 // Wait until the worker is cancelled
