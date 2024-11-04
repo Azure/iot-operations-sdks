@@ -11,12 +11,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/sosodev/duration"
 )
-
-// TODO: Replace auth-related connection settings test code once the auth
-// interfaces in the session client are determined.
 
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
@@ -157,6 +155,11 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		password = FilePassword(passwordFileStr)
 	}
 
+	var authProvider auth.EnhancedAuthenticationProvider
+	if satAuthFileStr := settingsMap["satauthfile"]; satAuthFileStr != "" {
+		authProvider = auth.NewMQServiceAccountToken(satAuthFileStr)
+	}
+
 	hostname := settingsMap["hostname"]
 	if hostname == "" {
 		return nil, &InvalidArgumentError{message: "HostName must be provided"}
@@ -190,6 +193,7 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		clientID:                  clientID,
 		userNameProvider:          userName,
 		passwordProvider:          password,
+		authProvider:              authProvider,
 		firstConnectionCleanStart: cleanStart,
 		keepAlive:                 keepAlive,
 		sessionExpiryInterval:     sessionExpiryInterval,

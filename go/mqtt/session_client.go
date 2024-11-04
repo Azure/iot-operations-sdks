@@ -7,6 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 	"github.com/eclipse/paho.golang/paho/session"
@@ -60,7 +61,7 @@ type (
 
 	connectionConfig struct {
 		connectionProvider ConnectionProvider
-		authProvider       EnhancedAuthenticationProvider
+		authProvider       auth.EnhancedAuthenticationProvider
 
 		clientID string
 
