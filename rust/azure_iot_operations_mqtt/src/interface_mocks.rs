@@ -3,43 +3,56 @@
 
 //! Bespoke mocks for relevant traits defined in the interface module.
 #![allow(unused_variables)]
-#![allow(dead_code)]
-#![allow(unused_imports)]
-#![allow(missing_docs)]
-
-use std::sync::Mutex;
 
 use async_trait::async_trait;
 use bytes::Bytes;
+use tokio::sync::mpsc::{error::SendError, unbounded_channel, UnboundedReceiver, UnboundedSender};
 
-use crate::interface::{CompletionToken, MqttAck, MqttClient, MqttDisconnect, MqttPubSub};
-use crate::control_packet::{AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties};
-use crate::error::{ClientError, CompletionError};
+use crate::control_packet::{
+    AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
+};
+use crate::error::{ClientError, CompletionError, ConnectionError};
+use crate::interface::{
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
+};
 
+/// Stand-in for the inner future of a CompletionToken.
+/// Always returns Ok, indicating the ack was completed.
+struct DummyAckFuture {}
 
-pub struct MockMqttClient {
-    publishes: Mutex<Vec<Publish>>,
-    //subscribes: Mutex<Vec<
+impl std::future::Future for DummyAckFuture {
+    type Output = Result<(), CompletionError>;
 
-    // TODO: what about ordering though?
-    // We may need to know that a subscribe happens before any publishes, etc.
-}
-
-impl MockMqttClient {
-    pub fn new() -> Self {
-        Self {
-            publishes: Mutex::new(Vec::new()),
-            //subscribes: Mutex::new(Vec::new()),
-        }
+    fn poll(
+        self: std::pin::Pin<&mut Self>,
+        cx: &mut std::task::Context<'_>,
+    ) -> std::task::Poll<Self::Output> {
+        std::task::Poll::Ready(Ok(()))
     }
 }
 
-// expect calls like in mockall do not work very well here because of the asynchronous code.
-// We don't want some background thread to panic - the tests wouldn't know.
-// Instead, I suspect we need to have checkable stuff after the fact.
+/// Mock implementation of an MQTT client.
+///
+/// Currently always succeeds on all operations.
+#[derive(Clone)]
+pub struct MockClient {}
+
+impl MockClient {
+    /// Return a new mocked MQTT client.
+    pub fn new() -> Self {
+        Self {}
+    }
+}
+
+// TODO: Need to flesh out the mock more
+// - ability to change calls to fail / inject failure
+// - ability to check which operations occurred (e.g. Publish, Subscribe, etc.), and the details of those operations
+// - ability to check which order the calls ocurred in
+// - ability to throttle outgoing events by capacity (e.g. queueing)
+// - must be able to track this over all potential clones of the mocked client
 
 #[async_trait]
-impl MqttPubSub for MockMqttClient {
+impl MqttPubSub for MockClient {
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -47,9 +60,6 @@ impl MqttPubSub for MockMqttClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        let mut publish = Publish::new(topic, qos, payload, None);
-        publish.retain = retain;
-        self.publishes.lock().unwrap().push(publish);
         Ok(CompletionToken(Box::new(DummyAckFuture {})))
     }
 
@@ -98,35 +108,60 @@ impl MqttPubSub for MockMqttClient {
 }
 
 #[async_trait]
-impl MqttAck for MockMqttClient {
+impl MqttAck for MockClient {
     async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        unimplemented!()
+        Ok(())
     }
 }
 
 #[async_trait]
-impl MqttDisconnect for MockMqttClient {
+impl MqttDisconnect for MockClient {
     async fn disconnect(&self) -> Result<(), ClientError> {
-        unimplemented!()
+        Ok(())
     }
 }
 
 #[async_trait]
-impl MqttClient for MockMqttClient {
+impl MqttClient for MockClient {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
-        unimplemented!()
+        Ok(())
     }
 }
 
+/// Mock implementation of an MQTT event loop
+pub struct MockEventLoop {
+    rx: UnboundedReceiver<Event>,
+}
 
-/// Stand-in for the inner future of a CompletionToken.
-/// Always returns Ok, indicating the ack was completed.
-struct DummyAckFuture {}
+impl MockEventLoop {
+    /// Return a new mocked MQTT event loop along with an event injector.
+    pub fn new() -> (Self, EventInjector) {
+        let (tx, rx) = unbounded_channel();
+        (Self { rx }, EventInjector { tx })
+    }
+}
 
-impl std::future::Future for DummyAckFuture {
-    type Output = Result<(), CompletionError>;
+#[async_trait]
+impl MqttEventLoop for MockEventLoop {
+    async fn poll(&mut self) -> Result<Event, ConnectionError> {
+        match self.rx.recv().await {
+            Some(e) => Ok(e),
+            None => Err(ConnectionError::RequestsDone),
+        }
+    }
 
-    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut std::task::Context<'_>) -> std::task::Poll<Self::Output> {
-        std::task::Poll::Ready(Ok(()))
+    fn set_clean_start(&mut self, _clean_start: bool) {}
+}
+
+/// Used to inject events into the [`MockEventLoop`].
+#[derive(Clone)]
+pub struct EventInjector {
+    tx: UnboundedSender<Event>,
+}
+
+impl EventInjector {
+    /// Inject an event into the [`MockEventLoop`].
+    pub fn inject(&self, event: Event) -> Result<(), SendError<Event>> {
+        self.tx.send(event)
     }
 }

@@ -17,7 +17,7 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    CompletionToken, Event, MqttClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
