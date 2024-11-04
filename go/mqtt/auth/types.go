@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 package auth
 
-// AuthValues contains values from AUTH packets sent to and received from
-// the MQTT server
-type AuthValues struct {
+// Values contains values from AUTH packets sent to and received from
+// the MQTT server.
+type Values struct {
 	AuthenticationMethod string
 	AuthenticationData   []byte
 }
@@ -25,9 +25,12 @@ type EnhancedAuthenticationProvider interface {
 	// initiate a reauthentication on the live MQTT connection. Note that this
 	// function is valid for use for the entire lifetime of the SessionClient.
 	//
-	// The return value is a pointer to an AuthValues struct that contains
-	// values that will be sent to the server via a CONNECT or AUTH packet.
-	InitiateAuthExchange(reauthentication bool, requestReauthentication func()) (*AuthValues, error)
+	// The return value is a pointer to an Values struct that contains values
+	// that will be sent to the server via a CONNECT or AUTH packet.
+	InitiateAuthExchange(
+		reauthentication bool,
+		requestReauthentication func(),
+	) (*Values, error)
 
 	// ContinueAuthExchange is called by the SessionClient when it receives an
 	// AUTH packet from the server with reason code 0x18 (Continue
@@ -35,10 +38,10 @@ type EnhancedAuthenticationProvider interface {
 	//
 	// values contains the the values from the aforementioned AUTH packet.
 	//
-	// The return value is a pointer to to an AuthValues struct that contains
+	// The return value is a pointer to to an Values struct that contains
 	// values that will be sent to the server via an AUTH packet for this round
 	// of the enhanced authentication exchange.
-	ContinueAuthExchange(values *AuthValues) (*AuthValues, error)
+	ContinueAuthExchange(values *Values) (*Values, error)
 
 	// AuthSuccess is called by the SessionClient when it receives a CONNACK
 	// or AUTH packet with a success reason code (0x00) after an enhanced

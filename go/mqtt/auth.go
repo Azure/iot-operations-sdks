@@ -31,13 +31,16 @@ func (c *SessionClient) requestReauthentication() {
 	go func() {
 		defer cancel()
 
-		values, err := c.config.authProvider.InitiateAuthExchange(true, c.requestReauthentication)
+		values, err := c.config.authProvider.InitiateAuthExchange(
+			true,
+			c.requestReauthentication,
+		)
 		if err != nil {
 			// TODO: log this error
 			return
 		}
 
-		auth := &paho.Auth{
+		packet := &paho.Auth{
 			ReasonCode: authReauthenticate,
 			Properties: &paho.AuthProperties{
 				AuthData:   values.AuthenticationData,
@@ -48,7 +51,7 @@ func (c *SessionClient) requestReauthentication() {
 		// NOTE: we ignore the return values of client.Authenticate() because
 		// if it fails, there's nothing we can do except let the client
 		// eventually disconnect and try to reconnect.
-		current.Client.Authenticate(ctx, auth)
+		_, _ = current.Client.Authenticate(ctx, packet)
 
 		// TODO: log any errors from client.Authenticate()
 	}()
@@ -60,7 +63,7 @@ type pahoAuther struct {
 
 func (a *pahoAuther) Authenticate(packet *paho.Auth) *paho.Auth {
 	values, err := a.c.config.authProvider.ContinueAuthExchange(
-		&auth.AuthValues{
+		&auth.Values{
 			AuthenticationMethod: packet.Properties.AuthMethod,
 			AuthenticationData:   packet.Properties.AuthData,
 		},

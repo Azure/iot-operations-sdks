@@ -223,19 +223,24 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		return config, nil
 	}
 
-	if (certFileStr != "" || keyFileStr != "") && (certFileStr == "" || keyFileStr == "") {
+	if (certFileStr != "" || keyFileStr != "") &&
+		(certFileStr == "" || keyFileStr == "") {
 		return nil, &InvalidArgumentError{
 			message: "both CertFile and KeyFile must be provided if using X509 authentication",
 		}
 	}
 
 	tlsConfigProvider := func(context.Context) (*tls.Config, error) {
-		tlsConfig := &tls.Config{}
+		tlsConfig := &tls.Config{MinVersion: tls.VersionTLS12}
 		if certFileStr != "" || keyFileStr != "" {
 			var cert tls.Certificate
 			var err error
 			if keyFilePasswordStr := settingsMap["keyfilepassword"]; keyFilePasswordStr != "" {
-				cert, err = loadX509KeyPairWithPassword(certFileStr, keyFileStr, keyFilePasswordStr)
+				cert, err = loadX509KeyPairWithPassword(
+					certFileStr,
+					keyFileStr,
+					keyFilePasswordStr,
+				)
 			} else {
 				cert, err = tls.LoadX509KeyPair(certFileStr, keyFileStr)
 			}

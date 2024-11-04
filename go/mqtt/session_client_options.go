@@ -49,7 +49,9 @@ func withConnectionConfig(
 // aware of the implications. If there is a possibility of a session on the
 // MQTT server for this Client ID with inflight QoS 1+ PUBLISHes or QoS 2
 // SUBSCRIBEs, it may result in message loss and/or MQTT protocol violations.
-func WithFirstConnectionCleanStart(firstConnectionCleanStart bool) SessionClientOption {
+func WithFirstConnectionCleanStart(
+	firstConnectionCleanStart bool,
+) SessionClientOption {
 	return func(c *SessionClient) {
 		c.config.firstConnectionCleanStart = firstConnectionCleanStart
 	}
@@ -68,7 +70,7 @@ func WithConnRetry(
 
 // ******CLIENT IDENTIFIER******
 
-// WithClientID sets MQTT Client Identifier
+// WithClientID sets MQTT Client Identifier.
 func WithClientID(
 	clientID string,
 ) SessionClientOption {

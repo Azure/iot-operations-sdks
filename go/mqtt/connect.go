@@ -102,7 +102,10 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 				connCtx := ctx
 				if c.config.connectionTimeout != 0 {
 					var cancel func()
-					connCtx, cancel = context.WithTimeout(ctx, c.config.connectionTimeout)
+					connCtx, cancel = context.WithTimeout(
+						ctx,
+						c.config.connectionTimeout,
+					)
 					defer cancel()
 				}
 
@@ -363,7 +366,10 @@ func (c *SessionClient) buildConnectPacket(
 	}
 
 	if c.config.authProvider != nil {
-		authValues, err := c.config.authProvider.InitiateAuthExchange(false, c.requestReauthentication)
+		authValues, err := c.config.authProvider.InitiateAuthExchange(
+			false,
+			c.requestReauthentication,
+		)
 		if err != nil {
 			return nil, &InvalidArgumentError{
 				wrapped: err,
