@@ -24,7 +24,7 @@ func (c *SessionClient) requestReauthentication() {
 
 		values, err := c.config.authProvider.InitiateAuthExchange(true)
 		if err != nil {
-			c.log.Error(ctx, err)
+			c.log.Error(context.TODO(), err)
 			return
 		}
 
