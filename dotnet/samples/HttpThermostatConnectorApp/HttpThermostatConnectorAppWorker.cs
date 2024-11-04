@@ -87,7 +87,6 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     else if (args.ChangeType == ChangeType.Created)
                     {
                         _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been created.");
-                        _assets[args.AssetName] = args.Asset!;
 
                         _ = StartSamplingAssetAsync(args.AssetName, cancellationToken);
                     }
@@ -246,7 +245,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
             byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
 
-            _logger.LogInformation($"Read dataset from asset. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             var topic = dataset.Topic != null ? dataset.Topic! : asset.DefaultTopic!;
             var mqttMessage = new MqttApplicationMessage(topic.Path!)
