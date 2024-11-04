@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 use azure_iot_operations_mqtt::control_packet::{Publish, QoS};
-use azure_iot_operations_mqtt::interface::{
-    Event, Incoming, ManagedClient, MqttPubSub, PubReceiver,
-};
+use azure_iot_operations_mqtt::interface::{Event, Incoming, ManagedClient, PubReceiver};
 use azure_iot_operations_mqtt::interface_mocks::{EventInjector, MockClient, MockEventLoop};
 use azure_iot_operations_mqtt::session::{
     reconnect_policy::ExponentialBackoffWithJitter, session::Session,
@@ -37,7 +35,7 @@ async fn mock_event_injection() {
         injector
             .inject(Event::Incoming(Incoming::Publish(Publish {
                 dup: false,
-                qos: rumqttc::v5::mqttbytes::QoS::AtLeastOnce,
+                qos: QoS::AtLeastOnce,
                 retain: false,
                 topic: "test/resp/topic".into(),
                 pkid: 1,

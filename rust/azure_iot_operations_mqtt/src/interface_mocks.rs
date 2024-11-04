@@ -16,7 +16,7 @@ use crate::interface::{
     CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
-/// Stand-in for the inner future of a CompletionToken.
+/// Stand-in for the inner future of a [`CompletionToken`]S.
 /// Always returns Ok, indicating the ack was completed.
 struct DummyAckFuture {}
 
@@ -39,6 +39,8 @@ pub struct MockClient {}
 
 impl MockClient {
     /// Return a new mocked MQTT client.
+    #[must_use]
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {}
     }
@@ -135,6 +137,7 @@ pub struct MockEventLoop {
 
 impl MockEventLoop {
     /// Return a new mocked MQTT event loop along with an event injector.
+    #[must_use]
     pub fn new() -> (Self, EventInjector) {
         let (tx, rx) = unbounded_channel();
         (Self { rx }, EventInjector { tx })
@@ -161,6 +164,10 @@ pub struct EventInjector {
 
 impl EventInjector {
     /// Inject an event into the [`MockEventLoop`].
+    ///
+    /// # Errors
+    /// Returns a [`SendError`] if the event could not be injected
+    /// (i.e. the event loop has been dropped).
     pub fn inject(&self, event: Event) -> Result<(), SendError<Event>> {
         self.tx.send(event)
     }
