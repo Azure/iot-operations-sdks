@@ -24,6 +24,9 @@ func (c *SessionClient) requestReauthentication() {
 
 		values, err := c.config.authProvider.InitiateAuthExchange(true)
 		if err != nil {
+			// using context.TODO() here because we are not passing a context
+			// into InitiateAuthExchange and we want to review logging contexts
+			// to ensure they get torn down with the client.
 			c.log.Error(context.TODO(), err)
 			return
 		}
