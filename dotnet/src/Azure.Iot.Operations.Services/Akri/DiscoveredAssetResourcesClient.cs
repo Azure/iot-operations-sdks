@@ -10,7 +10,6 @@ using AssetResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResou
 
 public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
 {
-    private static readonly TimeSpan s_DefaultCommandTimeout = TimeSpan.FromSeconds(10);
     private readonly DiscoveredAssetResourcesClientStub _clientStub = new(pubSubClient);
     private bool _disposed;
 
@@ -21,7 +20,7 @@ public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : ID
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         return (await _clientStub.CreateDiscoveredAssetEndpointProfileAsync(
-            discoveredAssetEndpointProfileCommandRequest, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
+            discoveredAssetEndpointProfileCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
     }
 
     public async Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
@@ -30,7 +29,7 @@ public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : ID
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).CreateDiscoveredAssetResponse;
+        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetResponse;
     }
 
     public async ValueTask DisposeAsync()
@@ -44,5 +43,21 @@ public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : ID
         GC.SuppressFinalize(this);
         _disposed = true;
     }
+
+    public async ValueTask DisposeAsync(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        await _clientStub.DisposeAsync(disposing).ConfigureAwait(false);
+        if (disposing)
+        {
+            GC.SuppressFinalize(this);
+        }
+
+        _disposed = true;
+    }
+
 }
 
