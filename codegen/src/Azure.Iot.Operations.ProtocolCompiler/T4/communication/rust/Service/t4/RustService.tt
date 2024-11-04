@@ -18,6 +18,12 @@ pub const REQUEST_TOPIC_PATTERN: &str = "<#=this.commandTopic#>";
 <# if (this.telemetryTopic != null) { #>
 pub const TELEMETRY_TOPIC_PATTERN: &str = "<#=this.telemetryTopic#>";
 <# } #>
+<# if (this.cmdServiceGroupId != null) { #>
+pub const COMMAND_SERVICE_GROUP_ID: &str = "<#=this.cmdServiceGroupId#>";
+<# } #>
+<# if (this.telemServiceGroupId != null) { #>
+pub const TELEMETRY_SERVICE_GROUP_ID: &str = "<#=this.telemServiceGroupId#>";
+<# } #>
 
 pub mod client {
 <# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_sender") && !module.EndsWith("_serialization")) { #>
