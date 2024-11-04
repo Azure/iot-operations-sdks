@@ -11,60 +11,56 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 )
 
-type incomingPublish struct {
-	// The incoming PUBLISH packet
-	packet *paho.Publish
-	// Manually acks this PUBLISH. Note that automatic acks are not currently
-	// supported, so this MUST be called.
-	ack func() error
-}
+type messageHandler func(*Message) bool
 
 // Creates the single callback to register to the underlying Paho client for
 // incoming PUBLISH packets.
 func (c *SessionClient) makeOnPublishReceived(
+	ctx context.Context,
 	attempt uint64,
 ) func(paho.PublishReceived) (bool, error) {
 	return func(publishReceived paho.PublishReceived) (bool, error) {
-		c.log.Packet(
-			context.Background(),
-			"publish received",
-			publishReceived.Packet,
-		)
+		packet := publishReceived.Packet
+		c.log.Packet(ctx, "publish received", packet)
+		msg := buildMessage(packet)
 
-		ack := sync.OnceValue(func() error {
-			if publishReceived.Packet.QoS == 0 {
-				return &InvalidOperationError{
-					message: "only QoS 1 messages may be acked",
+		// We track whether any of the handlers take ownership of the message
+		// so that we only actually ack once all of them have done so.
+		var willAck sync.WaitGroup
+		for handler := range c.messageHandlers.All() {
+			cpy := *msg
+			cpy.Ack = sync.OnceValue(func() error {
+				if packet.QoS == 0 {
+					return &InvalidOperationError{
+						message: "QoS 0 messages may not be acked",
+					}
 				}
-			}
-
-			current := c.conn.Current()
-			if current.Client == nil || current.Attempt != attempt {
-				// if any disconnections occurred since receiving this
-				// PUBLISH, discard the ack.
+				willAck.Done()
 				return nil
+			})
+
+			willAck.Add(1)
+			if !handler(&cpy) {
+				willAck.Done()
 			}
-
-			return current.Client.Ack(publishReceived.Packet)
-		})
-
-		// We track wether any of the handlers take ownership of the message
-		// so that we can ack if none do.
-		// TODO: Multiple ack owners will not fail (due to sync.OnceValue), but
-		// the message will be acked when the first owner acks, not the last.
-		// We should probably reverse that order.
-		var willAck bool
-		for handler := range c.incomingPublishHandlers.All() {
-			willAck = handler(
-				incomingPublish{
-					packet: publishReceived.Packet,
-					ack:    ack,
-				},
-			) || willAck
 		}
 
-		if !willAck {
-			return true, ack()
+		if packet.QoS > 0 {
+			go func() {
+				willAck.Wait()
+				current := c.conn.Current()
+
+				// If any disconnections occurred since receiving this PUBLISH,
+				// discard the ack.
+				if current.Client == nil || current.Attempt != attempt {
+					return
+				}
+
+				// Errors from Ack are highly unlikely, so just log them.
+				if err := current.Client.Ack(packet); err != nil {
+					c.log.Error(ctx, err)
+				}
+			}()
 		}
 		return true, nil
 	}
@@ -74,11 +70,9 @@ func (c *SessionClient) makeOnPublishReceived(
 // callback to remove the message handler.
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	ctx, cancel := context.WithCancel(context.Background())
-	done := c.incomingPublishHandlers.AppendEntry(
-		func(incoming incomingPublish) bool {
-			return handler(ctx, buildMessage(incoming))
-		},
-	)
+	done := c.messageHandlers.AppendEntry(func(msg *Message) bool {
+		return handler(ctx, msg)
+	})
 	return sync.OnceFunc(func() {
 		done()
 		cancel()
@@ -217,28 +211,28 @@ func buildUnsubscribe(
 	return unsub, nil
 }
 
-// buildMessage build message for message handler.
-func buildMessage(p incomingPublish) *Message {
+// Build message for the message handler. The resulting value should be cloned
+// (by dereferencing) and have an ack added before being passed to the handler.
+func buildMessage(packet *paho.Publish) *Message {
 	msg := &Message{
-		Topic:   p.packet.Topic,
-		Payload: p.packet.Payload,
+		Topic:   packet.Topic,
+		Payload: packet.Payload,
 		PublishOptions: PublishOptions{
-			ContentType:     p.packet.Properties.ContentType,
-			CorrelationData: p.packet.Properties.CorrelationData,
-			QoS:             p.packet.QoS,
-			ResponseTopic:   p.packet.Properties.ResponseTopic,
-			Retain:          p.packet.Retain,
+			ContentType:     packet.Properties.ContentType,
+			CorrelationData: packet.Properties.CorrelationData,
+			QoS:             packet.QoS,
+			ResponseTopic:   packet.Properties.ResponseTopic,
+			Retain:          packet.Retain,
 			UserProperties: internal.UserPropertiesToMap(
-				p.packet.Properties.User,
+				packet.Properties.User,
 			),
 		},
-		Ack: p.ack,
 	}
-	if p.packet.Properties.MessageExpiry != nil {
-		msg.MessageExpiry = *p.packet.Properties.MessageExpiry
+	if packet.Properties.MessageExpiry != nil {
+		msg.MessageExpiry = *packet.Properties.MessageExpiry
 	}
-	if p.packet.Properties.PayloadFormat != nil {
-		msg.PayloadFormat = *p.packet.Properties.PayloadFormat
+	if packet.Properties.PayloadFormat != nil {
+		msg.PayloadFormat = *packet.Properties.PayloadFormat
 	}
 	return msg
 }
