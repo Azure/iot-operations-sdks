@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![allow(unused_variables)]
+#![allow(dead_code)]
+#![allow(unused_imports)]
+
 use async_trait::async_trait;
 use flume::{bounded, Receiver, Sender};
 use rumqttc::v5::AsyncClient;
 use tokio::select;
 
-use azure_iot_operations_mqtt::control_packet::Publish;
+use azure_iot_operations_mqtt::control_packet::{Publish, QoS};
 use azure_iot_operations_mqtt::error::ConnectionError;
 use azure_iot_operations_mqtt::interface::{
-    Event, Incoming, ManagedClient, MqttEventLoop, PubReceiver,
+    Event, Incoming, ManagedClient, MqttClient, MqttPubSub, MqttEventLoop, PubReceiver,
 };
+use azure_iot_operations_mqtt::interface_mocks::MockMqttClient;
 use azure_iot_operations_mqtt::session::{
     reconnect_policy::ExponentialBackoffWithJitter, session::Session,
 };
@@ -38,7 +43,16 @@ impl MqttEventLoop for MockEventLoop {
 }
 
 #[tokio::test]
+async fn mock_client() {
+    let client = MockMqttClient::new();
+    let ct = client.publish("test/topic", QoS::AtLeastOnce, false, "").await.unwrap();
+    ct.await.unwrap();
+    assert!(true);
+}
+
+#[tokio::test]
 async fn mock_event_loop() {
+
     const MAX_PENDING_MESSAGES: usize = 10;
     const CLIENT_ID: &str = "MyClientId";
 
