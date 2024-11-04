@@ -98,7 +98,15 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 		err := c.connRetry.Start(ctx, "connect",
 			func(ctx context.Context) (bool, error) {
 				var err error
-				connack, err = c.connect(ctx, reconnect)
+
+				connCtx := ctx
+				if c.config.connectionTimeout != 0 {
+					var cancel func()
+					connCtx, cancel = context.WithTimeout(ctx, c.config.connectionTimeout)
+					defer cancel()
+				}
+
+				connack, err = c.connect(connCtx, reconnect)
 
 				// Decide to retry depending on whether we consider this error
 				// to be fatal. We don't wrap these errors, so we can use a
@@ -164,7 +172,7 @@ func (c *SessionClient) connect(
 	attempt := c.conn.Attempt()
 
 	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
-		ClientID: c.connSettings.clientID,
+		ClientID: c.config.clientID,
 		Session:  c.session,
 
 		// Set Paho's packet timeout to the maximum possible value to
@@ -198,9 +206,14 @@ func (c *SessionClient) connect(
 		return nil, err
 	}
 
-	conn := buildConnectPacket(c.connSettings, reconnect)
+	conn, err := buildConnectPacket(ctx, c.config, reconnect)
+	if err != nil {
+		return nil, err
+	}
 
-	// TODO: timeout if CONNACK doesn't come back in a reasonable amount of time
+	// NOTE: there is no way for the user to know if the session was present if
+	// this is the first connection and firstConnectionCleanStart is set to
+	// false
 	c.log.Packet(ctx, "connect", conn)
 	connack, err := pahoClient.Connect(ctx, conn)
 	c.log.Packet(ctx, "connack", connack)
@@ -285,21 +298,8 @@ func (c *SessionClient) defaultPahoConstructor(
 	ctx context.Context,
 	cfg *paho.ClientConfig,
 ) (PahoClient, error) {
-	// Refresh TLS config for new connection.
-	if err := c.connSettings.validateTLS(); err != nil {
-		// TODO: this currently returns immediately if refreshing TLS config
-		// fails. Do we want to instead attempt to connect with the stale TLS
-		// config?
-		return nil, err
-	}
-
-	conn, err := buildNetConn(
-		ctx,
-		c.connSettings.serverURL,
-		c.connSettings.tlsConfig,
-	)
+	conn, err := c.config.connectionProvider(ctx)
 	if err != nil {
-		// buildNetConn will wrap the error in fatalError if it's fatal
 		return nil, err
 	}
 
@@ -308,66 +308,50 @@ func (c *SessionClient) defaultPahoConstructor(
 }
 
 func buildConnectPacket(
-	connSettings *connectionSettings,
+	ctx context.Context,
+	config *connectionConfig,
 	reconnect bool,
-) *paho.Connect {
-	// Bound checks have already been performed during the connection settings
-	// initialization.
-	sessionExpiryInterval := uint32(connSettings.sessionExpiry.Seconds())
+) (*paho.Connect, error) {
+	sessionExpiryInterval := config.sessionExpiryInterval
 	properties := paho.ConnectProperties{
 		SessionExpiryInterval: &sessionExpiryInterval,
-		ReceiveMaximum:        &connSettings.receiveMaximum,
-		// https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901053
-		// We need user properties by default.
-		RequestProblemInfo: true,
+		ReceiveMaximum:        &config.receiveMaximum,
+		RequestProblemInfo:    true,
 		User: internal.MapToUserProperties(
-			connSettings.userProperties,
+			config.userProperties,
 		),
 	}
 
-	// LWT.
-	var willMessage *paho.WillMessage
-	if connSettings.willMessage != nil {
-		willMessage = &paho.WillMessage{
-			Retain:  connSettings.willMessage.Retain,
-			QoS:     connSettings.willMessage.QoS,
-			Topic:   connSettings.willMessage.Topic,
-			Payload: connSettings.willMessage.Payload,
+	packet := &paho.Connect{
+		ClientID:   config.clientID,
+		CleanStart: !reconnect && config.firstConnectionCleanStart,
+		KeepAlive:  config.keepAlive,
+		Properties: &properties,
+	}
+
+	userName, userNameFlag, err := config.userNameProvider(ctx)
+	if err != nil {
+		return nil, &InvalidArgumentError{
+			wrapped: err,
+			message: "error getting user name from UserNameProvider",
 		}
 	}
+	if userNameFlag {
+		packet.UsernameFlag = true
+		packet.Username = userName
+	}
 
-	var willProperties *paho.WillProperties
-	if connSettings.willProperties != nil {
-		willDelayInterval := uint32(
-			connSettings.willProperties.WillDelayInterval.Seconds(),
-		)
-		messageExpiry := uint32(
-			connSettings.willProperties.MessageExpiry.Seconds(),
-		)
-
-		willProperties = &paho.WillProperties{
-			WillDelayInterval: &willDelayInterval,
-			PayloadFormat:     &connSettings.willProperties.PayloadFormat,
-			MessageExpiry:     &messageExpiry,
-			ContentType:       connSettings.willProperties.ContentType,
-			ResponseTopic:     connSettings.willProperties.ResponseTopic,
-			CorrelationData:   connSettings.willProperties.CorrelationData,
-			User: internal.MapToUserProperties(
-				connSettings.willProperties.User,
-			),
+	password, passwordFlag, err := config.passwordProvider(ctx)
+	if err != nil {
+		return nil, &InvalidArgumentError{
+			wrapped: err,
+			message: "error getting password from PasswordProvider",
 		}
 	}
-
-	return &paho.Connect{
-		ClientID:       connSettings.clientID,
-		CleanStart:     !reconnect,
-		Username:       connSettings.username,
-		UsernameFlag:   connSettings.username != "",
-		Password:       connSettings.password,
-		PasswordFlag:   len(connSettings.password) != 0,
-		KeepAlive:      uint16(connSettings.keepAlive.Seconds()),
-		WillMessage:    willMessage,
-		WillProperties: willProperties,
-		Properties:     &properties,
+	if passwordFlag {
+		packet.PasswordFlag = true
+		packet.Password = password
 	}
+
+	return packet, nil
 }

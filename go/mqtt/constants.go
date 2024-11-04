@@ -7,12 +7,8 @@ import (
 )
 
 const (
-	defaultReceiveMaximum    uint16 = math.MaxUint16
-	maxKeepAlive             uint16 = math.MaxUint16
-	maxSessionExpiry         uint32 = math.MaxUint32
-	maxPublishQueueSize      int    = math.MaxUint16
-	maxInitialConnectRetries int    = 5
-	aesGcmNonce              int    = 12
+	maxPublishQueueSize int = math.MaxUint16
+	aesGcmNonce         int = 12
 )
 
 // CONNACK packet reason codes

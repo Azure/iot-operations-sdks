@@ -20,7 +20,7 @@ func getStubAndSessionClient(
 ) (*StubMqttClient, protocol.MqttClient) {
 	mqttClient := MakeStubMqttClient(clientID)
 	sessionClient, err := mqtt.NewSessionClient(
-		"tcp://localhost:1234",
+		mqtt.TCPConnection("localhost", 1234),
 		mqtt.WithPahoConstructor(func(
 			_ context.Context,
 			cfg *paho.ClientConfig,
