@@ -41,9 +41,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             _observationTaskCancellationTokenSource = new();
 
-            foreach (string filePath in Directory.EnumerateFiles(_directoryToObserve))
+            if (Directory.Exists(_directoryToObserve))
             {
-                await SaveFileStateAsync(filePath);
+                foreach (string filePath in Directory.EnumerateFiles(_directoryToObserve))
+                {
+                    await SaveFileStateAsync(filePath);
+                }
             }
 
             var observationTask = new Task(
@@ -53,57 +56,76 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                     {
                         while (!_observationTaskCancellationTokenSource.Token.IsCancellationRequested)
                         {
-                            var currentFilesInDirectory = Directory.EnumerateFiles(_directoryToObserve);
-
-                            // Check if any previously known files are gone now
-                            foreach (string filePath in _lastKnownDirectoryState.Keys)
+                            if (!Directory.Exists(_directoryToObserve))
                             {
-                                if (!currentFilesInDirectory.Contains(filePath))
+                                // The folder was deleted, so all previously known files must have been deleted as well
+                                foreach (string filePath in _lastKnownDirectoryState.Keys)
                                 {
-                                    _lastKnownDirectoryState.Remove(filePath);
                                     OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Deleted));
                                 }
-                            }
 
-                            // Check if any previously known files were updated or if any unknown files have been added to this directory
-                            foreach (string filePath in currentFilesInDirectory)
+                                _lastKnownDirectoryState.Clear();
+                            }
+                            else
                             {
-                                try
+                                var currentFilesInDirectory = Directory.EnumerateFiles(_directoryToObserve);
+
+                                // Check if any previously known files are gone now
+                                List<string> filePathsToRemove = new();
+                                foreach (string filePath in _lastKnownDirectoryState.Keys)
                                 {
-                                    //TODO need testing on file create/delete cases
-                                    if (!_lastKnownDirectoryState.ContainsKey(filePath))
+                                    if (!currentFilesInDirectory.Contains(filePath))
                                     {
-                                        await SaveFileStateAsync(filePath);
-                                        OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Created));
-                                    }
-                                    else
-                                    {
-                                        DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
-                                        if (lastWriteUpdate == _lastKnownDirectoryState[filePath].MostRecentWrite)
-                                        {
-                                            // File hasn't been updated recently. Skip reading this file's contents.
-                                            continue;
-                                        }
-
-                                        byte[] contents = await FileUtilities.ReadFileWithRetryAsync(filePath);
-
-                                        byte[] contentsHash = SHA1.HashData(contents);
-
-                                        if (!Enumerable.SequenceEqual(_lastKnownDirectoryState[filePath].MostRecentContentsHash, contentsHash))
-                                        {
-                                            _lastKnownDirectoryState[filePath] = new(contentsHash, lastWriteUpdate);
-                                            OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Updated));
-                                        }
+                                        filePathsToRemove.Add(filePath);
                                     }
                                 }
-                                catch (IOException e)
+
+                                foreach (string filePathToRemove in filePathsToRemove)
                                 {
-                                    // File may have been accessed by another process. Ignore error and try again.
-                                    Trace.TraceWarning("Failed to access file with path {0} due to error {1}", filePath, e);
+                                    _lastKnownDirectoryState.Remove(filePathToRemove);
+                                    OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePathToRemove, ChangeType.Deleted));
                                 }
+
+                                // Check if any previously known files were updated or if any unknown files have been added to this directory
+                                foreach (string filePath in currentFilesInDirectory)
+                                {
+                                    try
+                                    {
+                                        //TODO need testing on file create/delete cases
+                                        if (!_lastKnownDirectoryState.ContainsKey(filePath))
+                                        {
+                                            await SaveFileStateAsync(filePath);
+                                            OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Created));
+                                        }
+                                        else
+                                        {
+                                            DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
+                                            if (lastWriteUpdate == _lastKnownDirectoryState[filePath].MostRecentWrite)
+                                            {
+                                                // File hasn't been updated recently. Skip reading this file's contents.
+                                                continue;
+                                            }
+
+                                            byte[] contents = await FileUtilities.ReadFileWithRetryAsync(filePath);
+
+                                            byte[] contentsHash = SHA1.HashData(contents);
+
+                                            if (!Enumerable.SequenceEqual(_lastKnownDirectoryState[filePath].MostRecentContentsHash, contentsHash))
+                                            {
+                                                _lastKnownDirectoryState[filePath] = new(contentsHash, lastWriteUpdate);
+                                                OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Updated));
+                                            }
+                                        }
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        // File may have been accessed by another process. Ignore error and try again.
+                                        Trace.TraceWarning("Failed to access file with path {0} due to error {1}", filePath, e);
+                                    }
+                                }
+
+                                await Task.Delay(_pollingInterval);
                             }
-
-                            await Task.Delay(_pollingInterval);
                         }
                     }
                     finally
