@@ -78,7 +78,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
 
                 // Parse cloud event
                 if let Some(cloud_event) = message.cloud_event {
-                    println!("{:?}", cloud_event);
+                    println!("{cloud_event:?}");
                 }
 
                 // Acknowledge the message if ack_token is present
