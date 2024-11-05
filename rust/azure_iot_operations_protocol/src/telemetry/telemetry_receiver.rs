@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
     control_packet::{Publish, QoS},
@@ -619,15 +619,13 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Mutex;
-
     use test_case::test_case;
 
     use super::*;
     use crate::{
         common::{
             aio_protocol_error::AIOProtocolErrorKind,
-            payload_serialize::{FormatIndicator, MockPayload},
+            payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
@@ -637,8 +635,6 @@ mod tests {
     };
 
     const MODEL_ID: &str = "test_model";
-
-    static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
@@ -682,6 +678,7 @@ mod tests {
     fn test_new_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -705,6 +702,7 @@ mod tests {
     fn test_new_override_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -765,6 +763,7 @@ mod tests {
     fn test_new_empty_topic_pattern(topic_pattern: &str) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()

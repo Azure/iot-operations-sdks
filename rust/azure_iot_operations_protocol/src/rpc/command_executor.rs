@@ -950,17 +950,16 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Mutex;
-
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
-
-    static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
+    use crate::common::{
+        aio_protocol_error::AIOProtocolErrorKind,
+        payload_serialize::{MockPayload, CONTENT_TYPE_MTX},
+    };
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
@@ -1005,6 +1004,7 @@ mod tests {
     async fn test_new_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1035,6 +1035,7 @@ mod tests {
     async fn test_new_override_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1070,6 +1071,7 @@ mod tests {
     fn test_invalid_request_content_type() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1111,6 +1113,7 @@ mod tests {
     fn test_invalid_response_content_type() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1154,6 +1157,7 @@ mod tests {
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1194,6 +1198,7 @@ mod tests {
     async fn test_invalid_request_topic_string(request_topic: &str) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1234,6 +1239,7 @@ mod tests {
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1272,6 +1278,7 @@ mod tests {
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1296,6 +1303,7 @@ mod tests {
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()

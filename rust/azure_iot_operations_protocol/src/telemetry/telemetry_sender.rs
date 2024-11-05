@@ -413,14 +413,14 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::HashMap, sync::Mutex, time::Duration};
+    use std::{collections::HashMap, time::Duration};
 
     use test_case::test_case;
 
     use crate::{
         common::{
             aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
-            payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize},
+            payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_sender::{
             TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
@@ -430,8 +430,6 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
-
-    static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
@@ -475,6 +473,7 @@ mod tests {
     fn test_new_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -497,6 +496,7 @@ mod tests {
     fn test_new_override_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -524,6 +524,7 @@ mod tests {
     fn test_new_empty_topic_pattern(property_value: &str) {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()

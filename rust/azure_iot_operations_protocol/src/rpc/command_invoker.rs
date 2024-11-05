@@ -970,12 +970,11 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{FormatIndicator, MockPayload},
+        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
 
     /// Mutex needed to check mock calls of static methods `PayloadSerialize::deserialize`, `PayloadSerialize::content_type`, and `PayloadSerialize::format_indicator`
     static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());
-    static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
     static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
 
     // Payload that has an invalid content type for testing
@@ -1019,7 +1018,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_defaults() {
+        // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1051,6 +1052,7 @@ mod tests {
     async fn test_new_override_defaults() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1091,6 +1093,7 @@ mod tests {
     fn test_invalid_request_content_type() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1130,6 +1133,7 @@ mod tests {
     fn test_invalid_response_content_type() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1177,7 +1181,9 @@ mod tests {
     #[test_case("response_topic_suffix", " "; "new_whitespace_response_topic_suffix")]
     #[tokio::test]
     async fn test_new_empty_args(property_name: &str, property_value: &str) {
+        // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1251,7 +1257,9 @@ mod tests {
         response_topic_suffix: Option<String>,
         expected_response_topic_subscribe_pattern: &str,
     ) {
+        // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1286,7 +1294,9 @@ mod tests {
     // If response pattern suffix is not specified, the default is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
+        // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1319,16 +1329,17 @@ mod tests {
     #[tokio::test]
     #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
     async fn test_invoke_timeout_parameter() {
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
+
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json")
+            .once();
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1347,17 +1358,8 @@ mod tests {
             .returning(|| Ok(String::new().into()))
             .times(1);
 
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json")
-            .once();
-
         // Mock context to track format_indicator calls
         let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
-        // content_type should be called on the outgoing request payload
         mock_payload_format_indicator_ctx
             .expect()
             .returning(|| FormatIndicator::UnspecifiedBytes)
@@ -1407,11 +1409,13 @@ mod tests {
     async fn test_invoke_times_out() {
         // Get mutexes for checking static PayloadSerialize calls
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
+
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
             .returning(|| "application/json");
-        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1429,14 +1433,6 @@ mod tests {
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json")
-            .once();
 
         // Mock context to track format_indicator calls
         let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
@@ -1481,11 +1477,13 @@ mod tests {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
+
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
             .returning(|| "application/json");
-        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1503,14 +1501,6 @@ mod tests {
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json")
-            .once();
 
         // Mock context to track format_indicator calls
         let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
@@ -1565,6 +1555,7 @@ mod tests {
     async fn test_invoke_executor_id_invalid_value() {
         // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
@@ -1607,63 +1598,6 @@ mod tests {
                 assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
                 assert!(e.property_value == Some(Value::String("+++".to_string())));
-            }
-        }
-    }
-
-    #[tokio::test]
-    async fn test_invoke_serializer_invalid_content_type() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/req/topic")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
-
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
-
-        let mut mock_request_payload = MockPayload::new();
-        mock_request_payload
-            .expect_serialize()
-            .returning(|| Ok(String::new().into()))
-            .times(1);
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "abc\ndef")
-            .once();
-
-        let response = command_invoker
-            .invoke(
-                CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
-                    .unwrap()
-                    .timeout(Duration::from_secs(2))
-                    .build()
-                    .unwrap(),
-            )
-            .await;
-        match response {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert!(e.nested_error.is_none());
             }
         }
     }

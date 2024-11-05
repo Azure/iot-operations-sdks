@@ -83,3 +83,7 @@ mock! {
         fn deserialize(payload: &[u8]) -> Result<Self, String>;
     }
 }
+#[cfg(test)]
+use std::sync::Mutex;
+#[cfg(test)]
+pub static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
