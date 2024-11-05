@@ -6,7 +6,7 @@ The Akri Operator is currently in in private preview, and as such, is not deploy
 
 ## Prerequisites
 
-1. A Kubernetes cluster with Azure IoT Operations deployed.
+1. A kubernetes cluster with [Azure IoT Operations deployed](/docs/setup.md).
 
 ## Setup
 

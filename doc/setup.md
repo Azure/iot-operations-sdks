@@ -56,7 +56,7 @@ Installation of Azure IoT Operations can be performed by connecting your cluster
 
 Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy need Assets.
 
-1. Make sure the shell is in the root directory of this repository
+1. Open a shell in the root directory of this repository
 
 1. Run the init script which will install k3d (plus other dependencies) and create a new cluster:
 
@@ -74,8 +74,6 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 ### Install with Helm
 
 Installation via Helm provides allows you to get started quicker, however this is missing the Azure integration so may not be suitable for some development.
-
-1. [Install Helm](https://helm.sh/docs/intro/install/)
 
 1. Open a shell in the root directory of this repository
 

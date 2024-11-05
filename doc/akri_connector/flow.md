@@ -2,7 +2,7 @@
 
 ## Overview
 
-There are two main flows within an Akri Connector, [Asset discovery](#asset-discovery) and [Protocol translation](#protocol-translation). Below outlines the steps involved in each flow.
+There are two main flows within an Akri Connector, [Asset discovery](#asset-discovery) and [Protocol translation](#protocol-translation). Below outlines the steps involved to implement each flow.
 
 [TODO] review and flesh out content
 

@@ -1,2 +1,6 @@
 [registries]
 aio-sdks = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/" }
+aio-sdks-auth = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview~force-auth/Cargo/index/" }
+
+[registry]
+global-credential-providers = ["cargo:token"]
