@@ -15,7 +15,7 @@ In production, the Akri connector is configure by the Akri Operator, and the ADR
     | Name | Contents |
     |-|-|
     | MQ_TARGET_ADDRESS | The MQTT broker hostname |
-    | MQ_TARGET_PORT? | The MQTT broker port |
+    | MQ_TARGET_PORT | The MQTT broker port |
     | MQ_USE_TLS | Enable TLS on the MQTT broker connection |
     | MQ_SAT_MOUNT_PATH | The Service Account Token |
     | MQ_TLS_CACERT_MOUNT_PATH | The MQTT Broker CA cert |
