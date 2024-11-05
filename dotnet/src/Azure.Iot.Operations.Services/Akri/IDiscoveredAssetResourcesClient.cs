@@ -8,6 +8,9 @@ using AssetRequestDefaultTopic = dtmi_com_microsoft_deviceregistry_DiscoveredAss
 using AssetRequestEventsSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_Events_ElementSchema;
 using Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1;
 
+/// <summary>
+/// Interface for creating discovered assets and asset endpoint profiles.
+/// </summary>
 public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
 {
     /// <summary>
