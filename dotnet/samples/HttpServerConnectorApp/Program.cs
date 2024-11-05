@@ -1,4 +1,4 @@
-using HttpThermostatConnectorAppProjectTemplate;
+using HttpServerConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
