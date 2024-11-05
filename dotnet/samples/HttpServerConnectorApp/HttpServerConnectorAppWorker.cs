@@ -240,7 +240,7 @@ namespace HttpServerConnectorApp
                 return;
             }
 
-            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
+            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset);
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
