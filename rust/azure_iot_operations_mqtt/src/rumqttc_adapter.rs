@@ -393,7 +393,8 @@ fn tls_config(
 mod tests {
     use std::path::PathBuf;
 
-    use crate::{rumqttc_adapter::ConnectionSettingsAdapterError, MqttConnectionSettingsBuilder};
+    use super::*;
+    use crate::MqttConnectionSettingsBuilder;
 
     #[test]
     fn test_mqtt_connection_settings_no_tls() {
@@ -489,7 +490,6 @@ mod tests {
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
-        //println!("dir: {:?}", dir);
 
         let mut ca_file = dir.clone();
         ca_file.push("TestCa.txt");
@@ -549,15 +549,15 @@ mod tests {
 
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
-        //use std::error::Error;
-
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let mut cert_file = dir.clone();
         cert_file.push("../../eng/test/dummy_credentials/TestCert2Pem.txt");
         let mut key_file = dir.clone();
         key_file.push("../../eng/test/dummy_credentials/TestCert2KeyEncrypted.txt");
-        // let mut key_password_file = dir.clone();
-        // key_password_file.push("../../eng/test/dummy_credentials/TestCert2KeyPassword.txt");
+        let mut key_password_file = dir.clone();
+        key_password_file.push("../../eng/test/dummy_credentials/TestCert2KeyPasswordFile.txt");
+        // TODO: pass the filepath directly to the connection settings after support for it is added
+        let key_password = fs::read_to_string(&key_password_file).unwrap();
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -565,20 +565,11 @@ mod tests {
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             //.key_file_password(key_password_file.into_os_string().into_string().unwrap())
-            .key_file_password("sdklite".to_string())
+            .key_file_password(key_password.to_string())
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
-        // match mqtt_options_result {
-        //     Ok(_) => (),
-        //     Err(e) => {
-        //         println!("error: {:?}", e);
-        //         println!("source: {:?}", e.source());
-        //         assert!(false);
-        //         //assert_eq!(e.msg, "Failed to build TLS connector: Failed to build TLS client identity: bad password read".to_string());
-        //     }
-        // }
         assert!(mqtt_options_result.is_ok());
     }
 }
