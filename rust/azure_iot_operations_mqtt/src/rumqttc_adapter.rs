@@ -491,27 +491,13 @@ mod tests {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
 
-        let mut ca_file = dir.clone();
-        ca_file.push("TestCa.txt");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestCert1Pem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestCert1Key.txt");
-
-        // TODO: use join instead of cloning/pushing
-
-        // println!(
-        //     "ca: {:?}",
-        //     ca_file.clone().into_os_string().into_string().unwrap()
-        // );
-        // println!(
-        //     "cert: {:?}",
-        //     cert_file.clone().into_os_string().into_string().unwrap()
-        // );
-        // println!(
-        //     "key: {:?}",
-        //     key_file.clone().into_os_string().into_string().unwrap()
-        // );
+        let ca_file = dir.join("TestCa.txt");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
+        // let mut cert_file = dir.clone();
+        // cert_file.push("TestCert1Pem.txt");
+        // let mut key_file = dir.clone();
+        // key_file.push("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
