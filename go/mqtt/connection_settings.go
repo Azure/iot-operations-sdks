@@ -137,12 +137,12 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		connectionTimeout = parsedDuration.ToTimeDuration()
 	}
 
-	var userName UserNameProvider
+	var userName UserNameProvider = defaultUserName
 	if usernameStr := settingsMap["username"]; usernameStr != "" {
 		userName = ConstantUserName(usernameStr)
 	}
 
-	var password PasswordProvider
+	var password PasswordProvider = defaultPassword
 	if passwordStr := settingsMap["password"]; passwordStr != "" {
 		password = ConstantPassword([]byte(passwordStr))
 	}
