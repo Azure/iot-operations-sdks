@@ -83,7 +83,7 @@ A container registry is available as `registry.localhost:5000` from the local ma
     curl -X GET http://registry.localhost:5000/v2/{repository}/tags/list
     ```
 
-## Clone private repos from another GitHub Org
+## Reauthenticate Git
 
 By default, Codespaces doesn't allow access to other private repositories, especially outside the GitHub Organization. To access these repositories you will need to regenerate your token with the following:
 
@@ -99,6 +99,31 @@ By default, Codespaces doesn't allow access to other private repositories, espec
     gh auth login
     gh auth setup-git
     ```
+
+## Developing on a fork
+
+By default, if you create a Codespace on a fork, you will quickly run out of free quota as it will be billed to your individual organization. The workaround is to create the Codespace in the Azure org, and then switch the origin to the fork.
+
+1. [Reauthenticate Git](#reauthenticate-git) by following the p
+
+1. Set the `GH_TOKEN` variable in your [Codespaces user secrets](https://github.com/settings/codespaces).
+
+1. Restart your codespace to pull in the new `GH_TOKEN`.
+
+1. Rename the origin to upstream, and add your fork as the new origin:
+
+    ```bash
+    git remote rename origin upstream
+    git remote set-url origin https://gitlab.com/<forked-org>/azure-iot-operations-sdks
+    ```
+
+1. Update the local files:
+
+   ```bash
+   git fetch origin
+   git pull origin main
+   ```
+
 
 ## Using K9s
 
