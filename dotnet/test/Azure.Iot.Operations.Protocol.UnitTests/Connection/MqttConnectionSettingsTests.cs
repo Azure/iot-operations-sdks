@@ -69,8 +69,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
                                "SessionExpiry=PT5M;" +
                                "Username=me;" +
                                "Password=password;" +
-                               "CaFile=../../../eng/test/dummy_credentials/TestCa.txt;" +
-                               //"CaFile=Connection/ca.txt;" +
+                               "CaFile=Connection/ca.txt;" +
                                "CertFile=Connection/TestSdkLiteCertPem.txt;" +
                                "KeyFile=Connection/TestSdkLiteCertKey.txt;" +
                                "UseTls=False;" +
@@ -81,8 +80,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal("localhost", cs.HostName);
             Assert.Equal(2323, cs.TcpPort);
             Assert.False(cs.UseTls);
-            Assert.Equal("../../../eng/test/dummy_credentials/TestCa.txt", cs.CaFile);
-            //Assert.Equal("Connection/ca.txt", cs.CaFile);
+            Assert.Equal("Connection/ca.txt", cs.CaFile);
             Assert.Equal("Connection/TestSdkLiteCertPem.txt", cs.CertFile);
             Assert.Equal("Connection/TestSdkLiteCertKey.txt", cs.KeyFile);
             Assert.Equal("me", cs.Username);
