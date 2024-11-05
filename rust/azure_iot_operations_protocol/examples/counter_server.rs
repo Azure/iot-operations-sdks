@@ -168,6 +168,7 @@ impl PayloadSerialize for CounterResponsePayload {
     }
 
     fn deserialize(_payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
-        Ok(CounterResponsePayload::default())
+        // This is a response payload, server does not need to deserialize it
+        unimplemented!()
     }
 }

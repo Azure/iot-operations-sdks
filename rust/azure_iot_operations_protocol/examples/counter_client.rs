@@ -104,7 +104,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .build()
         .unwrap();
     let read_response = read_invoker.invoke(read_payload).await.unwrap();
-    log::info!("Counter value: {:?}", read_response);
+    log::info!("Counter value: {}", read_response.payload.counter_response);
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
@@ -158,7 +158,8 @@ impl PayloadSerialize for CounterResponsePayload {
     }
 
     fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
-        Ok(Vec::<u8>::new())
+        // This is a response payload, client does not need to serialize it
+        unimplemented!()
     }
 
     fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
@@ -172,7 +173,7 @@ impl PayloadSerialize for CounterResponsePayload {
 
         let start_str = "{\"CounterResponse\":";
 
-        if (payload.starts_with(start_str) && payload.ends_with('}')) {
+        if payload.starts_with(start_str) && payload.ends_with('}') {
             match payload[start_str.len()..payload.len() - 1].parse::<u64>() {
                 Ok(n) => Ok(CounterResponsePayload {
                     counter_response: n,

@@ -249,18 +249,24 @@ where
                 None,
                 "content_type",
                 Value::String(TReq::content_type().to_string()),
-                Some("Content type of request is not valid UTF-8".to_string()),
-                None,
+                Some(format!(
+                    "Content type '{}' of request type is not valid UTF-8",
+                    TReq::content_type()
+                )),
+                Some(invoker_options.command_name),
             ));
         }
-        // Validate content type of request is valid utf-8
+        // Validate content type of response is valid utf-8
         if is_invalid_utf8(TResp::content_type()) {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
                 "content_type",
                 Value::String(TResp::content_type().to_string()),
-                Some("Content type of response is not valid UTF-8".to_string()),
-                None,
+                Some(format!(
+                    "Content type '{}' of response type is not valid UTF-8",
+                    TResp::content_type()
+                )),
+                Some(invoker_options.command_name),
             ));
         }
         // Validate function parameters. request_topic_pattern will be validated by topic parser
@@ -972,6 +978,29 @@ mod tests {
     static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
     static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
 
+    // Payload that has an invalid content type for testing
+    struct InvalidContentTypePayload {}
+    impl Clone for InvalidContentTypePayload {
+        fn clone(&self) -> Self {
+            unimplemented!()
+        }
+    }
+    impl PayloadSerialize for InvalidContentTypePayload {
+        type Error = String;
+        fn content_type() -> &'static str {
+            "application/json\u{0000}"
+        }
+        fn format_indicator() -> FormatIndicator {
+            unimplemented!()
+        }
+        fn serialize(&self) -> Result<Vec<u8>, String> {
+            unimplemented!()
+        }
+        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+            unimplemented!()
+        }
+    }
+
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
     // scope and render the ManagedClient unable to to be used correctly.
@@ -990,6 +1019,12 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_defaults() {
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1014,6 +1049,13 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1045,6 +1087,84 @@ mod tests {
         );
     }
 
+    #[test]
+    fn test_invalid_request_content_type() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+
+        let command_invoker: Result<
+            CommandInvoker<InvalidContentTypePayload, MockPayload, _>,
+            AIOProtocolError,
+        > = CommandInvoker::new(managed_client, invoker_options);
+        match command_invoker {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+
+    #[test]
+    fn test_invalid_response_content_type() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+
+        let command_invoker: Result<
+            CommandInvoker<MockPayload, InvalidContentTypePayload, _>,
+            AIOProtocolError,
+        > = CommandInvoker::new(managed_client, invoker_options);
+        match command_invoker {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+
     #[test_case("command_name", ""; "new_empty_command_name")]
     #[test_case("command_name", " "; "new_whitespace_command_name")]
     #[test_case("request_topic_pattern", ""; "new_empty_request_topic_pattern")]
@@ -1057,6 +1177,12 @@ mod tests {
     #[test_case("response_topic_suffix", " "; "new_whitespace_response_topic_suffix")]
     #[tokio::test]
     async fn test_new_empty_args(property_name: &str, property_value: &str) {
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1125,6 +1251,12 @@ mod tests {
         response_topic_suffix: Option<String>,
         expected_response_topic_subscribe_pattern: &str,
     ) {
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1154,6 +1286,12 @@ mod tests {
     // If response pattern suffix is not specified, the default is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1181,6 +1319,12 @@ mod tests {
     #[tokio::test]
     #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
     async fn test_invoke_timeout_parameter() {
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
@@ -1263,6 +1407,10 @@ mod tests {
     async fn test_invoke_times_out() {
         // Get mutexes for checking static PayloadSerialize calls
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
         let session = create_session();
@@ -1333,6 +1481,10 @@ mod tests {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
         let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
 
         let session = create_session();
@@ -1411,6 +1563,13 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_executor_id_invalid_value() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1454,8 +1613,12 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_serializer_invalid_content_type() {
-        // Get mutexes for checking static PayloadSerialize calls
+        // Get mutex lock for content type
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
 
         let session = create_session();
         let managed_client = session.create_managed_client();

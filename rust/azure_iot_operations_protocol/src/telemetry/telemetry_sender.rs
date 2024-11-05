@@ -291,7 +291,10 @@ where
                 None,
                 "content_type",
                 Value::String(T::content_type().to_string()),
-                Some("Content type of telemetry message is not valid UTF-8".to_string()),
+                Some(format!(
+                    "Content type '{}' of telemetry message type is not valid UTF-8",
+                    T::content_type()
+                )),
                 None,
             ));
         }
@@ -416,8 +419,8 @@ mod tests {
 
     use crate::{
         common::{
-            aio_protocol_error::{AIOProtocolErrorKind, Value},
-            payload_serialize::MockPayload,
+            aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
+            payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize},
         },
         telemetry::telemetry_sender::{
             TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
@@ -429,6 +432,29 @@ mod tests {
     };
 
     static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
+
+    // Payload that has an invalid content type for testing
+    struct InvalidContentTypePayload {}
+    impl Clone for InvalidContentTypePayload {
+        fn clone(&self) -> Self {
+            unimplemented!()
+        }
+    }
+    impl PayloadSerialize for InvalidContentTypePayload {
+        type Error = String;
+        fn content_type() -> &'static str {
+            "application/json\u{0000}"
+        }
+        fn format_indicator() -> FormatIndicator {
+            unimplemented!()
+        }
+        fn serialize(&self) -> Result<Vec<u8>, String> {
+            unimplemented!()
+        }
+        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+            unimplemented!()
+        }
+    }
 
     // TODO: This should return a mock MqttProvider instead
     fn get_session() -> Session {
@@ -447,6 +473,13 @@ mod tests {
 
     #[test]
     fn test_new_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/test_telemetry")
@@ -462,6 +495,13 @@ mod tests {
 
     #[test]
     fn test_new_override_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/{modelId}/{telemetryName}")
@@ -482,6 +522,13 @@ mod tests {
     #[test_case(""; "new_empty_topic_pattern")]
     #[test_case(" "; "new_whitespace_topic_pattern")]
     fn test_new_empty_topic_pattern(property_value: &str) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
 
         let sender_options = TelemetrySenderOptionsBuilder::default()
@@ -507,50 +554,31 @@ mod tests {
 
     #[tokio::test]
     async fn test_send_serializer_invalid_content_type() {
-        // Get mutexes for checking static PayloadSerialize calls
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/test_telemetry")
             .build()
             .unwrap();
 
-        let telemetry_sender: TelemetrySender<MockPayload, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+        let telemetry_sender: Result<
+            TelemetrySender<InvalidContentTypePayload, _>,
+            AIOProtocolError,
+        > = TelemetrySender::new(session.create_managed_client(), sender_options);
 
-        let mut mock_telemetry_payload = MockPayload::new();
-        mock_telemetry_payload
-            .expect_serialize()
-            .returning(|| Ok(String::new().into()))
-            .times(1);
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing message payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "abc\ndef")
-            .once();
-
-        let message_result = telemetry_sender
-            .send(
-                TelemetryMessageBuilder::default()
-                    .payload(&mock_telemetry_payload)
-                    .unwrap()
-                    .build()
-                    .unwrap(),
-            )
-            .await;
-        match message_result {
-            Ok(()) => panic!("Expected error"),
+        match telemetry_sender {
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
                 assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert!(e.nested_error.is_none());
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
             }
         }
     }
