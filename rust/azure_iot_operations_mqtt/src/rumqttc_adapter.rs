@@ -490,14 +490,9 @@ mod tests {
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
-
         let ca_file = dir.join("TestCa.txt");
         let cert_file = dir.join("TestCert1Pem.txt");
         let key_file = dir.join("TestCert1Key.txt");
-        // let mut cert_file = dir.clone();
-        // cert_file.push("TestCert1Pem.txt");
-        // let mut key_file = dir.clone();
-        // key_file.push("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -516,10 +511,8 @@ mod tests {
     fn test_mqtt_connection_settings_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestCert1Pem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestCert1Key.txt");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -536,12 +529,9 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let mut cert_file = dir.clone();
-        cert_file.push("../../eng/test/dummy_credentials/TestCert2Pem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("../../eng/test/dummy_credentials/TestCert2KeyEncrypted.txt");
-        let mut key_password_file = dir.clone();
-        key_password_file.push("../../eng/test/dummy_credentials/TestCert2KeyPasswordFile.txt");
+        let cert_file = dir.join("TestCert2Pem.txt");
+        let key_file = dir.join("TestCert2KeyEncrypted.txt");
+        let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
         // TODO: pass the filepath directly to the connection settings after support for it is added
         let key_password = fs::read_to_string(&key_password_file).unwrap();
 
