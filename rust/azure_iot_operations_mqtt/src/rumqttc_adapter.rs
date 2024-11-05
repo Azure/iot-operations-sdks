@@ -528,7 +528,8 @@ mod tests {
 
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
-        let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
         let cert_file = dir.join("TestCert2Pem.txt");
         let key_file = dir.join("TestCert2KeyEncrypted.txt");
         let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
