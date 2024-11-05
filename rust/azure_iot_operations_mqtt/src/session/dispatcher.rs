@@ -178,8 +178,8 @@ mod tests {
         )
     }
 
-    #[tokio::test]
-    async fn dispatch_no_filters() {
+    #[test]
+    fn dispatch_no_filters() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
 
         // Dispatch without registering any filters
@@ -191,8 +191,8 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap(), publish);
     }
 
-    #[tokio::test]
-    async fn dispatch_no_matching_filters() {
+    #[test]
+    fn dispatch_no_matching_filters() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
@@ -208,8 +208,8 @@ mod tests {
         assert_eq!(filtered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_one_matching_filter_exact() {
+    #[test]
+    fn dispatch_one_matching_filter_exact() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_s = "sport/tennis/player1";
         let topic_name = TopicName::from_str(topic_s).unwrap();
@@ -232,8 +232,8 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_one_matching_filter_wildcard() {
+    #[test]
+    fn dispatch_one_matching_filter_wildcard() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
@@ -255,8 +255,8 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_multiple_matching_filters_overlapping() {
+    #[test]
+    fn dispatch_multiple_matching_filters_overlapping() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
@@ -296,8 +296,8 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_multiple_matching_filters_duplicate() {
+    #[test]
+    fn dispatch_multiple_matching_filters_duplicate() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
@@ -345,8 +345,8 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn register_unregister_filters() {
+    #[test]
+    fn register_unregister_filters() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_s = "sport/tennis/player1";
         let topic_name = TopicName::from_str(topic_s).unwrap();
@@ -399,8 +399,8 @@ mod tests {
         assert_eq!(num_dispatches, 1);
     }
 
-    #[tokio::test]
-    async fn full_unregister_on_register() {
+    #[test]
+    fn full_unregister_on_register() {
         let (mut dispatcher, _) = IncomingPublishDispatcher::new();
 
         // Register several filters, including duplicates and wildcards
@@ -536,8 +536,8 @@ mod tests {
         drop(filter_rx8);
     }
 
-    #[tokio::test]
-    async fn lazy_unregister_on_dispatch() {
+    #[test]
+    fn lazy_unregister_on_dispatch() {
         let (mut dispatcher, _) = IncomingPublishDispatcher::new();
 
         // Register several filters, including duplicates and wildcards
@@ -679,8 +679,8 @@ mod tests {
         drop(filter_rx1);
     }
 
-    #[tokio::test]
-    async fn drop_unfiltered_receiver() {
+    #[test]
+    fn drop_unfiltered_receiver() {
         let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
         // Dispatch publish to unfiltered receiver

@@ -48,10 +48,6 @@ pub struct MqttConnectionSettings {
     /// Path to a PEM file to validate server identity
     #[builder(default = "None")]
     pub(crate) ca_file: Option<String>,
-    /// Check the revocation status of the CA
-    /// NOTE: CURRENTLY UNUSED
-    #[builder(default = "false")]
-    pub(crate) ca_require_revocation_check: bool,
     /// Path to PEM file to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) cert_file: Option<String>,
@@ -124,11 +120,6 @@ impl MqttConnectionSettingsBuilder {
             .transpose()
             .unwrap_or(None);
         let ca_file = Some(env::var("MQTT_CA_FILE").ok());
-        let ca_require_revocation_check = env::var("MQTT_CA_REQUIRE_REVOCATION_CHECK")
-            .ok()
-            .map(|v| v.parse::<bool>())
-            .transpose()
-            .unwrap_or(None);
         let cert_file = Some(env::var("MQTT_CERT_FILE").ok());
         let key_file = Some(env::var("MQTT_KEY_FILE").ok());
         let key_password_file = Some(env::var("MQTT_KEY_PASSWORD_FILE").ok());
@@ -150,7 +141,6 @@ impl MqttConnectionSettingsBuilder {
             password_file,
             use_tls,
             ca_file,
-            ca_require_revocation_check,
             cert_file,
             key_file,
             key_password_file,
