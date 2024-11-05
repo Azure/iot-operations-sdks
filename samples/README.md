@@ -24,11 +24,11 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 |-|-|-|-|-|-|
 | MQTT | Session client - SAT auth | Connect to the MQTT broker using SAT auth |
 || Session client - x509 auth | Connect to the MQTT broker using x509 auth | 
-|
+||
 | Protocol | Telemetry | |
 || Telemetry with Cloud Events | |
 || Command | |
-|
+||
 | Services | State store client |
 || State store client - observe key |
 || Lease lock client |
@@ -36,7 +36,7 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 || Schema registry client |
 || ADR client |
 || Akri client |
-|
+||
 | Codegen | Telemetry and command |
 || Telemetry with primitive schema |
 || Telemetry with complex schema |
