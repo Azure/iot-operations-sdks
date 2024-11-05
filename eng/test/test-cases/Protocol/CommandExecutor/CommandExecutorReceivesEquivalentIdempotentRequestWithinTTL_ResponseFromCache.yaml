@@ -4,14 +4,14 @@ aka:
 - EquivalentRequest_Idempotent_CacheUnexpired_RetrievedFromCache
 description:
   condition: >-
-    CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not underd storage pressure.
+    CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not under storage pressure.
   expect: >-
     CommandExecutor does not execute command and responds with value from cache.
 
 prologue:
   executors:
   - idempotent: !!bool true
-    cacheable-duration: { seconds: 2 }
+    cache-ttl: { seconds: 2 }
     request-responses-map:
       "Test_Request": [ "Test_Response0", "Test_Response1" ]
 

@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public bool Idempotent { get; set; }
 
-        public TestCaseDuration? CacheableDuration { get; set; }
+        public TestCaseDuration? CacheTtl { get; set; }
 
         public TestCaseDuration? ExecutionTimeout { get; set; }
 

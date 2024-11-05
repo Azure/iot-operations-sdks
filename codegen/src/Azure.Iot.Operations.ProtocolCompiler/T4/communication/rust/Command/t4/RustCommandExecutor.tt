@@ -21,6 +21,9 @@ use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
 <# if (this.respSchema != null && this.respSchema != "Bytes") { #>
 use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>;
 <# } #>
+<# if (this.useSharedSubscription) { #>
+use super::COMMAND_SERVICE_GROUP_ID;
+<# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 <# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
@@ -98,6 +101,9 @@ where
 <# } #>
             .is_idempotent(<#=this.isIdempotent ? "true" : "false"#>)
             .custom_topic_token_map(options.custom_topic_token_map.clone())
+<# if (this.useSharedSubscription) { #>
+            .service_group_id(COMMAND_SERVICE_GROUP_ID.to_string())
+<# } #>
             .build()
             .expect("DTDL schema generated invalid arguments");
         Self(

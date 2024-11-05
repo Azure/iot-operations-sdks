@@ -515,7 +515,7 @@
 
         <Paragraph>
           The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
-          The value type for `invokers` is specific to CommandInvkoker and is defined in the next subsection.
+          The value type for `invokers` is specific to CommandInvoker and is defined in the next subsection.
         </Paragraph>
 
       </Subsection>

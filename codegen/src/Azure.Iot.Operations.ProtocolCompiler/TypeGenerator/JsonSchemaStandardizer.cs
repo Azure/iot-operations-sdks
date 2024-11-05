@@ -10,8 +10,9 @@
     {
         private const string JsonSchemaFileSuffix = ".schema.json";
 
-        public IEnumerable<SchemaType> GetStandardizedSchemas(StreamReader schemaReader)
+        public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
         {
+            StreamReader schemaReader = File.OpenText(schemaFilePath);
             List<SchemaType> schemaTypes = new();
 
             using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
@@ -26,7 +27,7 @@
                         schemaTypes.Add(new ObjectType(
                             schemaName,
                             description,
-                            schemaDoc.RootElement.GetProperty("properties").EnumerateObject().ToDictionary(p => p.Name, p => GetObjectTypeFieldInfo(p.Name, p.Value, requiredFields))));
+                            schemaDoc.RootElement.GetProperty("properties").EnumerateObject().ToDictionary(p => p.Name, p => GetObjectTypeFieldInfo(p.Name, p.Value, requiredFields, schemaFilePath))));
                         break;
                     case "integer":
                         schemaTypes.Add(new EnumType(
@@ -48,27 +49,28 @@
             return schemaTypes;
         }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string fieldName, JsonElement schemaElt, HashSet<string> requiredFields)
+        private ObjectType.FieldInfo GetObjectTypeFieldInfo(string fieldName, JsonElement schemaElt, HashSet<string> requiredFields, string schemaFilePath)
         {
             return new ObjectType.FieldInfo(
-                GetSchemaTypeFromJsonElement(schemaElt),
+                GetSchemaTypeFromJsonElement(schemaElt, schemaFilePath),
                 requiredFields.Contains(fieldName),
                 schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
                 schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
         }
 
-        private SchemaType GetSchemaTypeFromJsonElement(JsonElement schemaElt)
+        private SchemaType GetSchemaTypeFromJsonElement(JsonElement schemaElt, string schemaFilePath)
         {
             if (schemaElt.TryGetProperty("$ref", out JsonElement refElt))
             {
-                return new ReferenceType(refElt.GetString()!.Replace(JsonSchemaFileSuffix, string.Empty));
+                string refFilePath = Path.Combine(Path.GetDirectoryName(schemaFilePath)!, refElt.GetString()!);
+                return new ReferenceType(refElt.GetString()!.Replace(JsonSchemaFileSuffix, string.Empty), IsNullable(refFilePath));
             }
             switch (schemaElt.GetProperty("type").GetString())
             {
                 case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(schemaElt.GetProperty("items")));
+                    return new ArrayType(GetSchemaTypeFromJsonElement(schemaElt.GetProperty("items"), schemaFilePath));
                 case "object":
-                    return new MapType(GetSchemaTypeFromJsonElement(schemaElt.GetProperty("additionalProperties")));
+                    return new MapType(GetSchemaTypeFromJsonElement(schemaElt.GetProperty("additionalProperties"), schemaFilePath));
                 case "boolean":
                     return new BooleanType();
                 case "number":
@@ -120,6 +122,15 @@
                     return new StringType();
                 default:
                     throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
+            }
+        }
+
+        private bool IsNullable(string refFilePath)
+        {
+            StreamReader refReader = File.OpenText(refFilePath);
+            using (JsonDocument refDoc = JsonDocument.Parse(refReader.ReadToEnd()))
+            {
+                return refDoc.RootElement.GetProperty("type").GetString() == "object";
             }
         }
     }

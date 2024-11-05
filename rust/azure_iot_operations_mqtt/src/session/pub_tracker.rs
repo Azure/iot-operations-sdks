@@ -10,7 +10,6 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::control_packet::Publish;
-use crate::interface::{ManualAck, ManualAckReason};
 
 #[derive(Error, Debug)]
 pub enum RegisterError {
@@ -34,10 +33,8 @@ pub enum TryNextReadyError {
 
 /// Represents tracking data for a pending publish.
 struct PendingPub {
-    /// Packet ID of the pending publish
-    pub pkid: u16,
-    /// Data to send back to the server when the publish is ready
-    pub ack: ManualAck,
+    /// Publish that is pending, waiting for acks
+    pub publish: Publish,
     /// Number of acks remaining before the publish is ready
     pub remaining_acks: usize,
 }
@@ -56,7 +53,7 @@ impl PubTracker {
     /// Register a [`Publish`] as pending.
     ///
     /// When it is acked the required number of times on this tracker, it will be considered ready
-    /// to ack back to the server with the provided [`ManualAck`].
+    /// to ack back to the server.
     ///
     /// The [`Publish`] will not be registered if it has a PKID of 0, as this is reserved for
     /// Quality of Service 0 messages, which do not require acknowledgement.
@@ -64,7 +61,6 @@ impl PubTracker {
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to register as pending
-    /// * `manual_ack` - The [`ManualAck`] to use for the [`Publish`] when it is ready to ack
     /// * `acks_required` - The number of acks required before the [`Publish`] is considered ready
     ///
     /// # Errors
@@ -73,7 +69,6 @@ impl PubTracker {
     pub fn register_pending(
         &self,
         publish: &Publish,
-        manual_ack: ManualAck,
         acks_required: usize,
     ) -> Result<(), RegisterError> {
         // Ignore PKID 0, as it is reserved for QoS 0 messages
@@ -82,7 +77,10 @@ impl PubTracker {
         }
         let mut pending = self.pending.lock().unwrap();
         // Check for existing registration (invalid)
-        if pending.iter().any(|pending| pending.pkid == publish.pkid) {
+        if pending
+            .iter()
+            .any(|pending| pending.publish.pkid == publish.pkid)
+        {
             // NOTE: If a publish with the same PKID is currently tracked in the `PubTracker`, this
             // means that a duplicate has been received. While a client IS required to treat received
             // duplicates as a new application message in QoS 1 (MQTTv5 4.3.2), this is ONLY true if
@@ -93,8 +91,7 @@ impl PubTracker {
         }
 
         let pending_pub = PendingPub {
-            pkid: publish.pkid,
-            ack: manual_ack,
+            publish: publish.clone(),
             remaining_acks: acks_required,
         };
         pending.push_back(pending_pub);
@@ -113,28 +110,6 @@ impl PubTracker {
     /// # Arguments
     /// * `publish` - The [`Publish`] to acknowledge
     pub async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
-        self.ack_rc(publish, ManualAckReason::Success, None).await
-    }
-
-    /// Acknowledge a pending [`Publish`].
-    ///
-    /// Decrements the amount of remaining acks required for the [`Publish`] to be considered ready.
-    /// Adds the provided reason code to the pending [`Publish`] and will return the information when ready.
-    /// Note that if there are multiple required acks, the eventual reported reason code will be the
-    /// last one provided.
-    ///
-    /// Does nothing if the [`Publish`] has a PKID of 0, as this is reserved for
-    /// Quality of Service 0 messages
-    /// which do not require acknowledgement.
-    ///
-    /// # Arguments
-    /// * `publish` - The [`Publish`] to acknowledge
-    pub async fn ack_rc(
-        &self,
-        publish: &Publish,
-        reason: ManualAckReason,
-        reason_string: Option<String>,
-    ) -> Result<(), AckError> {
         // Ignore PKID 0, as it is reserved for QoS 0 messages
         if publish.pkid == 0 {
             return Ok(());
@@ -149,15 +124,13 @@ impl PubTracker {
                 // If PendingPub registered, decrement the remaining number of acks required.
                 if let Some(pos) = pending
                     .iter()
-                    .position(|pending| pending.pkid == publish.pkid)
+                    .position(|pending| pending.publish.pkid == publish.pkid)
                 {
                     let entry = &mut pending[pos];
                     if entry.remaining_acks == 0 {
                         return Err(AckError::AckOverflow);
                     }
                     entry.remaining_acks -= 1;
-                    entry.ack.set_reason(reason);
-                    entry.ack.set_reason_string(reason_string);
 
                     if entry.remaining_acks == 0 {
                         // Notify the waiter if:
@@ -179,32 +152,27 @@ impl PubTracker {
         }
     }
 
-    /// Get the next [`ManualAck`] corresponding to a previously registered [`Publish`] that is
-    /// ready to ack back to the server.
-    ///
-    /// Returns the [`ManualAck`] and the Packet ID of the [`Publish`] that is ready.
+    /// Get the next [`Publish`] that is ready to ack back to the server.
     ///
     /// A [`Publish`] is considered ready to be acked to the server when:
     /// 1) It has been acked on this tracker the number of times specified when it was registered
     /// 2) It is the oldest registration in the tracker
     ///
     /// This method should not be called in parallel with itself.
-    pub async fn next_ready(&self) -> (ManualAck, u16) {
+    pub async fn next_ready(&self) -> Publish {
         loop {
-            // Check if there is a PendingPub ready to ack to server, and return the associated ManualAck.
+            // Check if there is a PendingPub ready to ack to server, and return it.
             // If no PendingPub is ready, wait for one to be ready.
             match self.try_next_ready() {
-                Ok((ack, pkid)) => return (ack, pkid),
+                Ok(publish) => return publish,
                 Err(_) => self.ready_notify.notified().await,
             }
         }
     }
 
-    /// Try to get the next [`ManualAck`] corresponding to a previously registered [`Publish`] that is
-    /// ready to ack back to the server.
+    /// Get the next [`Publish`] that is ready to ack back to the server.
     ///
-    /// Returns the [`ManualAck`] and the Packet ID of the [`Publish`] that is ready, if one is ready.
-    /// Otherwise, returns a [`TryNextReadyError`].
+    /// If no [`Publish`] is ready returns a [`TryNextReadyError`].
     ///
     /// A [`Publish`] is considered ready to be acked to the server when:
     /// 1) It has been acked on this tracker the number of times specified when it was registered
@@ -213,12 +181,12 @@ impl PubTracker {
     /// # Errors
     /// * [`TryNextReadyError::NotReady`] if no tracked publishes are ready
     /// * [`TryNextReadyError::Empty`] if there are no tracked publishes
-    pub fn try_next_ready(&self) -> Result<(ManualAck, u16), TryNextReadyError> {
+    pub fn try_next_ready(&self) -> Result<Publish, TryNextReadyError> {
         let mut pending = self.pending.lock().unwrap();
         if let Some(next) = pending.front() {
             if next.remaining_acks == 0 {
                 match pending.pop_front() {
-                    Some(pending_ack) => return Ok((pending_ack.ack, pending_ack.pkid)),
+                    Some(pending_ack) => return Ok(pending_ack.publish),
                     None => unreachable!("We already checked if there is a first element, and hold a lock on the VecDeque"),
                 }
             }
@@ -234,7 +202,7 @@ impl PubTracker {
             .lock()
             .unwrap()
             .iter()
-            .any(|pending| pending.pkid == publish.pkid)
+            .any(|pending| pending.publish.pkid == publish.pkid)
     }
 
     /// Clear all pending publishes from the tracker.
@@ -269,22 +237,16 @@ mod tests {
     use std::sync::Arc;
 
     use super::*;
-    use crate::control_packet::{PubAck, QoS};
+    use crate::control_packet::QoS;
 
     use test_case::test_case;
 
-    fn create_publish(topic_name: &str, payload: &str, pkid: u16) -> (Publish, ManualAck) {
+    fn create_publish(topic_name: &str, payload: &str, pkid: u16) -> Publish {
         // NOTE: We use the TopicName here for convenience. No other reason.
         let mut publish = Publish::new(topic_name, QoS::AtLeastOnce, payload.to_string(), None);
         publish.pkid = pkid;
-
-        let manual_ack = ManualAck::PubAck(PubAck::new(publish.pkid, None));
-        (publish, manual_ack)
+        publish
     }
-
-    // TODO: ManualAck is not currently cloneable or comparable, which means can only really test the pkids in tests.
-    // When we reimplement the rumqttc types, revise these tests to be more thorough and prove that the manual ack
-    // correctly corresponds to the pkid.
 
     /// Test registering and acking publishes that only require a single ack to be ready,
     /// where the publishes are acked in the order they were registered.
@@ -301,18 +263,18 @@ mod tests {
         ));
 
         // Add a pending publish
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        tracker.register_pending(&publish1, 1).unwrap();
         assert!(tracker.contains(&publish1));
 
         // Add a second pending publish
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        tracker.register_pending(&publish2, 1).unwrap();
         assert!(tracker.contains(&publish2));
 
         // Add a third pending publish
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
-        tracker.register_pending(&publish3, manual_ack3, 1).unwrap();
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
+        tracker.register_pending(&publish3, 1).unwrap();
         assert!(tracker.contains(&publish3));
 
         // No tracked publishes are ready yet
@@ -326,7 +288,7 @@ mod tests {
 
         // The first publish is now ready, and is removed from the tracker,
         // but no further ones are.
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub1_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish1);
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::NotReady)
@@ -340,13 +302,13 @@ mod tests {
         tracker.ack(&publish3).await.unwrap();
 
         // The second publish is now ready, and is removed from the tracker
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub2_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish2);
         assert_eq!(tracker.pending.lock().unwrap().len(), 1);
         assert!(!tracker.contains(&publish2));
         assert!(tracker.contains(&publish3));
 
         // The third publish is also ready and can be removed
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub3_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish3);
         assert!(!tracker.contains(&publish3));
 
         // No further publishes are pending
@@ -371,18 +333,18 @@ mod tests {
         ));
 
         // Add a pending publish
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        tracker.register_pending(&publish1, 1).unwrap();
         assert!(tracker.contains(&publish1));
 
         // Add a second pending publish
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        tracker.register_pending(&publish2, 1).unwrap();
         assert!(tracker.contains(&publish2));
 
         // Add a third pending publish
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
-        tracker.register_pending(&publish3, manual_ack3, 1).unwrap();
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
+        tracker.register_pending(&publish3, 1).unwrap();
         assert!(tracker.contains(&publish3));
 
         // No tracked publishes are ready yet
@@ -419,9 +381,9 @@ mod tests {
         tracker.ack(&publish1).await.unwrap();
 
         // Now all three publishes are ready and can be removed from the tracker
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub1_pkid);
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub2_pkid);
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub3_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish1);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish2);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish3);
 
         // No further publishes remain
         assert!(matches!(
@@ -445,18 +407,18 @@ mod tests {
         ));
 
         // Add a pending publish that requires 2 acks
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        tracker.register_pending(&publish1, manual_ack1, 2).unwrap();
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        tracker.register_pending(&publish1, 2).unwrap();
         assert!(tracker.contains(&publish1));
 
         // Add a second pending publish that requires 1 ack
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        tracker.register_pending(&publish2, 1).unwrap();
         assert!(tracker.contains(&publish2));
 
         // Add a third pending publish that requires 5 acks
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
-        tracker.register_pending(&publish3, manual_ack3, 5).unwrap();
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
+        tracker.register_pending(&publish3, 5).unwrap();
         assert!(tracker.contains(&publish3));
 
         // No tracked publishes are ready yet.
@@ -475,7 +437,7 @@ mod tests {
 
         // Acknowledge a second time, and it will become ready
         tracker.ack(&publish1).await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub1_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish1);
         // No further publishes are ready
         assert!(matches!(
             tracker.try_next_ready().err(),
@@ -488,7 +450,7 @@ mod tests {
         tracker.ack(&publish2).await.unwrap();
         tracker.ack(&publish3).await.unwrap();
         tracker.ack(&publish3).await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub2_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish2);
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::NotReady)
@@ -498,7 +460,7 @@ mod tests {
         tracker.ack(&publish3).await.unwrap();
         tracker.ack(&publish3).await.unwrap();
         tracker.ack(&publish3).await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub3_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish3);
 
         // No further publishes are pending
         assert!(matches!(
@@ -522,18 +484,18 @@ mod tests {
         ));
 
         // Add a pending publish
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        tracker.register_pending(&publish1, manual_ack1, 2).unwrap();
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        tracker.register_pending(&publish1, 2).unwrap();
         assert!(tracker.contains(&publish1));
 
         // Add a second pending publish
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        tracker.register_pending(&publish2, 1).unwrap();
         assert!(tracker.contains(&publish2));
 
         // Add a third pending publish
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
-        tracker.register_pending(&publish3, manual_ack3, 5).unwrap();
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
+        tracker.register_pending(&publish3, 5).unwrap();
         assert!(tracker.contains(&publish3));
 
         // No tracked publishes are ready yet.
@@ -584,8 +546,8 @@ mod tests {
         tracker.ack(&publish1).await.unwrap();
 
         // Now the first two publishes are ready and can be removed from the tracker
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub1_pkid);
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub2_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish1);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish2);
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::NotReady)
@@ -595,7 +557,7 @@ mod tests {
         // Acknowledge the third publish twice more, and it is now ready
         tracker.ack(&publish3).await.unwrap();
         tracker.ack(&publish3).await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub3_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish3);
 
         // No further publishes remain
         assert!(matches!(
@@ -618,30 +580,30 @@ mod tests {
         ));
 
         // Add a pending publish
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        tracker.register_pending(&publish1, 1).unwrap();
         assert!(tracker.contains(&publish1));
 
         // Add a second pending publish
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        tracker.register_pending(&publish2, 1).unwrap();
         assert!(tracker.contains(&publish2));
 
         // Add a third pending publish
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
-        tracker.register_pending(&publish3, manual_ack3, 1).unwrap();
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
+        tracker.register_pending(&publish3, 1).unwrap();
         assert!(tracker.contains(&publish3));
 
         // Create a task that waits for the next ready publishes
         let tracker = Arc::new(tracker);
         let tracker_clone = Arc::clone(&tracker);
         let jh = tokio::task::spawn(async move {
-            let (_, pkid) = tracker_clone.next_ready().await;
-            assert_eq!(pkid, pub1_pkid);
-            let (_, pkid) = tracker_clone.next_ready().await;
-            assert_eq!(pkid, pub2_pkid);
-            let (_, pkid) = tracker_clone.next_ready().await;
-            assert_eq!(pkid, pub3_pkid);
+            let next_pub = tracker_clone.next_ready().await;
+            assert_eq!(next_pub.pkid, publish1.pkid);
+            let next_pub = tracker_clone.next_ready().await;
+            assert_eq!(next_pub.pkid, publish2.pkid);
+            let next_pub = tracker_clone.next_ready().await;
+            assert_eq!(next_pub.pkid, publish3.pkid);
         });
 
         tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
@@ -672,9 +634,9 @@ mod tests {
         ));
 
         // Create publishes
-        let (publish1, manual_ack1) = create_publish("test", "pub1", pub1_pkid);
-        let (publish2, manual_ack2) = create_publish("test", "pub2", pub2_pkid);
-        let (publish3, manual_ack3) = create_publish("test", "pub3", pub3_pkid);
+        let publish1 = create_publish("test", "pub1", pub1_pkid);
+        let publish2 = create_publish("test", "pub2", pub2_pkid);
+        let publish3 = create_publish("test", "pub3", pub3_pkid);
 
         // Acknowledge publish 2, then publish 1, then publish 3 before registering them
 
@@ -725,11 +687,11 @@ mod tests {
         assert!(!p3_jh2.is_finished());
 
         // Register publish 1 requiring 1 ack
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        tracker.register_pending(&publish1, 1).unwrap();
 
         // The task acking publish 1 can now complete, and publish 1 is the "next ready"
         p1_jh.await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub1_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish1);
         assert!(!tracker.contains(&publish1));
 
         // Other tasks are not yet completed
@@ -738,11 +700,11 @@ mod tests {
         assert!(!p3_jh2.is_finished());
 
         // Register publish 2 requiring 2 acks
-        tracker.register_pending(&publish2, manual_ack2, 2).unwrap();
+        tracker.register_pending(&publish2, 2).unwrap();
 
         // The task acking publish 2 can now complete, and publish 2 is the "next ready"
         p2_jh.await.unwrap();
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub2_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish2);
         assert!(!tracker.contains(&publish2));
 
         // Other tasks are not yet completed
@@ -750,7 +712,7 @@ mod tests {
         assert!(!p3_jh2.is_finished());
 
         // Register publish 3 requiring 3 acks
-        tracker.register_pending(&publish3, manual_ack3, 3).unwrap();
+        tracker.register_pending(&publish3, 3).unwrap();
 
         // Both tasks acking publish 3 can now complete, but publish 3 will not yet be ready,
         // since it requires 3 acks.
@@ -765,7 +727,7 @@ mod tests {
         tracker.ack(&publish3).await.unwrap();
 
         // Publish 3 is now the "next ready", and the tracker is empty
-        assert_eq!(tracker.try_next_ready().unwrap().1, pub3_pkid);
+        assert_eq!(tracker.try_next_ready().unwrap(), publish3);
         assert!(matches!(
             tracker.try_next_ready().err(),
             Some(TryNextReadyError::Empty)
@@ -780,27 +742,27 @@ mod tests {
         assert!(tracker.pending.lock().unwrap().is_empty());
 
         // Newly created publish is not inside the tracker
-        let (publish1, manual_ack1) = create_publish("test", "pub1", 1);
+        let publish1 = create_publish("test", "pub1", 1);
         assert!(!tracker.contains(&publish1));
         assert!(tracker
             .pending
             .lock()
             .unwrap()
             .iter()
-            .all(|pending| pending.pkid != publish1.pkid));
+            .all(|pending| pending.publish.pkid != publish1.pkid));
 
         // Add the pending publish to the tracker
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        tracker.register_pending(&publish1, 1).unwrap();
         assert!(tracker.contains(&publish1));
         assert!(tracker
             .pending
             .lock()
             .unwrap()
             .iter()
-            .any(|pending| pending.pkid == publish1.pkid));
+            .any(|pending| pending.publish.pkid == publish1.pkid));
 
         // Another newly created publish is still not inside the tracker
-        let (publish2, _) = create_publish("test", "pub2", 2);
+        let publish2 = create_publish("test", "pub2", 2);
         assert!(!tracker.contains(&publish2));
     }
 
@@ -816,8 +778,8 @@ mod tests {
         ));
 
         // Add a pending publish
-        let (publish1, manual_ack1) = create_publish("test", "pub1", 1);
-        tracker.register_pending(&publish1, manual_ack1, 1).unwrap();
+        let publish1 = create_publish("test", "pub1", 1);
+        tracker.register_pending(&publish1, 1).unwrap();
 
         // Not ready, but not empty
         {
@@ -825,7 +787,7 @@ mod tests {
             assert!(!pending_g.is_empty());
             assert_eq!(pending_g.len(), 1);
             let entry = pending_g.front().unwrap();
-            assert!(entry.pkid == 1);
+            assert!(entry.publish.pkid == 1);
             assert!(entry.remaining_acks == 1);
         }
         assert!(matches!(
@@ -834,8 +796,8 @@ mod tests {
         ));
 
         // Add another pending publish and ack it, so it is ready
-        let (publish2, manual_ack2) = create_publish("test", "pub2", 2);
-        tracker.register_pending(&publish2, manual_ack2, 1).unwrap();
+        let publish2 = create_publish("test", "pub2", 2);
+        tracker.register_pending(&publish2, 1).unwrap();
         tracker.ack(&publish2).await.unwrap();
 
         // Next ready still reports the first publish is not ready
@@ -844,10 +806,10 @@ mod tests {
             assert!(!pending_g.is_empty());
             assert_eq!(pending_g.len(), 2);
             let entry1 = pending_g.front().unwrap();
-            assert!(entry1.pkid == 1);
+            assert!(entry1.publish.pkid == 1);
             assert!(entry1.remaining_acks == 1);
             let entry2 = pending_g.back().unwrap();
-            assert!(entry2.pkid == 2);
+            assert!(entry2.publish.pkid == 2);
             assert!(entry2.remaining_acks == 0);
         }
         assert!(matches!(
@@ -867,8 +829,8 @@ mod tests {
         ));
 
         // Register a publish that requires one ack
-        let (publish, manual_ack) = create_publish("test", "pub", 1);
-        tracker.register_pending(&publish, manual_ack, 1).unwrap();
+        let publish = create_publish("test", "pub", 1);
+        tracker.register_pending(&publish, 1).unwrap();
 
         // Acknowledge the publish twice before removing it
         assert!(tracker.ack(&publish).await.is_ok());
@@ -881,10 +843,10 @@ mod tests {
     #[tokio::test]
     async fn pkid_0() {
         let tracker = PubTracker::default();
-        let (publish, manual_ack) = create_publish("test", "pub1", 0);
+        let publish = create_publish("test", "pub1", 0);
 
         // Registration succeeds, but does not actually register anything
-        assert!(tracker.register_pending(&publish, manual_ack, 1).is_ok());
+        assert!(tracker.register_pending(&publish, 1).is_ok());
         assert!(!tracker.contains(&publish));
 
         // Acknowledging the publish does nothing
@@ -896,6 +858,6 @@ mod tests {
         ));
     }
 
-    // TODO: tests for clear and ack_rc.
-    // Clear is not yet implemented properly, and ack_rc can't be tested without ManualAck changes.
+    // TODO: tests for reset
+    // Reset is not yet implemented properly
 }

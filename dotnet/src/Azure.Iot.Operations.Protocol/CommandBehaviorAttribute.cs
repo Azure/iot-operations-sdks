@@ -7,12 +7,12 @@
     {
         public bool IsIdempotent { get; set; }
 
-        public string CacheableDuration { get; set; }
+        public string CacheTtl { get; set; }
 
-        public CommandBehaviorAttribute(bool idempotent = false, string cacheableDuration = "PT0H0M0S")
+        public CommandBehaviorAttribute(bool idempotent = false, string cacheTtl = "PT0H0M0S")
         {
             this.IsIdempotent = idempotent;
-            this.CacheableDuration = cacheableDuration;
+            this.CacheTtl = cacheTtl;
         }
     }
 }
