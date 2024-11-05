@@ -5,19 +5,16 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
-using HttpThermostatConnectorAppProjectTemplate;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
-    public class HttpThermostatConnectorAppWorker : BackgroundService
+    public class HttpServerConnectorAppWorker : BackgroundService
     {
         private bool doSchemaWork = false;
-        private readonly ILogger<HttpThermostatConnectorAppWorker> _logger;
+        private readonly ILogger<HttpServerConnectorAppWorker> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
@@ -30,7 +27,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
 
-        public HttpThermostatConnectorAppWorker(ILogger<HttpThermostatConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
+        public HttpServerConnectorAppWorker(ILogger<HttpServerConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -243,7 +240,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                 return;
             }
 
-            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
+            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset);
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 

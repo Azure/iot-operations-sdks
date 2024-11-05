@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
     public class ThermostatDatasetSamplerFactory : IDatasetSamplerFactory
     {
@@ -25,7 +25,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!, assetEndpointProfile.Credentials);
             }
             else
             {

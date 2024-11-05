@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
     /// <summary>
     /// Factory interface for creating <see cref="IDatasetSampler"/> instances. For an example, see the HttpThermostatHttpThermostatConnectorApp sample code.

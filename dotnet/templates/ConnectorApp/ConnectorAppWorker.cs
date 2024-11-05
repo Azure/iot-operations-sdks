@@ -5,8 +5,6 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
@@ -242,7 +240,7 @@ namespace ConnectorAppProjectTemplate
                 return;
             }
 
-            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
+            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset);
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
