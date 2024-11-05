@@ -34,16 +34,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         private FilesObserver? _assetEndpointProfileCertificateSecretFilesObserver;
         private FilesObserver? _assetFilesObserver;
 
-        private string? _assetConfigMapMountPath;
-        private string _assetEndpointConfigMapMountPath;
-        private string? _aepUsernameSecretMountPath;
-        private string? _aepPasswordSecretMountPath;
-        private string? _aepCertMountPath;
-
-        private string? _aepUsernameSecretName;
-        private string? _aepPasswordSecretName;
-        private string? _aepCertificateSecretName;
-
         /// <summary>
         /// The callback that executes when an asset has changed once you start observing an asset with 
         /// <see cref="ObserveAssetAsync(string, TimeSpan?, CancellationToken)"/>.
@@ -58,12 +48,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         public AzureDeviceRegistryClient()
         {
-            //TODO safe to assume at least one asset and one asset endpoint?
-            _assetConfigMapMountPath = Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar);
-            _assetEndpointConfigMapMountPath = Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
-            _aepUsernameSecretMountPath = Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar);
-            _aepPasswordSecretMountPath = Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar);
-            _aepCertMountPath = Environment.GetEnvironmentVariable(AepCertMountPathEnvVar);
+            //TODO safe to assume at least one asset endpoint? Assets are optional apparently
         }
 
         /// <summary>
@@ -74,7 +59,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <returns>The requested asset.</returns>
         public async Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(_assetConfigMapMountPath))
+            if (string.IsNullOrWhiteSpace(GetAssetDirectory()))
             {
                 return null;
             }
@@ -86,7 +71,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                 AllowTrailingCommas = true,
             };
 
-            byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{_assetConfigMapMountPath}/{assetName}");
+            byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{GetAssetDirectory()}/{assetName}");
             Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
 
             return asset;
@@ -101,20 +86,20 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            _aepUsernameSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
-            _aepPasswordSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
-            _aepCertificateSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
+            var _aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepUsernameFileNameRelativeMountPath}");
+            var _aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepPasswordFileNameRelativeMountPath}");
+            var _aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepCertificateFileNameRelativeMountPath}");
             
-            string? aepUsernameSecretFileContents = _aepUsernameSecretMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepUsernameSecretMountPath}/{_aepUsernameSecretName}") : null;
-            byte[]? aepPasswordSecretFileContents = _aepPasswordSecretMountPath != null ? await GetMountedConfigurationValueAsync($"{_aepPasswordSecretMountPath}/{_aepPasswordSecretName}") : null;
-            string? aepCertFileContents = _aepCertMountPath != null ? await GetMountedConfigurationValueAsStringAsync($"{_aepCertMountPath}/{_aepCertificateSecretName}"): null;
+            string? aepUsernameSecretFileContents = GetAepUsernameDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepUsernameDirectory()}/{_aepUsernameSecretName}") : null;
+            byte[]? aepPasswordSecretFileContents = GetAepPasswordDirectory() != null ? await GetMountedConfigurationValueAsync($"{GetAepPasswordDirectory()}/{_aepPasswordSecretName}") : null;
+            string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}"): null;
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
-            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepAdditionalConfigurationRelativeMountPath}");
+            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAdditionalConfigurationRelativeMountPath}");
 
             JsonDocument? aepAdditionalConfigurationJson = null;
             if (aepAdditionalConfigurationFileContents != null)
@@ -147,7 +132,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             if (_assetFilesObserver == null)
             {
-                _assetFilesObserver = new($"{_assetConfigMapMountPath}", pollingInterval);
+                _assetFilesObserver = new(GetAssetDirectory, pollingInterval);
                 _assetFilesObserver.OnFileChanged += OnAssetFileChanged;
                 await _assetFilesObserver.StartAsync();
             }
@@ -181,37 +166,24 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             if (_assetEndpointProfileConfigFilesObserver == null)
             {
-                _aepUsernameSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepUsernameFileNameRelativeMountPath}");
-                _aepPasswordSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepPasswordFileNameRelativeMountPath}");
-                _aepCertificateSecretName ??= await GetMountedConfigurationValueAsStringAsync($"{_assetEndpointConfigMapMountPath}/{AepCertificateFileNameRelativeMountPath}");
-
                 // Asset endpoint profile files live in a few different directories, so several file directory observers
                 // are needed
-                _assetEndpointProfileConfigFilesObserver = new($"{_assetEndpointConfigMapMountPath}", pollingInterval);
+                _assetEndpointProfileConfigFilesObserver = new(GetAssetDirectory, pollingInterval);
                 _assetEndpointProfileConfigFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 await _assetEndpointProfileConfigFilesObserver.StartAsync();
 
                 //TODO how to observe for these secrets being created? We don't know the directory to observe?
-                if (_aepUsernameSecretMountPath != null)
-                {
-                    _assetEndpointProfileUsernameSecretFilesObserver = new($"{_aepUsernameSecretMountPath}", pollingInterval);
-                    _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                    await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
-                }
+                _assetEndpointProfileUsernameSecretFilesObserver = new(GetAepUsernameDirectory, pollingInterval);
+                _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
 
-                if (_aepPasswordSecretMountPath != null)
-                {
-                    _assetEndpointProfilePasswordSecretFilesObserver = new($"{_aepPasswordSecretMountPath}", pollingInterval);
-                    _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                    await _assetEndpointProfilePasswordSecretFilesObserver.StartAsync();
-                }
+                _assetEndpointProfilePasswordSecretFilesObserver = new(GetAepPasswordDirectory, pollingInterval);
+                _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                await _assetEndpointProfilePasswordSecretFilesObserver.StartAsync();
 
-                if (_aepCertMountPath != null)
-                {
-                    _assetEndpointProfileCertificateSecretFilesObserver = new($"{_aepCertMountPath}", pollingInterval);
-                    _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
-                    await _assetEndpointProfileCertificateSecretFilesObserver.StartAsync();
-                }
+                _assetEndpointProfileCertificateSecretFilesObserver = new(GetAepCertDirectory, pollingInterval);
+                _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
+                await _assetEndpointProfileCertificateSecretFilesObserver.StartAsync();
             }
         }
 
@@ -261,9 +233,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         public Task<List<string>> GetAssetNamesAsync(CancellationToken cancellationToken = default)
         {
             List<string> assetNames = new();
-            if (Directory.Exists(_assetConfigMapMountPath))
+            string directoryPath = GetAssetDirectory();
+            if (!string.IsNullOrWhiteSpace(directoryPath) && Directory.Exists(directoryPath))
             {
-                foreach (string fileName in Directory.EnumerateFiles(_assetConfigMapMountPath))
+                foreach (string fileName in Directory.EnumerateFiles(directoryPath))
                 {
                     assetNames.Add(Path.GetFileName(fileName));
                 }
@@ -275,17 +248,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         private void OnAssetEndpointProfileFileChanged(object? sender, FileChangedEventArgs e)
         {
             string fileName = e.FileName;
-            if (!fileName.Equals($"{AepTargetAddressRelativeMountPath}")
-                && !fileName.Equals($"{AepAuthenticationMethodRelativeMountPath}")
-                && !fileName.Equals($"{EndpointProfileTypeRelativeMountPath}")
-                && !fileName.Equals($"{AepAdditionalConfigurationRelativeMountPath}")
-                && !fileName.Equals($"{_aepUsernameSecretName}")
-                && !fileName.Equals($"{_aepPasswordSecretName}")
-                && !fileName.Equals($"{_aepCertificateSecretName}"))
-            {
-                // The file that changed wasn't one of the AEP files, so it can be ignored
-                return;
-            }
+
+            //TODO do we care about filtering out changes to unrelated files?
 
             new Task(async () =>
             {
@@ -319,6 +283,31 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             }
 
             return await FileUtilities.ReadFileWithRetryAsync(path);
+        }
+
+        private string GetAssetDirectory()
+        {
+            return Environment.GetEnvironmentVariable(AssetConfigMapMountPathEnvVar) ?? "";
+        }
+
+        private string GetAssetEndpointProfileConfigDirectory()
+        {
+            return Environment.GetEnvironmentVariable(AssetEndpointProfileConfigMapMountPathEnvVar) ?? throw new InvalidOperationException("Missing the AEP config map mount path environment variable");
+        }
+
+        private string GetAepUsernameDirectory()
+        {
+            return Environment.GetEnvironmentVariable(AepUsernameSecretMountPathEnvVar) ?? "";
+        }
+
+        private string GetAepPasswordDirectory()
+        {
+            return Environment.GetEnvironmentVariable(AepPasswordSecretMountPathEnvVar) ?? "";
+        }
+
+        private string GetAepCertDirectory()
+        {
+            return Environment.GetEnvironmentVariable(AepCertMountPathEnvVar) ?? "";
         }
     }
 }

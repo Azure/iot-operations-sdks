@@ -14,6 +14,10 @@ namespace ConnectorAppProjectTemplate
         /// <param name="asset">The asset that this dataset belongs to.</param>
         /// <param name="dataset">The dataset that the returned sampler will sample.</param>
         /// <returns>The dataset sampler that will be used everytime this dataset needs to be sampled.</returns>
+        /// <remarks>
+        /// When an asset is discovered, this application will automatically begin periodically sampling each of the datasets within that asset
+        /// using a <see cref="IDatasetSampler"/> instance created by this method.
+        /// </remarks>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset);
     }
 }

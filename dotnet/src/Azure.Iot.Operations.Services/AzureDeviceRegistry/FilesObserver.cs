@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         // The set of file paths and their last known state
         private Dictionary<string, FileState> _lastKnownDirectoryState = new();
         
-        private string _directoryToObserve;
+        private Func<string> _directoryRetriever;
 
         private TimeSpan _pollingInterval;
 
@@ -24,9 +24,9 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
         private bool _startedObserving = false;
 
-        internal FilesObserver(string directoryToObserve, TimeSpan? pollingInterval = null)
+        internal FilesObserver(Func<string> directoryRetriever, TimeSpan? pollingInterval = null)
         {
-            _directoryToObserve = directoryToObserve;
+            _directoryRetriever = directoryRetriever;
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
@@ -41,9 +41,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
 
             _observationTaskCancellationTokenSource = new();
 
-            if (Directory.Exists(_directoryToObserve))
+            string directoryToObserve = _directoryRetriever.Invoke();
+            if (!string.IsNullOrWhiteSpace(directoryToObserve) && Directory.Exists(directoryToObserve))
             {
-                foreach (string filePath in Directory.EnumerateFiles(_directoryToObserve))
+                foreach (string filePath in Directory.EnumerateFiles(directoryToObserve))
                 {
                     await SaveFileStateAsync(filePath);
                 }
@@ -56,7 +57,8 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                     {
                         while (!_observationTaskCancellationTokenSource.Token.IsCancellationRequested)
                         {
-                            if (!Directory.Exists(_directoryToObserve))
+                            string directoryToObserve = _directoryRetriever.Invoke();
+                            if (string.IsNullOrWhiteSpace(directoryToObserve) || !Directory.Exists(directoryToObserve))
                             {
                                 // The folder was deleted, so all previously known files must have been deleted as well
                                 foreach (string filePath in _lastKnownDirectoryState.Keys)
@@ -68,7 +70,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                             }
                             else
                             {
-                                var currentFilesInDirectory = Directory.EnumerateFiles(_directoryToObserve);
+                                var currentFilesInDirectory = Directory.EnumerateFiles(directoryToObserve);
 
                                 // Check if any previously known files are gone now
                                 List<string> filePathsToRemove = new();
