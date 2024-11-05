@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
                                "SessionExpiry=PT5M;" +
                                "Username=me;" +
                                "Password=password;" +
-                               "CaFile=../../../eng/test/dummy_credentials/TestCa.txt"
+                               "CaFile=../../../eng/test/dummy_credentials/TestCa.txt;" +
                                //"CaFile=Connection/ca.txt;" +
                                "CertFile=Connection/TestSdkLiteCertPem.txt;" +
                                "KeyFile=Connection/TestSdkLiteCertKey.txt;" +
