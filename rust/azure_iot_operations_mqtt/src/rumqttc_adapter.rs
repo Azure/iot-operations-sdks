@@ -489,7 +489,7 @@ mod tests {
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
-        println!("dir: {:?}", dir);
+        //println!("dir: {:?}", dir);
 
         let mut ca_file = dir.clone();
         ca_file.push("TestCa.txt");
@@ -500,18 +500,18 @@ mod tests {
 
         // TODO: use join instead of cloning/pushing
 
-        println!(
-            "ca: {:?}",
-            ca_file.clone().into_os_string().into_string().unwrap()
-        );
-        println!(
-            "cert: {:?}",
-            cert_file.clone().into_os_string().into_string().unwrap()
-        );
-        println!(
-            "key: {:?}",
-            key_file.clone().into_os_string().into_string().unwrap()
-        );
+        // println!(
+        //     "ca: {:?}",
+        //     ca_file.clone().into_os_string().into_string().unwrap()
+        // );
+        // println!(
+        //     "cert: {:?}",
+        //     cert_file.clone().into_os_string().into_string().unwrap()
+        // );
+        // println!(
+        //     "key: {:?}",
+        //     key_file.clone().into_os_string().into_string().unwrap()
+        // );
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -549,7 +549,7 @@ mod tests {
 
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
-        use std::error::Error;
+        //use std::error::Error;
 
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let mut cert_file = dir.clone();
@@ -570,15 +570,15 @@ mod tests {
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
-        match mqtt_options_result {
-            Ok(_) => (),
-            Err(e) => {
-                println!("error: {:?}", e);
-                println!("source: {:?}", e.source());
-                assert!(false);
-                //assert_eq!(e.msg, "Failed to build TLS connector: Failed to build TLS client identity: bad password read".to_string());
-            }
-        }
-        //assert!(mqtt_options_result.is_ok());
+        // match mqtt_options_result {
+        //     Ok(_) => (),
+        //     Err(e) => {
+        //         println!("error: {:?}", e);
+        //         println!("source: {:?}", e.source());
+        //         assert!(false);
+        //         //assert_eq!(e.msg, "Failed to build TLS connector: Failed to build TLS client identity: bad password read".to_string());
+        //     }
+        // }
+        assert!(mqtt_options_result.is_ok());
     }
 }
