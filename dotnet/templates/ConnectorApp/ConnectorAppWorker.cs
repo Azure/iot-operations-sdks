@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
-namespace ConnectorAppProjectTemplate
+namespace ConnectorApp
 {
     public class ConnectorAppWorker : BackgroundService
     {

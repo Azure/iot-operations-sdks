@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace ConnectorAppProjectTemplate
+namespace ConnectorApp
 {
     internal class DatasetSource : IDatasetSource
     {

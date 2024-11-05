@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace ConnectorAppProjectTemplate
+namespace ConnectorApp
 {
     /// <summary>
     /// Factory interface for creating <see cref="IDatasetSource"/> instances. For an example, see the HttpServerConnectorApp sample code.

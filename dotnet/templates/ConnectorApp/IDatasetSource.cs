@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace ConnectorAppProjectTemplate
+namespace ConnectorApp
 {
     /// <summary>
     /// A sampler of a single dataset within an asset. For an example, see the HttpServerConnectorApp sample code.

@@ -1,7 +1,7 @@
 ﻿using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 
-namespace ConnectorAppProjectTemplate;
+namespace ConnectorApp;
 
 public static class MqttSessionClientFactoryProvider
 {
