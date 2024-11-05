@@ -18,7 +18,5 @@ namespace HttpServerConnectorApp
         /// will then forward the returned serialized payload to the MQTT broker stamped with cloud event headers.
         /// </remarks>
         public Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default);
-    
-        //TODO do we really need to pass in the dataset here as well? The factory was given it and we could re-create a new sampler if the dataset changes
     }
 }

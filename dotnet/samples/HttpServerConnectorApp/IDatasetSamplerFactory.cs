@@ -5,7 +5,7 @@ namespace HttpServerConnectorApp
     /// <summary>
     /// Factory interface for creating <see cref="IDatasetSampler"/> instances. For an example, see the HttpThermostatHttpThermostatConnectorApp sample code.
     /// </summary>
-    public interface IDatasetSamplerFactory //TODO source + sink terminology? Source is the HTTP server, MQ broker is sink. "DatasetConnector"?
+    public interface IDatasetSamplerFactory
     {
         /// <summary>
         /// Factory method for creating a sampler for the provided dataset.
