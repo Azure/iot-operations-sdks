@@ -81,7 +81,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal("localhost", cs.HostName);
             Assert.Equal(2323, cs.TcpPort);
             Assert.False(cs.UseTls);
-            Assert.Equal("Connection/ca.txt", cs.CaFile);
+            Assert.Equal("../../../eng/test/dummy_credentials/TestCa.txt", cs.CaFile);
+            //Assert.Equal("Connection/ca.txt", cs.CaFile);
             Assert.Equal("Connection/TestSdkLiteCertPem.txt", cs.CertFile);
             Assert.Equal("Connection/TestSdkLiteCertKey.txt", cs.KeyFile);
             Assert.Equal("me", cs.Username);
