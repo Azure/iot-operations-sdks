@@ -438,6 +438,8 @@ mod tests {
     #[test_case("invalid{Namespace"; "contains open brace")]
     #[test_case("invalid}Namespace"; "contains close brace")]
     #[test_case("invalid\u{0000}Namespace"; "contains non-ASCII")]
+    #[test_case("/invalidNamespace"; "namespace starts with slash")]
+    #[test_case("invalidNamespace/"; "namespace ends with slash")]
     fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken1}";
 
