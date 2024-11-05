@@ -24,7 +24,8 @@ const (
 
 func createSessionClientOnMochi() (*mqtt.SessionClient, error) {
 	return mqtt.NewSessionClientFromConnectionString(
-		fmt.Sprintf("HostName=localhost;TcpPort=%d;Username=%s;Password=%s",
+		fmt.Sprintf(
+			"HostName=localhost;TcpPort=%d;Username=%s;Password=%s;UseTls=false",
 			mochiTCPPort,
 			mochiUserName,
 			mochiPassword,
