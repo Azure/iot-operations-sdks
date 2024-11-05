@@ -2,7 +2,7 @@
 
 namespace ConnectorAppProjectTemplate
 {
-    internal class DatasetSampler : IDatasetSampler
+    internal class DatasetSource : IDatasetSource
     {
         public Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {

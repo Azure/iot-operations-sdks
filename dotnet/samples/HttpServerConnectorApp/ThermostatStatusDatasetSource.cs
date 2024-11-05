@@ -4,13 +4,13 @@ using System.Text;
 
 namespace HttpServerConnectorApp
 {
-    internal class ThermostatStatusDatasetSampler : IDatasetSampler
+    internal class ThermostatStatusDatasetSource : IDatasetSource
     {
         private HttpClient _httpClient;
         private string _assetName;
         private AssetEndpointProfileCredentials _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
+        public ThermostatStatusDatasetSource(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;

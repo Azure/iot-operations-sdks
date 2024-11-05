@@ -5,7 +5,7 @@ namespace ConnectorAppProjectTemplate
     /// <summary>
     /// A sampler of a single dataset within an asset. For an example, see the HttpServerConnectorApp sample code.
     /// </summary>
-    public interface IDatasetSampler
+    public interface IDatasetSource
     {
         /// <summary>
         /// Sample the datapoints from the asset and return the full serialized dataset.
