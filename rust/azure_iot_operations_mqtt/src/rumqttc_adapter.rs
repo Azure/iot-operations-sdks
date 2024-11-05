@@ -437,9 +437,7 @@ mod tests {
 
         // username and password file
         let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        password_file_path.push(
-            "../../eng/test/dummy_credentials/TestMqttPasswordFile.txt",
-        );
+        password_file_path.push("../../eng/test/dummy_credentials/TestMqttPasswordFile.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -457,8 +455,7 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../eng/test/dummy_credentials/TestCa.txt");
+        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -474,8 +471,7 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file_revocation_check() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../eng/test/dummy_credentials/TestCa.txt");
+        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -538,17 +534,11 @@ mod tests {
     fn test_mqtt_connection_settings_cert_key_file_password() {
         let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let mut cert_file = dir.clone();
-        cert_file.push(
-            "../../eng/test/dummy_credentials/TestCert2Pem.txt",
-        );
+        cert_file.push("../../eng/test/dummy_credentials/TestCert2Pem.txt");
         let mut key_file = dir.clone();
-        key_file.push(
-            "../../eng/test/dummy_credentials/TestCert2KeyEncrypted.txt",
-        );
+        key_file.push("../../eng/test/dummy_credentials/TestCert2KeyEncrypted.txt");
         let mut key_password_file = dir.clone();
-        key_password_file.push(
-            "../../eng/test/dummy_credentials/TestCert2KeyPassword.txt",
-        );
+        key_password_file.push("../../eng/test/dummy_credentials/TestCert2KeyPassword.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
