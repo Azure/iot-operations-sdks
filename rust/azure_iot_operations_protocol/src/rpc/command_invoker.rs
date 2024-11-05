@@ -127,6 +127,9 @@ pub struct CommandInvokerOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
+    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
+    #[builder(default = "None")]
+    topic_token_namespace: Option<String>,
     /// Prefix for the response topic
     #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
     response_topic_prefix: Option<String>,
@@ -231,12 +234,12 @@ where
     ///     [`topic_namespace`](CommandInvokerOptions::topic_namespace),
     ///     [`response_topic_prefix`](CommandInvokerOptions::response_topic_prefix),
     ///     [`response_topic_suffix`](CommandInvokerOptions::response_topic_suffix),
-    ///     or [`model_id`](CommandInvokerOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](CommandInvokerOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](CommandInvokerOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_namespace`](CommandInvokerOptions::topic_token_namespace) is Some and invalid
     pub fn new(
         client: C,
-        invoker_options: CommandInvokerOptions,
+        mut invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
@@ -266,17 +269,29 @@ where
                 response_topic_pattern = response_topic_pattern + "/" + &suffix;
             }
         }
+
+        let topic_token_map = &mut invoker_options.topic_token_map;
+        if let Some(topic_token_namespace) = invoker_options.topic_token_namespace {
+            // Prepend the namespace to all topic token keys
+            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
+            for key in keys {
+                if let Some(value) = topic_token_map.remove(&key) {
+                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
+                }
+            }
+        }
+
         // Generate the request and response topics
         let request_topic_pattern = TopicPattern::new(
             &invoker_options.request_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.topic_token_map,
+            topic_token_map,
         )?;
 
         let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.topic_token_map,
+            topic_token_map,
         )?;
 
         // Create mutex to track subscription state
@@ -1016,6 +1031,35 @@ mod tests {
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/+/response"
+        );
+    }
+
+    #[tokio::test]
+    async fn test_new_topic_token_namespace() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let topic_token_map = create_topic_tokens();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/{ex:commandName}/{executorId}/request")
+            .response_topic_pattern("test/{ex:commandName}/{executorId}/response".to_string())
+            .command_name("test_command_name")
+            .topic_token_map(topic_token_map)
+            .topic_token_namespace(Some("ex:".to_string()))
+            .response_topic_prefix("custom/{ex:invokerClientId}".to_string())
+            .response_topic_suffix("custom/response".to_string())
+            .build()
+            .unwrap();
+
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
+
+        assert_eq!(
+            command_invoker.request_topic_pattern.as_subscribe_topic(),
+            "test/test_command_name/+/request"
+        );
+        assert_eq!(
+            command_invoker.response_topic_pattern.as_subscribe_topic(),
+            "test/test_command_name/+/response"
         );
     }
 

@@ -200,6 +200,9 @@ pub struct TelemetrySenderOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
+    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
+    #[builder(default = "None")]
+    topic_token_namespace: Option<String>,
 }
 
 /// Telemetry Sender struct
@@ -256,7 +259,6 @@ where
 }
 
 /// Implementation of Telemetry Sender
-#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetrySender<T, C>
 where
     T: PayloadSerialize,
@@ -271,18 +273,29 @@ where
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
-    ///     or [`model_id`](TelemetrySenderOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](TelemetrySenderOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_namespace`](TelemetrySenderOptions::topic_token_namespace) is Some and invalid
     pub fn new(
         client: C,
-        sender_options: TelemetrySenderOptions,
+        mut sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
+        let topic_token_map = &mut sender_options.topic_token_map;
+        if let Some(topic_token_namespace) = sender_options.topic_token_namespace {
+            // Prepend the namespace to all topic token keys
+            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
+            for key in keys {
+                if let Some(value) = topic_token_map.remove(&key) {
+                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
+                }
+            }
+        }
+
         // Validate parameters
         let topic_pattern = TopicPattern::new(
             &sender_options.topic_pattern,
             sender_options.topic_namespace.as_deref(),
-            &sender_options.topic_token_map,
+            topic_token_map,
         )?;
 
         Ok(Self {
@@ -470,6 +483,32 @@ mod tests {
 
         TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
             .unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_new_topic_token_namespace() {
+        let session = get_session();
+        let topic_tokens =
+            HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]);
+        let sender_options = TelemetrySenderOptionsBuilder::default()
+            .topic_pattern("test/{ex:telemetryName}")
+            .topic_namespace("test_namespace")
+            .topic_token_map(topic_tokens)
+            .topic_token_namespace("ex:")
+            .build()
+            .unwrap();
+
+        let telemetry_sender =
+            TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
+                .unwrap();
+
+        assert_eq!(
+            telemetry_sender
+                .topic_pattern
+                .as_publish_topic(&HashMap::new())
+                .unwrap(),
+            "test_namespace/test/test_telemetry"
+        );
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

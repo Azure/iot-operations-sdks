@@ -174,6 +174,9 @@ pub struct TelemetryReceiverOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
+    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
+    #[builder(default = "None")]
+    topic_token_namespace: Option<String>,
     /// If true, telemetry messages are auto-acknowledged
     #[builder(default = "true")]
     auto_ack: bool,
@@ -235,7 +238,6 @@ where
 }
 
 /// Implementation of a Telemetry Sender
-#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetryReceiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
@@ -252,23 +254,33 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`telemetry_topic_pattern`](TelemetryReceiverOptions::telemetry_topic_pattern),
-    ///   [`telemetry_name`](TelemetryReceiverOptions::telemetry_name),
-    ///   [`model_id`](TelemetryReceiverOptions::model_id),
+    /// - [`topic_pattern`](TelemetryReceiverOptions::topic_pattern),
     ///   [`topic_namespace`](TelemetryReceiverOptions::topic_namespace), are Some and and invalid
     ///   or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](TelemetryReceiverOptions::custom_topic_token_map) is not empty
+    /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_namespace`](TelemetryReceiverOptions::topic_token_namespace) is Some and invalid
     pub fn new(
         client: C,
-        receiver_options: TelemetryReceiverOptions,
+        mut receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
+        let topic_token_map = &mut receiver_options.topic_token_map;
+        if let Some(topic_token_namespace) = receiver_options.topic_token_namespace {
+            // Prepend the namespace to all topic token keys
+            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
+            for key in keys {
+                if let Some(value) = topic_token_map.remove(&key) {
+                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
+                }
+            }
+        }
+
         // Validation for topic pattern and related options done in
-        // [`TopicPattern::new_telemetry_pattern`]
+        // [`TopicPattern::new`]
         let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
             receiver_options.topic_namespace.as_deref(),
-            &receiver_options.topic_token_map,
+            topic_token_map,
         )?;
 
         // Get the telemetry topic
@@ -658,6 +670,10 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())])
+    }
+
     #[test]
     fn test_new_defaults() {
         let session = get_session();
@@ -673,17 +689,36 @@ mod tests {
     #[test]
     fn test_new_override_defaults() {
         let session = get_session();
-        let token_map =
-            HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/{senderId}/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
-            .topic_token_map(token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
         TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
             .unwrap();
+    }
+
+    #[test]
+    fn test_new_topic_token_namespace() {
+        let session = get_session();
+        let managed_client = session.create_managed_client();
+        let executor_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern("test/{senderId}/{ex:telemetryName}/receiver")
+            .topic_namespace("test_namespace")
+            .topic_token_map(create_topic_tokens())
+            .topic_token_namespace("ex:")
+            .build()
+            .unwrap();
+
+        let receiver =
+            TelemetryReceiver::<MockPayload, _>::new(managed_client, executor_options).unwrap();
+
+        assert_eq!(
+            receiver.topic_pattern.as_subscribe_topic(),
+            "test_namespace/test/+/test_telemetry/receiver"
+        );
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

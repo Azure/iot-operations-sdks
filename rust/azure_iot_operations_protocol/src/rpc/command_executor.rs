@@ -181,6 +181,9 @@ pub struct CommandExecutorOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
+    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
+    #[builder(default = "None")]
+    topic_token_namespace: Option<String>,
     /// Duration to cache the command response
     #[builder(default = "Duration::from_secs(0)")]
     cacheable_duration: Duration,
@@ -277,15 +280,14 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
     /// - [`command_name`](CommandExecutorOptions::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](CommandExecutorOptions::request_topic_pattern),
-    ///     [`executor_id`](CommandExecutorOptions::executor_id),
-    ///     [`model_id`](CommandExecutorOptions::model_id) or
     ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](CommandExecutorOptions::custom_topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_namespace`](CommandExecutorOptions::topic_token_namespace) is Some and invalid
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
         client: C,
-        executor_options: CommandExecutorOptions,
+        mut executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
@@ -310,11 +312,22 @@ where
             ));
         }
 
+        let topic_token_map = &mut executor_options.topic_token_map;
+        if let Some(topic_token_namespace) = executor_options.topic_token_namespace {
+            // Prepend the namespace to all topic token keys
+            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
+            for key in keys {
+                if let Some(value) = topic_token_map.remove(&key) {
+                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
+                }
+            }
+        }
+
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
             &executor_options.request_topic_pattern,
             executor_options.topic_namespace.as_deref(),
-            &executor_options.topic_token_map,
+            topic_token_map,
         )?;
 
         // Create cancellation token for the request receive loop
@@ -1002,6 +1015,28 @@ mod tests {
 
         assert!(command_executor.is_idempotent);
         assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
+    }
+
+    #[test]
+    fn test_new_topic_token_namespace() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let topic_token_map = create_topic_tokens();
+        let executor_options = CommandExecutorOptionsBuilder::default()
+            .request_topic_pattern("test/{ex:commandName}/{ex:executorId}/request")
+            .command_name("test_command_name")
+            .topic_token_map(topic_token_map)
+            .topic_token_namespace("ex:")
+            .build()
+            .unwrap();
+
+        let command_executor: CommandExecutor<MockPayload, MockPayload, _> =
+            CommandExecutor::new(managed_client, executor_options).unwrap();
+
+        assert_eq!(
+            command_executor.request_topic_pattern.as_subscribe_topic(),
+            "test/test_command_name/test_executor_id/request"
+        );
     }
 
     #[test_case(""; "empty command name")]
