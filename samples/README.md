@@ -18,15 +18,15 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 
 ## Samples
 
-### MQTT
-
 |Category | Sample | Description | Go | .NET | Rust |
 |-|-|-|-|-|-|
 | **MQTT** | Session client - SAT auth | Connect to the MQTT broker using SAT auth |
 || Session client - x509 auth | Connect to the MQTT broker using x509 auth | 
+||
 | **Protocol** | Telemetry | |
 || Telemetry with Cloud Events | |
 || Command | |
+||
 | **Services** | State store client |
 || State store client - observe key |
 || Lease lock client |
@@ -34,22 +34,26 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 || Schema registry client |
 || ADR client |
 || Akri client |
+||
 | **Codegen** | Telemetry and command |
 || Telemetry with primitive schema |
 || Telemetry with complex schema |
 || Command variants |
 
-## Languages Samples
+## Additional samples
 
-Refer to each language folder for additional samples:
+Refer to each language directory below for additional samples.
 
-**.NET SDK** - 
+### .NET SDK
+
 * [.NET samples](/dotnet/samples)
 
-**Go SDK**
+### Go SDK
+
 * [Go samples](/go/samples)
 
-**Rust SDK**
+### Rust SDK
+
 * [Rust Protocol samples](/rust/azure_iot_operations_protocol/examples/)
 * [Rust MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
 * [Rust Services samples](/rust/azure_iot_operations_services/examples/)
