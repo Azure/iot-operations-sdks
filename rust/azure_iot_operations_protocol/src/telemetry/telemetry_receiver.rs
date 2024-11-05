@@ -172,11 +172,8 @@ pub struct TelemetryReceiverOptions {
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Topic token keys/values to be permanently replaced in the topic pattern
-    #[builder(default)]
+    #[builder(setter(custom), default)]
     topic_token_map: HashMap<String, String>,
-    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
-    #[builder(default = "None")]
-    topic_token_namespace: Option<String>,
     /// If true, telemetry messages are auto-acknowledged
     #[builder(default = "true")]
     auto_ack: bool,
@@ -184,6 +181,34 @@ pub struct TelemetryReceiverOptions {
     #[allow(unused)]
     #[builder(default = "None")]
     service_group_id: Option<String>,
+}
+
+impl TelemetryReceiverOptionsBuilder {
+    /// Add topic tokens to the topic token map used for initial replacement in the topic pattern.
+    /// Can be called multiple times to add multiple tokens with the same, different, or no namespace.
+    ///
+    /// # Arguments
+    /// * `topic_tokens` - A map of topic token keys and values to be added to the topic token map
+    /// * `topic_token_namespace` - Optional namespace to be prepended to the topic token keys
+    pub fn topic_token_map(
+        &mut self,
+        topic_tokens: &HashMap<String, String>,
+        topic_token_namespace: Option<&str>,
+    ) -> &mut Self {
+        let builder_topic_token_map = self.topic_token_map.get_or_insert_with(HashMap::new);
+
+        // Add the topic tokens to the map
+        for (key, value) in topic_tokens {
+            let key = if let Some(namespace) = topic_token_namespace {
+                format!("{namespace}{key}")
+            } else {
+                key.clone()
+            };
+            builder_topic_token_map.insert(key, value.clone());
+        }
+
+        self
+    }
 }
 
 /// Telemetry Receiver struct
@@ -260,27 +285,17 @@ where
     /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
     /// - [`topic_token_namespace`](TelemetryReceiverOptions::topic_token_namespace) is Some and invalid
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
-        mut receiver_options: TelemetryReceiverOptions,
+        receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
-        let topic_token_map = &mut receiver_options.topic_token_map;
-        if let Some(topic_token_namespace) = receiver_options.topic_token_namespace {
-            // Prepend the namespace to all topic token keys
-            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
-            for key in keys {
-                if let Some(value) = topic_token_map.remove(&key) {
-                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
-                }
-            }
-        }
-
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
         let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
             receiver_options.topic_namespace.as_deref(),
-            topic_token_map,
+            &receiver_options.topic_token_map,
         )?;
 
         // Get the telemetry topic
@@ -692,7 +707,7 @@ mod tests {
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/{senderId}/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -705,10 +720,16 @@ mod tests {
         let session = get_session();
         let managed_client = session.create_managed_client();
         let executor_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{ex:telemetryName}/receiver")
+            .topic_pattern("test/{senderId}/{ex:telemetryName}/{modelId}/receiver")
             .topic_namespace("test_namespace")
-            .topic_token_map(create_topic_tokens())
-            .topic_token_namespace("ex:")
+            .topic_token_map(
+                &HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]),
+                Some("ex:"),
+            )
+            .topic_token_map(
+                &HashMap::from([("modelId".to_string(), "test_model_id".to_string())]),
+                None,
+            )
             .build()
             .unwrap();
 
@@ -717,7 +738,7 @@ mod tests {
 
         assert_eq!(
             receiver.topic_pattern.as_subscribe_topic(),
-            "test_namespace/test/+/test_telemetry/receiver"
+            "test_namespace/test/+/test_telemetry/test_model_id/receiver"
         );
     }
 

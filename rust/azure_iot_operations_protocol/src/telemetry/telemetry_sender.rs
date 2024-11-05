@@ -198,11 +198,36 @@ pub struct TelemetrySenderOptions {
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Topic token keys/values to be permanently replaced in the topic pattern
-    #[builder(default)]
+    #[builder(setter(custom), default)]
     topic_token_map: HashMap<String, String>,
-    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
-    #[builder(default = "None")]
-    topic_token_namespace: Option<String>,
+}
+
+impl TelemetrySenderOptionsBuilder {
+    /// Add topic tokens to the topic token map used for initial replacement in the topic pattern.
+    /// Can be called multiple times to add multiple tokens with the same, different, or no namespace.
+    ///
+    /// # Arguments
+    /// * `topic_tokens` - A map of topic token keys and values to be added to the topic token map
+    /// * `topic_token_namespace` - Optional namespace to be prepended to the topic token keys
+    pub fn topic_token_map(
+        &mut self,
+        topic_tokens: &HashMap<String, String>,
+        topic_token_namespace: Option<&str>,
+    ) -> &mut Self {
+        let builder_topic_token_map = self.topic_token_map.get_or_insert_with(HashMap::new);
+
+        // Add the topic tokens to the map
+        for (key, value) in topic_tokens {
+            let key = if let Some(namespace) = topic_token_namespace {
+                format!("{namespace}{key}")
+            } else {
+                key.clone()
+            };
+            builder_topic_token_map.insert(key, value.clone());
+        }
+
+        self
+    }
 }
 
 /// Telemetry Sender struct
@@ -236,7 +261,7 @@ pub struct TelemetrySenderOptions {
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
-///   .topic_token_map(HashMap::new())
+///   .topic_token_map(&HashMap::new(), None)
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
@@ -276,26 +301,16 @@ where
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     /// - [`topic_token_namespace`](TelemetrySenderOptions::topic_token_namespace) is Some and invalid
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
-        mut sender_options: TelemetrySenderOptions,
+        sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
-        let topic_token_map = &mut sender_options.topic_token_map;
-        if let Some(topic_token_namespace) = sender_options.topic_token_namespace {
-            // Prepend the namespace to all topic token keys
-            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
-            for key in keys {
-                if let Some(value) = topic_token_map.remove(&key) {
-                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
-                }
-            }
-        }
-
         // Validate parameters
         let topic_pattern = TopicPattern::new(
             &sender_options.topic_pattern,
             sender_options.topic_namespace.as_deref(),
-            topic_token_map,
+            &sender_options.topic_token_map,
         )?;
 
         Ok(Self {
@@ -477,7 +492,7 @@ mod tests {
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/{telemetryName}")
             .topic_namespace("test_namespace")
-            .topic_token_map(topic_tokens)
+            .topic_token_map(&topic_tokens, None)
             .build()
             .unwrap();
 
@@ -491,10 +506,13 @@ mod tests {
         let topic_tokens =
             HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())]);
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/{ex:telemetryName}")
+            .topic_pattern("test/{ex:telemetryName}/{modelId}")
             .topic_namespace("test_namespace")
-            .topic_token_map(topic_tokens)
-            .topic_token_namespace("ex:")
+            .topic_token_map(&topic_tokens, Some("ex:"))
+            .topic_token_map(
+                &HashMap::from([("modelId".to_string(), "test_model_id".to_string())]),
+                None,
+            )
             .build()
             .unwrap();
 
@@ -507,7 +525,7 @@ mod tests {
                 .topic_pattern
                 .as_publish_topic(&HashMap::new())
                 .unwrap(),
-            "test_namespace/test/test_telemetry"
+            "test_namespace/test/test_telemetry/test_model_id"
         );
     }
 

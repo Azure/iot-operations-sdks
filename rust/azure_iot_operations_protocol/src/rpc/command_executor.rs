@@ -179,11 +179,8 @@ pub struct CommandExecutorOptions {
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Topic token keys/values to be permanently replaced in the topic pattern
-    #[builder(default)]
+    #[builder(setter(custom), default)]
     topic_token_map: HashMap<String, String>,
-    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
-    #[builder(default = "None")]
-    topic_token_namespace: Option<String>,
     /// Duration to cache the command response
     #[builder(default = "Duration::from_secs(0)")]
     cacheable_duration: Duration,
@@ -193,6 +190,34 @@ pub struct CommandExecutorOptions {
     /// Service group ID
     #[builder(default = "None")]
     service_group_id: Option<String>,
+}
+
+impl CommandExecutorOptionsBuilder {
+    /// Add topic tokens to the topic token map used for initial replacement in the topic pattern.
+    /// Can be called multiple times to add multiple tokens with the same, different, or no namespace.
+    ///
+    /// # Arguments
+    /// * `topic_tokens` - A map of topic token keys and values to be added to the topic token map
+    /// * `topic_token_namespace` - Optional namespace to be prepended to the topic token keys
+    pub fn topic_token_map(
+        &mut self,
+        topic_tokens: &HashMap<String, String>,
+        topic_token_namespace: Option<&str>,
+    ) -> &mut Self {
+        let builder_topic_token_map = self.topic_token_map.get_or_insert_with(HashMap::new);
+
+        // Add the topic tokens to the map
+        for (key, value) in topic_tokens {
+            let key = if let Some(namespace) = topic_token_namespace {
+                format!("{namespace}{key}")
+            } else {
+                key.clone()
+            };
+            builder_topic_token_map.insert(key, value.clone());
+        }
+
+        self
+    }
 }
 
 /// Command Executor struct
@@ -287,7 +312,7 @@ where
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
         client: C,
-        mut executor_options: CommandExecutorOptions,
+        executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
@@ -312,22 +337,11 @@ where
             ));
         }
 
-        let topic_token_map = &mut executor_options.topic_token_map;
-        if let Some(topic_token_namespace) = executor_options.topic_token_namespace {
-            // Prepend the namespace to all topic token keys
-            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
-            for key in keys {
-                if let Some(value) = topic_token_map.remove(&key) {
-                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
-                }
-            }
-        }
-
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
             &executor_options.request_topic_pattern,
             executor_options.topic_namespace.as_deref(),
-            topic_token_map,
+            &executor_options.topic_token_map,
         )?;
 
         // Create cancellation token for the request receive loop
@@ -974,7 +988,7 @@ mod tests {
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1000,7 +1014,7 @@ mod tests {
             .command_name("test_command_name")
             .topic_namespace("test_namespace")
             .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .is_idempotent(true)
             .build()
             .unwrap();
@@ -1023,10 +1037,13 @@ mod tests {
         let managed_client = session.create_managed_client();
         let topic_token_map = create_topic_tokens();
         let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{ex:commandName}/{ex:executorId}/request")
+            .request_topic_pattern("test/{ex:commandName}/{ex:executorId}/{modelId}/request")
             .command_name("test_command_name")
-            .topic_token_map(topic_token_map)
-            .topic_token_namespace("ex:")
+            .topic_token_map(&topic_token_map, Some("ex:"))
+            .topic_token_map(
+                &HashMap::from([("modelId".to_string(), "test_model_id".to_string())]),
+                None,
+            )
             .build()
             .unwrap();
 
@@ -1035,7 +1052,7 @@ mod tests {
 
         assert_eq!(
             command_executor.request_topic_pattern.as_subscribe_topic(),
-            "test/test_command_name/test_executor_id/request"
+            "test/test_command_name/test_executor_id/test_model_id/request"
         );
     }
 
@@ -1049,7 +1066,7 @@ mod tests {
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name(command_name.to_string())
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1083,7 +1100,7 @@ mod tests {
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1117,7 +1134,7 @@ mod tests {
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .topic_namespace(topic_namespace.to_string())
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1150,7 +1167,7 @@ mod tests {
             .command_name("test_command_name")
             .cacheable_duration(cacheable_duration)
             .is_idempotent(true)
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1168,7 +1185,7 @@ mod tests {
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 

@@ -125,17 +125,42 @@ pub struct CommandInvokerOptions {
     #[builder(default = "None")]
     topic_namespace: Option<String>,
     /// Topic token keys/values to be permanently replaced in the topic pattern
-    #[builder(default)]
+    #[builder(setter(custom), default)]
     topic_token_map: HashMap<String, String>,
-    /// Namespace to be prepended to all topic tokens specified in the `topic_token_map`
-    #[builder(default = "None")]
-    topic_token_namespace: Option<String>,
     /// Prefix for the response topic
     #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
     response_topic_prefix: Option<String>,
     /// Suffix for the response topic
     #[builder(default = "None")]
     response_topic_suffix: Option<String>,
+}
+
+impl CommandInvokerOptionsBuilder {
+    /// Add topic tokens to the topic token map used for initial replacement in the topic pattern.
+    /// Can be called multiple times to add multiple tokens with the same, different, or no namespace.
+    ///
+    /// # Arguments
+    /// * `topic_tokens` - A map of topic token keys and values to be added to the topic token map
+    /// * `topic_token_namespace` - Optional namespace to be prepended to the topic token keys
+    pub fn topic_token_map(
+        &mut self,
+        topic_tokens: &HashMap<String, String>,
+        topic_token_namespace: Option<&str>,
+    ) -> &mut Self {
+        let builder_topic_token_map = self.topic_token_map.get_or_insert_with(HashMap::new);
+
+        // Add the topic tokens to the map
+        for (key, value) in topic_tokens {
+            let key = if let Some(namespace) = topic_token_namespace {
+                format!("{namespace}{key}")
+            } else {
+                key.clone()
+            };
+            builder_topic_token_map.insert(key, value.clone());
+        }
+
+        self
+    }
 }
 
 /// Command Invoker struct
@@ -170,7 +195,7 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
 ///   .topic_namespace("test_namespace".to_string())
-///   .topic_token_map(HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]))
+///   .topic_token_map(&HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]), None)
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
@@ -239,7 +264,7 @@ where
     /// - [`topic_token_namespace`](CommandInvokerOptions::topic_token_namespace) is Some and invalid
     pub fn new(
         client: C,
-        mut invoker_options: CommandInvokerOptions,
+        invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
@@ -270,28 +295,17 @@ where
             }
         }
 
-        let topic_token_map = &mut invoker_options.topic_token_map;
-        if let Some(topic_token_namespace) = invoker_options.topic_token_namespace {
-            // Prepend the namespace to all topic token keys
-            let keys: Vec<String> = topic_token_map.keys().cloned().collect();
-            for key in keys {
-                if let Some(value) = topic_token_map.remove(&key) {
-                    topic_token_map.insert(format!("{topic_token_namespace}{key}"), value);
-                }
-            }
-        }
-
         // Generate the request and response topics
         let request_topic_pattern = TopicPattern::new(
             &invoker_options.request_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
         let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
-            topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
         // Create mutex to track subscription state
@@ -998,7 +1012,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1019,7 +1033,7 @@ mod tests {
             .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
             .command_name("test_command_name")
             .topic_namespace("test_namespace".to_string())
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .response_topic_prefix("custom/{invokerClientId}".to_string())
             .response_topic_suffix("custom/response".to_string())
             .build()
@@ -1040,11 +1054,16 @@ mod tests {
         let managed_client = session.create_managed_client();
         let topic_token_map = create_topic_tokens();
         let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/{ex:commandName}/{executorId}/request")
-            .response_topic_pattern("test/{ex:commandName}/{executorId}/response".to_string())
+            .request_topic_pattern("test/{ex:commandName}/{executorId}/{modelId}/request")
+            .response_topic_pattern(
+                "test/{ex:commandName}/{executorId}/{modelId}/response".to_string(),
+            )
             .command_name("test_command_name")
-            .topic_token_map(topic_token_map)
-            .topic_token_namespace(Some("ex:".to_string()))
+            .topic_token_map(&topic_token_map, Some("ex:"))
+            .topic_token_map(
+                &HashMap::from([("modelId".to_string(), "test_model_id".to_string())]),
+                None,
+            )
             .response_topic_prefix("custom/{ex:invokerClientId}".to_string())
             .response_topic_suffix("custom/response".to_string())
             .build()
@@ -1055,11 +1074,32 @@ mod tests {
 
         assert_eq!(
             command_invoker.request_topic_pattern.as_subscribe_topic(),
-            "test/test_command_name/+/request"
+            "test/test_command_name/+/test_model_id/request"
         );
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
-            "test/test_command_name/+/response"
+            "test/test_command_name/+/test_model_id/response"
+        );
+        assert_eq!(
+            command_invoker
+                .response_topic_pattern
+                .as_publish_topic(&HashMap::from([(
+                    "executorId".to_string(),
+                    "test_client".to_string()
+                )]))
+                .unwrap(),
+            "test/test_command_name/test_client/test_model_id/response"
+        );
+
+        assert_eq!(
+            command_invoker
+                .request_topic_pattern
+                .as_publish_topic(&HashMap::from([(
+                    "executorId".to_string(),
+                    "test_client".to_string()
+                ),]))
+                .unwrap(),
+            "test/test_command_name/test_client/test_model_id/request"
         );
     }
 
@@ -1180,7 +1220,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
@@ -1209,7 +1249,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1289,7 +1329,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1360,7 +1400,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1437,7 +1477,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 
@@ -1487,7 +1527,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
+            .topic_token_map(&create_topic_tokens(), None)
             .build()
             .unwrap();
 

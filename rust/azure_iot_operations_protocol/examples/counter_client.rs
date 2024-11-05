@@ -54,10 +54,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let read_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("readCounter")
-        .topic_token_map(HashMap::from([(
-            "commandName".to_string(),
-            "readCounter".to_string(),
-        )]))
+        .topic_token_map(
+            &HashMap::from([("commandName".to_string(), "readCounter".to_string())]),
+            None,
+        )
         .build()
         .unwrap();
     let read_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =
@@ -67,10 +67,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     let incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
-        .topic_token_map(HashMap::from([(
-            "commandName".to_string(),
-            "increment".to_string(),
-        )]))
+        .topic_token_map(
+            &HashMap::from([("commandName".to_string(), "increment".to_string())]),
+            None,
+        )
         .build()
         .unwrap();
     let incr_invoker: CommandInvoker<CounterRequestPayload, CounterResponsePayload, _> =

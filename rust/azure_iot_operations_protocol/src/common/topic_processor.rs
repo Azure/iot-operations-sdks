@@ -82,7 +82,7 @@ impl TopicPattern {
                 None,
                 "pattern",
                 Value::String(pattern.to_string()),
-                Some("MQTT topic pattern must not bewhitespace or empty".to_string()),
+                Some("MQTT topic pattern must not be whitespace or empty".to_string()),
                 None,
             ));
         }
