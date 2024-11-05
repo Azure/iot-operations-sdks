@@ -16,7 +16,7 @@ namespace HttpServerConnectorApp
         /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset) //TODO do credentials change over time? May just pass in creds here if not
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
             if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
