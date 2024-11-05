@@ -1,6 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
     public class ThermostatDatasetSamplerFactory : IDatasetSamplerFactory
     {
@@ -16,7 +16,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset) //TODO do credentials change over time? May just pass in creds here if not
         {
             if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
@@ -25,7 +25,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!, assetEndpointProfile.Credentials);
             }
             else
             {
