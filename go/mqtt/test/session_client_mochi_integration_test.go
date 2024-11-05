@@ -6,6 +6,7 @@ package test
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
@@ -28,6 +29,7 @@ func createSessionClientOnMochi() (*mqtt.SessionClient, error) {
 			mochiUserName,
 			mochiPassword,
 		),
+		mqtt.WithLogger(slog.Default()),
 	)
 }
 

@@ -132,6 +132,9 @@ func (c *SessionClient) Unsubscribe(
 	topic string,
 	opts ...UnsubscribeOption,
 ) (*Ack, error) {
+	if !c.sessionStarted.Load() {
+		return nil, &ClientStateError{NotStarted}
+	}
 	unsub, err := buildUnsubscribe(topic, opts...)
 	if err != nil {
 		return nil, err
