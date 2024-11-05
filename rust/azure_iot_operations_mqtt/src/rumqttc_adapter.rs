@@ -500,10 +500,18 @@ mod tests {
 
         // TODO: use join instead of cloning/pushing
 
-        println!("ca: {:?}", ca_file.clone().into_os_string().into_string().unwrap());
-        println!("cert: {:?}", cert_file.clone().into_os_string().into_string().unwrap());
-        println!("key: {:?}", key_file.clone().into_os_string().into_string().unwrap());
-
+        println!(
+            "ca: {:?}",
+            ca_file.clone().into_os_string().into_string().unwrap()
+        );
+        println!(
+            "cert: {:?}",
+            cert_file.clone().into_os_string().into_string().unwrap()
+        );
+        println!(
+            "key: {:?}",
+            key_file.clone().into_os_string().into_string().unwrap()
+        );
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
