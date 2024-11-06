@@ -104,11 +104,13 @@ By default, Codespaces doesn't allow access to other private repositories, espec
 
 By default, if you create a Codespace on a fork, you will quickly run out of free quota as it will be billed to your individual organization. The workaround is to create the Codespace in the Azure org, and then switch the origin to the fork.
 
-1. [Reauthenticate Git](#reauthenticate-git) by following the p
+1. [Reauthenticate Git](#reauthenticate-git).
 
-1. Set the `GH_TOKEN` variable in your [Codespaces user secrets](https://github.com/settings/codespaces).
+1. Create a [Personal Access Token](https://github.com/settings/tokens) (PAT) with write access to the repository fork.
 
-1. Restart your codespace to pull in the new `GH_TOKEN`.
+1. Set the `GH_TOKEN` variable in your [Codespaces user secrets](https://github.com/settings/codespaces) to the PAT.
+
+1. Restart the codespace to pull in the new `GH_TOKEN`.
 
 1. Rename the origin to upstream, and add your fork as the new origin:
 
