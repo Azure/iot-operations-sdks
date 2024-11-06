@@ -232,7 +232,7 @@ func getCommandExecutor(
 ) *TestingCommandExecutor {
 	options := []protocol.CommandExecutorOption{
 		protocol.WithIdempotent(tce.Idempotent),
-		protocol.WithCacheTTL(tce.CacheableDuration.ToDuration()),
+		protocol.WithCacheTTL(tce.CacheTTL.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 
@@ -278,6 +278,7 @@ func getCommandExecutor(
 		)
 	} else {
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandExecutor", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return executor

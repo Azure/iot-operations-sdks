@@ -15,17 +15,18 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
-    [ModelId("dtmi:ms:adr:SchemaRegistry;1")]
     [CommandTopic("adr/{modelId}/{commandName}")]
     public static partial class SchemaRegistry
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly PutCommandExecutor putCommandExecutor;
             private readonly GetCommandExecutor getCommandExecutor;
 
             public Service(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.putCommandExecutor = new PutCommandExecutor(mqttClient) { OnCommandReceived = Put_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -43,9 +44,20 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
+                }
+
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "executorId", clientId },
+                };
+
                 await Task.WhenAll(
-                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
+                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -80,11 +92,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private IMqttPubSubClient mqttClient;
             private readonly PutCommandInvoker putCommandInvoker;
             private readonly GetCommandInvoker getCommandInvoker;
 
             public Client(IMqttPubSubClient mqttClient)
             {
+                this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
                 this.putCommandInvoker = new PutCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
@@ -98,14 +112,36 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
 
             public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync("", request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                };
+
+                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync("", request, metadata, commandTimeout, cancellationToken), metadata.CorrelationId);
+                Dictionary<string, string>? transientTopicTokenMap = new()
+                {
+                    { "invokerClientId", clientId },
+                };
+
+                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

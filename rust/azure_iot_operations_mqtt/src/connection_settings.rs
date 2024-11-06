@@ -20,15 +20,19 @@ pub struct MqttConnectionSettings {
     /// Max time between communications
     #[builder(default = "Duration::from_secs(60)")]
     pub(crate) keep_alive: Duration,
+    /// Max number of in-flight Quality of Service 1 and 2 messages
+    #[builder(default = "u16::MAX")] // See: MQTT 5.0 spec, 3.1.2.11.3
+    pub(crate) receive_max: u16,
     /// Session Expiry Interval
     #[builder(default = "Duration::from_secs(3600)")]
-    // What is the default for this? Spec is unclear
+    // TODO: Would this would be better represented as an integer (probably, due to max value having distinct meaning in MQTT)
     pub(crate) session_expiry: Duration,
     /// Connection timeout
     #[builder(default = "Duration::from_secs(30)")]
     pub(crate) connection_timeout: Duration,
     /// Clean start
-    #[builder(default = "true")]
+    #[builder(default = "false")]
+    //NOTE: Should be `true` outside of AIO context. Consider when refactoring settings.
     pub(crate) clean_start: bool,
     /// Username for MQTT
     #[builder(default = "None")]
@@ -36,28 +40,24 @@ pub struct MqttConnectionSettings {
     /// Password for MQTT
     #[builder(default = "None")]
     pub(crate) password: Option<String>,
-    /// Path to a file with the MQTT password
+    /// Path to a file containing the MQTT password
     #[builder(default = "None")]
     pub(crate) password_file: Option<String>,
     /// TLS negotiation enabled
     #[builder(default = "true")]
     pub(crate) use_tls: bool,
-    /// Path to a PEM file to validate server identity
+    /// Path to a PEM file used to validate server identity
     #[builder(default = "None")]
     pub(crate) ca_file: Option<String>,
-    /// Check the revocation status of the CA
-    /// NOTE: CURRENTLY UNUSED
-    #[builder(default = "false")]
-    pub(crate) ca_require_revocation_check: bool,
-    /// Path to PEM file to establish X509 client authentication
+    /// Path to PEM file used to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) cert_file: Option<String>,
-    /// Path to a KEY file to establish X509 client authentication
+    /// Path to a file containing a key used to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) key_file: Option<String>,
-    /// Password (aka pass-phrase) to protect the KEY file
+    /// Path to a file containing the password used to decrypt the Key
     #[builder(default = "None")]
-    pub(crate) key_file_password: Option<String>,
+    pub(crate) key_password_file: Option<String>,
     /// Path to a SAT file to be used for SAT auth
     #[builder(default = "None")]
     pub(crate) sat_auth_file: Option<String>,
@@ -92,6 +92,11 @@ impl MqttConnectionSettingsBuilder {
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
+        let receive_max = env::var("MQTT_RECEIVE_MAX")
+            .ok()
+            .map(|v| v.parse::<u16>())
+            .transpose()
+            .unwrap_or(None);
         let session_expiry = env::var("MQTT_SESSION_EXPIRY")
             .ok()
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
@@ -116,17 +121,11 @@ impl MqttConnectionSettingsBuilder {
             .transpose()
             .unwrap_or(None);
         let ca_file = Some(env::var("MQTT_CA_FILE").ok());
-        let ca_require_revocation_check = env::var("MQTT_CA_REQUIRE_REVOCATION_CHECK")
-            .ok()
-            .map(|v| v.parse::<bool>())
-            .transpose()
-            .unwrap_or(None);
         let cert_file = Some(env::var("MQTT_CERT_FILE").ok());
         let key_file = Some(env::var("MQTT_KEY_FILE").ok());
-        let key_file_password = Some(env::var("MQTT_KEY_FILE_PASSWORD").ok());
+        let key_password_file = Some(env::var("MQTT_KEY_PASSWORD_FILE").ok());
         let sat_auth_file = Some(env::var("MQTT_SAT_AUTH_FILE").ok());
 
-        // TODO: `keep_alive`, `session_expiry` and `connection_timeout` are supposed to be serialized using ISO 8601
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
 
         Self {
@@ -134,6 +133,7 @@ impl MqttConnectionSettingsBuilder {
             host_name,
             tcp_port,
             keep_alive,
+            receive_max,
             session_expiry,
             connection_timeout,
             clean_start,
@@ -142,10 +142,9 @@ impl MqttConnectionSettingsBuilder {
             password_file,
             use_tls,
             ca_file,
-            ca_require_revocation_check,
             cert_file,
             key_file,
-            key_file_password,
+            key_password_file,
             sat_auth_file,
         }
     }

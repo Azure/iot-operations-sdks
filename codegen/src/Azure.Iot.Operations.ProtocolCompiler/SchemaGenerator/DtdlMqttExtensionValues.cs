@@ -25,7 +25,9 @@
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";
 
-        public static readonly string ServiceGroupIdPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:serviceGroupId";
+        public static readonly string TelemServiceGroupIdPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemServiceGroupId";
+
+        public static readonly string CmdServiceGroupIdPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:cmdServiceGroupId";
 
         public static readonly string IndexPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed:index";
 

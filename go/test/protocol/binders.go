@@ -37,38 +37,40 @@ func NewTestingCommandInvoker(
 	if commandName == nil {
 		return nil, &errors.Error{
 			Message:       "commandName is nil",
-			Kind:          errors.ArgumentInvalid,
+			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Error{
 			Message:       "requestTopic is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "requestTopic",
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-		}
-	}
-
-	if modelID == nil {
-		return nil, &errors.Error{
-			Message:       "modelId is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "modelId",
-			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	var opts protocol.CommandInvokerOptions
-	opts.Apply(
-		opt,
-		protocol.WithTopicTokens{
-			"modelId":         *modelID,
-			"invokerClientId": client.ID(),
-		},
-	)
+	if modelID != nil {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"modelId":         *modelID,
+				"invokerClientId": client.ID(),
+			},
+		)
+	} else {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"invokerClientId": client.ID(),
+			},
+		)
+	}
 
 	invoker.base, err = protocol.NewCommandInvoker(
 		client,
@@ -99,37 +101,32 @@ func NewTestingCommandExecutor(
 	if commandName == nil {
 		return nil, &errors.Error{
 			Message:       "commandName is nil",
-			Kind:          errors.ArgumentInvalid,
+			Kind:          errors.ConfigurationInvalid,
 			PropertyName:  "commandName",
 			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Error{
 			Message:       "requestTopic is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "requestTopic",
+			Kind:          errors.ConfigurationInvalid,
+			PropertyName:  "requesttopicpattern",
 			PropertyValue: nil,
-		}
-	}
-
-	if modelID == nil {
-		return nil, &errors.Error{
-			Message:       "modelId is nil",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "modelId",
-			PropertyValue: nil,
+			IsShallow:     true,
 		}
 	}
 
 	var opts protocol.CommandExecutorOptions
-	opts.Apply(
-		opt,
-		protocol.WithTopicTokens{
-			"modelId": *modelID,
-		},
-	)
+	if modelID != nil {
+		opts.Apply(
+			opt,
+			protocol.WithTopicTokens{
+				"modelId": *modelID,
+			},
+		)
+	}
 
 	if executorID != nil {
 		opts.Apply(

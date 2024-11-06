@@ -31,10 +31,10 @@ import DtdlMqtt.Communication.ServiceGroupId;
 <# if (this.telemetryTopic != null) { #>
 @TelemetryTopic(topic = "<#=this.telemetryTopic#>")
 <# } #>
-<# if (this.serviceGroupId != null) { #>
-@ServiceGroupId(id = "<#=this.serviceGroupId#>")
-<# } #>
 public class <#=this.serviceName#> {
+<# if (this.cmdServiceGroupId != null) { #>
+    @ServiceGroupId(id = "<#=this.cmdServiceGroupId#>")
+<# } #>
     public <#=this.cmdNameReqResps.Any() ? "abstract " : ""#>class Service {
 <# if (this.cmdNameReqResps.Any()) { #>
         private final InboundMessageDemux demux;
@@ -119,6 +119,9 @@ public class <#=this.serviceName#> {
 <# } #>
     }
 
+<# if (this.telemServiceGroupId != null) { #>
+    @ServiceGroupId(id = "<#=this.telemServiceGroupId#>")
+<# } #>
     public <#=this.telemSchemas.Any() ? "abstract " : ""#>class Client {
 <# if (this.cmdNameReqResps.Any() || this.telemSchemas.Any()) { #>
         private final InboundMessageDemux demux;

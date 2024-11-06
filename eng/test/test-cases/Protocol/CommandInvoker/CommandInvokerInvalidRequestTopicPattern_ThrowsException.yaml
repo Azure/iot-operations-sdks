@@ -10,7 +10,7 @@ description:
 
 prologue:
   invokers:
-  - request-topic: "mock/{unknown}/test"
+  - request-topic: "mock/{in/valid}/test"
   catch:
     error-kind: invalid configuration
     in-application: !!bool false
@@ -18,5 +18,5 @@ prologue:
     is-remote: !!bool false 
     supplemental:
       property-name: 'requesttopicpattern'
-      property-value: "mock/{unknown}/test"
+      property-value: "mock/{in/valid}/test"
 ...

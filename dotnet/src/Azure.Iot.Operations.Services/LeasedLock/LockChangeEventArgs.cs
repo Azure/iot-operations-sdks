@@ -1,4 +1,6 @@
-﻿namespace Azure.Iot.Operations.Services.LeasedLock
+﻿using Azure.Iot.Operations.Protocol;
+
+namespace Azure.Iot.Operations.Services.LeasedLock
 {
     public sealed class LockChangeEventArgs : EventArgs
     {
@@ -13,13 +15,14 @@
         public LeasedLockHolder? NewLockHolder { get; internal set; }
 
         /// <summary>
-        /// The holder of the lock before this change. This value is null if this update is that the lock had no previous holder.
+        /// The timestamp associated with this event.
         /// </summary>
-        public LeasedLockHolder? PreviousLockHolder { get; internal set; }
+        public HybridLogicalClock Timestamp { get; internal set; }
 
-        internal LockChangeEventArgs(LockState newState)
+        internal LockChangeEventArgs(LockState newState, HybridLogicalClock timestamp)
         {
             NewState = newState;
+            Timestamp = timestamp;
         }
     }
 }

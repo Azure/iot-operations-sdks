@@ -46,7 +46,7 @@ jobs:
           go-version: 1.22.4
 
       - name: Build codegen
-        run: codegen/build.sh -c Release
+        run: dotnet build -c Release codegen/codegen.sln
 
       # - name: Install Codegen tool from dev feed
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)

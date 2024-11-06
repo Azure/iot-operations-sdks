@@ -17,8 +17,7 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    CompletionToken, Event, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop,
-    MqttPubSub,
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
@@ -97,20 +96,16 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
     async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        Ok(self.ack(publish).await?)
+        // NOTE: Technically we could achieve this same behavior by just calling .ack() on the
+        // rumqttc client which assumes rc=0, but I prefer to be explicit here.
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
+        self.manual_ack(manual_ack).await
     }
 }
 
 #[async_trait]
-impl InternalClient for rumqttc::v5::AsyncClient {
-    fn get_manual_ack(&self, publish: &Publish) -> rumqttc::v5::ManualAck {
-        self.get_manual_ack(publish)
-    }
-
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError> {
-        self.manual_ack(ack).await
-    }
-
+impl MqttClient for rumqttc::v5::AsyncClient {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
         self.reauth(Some(auth_props)).await
     }
@@ -138,14 +133,28 @@ pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
-) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), ConnectionSettingsAdapterError> {
-    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1.
+) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
+    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
+    // It panics if you set MAX, although MAX - 1 is fine.
+    if channel_capacity == usize::MAX {
+        return Err(MqttAdapterError::Other(
+            "rumqttc does not support channel capacity of usize::MAX".to_string(),
+        ));
+    }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,
     ))
+}
+
+#[derive(Error, Debug)]
+pub enum MqttAdapterError {
+    #[error(transparent)]
+    ConnectionSettings(#[from] ConnectionSettingsAdapterError),
+    #[error("Other adapter error: {0}")]
+    Other(String),
 }
 
 // TODO: This error story needs improvement once we find out how much of this
@@ -217,6 +226,8 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
             rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
+        // Receive Maximum
+        mqtt_options.set_receive_maximum(Some(value.receive_max));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {
@@ -267,10 +278,9 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         if value.use_tls {
             let transport = tls_config(
                 value.ca_file,
-                value.ca_require_revocation_check,
                 value.cert_file,
                 value.key_file,
-                value.key_file_password,
+                value.key_password_file,
             )
             .map_err(|e| ConnectionSettingsAdapterError {
                 msg: "tls config error".to_string(),
@@ -330,10 +340,9 @@ fn read_root_ca_certs(ca_file: String) -> Result<Vec<native_tls::Certificate>, a
 
 fn tls_config(
     ca_file: Option<String>,
-    _ca_require_revocation_check: bool,
     cert_file: Option<String>,
     key_file: Option<String>,
-    key_file_password: Option<String>,
+    key_password_file: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
     let mut tls_connector_builder = native_tls::TlsConnector::builder();
     tls_connector_builder.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
@@ -364,10 +373,11 @@ fn tls_config(
         // Key, with or without password
         let private_key_pem = {
             let key_file_contents = fs::read(key_file)?;
-            if let Some(key_file_password) = key_file_password {
+            if let Some(key_password_file) = key_password_file {
+                let key_password_file_contents = fs::read(key_password_file)?;
                 let private_key = PKey::private_key_from_pem_passphrase(
                     &key_file_contents,
-                    key_file_password.as_bytes(),
+                    &key_password_file_contents,
                 )?;
                 private_key.private_key_to_pem_pkcs8()?
             } else {
@@ -398,7 +408,8 @@ fn tls_config(
 mod tests {
     use std::path::PathBuf;
 
-    use crate::{rumqttc_adapter::ConnectionSettingsAdapterError, MqttConnectionSettingsBuilder};
+    use super::*;
+    use crate::MqttConnectionSettingsBuilder;
 
     #[test]
     fn test_mqtt_connection_settings_no_tls() {
@@ -442,9 +453,7 @@ mod tests {
 
         // username and password file
         let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        password_file_path.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/mypassword.txt",
-        );
+        password_file_path.push("../../eng/test/dummy_credentials/TestMqttPasswordFile.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -462,31 +471,12 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
+        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .host_name("test_host".to_string())
             .ca_file(ca_file_path.into_os_string().into_string().unwrap())
-            .build()
-            .unwrap();
-        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
-            connection_settings.try_into();
-        assert!(mqtt_options_result.is_ok());
-    }
-
-    #[test]
-    fn test_mqtt_connection_settings_ca_file_revocation_check() {
-        let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
-
-        let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
-            .ca_file(ca_file_path.into_os_string().into_string().unwrap())
-            .ca_require_revocation_check(true)
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
@@ -497,13 +487,10 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
-        let mut ca_file = dir.clone();
-        ca_file.push("ca.txt");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestSdkLiteCertPem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestSdkLiteCertKey.txt");
+        dir.push("../../eng/test/dummy_credentials/");
+        let ca_file = dir.join("TestCa.txt");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -521,11 +508,9 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestSdkLiteCertPem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestSdkLiteCertKey.txt");
+        dir.push("../../eng/test/dummy_credentials/");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
@@ -541,22 +526,18 @@ mod tests {
 
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
-        let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let mut cert_file = dir.clone();
-        cert_file.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdPem.txt",
-        );
-        let mut key_file = dir.clone();
-        key_file.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdKey.txt",
-        );
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
+        let cert_file = dir.join("TestCert2Pem.txt");
+        let key_file = dir.join("TestCert2KeyEncrypted.txt");
+        let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .host_name("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
-            .key_file_password("sdklite".to_string())
+            .key_password_file(key_password_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
