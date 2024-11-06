@@ -133,14 +133,28 @@ pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
-) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), ConnectionSettingsAdapterError> {
-    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1.
+) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
+    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
+    // It panics if you set MAX, although MAX - 1 is fine.
+    if channel_capacity == usize::MAX {
+        return Err(MqttAdapterError::Other(
+            "rumqttc does not support channel capacity of usize::MAX".to_string(),
+        ));
+    }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,
     ))
+}
+
+#[derive(Error, Debug)]
+pub enum MqttAdapterError {
+    #[error(transparent)]
+    ConnectionSettings(#[from] ConnectionSettingsAdapterError),
+    #[error("Other adapter error: {0}")]
+    Other(String),
 }
 
 // TODO: This error story needs improvement once we find out how much of this
@@ -212,6 +226,8 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
             rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
+        // Receive Maximum
+        mqtt_options.set_receive_maximum(Some(value.receive_max));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {
@@ -262,10 +278,9 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         if value.use_tls {
             let transport = tls_config(
                 value.ca_file,
-                value.ca_require_revocation_check,
                 value.cert_file,
                 value.key_file,
-                value.key_file_password,
+                value.key_password_file,
             )
             .map_err(|e| ConnectionSettingsAdapterError {
                 msg: "tls config error".to_string(),
@@ -325,10 +340,9 @@ fn read_root_ca_certs(ca_file: String) -> Result<Vec<native_tls::Certificate>, a
 
 fn tls_config(
     ca_file: Option<String>,
-    _ca_require_revocation_check: bool,
     cert_file: Option<String>,
     key_file: Option<String>,
-    key_file_password: Option<String>,
+    key_password_file: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
     let mut tls_connector_builder = native_tls::TlsConnector::builder();
     tls_connector_builder.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
@@ -359,10 +373,11 @@ fn tls_config(
         // Key, with or without password
         let private_key_pem = {
             let key_file_contents = fs::read(key_file)?;
-            if let Some(key_file_password) = key_file_password {
+            if let Some(key_password_file) = key_password_file {
+                let key_password_file_contents = fs::read(key_password_file)?;
                 let private_key = PKey::private_key_from_pem_passphrase(
                     &key_file_contents,
-                    key_file_password.as_bytes(),
+                    &key_password_file_contents,
                 )?;
                 private_key.private_key_to_pem_pkcs8()?
             } else {
@@ -470,23 +485,6 @@ mod tests {
     }
 
     #[test]
-    fn test_mqtt_connection_settings_ca_file_revocation_check() {
-        let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
-
-        let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
-            .ca_file(ca_file_path.into_os_string().into_string().unwrap())
-            .ca_require_revocation_check(true)
-            .build()
-            .unwrap();
-        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
-            connection_settings.try_into();
-        assert!(mqtt_options_result.is_ok());
-    }
-
-    #[test]
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
@@ -533,16 +531,13 @@ mod tests {
         let cert_file = dir.join("TestCert2Pem.txt");
         let key_file = dir.join("TestCert2KeyEncrypted.txt");
         let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
-        // TODO: pass the filepath directly to the connection settings after support for it is added
-        let key_password = fs::read_to_string(&key_password_file).unwrap();
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .host_name("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
-            //.key_file_password(key_password_file.into_os_string().into_string().unwrap())
-            .key_file_password(key_password.to_string())
+            .key_password_file(key_password_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =

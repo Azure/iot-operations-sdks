@@ -10,7 +10,6 @@ use azure_iot_operations_mqtt::session::{
 
 #[tokio::test]
 async fn mock_event_injection() {
-    const MAX_PENDING_MESSAGES: usize = 10;
     const CLIENT_ID: &str = "MyClientId";
 
     let (event_loop, injector) = MockEventLoop::new();
@@ -22,7 +21,6 @@ async fn mock_event_injection() {
         Box::new(ExponentialBackoffWithJitter::default()),
         CLIENT_ID.to_string(),
         None,
-        MAX_PENDING_MESSAGES,
     );
 
     let mut pub_receiver = session

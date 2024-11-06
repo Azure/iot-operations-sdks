@@ -65,12 +65,11 @@ where
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
         sat_auth_file: Option<String>,
-        capacity: usize,
     ) -> Self {
         // NOTE: drop the unfiltered message receiver from the dispatcher here in order to force non-filtered
         // messages to fail to be dispatched. The .run() method will respond to this failure by acking.
         // This lets us retain correct functionality while waiting for a more elegant solution with ordered ack.
-        let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new(capacity);
+        let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new();
         let incoming_pub_dispatcher = Arc::new(Mutex::new(incoming_pub_dispatcher));
         Self {
             client,
@@ -245,7 +244,6 @@ where
                         .lock()
                         .unwrap()
                         .dispatch_publish(publish.clone())
-                        .await
                     {
                         Ok(num_dispatches) => {
                             log::debug!("Dispatched PUB to {num_dispatches} receivers");
