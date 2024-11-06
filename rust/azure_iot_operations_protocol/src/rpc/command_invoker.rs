@@ -960,8 +960,6 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Mutex;
-
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
@@ -970,12 +968,10 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
+        payload_serialize::{
+            FormatIndicator, MockPayload, CONTENT_TYPE_MTX, DESERIALIZE_MTX, FORMAT_INDICATOR_MTX,
+        },
     };
-
-    /// Mutex needed to check mock calls of static methods `PayloadSerialize::deserialize`, `PayloadSerialize::content_type`, and `PayloadSerialize::format_indicator`
-    static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());
-    static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
