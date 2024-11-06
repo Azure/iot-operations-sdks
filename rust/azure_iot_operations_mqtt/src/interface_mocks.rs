@@ -16,7 +16,7 @@ use crate::interface::{
     CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
-/// Stand-in for the inner future of a [`CompletionToken`]S.
+/// Stand-in for the inner future of a [`CompletionToken`].
 /// Always returns Ok, indicating the ack was completed.
 struct DummyAckFuture {}
 
