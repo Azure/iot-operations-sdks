@@ -53,15 +53,23 @@ The SDK supports the following application types:
 
 | Application type | Description |
 |-|-|
-| [Akri Connector](/doc/akri_connector) | A specialized edge application deployed by the Akri Operator and designed to interface with on-premises asset endpoints. The Akri connector is responsible for discovering assets available on the endpoint, and relaying information to and from those assets. </br>*The Akri Connector's deployment is managed automatically by the Akri Operator.* |
-| [Edge Application](/doc/edge_application) | A generic edge application that needs to interface with various Azure IoT Operations services such as the MQTT broker and state store. The SDKs provides convenient clients to simplify the development experience. </br>*An Edge Application is a customer managed artifact, including deployment to the cluster and monitor execution. |
+| [Akri Connector](/doc/akri_connector) | A specialized edge application deployed by the Akri Operator and designed to interface with on-premises asset endpoints. The Akri connector is responsible for discovering assets available on the endpoint, and relaying information to and from those assets.</br>*The Akri Connector's deployment is managed automatically by the Akri Operator.* |
+| [Edge Application](/doc/edge_application) | A generic edge application that needs to interface with various Azure IoT Operations services such as the MQTT broker and state store. The SDKs provides convenient clients to simplify the development experience. </br>*An Edge Application is a customer managed artifact, including deployment to the cluster and monitor execution.* |
 
-## Samples and Tutorials
+## Developing applications
 
-See the [samples](/samples) directory for samples and tutorials across the SDKs.
+1. Review the various SDKs and tools:
+   * [.NET](/dotnet)
+   * [Go](/go)
+   * [Rust](/rust)
+   * [Protocol compiler](/codegen)
+
+1. Check out the [samples](/samples) for samples and tutorials across the SDKs.
+
+1. Learn how to [deploy](deploy.md) your application to the cluster.
 
 ## Reference
 
-Reference information about the fundamentals primitives and protocols and that make up the SDKs.
+Read the reference information about the fundamentals primitives and protocols and that make up the SDKs.
 
-1. [Reference documentation](/doc/reference)
+1. [Reference documentation](reference)
