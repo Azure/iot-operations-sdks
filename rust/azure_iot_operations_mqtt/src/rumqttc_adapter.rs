@@ -17,7 +17,7 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    CompletionToken, Event, InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
@@ -105,7 +105,7 @@ impl MqttAck for rumqttc::v5::AsyncClient {
 }
 
 #[async_trait]
-impl InternalClient for rumqttc::v5::AsyncClient {
+impl MqttClient for rumqttc::v5::AsyncClient {
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
         self.reauth(Some(auth_props)).await
     }

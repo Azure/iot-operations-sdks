@@ -132,7 +132,7 @@ pub trait MqttDisconnect {
 /// Internally-facing APIs for the underlying client.
 /// Use of this trait is not currently recommended except for mocking.
 #[async_trait]
-pub trait InternalClient: MqttPubSub + MqttAck + MqttDisconnect {
+pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     /// Reauthenticate with the MQTT broker
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError>;
 }

@@ -12,7 +12,7 @@ use tokio_util::sync::CancellationToken;
 
 use crate::control_packet::{AuthProperties, QoS};
 use crate::error::ConnectionError;
-use crate::interface::{Event, Incoming, InternalClient, MqttDisconnect, MqttEventLoop};
+use crate::interface::{Event, Incoming, MqttClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
@@ -26,7 +26,7 @@ use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session<C, EL>
 where
-    C: InternalClient + Clone + Send + Sync + 'static,
+    C: MqttClient + Clone + Send + Sync + 'static,
     EL: MqttEventLoop,
 {
     /// Underlying MQTT client
@@ -53,7 +53,7 @@ where
 
 impl<C, EL> Session<C, EL>
 where
-    C: InternalClient + Clone + Send + Sync + 'static,
+    C: MqttClient + Clone + Send + Sync + 'static,
     EL: MqttEventLoop,
 {
     // TODO: get client id out of here
@@ -372,13 +372,13 @@ where
 
 /// Run background tasks for [`Session.run()`]
 async fn run_background(
-    client: impl InternalClient + Clone,
+    client: impl MqttClient + Clone,
     unacked_pubs: Arc<PubTracker>,
     sat_auth_file: Option<String>,
     cancel_token: CancellationToken,
 ) {
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
-    async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl InternalClient) -> ! {
+    async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl MqttClient) -> ! {
         loop {
             // Get the next ready publish
             let publish = unacked_pubs.next_ready().await;
@@ -392,7 +392,7 @@ async fn run_background(
     }
 
     /// Maintain the SAT token authentication by renewing it before it expires
-    async fn maintain_sat_auth(sat_auth_file: String, client: impl InternalClient) -> ! {
+    async fn maintain_sat_auth(sat_auth_file: String, client: impl MqttClient) -> ! {
         let mut first_pass = true;
         let mut sleep_time = 5;
         loop {
