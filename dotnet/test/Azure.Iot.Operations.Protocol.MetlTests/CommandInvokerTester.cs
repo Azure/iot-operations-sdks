@@ -120,15 +120,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             }
         }
 
-//        [Theory]
-//        [MemberData(nameof(GetAllCommandInvokerCases))]
+        [Theory]
+        [MemberData(nameof(GetAllCommandInvokerCases))]
         public Task TestCommandInvokerWithSessionClient(string testCaseName)
         {
             return TestCommandInvokerProtocol(testCaseName, includeSessionClient: true);
         }
 
-//        [Theory]
-//        [MemberData(nameof(GetRestrictedCommandInvokerCases))]
+        [Theory]
+        [MemberData(nameof(GetRestrictedCommandInvokerCases))]
         public Task TestCommandInvokerStandalone(string testCaseName)
         {
             return TestCommandInvokerProtocol(testCaseName, includeSessionClient: false);
