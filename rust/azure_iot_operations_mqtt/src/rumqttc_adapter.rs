@@ -223,7 +223,7 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
     fn try_from(value: MqttConnectionSettings) -> Result<Self, Self::Error> {
         // Client ID, Host Name, TCP Port
         let mut mqtt_options =
-            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
+            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.hostname, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
         // Receive Maximum
@@ -415,7 +415,7 @@ mod tests {
     fn test_mqtt_connection_settings_no_tls() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .build()
             .unwrap();
@@ -429,7 +429,7 @@ mod tests {
         // username and password
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password("test_password".to_string())
@@ -442,7 +442,7 @@ mod tests {
         // just username
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .build()
@@ -457,7 +457,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password_file(password_file_path.into_os_string().into_string().unwrap())
@@ -475,7 +475,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file_path.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
@@ -494,7 +494,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file.into_os_string().into_string().unwrap())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
@@ -514,7 +514,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             .build()
@@ -534,7 +534,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             .key_password_file(key_password_file.into_os_string().into_string().unwrap())
