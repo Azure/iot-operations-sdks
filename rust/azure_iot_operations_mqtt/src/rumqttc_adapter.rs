@@ -133,15 +133,13 @@ pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
-) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), ConnectionSettingsAdapterError> {
-    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1.
-    // There isn't a good way to validate this here (the error returned is tightly coupled to
-    // ConnectionSettings, which doesn't include this value), and this is such a large number
-    // that it's unlikely to be a problem in practice, so just reduce it by 1 and log.
-    let mut channel_capacity = channel_capacity;
+) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
+    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
+    // It panics if you set MAX, although MAX - 1 is fine.
     if channel_capacity == usize::MAX {
-        log::warn!("rumqttc does not support channel capacity of usize::MAX. Setting to usize::MAX - 1.");
-        channel_capacity = usize::MAX - 1;
+        return Err(MqttAdapterError::Other(
+            "rumqttc does not support channel capacity of usize::MAX".to_string(),
+        ));
     }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
@@ -149,6 +147,14 @@ pub fn client(
         mqtt_options,
         channel_capacity,
     ))
+}
+
+#[derive(Error, Debug)]
+pub enum MqttAdapterError {
+    #[error(transparent)]
+    ConnectionSettings(#[from] ConnectionSettingsAdapterError),
+    #[error("Other adapter error: {0}")]
+    Other(String),
 }
 
 // TODO: This error story needs improvement once we find out how much of this

@@ -31,7 +31,8 @@ pub struct MqttConnectionSettings {
     #[builder(default = "Duration::from_secs(30)")]
     pub(crate) connection_timeout: Duration,
     /// Clean start
-    #[builder(default = "false")]   //NOTE: Should be `true` outside of AIO context. Consider when refactoring settings.
+    #[builder(default = "false")]
+    //NOTE: Should be `true` outside of AIO context. Consider when refactoring settings.
     pub(crate) clean_start: bool,
     /// Username for MQTT
     #[builder(default = "None")]
