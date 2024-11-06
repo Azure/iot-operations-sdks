@@ -18,7 +18,7 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'fib'.
         /// </summary>
-        [CommandBehavior(idempotent: true, cacheableDuration: "PT10M")]
+        [CommandBehavior(idempotent: true, cacheTtl: "PT10M")]
         public class FibCommandExecutor : CommandExecutor<FibRequestPayload, FibResponsePayload>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;

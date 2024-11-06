@@ -17,8 +17,7 @@ use crate::control_packet::{
 };
 use crate::error::{ClientError, ConnectionError};
 use crate::interface::{
-    CompletionToken, Event, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop,
-    MqttPubSub,
+    CompletionToken, Event, InternalClient, MqttAck, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
@@ -97,20 +96,16 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
     async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        Ok(self.ack(publish).await?)
+        // NOTE: Technically we could achieve this same behavior by just calling .ack() on the
+        // rumqttc client which assumes rc=0, but I prefer to be explicit here.
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
+        self.manual_ack(manual_ack).await
     }
 }
 
 #[async_trait]
 impl InternalClient for rumqttc::v5::AsyncClient {
-    fn get_manual_ack(&self, publish: &Publish) -> rumqttc::v5::ManualAck {
-        self.get_manual_ack(publish)
-    }
-
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError> {
-        self.manual_ack(ack).await
-    }
-
     async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
         self.reauth(Some(auth_props)).await
     }

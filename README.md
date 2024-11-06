@@ -95,8 +95,8 @@ The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet 
 
 | Component | Description | .NET | Go | Rust |
 |-|-|-|-|-|
-| [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :yellow_circle:  |
-| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :yellow_circle:  |
+| [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :green_circle:  |
+| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :green_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
 | [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
 
