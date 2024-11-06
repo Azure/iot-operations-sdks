@@ -16,7 +16,7 @@ pub mod interface;
 pub mod session;
 pub mod topic;
 
-// TODO: put behind feature flag
+// TODO: put behind `use-rumqttc` feature flag
 mod rumqttc_adapter;
 
 #[cfg(feature = "test-utils")]

@@ -18,9 +18,9 @@ use crate::interface::{
 
 /// Stand-in for the inner future of a [`CompletionToken`].
 /// Always returns Ok, indicating the ack was completed.
-struct DummyAckFuture {}
+struct CompletedAckFuture {}
 
-impl std::future::Future for DummyAckFuture {
+impl std::future::Future for CompletedAckFuture {
     type Output = Result<(), CompletionError>;
 
     fn poll(
@@ -30,6 +30,8 @@ impl std::future::Future for DummyAckFuture {
         std::task::Poll::Ready(Ok(()))
     }
 }
+
+// TODO: Will need to add a way to choose when acks return, and what rc they provide
 
 /// Mock implementation of an MQTT client.
 ///
@@ -62,7 +64,7 @@ impl MqttPubSub for MockClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn publish_with_properties(
@@ -73,7 +75,7 @@ impl MqttPubSub for MockClient {
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn subscribe(
@@ -81,7 +83,7 @@ impl MqttPubSub for MockClient {
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn subscribe_with_properties(
@@ -90,14 +92,14 @@ impl MqttPubSub for MockClient {
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn unsubscribe_with_properties(
@@ -105,7 +107,7 @@ impl MqttPubSub for MockClient {
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        Ok(CompletionToken(Box::new(DummyAckFuture {})))
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 }
 
