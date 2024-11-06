@@ -17,14 +17,20 @@ use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use super::StatusCode;
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::{FormatIndicator, PayloadSerialize},
-    topic_processor::{self, contains_invalid_char, TopicPattern},
-    user_properties::{self, validate_user_properties, UserProperty},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::{FormatIndicator, PayloadSerialize},
+        topic_processor::{self, contains_invalid_char, TopicPattern},
+        user_properties::{self, validate_user_properties, UserProperty},
+    },
+    is_protocol_version_supported, parse_protocol_version, parse_supported_protocol_major_versions,
+    ProtocolVersion, PROTOCOL_VERSION,
 };
+
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Command Request struct.
 /// Used by the [`CommandInvoker`]
@@ -519,6 +525,10 @@ where
             UserProperty::Timestamp.to_string(),
             HybridLogicalClock::new().to_string(),
         ));
+        request.custom_user_data.push((
+            UserProperty::ProtocolVersion.to_string(),
+            PROTOCOL_VERSION.to_string(),
+        ));
         if let Some(fencing_token) = request.fencing_token {
             request.custom_user_data.push((
                 UserProperty::FencingToken.to_string(),
@@ -733,6 +743,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         property_name: None,
         property_value: None,
         command_name: Some(command_name.clone()), // correct for all errors here
+        protocol_version: None,
+        supported_protocol_major_versions: None,
     };
 
     // parse user properties
@@ -741,6 +753,36 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut status: Option<StatusCode> = None;
     let mut invalid_property_name: Option<String> = None;
     let mut invalid_property_value: Option<String> = None;
+
+    // unused, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+    let mut _response_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+    if let Some((_, protocol_version)) = response_properties
+        .user_properties
+        .iter()
+        .find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion))
+    {
+        if let Some(response_version) = parse_protocol_version(protocol_version) {
+            if is_protocol_version_supported(&response_version, SUPPORTED_PROTOCOL_VERSIONS) {
+                _response_protocol_version = response_version;
+            } else {
+                return Err(AIOProtocolError::new_unsupported_response_version_error(
+                    None,
+                    protocol_version.to_string(),
+                    SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
+                    Some(command_name),
+                ));
+            }
+        } else {
+            return Err(AIOProtocolError::new_unsupported_response_version_error(
+                Some(format!(
+                    "Received a response with an unparsable protocol version number: {protocol_version}"
+                )),
+                protocol_version.to_string(),
+                SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
+                Some(command_name),
+            ));
+        }
+    }
 
     let mut unknown_status_error: Option<AIOProtocolError> = None;
 
@@ -795,6 +837,18 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(UserProperty::InvalidPropertyValue) => {
                 // Nothing to validate, but save info
                 invalid_property_value = Some(value);
+            }
+            Ok(UserProperty::ProtocolVersion) => {
+                // skip, already processed
+            }
+            Ok(UserProperty::RequestProtocolVersion) => {
+                // Nothing to validate, but save info
+                response_error.protocol_version = Some(value);
+            }
+            Ok(UserProperty::SupportedMajorVersions) => {
+                // Nothing to validate (any invalid entries will be skipped), but save info
+                response_error.supported_protocol_major_versions =
+                    Some(parse_supported_protocol_major_versions(&value));
             }
             Ok(_) => {
                 // UserProperty::FencingToken or UserProperty::CommandInvokerId
@@ -895,6 +949,9 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     response_error.is_remote = false;
                     response_error.property_name = invalid_property_name;
                     response_error.property_value = invalid_property_value.map(Value::String);
+                }
+                StatusCode::VersionNotSupported => {
+                    response_error.kind = AIOProtocolErrorKind::UnsupportedRequestVersion;
                 }
             }
             response_error.ensure_error_message();
@@ -1560,6 +1617,8 @@ mod tests {
     //     status is missing
     //     status code is no content, but the payload isn't empty
     //     failure deserializing response payload
+    //     has unsupported protocol version and returns an error
+    //     has unparsable protocol version and returns an error
     //
     // Wait for/match response
     // Tests success:

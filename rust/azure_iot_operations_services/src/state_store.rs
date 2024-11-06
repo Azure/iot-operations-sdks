@@ -26,6 +26,7 @@ pub struct StateStoreError(#[from] StateStoreErrorKind);
 
 /// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
 #[derive(Error, Debug)]
+#[allow(clippy::large_enum_variant)]
 pub enum StateStoreErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]

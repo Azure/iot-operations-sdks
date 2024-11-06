@@ -34,6 +34,10 @@ pub enum AIOProtocolErrorKind {
     ExecutionException,
     /// The MQTT communication encountered an error and failed. The exception message should be inspected for additional information
     ClientError,
+    /// The command executor that received the request doesn't support the provided protocol version.
+    UnsupportedRequestVersion,
+    /// The command invoker received a response that specifies a protocol version that the invoker does not support.
+    UnsupportedResponseVersion,
 }
 
 /// Represents the possible types of the value of a property
@@ -80,6 +84,12 @@ pub struct AIOProtocolError {
     pub property_value: Option<Value>,
     /// The name of a command relevant to the error being reported
     pub command_name: Option<String>,
+    /// The protocol version of the command request or response that was not supported.
+    pub protocol_version: Option<String>,
+    /// The major protocol versions that are acceptable to the command executor if
+    /// the executor rejected the command request or the major protocol versions that
+    /// are acceptable to the command invoker if the invoker rejected the command response.
+    pub supported_protocol_major_versions: Option<Vec<u16>>,
 }
 
 impl fmt::Display for AIOProtocolError {
@@ -167,6 +177,16 @@ impl fmt::Display for AIOProtocolError {
                 AIOProtocolErrorKind::ClientError => {
                     write!(f, "An MQTT communication error occurred")
                 }
+                AIOProtocolErrorKind::UnsupportedRequestVersion => {
+                    write!(f, "The command executor that received the request only supports major protocol versions '{:?}', but '{}' was sent on the request.",
+                    self.supported_protocol_major_versions.as_deref().unwrap_or(&[]),
+                    self.protocol_version.as_deref().unwrap_or("Not Specified"))
+                }
+                AIOProtocolErrorKind::UnsupportedResponseVersion => {
+                    write!(f, "Received a response with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
+                    self.protocol_version.as_deref().unwrap_or("Not Specified"),
+                    self.supported_protocol_major_versions.as_deref().unwrap_or(&[]))
+                }
             }
         }
     }
@@ -205,6 +225,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -235,6 +257,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -265,6 +289,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -296,6 +322,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -325,6 +353,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -354,6 +384,8 @@ impl AIOProtocolError {
             property_name: Some(property_name.to_string()),
             property_value: Some(property_value),
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -382,6 +414,8 @@ impl AIOProtocolError {
             property_name: Some(property_name.to_string()),
             property_value: Some(property_value),
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -410,6 +444,8 @@ impl AIOProtocolError {
             property_name: Some(property_name.to_string()),
             property_value,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -443,6 +479,8 @@ impl AIOProtocolError {
             property_name: Some(property_name.to_string()),
             property_value,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -473,6 +511,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -502,6 +542,8 @@ impl AIOProtocolError {
             property_name: property_name.map(std::string::ToString::to_string),
             property_value,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -531,6 +573,8 @@ impl AIOProtocolError {
             property_name: property_name.map(std::string::ToString::to_string),
             property_value,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
         };
         e.ensure_error_message();
         e
@@ -558,6 +602,69 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
+        };
+        e.ensure_error_message();
+        e
+    }
+
+    /// Creates a new [`AIOProtocolError`] for an unsupported request version error
+    #[must_use]
+    pub fn new_unsupported_request_version_error(
+        message: Option<String>,
+        http_status_code: u16,
+        request_protocol_version: String,
+        supported_request_protocol_major_versions: Vec<u16>,
+        command_name: Option<String>,
+    ) -> AIOProtocolError {
+        let mut e = AIOProtocolError {
+            message,
+            kind: AIOProtocolErrorKind::UnsupportedRequestVersion,
+            in_application: false,
+            is_shallow: false,
+            is_remote: true,
+            nested_error: None,
+            http_status_code: Some(http_status_code),
+            header_name: None,
+            header_value: None,
+            timeout_name: None,
+            timeout_value: None,
+            property_name: None,
+            property_value: None,
+            command_name,
+            protocol_version: Some(request_protocol_version),
+            supported_protocol_major_versions: Some(supported_request_protocol_major_versions),
+        };
+        e.ensure_error_message();
+        e
+    }
+
+    /// Creates a new [`AIOProtocolError`] for an unsupported response version error
+    #[must_use]
+    pub fn new_unsupported_response_version_error(
+        message: Option<String>,
+        response_protocol_version: String,
+        supported_response_protocol_major_versions: Vec<u16>,
+        command_name: Option<String>,
+    ) -> AIOProtocolError {
+        let mut e = AIOProtocolError {
+            message,
+            kind: AIOProtocolErrorKind::UnsupportedResponseVersion,
+            in_application: false,
+            is_shallow: false,
+            is_remote: false,
+            nested_error: None,
+            http_status_code: None,
+            header_name: None,
+            header_value: None,
+            timeout_name: None,
+            timeout_value: None,
+            property_name: None,
+            property_value: None,
+            command_name,
+            protocol_version: Some(response_protocol_version),
+            supported_protocol_major_versions: Some(supported_response_protocol_major_versions),
         };
         e.ensure_error_message();
         e
