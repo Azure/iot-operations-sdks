@@ -623,6 +623,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             {
                 Assert.True(!MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) || isAppError?.ToLower() == "false");
             }
+
+            if (publishedMessage.Expiry != null)
+            {
+                Assert.Equal((uint)publishedMessage.Expiry, appMsg.MessageExpiryInterval);
+            }
         }
 
         private static async Task<Object_Test_Response> ProcessRequest(ExtendedRequest<Object_Test_Request> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)

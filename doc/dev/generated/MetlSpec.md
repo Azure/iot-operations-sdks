@@ -47,27 +47,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: CommandExecutorRequestNoResponseTopic_NoResponse
+test-name: TelemetrySenderSendOne_Success
 aka:
-- ResponseTopicMissing_MessageNotProcessedButAcknowledged
+- SendTelemetry_SingleMessage
 description:
   condition: >-
-    CommandExecutor receives request with invalid ResponseTopic metadata.
+    TelemetrySender sends a single Telemetry.
   expect: >-
-    CommandExecutor discards request and acknowledges.
+    TelemetrySender performs send.
 prologue:
-  executors:
+  senders:
   - { }
 actions:
-- action: receive request
-  response-topic: "//invalid"
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+- action: await publish
 epilogue:
-  publication-count: 0
-  acknowledgement-count: 1
-  execution-count: 0
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
 ```
 
 ### Key/value kinds
@@ -153,8 +150,8 @@ The feature kind is an enumeration that includes the following enumerated values
 | dispatch | The component under test will dispatch execution functions to a thread pool. |
 | explicit-default | The component under test uses an explicit indication (not a sentinel value) to imply a default value. |
 
-The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite) and [`CommandInvoker`](#commandinvoker-test-suite) test cases.
-A final section describes [common test elements](#common-test-elements) that are usable in both CommandExecutor and CommandInvoker test cases.
+The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite), [`CommandInvoker`](#commandinvoker-test-suite), and [`TelemetrySender`](#telemetrysender-test-suite) test cases.
+A final section describes [common test elements](#common-test-elements) that are usable across test cases.
 
 ## CommandExecutor test suite
 
@@ -226,7 +223,7 @@ The YAML file for a `CommandExecutor` test case can have the following top-level
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
 | aka | no | array of string | Alternative names the test case is 'also known as'. |
-| description | yes | [Description](#description) | English description of the test case. |
+| description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [ExecutorPrologue](#executorprologue) | Initialization to perform prior to stepping through the test-case actions. |
 | actions | no | array of [ExecutorAction](#executoraction) | A sequence of actions to perform. |
@@ -421,6 +418,7 @@ Each element of the `published-messages` array can have the following child keys
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | command-status | check | no | integer or null | HTTP status code in the message, or null if no status code present. |
 | is-application-error | check | no | boolean | In an error response, whether the error is in the application rather than in the platform. |
+| expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
 The index value can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
@@ -546,7 +544,7 @@ The YAML file for a `CommandInvoker` test case can have the following top-level 
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
 | aka | no | array of string | Alternative names the test case is 'also known as'. |
-| description | yes | [Description](#description) | English description of the test case. |
+| description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [InvokerPrologue](#invokerprologue) | Initialization to perform prior to stepping through the test-case actions. |
 | actions | no | array of [InvokerAction](#invokeraction) | A sequence of actions to perform. |
@@ -651,9 +649,10 @@ Each element of the `published-messages` array can have the following child keys
 | --- | --- | --- | --- | --- |
 | correlation-index | match | yes | integer | An arbitrary numeric value used to identify the correlation ID used in request and response messages. |
 | topic | check | no | string | The MQTT topic to which the message is published. |
-| payload | check | no | string or null | The response payload UTF8 string, or null if no payload. |
+| payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | invoker-id | check | no | string | The invoker ID header property in the message. |
+| expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
 The index value can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
@@ -820,13 +819,234 @@ Unlike index values for the CommandExecutor, and unlike other index values for t
 Instead, it is mapped to the correlation identifier assigned by the CommandInvoker itself, which is embedded in the request message.
 Therefore, the correlation index must have been used in an `await publish` action before it can be used in a `receive response` action.
 
+## TelemetrySender test suite
+
+A Telemetry type of `string` is used for testing the `TelemetrySender`.
+There are no shared components across `TelemetrySender` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+
+### TelemetrySender test language
+
+The YAML file for a `TelemetrySender` test case can have the following top-level keys.
+
+| Key | Required | Value Type | Description |
+| --- | --- | --- | --- |
+| test-name | yes | string | The name of the test case, usually matches the file name without extension. |
+| aka | no | array of string | Alternative names the test case is 'also known as'. |
+| description | yes | Description | English description of the test case. |
+| requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
+| prologue | yes | [SenderPrologue](#senderprologue) | Initialization to perform prior to stepping through the test-case actions. |
+| actions | no | array of [SenderAction](#senderaction) | A sequence of actions to perform. |
+| epilogue | no | [SenderEpilogue](#senderepilogue) | Finalization to perform after stepping through the test-case actions. |
+
+The `test-name`, `aka`, and `descriptions` keys are to assist human readability.
+The `requires` key is described above in the introduction to this document.
+The `prologue`, `actions`, and `epilogue` keys define the three main regions of the test case.
+These regions are detailed below, beginning with the simpler prologue and epilogue regions, followed by the set of supported actions.
+
+### TelemetrySender test prologue
+
+The prologue defines initialization to perform prior to stepping through any test-case actions.
+This includes configuring the MQTT client and instantiating one or more TelemetrySenders.
+The prologue can also define an expectation of error behavior when the configuration or initialization is intentionally invalid.
+Following is an example TelemetrySender prologue:
+
+```yaml
+prologue:
+  senders:
+  - topic-namespace: "invalid/{modelId}"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
+```
+
+When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
+
+#### SenderPrologue
+
+A TelemetrySender prologue can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Description |
+| --- | --- | --- | --- | --- |
+| mqtt-config | drive | no | [MqttConfig](#mqttconfig) | MQTT client configuration settings. |
+| push-acks | drive | no | [PushAcks](#pushacks) | Queues of ACKs that are used sequentially to respond to various asynchronous MQTT messages. |
+| senders | drive | no | array of [Sender](#sender) | A list of TelemetrySender instances to initialize for use in the test. |
+| catch | check | no | [Catch](#catch) | An error that is expected to be caught during initialization. |
+
+The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
+The value type for `senders` is specific to TelemetrySender and is defined in the next subsection.
+
+#### Sender
+
+Each element of the `senders` array can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Default Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| telemetry-name | drive | no | string or null | "test" | The name of the Telemetry. |
+| telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
+| model-id | drive | no | string or null | "dtmi:test:MyModel;1" | The identifier of the the service model, which is the full DTMI of the Interface. |
+| topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
+| custom-token-map | drive | no | map from string to string | { } | A map from custom topic tokens to replacement values. |
+
+### TelemetrySender test epilogue
+
+The epilogue defines finalization to perform after stepping through any test-case actions.
+This mainly involves checking to ensure that various things have happened as they should have.
+This includes MQTT subscriptions, publications, and acknowledgements.
+The epilogue can also define an expectation of error behavior during finalization.
+Following is an example TelemetrySender epilogue:
+
+```yaml
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "source": "dtmi:test:myEventSource;1"
+      "type": "test-type"
+      "specversion": "1.0"
+      "datacontenttype": "application/json"
+      "subject": "mock/test"
+```
+
+#### SenderEpilogue
+
+A TelemetrySender epilogue can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Description |
+| --- | --- | --- | --- | --- |
+| publication-count | check | no | integer | The count of messages published. |
+| published-messages | check | no | array of [PublishedTelemetry](#publishedtelemetry) | An ordered list of Telemetry messages published. |
+
+The value type for `published-messages` is specific to TelemetrySender and is defined in the next subsection.
+
+#### PublishedTelemetry
+
+Each element of the `published-messages` array can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Description |
+| --- | --- | --- | --- | --- |
+| topic | check | no | string | The MQTT topic to which the message is published. |
+| payload | check | no | string | The Telemetry payload UTF8 string. |
+| metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
+| sender-id | check | no | string | The sender ID header property in the message. |
+| expiry | check | no | integer | The message expiry in seconds. |
+
+The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
+
+### TelemetrySender test actions
+
+The actions define a sequence of test operations to perform.
+Following is an example TelemetrySender actions array:
+
+```yaml
+actions:
+- action: send telemetry
+  telemetry-value: "Telemetry_Foo"
+- action: send telemetry
+  telemetry-value: "Telemetry_Bar"
+- action: send telemetry
+  telemetry-value: "Telemetry_Baz"
+- action: await publish
+- action: await publish
+- action: await publish
+```
+
+#### SenderAction
+
+The elements in a TelemetrySender action array have polymorphic types, each of which defines a specific test action, as indicated by the following table:
+
+| Action | Subtype | Description |
+| --- | --- | --- |
+| send telemetry | [ActionSendTelemetry](#actionsendtelemetry) | Send a Telemetry without waiting for its completion. |
+| await send | [ActionAwaitSend](#actionawaitsend) | Wait for the least recent Telemetry send to complete. |
+| await publish | [ActionAwaitPublishTelemetry](#actionawaitpublishtelemetry) | Wait for the publication of a Telemetry message. |
+| disconnect | [ActionDisconnect](#actiondisconnect) | Disconnect the MQTT client from the broker. |
+
+The details of action `disconnect` is common across classes, so it is defined towards the end of this document.
+The details of actions `send telemetry`, `await send`, and `await publish` are described in the following subsections.
+
+#### ActionSendTelemetry
+
+A `send telemetry` action causes the TelemetrySender to send a telemetry without waiting for its completion, as in the following example:
+
+```yaml
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    type: "test-type"
+    spec-version: "1.0"
+```
+
+When the value of the `action` key is `send telemetry`, the following sibling keys are also available:
+
+| Key | Test Kind | Required | Value Type | Value | Default Value | Description |
+| --- | --- | --- | --- | --- | --- | --- |
+| action |  | yes | string | "send telemetry" |  | Send a Telemetry without waiting for its completion. |
+| telemetry-name | drive | no | string |  | "test" | The name of the Telemetry. |
+| timeout | drive | no | [Duration](#duration) or null |  | { "minutes": 1 } | Telemetry timeout duration. |
+| telemetry-value | drive | no | string or null |  | "Test_Telemetry" | A UTF8 string (or null) value for the Telemetry content. |
+| metadata | drive | no | map from string to string |  | { } | Keys and values for user metadata. |
+| cloud-event | drive | no | [CloudEvent](#cloudevent) |  |  | A CloudEvent associated with the Telemetry. |
+| qos | drive | no | integer |  | 1 | MQTT QoS level. |
+
+The value type for `cloud-event` is specific to TelemetrySender and is defined in the next subsection.
+
+#### CloudEvent
+
+The cloud event can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Description |
+| --- | --- | --- | --- | --- |
+| source | drive | yes | string | URI that identifies the context in which an event happened. |
+| type | drive | no | string | The type of event related to the originating occurrence. |
+| spec-version | drive | no | string | The version of the CloudEvents specification which the event uses. |
+
+#### ActionAwaitSend
+
+An `await send` action causes the test system to wait for a telemetry send to complete, as in the following example:
+
+```yaml
+- action: await send
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+```
+
+When the value of the `action` key is `await send`, the following sibling keys are also available:
+
+| Key | Test Kind | Required | Value Type | Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| action |  | yes | string | "await send" | Wait for the least recent Telemetry send to complete. |
+| catch | check | no | [Catch](#catch) |  | An error that is expected to be caught while sending Telemetry. |
+
+#### ActionAwaitPublishTelemetry
+
+An `await publish` action causes the test system to wait for the TelemetrySender to publish a telemetry message, as in the following example:
+
+```yaml
+- action: await publish
+```
+
+When the value of the `action` key is `await publish`, the following sibling keys are also available:
+
+| Key | Test Kind | Required | Value Type | Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| action |  | yes | string | "await publish" | Wait for the publication of a Telemetry message. |
+
 ## Common test elements
 
-Several test elements are usable in both CommandExecutor and CommandInvoker unit test cases.
+Several test elements are usable in multiple kinds of unit test cases.
 
 ### Common test actions
 
-Several action subtypes are usable in both CommandExecutor and CommandInvoker unit test cases.
+Several action subtypes are usable in multiple kinds of unit test cases.
 
 #### ActionAwaitAck
 
@@ -895,7 +1115,7 @@ When the value of the `action` key is `unfreeze time`, no sibling keys are avail
 
 ### Common prologue value types
 
-Both CommandExecutor and CommandInvoker prologues have keys `mqtt-config`, `push-acks`, and `catch`, which have value types defined in this section.
+All test-suite prologues have keys `mqtt-config`, `push-acks`, and `catch`, which have value types defined in this section.
 
 #### MqttConfig
 

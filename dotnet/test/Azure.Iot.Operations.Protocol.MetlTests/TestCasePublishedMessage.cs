@@ -15,5 +15,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public bool? IsApplicationError { get; set; }
 
         public string? InvokerId { get; set; }
+
+        public string? SenderId { get; set; }
+
+        public int? Expiry { get; set; }
     }
 }

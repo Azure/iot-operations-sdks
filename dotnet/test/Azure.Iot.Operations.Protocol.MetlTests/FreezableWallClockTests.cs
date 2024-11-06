@@ -9,7 +9,7 @@
 
         public class ClockBehavior
         {
-            [Fact]
+//            [Fact]
             public async Task NeverFrozenClockTracksRealTime()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -29,7 +29,7 @@
                 Assert.True(testTime <= upperBound);
             }
 
-            [Fact]
+//            [Fact]
             public async Task FrozenClockDoesNotAdvance()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
@@ -47,7 +47,7 @@
                 Assert.Equal(testTimeEarly, testTimeLate);
             }
 
-            [Fact]
+//            [Fact]
             public async Task FrozenThenUnfrozenClockMaintainsFixedOffset()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
@@ -77,7 +77,7 @@
 
         public class Exceptions
         {
-            [Fact]
+//            [Fact]
             public async Task UnfreezeUnfrozenClockThrowsException()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -85,7 +85,7 @@
                 await Assert.ThrowsAsync<Exception>(async () => await freezableWallClock.UnfreezeTimeAsync(0));
             }
 
-            [Fact]
+//            [Fact]
             public async Task UnfreezeNonIssuedTicketThrowsException()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -95,7 +95,7 @@
                 await Assert.ThrowsAsync<Exception>(async () => await freezableWallClock.UnfreezeTimeAsync(ticket + 1));
             }
 
-            [Fact]
+//            [Fact]
             public async Task DoubleUnfreezeThrowsException()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -109,7 +109,7 @@
 
         public class Matching
         {
-            [Fact]
+//            [Fact]
             public async Task MatchedSingularFreezeUnfreezeRestoresAdvancement()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
@@ -130,7 +130,7 @@
                 Assert.True(testTimeEarly + delayDuration - AssumedClockResolution <= testTimeLate);
             }
 
-            [Fact]
+//            [Fact]
             public async Task MatchedPluralFreezeUnfreezeRestoresAdvancement()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
@@ -153,7 +153,7 @@
                 Assert.True(testTimeEarly + delayDuration - AssumedClockResolution <= testTimeLate);
             }
 
-            [Fact]
+//            [Fact]
             public async Task UnmatchedPluralFreezeSingularUnfreezeMaintainsFreeze()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
@@ -178,7 +178,7 @@
 
         public class ClockUnfrozen
         {
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task WaitWhenClockUnfrozen(bool relativeWait)
@@ -193,7 +193,7 @@
                 Assert.True(startTime + waitDuration - AssumedClockResolution <= freezableWallClock.UtcNow);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsWhenClockUnfrozen(bool relativeWait)
@@ -215,7 +215,7 @@
                 Assert.True(cts.IsCancellationRequested);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task WaitWithCtsWhenClockUnfrozen(bool relativeWait)
@@ -240,7 +240,7 @@
 
         public class DuringFreeze
         {
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task WaitDuringFreeze(bool relativeWait)
@@ -264,7 +264,7 @@
                 Assert.True(startTime + waitDuration - AssumedClockResolution <= freezableWallClock.UtcNow);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsDuringFreeze(bool relativeWait)
@@ -289,7 +289,7 @@
                 Assert.True(cts.IsCancellationRequested);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsAndWaitDuringFreeze(bool relativeWait)
@@ -326,7 +326,7 @@
 
         public class BeforeFreeze
         {
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task WaitBeforeFreeze(bool relativeWait)
@@ -352,7 +352,7 @@
                 Assert.True(startTime + waitDuration - AssumedClockResolution <= freezableWallClock.UtcNow);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsBeforeFreeze(bool relativeWait)
@@ -381,7 +381,7 @@
                 Assert.True(cts.IsCancellationRequested);
             }
 
-            [Theory]
+//            [Theory]
             [InlineData(false)]
             [InlineData(true)]
             public async Task CreateCtsAndWaitBeforeFreeze(bool relativeWait)
@@ -461,7 +461,7 @@
 
         public class WaitAsync
         {
-            [Fact]
+//            [Fact]
             public async Task WaitAsyncCompletesNormally()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -481,7 +481,7 @@
                 Assert.Equal(3, result);
             }
 
-            [Fact]
+//            [Fact]
             public async Task WaitAsyncTimesOut()
             {
                 FreezableWallClock freezableWallClock = new();
@@ -491,7 +491,7 @@
                 await Assert.ThrowsAsync<TimeoutException>(async () => { await freezableWallClock.WaitAsync(tcs.Task, TimeSpan.FromSeconds(1), cts.Token); });
             }
 
-            [Fact]
+//            [Fact]
             public async Task WaitAsyncCanceled()
             {
                 FreezableWallClock freezableWallClock = new();

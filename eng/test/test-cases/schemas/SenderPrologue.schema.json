@@ -1,0 +1,30 @@
+{
+    "title": "SenderPrologue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "mqtt-config": {
+            "description": "MQTT client configuration settings.",
+            "$ref": "MqttConfig.schema.json",
+            "kind": "drive"
+        },
+        "push-acks": {
+            "description": "Queues of ACKs that are used sequentially to respond to various asynchronous MQTT messages.",
+            "$ref": "PushAcks.schema.json",
+            "kind": "drive"
+        },
+        "senders": {
+            "description": "A list of TelemetrySender instances to initialize for use in the test.",
+            "type": "array",
+            "items": {
+                "$ref": "Sender.schema.json"
+            },
+            "kind": "drive"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during initialization.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        }
+    }
+}
