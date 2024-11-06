@@ -27,10 +27,13 @@ tokio.workspace = true
 tokio-util.workspace = true
 
 [dev-dependencies]
+azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
-flume = { version = "0.11", default-features = false, features = ["async"] }
 test-case.workspace = true
 tokio-test.workspace = true
+
+[features]
+test-utils = []
 
 [lints]
 workspace = true
