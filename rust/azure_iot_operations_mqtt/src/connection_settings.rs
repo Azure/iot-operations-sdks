@@ -39,22 +39,22 @@ pub struct MqttConnectionSettings {
     /// Password for MQTT
     #[builder(default = "None")]
     pub(crate) password: Option<String>,
-    /// Path to a file with the MQTT password
+    /// Path to a file containing the MQTT password
     #[builder(default = "None")]
     pub(crate) password_file: Option<String>,
     /// TLS negotiation enabled
     #[builder(default = "true")]
     pub(crate) use_tls: bool,
-    /// Path to a PEM file to validate server identity
+    /// Path to a PEM file used to validate server identity
     #[builder(default = "None")]
     pub(crate) ca_file: Option<String>,
-    /// Path to PEM file to establish X509 client authentication
+    /// Path to PEM file used to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) cert_file: Option<String>,
-    /// Path to a KEY file to establish X509 client authentication
+    /// Path to a file containing a key used to establish X509 client authentication
     #[builder(default = "None")]
     pub(crate) key_file: Option<String>,
-    /// Path to a file with the password used to decrypt the KEY
+    /// Path to a file containing the password used to decrypt the Key
     #[builder(default = "None")]
     pub(crate) key_password_file: Option<String>,
     /// Path to a SAT file to be used for SAT auth

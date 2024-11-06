@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemSchemas, workingPath, schemaTypes))
+                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemSchemas, workingPath, schemaTypes, useSharedSubscription: telemServiceGroupId != null))
                     {
                         yield return templateTransform;
                     }
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes))
+                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes, useSharedSubscription: cmdServiceGroupId != null))
                     {
                         yield return templateTransform;
                     }
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes, bool useSharedSubscription)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
@@ -116,7 +116,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     break;
                 case "rust":
                     yield return new RustTelemetrySender(telemetryName, genNamespace, schemaClass);
-                    yield return new RustTelemetryReceiver(telemetryName, genNamespace, schemaClass);
+                    yield return new RustTelemetryReceiver(telemetryName, genNamespace, schemaClass, useSharedSubscription);
                     if (schemaClass != string.Empty)
                     {
                         schemaTypes.Add(schemaClass);
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             telemSchemas.Add(schemaClass);
         }
 
-        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes, bool useSharedSubscription)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
@@ -165,7 +165,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     break;
                 case "rust":
                     yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
-                    yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability, useSharedSubscription);
                     if (reqSchemaClass != null && reqSchemaClass != string.Empty)
                     {
                         schemaTypes.Add(reqSchemaClass);
