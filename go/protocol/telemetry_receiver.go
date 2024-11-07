@@ -166,7 +166,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.CloudEvent = cloudEventFromMessage(pub)
 
-	if tr.manualAck {
+	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
 	}
 
@@ -177,7 +177,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		return err
 	}
 
-	if !tr.manualAck && pub.Ack != nil {
+	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
 	return nil
@@ -188,7 +188,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	if !tr.manualAck && pub.Ack != nil {
+	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
 	return errutil.Return(err, false)

@@ -102,7 +102,7 @@ type Message struct {
     PublishOptions
 
     // Ack will manually ack the message. All handled messages must be acked
-    // (except for QoS 0 messages, in which case this function will be nil).
+    // (except for QoS 0 messages, in which case this is a no-op).
     Ack func()
 }
 ```

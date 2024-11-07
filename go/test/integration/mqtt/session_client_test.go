@@ -62,7 +62,6 @@ func TestSubscribePublishUnsubscribe(t *testing.T) {
 		func(_ context.Context, msg *mqtt.Message) {
 			require.Equal(t, topicName, msg.Topic)
 			require.Equal(t, []byte(payload), msg.Payload)
-			require.Nil(t, msg.Ack) // Default QoS is 0.
 
 			close(executed)
 		},

@@ -202,9 +202,6 @@ func buildUnsubscribe(
 
 // Build message for the message handler.
 func buildMessage(packet *paho.Publish, ack func()) *Message {
-	if packet.QoS == 0 {
-		ack = nil
-	}
 	msg := &Message{
 		Topic:   packet.Topic,
 		Payload: packet.Payload,

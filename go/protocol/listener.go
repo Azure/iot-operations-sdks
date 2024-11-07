@@ -61,7 +61,7 @@ func (l *listener[T]) register() {
 			msg.TopicTokens, match = l.topic.Tokens(m.Topic)
 			if match {
 				handle(ctx, msg)
-			} else if m.Ack != nil {
+			} else {
 				m.Ack()
 			}
 		},
