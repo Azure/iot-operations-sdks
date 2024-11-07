@@ -7,12 +7,8 @@ import (
 )
 
 const (
-	defaultReceiveMaximum    uint16 = math.MaxUint16
-	maxKeepAlive             uint16 = math.MaxUint16
-	maxSessionExpiry         uint32 = math.MaxUint32
-	maxPublishQueueSize      int    = math.MaxUint16
-	maxInitialConnectRetries int    = 5
-	aesGcmNonce              int    = 12
+	maxPublishQueueSize int = math.MaxUint16
+	aesGcmNonce         int = 12
 )
 
 // CONNACK packet reason codes
@@ -74,4 +70,11 @@ const (
 	disconnectMaximumConnectTime                  byte = 0xA0
 	disconnectSubscriptionIdentifiersNotSupported byte = 0xA1
 	disconnectWildcardSubscriptionsNotSupported   byte = 0xA2
+)
+
+// AUTH packet reason codes
+// (https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901220)
+const (
+	authContinueAuthentication byte = 0x18
+	authReauthenticate         byte = 0x19
 )

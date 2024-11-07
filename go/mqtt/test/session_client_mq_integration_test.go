@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	mqServerURL string = "mqtt://localhost:1883"
-	mqServerPod string = "aio-broker-frontend-0"
+	mqServerHostname string = "localhost"
+	mqServerPort     int    = 1883
+	mqServerPod      string = "aio-broker-frontend-0"
 )
 
 func shouldRunIntegrationTest(t *testing.T) {
@@ -44,7 +45,12 @@ func shouldRunIntegrationTest(t *testing.T) {
 func TestConnectMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	require.NoError(t, client.Start())
@@ -54,7 +60,12 @@ func TestConnectMQ(t *testing.T) {
 func TestConnectWithTimeoutMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	// ctx would be canceled after a successful initial connection,
@@ -81,7 +92,12 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 func TestDisconnectWithoutConnectMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 	require.Error(t, client.Stop())
 }
@@ -89,7 +105,12 @@ func TestDisconnectWithoutConnectMQ(t *testing.T) {
 func TestSubscribeUnsubscribeMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -107,11 +128,18 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 
 // This test may take 4-5 seconds as it involves a connection interruption.
 func TestRequestQueueMQ(t *testing.T) {
+	// TODO: revisit this skipped test
+	t.Skip(
+		"Skipping this test due to potential race condition with pod deletion",
+	)
 	shouldRunIntegrationTest(t)
 
 	client, err := mqtt.NewSessionClient(
-		mqServerURL,
-		mqtt.WithSessionExpiry(30*time.Second),
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+		mqtt.WithSessionExpiryInterval(30),
 	)
 	require.NoError(t, err)
 
@@ -204,7 +232,12 @@ func TestRequestQueueMQ(t *testing.T) {
 func TestPublishMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()

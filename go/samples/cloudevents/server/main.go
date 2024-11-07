@@ -20,8 +20,8 @@ func main() {
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
 	mqttClient := must(mqtt.NewSessionClient(
-		"tcp://localhost:1883",
-		mqtt.WithSessionExpiry(10*time.Minute),
+		mqtt.TCPConnection("localhost", 1883),
+		mqtt.WithSessionExpiryInterval(10*60), // 10 minutes
 	))
 	server := must(dtmi_akri_samples_oven__1.NewOvenService(mqttClient))
 	defer server.Close()
