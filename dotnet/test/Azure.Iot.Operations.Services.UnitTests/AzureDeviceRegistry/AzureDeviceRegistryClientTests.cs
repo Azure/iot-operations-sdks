@@ -326,7 +326,11 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_username/some-username");
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_password/some-password");
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate");
-            Directory.Delete("./AzureDeviceRegistry/testFiles/config/asset_config/", true);
+
+            if (Directory.Exists("./AzureDeviceRegistry/testFiles/config/asset_config/"))
+            { 
+                Directory.Delete("./AzureDeviceRegistry/testFiles/config/asset_config/", true);
+            }
         }
     }
 }

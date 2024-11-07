@@ -59,7 +59,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         /// <returns>The requested asset.</returns>
         public async Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(GetAssetDirectory()))
+            if (string.IsNullOrWhiteSpace(GetAssetDirectory()) || !File.Exists($"{GetAssetDirectory()}/{assetName}"))
             {
                 return null;
             }
