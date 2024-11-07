@@ -1,5 +1,6 @@
 ﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using System.Text;
+using System.Text.Json;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
@@ -26,9 +27,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 var adrClient = new AzureDeviceRegistryClient();
                 var assetEndpointProfile = await adrClient.GetAssetEndpointProfileAsync();
 
-                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}"), assetEndpointProfile.TargetAddress);
-                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}"), assetEndpointProfile.AuthenticationMethod);
-                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}"), assetEndpointProfile.EndpointProfileType);
+                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}"), assetEndpointProfile.TargetAddress);
+                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}"), assetEndpointProfile.AuthenticationMethod);
+                Assert.Equal(File.ReadAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}"), assetEndpointProfile.EndpointProfileType);
                 Assert.NotNull(assetEndpointProfile.AdditionalConfiguration);
                 Assert.True(assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("DataSourceType", out var property));
                 Assert.Equal(System.Text.Json.JsonValueKind.String, property.ValueKind);
@@ -67,20 +68,20 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
-                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
                 var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
 
                 assetEndpointProfileTcs = new();
                 string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
-                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
                 updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(expectedNewAuthenticationMethod, updatedAssetEndpointProfile.AuthenticationMethod);
                 Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
 
                 assetEndpointProfileTcs = new();
                 string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
-                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
                 updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(expectedNewEndpointProfileType, updatedAssetEndpointProfile.EndpointProfileType);
                 Assert.Equal(expectedNewAuthenticationMethod, updatedAssetEndpointProfile.AuthenticationMethod);
@@ -89,7 +90,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 assetEndpointProfileTcs = new();
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
                 string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
-                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
+                File.WriteAllText("./AzureDeviceRegistry/testFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
                 updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.NotNull(updatedAssetEndpointProfile.AdditionalConfiguration);
                 Assert.True(updatedAssetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("DataSourceType", out var property));
@@ -146,7 +147,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress);
+                File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress);
                 var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
 
@@ -156,7 +157,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
                 assetEndpointProfileTcs = new();
                 string expectedNewTargetAddress2 = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress2);
+                File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress2);
                 var updatedAssetEndpointProfile2 = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(expectedNewTargetAddress2, updatedAssetEndpointProfile2.TargetAddress);
 
@@ -168,9 +169,82 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             }
         }
 
+        [Fact]
+        public async Task ObserveAsset_NoStartingAsset()
+        {
+            SetupTestEnvironment();
+
+            var adrClient = new AzureDeviceRegistryClient();
+            try
+            {
+                TaskCompletionSource<AssetChangedEventArgs> assetTcs = new();
+                adrClient.AssetChanged += (sender, args) =>
+                {
+                    assetTcs.TrySetResult(args);
+                };
+
+                await adrClient.ObserveAssetsAsync(TimeSpan.FromMilliseconds(1000));
+
+                Asset testAsset = new Asset()
+                {
+                    Datasets =
+                    [
+                        new Dataset()
+                        {
+                            DataPoints =
+                            [
+                                new DataPoint()
+                                { 
+                                    DataSource = "someDatasource",
+                                    Name = "someDatapoint"
+                                },
+                                new DataPoint()
+                                {
+                                    DataSource = "someOtherDatasource",
+                                    Name = "someOtherDatapoint"
+                                }
+                            ],
+                            Name = "someDataset"
+                        }
+                    ],
+                    DefaultTopic = new Topic()
+                    {
+                        Path = "somePath",
+                        Retain = RetainHandling.Never,
+                    },
+                };
+
+                string assetJsonString = JsonSerializer.Serialize(testAsset);
+
+                string testAssetName = Guid.NewGuid().ToString();
+                AddAssetToEnvironment(testAssetName, assetJsonString);
+
+                var assetChangeEventArgs = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                Assert.Equal(ChangeType.Created, assetChangeEventArgs.ChangeType);
+                Asset? observedAsset = assetChangeEventArgs.Asset;
+                Assert.NotNull(observedAsset);
+                Assert.NotNull(observedAsset.DefaultTopic);
+                Assert.Equal(testAsset.DefaultTopic.Path, observedAsset.DefaultTopic.Path);
+
+                assetTcs = new();
+
+                RemoveAssetFromEnvironment(testAssetName);
+
+                var assetChangeEventArgs2 = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10000));
+                Assert.Equal(ChangeType.Deleted, assetChangeEventArgs2.ChangeType);
+                Assert.Null(assetChangeEventArgs2.Asset);
+            }
+            finally
+            {
+                await adrClient.UnobserveAssetsAsync();
+                CleanupTestEnvironment();
+            }
+        }
+
         private void SetupTestEnvironment()
         {
-            Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AssetEndpointProfileConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config");
+            Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AssetEndpointProfileConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config/aep_config");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepCertMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_cert");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepUsernameSecretMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_username");
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AepPasswordSecretMountPathEnvVar, "./AzureDeviceRegistry/testFiles/secret/aep_password");
@@ -178,24 +252,44 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             ResetFileContents();
 
             // These files are required for the test runs to work
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}"));
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}"));
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}"));
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}"));
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}"));
-            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}"));
             Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/secret/aep_username/some-username"));
             Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/secret/aep_password/some-password"));
             Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate"));
+        }
+
+        private void AddAssetToEnvironment(string assetName, string assetJson)
+        {
+            Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AssetConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config/asset_config");
+
+            if (!Directory.Exists("./AzureDeviceRegistry/testFiles/config/asset_config"))
+            {
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/config/asset_config");
+            }
+
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/asset_config/{assetName}", assetJson);
+        }
+
+        private void RemoveAssetFromEnvironment(string assetName)
+        {
+            if (File.Exists($"./AzureDeviceRegistry/testFiles/config/asset_config/{assetName}"))
+            {
+                File.Delete($"./AzureDeviceRegistry/testFiles/config/asset_config/{assetName}");
+            }
         }
 
         // Some tests write changes to the test files, but we don't want to have to manually revert those changes later. This method
         // should always run after any such test.
         private void ResetFileContents()
         {
-            if (!Directory.Exists("./AzureDeviceRegistry/testFiles/config"))
+            if (!Directory.Exists("./AzureDeviceRegistry/testFiles/config/aep_config"))
             { 
-                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/config");
+                Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/config/aep_config");
             }
 
             if (!Directory.Exists("./AzureDeviceRegistry/testFiles/secret"))
@@ -206,13 +300,13 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 Directory.CreateDirectory("./AzureDeviceRegistry/testFiles/secret/aep_cert");
             }
 
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", "http://my-backend-api-s.default.svc.cluster.local:80");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAdditionalConfigurationRelativeMountPath}", "{ \"DataSourceType\": \"Http\" }");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}", "UsernamePassword");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}", "http-sql-dssroot");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}", "some-certificate");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}", "some-username");
-            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}", "some-password");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", "http://my-backend-api-s.default.svc.cluster.local:80");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAdditionalConfigurationRelativeMountPath}", "{ \"DataSourceType\": \"Http\" }");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}", "UsernamePassword");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}", "http-sql-dssroot");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}", "some-certificate");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}", "some-username");
+            File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}", "some-password");
             File.WriteAllText($"./AzureDeviceRegistry/testFiles/secret/aep_username/some-username", "myusername");
             File.WriteAllText($"./AzureDeviceRegistry/testFiles/secret/aep_password/some-password", "mypassword");
             File.WriteAllText(
@@ -222,16 +316,17 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
         private void CleanupTestEnvironment()
         {
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAdditionalConfigurationRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistry/testFiles/config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAdditionalConfigurationRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}");
+            File.Delete($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}");
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_username/some-username");
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_password/some-password");
             File.Delete($"./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate");
+            Directory.Delete("./AzureDeviceRegistry/testFiles/config/asset_config/", true);
         }
     }
 }

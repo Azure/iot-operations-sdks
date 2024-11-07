@@ -249,7 +249,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             string fileName = e.FileName;
 
             //TODO do we care about filtering out changes to unrelated files?
-
             new Task(async () =>
             {
                 //TODO an AEP can only be updated, right? Some files that hold information about the AEP
@@ -263,7 +262,14 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
         {
             new Task(async () =>
             {
-                AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, await GetAssetAsync(e.FileName)));
+                if (e.ChangeType == ChangeType.Deleted)
+                {
+                    AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, null));
+                }
+                else
+                { 
+                    AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, await GetAssetAsync(e.FileName)));
+                }
             }).Start();
         }
 
