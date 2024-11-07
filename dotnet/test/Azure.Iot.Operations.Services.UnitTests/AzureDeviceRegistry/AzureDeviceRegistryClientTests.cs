@@ -95,7 +95,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.NotNull(updatedAssetEndpointProfile.AdditionalConfiguration);
                 Assert.True(updatedAssetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("DataSourceType", out var property));
-                Assert.Equal(System.Text.Json.JsonValueKind.String, property.ValueKind);
+                Assert.Equal(JsonValueKind.String, property.ValueKind);
                 Assert.Equal(expectedNewDataSourceType, property.GetString());
 
                 assetEndpointProfileTcs = new();
