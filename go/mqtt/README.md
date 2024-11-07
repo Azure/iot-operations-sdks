@@ -607,7 +607,7 @@ func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) (unregist
 RegisterFatalErrorHandler registers a handler that is called in a goroutine if the session client terminates due to a fatal error.
 
 <a name="SessionClient.RegisterMessageHandler"></a>
-### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L70>)
+### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L57>)
 
 ```go
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
@@ -634,7 +634,7 @@ func (c *SessionClient) Stop() error
 Stop stops the session client, terminating any pending operations and cleaning up background goroutines.
 
 <a name="SessionClient.Subscribe"></a>
-### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L81-L85>)
+### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L68-L72>)
 
 ```go
 func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Ack, error)
@@ -643,7 +643,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 
 
 <a name="SessionClient.Unsubscribe"></a>
-### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L123-L127>)
+### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L110-L114>)
 
 ```go
 func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)

@@ -276,7 +276,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	res *CommandResponse[Res],
 	err error,
 ) error {
-	defer ci.listener.ack(ctx, pub)
+	defer pub.Ack()
 
 	cdata := string(pub.CorrelationData)
 	if pending, ok := ci.pending.Get(cdata); ok {
