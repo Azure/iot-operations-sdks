@@ -554,7 +554,7 @@ mod tests {
     fn test_receive_packet_size_max_override_none() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .receive_packet_size_max(None)
             .build()
             .unwrap();
