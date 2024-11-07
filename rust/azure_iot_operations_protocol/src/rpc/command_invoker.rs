@@ -529,7 +529,7 @@ where
 
         // Add internal user properties
         request.custom_user_data.push((
-            UserProperty::SourceId.to_string(),
+            UserProperty::CommandInvokerId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
         request.custom_user_data.push((

@@ -379,10 +379,6 @@ where
         message
             .custom_user_data
             .push((UserProperty::Timestamp.to_string(), timestamp.to_string()));
-        message.custom_user_data.push((
-            UserProperty::SourceId.to_string(),
-            self.mqtt_client.client_id().to_string(),
-        ));
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {

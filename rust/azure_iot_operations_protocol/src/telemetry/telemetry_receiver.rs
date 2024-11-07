@@ -461,7 +461,6 @@ where
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
                             let mut cloud_event = None;
-                            let mut sender_id = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
@@ -492,9 +491,6 @@ where
                                                     break 'process_message;
                                                 }
                                             }
-                                        },
-                                        Ok(UserProperty::SourceId) => {
-                                            sender_id = Some(value);
                                         },
                                         Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
                                             // TODO: Implement protocol version check
@@ -569,13 +565,6 @@ where
                                 }
                             }
 
-                            // Parse sender ID
-                            let Some(sender_id) = sender_id
-                            else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry message", m.pkid);
-                                break 'process_message;
-                            };
-
                             let topic = match std::str::from_utf8(&m.topic) {
                                 Ok(topic) => topic,
                                 Err(e) => {
@@ -586,6 +575,13 @@ where
                             };
 
                             let topic_tokens = self.topic_pattern.parse_tokens(topic);
+                            // TODO: Temporary fix for missing senderId reserved token
+                            let sender_id = if let Some(id) = topic_tokens.get("senderId") {
+                                id.clone()
+                            } else {
+                                log::error!("[pkid: {}] Sender ID not found in telemetry message", m.pkid);
+                                break 'process_message;
+                            };
 
                             // Deserialize payload
                             let payload = match T::deserialize(&m.payload) {

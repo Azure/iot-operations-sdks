@@ -636,7 +636,7 @@ where
                                             }
                                         }
                                     },
-                                    Ok(UserProperty::SourceId) => {
+                                    Ok(UserProperty::CommandInvokerId) => {
                                         invoker_id = Some(value);
                                     },
                                     Err(()) => {
@@ -658,8 +658,8 @@ where
 
                             let Some(invoker_id) = invoker_id else {
                                  response_arguments.status_code = StatusCode::BadRequest;
-                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::SourceId));
-                                 response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
+                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::CommandInvokerId));
+                                 response_arguments.invalid_property_name = Some(UserProperty::CommandInvokerId.to_string());
                                  break 'process_request;
                             };
 

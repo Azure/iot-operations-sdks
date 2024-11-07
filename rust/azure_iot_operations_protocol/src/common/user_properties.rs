@@ -22,8 +22,8 @@ pub enum UserProperty {
     StatusMessage,
     /// User property indicating if a non-200 <see cref="Status"/> is an application-level error.
     IsApplicationError,
-    /// User Property indicating the MQTT ID of the source of the message.
-    SourceId,
+    /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
+    CommandInvokerId,
     /// The name of an MQTT property in a request header that is missing or has an invalid value.
     InvalidPropertyName,
     /// The value of an MQTT property in a request header that is invalid.
@@ -44,7 +44,7 @@ impl Display for UserProperty {
             UserProperty::Status => write!(f, "__stat"),
             UserProperty::StatusMessage => write!(f, "__stMsg"),
             UserProperty::IsApplicationError => write!(f, "__apErr"),
-            UserProperty::SourceId => write!(f, "__srcId"),
+            UserProperty::CommandInvokerId => write!(f, "__invId"),
             UserProperty::InvalidPropertyName => write!(f, "__propName"),
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
             UserProperty::ProtocolVersion => write!(f, "__protVer"),
@@ -63,7 +63,7 @@ impl FromStr for UserProperty {
             "__stat" => Ok(UserProperty::Status),
             "__stMsg" => Ok(UserProperty::StatusMessage),
             "__apErr" => Ok(UserProperty::IsApplicationError),
-            "__srcId" => Ok(UserProperty::SourceId),
+            "__invId" => Ok(UserProperty::CommandInvokerId),
             "__propName" => Ok(UserProperty::InvalidPropertyName),
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
             "__protVer" => Ok(UserProperty::ProtocolVersion),
@@ -109,7 +109,7 @@ mod tests {
     #[test_case(UserProperty::Status; "status")]
     #[test_case(UserProperty::StatusMessage; "status_message")]
     #[test_case(UserProperty::IsApplicationError; "is_application_error")]
-    #[test_case(UserProperty::SourceId; "source_id")]
+    #[test_case(UserProperty::CommandInvokerId; "command_invoker_id")]
     #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
     #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
