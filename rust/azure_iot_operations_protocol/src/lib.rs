@@ -143,7 +143,6 @@ mod tests {
     #[test_case("4 52 1", &[4, 52, 1]; "not_sorted_not_neighbors")]
     #[test_case("0", &[0]; "zero")]
     #[test_case("100 200 300", &[100, 200, 300]; "trailing_zeros")]
-    // TODO: do we need to test that the executor can't send too long of a set of versions?
     fn test_parse_protocol_major_versions(versions: &str, expected: &[u16]) {
         // parse and verify successful parsing
         let parsed_versions = parse_supported_protocol_major_versions(versions);
