@@ -52,12 +52,12 @@ pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
     pub connection_settings: MqttConnectionSettings,
-    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     /// Reconnect Policy to by used by the `Session`
+    #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     pub reconnect_policy: Box<dyn ReconnectPolicy>,
-    // TODO: Channel capacity replacement(s). The previous incarnation of this value
-    // was not used correctly. It needs to be split up into separate values with
-    // separate semantics. For now, it has been hardcoded to 100 in the wrapper.
+    /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
+    #[builder(default = "100")]
+    pub outgoing_max: usize,
 }
 
 impl Session {
@@ -68,16 +68,15 @@ impl Session {
     pub fn new(options: SessionOptions) -> Result<Self, SessionError> {
         let client_id = options.connection_settings.client_id.clone();
         let sat_auth_file = options.connection_settings.sat_auth_file.clone();
-        // TODO: capacities have been hardcoded to 100. Will make these settable in the future.
-        let (client, event_loop) = adapter::client(options.connection_settings, 100, true)
-            .map_err(SessionErrorKind::from)?;
+        let (client, event_loop) =
+            adapter::client(options.connection_settings, options.outgoing_max, true)
+                .map_err(SessionErrorKind::from)?;
         Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
             options.reconnect_policy,
             client_id,
             sat_auth_file,
-            100,
         )))
     }
 

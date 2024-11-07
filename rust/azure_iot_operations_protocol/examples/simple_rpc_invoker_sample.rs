@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 use std::time::Duration;
+use std::{num::ParseIntError, str::Utf8Error};
 
 use env_logger::Builder;
+use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -89,8 +91,18 @@ pub struct IncrResponsePayload {
     pub counter_response: i32,
 }
 
+#[derive(Debug, Error)]
+pub enum IncrSerializerError {
+    #[error("invalid payload: {0:?}")]
+    InvalidPayload(Vec<u8>),
+    #[error(transparent)]
+    ParseIntError(#[from] ParseIntError),
+    #[error(transparent)]
+    Utf8Error(#[from] Utf8Error),
+}
+
 impl PayloadSerialize for IncrRequestPayload {
-    type Error = String;
+    type Error = IncrSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -99,17 +111,18 @@ impl PayloadSerialize for IncrRequestPayload {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
         Ok(String::new().into())
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, String> {
-        Ok(IncrRequestPayload {})
+    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, IncrSerializerError> {
+        // This is a request payload, invoker does not need to deserialize it
+        unimplemented!()
     }
 }
 
 impl PayloadSerialize for IncrResponsePayload {
-    type Error = String;
+    type Error = IncrSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -117,13 +130,27 @@ impl PayloadSerialize for IncrResponsePayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
-        Ok(String::new().into())
+    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
+        // This is a response payload, invoker does not need to serialize it
+        unimplemented!()
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
-        let counter_response = payload.parse::<i32>().unwrap();
-        Ok(IncrResponsePayload { counter_response })
+    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, IncrSerializerError> {
+        let payload = match std::str::from_utf8(payload) {
+            Ok(p) => p,
+            Err(e) => return Err(IncrSerializerError::Utf8Error(e)),
+        };
+
+        let start_str = "{\"CounterResponse\":";
+
+        if payload.starts_with(start_str) && payload.ends_with('}') {
+            let counter_str = &payload[start_str.len()..payload.len() - 1];
+            match counter_str.parse::<i32>() {
+                Ok(counter_response) => Ok(IncrResponsePayload { counter_response }),
+                Err(e) => Err(IncrSerializerError::ParseIntError(e)),
+            }
+        } else {
+            Err(IncrSerializerError::InvalidPayload(payload.into()))
+        }
     }
 }
