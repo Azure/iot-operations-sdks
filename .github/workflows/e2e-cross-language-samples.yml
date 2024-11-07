@@ -86,7 +86,7 @@ jobs:
 
       - name: Run Counter Server rust
         if: matrix.counter_server == 'counter-server-rust'
-        run: AIO_BROKER_HOST_NAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_server &
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_server &
 
       - name: Run Counter Client dotnet
         if: matrix.counter_client == 'counter-client-dotnet'
