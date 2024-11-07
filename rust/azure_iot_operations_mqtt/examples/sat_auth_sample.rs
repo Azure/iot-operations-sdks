@@ -42,7 +42,7 @@ async fn main() {
         .client_id(CLIENT_ID)
         .hostname(HOSTNAME)
         .ca_file(CA_FILE.to_string())
-        .sat_file(SAT_AUTH_FILE.to_string())
+        .sat_file(SAT_FILE.to_string())
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
