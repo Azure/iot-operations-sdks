@@ -70,7 +70,7 @@ async fn telemetry_loop(
             .source("github.com")
             .build()
             .unwrap();
-        let payload = TelemetryMessageBuilder::default()
+        let message = TelemetryMessageBuilder::default()
             .payload(&SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
@@ -80,7 +80,7 @@ async fn telemetry_loop(
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = telemetry_sender.send(payload).await;
+        let result = telemetry_sender.send(message).await;
         log::info!("Result {}: {:?}", i, result);
     }
 

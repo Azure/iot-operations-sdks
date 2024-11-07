@@ -228,6 +228,11 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         mqtt_options.set_keep_alive(value.keep_alive);
         // Receive Maximum
         mqtt_options.set_receive_maximum(Some(value.receive_max));
+        // Max Packet Size
+        // NOTE: due to a bug in rumqttc, we need to set None to u32::MAX, since rumqttc overrides
+        // None values with an arbitrary default that can't be changed. This may or may not be
+        // exactly the same thing, but it is in most circumstances.
+        mqtt_options.set_max_packet_size(value.receive_packet_size_max.or(Some(u32::MAX)));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {
@@ -543,5 +548,22 @@ mod tests {
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
         assert!(mqtt_options_result.is_ok());
+    }
+
+    #[test]
+    fn test_receive_packet_size_max_override_none() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .host_name("test_host".to_string())
+            .receive_packet_size_max(None)
+            .build()
+            .unwrap();
+        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
+            connection_settings.try_into();
+        assert!(mqtt_options_result.is_ok());
+        assert_eq!(
+            mqtt_options_result.unwrap().max_packet_size(),
+            Some(u32::MAX)
+        );
     }
 }
