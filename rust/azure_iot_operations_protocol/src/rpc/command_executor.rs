@@ -611,19 +611,11 @@ where
                                 }
                             };
 
-                            // unused, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                            let mut _request_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                            // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+                            let mut request_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
                             if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
                                 if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
-                                    if request_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                                        _request_protocol_version = request_version;
-                                    } else {
-                                        response_arguments.status_code = StatusCode::VersionNotSupported;
-                                        response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{protocol_version}' was sent on the request."));
-                                        response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
-                                        response_arguments.request_protocol_version = Some(protocol_version.to_string());
-                                        break 'process_request;
-                                    }
+                                    request_protocol_version = request_version;
                                 } else {
                                     response_arguments.status_code = StatusCode::VersionNotSupported;
                                     response_arguments.status_message = Some(format!("Unparsable protocol version value provided: {protocol_version}."));
@@ -632,6 +624,15 @@ where
                                     break 'process_request;
                                 }
                             }
+                            // Check that the version (or the default version if one isn't provided) is supported
+                            if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                response_arguments.status_code = StatusCode::VersionNotSupported;
+                                response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
+                                response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                response_arguments.request_protocol_version = Some(request_protocol_version.to_string());
+                                break 'process_request;
+                            }
+
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;

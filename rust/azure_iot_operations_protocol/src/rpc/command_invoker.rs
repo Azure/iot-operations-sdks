@@ -753,24 +753,15 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_name: Option<String> = None;
     let mut invalid_property_value: Option<String> = None;
 
-    // unused, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut _response_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+    // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+    let mut response_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
         .find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion))
     {
         if let Some(response_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
-            if response_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                _response_protocol_version = response_version;
-            } else {
-                return Err(AIOProtocolError::new_unsupported_response_version_error(
-                    None,
-                    protocol_version.to_string(),
-                    SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
-                    Some(command_name),
-                ));
-            }
+            response_protocol_version = response_version;
         } else {
             return Err(AIOProtocolError::new_unsupported_response_version_error(
                 Some(format!(
@@ -781,6 +772,15 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 Some(command_name),
             ));
         }
+    }
+    // Check that the version (or the default version if one isn't provided) is supported
+    if !response_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+        return Err(AIOProtocolError::new_unsupported_response_version_error(
+            None,
+            response_protocol_version.to_string(),
+            SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
+            Some(command_name),
+        ));
     }
 
     let mut unknown_status_error: Option<AIOProtocolError> = None;
