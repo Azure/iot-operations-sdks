@@ -5,22 +5,19 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
-using HttpThermostatConnectorAppProjectTemplate;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
-    public class HttpThermostatConnectorAppWorker : BackgroundService
+    public class HttpServerConnectorAppWorker : BackgroundService
     {
         private bool doSchemaWork = false;
-        private readonly ILogger<HttpThermostatConnectorAppWorker> _logger;
+        private readonly ILogger<HttpServerConnectorAppWorker> _logger;
         private MqttSessionClient _sessionClient;
-        private IDatasetSamplerFactory _datasetSamplerFactory;
-        private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
+        private IDatasetSourceFactory _datasetSamplerFactory;
+        private ConcurrentDictionary<string, IDatasetSource> _datasetSamplers = new();
         private SchemaRegistryClient _schemaRegistryClient;
         private AzureDeviceRegistryClient _adrClient;
 
@@ -30,7 +27,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
 
-        public HttpThermostatConnectorAppWorker(ILogger<HttpThermostatConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSamplerFactory datasetSamplerFactory)
+        public HttpServerConnectorAppWorker(ILogger<HttpServerConnectorAppWorker> logger, MqttSessionClient mqttSessionClient, IDatasetSourceFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
@@ -169,7 +166,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
                     }
 
                     _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSourceContext(assetName, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     _samplers[assetName][datasetName] = datasetSamplingTimer;
 
                     string mqttMessageSchema = dataset.GetMqttMessageSchema();
@@ -211,7 +208,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
         private async void SampleDataset(object? status)
         {
-            DatasetSamplerContext samplerContext = (DatasetSamplerContext)status!;
+            DatasetSourceContext samplerContext = (DatasetSourceContext)status!;
 
             string assetName = samplerContext.AssetName;
             string datasetName = samplerContext.DatasetName;
@@ -234,16 +231,16 @@ namespace HttpThermostatConnectorAppProjectTemplate
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, asset, dataset));
+                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSource(_assetEndpointProfile!, asset, dataset));
             }
 
-            if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSampler? datasetSampler))
+            if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSource? datasetSampler))
             {
                 _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.AssetName} was deleted. This sample won't sample this dataset anymore.");
                 return;
             }
 
-            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset, _assetEndpointProfile!.Credentials);
+            byte[] serializedPayload = await datasetSampler.SampleAsync(dataset);
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 

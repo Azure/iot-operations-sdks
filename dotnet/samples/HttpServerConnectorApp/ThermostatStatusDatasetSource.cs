@@ -2,17 +2,19 @@
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace HttpThermostatConnectorAppProjectTemplate
+namespace HttpServerConnectorApp
 {
-    internal class ThermostatStatusDatasetSampler : IDatasetSampler
+    internal class ThermostatStatusDatasetSource : IDatasetSource
     {
         private HttpClient _httpClient;
         private string _assetName;
+        private AssetEndpointProfileCredentials _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName)
+        public ThermostatStatusDatasetSource(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
+            _credentials = credentials;
         }
 
         /// <summary>
@@ -22,7 +24,7 @@ namespace HttpThermostatConnectorAppProjectTemplate
         /// <param name="assetEndpointProfileCredentials">The credentials to use when sampling the asset. May be null if no credentials are required.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The serialized payload containing the sampled dataset.</returns>
-        public async Task<byte[]> SampleAsync(Dataset dataset, AssetEndpointProfileCredentials? assetEndpointProfileCredentials = null, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -34,10 +36,10 @@ namespace HttpThermostatConnectorAppProjectTemplate
                 HttpMethod httpServerActualTemperatureHttpMethod = HttpMethod.Parse(httpServerActualTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerActualTemperatureRequestPath = httpServerActualTemperatureDataPoint.DataSource!;
 
-                if (assetEndpointProfileCredentials != null)
+                if (_credentials != null)
                 {
-                    string httpServerUsername = assetEndpointProfileCredentials.Username!;
-                    byte[] httpServerPassword = assetEndpointProfileCredentials.Password!;
+                    string httpServerUsername = _credentials.Username!;
+                    byte[] httpServerPassword = _credentials.Password!;
                     var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }

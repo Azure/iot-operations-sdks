@@ -1,6 +1,6 @@
 # Build connector sample image
 dotnet publish /t:PublishContainer
-k3d image import httpthermostatconnectorapp:latest -c k3s-default
+k3d image import httpserverconnectorapp:latest -c k3s-default
 
 # Build HTTP server docker image
 docker build -t http-server:latest ./SampleHttpServer

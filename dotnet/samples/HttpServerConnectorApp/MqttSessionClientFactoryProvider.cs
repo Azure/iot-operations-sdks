@@ -1,7 +1,7 @@
 ﻿using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 
-namespace HttpThermostatConnectorAppProjectTemplate;
+namespace HttpServerConnectorApp;
 
 public static class MqttSessionClientFactoryProvider
 {

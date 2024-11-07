@@ -1,11 +1,11 @@
-using ConnectorAppProjectTemplate;
+using HttpServerConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(DatasetSourceFactory.DatasetSourceFactoryProvider);
-        services.AddHostedService<ConnectorAppWorker>();
+        services.AddSingleton(HttpDatasetSourceFactory.HttpDatasetSourceFactoryProvider);
+        services.AddHostedService<HttpServerConnectorAppWorker>();
     })
     .Build();
 
