@@ -41,7 +41,7 @@ pub enum SessionErrorKind {
     // Ideally, inner value should not be accessible, although this might not be the worst thing either, it's not uncommon for libraries to do this.
     // Also arguably, should be on a different error type entirely since it's pre-run validation.
     #[error("invalid configuration: {0}")]
-    ConfigError(#[from] adapter::ConnectionSettingsAdapterError),
+    ConfigError(#[from] adapter::MqttAdapterError),
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
     SessionLost,
