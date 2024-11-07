@@ -289,7 +289,7 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .hostname("test_host".to_string())
+            .hostname("test_hostname".to_string())
             .password("test_password".to_string())
             .sat_file("test_sat_file".to_string())
             .build();
