@@ -291,7 +291,7 @@ mod tests {
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
             .password("test_password".to_string())
-            .sat_file("test_sat_auth_file".to_string())
+            .sat_file("test_sat_file".to_string())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
