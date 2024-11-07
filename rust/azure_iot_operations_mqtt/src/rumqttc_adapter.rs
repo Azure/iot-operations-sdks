@@ -228,6 +228,10 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         mqtt_options.set_keep_alive(value.keep_alive);
         // Receive Maximum
         mqtt_options.set_receive_maximum(Some(value.receive_max));
+        // Max Packet Size
+        // NOTE: due to a bug in rumqttc, we need to set None to u32::MAX, since rumqttc overrides
+        // None values with an arbitrary default.
+        mqtt_options.set_max_packet_size(value.receive_packet_size_max.or(Some(u32::MAX)));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {

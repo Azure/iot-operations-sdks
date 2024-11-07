@@ -23,6 +23,9 @@ pub struct MqttConnectionSettings {
     /// Max number of in-flight Quality of Service 1 and 2 messages
     #[builder(default = "u16::MAX")] // See: MQTT 5.0 spec, 3.1.2.11.3
     pub(crate) receive_max: u16,
+    /// Max size of a received packet
+    #[builder(default = "None")]
+    pub(crate) receive_packet_size_max: Option<u32>,
     /// Session Expiry Interval
     #[builder(default = "Duration::from_secs(3600)")]
     // TODO: Would this would be better represented as an integer (probably, due to max value having distinct meaning in MQTT)
@@ -134,6 +137,7 @@ impl MqttConnectionSettingsBuilder {
             tcp_port,
             keep_alive,
             receive_max,
+            receive_packet_size_max: None,
             session_expiry,
             connection_timeout,
             clean_start,
