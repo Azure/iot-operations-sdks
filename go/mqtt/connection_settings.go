@@ -3,41 +3,37 @@
 package mqtt
 
 import (
+	"context"
 	"crypto/tls"
-	"fmt"
-	"net/url"
+	"math"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/sosodev/duration"
 )
 
 // Connection string example:
 // HostName=localhost;TcpPort=1883;UseTls=True;ClientId=Test.
-func (cs *connectionSettings) fromConnectionString(
+func configFromConnectionString(
 	connStr string,
-) error {
-	settingsMap := parseToSettingsMap(connStr, ";")
-	return cs.applySettingsMap(settingsMap)
+) (*connectionConfig, error) {
+	return configFromMap(parseToMap(connStr, ";"))
 }
 
 // Environment variable example:
 // MQTT_HOST_NAME=localhost
 // MQTT_TCP_PORT = 8883
 // MQTT_USE_TLS = true.
-func (cs *connectionSettings) fromEnv() error {
+func configFromEnv() (*connectionConfig, error) {
 	envVars := os.Environ()
-
-	settingsMap := parseToSettingsMap(envVars, "=")
-	return cs.applySettingsMap(settingsMap)
+	return configFromMap(parseToMap(envVars, "="))
 }
 
-func parseToSettingsMap(
-	input any,
-	delimiter string,
-) map[string]string {
+func parseToMap(input any, delimiter string) map[string]string {
 	settingsMap := make(map[string]string)
 
 	switch v := input.(type) {
@@ -73,284 +69,204 @@ func parseToSettingsMap(
 	return settingsMap
 }
 
-func (cs *connectionSettings) applySettingsMap(
-	settingsMap map[string]string,
-) error {
-	if cs == nil {
-		cs = &connectionSettings{}
-	}
-	if cs.authOptions == nil {
-		cs.authOptions = &AuthOptions{}
-	}
-
-	if settingsMap["hostname"] == "" {
-		return &errors.Error{
-			Kind:         errors.ConfigurationInvalid,
-			Message:      "HostName must not be empty",
-			PropertyName: "HostName",
-		}
-	}
-
-	if settingsMap["tcpport"] == "" {
-		return &errors.Error{
-			Kind:         errors.ConfigurationInvalid,
-			Message:      "TcpPort must not be empty",
-			PropertyName: "TcpPort",
-		}
-	}
-
-	if settingsMap["usetls"] == "true" {
-		cs.useTLS = true
-		cs.serverURL = "tls://"
-	} else {
-		cs.serverURL = "tcp://"
-	}
-	cs.serverURL += settingsMap["hostname"]
-	cs.serverURL += ":" + settingsMap["tcpport"]
-
-	if password, exists := settingsMap["password"]; exists {
-		cs.password = []byte(password)
-	}
-
-	assignIfExists(settingsMap, "clientid", &cs.clientID)
-	assignIfExists(settingsMap, "username", &cs.username)
-	assignIfExists(settingsMap, "passwordfile", &cs.passwordFile)
-	assignIfExists(settingsMap, "certfile", &cs.certFile)
-	assignIfExists(settingsMap, "keyfile", &cs.keyFile)
-	assignIfExists(settingsMap, "keyfilepassword", &cs.keyFilePassword)
-	assignIfExists(settingsMap, "cafile", &cs.caFile)
-
-	if settingsMap["authmethod"] != "" || settingsMap["satAuthFile"] != "" {
-		assignIfExists(
-			settingsMap,
-			"authmethod",
-			&cs.authOptions.AuthMethod,
-		)
-		assignIfExists(
-			settingsMap,
-			"satauthfile",
-			&cs.authOptions.SatAuthFile,
-		)
-	}
-
-	cs.caRequireRevocationCheck = settingsMap["carequirerevocationcheck"] ==
-		"true"
-
-	if value, exists := settingsMap["keepalive"]; exists {
-		keepAlive, err := duration.Parse(value)
+// Determined from this spec:
+// https://github.com/Azure/iot-operations-sdks/blob/cab472bbb6f74b65db2d2c94efe14f1f1f88ccbc/doc/reference/connection-settings.md
+func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
+	cleanStart := true
+	if cleanStartStr := settingsMap["cleanstart"]; cleanStartStr != "" {
+		var err error
+		cleanStart, err = strconv.ParseBool(cleanStartStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid KeepAlive in connection string",
-				PropertyName:  "KeepAlive",
-				PropertyValue: keepAlive,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse CleanStart as a boolean",
+				wrapped: err,
 			}
 		}
-		cs.keepAlive = keepAlive.ToTimeDuration()
 	}
 
-	if value, exists := settingsMap["sessionexpiry"]; exists {
-		sessionExpiry, err := duration.Parse(value)
+	var keepAlive uint16 = 60
+	if keepAliveStr := settingsMap["keepalive"]; keepAliveStr != "" {
+		parsedDuration, err := duration.Parse(keepAliveStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid SessionExpiry in connection string",
-				PropertyName:  "SessionExpiry",
-				PropertyValue: sessionExpiry,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse KeepAlive as an ISO8601 duration",
+				wrapped: err,
 			}
 		}
-		cs.sessionExpiry = sessionExpiry.ToTimeDuration()
+		seconds := parsedDuration.ToTimeDuration().Seconds()
+		if seconds > math.MaxUint16 || seconds < 0 {
+			return nil, &InvalidArgumentError{
+				message: "KeepAlive is outside of the valid MQTT range",
+			}
+		}
+		keepAlive = uint16(seconds)
 	}
 
-	if value, exists := settingsMap["authinterval"]; exists {
-		authinterval, err := duration.Parse(value)
+	clientID := internal.RandomClientID()
+	if clientIDStr := settingsMap["clientid"]; clientIDStr != "" {
+		clientID = clientIDStr
+	}
+
+	var sessionExpiryInterval uint32 = 3600
+	if sessionExpiryStr := settingsMap["sessionexpiry"]; sessionExpiryStr != "" {
+		parsedDuration, err := duration.Parse(sessionExpiryStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid AuthInterval in connection string",
-				PropertyName:  "AuthInterval",
-				PropertyValue: authinterval,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse SessionExpiry as an ISO8601 duration",
+				wrapped: err,
 			}
 		}
-		cs.authOptions.AuthInterval = authinterval.ToTimeDuration()
+		seconds := parsedDuration.ToTimeDuration().Seconds()
+		if seconds > math.MaxUint32 || seconds < 0 {
+			return nil, &InvalidArgumentError{
+				message: "SessionExpiry is outside of the valid MQTT range",
+			}
+		}
+		sessionExpiryInterval = uint32(seconds)
 	}
 
-	if value, exists := settingsMap["receivemaximum"]; exists {
-		receiveMaximum, err := strconv.ParseUint(value, 10, 16)
+	connectionTimeout := 30 * time.Second
+	if connectionTimeoutStr := settingsMap["connectiontimeout"]; connectionTimeoutStr != "" {
+		parsedDuration, err := duration.Parse(connectionTimeoutStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid ReceiveMaximum in connection string",
-				PropertyName:  "ReceiveMaximum",
-				PropertyValue: receiveMaximum,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse ConnectionTimeout as an ISO8601 duration",
+				wrapped: err,
 			}
 		}
-		cs.receiveMaximum = uint16(receiveMaximum)
+		connectionTimeout = parsedDuration.ToTimeDuration()
 	}
 
-	if value, exists := settingsMap["connectiontimeout"]; exists {
-		connectionTimeout, err := duration.Parse(value)
+	var userName UserNameProvider = defaultUserName
+	if usernameStr := settingsMap["username"]; usernameStr != "" {
+		userName = ConstantUserName(usernameStr)
+	}
+
+	var password PasswordProvider = defaultPassword
+	if passwordStr := settingsMap["password"]; passwordStr != "" {
+		password = ConstantPassword([]byte(passwordStr))
+	}
+	if passwordFileStr := settingsMap["passwordfile"]; passwordFileStr != "" {
+		if password != nil {
+			return nil, &InvalidArgumentError{
+				message: "Password and PasswordFile are both provided, but only one may be used",
+			}
+		}
+		password = FilePassword(passwordFileStr)
+	}
+
+	var authProvider auth.Provider
+	if satAuthFileStr := settingsMap["satauthfile"]; satAuthFileStr != "" {
+		authProvider = auth.NewMQServiceAccountToken(satAuthFileStr)
+	}
+
+	hostname := settingsMap["hostname"]
+	if hostname == "" {
+		return nil, &InvalidArgumentError{message: "HostName must be provided"}
+	}
+
+	port := 8883
+	if portStr := settingsMap["tcpport"]; portStr != "" {
+		var err error
+		port, err = strconv.Atoi(portStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "invalid ConnectionTimeout in connection string",
-				PropertyName:  "ConnectionTimeout",
-				PropertyValue: connectionTimeout,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse TcpPort as an integer",
+				wrapped: err,
 			}
 		}
-		cs.connectionTimeout = connectionTimeout.ToTimeDuration()
 	}
 
-	// Provide a random clientID by default.
-	if cs.clientID == "" {
-		cs.clientID = randomClientID()
-	}
-
-	// Ensure receiveMaximum is set correctly.
-	if cs.receiveMaximum == 0 {
-		cs.receiveMaximum = defaultReceiveMaximum
-	}
-
-	// Ensure AuthInterval is set correctly.
-	if cs.authOptions.AuthInterval == 0 {
-		cs.authOptions.AuthInterval = defaultAuthInterval
-	}
-
-	return nil
-}
-
-// validate validates connection config after the client is set up.
-func (cs *connectionSettings) validate() error {
-	if _, err := url.Parse(cs.serverURL); err != nil {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "server URL is not valid",
-			PropertyName:  "serverURL",
-			PropertyValue: cs.serverURL,
-		}
-	}
-
-	if cs.keepAlive.Seconds() > float64(maxKeepAlive) {
-		return &errors.Error{
-			Kind: errors.ConfigurationInvalid,
-			Message: fmt.Sprintf(
-				"keepAlive cannot be more than %d seconds",
-				maxKeepAlive,
-			),
-			PropertyName:  "keepAlive",
-			PropertyValue: cs.keepAlive,
-		}
-	}
-
-	if cs.sessionExpiry.Seconds() > float64(maxSessionExpiry) {
-		return &errors.Error{
-			Kind: errors.ConfigurationInvalid,
-			Message: fmt.Sprintf(
-				"sessionExpiry cannot be more than %d seconds",
-				maxSessionExpiry,
-			),
-			PropertyName:  "sessionExpiry",
-			PropertyValue: cs.sessionExpiry,
-		}
-	}
-
-	if cs.authOptions.SatAuthFile != "" {
-		data, err := readFileAsBytes(cs.authOptions.SatAuthFile)
+	useTLS := true
+	if useTLSStr := settingsMap["usetls"]; useTLSStr != "" {
+		var err error
+		useTLS, err = strconv.ParseBool(useTLSStr)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "cannot read auth data from SatAuthFile",
-				PropertyName:  "SatAuthFile",
-				PropertyValue: cs.authOptions.SatAuthFile,
-				NestedError:   err,
+			return nil, &InvalidArgumentError{
+				message: "unable to parse UseTls as a boolean",
+				wrapped: err,
 			}
 		}
-
-		cs.authOptions.AuthData = data
 	}
 
-	return cs.validateTLS()
-}
+	config := &connectionConfig{
+		clientID:                  clientID,
+		userNameProvider:          userName,
+		passwordProvider:          password,
+		authProvider:              authProvider,
+		firstConnectionCleanStart: cleanStart,
+		keepAlive:                 keepAlive,
+		sessionExpiryInterval:     sessionExpiryInterval,
+		connectionTimeout:         connectionTimeout,
+		receiveMaximum:            math.MaxUint16,
+	}
 
-// validateTLS validates and set TLS related config.
-func (cs *connectionSettings) validateTLS() error {
-	if cs.useTLS {
-		if cs.tlsConfig == nil {
-			cs.tlsConfig = &tls.Config{
-				// Bypasses hostname check in TLS config
-				// since sometimes we connect to localhost not the actual pod.
-				InsecureSkipVerify: true, // #nosec G402
-				MinVersion:         tls.VersionTLS12,
-				MaxVersion:         tls.VersionTLS13,
+	certFileStr := settingsMap["certfile"]
+	keyFileStr := settingsMap["keyfile"]
+	caFileStr := settingsMap["cafile"]
+	if !useTLS {
+		if certFileStr != "" {
+			return nil, &InvalidArgumentError{
+				message: "CertFile must not be provided if UseTls is false",
 			}
 		}
+		if keyFileStr != "" {
+			return nil, &InvalidArgumentError{
+				message: "KeyFile must not be provided if UseTls is false",
+			}
+		}
+		if caFileStr != "" {
+			return nil, &InvalidArgumentError{
+				message: "CaFile must not be provided if UseTls is false",
+			}
+		}
+		config.connectionProvider = TCPConnection(hostname, port)
+		return config, nil
+	}
 
-		// Both certFile and keyFile must be provided together.
-		// An error will be returned if only one of them is provided.
-		if cs.certFile != "" || cs.keyFile != "" {
+	if (certFileStr != "" || keyFileStr != "") &&
+		(certFileStr == "" || keyFileStr == "") {
+		return nil, &InvalidArgumentError{
+			message: "both CertFile and KeyFile must be provided if using X509 authentication",
+		}
+	}
+
+	tlsConfigProvider := func(context.Context) (*tls.Config, error) {
+		tlsConfig := &tls.Config{MinVersion: tls.VersionTLS12}
+		if certFileStr != "" || keyFileStr != "" {
 			var cert tls.Certificate
 			var err error
-
-			if cs.keyFilePassword != "" {
+			if keyFilePasswordStr := settingsMap["keyfilepassword"]; keyFilePasswordStr != "" {
 				cert, err = loadX509KeyPairWithPassword(
-					cs.certFile,
-					cs.keyFile,
-					cs.keyFilePassword,
+					certFileStr,
+					keyFileStr,
+					keyFilePasswordStr,
 				)
 			} else {
-				cert, err = tls.LoadX509KeyPair(cs.certFile, cs.keyFile)
+				cert, err = tls.LoadX509KeyPair(certFileStr, keyFileStr)
 			}
-
 			if err != nil {
-				return &errors.Error{
-					Kind:         errors.ConfigurationInvalid,
-					Message:      "X509 key pair cannot be loaded",
-					PropertyName: "certFile/keyFile",
-					NestedError:  err,
+				return nil, &InvalidArgumentError{
+					message: "unable to load X509 key pair",
+					wrapped: err,
 				}
 			}
-
-			cs.tlsConfig.Certificates = []tls.Certificate{cert}
+			tlsConfig.Certificates = []tls.Certificate{cert}
 		}
 
-		if cs.caFile != "" {
-			caCertPool, err := loadCACertPool(cs.caFile)
+		if caFileStr != "" {
+			caCertPool, err := loadCACertPool(caFileStr)
 			if err != nil {
-				return &errors.Error{
-					Kind: errors.ConfigurationInvalid,
-					Message: "cannot load a CA certificate pool " +
-						"from caFile",
-					PropertyName:  "caFile",
-					PropertyValue: cs.caFile,
-					NestedError:   err,
+				return nil, &InvalidArgumentError{
+					message: "unable to load CA cert",
+					wrapped: err,
 				}
 			}
-			// Set RootCAs for server verification.
-			cs.tlsConfig.RootCAs = caCertPool
+			tlsConfig.RootCAs = caCertPool
 		}
-	} else if cs.certFile != "" ||
-		cs.keyFile != "" ||
-		cs.caFile != "" ||
-		cs.tlsConfig != nil {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "TLS should not be set when useTLS flag is disabled",
-			PropertyName:  "useTLS",
-			PropertyValue: cs.useTLS,
-		}
+		return tlsConfig, nil
 	}
 
-	return nil
-}
-
-// assignIfExists assigns non-empty string values from settingsMap to the
-// corresponding fields in connection settings.
-func assignIfExists(
-	settingsMap map[string]string,
-	key string,
-	field *string,
-) {
-	if value, exists := settingsMap[key]; exists && value != "" {
-		*field = value
-	}
+	config.connectionProvider = TLSConnection(hostname, port, tlsConfigProvider)
+	return config, nil
 }

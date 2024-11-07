@@ -17,7 +17,6 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    MqttClient
 		publisher *publisher[T]
 	}
 
@@ -85,10 +84,9 @@ func NewTelemetrySender[T any](
 		return nil, err
 	}
 
-	ts = &TelemetrySender[T]{
-		client: client,
-	}
+	ts = &TelemetrySender[T]{}
 	ts.publisher = &publisher[T]{
+		client:   client,
 		encoding: encoding,
 		topic:    tp,
 	}
@@ -135,11 +133,10 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 	pub.Retain = opts.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
+	pub.UserProperties[constants.SenderClientID] = ts.publisher.client.ID()
 
 	shallow = false
-	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
-	return err
+	return ts.publisher.publish(ctx, pub)
 }
 
 // Apply resolves the provided list of options.

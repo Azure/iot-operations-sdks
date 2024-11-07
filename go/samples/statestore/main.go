@@ -4,7 +4,6 @@ import (
 	"context"
 	"log/slog"
 	"os"
-	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
@@ -16,8 +15,8 @@ func main() {
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
 	mqttClient := must(mqtt.NewSessionClient(
-		"tcp://localhost:1883",
-		mqtt.WithSessionExpiry(10*time.Minute),
+		mqtt.TCPConnection("localhost", 1883),
+		mqtt.WithSessionExpiryInterval(10*60), // 10 minutes
 	))
 
 	stateStoreKey := "someKey"
