@@ -20,9 +20,15 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
+	os.Setenv("MQTT_HOST_NAME", "localhost")
+	os.Setenv("MQTT_TCP_PORT", "1883")
+	os.Setenv("MQTT_USE_TLS", "false")
+
 	clientID := os.Getenv("MQTT_CLIENT_ID")
 	fmt.Printf("Starting counter server with clientId %s\n", clientID)
-	mqttClient := must(mqtt.NewSessionClientFromEnv())
+	slog.SetLogLoggerLevel(slog.LevelDebug)
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
+	mqttClient := must(mqtt.NewSessionClientFromEnv(mqtt.WithLogger(logger)))
 
 	fmt.Println("Connected to MQTT broker.")
 
