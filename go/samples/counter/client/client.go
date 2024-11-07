@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -17,8 +16,6 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
-	clientID := fmt.Sprintf("sampleCounterClient-%d", time.Now().UnixMilli())
-	fmt.Printf("Starting counter client with clientId %s\n", clientID)
 	slog.SetLogLoggerLevel(slog.LevelDebug)
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
 	mqttClient := must(mqtt.NewSessionClientFromEnv(mqtt.WithLogger(logger)))
