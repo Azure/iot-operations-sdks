@@ -105,11 +105,6 @@ impl MqttConnectionSettingsBuilder {
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
-        let connection_timeout = env::var("AIO_MQTT_CONNECTION_TIMEOUT")
-            .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
-            .transpose()
-            .unwrap_or(None);
         let clean_start = env::var("AIO_MQTT_CLEAN_START")
             .ok()
             .map(|v| v.parse::<bool>())
@@ -138,7 +133,7 @@ impl MqttConnectionSettingsBuilder {
             receive_max: Some(u16::MAX),
             receive_packet_size_max: None,
             session_expiry,
-            connection_timeout,
+            connection_timeout: Some(Duration::from_secs(30)),
             clean_start,
             username,
             password: None,
