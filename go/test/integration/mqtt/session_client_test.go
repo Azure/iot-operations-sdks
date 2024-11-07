@@ -133,7 +133,7 @@ func TestRequestQueue(t *testing.T) {
 	}()
 
 	// Give the goroutines time to run and block.
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(time.Second)
 
 	// Open up the reconnection.
 	conn.Wait <- struct{}{}
