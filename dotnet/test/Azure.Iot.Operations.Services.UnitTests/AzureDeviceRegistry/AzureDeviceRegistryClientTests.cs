@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 {
@@ -214,10 +215,8 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                     },
                 };
 
-                string assetJsonString = JsonSerializer.Serialize(testAsset);
-
                 string testAssetName = Guid.NewGuid().ToString();
-                AddAssetToEnvironment(testAssetName, assetJsonString);
+                AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
                 var assetChangeEventArgs = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
@@ -231,9 +230,76 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
                 RemoveAssetFromEnvironment(testAssetName);
 
-                var assetChangeEventArgs2 = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10000));
+                var assetChangeEventArgs2 = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Assert.Equal(ChangeType.Deleted, assetChangeEventArgs2.ChangeType);
                 Assert.Null(assetChangeEventArgs2.Asset);
+            }
+            finally
+            {
+                await adrClient.UnobserveAssetsAsync();
+                CleanupTestEnvironment();
+            }
+        }
+
+        [Fact]
+        public async Task ObserveAsset_WithStartingAsset()
+        {
+            SetupTestEnvironment();
+
+            var adrClient = new AzureDeviceRegistryClient();
+            try
+            {
+                Asset testAsset = new Asset()
+                {
+                    Datasets =
+                    [
+                        new Dataset()
+                        {
+                            DataPoints =
+                            [
+                                new DataPoint()
+                                {
+                                    DataSource = "someDatasource",
+                                    Name = "someDatapoint"
+                                },
+                                new DataPoint()
+                                {
+                                    DataSource = "someOtherDatasource",
+                                    Name = "someOtherDatapoint"
+                                }
+                            ],
+                            Name = "someDataset"
+                        }
+                    ],
+                    DefaultTopic = new Topic()
+                    {
+                        Path = "somePath",
+                        Retain = RetainHandling.Never,
+                    },
+                };
+
+                string testAssetName = Guid.NewGuid().ToString();
+                AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
+
+                TaskCompletionSource<AssetChangedEventArgs> assetTcs = new();
+                adrClient.AssetChanged += (sender, args) =>
+                {
+                    assetTcs.TrySetResult(args);
+                };
+
+                await adrClient.ObserveAssetsAsync(TimeSpan.FromMilliseconds(100));
+
+                string newTopicPath = Guid.NewGuid().ToString();
+                testAsset.DefaultTopic.Path = newTopicPath;
+                AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
+
+                var assetChangeEventArgs = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                Assert.Equal(ChangeType.Updated, assetChangeEventArgs.ChangeType);
+                Asset? observedAsset = assetChangeEventArgs.Asset;
+                Assert.NotNull(observedAsset);
+                Assert.NotNull(observedAsset.DefaultTopic);
+                Assert.Equal(newTopicPath, observedAsset.DefaultTopic.Path);
             }
             finally
             {
@@ -263,8 +329,10 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             Assert.True(File.Exists($"./AzureDeviceRegistry/testFiles/secret/aep_cert/some-certificate"));
         }
 
-        private void AddAssetToEnvironment(string assetName, string assetJson)
+        private void AddOrUpdateAssetToEnvironment(string assetName, Asset asset)
         {
+            string assetJson = JsonSerializer.Serialize(asset);
+
             Environment.SetEnvironmentVariable(AzureDeviceRegistryClient.AssetConfigMapMountPathEnvVar, "./AzureDeviceRegistry/testFiles/config/asset_config");
 
             if (!Directory.Exists("./AzureDeviceRegistry/testFiles/config/asset_config"))
