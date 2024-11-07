@@ -67,7 +67,7 @@ There are two main options for creating an Akri Connector, depending on the leve
 
 A number of templates across the different languages are provided to simplify the development of a new Akri Connector. The template extrapolates away much of the complexity and scaffolding required so the developer can focus on the specific components of asset discovery and protocol translation.
 
-### Custom
+### Custom application
 
 A custom Akri Connector will directly utilize the various clients of Azure IoT Operations SDKs to achieve the required outcome. This flow provides the maximum amount of flexibility in the construction of the application, and would be useful where the available templates do not provide the required functionality.
 

@@ -4,7 +4,8 @@
 
 The Akri Service is currently in **private preview**, and is not deployed with Azure IoT Operations. Currently it is available to install via Helm using the following instructions:
 
-> [!WARNING] This GitHub Codespace for this repository comes preinstalled with the Akri service.
+> [!WARNING] 
+> This GitHub Codespace for this repository comes preinstalled with Akri.
 
 ## Prerequisites
 

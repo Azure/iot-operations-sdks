@@ -5,14 +5,14 @@
 Setup your development environment for building an Akri Connector.
 
 1. Follow the [Setup instruction](/doc/setup.md) to prepare your cluster for developing for Azure IoT Operations.
-1. Deploy the [Akri components](setup.md)
+1. Deploy the [Akri Components](setup.md)
 1. Create the [Akri Connector configuration](configure.md) to define the Assets and Asset Endpoints.
 
 ## Building
 
 Build your Akri connector by using an existing template, or creating a custom application. For more information about Akri Connector development paths, refer to the [Akri Connector Overview](README.md#development-paths).
 
-### Templates
+### Template Connector
 
 The following templates are available:
 
@@ -22,36 +22,22 @@ Template samples:
 
 * [.NET HTTP Thermostat Connector](/dotnet/samples/HttpThermostatConnectorApp)
 
-### Custom
+### Custom Connector
 
-[TODO] how to link to language docs?
+> [!WARNING]
+> Customer Akri Connector development assets are still being developed
 
-Refer to the [Application flow](flow.md) for details on building your own Akri Connector.
+## On-cluster development
 
-## Testing locally
+To test the Akri Connector, you will need to create a container image and upload to your development cluster.
 
-<TBD>
-
-Debugging the application locally on your machine simplifies development by aligning with the regular development environment.
-
-1. Configure the application to run locally
-1. Build and run the application
-1. Observe code paths
-1. Monitor the MQTT topics for each asset
-1. View the schema registry for new schemas
-1. Review Akri agent logs for new assets
-1. Interact with the asset (command and control) by sending Mqtt message to the broker
-
-## Testing on cluster
-
-Once the Akri Connector is working as expected running on the local machine, the next step is to containerize the application and deploy it to the cluster.
-
-1. Define the Dockerfile
+1. Define a Dockerfile
 1. Build the container
 1. Push the container to the cluster
 1. Define the deployment yaml
-1. Deploy your container using kubectl
+1. Deploy your container using `kubectl`
 
-## Push to production
+## Local development
 
-[TODO] TBD based on Akri Operator docs?
+> [!NOTE]
+> Local development (ability to launch the application directly from your development environment) is still under development.
