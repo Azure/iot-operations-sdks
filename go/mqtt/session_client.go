@@ -29,8 +29,8 @@ type (
 		// Tracker for the connection. Only valid once started.
 		conn *internal.ConnectionTracker[PahoClient]
 
-		// A list of functions that listen for incoming publishes.
-		incomingPublishHandlers *internal.AppendableListWithRemoval[func(incomingPublish) bool]
+		// A list of functions that listen for incoming messages.
+		messageHandlers *internal.AppendableListWithRemoval[messageHandler]
 
 		// A list of functions that are called in order to notify the user of
 		// successful MQTT connections.
@@ -96,7 +96,7 @@ func NewSessionClient(
 	// Default client options.
 	client := &SessionClient{
 		conn:                    internal.NewConnectionTracker[PahoClient](),
-		incomingPublishHandlers: internal.NewAppendableListWithRemoval[func(incomingPublish) bool](),
+		messageHandlers:         internal.NewAppendableListWithRemoval[messageHandler](),
 		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
 		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),
 		fatalErrorHandlers:      internal.NewAppendableListWithRemoval[func(error)](),

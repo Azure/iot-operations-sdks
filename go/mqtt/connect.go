@@ -195,7 +195,7 @@ func (c *SessionClient) connect(
 		OnPublishReceived: []func(paho.PublishReceived) (bool, error){
 			// Add 1 to the conn count for this because this listener is
 			// effective AFTER the connection succeeds.
-			c.makeOnPublishReceived(attempt),
+			c.makeOnPublishReceived(ctx, attempt),
 		},
 		OnServerDisconnect: func(d *paho.Disconnect) {
 			if isFatalDisconnectReasonCode(d.ReasonCode) {
