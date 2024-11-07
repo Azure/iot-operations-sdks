@@ -31,18 +31,12 @@ impl ProtocolVersion {
     /// Returns [`None`] if the string is not in the correct format.
     pub(crate) fn parse_protocol_version(version: &str) -> Option<ProtocolVersion> {
         let mut protocol_version = ProtocolVersion { major: 1, minor: 0 };
-        let mut version_iter = version.split('.');
-        if let Some(major) = version_iter.next() {
+        if let Some((major, minor)) = version.split_once('.') {
             if let Ok(major) = major.parse::<u16>() {
                 protocol_version.major = major;
-                if let Some(minor) = version_iter.next() {
-                    if let Ok(minor) = minor.parse::<u16>() {
-                        protocol_version.minor = minor;
-                        // if there are more than two parts, it's not a valid protocol version
-                        if version_iter.next().is_none() {
-                            return Some(protocol_version);
-                        }
-                    }
+                if let Ok(minor) = minor.parse::<u16>() {
+                    protocol_version.minor = minor;
+                    return Some(protocol_version);
                 }
             }
         }
@@ -128,9 +122,13 @@ mod tests {
 
     #[test_case("nonNumeric"; "non-numeric")]
     #[test_case("non.numeric"; "non-numeric_correct_format")]
-    #[test_case("1.0.0"; "extra_parts")]
+    #[test_case("1.2.3"; "extra_parts")]
+    #[test_case("2.0.0"; "extra_zero_parts")]
     #[test_case("1.a"; "first_part_correct")]
     #[test_case("a.0"; "second_part_correct")]
+    #[test_case(".1"; "first_part_missing")]
+    #[test_case("1."; "second_part_missing")]
+    #[test_case("2.3 "; "space_after")]
     #[test_case("65536.65536"; "too_big")]
     #[test_case("-1.-1"; "negative")]
     #[test_case(""; "empty")]
