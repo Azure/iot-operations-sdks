@@ -218,7 +218,7 @@ pub struct CommandExecutorOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
-/// #     .hostname("mqtt://localhost")
+/// #     .hostname("localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
