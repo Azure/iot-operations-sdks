@@ -22,12 +22,12 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const TOPIC: &str = "hello/mqtt";
 
 // Path to the CA file and SAT auth file.
 const CA_FILE: &str = "[PATH TO PEM CA FILE]";
-const SAT_AUTH_FILE: &str = "[PATH TO SAT AUTH FILE]";
+const SAT_FILE: &str = "[PATH TO SAT AUTH FILE]";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -40,9 +40,9 @@ async fn main() {
     // Build the options and settings for the session.
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .ca_file(CA_FILE.to_string())
-        .sat_auth_file(SAT_AUTH_FILE.to_string())
+        .sat_file(SAT_FILE.to_string())
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()

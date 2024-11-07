@@ -227,7 +227,7 @@ pub struct TelemetrySenderOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
-/// #     .host_name("mqtt://localhost")
+/// #     .hostname("mqtt://localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
@@ -458,7 +458,7 @@ mod tests {
     fn get_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_client")
             .build()
             .unwrap();
