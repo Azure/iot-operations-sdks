@@ -1,4 +1,4 @@
-using ConnectorAppProjectTemplate;
+using ConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
