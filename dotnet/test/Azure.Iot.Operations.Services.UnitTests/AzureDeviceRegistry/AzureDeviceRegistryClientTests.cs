@@ -65,7 +65,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                     assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
                 };
 
-                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
+                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(100));
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText("./AzureDeviceRegistry/testFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
@@ -144,7 +144,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                     assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
                 };
 
-                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
+                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(100));
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AzureDeviceRegistry/testFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress);
@@ -153,7 +153,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
                 await adrClient.UnobserveAssetEndpointProfileAsync();
 
-                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(1000));
+                await adrClient.ObserveAssetEndpointProfileAsync(TimeSpan.FromMilliseconds(100));
 
                 assetEndpointProfileTcs = new();
                 string expectedNewTargetAddress2 = Guid.NewGuid().ToString();
@@ -183,7 +183,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                     assetTcs.TrySetResult(args);
                 };
 
-                await adrClient.ObserveAssetsAsync(TimeSpan.FromMilliseconds(1000));
+                await adrClient.ObserveAssetsAsync(TimeSpan.FromMilliseconds(100));
 
                 Asset testAsset = new Asset()
                 {
