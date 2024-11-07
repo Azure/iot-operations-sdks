@@ -63,7 +63,10 @@ kubectl apply -f yaml/aio-$deploy_type.yaml
 ./update-credentials.sh
 
 # Add ADR
-helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
+helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
+
+# Deploy the Akri Operator
+helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241101.1-buddy -n azure-iot-operations --wait
 
 # Add AKRI Service for 38884
 helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
@@ -71,6 +74,7 @@ helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-mana
 --set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
 --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
 --set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
---set agent.extensionService.mqttBroker.port=38884
+--set agent.extensionService.mqttBroker.port=38884 \
+-n azure-iot-operations --wait
 
 echo Setup complete, session related files are in the '.session' directory

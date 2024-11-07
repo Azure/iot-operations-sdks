@@ -1,69 +1,148 @@
 # Akri Connector Configuration
 
-In production, the Akri connector is configure by the Akri Operator, and the ADR client is used to read the configuration into the application.
+The Akri connector is configured and deployted by the Akri Operator. The ADR client is used to read the configuration into the application.
 
-## MQTT broker
+Below are descriptions of the `AssetEndpointProfile`, `Asset` and `ConnectorConfig` CRDs.
 
-1. Set the environment variables:
+## Asset endpoint profile
 
-    | Name | Description |
-    |-|-|
-    | CONFIGMAP_MOUNT_PATH | |
+The asset endpoints are defined with the AssetEndpointProfile CRD.
 
-1. Create the following files in the `CONFIGMAP_MOUNT_PATH` directory:
+```yaml
+apiVersion: deviceregistry.microsoft.com/v1beta2
+kind: AssetEndpointProfile
+metadata:
+  name: <endpoint_name>
+  namespace: azure-iot-operations
+spec:
+  endpointProfileType: <endpoint_profile_type>
+  targetAddress: <target_address>
+  additionalConfiguration: <endpoint_configuration>
+  authentication:
+    method: Anonymous
+  discoveredAssetEndpointProfileRef: <discovered_aep>
+  uuid: <unique_uuid>
+```
 
-    | Name | Contents |
-    |-|-|
-    | MQ_TARGET_ADDRESS | The MQTT broker hostname |
-    | MQ_TARGET_PORT | The MQTT broker port |
-    | MQ_USE_TLS | Enable TLS on the MQTT broker connection |
-    | MQ_SAT_MOUNT_PATH | The Service Account Token |
-    | MQ_TLS_CACERT_MOUNT_PATH | The MQTT Broker CA cert |
+| Component | Description |
+|-|-|
+| `endpointProfileType` | Defines the configuration for the connector type that is being used with the endpoint profile. |
+| `targetAddress` | The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device.
+| `additionalConfiguration` | Any additional configuration required by your Akri Connector |
+| `authentication.method` | Defines the method to authenticate the user of the client at the server. `Anonymous`, `Certificate`, or `UsernamePassword`. |
+| `discoveredAssetEndpointProfileRef` | Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided. |
+| `uuid` | Globally unique, immutable, non-reusable id. |
 
-## Asset endpoint
+### Authentication
 
-1. Set the following environment variables:
+The following authentication methods are available:
 
-    | Name | Description |
-    |-|-|
-    | AEP_MQ_CONFIGMAP_MOUNT_PATH | The config map volume mount path for AEP |
-    | AEP_USERNAME_SECRET_MOUNT_PATH | |
-    | AEP_PASSWORD_SECRET_MOUNT_PATH | |
-    | AEP_CERT_MOUNT_PATH | |
+1. Anonymous
 
-1. Create the following files:
+    ```yaml
+    spec:
+      authentication:
+        method: Anonymous
+    ```
 
-    | Name | Description |
-    |-|-|
-    | AEP_TARGET_ADDRESS | The hostname of the asset endpoint |
-    | AEP_AUTHENTICATION_METHOD | The authentication method |
-    | AEP_USERNAME_FILE_NAME | The file containing the username |
-    | AEP_PASSWORD_FILE_NAME | The file containing the password|
-    | AEP_CERT_FILE_NAME | The file containing the server certificate |
-    | ENDPOINT_PROFILE_TYPE | The type of endpoint |
-    | AEP_ADDITIONAL_CONFIGURATION | Any additional configuration required by the connector |
-    | AEP_DISCOVERED_ASSET_ENDPOINT_PROFILE_REF | |
-    | AEP_UUID | |
+1. Certificate
 
-## Assets
+    ```yaml
+    spec:
+      authentication:
+        method: Certificate
+        certificateSecretName: <certificate>
+    ```
 
-1. Set the following environment variables:
+1. Username/password
 
-    | Name | Description |
-    |-|-|
-    | ASSET_CONFIGMAP_MOUNT_PATH | |\
+    ```yaml
+    spec:
+      authentication:
+        method: UsernamePassword
+        usernamePasswordCredentials:
+          usernameSecretName: <secret/username>
+          passwordSecretName: <secret/password>
+    ```
 
-1. Create the following files  in the `ASSET_CONFIGMAP_MOUNT_PATH` directory:
+## Asset
 
-    | Name | Description |
-    |-|-|
-    | <assetName>/<assetName> | Json file containing the asset definition |
+Assets are assigned to an Asset Endpoint, and are individually addressable units.
 
+```yaml
+apiVersion: deviceregistry.microsoft.com/v1beta2
+kind: Asset
+metadata:
+  name: <asset_name>
+  namespace: azure-iot-operations
+spec:
+  displayName: <asset_display_name>
+  description: <asset_description>
+  assetEndpointProfileRef: <namespace>/<asset_endpoint_profile>
+  defaultDatasetsConfiguration: |-
+   {
+      "samplingInterval": 4000,
+   }
+  defaultTopic:
+    path: /mqtt/machine/status
+    retain: Keep
+  datasets:
+    - name: thermostat_status
+      dataPoints:
+        - dataSource: /api/machine/my_thermostat_1/status
+          name: actual_temperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: /api/machine/my_thermostat_1/status
+          name: desired_temperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+```
 
-1. Create the asset definition
+| Component | Description |
+|-|-|
+| `assetEndpointProfileRef` | The `AssetEndpointProfile` to assign the `Asset` to.
+| `defaultDatasetsConfiguration` | Define the default configuration that applies to all datasets |
+| `defaultTopic.path` | The default topic to use on the MQTT broker for the `Asset` |
+| `defaultTopic.retain` | When retain should be set when publishing to the Mqtt broker |
+| `datasets.name` | The name assigned to the data set |
+| `datasets.datapoints.dataSource` | The source of the datapoint |
+| `datasets.dataPoints.dataPointConfiguration` | Configuration of the datapoint |
 
-[TODO] This is huge
+## Connector Config
 
-    | Key | Value |
-    |-|-|
-    | | |
+The `ConnectorConfig` CRD defines the configuration for the MQTT broker, the container image to be deployed and the endpoint profile type.
+
+```yaml
+apiVersion: akri.microsoft.com/v1
+kind: ConnectorConfig
+metadata:
+  name: <connector_config_name>
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  endpointProfileType: http-dss
+  image: <connector_image>
+  mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local
+  mqTls:
+    enabled: true
+    caTrustBundle:
+      bundleName: azure-iot-operations-aio-ca-trust-bundle
+      certificateName: ca.crt
+  mqAuthentication:
+    audience: aio-internal
+```
+
+| Component | Description |
+|-|-|
+| `endpointProfileType` | Defines the configuration for the connector type that is being used with the endpoint profile. |
+| `image` | The container image to be deployed to the pod |
+| `mqTargetAddress` | The address of the MQTT broker |
+| `mqTls.enabled` | Is TLS enabled, `true` or `false` |
+| `mqTls.caTrustBundle.bundleName` | The ConfigMap containing the trust bundle for the MQTT broker server |
+| `mqTls.caTrustBundle.certificateName` | The name of the certificate in the trust bundle ConfigMap |
+| `mqAuthentication.audience` | The audience used for SAT authentication |

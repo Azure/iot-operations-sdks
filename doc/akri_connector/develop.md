@@ -5,7 +5,8 @@
 Setup your development environment for building an Akri Connector.
 
 1. Follow the [Setup instruction](/doc/setup.md) to prepare your cluster for developing for Azure IoT Operations.
-1. Create the [Akri Connector configuration](configure.md) for configuration of the MQTT broker, the asset endpoint and the assets.
+1. Deploy the [Akri components](setup.md)
+1. Create the [Akri Connector configuration](configure.md) to define the Assets and Asset Endpoints.
 
 ## Building
 
@@ -28,6 +29,8 @@ Template samples:
 Refer to the [Application flow](flow.md) for details on building your own Akri Connector.
 
 ## Testing locally
+
+<TBD>
 
 Debugging the application locally on your machine simplifies development by aligning with the regular development environment.
 
