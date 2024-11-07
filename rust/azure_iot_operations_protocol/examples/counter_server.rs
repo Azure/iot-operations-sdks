@@ -65,13 +65,10 @@ async fn read_executor(client: SessionManagedClient, counter: Arc<Mutex<u64>>) {
     let read_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("readCounter")
-        .topic_token_map(
-            &HashMap::from([
-                ("executorId".to_string(), client.client_id().to_string()),
-                ("commandName".to_string(), "readCounter".to_string()),
-            ]),
-            None,
-        )
+        .topic_token_map(HashMap::from([
+            ("executorId".to_string(), client.client_id().to_string()),
+            ("commandName".to_string(), "readCounter".to_string()),
+        ]))
         .build()
         .unwrap();
     let mut read_executor: CommandExecutor<CounterRequestPayload, CounterResponsePayload, _> =
@@ -99,13 +96,10 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<u64
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
-        .topic_token_map(
-            &HashMap::from([
-                ("executorId".to_string(), client.client_id().to_string()),
-                ("commandName".to_string(), "increment".to_string()),
-            ]),
-            None,
-        )
+        .topic_token_map(HashMap::from([
+            ("executorId".to_string(), client.client_id().to_string()),
+            ("commandName".to_string(), "increment".to_string()),
+        ]))
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<CounterRequestPayload, CounterResponsePayload, _> =

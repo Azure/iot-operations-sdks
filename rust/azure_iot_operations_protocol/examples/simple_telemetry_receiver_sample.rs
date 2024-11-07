@@ -61,10 +61,10 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .topic_token_map(
-            &HashMap::from([("modelId".to_string(), MODEL_ID.to_string())]),
-            None,
-        )
+        .topic_token_map(HashMap::from([(
+            "modelId".to_string(),
+            MODEL_ID.to_string(),
+        )]))
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
