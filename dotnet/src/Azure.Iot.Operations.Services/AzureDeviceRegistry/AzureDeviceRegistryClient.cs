@@ -168,11 +168,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             {
                 // Asset endpoint profile files live in a few different directories, so several file directory observers
                 // are needed
-                _assetEndpointProfileConfigFilesObserver = new(GetAssetDirectory, pollingInterval);
+                _assetEndpointProfileConfigFilesObserver = new(GetAssetEndpointProfileConfigDirectory, pollingInterval);
                 _assetEndpointProfileConfigFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 await _assetEndpointProfileConfigFilesObserver.StartAsync();
 
-                //TODO how to observe for these secrets being created? We don't know the directory to observe?
                 _assetEndpointProfileUsernameSecretFilesObserver = new(GetAepUsernameDirectory, pollingInterval);
                 _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 await _assetEndpointProfileUsernameSecretFilesObserver.StartAsync();
