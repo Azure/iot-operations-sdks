@@ -4,7 +4,6 @@ package mqtt
 
 import (
 	"context"
-	"log"
 	"log/slog"
 	"math"
 
@@ -214,10 +213,6 @@ func (c *SessionClient) connect(
 	})
 	if err != nil {
 		return nil, err
-	}
-	if c, ok := pahoClient.(*paho.Client); ok {
-		c.SetDebugLogger(log.Default())
-		c.SetErrorLogger(log.Default())
 	}
 
 	conn, err := c.buildConnectPacket(ctx, reconnect)
