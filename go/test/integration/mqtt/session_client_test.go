@@ -27,7 +27,12 @@ func TestConnect(t *testing.T) {
 	)
 	require.NoError(t, err)
 
+	conn := make(ChannelCallback[*mqtt.ConnectEvent])
+	connDone := client.RegisterConnectEventHandler(conn.Func)
+	defer connDone()
+
 	require.NoError(t, client.Start())
+	<-conn
 	require.NoError(t, client.Stop())
 }
 
