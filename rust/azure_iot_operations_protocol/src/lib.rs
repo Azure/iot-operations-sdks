@@ -25,35 +25,34 @@ impl std::fmt::Display for ProtocolVersion {
     }
 }
 
-/// Parses a protocol version string into a [`ProtocolVersion`] struct. The string should be in the
-/// format "major.minor" where each part can be parsed into a u16.
-/// Returns [`None`] if the string is not in the correct format.
-pub(crate) fn parse_protocol_version(version: &str) -> Option<ProtocolVersion> {
-    let mut protocol_version = ProtocolVersion { major: 1, minor: 0 };
-    let mut version_iter = version.split('.');
-    if let Some(major) = version_iter.next() {
-        if let Ok(major) = major.parse::<u16>() {
-            protocol_version.major = major;
-            if let Some(minor) = version_iter.next() {
-                if let Ok(minor) = minor.parse::<u16>() {
-                    protocol_version.minor = minor;
-                    // if there are more than two parts, it's not a valid protocol version
-                    if version_iter.next().is_none() {
-                        return Some(protocol_version);
+impl ProtocolVersion {
+    /// Parses a protocol version string into a [`ProtocolVersion`] struct. The string should be in the
+    /// format "major.minor" where each part can be parsed into a u16.
+    /// Returns [`None`] if the string is not in the correct format.
+    pub(crate) fn parse_protocol_version(version: &str) -> Option<ProtocolVersion> {
+        let mut protocol_version = ProtocolVersion { major: 1, minor: 0 };
+        let mut version_iter = version.split('.');
+        if let Some(major) = version_iter.next() {
+            if let Ok(major) = major.parse::<u16>() {
+                protocol_version.major = major;
+                if let Some(minor) = version_iter.next() {
+                    if let Ok(minor) = minor.parse::<u16>() {
+                        protocol_version.minor = minor;
+                        // if there are more than two parts, it's not a valid protocol version
+                        if version_iter.next().is_none() {
+                            return Some(protocol_version);
+                        }
                     }
                 }
             }
         }
+        None
     }
-    None
-}
 
-/// Checks whether the major version is in the list of supported major versions.
-pub(crate) fn is_protocol_version_supported(
-    version: &ProtocolVersion,
-    supported_versions: &[u16],
-) -> bool {
-    supported_versions.contains(&version.major)
+    /// Checks whether the major version is in the list of supported major versions.
+    pub(crate) fn is_supported(&self, supported_versions: &[u16]) -> bool {
+        supported_versions.contains(&self.major)
+    }
 }
 
 /// Converts a vector of supported major protocol versions to a space-separated string.
@@ -103,7 +102,6 @@ struct ReadmeDoctests;
 #[cfg(test)]
 mod tests {
     use crate::{
-        is_protocol_version_supported, parse_protocol_version,
         parse_supported_protocol_major_versions, supported_protocol_major_versions_to_string,
         ProtocolVersion,
     };
@@ -117,7 +115,7 @@ mod tests {
     #[test_case("100.100", &ProtocolVersion{major: 100, minor: 100}; "trailing_zeroes")]
     fn test_parse_protocol_version(version: &str, expected: &ProtocolVersion) {
         // parse and verify successful parsing
-        let parsed_result = parse_protocol_version(version);
+        let parsed_result = ProtocolVersion::parse_protocol_version(version);
         assert!(parsed_result.is_some());
         let parsed_version = parsed_result.unwrap();
         // Check that the parsed version is the same as the expected version
@@ -137,7 +135,7 @@ mod tests {
     #[test_case("-1.-1"; "negative")]
     #[test_case(""; "empty")]
     fn test_parse_protocol_version_invalid(version: &str) {
-        assert!(parse_protocol_version(version).is_none());
+        assert!(ProtocolVersion::parse_protocol_version(version).is_none());
     }
 
     #[test_case("1", &[1]; "default")]
@@ -183,9 +181,6 @@ mod tests {
         supported_versions: &[u16],
         expectation: bool,
     ) {
-        assert_eq!(
-            is_protocol_version_supported(version, supported_versions),
-            expectation
-        );
+        assert_eq!(version.is_supported(supported_versions), expectation);
     }
 }

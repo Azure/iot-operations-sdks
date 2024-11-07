@@ -26,8 +26,7 @@ use crate::{
         topic_processor::{self, contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
-    is_protocol_version_supported, parse_protocol_version, parse_supported_protocol_major_versions,
-    ProtocolVersion, PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions, ProtocolVersion, PROTOCOL_VERSION,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -761,8 +760,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         .iter()
         .find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion))
     {
-        if let Some(response_version) = parse_protocol_version(protocol_version) {
-            if is_protocol_version_supported(&response_version, SUPPORTED_PROTOCOL_VERSIONS) {
+        if let Some(response_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+            if response_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                 _response_protocol_version = response_version;
             } else {
                 return Err(AIOProtocolError::new_unsupported_response_version_error(

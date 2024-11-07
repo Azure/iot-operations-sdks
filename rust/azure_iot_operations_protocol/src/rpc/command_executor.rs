@@ -20,7 +20,6 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
-    is_protocol_version_supported, parse_protocol_version,
     supported_protocol_major_versions_to_string, ProtocolVersion, PROTOCOL_VERSION,
 };
 
@@ -615,8 +614,8 @@ where
                             // unused, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
                             let mut _request_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
                             if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
-                                if let Some(request_version) = parse_protocol_version(protocol_version) {
-                                    if is_protocol_version_supported(&request_version, SUPPORTED_PROTOCOL_VERSIONS) {
+                                if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                    if request_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                                         _request_protocol_version = request_version;
                                     } else {
                                         response_arguments.status_code = StatusCode::VersionNotSupported;

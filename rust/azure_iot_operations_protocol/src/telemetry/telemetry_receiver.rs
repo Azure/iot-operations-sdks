@@ -17,7 +17,6 @@ use crate::common::{
     user_properties::{UserProperty, RESERVED_PREFIX},
 };
 use crate::{
-    is_protocol_version_supported, parse_protocol_version,
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     ProtocolVersion,
 };
@@ -462,8 +461,8 @@ where
                                 // unused, but may be used in the future to determine how to handle other fields.
                                 let mut _message_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
                                 if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
-                                    if let Some(message_version) = parse_protocol_version(protocol_version) {
-                                        if is_protocol_version_supported(&message_version, SUPPORTED_PROTOCOL_VERSIONS) {
+                                    if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                        if message_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                                             _message_protocol_version = message_version;
                                         } else {
                                             log::error!("[pkid: {}] Unsupported Protocol Version '{message_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
