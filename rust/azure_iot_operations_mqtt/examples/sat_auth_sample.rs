@@ -27,7 +27,7 @@ const TOPIC: &str = "hello/mqtt";
 
 // Path to the CA file and SAT auth file.
 const CA_FILE: &str = "[PATH TO PEM CA FILE]";
-const SAT_AUTH_FILE: &str = "[PATH TO SAT AUTH FILE]";
+const SAT_FILE: &str = "[PATH TO SAT AUTH FILE]";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
