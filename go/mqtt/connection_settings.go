@@ -198,6 +198,7 @@ func configFromMap(settingsMap map[string]string) (*connectionConfig, error) {
 		keepAlive:                 keepAlive,
 		sessionExpiryInterval:     sessionExpiryInterval,
 		connectionTimeout:         connectionTimeout,
+		receiveMaximum:            math.MaxUint16,
 	}
 
 	certFileStr := settingsMap["certfile"]
