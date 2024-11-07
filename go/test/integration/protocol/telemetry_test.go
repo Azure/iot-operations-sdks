@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package protocol_test
+package protocol
 
 import (
 	"context"
@@ -14,8 +14,8 @@ import (
 // Simple happy-path sanity check.
 func TestTelemetry(t *testing.T) {
 	ctx := context.Background()
-	stub := setupMqtt(ctx, t, 1885)
-	defer stub.Broker.Close()
+	client, server, done := sessionClients(t)
+	defer done()
 
 	enc := protocol.JSON[string]{}
 	topic := "prefix/{token}/suffix"
@@ -23,7 +23,7 @@ func TestTelemetry(t *testing.T) {
 
 	results := make(chan *protocol.TelemetryMessage[string])
 
-	receiver, err := protocol.NewTelemetryReceiver(stub.Server, enc, topic,
+	receiver, err := protocol.NewTelemetryReceiver(server, enc, topic,
 		func(_ context.Context, tm *protocol.TelemetryMessage[string]) error {
 			results <- tm
 			return nil
@@ -32,7 +32,7 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 	defer receiver.Close()
 
-	sender, err := protocol.NewTelemetrySender(stub.Client, enc, topic,
+	sender, err := protocol.NewTelemetrySender(client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)
@@ -47,7 +47,7 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 
 	res := <-results
-	require.Equal(t, stub.Client.ID(), res.ClientID)
+	require.Equal(t, client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
 	require.Equal(t, "https://contoso.com", res.Source.String())
 	require.Equal(t, "prefix/test/suffix", res.Subject)
