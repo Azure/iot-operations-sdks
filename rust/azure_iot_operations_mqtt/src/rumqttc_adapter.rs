@@ -294,12 +294,12 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         }
 
         // SAT Auth File
-        if let Some(sat_auth_file) = value.sat_auth_file {
+        if let Some(sat_file) = value.sat_file {
             mqtt_options.set_authentication_method(Some("K8S-SAT".to_string()));
             let sat_auth =
-                fs::read(sat_auth_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
+                fs::read(sat_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
                     msg: "cannot read sat auth file".to_string(),
-                    field: ConnectionSettingsField::SatAuthFile(sat_auth_file),
+                    field: ConnectionSettingsField::SatAuthFile(sat_file),
                     source: Some(Box::new(e)),
                 })?;
             mqtt_options.set_authentication_data(Some(sat_auth.into()));
