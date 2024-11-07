@@ -561,6 +561,9 @@ mod tests {
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
         assert!(mqtt_options_result.is_ok());
-        assert_eq!(mqtt_options_result.unwrap().max_packet_size(), Some(u32::MAX));
+        assert_eq!(
+            mqtt_options_result.unwrap().max_packet_size(),
+            Some(u32::MAX)
+        );
     }
 }
