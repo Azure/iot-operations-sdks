@@ -82,7 +82,7 @@ jobs:
 
       - name: Run Counter Server go
         if: matrix.counter_server == 'counter-server-go'
-        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=${{ matrix.counter_server }} go/server &
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=${{ matrix.counter_server }} MQTT_USE_TLS=false go/server &
 
       - name: Run Counter Server rust
         if: matrix.counter_server == 'counter-server-rust'
@@ -94,7 +94,7 @@ jobs:
 
       - name: Run Counter Client go
         if: matrix.counter_client == 'counter-client-go'
-        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=counter-client-go COUNTER_SERVER_ID=${{ matrix.counter_server }} go/client
+        run: MQTT_HOST_NAME=localhost MQTT_TCP_PORT=${{ matrix.broker_port}} MQTT_CLIENT_ID=counter-client-go COUNTER_SERVER_ID=${{ matrix.counter_server }} MQTT_USE_TLS=false go/client
 
       - name: Run Counter Client rust
         if: matrix.counter_client == 'counter-client-rust'

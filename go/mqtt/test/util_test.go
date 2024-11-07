@@ -19,3 +19,9 @@ const (
 )
 
 func noopHandler(context.Context, *mqtt.Message) bool { return true }
+
+type ChannelCallback[T any] chan T
+
+func (cc ChannelCallback[T]) Func(v T) {
+	cc <- v
+}

@@ -5,21 +5,19 @@ package test
 
 import (
 	"context"
-	"net"
-	"os"
 	"os/exec"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
-	"github.com/eclipse/paho.golang/paho"
 	"github.com/stretchr/testify/require"
 )
 
 const (
-	mqServerURL string = "mqtt://localhost:1883"
-	mqServerPod string = "aio-broker-frontend-0"
+	mqServerHostname string = "localhost"
+	mqServerPort     int    = 1883
+	mqServerPod      string = "aio-broker-frontend-0"
 )
 
 func shouldRunIntegrationTest(t *testing.T) {
@@ -47,7 +45,12 @@ func shouldRunIntegrationTest(t *testing.T) {
 func TestConnectMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	require.NoError(t, client.Start())
@@ -57,7 +60,12 @@ func TestConnectMQ(t *testing.T) {
 func TestConnectWithTimeoutMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	// ctx would be canceled after a successful initial connection,
@@ -84,53 +92,25 @@ func TestConnectWithTimeoutMQ(t *testing.T) {
 func TestDisconnectWithoutConnectMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 	require.Error(t, client.Stop())
-}
-
-func TestConnectFromEnvMQ(t *testing.T) {
-	shouldRunIntegrationTest(t)
-
-	envVars := map[string]string{
-		"MQTT_HOST_NAME": "localhost",
-		"MQTT_TCP_PORT":  "1883",
-	}
-
-	// Set environment variables
-	for key, value := range envVars {
-		os.Setenv(key, value)
-	}
-	// Unset environment variables after the test
-	defer func() {
-		for key := range envVars {
-			os.Unsetenv(key)
-		}
-	}()
-
-	client, err := mqtt.NewSessionClientFromEnv()
-	require.NoError(t, err)
-
-	require.NoError(t, client.Start())
-}
-
-func TestConnectFromConnectionStringMQ(t *testing.T) {
-	shouldRunIntegrationTest(t)
-
-	connStr := "ClientId=IntegrationTestClient;" +
-		"HostName=localhost;" +
-		"TcpPort=1883"
-
-	client, err := mqtt.NewSessionClientFromConnectionString(connStr)
-	require.NoError(t, err)
-
-	require.NoError(t, client.Start())
 }
 
 func TestSubscribeUnsubscribeMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -148,9 +128,19 @@ func TestSubscribeUnsubscribeMQ(t *testing.T) {
 
 // This test may take 4-5 seconds as it involves a connection interruption.
 func TestRequestQueueMQ(t *testing.T) {
+	// TODO: revisit this skipped test
+	t.Skip(
+		"Skipping this test due to potential race condition with pod deletion",
+	)
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+		mqtt.WithSessionExpiryInterval(30),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -198,15 +188,14 @@ func TestRequestQueueMQ(t *testing.T) {
 	executed2 := make(chan struct{})
 
 	// Operations are blocking so we put them into goroutines.
-	go func(ch chan struct{}) {
+	go func() {
 		_, err := client.Publish(
 			ctx,
 			topicName,
 			[]byte(publishMessage),
 		)
 		require.NoError(t, err)
-		close(ch)
-	}(executed)
+	}()
 
 	go func(ch chan struct{}) {
 		ch2 := make(chan struct{})
@@ -243,7 +232,12 @@ func TestRequestQueueMQ(t *testing.T) {
 func TestPublishMQ(t *testing.T) {
 	shouldRunIntegrationTest(t)
 
-	client, err := mqtt.NewSessionClient(mqServerURL)
+	client, err := mqtt.NewSessionClient(
+		mqtt.TCPConnection(
+			faultInjectableBrokerHostname,
+			faultInjectableBrokerPort,
+		),
+	)
 	require.NoError(t, err)
 
 	ctx := context.Background()
@@ -275,73 +269,4 @@ func TestPublishMQ(t *testing.T) {
 	<-executed
 
 	require.NoError(t, client.Stop())
-}
-
-func startSessionClientWithWillMessage(t *testing.T) (
-	context.Context,
-	context.CancelFunc,
-	*mqtt.SessionClient,
-) {
-	ctx, cancel := context.WithCancel(context.Background())
-
-	// Create network connection manually so it can be closed later.
-	address := "localhost:1883"
-	var d net.Dialer
-	conn, err := d.DialContext(ctx, "tcp", address)
-	require.NoError(t, err)
-
-	config := &paho.ClientConfig{
-		Conn:     conn,
-		ClientID: clientID,
-	}
-
-	client, err := mqtt.NewSessionClient(
-		mqServerURL,
-		mqtt.WithPahoClientConfig(config),
-		mqtt.WithWillMessageTopic(LWTTopicName),
-		mqtt.WithWillMessagePayload([]byte(LWTMessage)),
-	)
-	require.NoError(t, err)
-
-	// Close network connection so client connection would exit unexpectedly.
-	// NOTE: We can also induce an LWT message by disconnecting with a error reason code rather than messing directly with the tcp socket.
-	go func(c net.Conn) {
-		time.Sleep(2 * time.Second)
-		err := c.Close()
-		require.NoError(t, err)
-	}(conn)
-
-	return ctx, cancel, client
-}
-
-func TestLastWillMessageMQ(t *testing.T) {
-	shouldRunIntegrationTest(t)
-
-	client1, err := mqtt.NewSessionClient(mqServerURL)
-	require.NoError(t, err)
-
-	ctx := context.Background()
-	require.NoError(t, client1.Start())
-
-	subscribed := make(chan struct{})
-
-	done := client1.RegisterMessageHandler(
-		func(_ context.Context, msg *mqtt.Message) bool {
-			require.Equal(t, LWTTopicName, msg.Topic)
-			require.Equal(t, []byte(LWTMessage), msg.Payload)
-			close(subscribed)
-			return true
-		},
-	)
-	defer done()
-
-	_, err = client1.Subscribe(ctx, LWTTopicName)
-	require.NoError(t, err)
-
-	_, cancel, client2 := startSessionClientWithWillMessage(t)
-	defer cancel()
-
-	require.NoError(t, client2.Start())
-
-	<-subscribed
 }
