@@ -28,7 +28,7 @@ func (c *SessionClient) makeOnPublishReceived(
 		var willAck sync.WaitGroup
 		for handler := range c.messageHandlers.All() {
 			willAck.Add(1)
-			if !handler(buildMessage(packet, sync.OnceValue(func() error {
+			msg := buildMessage(packet, sync.OnceValue(func() error {
 				if packet.QoS == 0 {
 					return &InvalidOperationError{
 						message: "QoS 0 messages may not be acked",
@@ -36,8 +36,11 @@ func (c *SessionClient) makeOnPublishReceived(
 				}
 				willAck.Done()
 				return nil
-			}))) {
-				willAck.Done()
+			}))
+			if !handler(msg) && packet.QoS > 0 {
+				// Use the passed-in ack to trigger the sync.OnceValue, which
+				// ensures misbehaving handlers can't accidentally double-ack.
+				_ = msg.Ack()
 			}
 		}
 
