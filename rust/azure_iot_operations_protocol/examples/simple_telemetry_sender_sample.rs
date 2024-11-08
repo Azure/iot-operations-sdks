@@ -19,7 +19,7 @@ use azure_iot_operations_protocol::{
 };
 
 const CLIENT_ID: &str = "myClient";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 // senderId is a token that will be replaced with the client ID of the sender, it is required to be present in the topic pattern
 const TOPIC: &str = "akri/samples/{senderId}/dtmi:akri:samples:oven;1/new";
@@ -34,7 +34,7 @@ async fn main() {
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -71,7 +71,7 @@ async fn telemetry_loop(
             .source("github.com")
             .build()
             .unwrap();
-        let payload = TelemetryMessageBuilder::default()
+        let message = TelemetryMessageBuilder::default()
             .payload(&SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
@@ -85,7 +85,7 @@ async fn telemetry_loop(
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = telemetry_sender.send(payload).await;
+        let result = telemetry_sender.send(message).await;
         log::info!("Result {}: {:?}", i, result);
     }
 
