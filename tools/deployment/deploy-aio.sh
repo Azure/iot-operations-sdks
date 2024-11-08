@@ -67,4 +67,13 @@ helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm
 # Deploy Operator helm chart
 helm install akri-operator oci://akribuilds.azurecr.io/helm/microsoft-managed-akri-operator --version 0.4.0-main-20241101.1-buddy -n azure-iot-operations --wait
 
+# Add AKRI Service for 38884
+helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
+--set agent.extensionService.mqttBroker.useTls=true \
+--set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
+--set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
+--set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
+--set agent.extensionService.mqttBroker.port=38884
+
+
 echo Setup complete, session related files are in the '.session' directory

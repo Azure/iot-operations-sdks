@@ -9,7 +9,7 @@ use std::sync::{Arc, Mutex};
 
 use async_trait::async_trait;
 use bytes::Bytes;
-use tokio::sync::mpsc::Receiver;
+use tokio::sync::mpsc::UnboundedReceiver;
 
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
@@ -134,7 +134,7 @@ where
 /// Receive and acknowledge incoming MQTT messages.
 pub struct SessionPubReceiver {
     /// Receiver for incoming publishes
-    pub_rx: Receiver<Publish>,
+    pub_rx: UnboundedReceiver<Publish>,
     /// Tracker for acks of incoming publishes
     unacked_pubs: Arc<PubTracker>,
     /// Controls whether incoming publishes are auto-acked
@@ -146,7 +146,11 @@ pub struct SessionPubReceiver {
 }
 
 impl SessionPubReceiver {
-    pub fn new(pub_rx: Receiver<Publish>, unacked_pubs: Arc<PubTracker>, auto_ack: bool) -> Self {
+    pub fn new(
+        pub_rx: UnboundedReceiver<Publish>,
+        unacked_pubs: Arc<PubTracker>,
+        auto_ack: bool,
+    ) -> Self {
         Self {
             pub_rx,
             unacked_pubs,
@@ -182,13 +186,10 @@ impl MqttAck for SessionPubReceiver {
         {
             let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
             // TODO: don't panic here. This is bad.
-            // Will be addressed in next PR about errors, but don't want to expand
-            // the scope of this one.
             assert!(!self.auto_ack, "Auto-ack is enabled. Cannot manually ack.");
             assert!(unacked_pkids_g.contains(&publish.pkid), "");
             unacked_pkids_g.remove(&publish.pkid);
         }
-        // TODO: Convert this error into the correct type
         self.unacked_pubs.ack(publish).await.unwrap();
         Ok(())
     }

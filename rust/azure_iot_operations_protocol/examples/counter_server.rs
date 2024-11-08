@@ -167,23 +167,8 @@ impl PayloadSerialize for CounterResponsePayload {
         Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
-        log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
-        if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
-            match std::str::from_utf8(&payload[19..payload.len() - 1]) {
-                Ok(s) => {
-                    log::info!("s: {:?}", s);
-                    match s.parse::<u64>() {
-                        Ok(n) => Ok(CounterResponsePayload {
-                            counter_response: n,
-                        }),
-                        Err(e) => Err(CounterSerializerError::ParseIntError(e)),
-                    }
-                }
-                Err(e) => Err(CounterSerializerError::Utf8Error(e)),
-            }
-        } else {
-            Err(CounterSerializerError::InvalidPayload(payload.into()))
-        }
+    fn deserialize(_payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
+        // This is a response payload, server does not need to deserialize it
+        unimplemented!()
     }
 }

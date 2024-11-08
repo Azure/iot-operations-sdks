@@ -8,7 +8,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string serviceName;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
-        private readonly string? serviceGroupId;
+        private readonly string? cmdServiceGroupId;
+        private readonly string? telemServiceGroupId;
         private readonly List<(string, string?, string?)> cmdNameReqResps;
         private readonly List<string> telemSchemas;
         private readonly bool doesCommandTargetService;
@@ -21,7 +22,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string serviceName,
             string? commandTopic,
             string? telemetryTopic,
-            string? serviceGroupId,
+            string? cmdServiceGroupId,
+            string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
             List<string> telemSchemas,
             bool doesCommandTargetService,
@@ -33,7 +35,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serviceName = serviceName;
             this.commandTopic = commandTopic;
             this.telemetryTopic = telemetryTopic;
-            this.serviceGroupId = serviceGroupId;
+            this.cmdServiceGroupId = cmdServiceGroupId;
+            this.telemServiceGroupId = telemServiceGroupId;
             this.cmdNameReqResps = cmdNameReqResps;
             this.telemSchemas = telemSchemas;
             this.doesCommandTargetService = doesCommandTargetService;
