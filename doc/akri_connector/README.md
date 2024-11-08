@@ -1,76 +1,9 @@
 # Akri Connector
 
-## Overview
+> [!NOTE]
+> The Akri Connector is in active development and will be available as a public preview early 2025.
 
-The Akri Connector is an edge application that is responsible for connecting to asset endpoints, discovering assets, creating schemas, and performing protocol translation on asset payloads between the endpoint and the MQTT Broker.
+The Akri connector is part of the Akri services. Akri services simplify the process of modeling leaf devices in the Azure Device Registry.
 
-## Deploying
+By building an Akri connector with the Azure IoT Operations SDKs, the application will enable you to model your devices/assets as ARM resources in the Azure Device Registry. The SDK will simplify the access and interaction with Azure IoT Operations components so you can focus on the business logic.
 
-The Akri Connector is deployed automatically by the Akri Operator, once an asset endpoint profile is defined. The asset endpoint profile describes the type of the endpoint and the associated endpoint connection and authentication configuration. The Akri Operator will then create the required pod on the cluster that is capable of connecting to the endpoint and provide the profile.
-
-## Configuration
-
-The connector has access to the following settings, which is used during configuration and execution.
-
-1. [MQTT Broker](https://learn.microsoft.com/azure/iot-operations/manage-mqtt-broker/overview-iot-mq) configuration - The connection and authentication configuration for the MQTT broker.
-1. [Asset endpoint](https://learn.microsoft.com/azure/iot-operations/discover-manage-assets/concept-assets-asset-endpoints#asset-endpoints) profile (AEP) - The connection and authentication configuration for the asset endpoint.
-1. [Asset](https://learn.microsoft.com/azure/iot-operations/discover-manage-assets/concept-assets-asset-endpoints#assets_) - Information about each of the assets associated with the endpoint. This contains information about which events of the asset are to be collected as well as events to monitor for state changes, contained in *asset tags* and *asset events*.
-
-## Operations
-
-The Akri Connector performs two main functions:
-
-### Asset discovery
-
-Asset discovery involves interrogating the endpoint for potential assets, a component of the endpoint that is of potential interest to monitor or control. 
-
-Once the asset is discovered, a schema is created to describe the asset and this schema is then uploaded to the schema registry. The connector will then notify the Akri Agent of the newly discovered asset.
-
-For more information on Asset discovery, refer to the [Asset discovery flow](flow.md#asset-discovery).
-
-### Protocol translation
-
-Protocol translation consists of the passing information between the MQTT broker and the asset endpoint. During this transfer, the data will be converted from the json format stored by the broker, into the data format required by the endpoint.
-
-When data arrives from the endpoint to the connector, the payload is decoded and associated with an asset. *Asset tags* and *asset events* are then used to understand which parts of the payload are of interest and what actions need to be performed. 
-
-Payload contents not associated with and asset are discarded.
-
-For more information on Protocol translation, refer to the [Protocol translation flow](flow.md#protocol-translation).
-
-## Anatomy
-
-The connector will communicate with the different services on the cluster using the Azure IoT Operations SDKs. Each SDK provides a set of clients which provide the means to securely and reliably communicate with each server.
-
-The following is a summary of the SDK clients of interest. For more information, read the [Components](../components.md) documentation.
-
-
-1. *ADR (Azure Device Registry) client*: Responsible for reading the asset definitions and asset endpoint profiles from a projected volume. 
-1. *Akri client*: Notify of newly discovered assets.
-1. *Schema registry client*: Set and get asset schemas.
-1. *State store client*: Set and get key value pairs.
-1. *Telemetry client*: Send a telemetry message via the MQTT broker
-1. *Command client*: Send a command via the MQTT broker
-
-![Akri connector](images/akri-connector.png)
-
-## Development paths
-
-There are two main options for creating an Akri Connector, depending on the level on control required and the complexity of the solution:
-
-| Options | Pros | Cons |
-|-|-|-|
-| **Templates** | Simplified implementation requiring implementation of specific interfaces. Much of the workflow complexity is abstracted away | Less flexibility on how the Connector operates and maybe restrictive for more complex scenarios. |
-| **Custom** | Full control over the layout and implementation, which is best for complex scenarios. | Additional complexity of managing the Connectors workflow so that Assets are correctly managed |
-
-### Templates
-
-A number of templates across the different languages are provided to simplify the development of a new Akri Connector. The template extrapolates away much of the complexity and scaffolding required so the developer can focus on the specific components of asset discovery and protocol translation.
-
-### Custom application
-
-A custom Akri Connector will directly utilize the various clients of Azure IoT Operations SDKs to achieve the required outcome. This flow provides the maximum amount of flexibility in the construction of the application, and would be useful where the available templates do not provide the required functionality.
-
-## Next steps
-
-Please read the [develop](develop.md) documentation to start building an Akri Connector.
