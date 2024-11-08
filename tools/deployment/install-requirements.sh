@@ -19,13 +19,13 @@ fi
 if [ ! $(which step) ]
 then
     wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
-    dpkg -i /tmp/step-cli_amd64.deb
+    sudo dpkg -i /tmp/step-cli_amd64.deb
 fi
 
 # install az cli
 if [ ! $(which az) ]
 then
-    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
     az aks install-cli
 fi
 
