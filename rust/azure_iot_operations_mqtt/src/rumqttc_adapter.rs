@@ -223,11 +223,16 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
     fn try_from(value: MqttConnectionSettings) -> Result<Self, Self::Error> {
         // Client ID, Host Name, TCP Port
         let mut mqtt_options =
-            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
+            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.hostname, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
         // Receive Maximum
         mqtt_options.set_receive_maximum(Some(value.receive_max));
+        // Max Packet Size
+        // NOTE: due to a bug in rumqttc, we need to set None to u32::MAX, since rumqttc overrides
+        // None values with an arbitrary default that can't be changed. This may or may not be
+        // exactly the same thing, but it is in most circumstances.
+        mqtt_options.set_max_packet_size(value.receive_packet_size_max.or(Some(u32::MAX)));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {
@@ -294,12 +299,12 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         }
 
         // SAT Auth File
-        if let Some(sat_auth_file) = value.sat_auth_file {
+        if let Some(sat_file) = value.sat_file {
             mqtt_options.set_authentication_method(Some("K8S-SAT".to_string()));
             let sat_auth =
-                fs::read(sat_auth_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
+                fs::read(sat_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
                     msg: "cannot read sat auth file".to_string(),
-                    field: ConnectionSettingsField::SatAuthFile(sat_auth_file),
+                    field: ConnectionSettingsField::SatAuthFile(sat_file),
                     source: Some(Box::new(e)),
                 })?;
             mqtt_options.set_authentication_data(Some(sat_auth.into()));
@@ -415,7 +420,7 @@ mod tests {
     fn test_mqtt_connection_settings_no_tls() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .build()
             .unwrap();
@@ -429,7 +434,7 @@ mod tests {
         // username and password
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password("test_password".to_string())
@@ -442,7 +447,7 @@ mod tests {
         // just username
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .build()
@@ -457,7 +462,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password_file(password_file_path.into_os_string().into_string().unwrap())
@@ -475,7 +480,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file_path.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
@@ -494,7 +499,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file.into_os_string().into_string().unwrap())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
@@ -514,7 +519,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             .build()
@@ -534,7 +539,7 @@ mod tests {
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             .key_password_file(key_password_file.into_os_string().into_string().unwrap())
@@ -543,5 +548,22 @@ mod tests {
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
         assert!(mqtt_options_result.is_ok());
+    }
+
+    #[test]
+    fn test_receive_packet_size_max_override_none() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .receive_packet_size_max(None)
+            .build()
+            .unwrap();
+        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
+            connection_settings.try_into();
+        assert!(mqtt_options_result.is_ok());
+        assert_eq!(
+            mqtt_options_result.unwrap().max_packet_size(),
+            Some(u32::MAX)
+        );
     }
 }

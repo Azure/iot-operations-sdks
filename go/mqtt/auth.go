@@ -4,143 +4,79 @@ package mqtt
 
 import (
 	"context"
-	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 	"github.com/eclipse/paho.golang/paho"
 )
 
-// WithReauthData sets the auth data for reauthentication.
-type WithReauthData []byte
+func (c *SessionClient) requestReauthentication() {
+	current := c.conn.Current()
 
-// Reauthenticate initiates credential reauthentication with the server.
-// It sends the initial Auth packet to start reauthentication, then relies
-// on the user's AuthHandler to manage further requests from the server
-// until a successful Auth packet is passed back or a Disconnect is received.
-func (c *SessionClient) Reauthenticate(
-	ctx context.Context,
-	opts ...AuthOption,
-) error {
-	var opt AuthOptions
-	opt.Apply(opts)
-
-	// TODO: Due to a limitation in Paho, the AuthHandler is tied to
-	// the Paho client. We SHOULD allow updating the handler if needed.
-	if opt.AuthHandler != nil {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "AuthHandler can't be updated for reauthentication",
-			PropertyName:  "AuthHandler",
-			PropertyValue: opt.AuthHandler,
-		}
+	if current.Client == nil {
+		// The connection is down, so the reauth request is irrelevant at this
+		// point.
+		return
 	}
 
-	// https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901256
-	// AuthMethod cannot be updated:
-	// if the initial CONNECT packet included an Authentication Method property
-	// then all AUTH packets, and any successful CONNACK packet
-	// MUST include an Authentication Method Property
-	// with the same value as in the CONNECT packet [MQTT-4.12.0-5].
-	if opt.AuthMethod != "" {
-		return &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "AuthMethod can't be updated for reauthentication",
-			PropertyName:  "AuthMethod",
-			PropertyValue: opt.AuthMethod,
-		}
-	}
+	go func() {
+		ctx, cancel := current.Down.With(context.Background())
+		defer cancel()
 
-	// If multiple sources are provided, the priority is:
-	// AuthDataProvider > SatAuthFile > AuthData.
-	switch {
-	case opt.AuthDataProvider != nil:
-		WithAuthDataProvider(opt.AuthDataProvider)(c)
-		WithAuthData(opt.AuthDataProvider(ctx))(c)
-	case opt.SatAuthFile != "":
-		WithSatAuthFile(opt.SatAuthFile)(c)
-		data, err := readFileAsBytes(opt.SatAuthFile)
+		values, err := c.config.authProvider.InitiateAuthExchange(true)
 		if err != nil {
-			return &errors.Error{
-				Kind:          errors.ConfigurationInvalid,
-				Message:       "cannot read auth data from target file",
-				PropertyName:  "SatAuthFile",
-				PropertyValue: opt.SatAuthFile,
-				NestedError:   err,
-			}
-		}
-		WithAuthData(data)(c)
-	case opt.AuthData != nil:
-		WithAuthData(opt.AuthData)(c)
-	}
-
-	// Build MQTT Auth packet.
-	auth := &paho.Auth{
-		ReasonCode: byte(reauthenticate),
-		Properties: &paho.AuthProperties{
-			AuthMethod: c.connSettings.authOptions.AuthMethod,
-			AuthData:   c.connSettings.authOptions.AuthData,
-		},
-	}
-
-	// Connection lost; we can't buffer Auth packet for reconnection.
-	if func() bool {
-		c.connectionMu.Lock()
-		defer c.connectionMu.Unlock()
-		return !c.connected
-	}() {
-		return &errors.Error{
-			Kind:    errors.ExecutionException,
-			Message: "connection lost during reauthentication",
-		}
-	}
-
-	// Execute the authentication.
-	return pahoAuth(ctx, c.pahoClient, auth)
-}
-
-// autoAuth periodically reauthenticates the client at intervals
-// specified by AuthInterval in connection settings.
-func (c *SessionClient) autoAuth(ctx context.Context) {
-	ticker := time.NewTicker(c.connSettings.authOptions.AuthInterval)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ticker.C:
-			c.log.Info(ctx, "start reauthentication")
-			if err := c.Reauthenticate(ctx); err != nil {
-				c.log.Error(ctx, err)
-			}
-		case <-ctx.Done():
-			c.log.Info(ctx, "stop auto reauthentication on client shutdown")
+			// using context.TODO() here because we are not passing a context
+			// into InitiateAuthExchange and we want to review logging contexts
+			// to ensure they get torn down with the client.
+			c.log.Error(context.TODO(), err)
 			return
 		}
-	}
-}
 
-func (o WithReauthData) authenticate(opt *AuthOptions) {
-	opt.AuthData = []byte(o)
-}
-
-// Apply resolves the provided list of options.
-func (o *AuthOptions) Apply(
-	opts []AuthOption,
-	rest ...AuthOption,
-) {
-	for _, opt := range opts {
-		if opt != nil {
-			opt.authenticate(o)
+		packet := &paho.Auth{
+			ReasonCode: authReauthenticate,
+			Properties: &paho.AuthProperties{
+				AuthData:   values.AuthenticationData,
+				AuthMethod: values.AuthenticationMethod,
+			},
 		}
-	}
-	for _, opt := range rest {
-		if opt != nil {
-			opt.authenticate(o)
+
+		// NOTE: we ignore the return values of client.Authenticate() because
+		// if it fails, there's nothing we can do except let the client
+		// eventually disconnect and try to reconnect.
+		_, err = current.Client.Authenticate(ctx, packet)
+		if err != nil {
+			c.log.Error(ctx, err)
 		}
+	}()
+}
+
+// Implements paho.Auther.
+type pahoAuther struct {
+	c *SessionClient
+}
+
+func (a *pahoAuther) Authenticate(packet *paho.Auth) *paho.Auth {
+	values, err := a.c.config.authProvider.ContinueAuthExchange(
+		&auth.Values{
+			AuthenticationMethod: packet.Properties.AuthMethod,
+			AuthenticationData:   packet.Properties.AuthData,
+		},
+	)
+	if err != nil {
+		// returning an AUTH packet with zero values rather than nil because
+		// Paho dereferences this return value without a nil check. Since we are
+		// returning an invalid auth packet, we will eventually get disconnected
+		// by the server anyway.
+		return &paho.Auth{}
+	}
+	return &paho.Auth{
+		ReasonCode: authContinueAuthentication,
+		Properties: &paho.AuthProperties{
+			AuthMethod: values.AuthenticationMethod,
+			AuthData:   values.AuthenticationData,
+		},
 	}
 }
 
-func (o *AuthOptions) authenticate(opt *AuthOptions) {
-	if o != nil {
-		*opt = *o
-	}
+func (a *pahoAuther) Authenticated() {
+	a.c.config.authProvider.AuthSuccess(a.c.requestReauthentication)
 }

@@ -218,7 +218,7 @@ pub struct CommandExecutorOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
-/// #     .host_name("mqtt://localhost")
+/// #     .hostname("localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
@@ -989,7 +989,7 @@ mod tests {
     // scope and render the ManagedClient unable to to be used correctly.
     fn create_session() -> Session {
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_server")
             .build()
             .unwrap();

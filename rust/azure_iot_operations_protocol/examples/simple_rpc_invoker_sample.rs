@@ -16,7 +16,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 };
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
@@ -32,7 +32,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)

@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
 };
 
 const CLIENT_ID: &str = "myReceiver";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "akri/samples/{modelId}/{senderId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
@@ -31,7 +31,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)

@@ -3,6 +3,7 @@
 package protocol
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -16,17 +17,17 @@ import (
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-) (StubClient, protocol.MqttClient) {
+) (*StubMqttClient, protocol.MqttClient) {
 	mqttClient := MakeStubMqttClient(clientID)
 	sessionClient, err := mqtt.NewSessionClient(
-		"tcp://localhost:1234",
-		mqtt.WithPahoClientFactory(
-			func(cfg *paho.ClientConfig) mqtt.PahoClient {
-				mqttClient.onPublishReceived = cfg.OnPublishReceived
-				return mqttClient
-			},
-		),
-		mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
+		mqtt.TCPConnection("localhost", 1234),
+		mqtt.WithPahoConstructor(func(
+			_ context.Context,
+			cfg *paho.ClientConfig,
+		) (mqtt.PahoClient, error) {
+			mqttClient.onPublishReceived = cfg.OnPublishReceived
+			return mqttClient, nil
+		}),
 		mqtt.WithClientID(clientID),
 	)
 	require.NoError(t, err)
@@ -39,7 +40,7 @@ func getStubAndSessionClient(
 func awaitAcknowledgement(
 	t *testing.T,
 	actionAwaitAck *TestCaseActionAwaitAck,
-	mqttClient StubClient,
+	mqttClient *StubMqttClient,
 	packetIDs map[int]uint16,
 ) {
 	packetID := mqttClient.awaitAcknowledgement()
@@ -59,7 +60,7 @@ func awaitAcknowledgement(
 func awaitPublish(
 	_ *testing.T,
 	actionAwaitPublish *TestCaseActionAwaitPublish,
-	mqttClient StubClient,
+	mqttClient *StubMqttClient,
 	correlationIDs map[int][]byte,
 ) {
 	correlationID := mqttClient.awaitPublish()

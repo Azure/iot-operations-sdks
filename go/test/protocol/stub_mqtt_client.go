@@ -78,9 +78,10 @@ func (c *StubMqttClient) ClientID() string {
 	return c.clientID
 }
 
-func (c *StubMqttClient) Publish(
+func (c *StubMqttClient) PublishWithOptions(
 	_ context.Context,
 	p *paho.Publish,
+	_ paho.PublishOptions,
 ) (*paho.PublishResponse, error) {
 	c.publicationCount++
 
