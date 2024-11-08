@@ -15,8 +15,11 @@ prologue:
 actions:
 - action: receive telemetry
   content-type: "raw/0"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 
 epilogue:
-  acknowledgement-count: 0 # is this correct behavior?
+  acknowledgement-count: 1
   telemetry-count: 0
 ...
