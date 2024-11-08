@@ -11,6 +11,7 @@ use azure_iot_operations_protocol::{
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{AckToken, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
+use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
@@ -77,7 +78,7 @@ where
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
-        ArcMutexHashmap<Vec<u8>, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
+        ArcMutexHashmap<String, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
     recv_cancellation_token: CancellationToken,
 }
 
@@ -420,9 +421,7 @@ where
 
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
-        let mut encoded_key_name: Vec<u8> = Vec::new();
-        key.iter()
-            .for_each(|b| encoded_key_name.append(&mut format!("{b:X}").into_bytes()));
+        let encoded_key_name = HEXUPPER.encode(&key);
         let (tx, rx) = channel(100);
 
         {
@@ -514,9 +513,7 @@ where
         ) {
             Ok(r) => {
                 // remove key from observed_keys hashmap
-                let mut encoded_key_name: Vec<u8> = Vec::new();
-                key.iter()
-                    .for_each(|b| encoded_key_name.append(&mut format!("{b:X}").into_bytes()));
+                let encoded_key_name = HEXUPPER.encode(&key);
 
                 let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
                 if observed_keys_mutex_guard
@@ -537,7 +534,7 @@ where
         recv_cancellation_token: CancellationToken,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
-            Vec<u8>,
+            String,
             Sender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
@@ -552,9 +549,10 @@ where
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
-                                let key_name: Vec<u8> = notification.sender_id.clone().into();
+                                let key_name = notification.sender_id.clone();
+                                let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let key_notification = state_store::KeyNotification {
-                                    key: key_name.clone(),
+                                    key: decoded_key_name,
                                     operation: notification.payload.clone(),
                                     version: notification.timestamp,
                                 };
