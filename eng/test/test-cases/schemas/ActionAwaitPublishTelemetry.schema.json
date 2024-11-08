@@ -1,0 +1,13 @@
+{
+    "title": "ActionAwaitPublishTelemetry",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Wait for the publication of a Telemetry message.",
+            "type": "string",
+            "const": "await publish"
+        }
+    },
+    "required": [ "action" ]
+}

@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private bool isDisposed;
 
-        public Func<string, T, IncomingTelemetryMetadata, Task>? OnTelemetryReceived { get; init; }
+        public Func<string, T, IncomingTelemetryMetadata, Task>? OnTelemetryReceived { get; set; }
 
         public string ServiceGroupId { get; init; }
 

@@ -1,0 +1,23 @@
+{
+    "title": "OriginatingCloudEvent",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "source": {
+            "description": "URI that identifies the context in which an event happened.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "type": {
+            "description": "The type of event related to the originating occurrence.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "spec-version": {
+            "description": "The version of the CloudEvents specification which the event uses.",
+            "type": "string",
+            "kind": "drive"
+        }
+    },
+    "required": [ "source" ]
+}

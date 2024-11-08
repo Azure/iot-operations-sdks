@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             string defaultsFilePath = Path.Combine(executorCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
-                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = PascalToKebabCase });
+                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
                 TestCaseExecutor.DefaultCommandName = defaultTestCase.Prologue.Executor.CommandName;
                 TestCaseExecutor.DefaultRequestTopic = defaultTestCase.Prologue.Executor.RequestTopic;
@@ -365,6 +365,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                     commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
                 }
 
+                if (testCaseExecutor.CustomTokenMap != null)
+                {
+                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.CustomTokenMap)
+                    {
+                        commandExecutor.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                    }
+                }
+
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {
                     commandExecutor.ExecutionTimeout = testCaseExecutor.ExecutionTimeout.ToTimeSpan();
@@ -623,6 +631,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             {
                 Assert.True(!MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) || isAppError?.ToLower() == "false");
             }
+
+            if (publishedMessage.Expiry != null)
+            {
+                Assert.Equal((uint)publishedMessage.Expiry, appMsg.MessageExpiryInterval);
+            }
         }
 
         private static async Task<Object_Test_Response> ProcessRequest(ExtendedRequest<Object_Test_Request> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
@@ -661,31 +674,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             else
             {
                 return null!;
-            }
-        }
-
-        private static string PascalToKebabCase(string name)
-        {
-            StringBuilder builder = new();
-            try
-            {
-                char c = '\0';
-                foreach (char c2 in name)
-                {
-                    if (char.IsUpper(c2) && !char.IsUpper(c) && c != 0 && c != '-')
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(c2));
-                    c = c2;
-                }
-
-                return builder.ToString();
-            }
-            finally
-            {
-                builder.Length = 0;
             }
         }
     }

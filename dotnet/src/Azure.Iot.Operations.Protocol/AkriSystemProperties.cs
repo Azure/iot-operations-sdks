@@ -41,6 +41,11 @@
         public const string CommandInvokerId = ReservedPrefix + "invId";
 
         /// <summary>
+        /// User Property indicating the MQTT Client ID of a Telemetry sender.
+        /// </summary>
+        public const string TelemetrySenderId = ReservedPrefix + "sndId";
+
+        /// <summary>
         /// The name of an MQTT property in a request header that is missing or has an invalid value.
         /// </summary>
         internal const string InvalidPropertyName = ReservedPrefix + "propName";

@@ -1,0 +1,29 @@
+---
+test-name: CommandExecutorRequest_TimeoutPropagated
+description:
+  condition: >-
+    CommandExecutor receives request.
+  expect: >-
+    CommandExecutor copies request timout value into response message expiry interval.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: freeze time
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+  message-expiry: { seconds: 3 }
+- action: await acknowledgement
+  packet-index: 0
+- action: unfreeze time
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    command-status: 200 # OK
+    expiry: 3
+...

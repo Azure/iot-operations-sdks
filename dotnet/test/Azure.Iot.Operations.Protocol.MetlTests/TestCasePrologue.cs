@@ -10,6 +10,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public List<TestCaseInvoker> Invokers { get; set; } = new();
 
+        public List<TestCaseReceiver> Receivers { get; set; } = new();
+
+        public List<TestCaseSender> Senders { get; set; } = new();
+
         public TestCaseCatch? Catch { get; set; }
 
         public Dictionary<string, int> CountdownEvents { get; set; } = new();
