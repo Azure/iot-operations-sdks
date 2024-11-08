@@ -18,12 +18,11 @@ Sends, or publishes, a message to a MQTT topic with a specified serialization fo
 
 Receives (via subscription) a telemetry message from a sender. It will automatically deserialize the payload and provide this to the application.
 
-
-### RPC invoker
+### Command invoker
 
 The invoker is the origin of the call (or the client). It will generate the command along with its associated request payload, serialized with the specified format. The call is routed via the MQTT broker, to the RPC executor. The combination of the invoker, broker and executor are responsible for the lifetime of the message and delivery guarantees. There can be one or more invokers for each executor.
 
-### RPC executor
+### Command executor
 
 The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker for executor for each command type, however the usage of share subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
 
@@ -35,7 +34,7 @@ The serializer pattern allows customer serialization to be used on the MQTT mess
 
 ### State store client
 
-The state store client communicates with the [state store](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol)(a distributed highly available key value store), providing the ability to set, get, delete and observe key/value pairs. This provides applications on the edge a place to securely persist data which can be used later or shared with other applications.
+The state store client communicates with the [state store](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol) (a distributed highly available key value store), providing the ability to set, get, delete and observe key/value pairs. This provides applications on the edge a place to securely persist data which can be used later or shared with other applications.
 
 ### Schema registry client
 

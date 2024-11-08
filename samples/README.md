@@ -1,58 +1,58 @@
 # Samples and Tutorials
 
-## Setup
-
-Refer to the [Getting Started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
-
 The following is a list of tutorials and samples are available across all languages. Each language may have additional samples which can also be found within each language directory.
+
+> [!IMPORTANT]
+> Refer to [getting started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
 
 ## Tutorials
 
 The tutorials listed below are step-by-step instructions to deploy a fully functioning application to a cluster and observer the functioning output.
 
 | Tutorial | Description | Go | .NET | Rust |
-|-|-|-|-|-|
-| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | Go | [:link:](/dotnet/tutorials/EventDrivenApp) | Rust |
-| Rest Akri Connector | | Go | .NET | Rust |
-| SQL Akri Connector | | Go | .NET | Rust |
+|-|-|:-:|:-:|:-:|
+| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | :yellow_circle: | [.NET](/dotnet/tutorials/EventDrivenApp) | :yellow_circle: |
+
 
 ## Samples
 
 |Category | Sample | Description | Go | .NET | Rust |
-|-|-|-|-|-|-|
-| **MQTT** | Session client - SAT auth | Connect to the MQTT broker using SAT auth |
-|| Session client - x509 auth | Connect to the MQTT broker using x509 auth | 
+|-|-|-|:-:|:-:|:-:|
+| **MQTT** | **Session client** | Connect to the MQTT broker | :yellow_circle: | [.NET](/dotnet/samples/SessionClientConnectionManagementSample) | :yellow_circle: |
+|| **Session client - SAT auth** | Connect to the MQTT broker with SAT | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Session client - x509 auth** | Connect to the MQTT broker with x509 | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 ||
-| **Protocol** | Telemetry | |
-|| Telemetry with Cloud Events | |
-|| Command | |
+| **Protocol** | **Telemetry** | Send and receive messages to a MQTT topic | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Telemetry with Cloud Events** | Send and receive messages to a MQTT topic with cloud events | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Command** | Invoke and execute and command using the MQTT RPC protocol | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 ||
-| **Services** | State store client |
-|| State store client - observe key |
-|| Lease lock client |
-|| Leader election client |
-|| Schema registry client |
-|| ADR client |
-|| Akri client |
+| **Services** | **State store client** | Get, set and delete a key | :yellow_circle: | [.NET](/dotnet/samples/StateStoreClientSample) | :yellow_circle: |
+|| **State store client - observe key** | Observe a key and receive a notification | :yellow_circle: | [.NET](/dotnet/samples/StateStoreObserveKeySample) | :yellow_circle: |
+|| **Lease lock client** | Lock a key in the state store shared between applications | :yellow_circle: | [.NET](/dotnet/samples/StateStoreObserveKeySample) | :yellow_circle: |
+|| **Leader election client** | Leader assignment for highly available applications | :yellow_circle: | [.NET](/dotnet/samples/PassiveReplicationSample) | :yellow_circle: |
+|| **Schema registry client** | Get and set schemas from the registry | :yellow_circle: | [.NET](/dotnet/samples/SchemaRegistrySample) | :yellow_circle: |
+|| **ADR client** | Read asset and asset endpoint profiles | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Akri client** | Notify Akri services of discovered assets | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 ||
-| **Codegen** | Telemetry and command |
-|| Telemetry with primitive schema |
-|| Telemetry with complex schema |
-|| Command variants |
+| **Codegen** | **Telemetry & command** | A basic telemetry and command | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Telemetry + primitive schema** | Telemetry using primitive types such as integers, bool and float | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Telemetry + complex schema** | Telemetry using complex types such as maps and objects | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Command variants** | Commands using idempotent and cacheable | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 
-## Additional samples
+## Additional samples and tutorials
 
 Refer to each language directory below for additional samples.
 
-### .NET SDK
+**.NET SDK:**
 
 * [.NET samples](/dotnet/samples)
+* [.NET tutorials](/dotnet/tutorials)
 
-### Go SDK
+**Go SDK:**
 
 * [Go samples](/go/samples)
 
-### Rust SDK
+**Rust SDK:**
 
 * [Rust Protocol samples](/rust/azure_iot_operations_protocol/examples/)
 * [Rust MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
