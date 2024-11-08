@@ -575,7 +575,7 @@ type Listeners []Listener
 ```
 
 <a name="Listeners.Close"></a>
-### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L226>)
+### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L220>)
 
 ```go
 func (ls Listeners) Close()
@@ -584,7 +584,7 @@ func (ls Listeners) Close()
 Close all underlying MQTT topics and free resources.
 
 <a name="Listeners.Start"></a>
-### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L216>)
+### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L210>)
 
 ```go
 func (ls Listeners) Start(ctx context.Context) error
@@ -801,9 +801,9 @@ type TelemetryMessage[T any] struct {
     *CloudEvent
 
     // Ack provides a function to manually ack if enabled and if possible;
-    // it will be nil otherwise. Note that, since QoS0 messages cannot be
+    // it will be nil otherwise. Note that, since QoS 0 messages cannot be
     // acked, this will be nil in this case even if manual ack is enabled.
-    Ack func() error
+    Ack func()
     // contains filtered or unexported fields
 }
 ```
