@@ -51,7 +51,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             string defaultsFilePath = Path.Combine(invokerCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
-                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = PascalToKebabCase });
+                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
                 TestCaseInvoker.DefaultCommandName = defaultTestCase.Prologue.Invoker.CommandName;
                 TestCaseInvoker.DefaultRequestTopic = defaultTestCase.Prologue.Invoker.RequestTopic;
@@ -556,31 +556,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             if (publishedMessage.Expiry != null)
             {
                 Assert.Equal((uint)publishedMessage.Expiry, appMsg.MessageExpiryInterval);
-            }
-        }
-
-        private static string PascalToKebabCase(string name)
-        {
-            StringBuilder builder = new();
-            try
-            {
-                char c = '\0';
-                foreach (char c2 in name)
-                {
-                    if (char.IsUpper(c2) && !char.IsUpper(c) && c != 0 && c != '-')
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(c2));
-                    c = c2;
-                }
-
-                return builder.ToString();
-            }
-            finally
-            {
-                builder.Length = 0;
             }
         }
     }

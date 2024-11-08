@@ -56,7 +56,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             string defaultsFilePath = Path.Combine(receiverCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
-                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = PascalToKebabCase });
+                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
                 TestCaseReceiver.DefaultTelemetryName = defaultTestCase.Prologue.Receiver.TelemetryName;
                 TestCaseReceiver.DefaultTelemetryTopic = defaultTestCase.Prologue.Receiver.TelemetryTopic;
@@ -523,31 +523,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             }
 
             receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, senderId));
-        }
-
-        private static string PascalToKebabCase(string name)
-        {
-            StringBuilder builder = new();
-            try
-            {
-                char c = '\0';
-                foreach (char c2 in name)
-                {
-                    if (char.IsUpper(c2) && !char.IsUpper(c) && c != 0 && c != '-')
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(c2));
-                    c = c2;
-                }
-
-                return builder.ToString();
-            }
-            finally
-            {
-                builder.Length = 0;
-            }
         }
 
         private record ReceivedTelemetry
