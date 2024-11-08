@@ -222,7 +222,7 @@ func (tr *TelemetryReceiver[T]) handle(
 		}()
 
 		err = tr.handler(ctx, msg)
-		if e := errors.Context(ctx, telemetryReceiverErrStr); e != nil {
+		if e := errutil.Context(ctx, telemetryReceiverErrStr); e != nil {
 			// An error from the context overrides any return value.
 			err = e
 		} else if err != nil {
@@ -248,7 +248,7 @@ func (tr *TelemetryReceiver[T]) handle(
 	case err := <-rchan:
 		return err
 	case <-ctx.Done():
-		return errors.Context(ctx, telemetryReceiverErrStr)
+		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }
 

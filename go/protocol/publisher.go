@@ -3,6 +3,7 @@
 package protocol
 
 import (
+	"context"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
@@ -10,12 +11,14 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/google/uuid"
 )
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
+	client   MqttClient
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
 }
@@ -79,4 +82,14 @@ func (p *publisher[T]) build(
 	pub.UserProperties[constants.ProtocolVersion] = version.ProtocolString
 
 	return pub, nil
+}
+
+func (p *publisher[T]) publish(ctx context.Context, msg *mqtt.Message) error {
+	ack, err := p.client.Publish(
+		ctx,
+		msg.Topic,
+		msg.Payload,
+		&msg.PublishOptions,
+	)
+	return errutil.Mqtt(ctx, "publish", ack, err)
 }

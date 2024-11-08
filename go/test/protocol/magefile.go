@@ -3,7 +3,6 @@
 
 package main
 
-//mage:import
 import (
 	"github.com/Azure/iot-operations-sdks/go/internal/mage"
 	"github.com/princjef/mageutil/shellcmd"

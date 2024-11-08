@@ -21,7 +21,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("someClientId")
-        .host_name("localhost")
+        .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
