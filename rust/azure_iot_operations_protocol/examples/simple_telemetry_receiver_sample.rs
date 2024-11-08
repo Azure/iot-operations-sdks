@@ -18,7 +18,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myReceiver";
 const HOST: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/{modelId}/new";
+const TOPIC: &str = "akri/samples/{senderId}/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
