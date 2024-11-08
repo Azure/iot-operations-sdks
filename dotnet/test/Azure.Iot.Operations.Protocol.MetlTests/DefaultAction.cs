@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             SendTelemetry = new();
             ReceiveRequest = new();
             ReceiveResponse = new();
+            ReceiveTelemetry = new();
         }
 
         public DefaultInvokeCommand InvokeCommand { get; set; }
@@ -17,5 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public DefaultReceiveRequest ReceiveRequest { get; set; }
 
         public DefaultReceiveResponse ReceiveResponse { get; set; }
+
+        public DefaultReceiveTelemetry ReceiveTelemetry { get; set; }
     }
 }

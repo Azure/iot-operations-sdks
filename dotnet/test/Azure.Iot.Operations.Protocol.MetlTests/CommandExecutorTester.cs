@@ -365,6 +365,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                     commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
                 }
 
+                if (testCaseExecutor.CustomTokenMap != null)
+                {
+                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.CustomTokenMap)
+                    {
+                        commandExecutor.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                    }
+                }
+
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {
                     commandExecutor.ExecutionTimeout = testCaseExecutor.ExecutionTimeout.ToTimeSpan();

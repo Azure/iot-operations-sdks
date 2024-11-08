@@ -1,6 +1,6 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 {
-    public class TestCaseSender
+    public class TestCaseReceiver
     {
         public static string? DefaultTelemetryName;
         public static string? DefaultTelemetryTopic;
@@ -16,5 +16,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
 
         public Dictionary<string, string>? CustomTokenMap { get; set; }
+
+        public TestCaseError? RaiseError { get; set; }
     }
 }

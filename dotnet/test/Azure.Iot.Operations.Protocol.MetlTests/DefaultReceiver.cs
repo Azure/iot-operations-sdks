@@ -1,6 +1,6 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 {
-    public class DefaultSender
+    public class DefaultReceiver
     {
         public string? TelemetryName { get; set; }
 

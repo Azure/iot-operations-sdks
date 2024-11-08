@@ -56,6 +56,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 TestCaseInvoker.DefaultCommandName = defaultTestCase.Prologue.Invoker.CommandName;
                 TestCaseInvoker.DefaultRequestTopic = defaultTestCase.Prologue.Invoker.RequestTopic;
                 TestCaseInvoker.DefaultModelId = defaultTestCase.Prologue.Invoker.ModelId;
+                TestCaseInvoker.DefaultTopicNamespace = defaultTestCase.Prologue.Invoker.TopicNamespace;
                 TestCaseInvoker.DefaultResponseTopicPrefix = defaultTestCase.Prologue.Invoker.ResponseTopicPrefix;
                 TestCaseInvoker.DefaultResponseTopicSuffix = defaultTestCase.Prologue.Invoker.ResponseTopicSuffix;
 

@@ -52,6 +52,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 TestCaseSender.DefaultTelemetryName = defaultTestCase.Prologue.Sender.TelemetryName;
                 TestCaseSender.DefaultTelemetryTopic = defaultTestCase.Prologue.Sender.TelemetryTopic;
                 TestCaseSender.DefaultModelId = defaultTestCase.Prologue.Sender.ModelId;
+                TestCaseSender.DefaultTopicNamespace = defaultTestCase.Prologue.Sender.TopicNamespace;
 
                 TestCaseActionSendTelemetry.DefaultTelemetryName = defaultTestCase.Actions.SendTelemetry.TelemetryName;
                 TestCaseActionSendTelemetry.DefaultTelemetryValue = defaultTestCase.Actions.SendTelemetry.TelemetryValue;
@@ -303,7 +304,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
             if (actionSendTelemetry.CloudEvent != null)
             {
-                Uri sourceUri = new Uri(actionSendTelemetry.CloudEvent.Source, UriKind.RelativeOrAbsolute);
+                Uri sourceUri = new Uri(actionSendTelemetry.CloudEvent.Source!, UriKind.RelativeOrAbsolute);
 
                 if (actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null)
                 {

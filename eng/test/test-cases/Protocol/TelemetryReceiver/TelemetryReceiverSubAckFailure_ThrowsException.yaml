@@ -1,0 +1,21 @@
+---
+test-name: TelemetryReceiverSubAckFailure_ThrowsException
+aka:
+- ReceiveTelemetry_SubAckFailedWithUnspecifiedError
+description:
+  condition: >-
+    During initialization, TelemetryReceiver subscribes but ACK fails.
+  expect: >-
+    TelemetryReceiver throws 'mqtt error' exception.
+
+prologue:
+  push-acks:
+    subscribe: [ fail ]
+  receivers:
+  - { }
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false 
+...

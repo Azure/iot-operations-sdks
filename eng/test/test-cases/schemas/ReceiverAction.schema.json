@@ -1,0 +1,13 @@
+{
+    "title": "ReceiverAction",
+    "type": "object",
+    "anyOf": [
+        { "$ref": "ActionReceiveTelemetry.schema.json" },
+        { "$ref": "ActionAwaitAck.schema.json" },
+        { "$ref": "ActionDisconnect.schema.json" },
+        { "$ref": "ActionSleep.schema.json" },
+        { "$ref": "ActionFreezeTime.schema.json" },
+        { "$ref": "ActionUnfreezeTime.schema.json" }
+    ],
+    "required": [ "action" ]
+}

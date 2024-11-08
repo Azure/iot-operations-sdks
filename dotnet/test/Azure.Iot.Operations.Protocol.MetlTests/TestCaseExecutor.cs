@@ -23,6 +23,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
 
+        public Dictionary<string, string>? CustomTokenMap { get; set; }
+
         public bool Idempotent { get; set; } = DefaultIdempotent;
 
         public TestCaseDuration? CacheTtl { get; set; } = DefaultCacheTtl;

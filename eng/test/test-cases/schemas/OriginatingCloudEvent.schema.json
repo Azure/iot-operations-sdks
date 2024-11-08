@@ -1,5 +1,5 @@
 {
-    "title": "CloudEvent",
+    "title": "OriginatingCloudEvent",
     "type": "object",
     "additionalProperties": false,
     "properties": {

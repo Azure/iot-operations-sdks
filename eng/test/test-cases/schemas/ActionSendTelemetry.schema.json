@@ -36,7 +36,7 @@
         },
         "cloud-event": {
             "description": "A CloudEvent associated with the Telemetry.",
-            "$ref": "CloudEvent.schema.json",
+            "$ref": "OriginatingCloudEvent.schema.json",
             "kind": "drive"
         },
         "qos": {
