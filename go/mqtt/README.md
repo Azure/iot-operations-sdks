@@ -34,8 +34,6 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type InvalidArgumentError](<#InvalidArgumentError>)
   - [func \(e \*InvalidArgumentError\) Error\(\) string](<#InvalidArgumentError.Error>)
   - [func \(e \*InvalidArgumentError\) Unwrap\(\) error](<#InvalidArgumentError.Unwrap>)
-- [type InvalidOperationError](<#InvalidOperationError>)
-  - [func \(e \*InvalidOperationError\) Error\(\) string](<#InvalidOperationError.Error>)
 - [type Message](<#Message>)
 - [type MessageHandler](<#MessageHandler>)
 - [type PahoClient](<#PahoClient>)
@@ -359,26 +357,6 @@ func (e *InvalidArgumentError) Error() string
 
 ```go
 func (e *InvalidArgumentError) Unwrap() error
-```
-
-
-
-<a name="InvalidOperationError"></a>
-## type [InvalidOperationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L159-L161>)
-
-InvalidOperationError is returned if the user attempts to make a function call that is invalid \(e.g., attempting to ack a QoS 0 message\).
-
-```go
-type InvalidOperationError struct {
-    // contains filtered or unexported fields
-}
-```
-
-<a name="InvalidOperationError.Error"></a>
-### func \(\*InvalidOperationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L163>)
-
-```go
-func (e *InvalidOperationError) Error() string
 ```
 
 
