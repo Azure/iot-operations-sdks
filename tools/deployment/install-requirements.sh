@@ -33,5 +33,5 @@ fi
 if [ ! $(which k9s) ]
 then
     wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb -P /tmp
-    dpkg -i /tmp/k9s_linux_amd64.deb
+    sudo dpkg -i /tmp/k9s_linux_amd64.deb
 fi
