@@ -1,6 +1,6 @@
 # Service and SDK Limitations
 
-## State Store
+## State store
 
 The state store does not support resuming sessions. In the case of a disconnect of the client, the client will need to reestablish the any observed keys. The has the following implications
 

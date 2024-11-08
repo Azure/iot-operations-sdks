@@ -89,16 +89,16 @@ Installation via Helm provides allows you to get started quicker, however this i
     ./tools/deployment/deploy-aio.sh nightly
     ```
 
-> [!NOTE]
-> The above scrips provide an easy way to setup an environment, however if you would like to see the exact steps being performed or would like more information on he process, review the scripts in the [deployment directory](/tools/deployment/).
+> [!CAUTION]
+> The scripts linked above simplify the environment setup. To understand the performed steps, review the scripts in the [deployment directory](/tools/deployment/).
 
-## Configure the Broker
+## Broker configuration
 
-The cluster will contain the following:
+Once setup is complete, the cluster will contain the following MQTT broker definitions:
 
 | Component | Name | Description |
 |-|-|-|
-| `Broker` | default | An MQTT broker definition |
+| `Broker` | default | The MQTT broker |
 | `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
 | `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
 | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
@@ -106,10 +106,10 @@ The cluster will contain the following:
 
 ## Local artifacts
 
-As part of the deployment script, the following files are created in the local environment, to facilitate connection and authentication to the MQTT broker. These files are located in the `.session` directory found at the repository root.
+As part of the deployment script, the following files are created in the local environment, to facilitate connection and authentication to the MQTT broker. These files are located in the `.session` directory, found at the repository root.
 
 > [!NOTE]
-> For applications that will be deployed to the cluster in production, SAT authentication is the preferred method of connecting to the MQTT broker.
+> For applications that will be deployed to the cluster, SAT  is the preferred authentication method for connecting to the MQTT broker.
 
 | File | Description |
 |-|-|
@@ -120,7 +120,7 @@ As part of the deployment script, the following files are created in the local e
 
 ## Testing the Setup
 
-The easiest way to test the setup is working correctly is to use `mosquitto_pub` to attempt to connect to the locally accessible MQTT broker ports to validate the x509 certs, SAT and trust bundle.
+To test the setup is working correctly, use `mosquitto_pub` to connect to the locally accessible MQTT broker ports to validate the x509 certs, SAT and trust bundle.
 
 1. Export the `.session` directory:
 
@@ -148,16 +148,10 @@ The easiest way to test the setup is working correctly is to use `mosquitto_pub`
 
 ## Next Steps
 
-Continue setting your environment depending on which language you want, and then get started!
+The development environment is now setup! Refer to the language documentation for further instructions on setting up the SDK:
 
- ### **.NET** :
+* Get started with the [.NET SDK ](/dotnet/)
 
-Install [.NET 8](https://learn.microsoft.com/dotnet/core/install/linux), then head to the [.NET SDK ](/dotnet/)
+* Get started with the [Go SDK](/go/)
 
-### **Go** 
-
-Install [Go](https://go.dev/doc/install), then head to the [Go SDK](/go/)
-
-### **Rust** 
-
-Install [Rust](https://www.rust-lang.org/tools/install), then head to the [Rust SDK](/rust/)
+* Get started with the [Rust SDK](/rust/)

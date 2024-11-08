@@ -12,7 +12,7 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 
 | Tutorial | Description | Go | .NET | Rust |
 |-|-|-|-|-|
-| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | Go | [.NET](/dotnet/tutorials/EventDrivenApp) | Rust |
+| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | Go | [:link:](/dotnet/tutorials/EventDrivenApp) | Rust |
 | Rest Akri Connector | | Go | .NET | Rust |
 | SQL Akri Connector | | Go | .NET | Rust |
 

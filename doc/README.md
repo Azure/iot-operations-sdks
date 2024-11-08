@@ -53,21 +53,17 @@ The SDK supports the following application types:
 
 | Application type | Description |
 |-|-|
-| [Edge Application](edge_application) | A generic edge application that needs to interface with various Azure IoT Operations services such as the MQTT broker and state store. The SDKs provides convenient clients to simplify the development experience. </br>*An Edge Application is a customer managed artifact, including deployment to the cluster and monitor execution.* |
-| [Akri Connector](akri_connector) | A specialized edge application deployed by the Akri Operator and designed to interface with on-premises asset endpoints. The Akri connector is responsible for discovering assets available on the endpoint, and relaying information to and from those assets.</br>*The Akri Connector's deployment is managed automatically by the Akri Operator.* |
+| [Edge application](edge_application) | A generic edge application that needs to interface with various Azure IoT Operations services such as the MQTT broker and state store. The SDKs provides convenient clients to simplify the development experience. </br>*An Edge Application is a customer managed artifact, including deployment to the cluster and monitor execution.* |
+| [Akri connector](akri_connector) | A specialized edge application deployed by the Akri Operator and designed to interface with on-premises asset endpoints. The Akri connector is responsible for discovering assets available on the endpoint, and relaying information to and from those assets.</br>*The Akri Connector's deployment is managed automatically by the Akri Operator.* |
 
 > [!NOTE]
 > The Akri connector is part of the Akri service, which is under active development and currently not available for use.
 
 ## Developing applications
 
-1. Review the various SDKs and tools:
-   * [.NET](/dotnet)
-   * [Go](/go)
-   * [Rust](/rust)
-   * [Protocol compiler](/codegen)
+1. Read more on developing [edge applications](edge_application).
 
-1. Check out the [samples](/samples) for samples and tutorials across the SDKs.
+1. Review the [samples](/samples) directory for samples and tutorials.
 
 1. Learn how to [deploy](deploy.md) your application to the cluster.
 
@@ -75,4 +71,4 @@ The SDK supports the following application types:
 
 Read the reference information about the fundamentals primitives and protocols and that make up the SDKs.
 
-1. [Reference documentation](reference)
+1. [Reference](reference)
