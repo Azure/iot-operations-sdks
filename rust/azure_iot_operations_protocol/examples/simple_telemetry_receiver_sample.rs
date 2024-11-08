@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
 };
 
 const CLIENT_ID: &str = "myReceiver";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "akri/samples/{modelId}/{senderId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
@@ -31,7 +31,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -61,6 +61,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
         .model_id(MODEL_ID)
+        .auto_ack(false)
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
@@ -69,7 +70,6 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
-            // For auto-acknowledgement: Ok((message, _))
             Ok((message, ack_token)) => {
                 println!(
                     "Sender {} sent temperature reading: {:?}",
@@ -78,7 +78,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
 
                 // Parse cloud event
                 if let Some(cloud_event) = message.cloud_event {
-                    println!("Received cloud event: \n{cloud_event}");
+                    println!("{cloud_event:?}");
                 }
 
                 // Acknowledge the message if ack_token is present
@@ -119,18 +119,27 @@ impl PayloadSerialize for SampleTelemetry {
     }
 
     fn deserialize(payload: &[u8]) -> Result<SampleTelemetry, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
+        let payload = match String::from_utf8(payload.to_vec()) {
+            Ok(p) => p,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
-        let external_temperature = payload[0]
+        let external_temperature = match payload[0]
             .trim_start_matches("{\"externalTemperature\":")
             .parse::<f64>()
-            .unwrap();
-        let internal_temperature = payload[1]
+        {
+            Ok(ext_temp) => ext_temp,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
+        let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
             .trim_end_matches('}')
             .parse::<f64>()
-            .unwrap();
+        {
+            Ok(int_temp) => int_temp,
+            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+        };
 
         Ok(SampleTelemetry {
             external_temperature,

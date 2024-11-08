@@ -6,7 +6,7 @@ RPC Protocol is based on well-defined sequences of PUB and PUBACK packets to imp
 
 RPC protocol must be tested using normative unit tests that assert the _expected_ behavior of the protocol. This MUST include at the very least:
 
-* Correct MQTT semantic for PUB and PUBACK ordering: PUBs have to be re-trasmitted and ACKed in the same order they have been sent and observed by the participating clients. See [section 4.6 Message Ordering](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901240) in MQTT5 specification.
+* Correct MQTT semantic for PUB and PUBACK ordering: PUBs have to be re-transmitted and ACKed in the same order they have been sent and observed by the participating clients. See [section 4.6 Message Ordering](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901240) in MQTT5 specification.
 * Correct de-duplication of requests.
 * Correct execution of [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.
 * Correct lifetime for cached responses.
@@ -19,7 +19,7 @@ Unit tests must account for at least the following occurrences:
 * Duplicate requests and/or responses.
 * Disconnection and re-connection (both for sender and receiver), both due to client failure and/or client being disconnected by the broker (e.g., on account of backpressure).
 * Failure and sub-sequent re-connection, both on invoker and executor side.
-* Serving requests inside and outside the [_timeout_](http://link_to_timeout) window indicated by request invokation, both for [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.
+* Serving requests inside and outside the [_timeout_](http://link_to_timeout) window indicated by request invocation, both for [_idempotent_](http://link_to_idempotent) and [_non-idempotent_](http://link_to_non_idempotent) methods.
 
 Unit tests MUST be exhaustive, and therefore MUST neither assume correct behavior of MQTT client nor assume correct behavior of protocol stack in SDK and broker.
 See below for categorized tests.
@@ -32,11 +32,11 @@ See below for categorized tests.
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
 | CommandExecutor initialized with empty string as command name. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with idempotent command that has a positive cacheable duration. | CommandExecutor starts successfully. |
-| CommandExecutor initialized with idempotent command that has a zero cacheable duration. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with idempotent command that has a positive cache TTL. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a positive cacheable duration. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a zero cacheable duration. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with non-idempotent command that has a positive cache TTL. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor initialized with non-idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor initialized with null command name. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
@@ -48,7 +48,7 @@ See below for categorized tests.
 | CommandExecutor receives equivalent executor-specific idempotent request from different Invoker ID within cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives equivalent executor-specific non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives equivalent idempotent request beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not underd storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
+| CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
 | CommandExecutor receives equivalent non-idempotent request. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives idempotent request that is duplicate except for different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives non-idempotent request that is duplicate except for different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |

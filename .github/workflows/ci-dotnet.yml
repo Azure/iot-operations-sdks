@@ -65,6 +65,9 @@ jobs:
     - name: CodeGen SchemaRegistryEnvoy
       run: (cd dotnet/src/Azure.Iot.Operations.Services/SchemaRegistry; ./gen.sh)
 
+    - name: CodeGen AkriClient
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/Akri; ./gen.sh)
+
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
