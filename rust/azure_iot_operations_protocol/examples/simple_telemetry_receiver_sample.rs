@@ -18,6 +18,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myReceiver";
 const HOST: &str = "localhost";
 const PORT: u16 = 1883;
+// senderId is a token that will be replaced with the client ID of the sender, it is required to be present in the topic pattern
 const TOPIC: &str = "akri/samples/{senderId}/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 

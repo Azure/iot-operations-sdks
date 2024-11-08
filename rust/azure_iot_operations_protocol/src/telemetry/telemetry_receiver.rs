@@ -548,6 +548,7 @@ where
 
                             let topic_tokens = self.topic_pattern.parse_tokens(topic);
                             // TODO: Temporary fix for missing senderId reserved token
+                            // The senderId token in the topic pattern is required
                             let sender_id = if let Some(id) = topic_tokens.get("senderId") {
                                 id.clone()
                             } else {
