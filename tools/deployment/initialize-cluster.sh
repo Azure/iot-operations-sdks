@@ -3,6 +3,11 @@
 set -o errexit
 set -o pipefail
 
+script_dir=$(dirname $(readlink -f $0))
+
+# Install requirements
+$script_dir/install-requirements.sh
+
 # Prompt user if this is an interactive shell
 if [[ $- =~ i ]]
 then
