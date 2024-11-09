@@ -15,7 +15,7 @@ using TestModel.dtmi_test_TestModel__1;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Converters;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class CommandExecutorTester
     {

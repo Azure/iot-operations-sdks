@@ -11,7 +11,7 @@ using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol;
 using Xunit;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     internal class StubMqttClient : MQTTnet.Client.IMqttClient
     {
