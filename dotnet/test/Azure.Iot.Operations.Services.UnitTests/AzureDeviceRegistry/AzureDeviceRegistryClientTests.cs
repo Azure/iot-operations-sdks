@@ -394,20 +394,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
         private void CleanupTestEnvironment()
         {
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepTargetAddressRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepAdditionalConfigurationRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepAuthenticationMethodRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.EndpointProfileTypeRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepCertificateFileNameRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepUsernameFileNameRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/config/aep_config/{AzureDeviceRegistryClient.AepPasswordFileNameRelativeMountPath}");
-            File.Delete($"./AzureDeviceRegistryTestFiles/secret/aep_username/some-username");
-            File.Delete($"./AzureDeviceRegistryTestFiles/secret/aep_password/some-password");
-            File.Delete($"./AzureDeviceRegistryTestFiles/secret/aep_cert/some-certificate");
-
-            if (Directory.Exists("./AzureDeviceRegistryTestFiles/config/asset_config/"))
-            { 
-                Directory.Delete("./AzureDeviceRegistryTestFiles/config/asset_config/", true);
+            if (Directory.Exists("./AzureDeviceRegistryTestFiles/"))
+            {
+                Directory.Delete($"./AzureDeviceRegistryTestFiles/", true);
             }
         }
     }
