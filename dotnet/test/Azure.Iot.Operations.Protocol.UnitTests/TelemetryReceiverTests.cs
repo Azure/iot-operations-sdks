@@ -275,6 +275,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             // Act
             await receiver.StartAsync();
             await mockClient.SimulateNewMessage(message);
+            await mockClient.SimulatedMessageAcknowledged();
 
             // Assert
             Assert.Equal(0, telemetryCount);
@@ -307,6 +308,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             // Act
             await receiver.StartAsync();
             await mockClient.SimulateNewMessage(message);
+            await mockClient.SimulatedMessageAcknowledged();
 
             // Assert
             Assert.Equal(0, telemetryCount);
