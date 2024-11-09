@@ -122,6 +122,9 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Default is an empty `Vec`.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    /// Topic token keys/values to be replaced into the publish topic of the telemetry message.
+    #[builder(default)]
+    topic_tokens: HashMap<String, String>,
     /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
     /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
@@ -192,18 +195,12 @@ pub struct TelemetrySenderOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
-    /// Telemetry name
-    #[builder(default = "None")]
-    telemetry_name: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
 }
 
 /// Telemetry Sender struct
@@ -236,10 +233,8 @@ pub struct TelemetrySenderOptions {
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
-///   .telemetry_name("test_telemetry")
-///   .model_id("test_model")
 ///   .topic_namespace("test_namespace")
-///   .custom_topic_token_map(HashMap::new())
+///   .topic_token_map(&HashMap::new(), None)
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
@@ -262,7 +257,6 @@ where
 }
 
 /// Implementation of Telemetry Sender
-#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetrySender<T, C>
 where
     T: PayloadSerialize,
@@ -277,10 +271,10 @@ where
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
-    ///     or [`model_id`](TelemetrySenderOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](TelemetrySenderOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     /// - Content type of the telemetry message is not valid utf-8
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
         sender_options: TelemetrySenderOptions,
@@ -299,13 +293,10 @@ where
             ));
         }
         // Validate parameters
-        let topic_pattern = TopicPattern::new_telemetry_pattern(
+        let topic_pattern = TopicPattern::new(
             &sender_options.topic_pattern,
-            client.client_id(),
-            sender_options.telemetry_name.as_deref(),
-            sender_options.model_id.as_deref(),
             sender_options.topic_namespace.as_deref(),
-            &sender_options.custom_topic_token_map,
+            &sender_options.topic_token_map,
         )?;
 
         Ok(Self {
@@ -338,7 +329,7 @@ where
         };
 
         // Get topic.
-        let message_topic = self.topic_pattern.as_publish_topic(None)?;
+        let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
         // Create timestamp
         let timestamp = HybridLogicalClock::new();
@@ -485,11 +476,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_sender: TelemetrySender<MockPayload, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
-        assert!(telemetry_sender
-            .topic_pattern
-            .is_match("test/test_telemetry"));
+        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
+            .unwrap();
     }
 
     #[test]
@@ -504,19 +492,17 @@ mod tests {
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/{modelId}/{telemetryName}")
-            .telemetry_name("test_telemetry")
-            .model_id("test_model")
+            .topic_pattern("test/{telemetryName}")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(HashMap::new())
+            .topic_token_map(HashMap::from([(
+                "telemetryName".to_string(),
+                "test_telemetry".to_string(),
+            )]))
             .build()
             .unwrap();
 
-        let telemetry_sender: TelemetrySender<MockPayload, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
-        assert!(telemetry_sender
-            .topic_pattern
-            .is_match("test_namespace/test/test_model/test_telemetry"));
+        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
+            .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]

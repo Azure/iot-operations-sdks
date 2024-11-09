@@ -123,7 +123,10 @@ where
         // create telemetry receiver for notifications
         let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
-            .telemetry_name(encoded_client_id)
+            .topic_token_map(HashMap::from([(
+                "telemetryName".to_string(),
+                encoded_client_id.clone(),
+            )]))
             .auto_ack(options.key_notification_auto_ack)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");

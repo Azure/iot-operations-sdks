@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::time::Duration;
 
 use env_logger::Builder;
@@ -20,7 +21,8 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myClient";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/dtmi:akri:samples:oven;1/{senderId}/new";
+// senderId is a token that will be replaced with the client ID of the sender, it is required to be present in the topic pattern
+const TOPIC: &str = "akri/samples/{senderId}/dtmi:akri:samples:oven;1/new";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -49,7 +51,6 @@ async fn main() {
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .telemetry_name("test_telemetry")
         .build()
         .unwrap();
     let telemetry_sender: TelemetrySender<SampleTelemetry, _> =
@@ -76,6 +77,10 @@ async fn telemetry_loop(
                 internal_temperature: 200,
             })
             .unwrap()
+            .topic_tokens(HashMap::from([(
+                "senderId".to_string(),
+                CLIENT_ID.to_string(),
+            )]))
             .message_expiry(Duration::from_secs(2))
             .cloud_event(cloud_event)
             .build()
