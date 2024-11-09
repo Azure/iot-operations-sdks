@@ -59,7 +59,6 @@ namespace HttpServerConnectorApp
 
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
-                mqttConnectionSettings.TcpPort = 18883; //TODO configurable?
                 _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
                 await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
