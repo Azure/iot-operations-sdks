@@ -10,36 +10,6 @@ import (
 )
 
 type (
-	// AuthOptions are the resolved options for enhanced authentication.
-	AuthOptions struct {
-		AuthMethod string
-		AuthData   []byte
-		// Path to the auth data file.
-		// If AuthData and SatAuthFile are provided both,
-		// the SatAuthFile will take precedence.
-		SatAuthFile string
-		// User-defined function to refresh AuthData, such as SAT token.
-		AuthDataProvider AuthDataProvider
-		// If user provides AuthDataProvider, we start reauthentication
-		// periodically in the background with the AuthInterval.
-		AuthInterval time.Duration
-		// Auther is an interface for user to implement autheticate logic.
-		// type Auther interface {
-		// 		// Authenticate will be called when an AUTH packet is received.
-		// 		Authenticate(*paho.Auth) *paho.Auth
-		// 		// Authenticated will be called when CONNACK is received.
-		// 		Authenticated()
-		// }
-		AuthHandler paho.Auther
-	}
-
-	// AuthOption represents a single authentication option.
-	AuthOption interface{ authenticate(*AuthOptions) }
-
-	// AuthDataProvider is a user-defined function used to
-	// provide new AuthData for refreshing authentication.
-	AuthDataProvider func(context.Context) []byte
-
 	// WillMessage is a representation of the LWT message that can
 	// be sent with the Connect packet.
 	WillMessage struct {
@@ -84,9 +54,10 @@ type (
 			packet *paho.Unsubscribe,
 		) (*paho.Unsuback, error)
 
-		Publish(
+		PublishWithOptions(
 			ctx context.Context,
 			packet *paho.Publish,
+			options paho.PublishOptions,
 		) (*paho.PublishResponse, error)
 
 		AddOnPublishReceived(
@@ -102,4 +73,10 @@ type (
 			auth *paho.Auth,
 		) (*paho.AuthResponse, error)
 	}
+
+	// PahoConstructor creates a PahoClient from a config.
+	PahoConstructor = func(
+		context.Context,
+		*paho.ClientConfig,
+	) (PahoClient, error)
 )

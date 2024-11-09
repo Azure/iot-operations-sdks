@@ -74,6 +74,11 @@ func (o WithCondition) set(opt *SetOptions) {
 	opt.Condition = Condition(o)
 }
 
+// Allow Condition to be used directly as an option for convenience.
+func (o Condition) set(opt *SetOptions) {
+	opt.Condition = o
+}
+
 func (o WithExpiry) set(opt *SetOptions) {
 	opt.Expiry = time.Duration(o)
 }

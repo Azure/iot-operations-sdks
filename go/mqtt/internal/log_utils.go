@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package mqtt
+package internal
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"reflect"
 
@@ -12,16 +13,20 @@ import (
 	"github.com/iancoleman/strcase"
 )
 
-type logger struct{ log.Logger }
+type Logger struct{ log.Logger }
 
-func (l logger) Packet(ctx context.Context, name string, packet any) {
+func (l Logger) Packet(ctx context.Context, name string, packet any) {
 	// This is expensive; bail out if we don't need it.
 	if !l.Enabled(ctx, slog.LevelDebug) {
 		return
 	}
 
 	val := realValue(reflect.ValueOf(packet))
-	l.Log(ctx, slog.LevelDebug, name, reflectAttrs(val)...)
+	if missingValue(val) {
+		l.Log(ctx, slog.LevelWarn, fmt.Sprintf("%s not available", name))
+	} else {
+		l.Log(ctx, slog.LevelDebug, name, reflectAttrs(val)...)
+	}
 }
 
 func reflectAttrs(val reflect.Value) []slog.Attr {
@@ -44,7 +49,7 @@ func reflectAttrs(val reflect.Value) []slog.Attr {
 
 func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	// Ignore zero values to keep the log cleaner.
-	if val.Kind() == reflect.Invalid || val.IsZero() {
+	if missingValue(val) {
 		return nil
 	}
 
@@ -61,6 +66,10 @@ func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	case "topics":
 		if topics, ok := val.Interface().([]string); ok {
 			return []slog.Attr{slog.String("topic", topics[0])}
+		}
+	case "reasons":
+		if reasons, ok := val.Interface().([]byte); ok {
+			return []slog.Attr{slog.Int("reason_code", int(reasons[0]))}
 		}
 
 	// Fix QoS not being actually PascalCased.
@@ -99,9 +108,13 @@ func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	return []slog.Attr{slog.Any(name, val.Interface())}
 }
 
-func realValue(typ reflect.Value) reflect.Value {
-	for typ.Kind() == reflect.Pointer {
-		typ = typ.Elem()
+func realValue(val reflect.Value) reflect.Value {
+	for val.Kind() == reflect.Pointer {
+		val = val.Elem()
 	}
-	return typ
+	return val
+}
+
+func missingValue(val reflect.Value) bool {
+	return val.Kind() == reflect.Invalid || val.IsZero()
 }
