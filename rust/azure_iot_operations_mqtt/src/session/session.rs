@@ -410,7 +410,7 @@ async fn run_background(
             };
 
             // Get the expiry time of the SAT token
-            let expiry = match get_jwt_expiry(&sat_token) {
+            let expiry = match get_sat_expiry(&sat_token) {
                 Ok(expiry) => expiry,
                 Err(e) => {
                     log::error!("{e:?}");
@@ -475,7 +475,7 @@ async fn run_background(
     }
 }
 
-fn get_jwt_expiry(token: &str) -> Result<u64, String> {
+pub(crate) fn get_sat_expiry(token: &str) -> Result<u64, String> {
     let parts: Vec<_> = token.split('.').collect();
 
     if parts.len() != 3 {

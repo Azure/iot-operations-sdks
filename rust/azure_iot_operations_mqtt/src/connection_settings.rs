@@ -4,7 +4,9 @@
 //! Generic MQTT connection settings implementations
 
 use std::env;
-use std::time::Duration;
+use std::time::{Duration, UNIX_EPOCH};
+
+use crate::session::session::get_sat_expiry;
 
 /// All the settings required to establish an MQTT connection.
 #[derive(Builder, Clone)]
@@ -187,25 +189,33 @@ impl MqttConnectionSettingsBuilder {
                 );
             }
         }
-        if let Some(sat_auth_file) = &self.sat_auth_file {
-            if sat_auth_file.is_some() {
-                if let Some(password) = &self.password {
-                    if password.is_some() {
-                        return Err(
-                            "sat_auth_file cannot be used with password or password_file."
-                                .to_string(),
-                        );
-                    }
-                }
-                if let Some(password_file) = &self.password_file {
-                    if password_file.is_some() {
-                        return Err(
-                            "sat_auth_file cannot be used with password or password_file."
-                                .to_string(),
-                        );
-                    }
+        if let Some(Some(sat_auth_file)) = &self.sat_auth_file {
+            if let Some(password) = &self.password {
+                if password.is_some() {
+                    return Err(
+                        "sat_auth_file cannot be used with password or password_file.".to_string(),
+                    );
                 }
             }
+            if let Some(password_file) = &self.password_file {
+                if password_file.is_some() {
+                    return Err(
+                        "sat_auth_file cannot be used with password or password_file.".to_string(),
+                    );
+                }
+            }
+            // // Check SAT token is not expired
+            match std::fs::read_to_string(sat_auth_file) {
+                Ok(token) => {
+                    if (UNIX_EPOCH + Duration::from_secs(get_sat_expiry(&token)?))
+                        .elapsed()
+                        .is_ok()
+                    {
+                        return Err("SAT token is expired".to_string());
+                    }
+                }
+                Err(e) => return Err(format!("Error reading SAT token from file: {e}")),
+            };
         }
         if let Some(key_file) = &self.key_file {
             if key_file.is_some() {
