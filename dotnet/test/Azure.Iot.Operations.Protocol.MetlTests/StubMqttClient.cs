@@ -33,6 +33,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         private AsyncQueue<byte[]> publishedCorrelationIds;
         private ConcurrentDictionary<string, bool> subscribedTopics;
         private ConcurrentDictionary<Guid, MqttApplicationMessage> publishedMessages;
+        private ConcurrentDictionary<int, MqttApplicationMessage> publishedMessageSeq;
 
         public StubMqttClient(string clientId)
         {
@@ -55,6 +56,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             publishedCorrelationIds = new();
             subscribedTopics = new();
             publishedMessages = new();
+            publishedMessageSeq = new();
         }
 
         public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
@@ -109,20 +111,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
         {
-            await publicationCount.Increment().ConfigureAwait(false);
+            int sequenceIndex = await publicationCount.Increment().ConfigureAwait(false) - 1;
 
-            if (!GuidExtensions.TryParseBytes(applicationMessage.CorrelationData!, out Guid? correlationId))
+            publishedMessageSeq.TryAdd(sequenceIndex, applicationMessage);
+
+            if (!GuidExtensions.TryParseBytes(applicationMessage.CorrelationData ?? Array.Empty<byte>(), out Guid? correlationId))
             {
                 correlationId = Guid.Empty;
             }
 
-            bool added = publishedMessages.TryAdd((Guid)correlationId!, applicationMessage);
-            publishedCorrelationIds.Enqueue(applicationMessage.CorrelationData!);
-
-            if (!added)
-            {
-                return new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, string.Empty, new List<MqttUserProperty>());
-            }
+            publishedMessages.TryAdd((Guid)correlationId!, applicationMessage);
+            publishedCorrelationIds.Enqueue(applicationMessage.CorrelationData ?? Array.Empty<byte>());
 
             if (!pubAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
             {
@@ -261,6 +260,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             }
 
             return publishedMessages.TryGetValue((Guid)correlationId!, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
+        }
+
+        internal MqttApplicationMessage? GetPublishedMessage(int sequenceIndex)
+        {
+            return publishedMessageSeq.TryGetValue(sequenceIndex, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
         }
 
         public ValueTask DisposeAsync(bool disposing)

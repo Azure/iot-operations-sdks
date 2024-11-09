@@ -1,0 +1,20 @@
+{
+    "title": "SenderEpilogue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "publication-count": {
+            "description": "The count of messages published.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "published-messages": {
+            "description": "An ordered list of Telemetry messages published.",
+            "type": "array",
+            "items": {
+                "$ref": "PublishedTelemetry.schema.json"
+            },
+            "kind": "check"
+        }
+    }
+}

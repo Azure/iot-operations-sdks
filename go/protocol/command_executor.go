@@ -259,7 +259,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer ce.listener.ack(ctx, pub)
+	defer pub.Ack()
 	if rpub == nil {
 		return nil
 	}
@@ -278,7 +278,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	defer ce.listener.ack(ctx, pub)
+	defer pub.Ack()
 
 	if e := ignoreRequest(pub); e != nil {
 		return e

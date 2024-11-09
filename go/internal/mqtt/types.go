@@ -5,19 +5,20 @@ package mqtt
 import "context"
 
 type (
-	// Message represents a received message. The client implementation must
-	// support manual ack, since acks are managed by the protocol.
+	// Message represents a received message.
 	Message struct {
 		Topic   string
 		Payload []byte
 		PublishOptions
-		Ack func() error
+
+		// Ack will manually ack the message. All handled messages must be acked
+		// (except for QoS 0 messages, in which case this is a no-op).
+		Ack func()
 	}
 
 	// MessageHandler is a user-defined callback function used to handle
-	// messages received on the subscribed topic. Returns whether the handler
-	// takes ownership of the message.
-	MessageHandler = func(context.Context, *Message) bool
+	// messages received on the subscribed topic.
+	MessageHandler = func(context.Context, *Message)
 
 	// ConnectEvent contains the relevent metadata provided to the handler when
 	// the MQTT client connects to the broker.

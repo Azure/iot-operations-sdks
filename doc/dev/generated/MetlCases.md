@@ -79,6 +79,7 @@ See below for categorized tests.
 | CommandExecutor receives valid request containing metadata. | CommandExecutor sends response and acknowledges request. |
 | CommandExecutor receives request with mismatched ContentType metadata. | CommandExecutor sends response with status UnsupportedMediaType. |
 | CommandExecutor receives request with different topic than subscribed. | CommandExecutor ignores request, and MQTT client auto-acknowledges. |
+| CommandExecutor receives request. | CommandExecutor copies request timout value into response message expiry interval. |
 | CommandExecutor receives valid request but ACK dropped when publishing response. | Connection automatically re-established, publication retried, success. |
 | CommandExecutor receives valid request but ACK fails when publishing response. | CommandExecutor does not throw exception. |
 | During initialization, CommandExecutor subscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
@@ -102,6 +103,7 @@ See below for categorized tests.
 | CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker initialized with a topic namespace that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker invokes command and receives response. | CommandInvoker copies Telemetry timout value into message expiry interval. |
 | CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker invokes command but receives no response message. | Invocation throws 'timeout' exception. |
 | CommandInvoker initialized with null command name. | CommandInvoker throws 'invalid configuration' exception. |

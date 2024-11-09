@@ -51,11 +51,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             string defaultsFilePath = Path.Combine(invokerCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
-                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = PascalToKebabCase });
+                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
                 TestCaseInvoker.DefaultCommandName = defaultTestCase.Prologue.Invoker.CommandName;
                 TestCaseInvoker.DefaultRequestTopic = defaultTestCase.Prologue.Invoker.RequestTopic;
                 TestCaseInvoker.DefaultModelId = defaultTestCase.Prologue.Invoker.ModelId;
+                TestCaseInvoker.DefaultTopicNamespace = defaultTestCase.Prologue.Invoker.TopicNamespace;
                 TestCaseInvoker.DefaultResponseTopicPrefix = defaultTestCase.Prologue.Invoker.ResponseTopicPrefix;
                 TestCaseInvoker.DefaultResponseTopicSuffix = defaultTestCase.Prologue.Invoker.ResponseTopicSuffix;
 
@@ -458,9 +459,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 responseAppMsgBuilder.WithUserProperty(AkriSystemProperties.InvalidPropertyValue, actionReceiveResponse.InvalidPropertyValue);
             }
 
-            MQTTnet.MqttApplicationMessage requestAppMsg = responseAppMsgBuilder.Build();
+            MQTTnet.MqttApplicationMessage responseAppMsg = responseAppMsgBuilder.Build();
 
-            ushort actualPacketId = await stubMqttClient.ReceiveMessageAsync(requestAppMsg, specificPacketId).WaitAsync(TestTimeout).ConfigureAwait(false);
+            ushort actualPacketId = await stubMqttClient.ReceiveMessageAsync(responseAppMsg, specificPacketId).WaitAsync(TestTimeout).ConfigureAwait(false);
             if (actionReceiveResponse.PacketIndex != null)
             {
                 packetIds.TryAdd((int)actionReceiveResponse.PacketIndex, actualPacketId);
@@ -551,30 +552,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.CommandInvokerId, out string? cmdInvokerId));
                 Assert.Equal(publishedMessage.InvokerId, cmdInvokerId);
             }
-        }
 
-        private static string PascalToKebabCase(string name)
-        {
-            StringBuilder builder = new();
-            try
+            if (publishedMessage.Expiry != null)
             {
-                char c = '\0';
-                foreach (char c2 in name)
-                {
-                    if (char.IsUpper(c2) && !char.IsUpper(c) && c != 0 && c != '-')
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(c2));
-                    c = c2;
-                }
-
-                return builder.ToString();
-            }
-            finally
-            {
-                builder.Length = 0;
+                Assert.Equal((uint)publishedMessage.Expiry, appMsg.MessageExpiryInterval);
             }
         }
     }
