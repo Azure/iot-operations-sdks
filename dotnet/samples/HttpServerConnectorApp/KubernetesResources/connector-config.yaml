@@ -1,4 +1,4 @@
-apiVersion: akri.microsoft.com/v1beta1  # This is spec.group/versions.name from connector_config_crd.yaml
+apiVersion: akri.microsoft.com/v1beta2  # This is spec.group/versions.name from connector_config_crd.yaml
 kind: ConnectorConfig
 metadata:
   name: http-connector-app-config
