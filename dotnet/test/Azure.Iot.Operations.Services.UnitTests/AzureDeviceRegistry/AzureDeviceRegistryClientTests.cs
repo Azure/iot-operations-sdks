@@ -284,10 +284,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 TaskCompletionSource<AssetChangedEventArgs> assetTcs = new();
                 adrClient.AssetChanged += (sender, args) =>
                 {
-                    if (args.ChangeType == ChangeType.Updated)
-                    { 
-                        assetTcs.TrySetResult(args);
-                    }
+                    assetTcs.TrySetResult(args);
                 };
 
                 await adrClient.ObserveAssetsAsync(TimeSpan.FromMilliseconds(100));
@@ -344,12 +341,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
             }
 
             string fileName = $"./AzureDeviceRegistryTestFiles/config/asset_config/{assetName}";
-            if (File.Exists(fileName))
-            {
-                // linux?
-                File.Delete(fileName);
-            }
-
             File.WriteAllText(fileName, assetJson);
         }
 
