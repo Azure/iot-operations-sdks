@@ -101,12 +101,12 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                                         }
                                         else
                                         {
-                                            DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
-                                            if (lastWriteUpdate == _lastKnownDirectoryState[filePath].MostRecentWrite)
-                                            {
+                                            //DateTime lastWriteUpdate = File.GetLastWriteTimeUtc(filePath);
+                                            //if (lastWriteUpdate == _lastKnownDirectoryState[filePath].MostRecentWrite)
+                                            //{
                                                 // File hasn't been updated recently. Skip reading this file's contents.
-                                                continue;
-                                            }
+                                            //    continue;
+                                            //}
 
                                             byte[] contents = await FileUtilities.ReadFileWithRetryAsync(filePath);
 
