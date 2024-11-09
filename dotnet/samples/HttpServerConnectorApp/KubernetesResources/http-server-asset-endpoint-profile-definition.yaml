@@ -1,4 +1,4 @@
-apiVersion: deviceregistry.microsoft.com/v1beta1
+apiVersion: deviceregistry.microsoft.com/v1
 kind: AssetEndpointProfile
 metadata:
   name: my-http-aep
