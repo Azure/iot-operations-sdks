@@ -1,4 +1,4 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCasePublishedMessage
     {
