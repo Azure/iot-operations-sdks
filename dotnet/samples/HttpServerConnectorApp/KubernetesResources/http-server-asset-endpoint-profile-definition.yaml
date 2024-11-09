@@ -1,4 +1,4 @@
-apiVersion: deviceregistry.microsoft.com/v1beta2 # This is spec.group/versions.name from aep_crd.yaml
+apiVersion: deviceregistry.microsoft.com/v1
 kind: AssetEndpointProfile
 metadata:
   name: my-http-aep

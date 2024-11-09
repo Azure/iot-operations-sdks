@@ -164,14 +164,19 @@ public class MqttConnectionSettings
         bool cleanStart = true;
         string? satMountPath = string.Empty;
         string? tlsCaCertMountPath = string.Empty;
+        int? port;
 
         try
         {
-            targetAddress = File.ReadAllText(configMapPath + "/MQ_TARGET_ADDRESS");
-            if (string.IsNullOrEmpty(targetAddress))
+            var targetAddressAndPort = File.ReadAllText(configMapPath + "/MQ_TARGET_ADDRESS");
+            if (string.IsNullOrEmpty(targetAddressAndPort))
             {
                 throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
             }
+
+            var targetAddressParts = targetAddressAndPort.Split(":");
+            targetAddress = targetAddressParts[0];
+            port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture); //TODO check for error when parsing
         }
         catch (Exception ex)
         {
@@ -200,9 +205,15 @@ public class MqttConnectionSettings
             Trace.TraceInformation("MQ_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
         }
 
+        X509Certificate2Collection chain = new();
         try
         {
             tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
+            
+            foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
+            {
+                chain.ImportFromPemFile(caFilePath);
+            }
         }
         catch
         {
@@ -215,7 +226,7 @@ public class MqttConnectionSettings
             {
                 UseTls = useTls,
                 SatAuthFile = satMountPath,
-                CaFile = tlsCaCertMountPath,
+                TrustChain = chain,
                 CleanStart = cleanStart
             };
         }
