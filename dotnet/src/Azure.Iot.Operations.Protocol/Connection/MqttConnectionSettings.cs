@@ -177,6 +177,8 @@ public class MqttConnectionSettings
             var targetAddressParts = targetAddressAndPort.Split(":");
             targetAddress = targetAddressParts[0];
             port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture); //TODO check for error when parsing
+
+            Trace.TraceInformation($"Target address parts: {targetAddress} {targetAddressParts[1]}");
         }
         catch (Exception ex)
         {
