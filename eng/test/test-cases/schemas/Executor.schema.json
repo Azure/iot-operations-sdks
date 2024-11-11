@@ -28,6 +28,14 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "custom-token-map": {
+            "description": "A map from custom topic tokens to replacement values.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
         "idempotent": {
             "description": "Whether it is permissible to execute the Command multiple times for a single invocation of the Command.",
             "type": "boolean",

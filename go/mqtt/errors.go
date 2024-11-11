@@ -153,13 +153,3 @@ type PublishQueueFullError struct{}
 func (*PublishQueueFullError) Error() string {
 	return "publish queue full"
 }
-
-// InvalidOperationError is returned if the user attempts to make a function
-// call that is invalid (e.g., attempting to ack a QoS 0 message).
-type InvalidOperationError struct {
-	message string
-}
-
-func (e *InvalidOperationError) Error() string {
-	return e.message
-}
