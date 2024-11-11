@@ -4,9 +4,7 @@
 //! Generic MQTT connection settings implementations
 
 use std::env;
-use std::time::{Duration, UNIX_EPOCH};
-
-use crate::session::session::get_sat_expiry;
+use std::time::Duration;
 
 // TODO: Split up this struct to avoid weird combinations and separate concern.
 // Things like having both password and password_file don't make much sense,
