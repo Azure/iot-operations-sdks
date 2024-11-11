@@ -14,7 +14,7 @@
             "kind": "check"
         },
         "payload": {
-            "description": "The response payload UTF8 string, or null if no payload.",
+            "description": "The request payload UTF8 string, or null if no payload.",
             "type": [ "string", "null" ],
             "kind": "check"
         },
@@ -29,6 +29,11 @@
         "invoker-id": {
             "description": "The invoker ID header property in the message.",
             "type": "string",
+            "kind": "check"
+        },
+        "expiry": {
+            "description": "The message expiry in seconds.",
+            "type": "integer",
             "kind": "check"
         }
     },

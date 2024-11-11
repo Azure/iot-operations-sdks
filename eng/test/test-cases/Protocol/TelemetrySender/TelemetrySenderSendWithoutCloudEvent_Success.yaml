@@ -1,0 +1,29 @@
+---
+test-name: TelemetrySenderSendWithoutCloudEvent_Success
+aka:
+- SendTelemetry_WithCloudEvents
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry without attached CloudEvent info.
+  expect: >-
+    TelemetrySender performs send but does not embeds CloudEvent info in Telemetry metadata.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "source": # not present
+      "type": # not present
+      "specversion": # not present
+      "datacontenttype": # not present
+      "subject": # not present
+...

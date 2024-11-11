@@ -1,0 +1,23 @@
+---
+test-name: TelemetrySenderSendOne_Success
+aka:
+- SendTelemetry_SingleMessage
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry.
+  expect: >-
+    TelemetrySender performs send.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+...

@@ -1,0 +1,22 @@
+---
+test-name: TelemetrySenderInvalidTopicNamespace_ThrowsException
+aka:
+- SendTelemetry_InvalidTopicNamespaceThrows
+description:
+  condition: >-
+    TelemetrySender initialized with a topic namespace that is invalid.
+  expect: >-
+    TelemetrySender throws 'invalid configuration' exception.
+
+prologue:
+  senders:
+  - topic-namespace: "invalid/{modelId}"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
+...

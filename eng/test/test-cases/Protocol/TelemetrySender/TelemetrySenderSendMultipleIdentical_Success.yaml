@@ -1,0 +1,31 @@
+---
+test-name: TelemetrySenderSendMultipleIdentical_Success
+aka:
+- SendTelemetry_MultipleIdenticalMessages
+description:
+  condition: >-
+    TelemetrySender sends multiple identical Telemetries in seqence.
+  expect: >-
+    TelemetrySender performs sequence of sends.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: send telemetry
+- action: send telemetry
+- action: await publish
+- action: await publish
+- action: await publish
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+...
