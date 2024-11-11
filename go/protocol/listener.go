@@ -55,14 +55,15 @@ type (
 func (l *listener[T]) register() {
 	handle, stop := internal.Concurrent(l.concurrency, l.handle)
 	done := l.client.RegisterMessageHandler(
-		func(ctx context.Context, m *mqtt.Message) bool {
+		func(ctx context.Context, m *mqtt.Message) {
 			msg := &message[T]{Mqtt: m}
 			var match bool
 			msg.TopicTokens, match = l.topic.Tokens(m.Topic)
 			if match {
 				handle(ctx, msg)
+			} else {
+				m.Ack()
 			}
-			return match
 		},
 	)
 	l.done = func() {
@@ -192,13 +193,6 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	}
 
 	return deserialize(l.encoding, pub.Payload)
-}
-
-func (l *listener[T]) ack(ctx context.Context, pub *mqtt.Message) {
-	// Drop rather than returning, so we don't attempt to double-ack on failure.
-	if err := pub.Ack(); err != nil {
-		l.drop(ctx, pub, err)
-	}
 }
 
 func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {

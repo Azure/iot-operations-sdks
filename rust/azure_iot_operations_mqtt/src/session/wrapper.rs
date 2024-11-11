@@ -67,7 +67,7 @@ impl Session {
     /// Returns a [`SessionError`] if there are errors using the session options.
     pub fn new(options: SessionOptions) -> Result<Self, SessionError> {
         let client_id = options.connection_settings.client_id.clone();
-        let sat_auth_file = options.connection_settings.sat_auth_file.clone();
+        let sat_file = options.connection_settings.sat_file.clone();
         let (client, event_loop) =
             adapter::client(options.connection_settings, options.outgoing_max, true)
                 .map_err(SessionErrorKind::from)?;
@@ -76,7 +76,7 @@ impl Session {
             event_loop,
             options.reconnect_policy,
             client_id,
-            sat_auth_file,
+            sat_file,
         )))
     }
 

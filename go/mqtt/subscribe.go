@@ -11,7 +11,7 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 )
 
-type messageHandler func(*Message) bool
+type messageHandler func(*Message)
 
 // Creates the single callback to register to the underlying Paho client for
 // incoming PUBLISH packets.
@@ -28,20 +28,7 @@ func (c *SessionClient) makeOnPublishReceived(
 		var willAck sync.WaitGroup
 		for handler := range c.messageHandlers.All() {
 			willAck.Add(1)
-			msg := buildMessage(packet, sync.OnceValue(func() error {
-				if packet.QoS == 0 {
-					return &InvalidOperationError{
-						message: "QoS 0 messages may not be acked",
-					}
-				}
-				willAck.Done()
-				return nil
-			}))
-			if !handler(msg) && packet.QoS > 0 {
-				// Use the passed-in ack to trigger the sync.OnceValue, which
-				// ensures misbehaving handlers can't accidentally double-ack.
-				_ = msg.Ack()
-			}
+			handler(buildMessage(packet, sync.OnceFunc(willAck.Done)))
 		}
 
 		if packet.QoS > 0 {
@@ -69,8 +56,8 @@ func (c *SessionClient) makeOnPublishReceived(
 // callback to remove the message handler.
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	ctx, cancel := context.WithCancel(context.Background())
-	done := c.messageHandlers.AppendEntry(func(msg *Message) bool {
-		return handler(ctx, msg)
+	done := c.messageHandlers.AppendEntry(func(msg *Message) {
+		handler(ctx, msg)
 	})
 	return sync.OnceFunc(func() {
 		done()
@@ -214,7 +201,7 @@ func buildUnsubscribe(
 }
 
 // Build message for the message handler.
-func buildMessage(packet *paho.Publish, ack func() error) *Message {
+func buildMessage(packet *paho.Publish, ack func()) *Message {
 	msg := &Message{
 		Topic:   packet.Topic,
 		Payload: packet.Payload,

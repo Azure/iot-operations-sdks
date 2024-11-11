@@ -1,4 +1,4 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseExecutor
     {
@@ -22,6 +22,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public string? ExecutorId { get; set; } = DefaultExecutorId;
 
         public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
+
+        public Dictionary<string, string>? CustomTokenMap { get; set; }
 
         public bool Idempotent { get; set; } = DefaultIdempotent;
 

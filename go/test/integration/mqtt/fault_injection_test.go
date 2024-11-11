@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package test
+package mqtt
 
 // TODO: add publish tests when the session client is able to retrieve the
 // publish result when a publish operation spans multiple network connections
@@ -28,13 +28,13 @@ const (
 	administrativeAction byte = 0x98
 )
 
-func TestSessionConnectionDisconnectionHandler(t *testing.T) {
+func TestSessionClientHandlesDisconnectWhileIdle(t *testing.T) {
 	client, err := mqtt.NewSessionClient(
 		mqtt.TCPConnection(
 			faultInjectableBrokerHostname,
 			faultInjectableBrokerPort,
 		),
-		mqtt.WithClientID("TestSessionConnectionDisconnectionHandler"),
+		mqtt.WithClientID("TestSessionClientHandlesDisconnectWhileIdle"),
 		mqtt.WithSessionExpiryInterval(10),
 	)
 	require.NoError(t, err)
@@ -53,8 +53,8 @@ func TestSessionConnectionDisconnectionHandler(t *testing.T) {
 
 	_, err = client.Publish(
 		context.Background(),
-		"foo",
-		[]byte("foo"),
+		"test-topic",
+		[]byte("test-data"),
 		mqtt.WithUserProperties{
 			disconnectFault: strconv.Itoa(int(administrativeAction)),
 			delayFault:      "1",

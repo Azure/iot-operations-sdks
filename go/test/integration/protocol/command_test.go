@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package protocol_test
+package protocol
 
 import (
 	"context"
@@ -13,8 +13,8 @@ import (
 // Simple happy-path sanity check.
 func TestCommand(t *testing.T) {
 	ctx := context.Background()
-	stub := setupMqtt(ctx, t, 1885)
-	defer stub.Broker.Close()
+	client, server, done := sessionClients(t)
+	defer done()
 
 	var listeners protocol.Listeners
 	defer listeners.Close()
@@ -23,7 +23,7 @@ func TestCommand(t *testing.T) {
 	topic := "prefix/{ex:token}/suffix"
 	value := "test"
 
-	executor, err := protocol.NewCommandExecutor(stub.Server, enc, enc, topic,
+	executor, err := protocol.NewCommandExecutor(server, enc, enc, topic,
 		func(
 			_ context.Context,
 			cr *protocol.CommandRequest[string],
@@ -38,7 +38,7 @@ func TestCommand(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(stub.Client, enc, enc, topic,
+	invoker, err := protocol.NewCommandInvoker(client, enc, enc, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
 		protocol.WithTopicNamespace("ns"),
 		protocol.WithTopicTokens{"token": "test"},
@@ -51,23 +51,23 @@ func TestCommand(t *testing.T) {
 	require.NoError(t, err)
 
 	res, err := invoker.Invoke(ctx, value,
-		protocol.WithTopicTokens{"executorId": stub.Server.ID()},
+		protocol.WithTopicTokens{"executorId": server.ID()},
 	)
 	require.NoError(t, err)
 
-	expected := value + stub.Client.ID() + res.CorrelationData
+	expected := value + client.ID() + res.CorrelationData
 	require.Equal(t, expected, res.Payload)
 	require.Equal(t, map[string]string{"ex:token": "test"}, res.Metadata)
 	require.Equal(t, map[string]string{
 		"ex:token":   "test",
-		"executorId": stub.Server.ID(),
+		"executorId": server.ID(),
 	}, res.TopicTokens)
 }
 
 func TestCommandError(t *testing.T) {
 	ctx := context.Background()
-	stub := setupMqtt(ctx, t, 1885)
-	defer stub.Broker.Close()
+	client, server, done := sessionClients(t)
+	defer done()
 
 	var listeners protocol.Listeners
 	defer listeners.Close()
@@ -76,7 +76,7 @@ func TestCommandError(t *testing.T) {
 	res := protocol.JSON[string]{}
 	topic := "topic"
 
-	executor, err := protocol.NewCommandExecutor(stub.Server, req, res, topic,
+	executor, err := protocol.NewCommandExecutor(server, req, res, topic,
 		func(
 			context.Context,
 			*protocol.CommandRequest[any],
@@ -87,7 +87,7 @@ func TestCommandError(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(stub.Client, req, res, topic,
+	invoker, err := protocol.NewCommandInvoker(client, req, res, topic,
 		protocol.WithResponseTopicSuffix("response"),
 	)
 	require.NoError(t, err)

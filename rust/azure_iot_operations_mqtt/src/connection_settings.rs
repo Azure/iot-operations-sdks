@@ -6,6 +6,10 @@
 use std::env;
 use std::time::Duration;
 
+// TODO: Split up this struct to avoid weird combinations and separate concern.
+// Things like having both password and password_file don't make much sense,
+// nor frankly does combining MQTT and TLS settings.
+
 /// All the settings required to establish an MQTT connection.
 #[derive(Builder, Clone)]
 #[builder(pattern = "owned", setter(into), build_fn(validate = "Self::validate"))]
@@ -13,7 +17,7 @@ pub struct MqttConnectionSettings {
     /// Client identifier
     pub(crate) client_id: String,
     /// FQDN of the host to connect to
-    pub(crate) host_name: String,
+    pub(crate) hostname: String,
     /// TCP port to connect to the host on
     #[builder(default = "8883")]
     pub(crate) tcp_port: u16,
@@ -21,6 +25,7 @@ pub struct MqttConnectionSettings {
     #[builder(default = "Duration::from_secs(60)")]
     pub(crate) keep_alive: Duration,
     /// Max number of in-flight Quality of Service 1 and 2 messages
+    //TODO: This is probably better represented as an option. Do this when refactoring.
     #[builder(default = "u16::MAX")] // See: MQTT 5.0 spec, 3.1.2.11.3
     pub(crate) receive_max: u16,
     /// Max size of a received packet
@@ -63,7 +68,7 @@ pub struct MqttConnectionSettings {
     pub(crate) key_password_file: Option<String>,
     /// Path to a SAT file to be used for SAT auth
     #[builder(default = "None")]
-    pub(crate) sat_auth_file: Option<String>,
+    pub(crate) sat_file: Option<String>,
 }
 
 impl MqttConnectionSettingsBuilder {
@@ -83,73 +88,62 @@ impl MqttConnectionSettingsBuilder {
     /// ```
     #[must_use]
     pub fn from_environment() -> Self {
-        let client_id = env::var("MQTT_CLIENT_ID").ok();
-        let host_name = env::var("MQTT_HOST_NAME").ok();
-        let tcp_port = env::var("MQTT_TCP_PORT")
+        let client_id = env::var("AIO_MQTT_CLIENT_ID").ok();
+        let hostname = env::var("AIO_BROKER_HOSTNAME").ok();
+        let tcp_port = env::var("AIO_BROKER_TCP_PORT")
             .ok()
             .map(|v| v.parse::<u16>())
             .transpose()
             .unwrap_or(None);
-        let keep_alive = env::var("MQTT_KEEP_ALIVE")
+        let keep_alive = env::var("AIO_MQTT_KEEP_ALIVE")
             .ok()
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
-        let receive_max = env::var("MQTT_RECEIVE_MAX")
-            .ok()
-            .map(|v| v.parse::<u16>())
-            .transpose()
-            .unwrap_or(None);
-        let session_expiry = env::var("MQTT_SESSION_EXPIRY")
+        let session_expiry = env::var("AIO_MQTT_SESSION_EXPIRY")
             .ok()
             .map(|v| v.parse::<u64>().map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
-        let connection_timeout = env::var("MQTT_CONNECTION_TIMEOUT")
-            .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
-            .transpose()
-            .unwrap_or(None);
-        let clean_start = env::var("MQTT_CLEAN_START")
+        let clean_start = env::var("AIO_MQTT_CLEAN_START")
             .ok()
             .map(|v| v.parse::<bool>())
             .transpose()
             .unwrap_or(None);
-        let username = Some(env::var("MQTT_USERNAME").ok());
-        let password = Some(env::var("MQTT_PASSWORD").ok());
-        let password_file = Some(env::var("MQTT_PASSWORD_FILE").ok());
-        let use_tls = env::var("MQTT_USE_TLS")
+        let username = Some(env::var("AIO_MQTT_USERNAME").ok());
+        let password_file = Some(env::var("AIO_MQTT_PASSWORD_FILE").ok());
+        let use_tls = env::var("AIO_MQTT_USE_TLS")
             .ok()
             .map(|v| v.parse::<bool>())
             .transpose()
             .unwrap_or(None);
-        let ca_file = Some(env::var("MQTT_CA_FILE").ok());
-        let cert_file = Some(env::var("MQTT_CERT_FILE").ok());
-        let key_file = Some(env::var("MQTT_KEY_FILE").ok());
-        let key_password_file = Some(env::var("MQTT_KEY_PASSWORD_FILE").ok());
-        let sat_auth_file = Some(env::var("MQTT_SAT_AUTH_FILE").ok());
+        let ca_file = Some(env::var("AIO_TLS_CA_FILE").ok());
+        let cert_file = Some(env::var("AIO_TLS_CERT_FILE").ok());
+        let key_file = Some(env::var("AIO_TLS_KEY_FILE").ok());
+        let key_password_file = Some(env::var("AIO_TLS_KEY_PASSWORD_FILE").ok());
+        let sat_file = Some(env::var("AIO_SAT_FILE").ok());
 
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
 
         Self {
             client_id,
-            host_name,
+            hostname,
             tcp_port,
             keep_alive,
-            receive_max,
+            receive_max: Some(u16::MAX),
             receive_packet_size_max: None,
             session_expiry,
-            connection_timeout,
+            connection_timeout: Some(Duration::from_secs(30)),
             clean_start,
             username,
-            password,
+            password: None,
             password_file,
             use_tls,
             ca_file,
             cert_file,
             key_file,
             key_password_file,
-            sat_auth_file,
+            sat_file,
         }
     }
 
@@ -157,14 +151,14 @@ impl MqttConnectionSettingsBuilder {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    /// - `host_name` is empty
+    /// - `hostname` is empty
     /// - `client_id` is empty and `clean_start` is false
     /// - `password` and `password_file` are both Some
-    /// - `sat_auth_file` is Some and `password` or `password_file` are Some
+    /// - `sat_file` is Some and `password` or `password_file` are Some
     /// - `key_file` is Some and `cert_file` is None or empty
     fn validate(&self) -> Result<(), String> {
-        if let Some(host_name) = &self.host_name {
-            if host_name.is_empty() {
+        if let Some(hostname) = &self.hostname {
+            if hostname.is_empty() {
                 return Err("Host name cannot be empty".to_string());
             }
         }
@@ -191,21 +185,19 @@ impl MqttConnectionSettingsBuilder {
                 );
             }
         }
-        if let Some(sat_auth_file) = &self.sat_auth_file {
-            if sat_auth_file.is_some() {
+        if let Some(sat_file) = &self.sat_file {
+            if sat_file.is_some() {
                 if let Some(password) = &self.password {
                     if password.is_some() {
                         return Err(
-                            "sat_auth_file cannot be used with password or password_file."
-                                .to_string(),
+                            "sat_file cannot be used with password or password_file.".to_string()
                         );
                     }
                 }
                 if let Some(password_file) = &self.password_file {
                     if password_file.is_some() {
                         return Err(
-                            "sat_auth_file cannot be used with password or password_file."
-                                .to_string(),
+                            "sat_file cannot be used with password or password_file.".to_string()
                         );
                     }
                 }
@@ -233,10 +225,10 @@ mod tests {
     use super::MqttConnectionSettingsBuilder;
 
     #[test]
-    fn test_connection_settings_empty_host_name() {
+    fn test_connection_settings_empty_hostname() {
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name(String::new())
+            .hostname(String::new())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
@@ -248,7 +240,7 @@ mod tests {
     fn test_connection_settings_empty_client_id() {
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id(String::new())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
@@ -260,7 +252,7 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id(String::new())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .clean_start(false)
             .build();
         match connection_settings_builder_result {
@@ -273,7 +265,7 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id(String::new())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .clean_start(true)
             .build();
         assert!(connection_settings_builder_result.is_ok());
@@ -283,7 +275,7 @@ mod tests {
     fn test_connection_settings_password_combos() {
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .password("test_password".to_string())
             .password_file("test_password_file".to_string())
             .build();
@@ -297,37 +289,37 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_hostname".to_string())
             .password("test_password".to_string())
-            .sat_auth_file("test_sat_auth_file".to_string())
+            .sat_file("test_sat_file".to_string())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => assert_eq!(
                 e.to_string(),
-                "sat_auth_file cannot be used with password or password_file."
+                "sat_file cannot be used with password or password_file."
             ),
         }
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .password_file("test_password_file".to_string())
-            .sat_auth_file("test_sat_auth_file".to_string())
+            .sat_file("test_sat_auth_file".to_string())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => assert_eq!(
                 e.to_string(),
-                "sat_auth_file cannot be used with password or password_file."
+                "sat_file cannot be used with password or password_file."
             ),
         }
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .password("test_password".to_string())
             .password_file("test_password_file".to_string())
-            .sat_auth_file("test_sat_auth_file".to_string())
+            .sat_file("test_sat_auth_file".to_string())
             .build();
         match connection_settings_builder_result {
             Ok(_) => panic!("Expected error"),
@@ -340,22 +332,22 @@ mod tests {
         // just one of each
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .password("test_password".to_string())
             .build();
         assert!(connection_settings_builder_result.is_ok());
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .password_file("test_password_file".to_string())
             .build();
         assert!(connection_settings_builder_result.is_ok());
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
-            .sat_auth_file("test_sat_auth_file".to_string())
+            .hostname("test_host".to_string())
+            .sat_file("test_sat_auth_file".to_string())
             .build();
         assert!(connection_settings_builder_result.is_ok());
     }
@@ -364,7 +356,7 @@ mod tests {
     fn test_connection_settings_cert_key_file() {
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .key_file("test_key_file".to_string())
             .build();
         match connection_settings_builder_result {
@@ -377,7 +369,7 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .key_file("test_key_file".to_string())
             .cert_file(String::new())
             .build();
@@ -391,21 +383,21 @@ mod tests {
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(String::new())
             .build();
         assert!(connection_settings_builder_result.is_ok());
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file("test_cert_file".to_string())
             .build();
         assert!(connection_settings_builder_result.is_ok());
 
         let connection_settings_builder_result = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file("test_cert_file".to_string())
             .key_file("test_key_file".to_string())
             .build();

@@ -28,6 +28,13 @@ func New[K, V Bytes](client *statestore.Client[K, V], name K) *Lock[K, V] {
 	return &Lock[K, V]{name, client}
 }
 
+func (l *Lock[K, V]) id(opts *Options) V {
+	if opts.SessionID == "" {
+		return V(l.client.ID())
+	}
+	return V(l.client.ID() + ":" + opts.SessionID)
+}
+
 // TryAcquire performs a single attempt to acquire the lock, returning a nonzero
 // fencing token if successful.
 func (l *Lock[K, V]) TryAcquire(
@@ -41,7 +48,7 @@ func (l *Lock[K, V]) TryAcquire(
 	res, err := l.client.Set(
 		ctx,
 		l.Name,
-		V(l.client.ID()),
+		l.id(&opts),
 		opts.set(),
 		statestore.WithCondition(statestore.NotExistsOrEqual),
 		statestore.WithExpiry(duration),
@@ -121,9 +128,25 @@ func (l *Lock[K, V]) Release(
 	var opts Options
 	opts.Apply(opt)
 
-	res, err := l.client.VDel(ctx, l.Name, V(l.client.ID()), opts.vdel())
+	res, err := l.client.VDel(ctx, l.Name, l.id(&opts), opts.vdel())
 	if err != nil {
 		return false, err
 	}
 	return res.Value > 0, nil
+}
+
+// Holder gets the current holder of the lock, if any. An empty value indicates
+// that there is no current lock holder.
+func (l *Lock[K, V]) Holder(
+	ctx context.Context,
+	opt ...Option,
+) (string, error) {
+	var opts Options
+	opts.Apply(opt)
+
+	res, err := l.client.Get(ctx, l.Name, opts.get())
+	if err != nil {
+		return "", err
+	}
+	return string(res.Value), nil
 }

@@ -3,7 +3,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Mqtt.Converters;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol;
+namespace Azure.Iot.Operations.Protocol.MetlTests;
 
 public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
 {
