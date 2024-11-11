@@ -57,6 +57,10 @@ pub enum SessionErrorKind {
     /// The [`Session`] ended up in an invalid state.
     #[error("{0}")]
     InvalidState(String),
+    // TODO: Reevaluate this error kind.
+    /// Error occurred while handling credentials ending the MQTT session.
+    #[error("{0}")]
+    CredentialError(String),
 }
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].

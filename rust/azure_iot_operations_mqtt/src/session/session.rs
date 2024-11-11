@@ -150,13 +150,47 @@ where
         // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
         // original setting during the operation of .run(), and thus, the original setting is lost.
 
+        // Verify that the specified SAT token exists and is not expired before starting the background task
+        // to maintain the SAT token.
+        if let Some(sat_file) = &self.sat_file {
+            match std::fs::read_to_string(sat_file) {
+                Ok(token) => match get_sat_expiry(&token) {
+                    Ok(expiry) => {
+                        if (UNIX_EPOCH + Duration::from_secs(expiry)).elapsed().is_ok() {
+                            return Err(std::convert::Into::into(
+                                SessionErrorKind::CredentialError(
+                                    "Provided SAT token is expired".to_string(),
+                                ),
+                            ));
+                        }
+                    }
+                    Err(e) => {
+                        return Err(std::convert::Into::into(SessionErrorKind::CredentialError(
+                            format!("Invalid SAT token provided: {e}"),
+                        )));
+                    }
+                },
+                Err(e) => {
+                    return Err(std::convert::Into::into(SessionErrorKind::CredentialError(
+                        format!("Error reading SAT token from file: {e}"),
+                    )));
+                }
+            };
+        }
+
         // Background tasks
         let cancel_token = CancellationToken::new();
         tokio::spawn({
             let cancel_token = cancel_token.clone();
             let client = self.client.clone();
             let unacked_pubs = self.unacked_pubs.clone();
-            run_background(client, unacked_pubs, self.sat_file.clone(), cancel_token)
+            run_background(
+                client,
+                unacked_pubs,
+                self.sat_file.clone(),
+                cancel_token,
+                self.create_exit_handle(),
+            )
         });
 
         // Indicates whether this session has been previously connected
@@ -364,12 +398,15 @@ where
 }
 
 /// Run background tasks for [`Session.run()`]
-async fn run_background(
+async fn run_background<C>(
     client: impl MqttClient + Clone,
     unacked_pubs: Arc<PubTracker>,
     sat_file: Option<String>,
     cancel_token: CancellationToken,
-) {
+    exit_handle: SessionExitHandle<C>,
+) where
+    C: MqttClient + Clone + Send + Sync,
+{
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
     async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl MqttClient) -> ! {
         loop {
@@ -385,7 +422,13 @@ async fn run_background(
     }
 
     /// Maintain the SAT token authentication by renewing it before it expires
-    async fn maintain_sat_auth(sat_file: String, client: impl MqttClient) -> ! {
+    async fn maintain_sat_auth<C>(
+        sat_file: String,
+        client: impl MqttClient,
+        exit_handle: SessionExitHandle<C>,
+    ) where
+        C: MqttClient + Clone + Send + Sync,
+    {
         let mut first_pass = true;
         let mut sleep_time = 5;
         loop {
@@ -400,7 +443,7 @@ async fn run_background(
                 Ok(token) => token,
                 Err(e) => {
                     log::error!("Error reading SAT token from file: {e:?}");
-                    continue;
+                    break;
                 }
             };
 
@@ -409,7 +452,7 @@ async fn run_background(
                 Ok(expiry) => expiry,
                 Err(e) => {
                     log::error!("{e:?}");
-                    continue;
+                    break;
                 }
             };
 
@@ -426,7 +469,7 @@ async fn run_background(
                     Ok(()) => log::debug!("SAT token renewed"),
                     Err(e) => {
                         log::error!("Error renewing SAT token: {e:?}");
-                        continue;
+                        break;
                     }
                 }
             }
@@ -435,7 +478,7 @@ async fn run_background(
             let target_time = UNIX_EPOCH + Duration::from_secs(expiry);
             let Ok(time_until_expiry) = target_time.duration_since(SystemTime::now()) else {
                 log::error!("Error calculating SAT token expiry time");
-                continue;
+                break;
             };
             let time_until_expiry = time_until_expiry.as_secs();
             if time_until_expiry > 5 {
@@ -443,6 +486,10 @@ async fn run_background(
             }
             first_pass = false;
         }
+        match exit_handle.trigger_exit_internal().await {
+            Ok(()) => log::debug!("Internal session exit successful"),
+            Err(e) => log::debug!("Internal session exit failed: {e:?}"),
+        };
     }
 
     // Run the background tasks
@@ -454,7 +501,7 @@ async fn run_background(
             () = ack_ready_publishes(unacked_pubs, client.clone()) => {
                 log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
-            () = maintain_sat_auth(sat_file, client) => {
+            () = maintain_sat_auth(sat_file, client, exit_handle) => {
                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
             }
         }

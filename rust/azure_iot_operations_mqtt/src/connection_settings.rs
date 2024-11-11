@@ -187,7 +187,7 @@ impl MqttConnectionSettingsBuilder {
                 );
             }
         }
-        if let Some(Some(sat_file)) = &self.sat_file {
+        if let Some(Some(_sat_file)) = &self.sat_file {
             if let Some(password) = &self.password {
                 if password.is_some() {
                     return Err(
@@ -202,18 +202,6 @@ impl MqttConnectionSettingsBuilder {
                     );
                 }
             }
-            // Check SAT token is not expired
-            match std::fs::read_to_string(sat_file) {
-                Ok(token) => {
-                    if (UNIX_EPOCH + Duration::from_secs(get_sat_expiry(&token)?))
-                        .elapsed()
-                        .is_ok()
-                    {
-                        return Err("SAT token is expired".to_string());
-                    }
-                }
-                Err(e) => return Err(format!("Error reading SAT token from file: {e}")),
-            };
         }
 
         if let Some(key_file) = &self.key_file {
