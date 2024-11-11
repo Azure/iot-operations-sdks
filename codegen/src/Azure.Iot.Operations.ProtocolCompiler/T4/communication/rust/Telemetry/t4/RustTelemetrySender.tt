@@ -79,7 +79,8 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("sendeId".to_string(), client.client_id().to_string());
+        topic_token_map.insert("senderId".to_string(), client.client_id().to_string());
+
 <# if (this.telemetryName != null) { #>
         topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName#>".to_string());
 <# } #>
