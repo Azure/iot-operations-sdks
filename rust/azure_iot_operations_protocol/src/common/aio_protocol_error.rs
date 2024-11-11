@@ -86,9 +86,8 @@ pub struct AIOProtocolError {
     pub command_name: Option<String>,
     /// The protocol version of the command request or response that was not supported.
     pub protocol_version: Option<String>,
-    /// The major protocol versions that are acceptable to the command executor if
-    /// the executor rejected the command request or the major protocol versions that
-    /// are acceptable to the command invoker if the invoker rejected the command response.
+    /// The acceptable major protocol versions for the command executor if it rejected the
+    /// command request, or for the command invoker if it rejected the command response.
     pub supported_protocol_major_versions: Option<Vec<u16>>,
 }
 

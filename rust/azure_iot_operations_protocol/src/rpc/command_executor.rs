@@ -21,7 +21,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
-    supported_protocol_major_versions_to_string, ProtocolVersion, PROTOCOL_VERSION,
+    supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -876,7 +876,7 @@ where
 
         user_properties.push((
             UserProperty::ProtocolVersion.to_string(),
-            PROTOCOL_VERSION.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
         ));
 
         if let Some(status_message) = response_arguments.status_message {

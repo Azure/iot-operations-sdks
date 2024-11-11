@@ -26,7 +26,7 @@ use crate::{
         topic_processor::{self, contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
-    parse_supported_protocol_major_versions, ProtocolVersion, PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -539,7 +539,7 @@ where
         ));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            PROTOCOL_VERSION.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
         ));
         if let Some(fencing_token) = request.fencing_token {
             request.custom_user_data.push((

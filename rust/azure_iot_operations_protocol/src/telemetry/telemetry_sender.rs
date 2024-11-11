@@ -23,7 +23,7 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::{validate_user_properties, UserProperty},
     },
-    PROTOCOL_VERSION,
+    AIO_PROTOCOL_VERSION,
 };
 
 /// Cloud Event struct
@@ -364,7 +364,7 @@ where
 
         message.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            PROTOCOL_VERSION.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
         ));
 
         // Create MQTT Properties
