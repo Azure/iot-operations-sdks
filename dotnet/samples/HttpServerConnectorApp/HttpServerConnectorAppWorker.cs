@@ -62,6 +62,10 @@ namespace HttpServerConnectorApp
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
                 _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
+                foreach (var cert in mqttConnectionSettings.TrustChain.ToList())
+                {
+                    _logger.LogInformation($"{cert.FriendlyName}");
+                }
 
                 await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
