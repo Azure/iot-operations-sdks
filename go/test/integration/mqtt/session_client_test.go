@@ -16,9 +16,10 @@ const (
 	serverHost string = "localhost"
 	serverPort int    = 1883
 
-	topicName      string = "patrick"
-	topicName2     string = "plankton"
-	publishMessage string = "squidward"
+	topicName  string = "patrick"
+	topicName2 string = "plankton"
+	payload    string = "squidward"
+	payload2   string = "squarepants"
 )
 
 func TestConnect(t *testing.T) {
@@ -58,12 +59,11 @@ func TestSubscribePublishUnsubscribe(t *testing.T) {
 
 	executed := make(chan struct{})
 	done := client.RegisterMessageHandler(
-		func(_ context.Context, msg *mqtt.Message) bool {
+		func(_ context.Context, msg *mqtt.Message) {
 			require.Equal(t, topicName, msg.Topic)
-			require.Equal(t, []byte(publishMessage), msg.Payload)
+			require.Equal(t, []byte(payload), msg.Payload)
 
 			close(executed)
-			return true
 		},
 	)
 	defer done()
@@ -71,7 +71,7 @@ func TestSubscribePublishUnsubscribe(t *testing.T) {
 	_, err = client.Subscribe(ctx, topicName)
 	require.NoError(t, err)
 
-	_, err = client.Publish(ctx, topicName, []byte(publishMessage))
+	_, err = client.Publish(ctx, topicName, []byte(payload))
 	require.NoError(t, err)
 
 	<-executed
@@ -107,13 +107,16 @@ func TestRequestQueue(t *testing.T) {
 	defer done1()
 	defer done2()
 
-	// Operations tested with a good connection.
-	test1.Init()
+	// Use QoS 1 for these tests to verify ack.
+	qos := mqtt.WithQoS(1)
 
-	_, err = client.Subscribe(ctx, topicName)
+	// Operations tested with a good connection.
+	test1.Init(payload)
+
+	_, err = client.Subscribe(ctx, topicName, qos)
 	require.NoError(t, err)
 
-	_, err = client.Publish(ctx, test1.Topic, []byte(publishMessage))
+	_, err = client.Publish(ctx, test1.Topic, []byte(payload), qos)
 	require.NoError(t, err)
 
 	test1.Wait()
@@ -122,18 +125,23 @@ func TestRequestQueue(t *testing.T) {
 	require.NoError(t, conn.Close())
 	<-disconn
 
-	test1.Init()
+	// Note: There's a good chance this disconnection happens before the ack is
+	// successfully sent to the broker, which means the initial message might
+	// get replayed when we reconnect. Because of that, we use (and test) a
+	// different payload for the follow-up messages.
+
+	test1.Init(payload2)
 	go func() {
-		_, err := client.Publish(ctx, test1.Topic, []byte(publishMessage))
+		_, err := client.Publish(ctx, test1.Topic, []byte(payload2), qos)
 		require.NoError(t, err)
 	}()
 
-	test2.Init()
+	test2.Init(payload2)
 	go func() {
-		_, err = client.Subscribe(ctx, test2.Topic)
+		_, err = client.Subscribe(ctx, test2.Topic, qos)
 		require.NoError(t, err)
 
-		_, err := client.Publish(ctx, test2.Topic, []byte(publishMessage))
+		_, err := client.Publish(ctx, test2.Topic, []byte(payload2), qos)
 		require.NoError(t, err)
 	}()
 

@@ -1,0 +1,29 @@
+---
+test-name: TelemetryReceiverWithTopicNamespace_Success
+aka:
+- ReceiveTelemetry_HappyPath
+description:
+  condition: >-
+    TelemetryReceiver with topic namespace receives a single valid Telemetry.
+  expect: >-
+    TelemetryReceiver relays Telemetry to user code and acknowledges message.
+
+prologue:
+  receivers:
+  - topic-namespace: "this/is/a/namespace"
+
+actions:
+- action: receive telemetry
+  topic: "this/is/a/namespace/mock/test"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "this/is/a/namespace/mock/test"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+...

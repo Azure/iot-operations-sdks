@@ -1,0 +1,35 @@
+{
+    "title": "PublishedTelemetry",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "topic": {
+            "description": "The MQTT topic to which the message is published.",
+            "type": "string",
+            "kind": "check"
+        },
+        "payload": {
+            "description": "The Telemetry payload UTF8 string.",
+            "type": "string",
+            "kind": "check"
+        },
+        "metadata": {
+            "description": "Keys and values of header fields in the message; a null value indicates field should not be present.",
+            "type": "object",
+            "additionalProperties": {
+                "type": [ "string", "null" ]
+            },
+            "kind": "check"
+        },
+        "sender-id": {
+            "description": "The sender ID header property in the message.",
+            "type": "string",
+            "kind": "check"
+        },
+        "expiry": {
+            "description": "The message expiry in seconds.",
+            "type": "integer",
+            "kind": "check"
+        }
+    }
+}

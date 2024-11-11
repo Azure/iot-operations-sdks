@@ -1,0 +1,25 @@
+---
+test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
+aka:
+- ReceiveTelemetry_MismatchedContentTypeDoesNotThrow
+description:
+  condition: >-
+    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
+  expect: >-
+    TelemetryReceiver does not relay telemetry to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  content-type: "raw/0"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  telemetry-count: 0
+...
