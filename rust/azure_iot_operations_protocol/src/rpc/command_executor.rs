@@ -12,13 +12,16 @@ use tokio::{sync::oneshot, task::JoinSet};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::{FormatIndicator, PayloadSerialize},
-    topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
-    user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::{FormatIndicator, PayloadSerialize},
+        topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
+        user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+    },
+    supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -27,6 +30,8 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
+
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -39,6 +44,8 @@ struct ResponseArguments {
     invalid_property_name: Option<String>,
     invalid_property_value: Option<String>,
     command_expiration_time: Option<Instant>,
+    supported_protocol_major_versions: Option<Vec<u16>>,
+    request_protocol_version: Option<String>,
 }
 
 /// Command Request struct.
@@ -553,6 +560,8 @@ where
                             invalid_property_name: None,
                             invalid_property_value: None,
                             command_expiration_time: None,
+                            supported_protocol_major_versions: None,
+                            request_protocol_version: None
                         };
 
                         // Get message expiry interval
@@ -630,6 +639,28 @@ where
                                 }
                             };
 
+                            // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+                            let mut request_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                            if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
+                                if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                    request_protocol_version = request_version;
+                                } else {
+                                    response_arguments.status_code = StatusCode::VersionNotSupported;
+                                    response_arguments.status_message = Some(format!("Unparsable protocol version value provided: {protocol_version}."));
+                                    response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                    response_arguments.request_protocol_version = Some(protocol_version.to_string());
+                                    break 'process_request;
+                                }
+                            }
+                            // Check that the version (or the default version if one isn't provided) is supported
+                            if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                response_arguments.status_code = StatusCode::VersionNotSupported;
+                                response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
+                                response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                response_arguments.request_protocol_version = Some(request_protocol_version.to_string());
+                                break 'process_request;
+                            }
+
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
@@ -652,6 +683,9 @@ where
                                     Ok(UserProperty::CommandInvokerId) => {
                                         invoker_id = Some(value);
                                     },
+                                    Ok(UserProperty::ProtocolVersion) => {
+                                        // skip, already processed
+                                    }
                                     Err(()) => {
                                         if key.starts_with(RESERVED_PREFIX) {
                                             // Don't return error, although these properties shouldn't be present on a request
@@ -840,6 +874,11 @@ where
             (response_arguments.status_code as u16).to_string(),
         ));
 
+        user_properties.push((
+            UserProperty::ProtocolVersion.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
+        ));
+
         if let Some(status_message) = response_arguments.status_message {
             log::error!(
                 "[{}][pkid: {}] {}",
@@ -861,6 +900,22 @@ where
             user_properties.push((
                 UserProperty::InvalidPropertyValue.to_string(),
                 value.to_string(),
+            ));
+        }
+
+        if let Some(supported_protocol_major_versions) =
+            response_arguments.supported_protocol_major_versions
+        {
+            user_properties.push((
+                UserProperty::SupportedMajorVersions.to_string(),
+                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+            ));
+        }
+
+        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+            user_properties.push((
+                UserProperty::RequestProtocolVersion.to_string(),
+                request_protocol_version,
             ));
         }
 
