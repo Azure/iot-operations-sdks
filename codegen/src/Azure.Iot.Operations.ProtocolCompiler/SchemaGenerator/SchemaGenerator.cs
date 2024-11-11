@@ -83,14 +83,14 @@
         {
             string serviceName = NameFormatter.DtmiToServiceName(dtInterface.Id);
 
-            List<(string?, string, string)> telemNameSchemaDatas =
+            List<(string?, string)> telemNameSchemas =
                 !dtInterface.Telemetries.Any() ? new() :
-                separateTelemetries ? dtInterface.Telemetries.Select(t => ((string?)t.Key, SchemaNames.GetTelemSchema(t.Key), t.Value.Id.AbsoluteUri)).ToList() :
-                new() { (null, SchemaNames.AggregateTelemSchema, dtInterface.Id.AbsoluteUri) };
+                separateTelemetries ? dtInterface.Telemetries.Select(t => ((string?)t.Key, SchemaNames.GetTelemSchema(t.Key))).ToList() :
+                new() { (null, SchemaNames.AggregateTelemSchema) };
 
             List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c, mqttVersion), GetResponseSchema(c, mqttVersion), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
 
-            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemaDatas, cmdNameReqRespIdemStales);
+            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
         }
 

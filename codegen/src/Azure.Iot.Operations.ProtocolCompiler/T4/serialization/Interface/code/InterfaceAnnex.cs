@@ -25,8 +25,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? TelemName { get; } = AnnexFileProperties.TelemName;
 
-        public static string? DataSchema { get; } = AnnexFileProperties.DataSchema;
-
         public static string? TelemSchema { get; } = AnnexFileProperties.TelemSchema;
 
         public static string? CommandList { get; } = AnnexFileProperties.CommandList;
@@ -50,10 +48,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
-        private readonly List<(string?, string, string)> telemNameSchemaDatas;
+        private readonly List<(string?, string)> telemNameSchemas;
         private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
 
-        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, string? telemServiceGroupId, string? cmdServiceGroupId, List<(string?, string, string)> telemNameSchemaDatas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
+        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, string? telemServiceGroupId, string? cmdServiceGroupId, List<(string?, string)> telemNameSchemas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -64,7 +62,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdTopicPattern = cmdTopicPattern;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdServiceGroupId = cmdServiceGroupId;
-            this.telemNameSchemaDatas = telemNameSchemaDatas;
+            this.telemNameSchemas = telemNameSchemas;
             this.cmdNameReqRespIdemStales = cmdNameReqRespIdemStales;
         }
 
