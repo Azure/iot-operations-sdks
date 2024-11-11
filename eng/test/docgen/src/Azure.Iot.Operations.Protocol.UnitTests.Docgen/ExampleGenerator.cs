@@ -167,7 +167,7 @@
                 string suiteDesc = suiteName != string.Empty ? $"suite {suiteName}" : "any suite";
                 string errorString = $"No available example in {suiteDesc} for key '{key}'{constraintDesc}";
 
-                Alert.Error(errorString);
+                Alert.Warning(errorString);
                 markdownFile.Blockquote($"**{errorString}**");
             }
         }

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-package internal
+package internal_test
 
 import (
 	"testing"
 
+	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/stretchr/testify/require"
 )
 
 func TestIterateInOrder(t *testing.T) {
-	list := NewAppendableListWithRemoval[int]()
+	list := internal.NewAppendableListWithRemoval[int]()
 
 	// append integers in the range [0, 5)
 	for i := range 5 {
@@ -27,7 +28,7 @@ func TestIterateInOrder(t *testing.T) {
 }
 
 func TestRemoveAtEnd(t *testing.T) {
-	list := NewAppendableListWithRemoval[int]()
+	list := internal.NewAppendableListWithRemoval[int]()
 
 	// append integers in the range [0, 4)
 	for i := range 4 {
@@ -49,7 +50,7 @@ func TestRemoveAtEnd(t *testing.T) {
 }
 
 func TestRemoveAtBeginning(t *testing.T) {
-	list := NewAppendableListWithRemoval[int]()
+	list := internal.NewAppendableListWithRemoval[int]()
 
 	// append 0
 	removeBeginning := list.AppendEntry(0)
@@ -71,7 +72,7 @@ func TestRemoveAtBeginning(t *testing.T) {
 }
 
 func TestRemoveInMiddle(t *testing.T) {
-	list := NewAppendableListWithRemoval[int]()
+	list := internal.NewAppendableListWithRemoval[int]()
 
 	// append values
 	_ = list.AppendEntry(0)
@@ -94,7 +95,7 @@ func TestRemoveInMiddle(t *testing.T) {
 }
 
 func TestIterateEmpty(t *testing.T) {
-	list := NewAppendableListWithRemoval[int]()
+	list := internal.NewAppendableListWithRemoval[int]()
 	for range list.All() {
 		t.Error("iterator unexpectedly yielded a value")
 		break
@@ -109,7 +110,7 @@ func TestIterateRandomRemoval(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		list := NewAppendableListWithRemoval[int]()
+		list := internal.NewAppendableListWithRemoval[int]()
 		var removalFuncs []func()
 
 		// append integers in the range [0, 10)

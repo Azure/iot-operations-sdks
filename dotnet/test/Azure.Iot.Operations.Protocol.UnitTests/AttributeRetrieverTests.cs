@@ -2,15 +2,14 @@
 {
     public class AttributeRetrieverTests
     {
-        [ModelId("id-top")]
+        [ServiceGroupId("group-top")]
         [CommandTopic("cmd-top")]
         public class TopLevelClass
         {
-            [ModelId("id-mid")]
+            [ServiceGroupId("group-mid")]
             [TelemetryTopic("telem-mid")]
             public class MidLevelClass
             {
-                [ModelId("id-leaf")]
                 [ServiceGroupId("group-leaf")]
                 public class LeafClass
                 {
@@ -52,20 +51,20 @@
         public void SelfTakesPrecedenceOverParentAndGrandparent()
         {
             TopLevelClass.MidLevelClass.LeafClass leaf = new();
-            Assert.True(AttributeRetriever.HasAttribute<ModelIdAttribute>(leaf));
-            ModelIdAttribute? attr = AttributeRetriever.GetAttribute<ModelIdAttribute>(leaf);
+            Assert.True(AttributeRetriever.HasAttribute<ServiceGroupIdAttribute>(leaf));
+            ServiceGroupIdAttribute? attr = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(leaf);
             Assert.NotNull(attr);
-            Assert.Equal("id-leaf", attr.Id);
+            Assert.Equal("group-leaf", attr.Id);
         }
 
         [Fact]
         public void SelfTakesPrecedenceOverParentAndChild()
         {
             TopLevelClass.MidLevelClass mid = new();
-            Assert.True(AttributeRetriever.HasAttribute<ModelIdAttribute>(mid));
-            ModelIdAttribute? attr = AttributeRetriever.GetAttribute<ModelIdAttribute>(mid);
+            Assert.True(AttributeRetriever.HasAttribute<ServiceGroupIdAttribute>(mid));
+            ServiceGroupIdAttribute? attr = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(mid);
             Assert.NotNull(attr);
-            Assert.Equal("id-mid", attr.Id);
+            Assert.Equal("group-mid", attr.Id);
         }
 
         [Fact]
@@ -74,15 +73,6 @@
             TopLevelClass.MidLevelClass mid = new();
             Assert.False(AttributeRetriever.HasAttribute<CommandBehaviorAttribute>(mid));
             CommandBehaviorAttribute? attr = AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(mid);
-            Assert.Null(attr);
-        }
-
-        [Fact]
-        public void NullIfNotSelfOrAboveInHierarchy()
-        {
-            TopLevelClass.MidLevelClass mid = new();
-            Assert.False(AttributeRetriever.HasAttribute<ServiceGroupIdAttribute>(mid));
-            ServiceGroupIdAttribute? attr = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(mid);
             Assert.Null(attr);
         }
     }

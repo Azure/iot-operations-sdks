@@ -12,7 +12,7 @@ use tokio_util::sync::CancellationToken;
 
 use crate::control_packet::{AuthProperties, QoS};
 use crate::error::ConnectionError;
-use crate::interface::{Event, Incoming, InternalClient, MqttDisconnect, MqttEventLoop};
+use crate::interface::{Event, Incoming, MqttClient, MqttDisconnect, MqttEventLoop};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
 use crate::session::pub_tracker::{PubTracker, RegisterError};
@@ -26,7 +26,7 @@ use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session<C, EL>
 where
-    C: InternalClient + Clone + Send + Sync + 'static,
+    C: MqttClient + Clone + Send + Sync + 'static,
     EL: MqttEventLoop,
 {
     /// Underlying MQTT client
@@ -36,7 +36,7 @@ where
     /// Client ID of the underlying rumqttc client
     client_id: String,
     /// File path to the SAT token
-    sat_auth_file: Option<String>,
+    sat_file: Option<String>,
     /// Dispatcher for incoming publishes
     incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Tracker for unacked incoming publishes
@@ -53,7 +53,7 @@ where
 
 impl<C, EL> Session<C, EL>
 where
-    C: InternalClient + Clone + Send + Sync + 'static,
+    C: MqttClient + Clone + Send + Sync + 'static,
     EL: MqttEventLoop,
 {
     // TODO: get client id out of here
@@ -64,19 +64,18 @@ where
         event_loop: EL,
         reconnect_policy: Box<dyn ReconnectPolicy>,
         client_id: String,
-        sat_auth_file: Option<String>,
-        capacity: usize,
+        sat_file: Option<String>,
     ) -> Self {
         // NOTE: drop the unfiltered message receiver from the dispatcher here in order to force non-filtered
         // messages to fail to be dispatched. The .run() method will respond to this failure by acking.
         // This lets us retain correct functionality while waiting for a more elegant solution with ordered ack.
-        let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new(capacity);
+        let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new();
         let incoming_pub_dispatcher = Arc::new(Mutex::new(incoming_pub_dispatcher));
         Self {
             client,
             event_loop,
             client_id,
-            sat_auth_file,
+            sat_file,
             incoming_pub_dispatcher,
             unacked_pubs: Arc::new(PubTracker::default()),
             reconnect_policy,
@@ -157,12 +156,7 @@ where
             let cancel_token = cancel_token.clone();
             let client = self.client.clone();
             let unacked_pubs = self.unacked_pubs.clone();
-            run_background(
-                client,
-                unacked_pubs,
-                self.sat_auth_file.clone(),
-                cancel_token,
-            )
+            run_background(client, unacked_pubs, self.sat_file.clone(), cancel_token)
         });
 
         // Indicates whether this session has been previously connected
@@ -245,11 +239,9 @@ where
                         .lock()
                         .unwrap()
                         .dispatch_publish(publish.clone())
-                        .await
                     {
                         Ok(num_dispatches) => {
                             log::debug!("Dispatched PUB to {num_dispatches} receivers");
-                            let manual_ack = self.client.get_manual_ack(&publish);
 
                             match publish.qos {
                                 QoS::AtMostOnce => {
@@ -258,11 +250,10 @@ where
                                 // QoS 1 or 2
                                 _ => {
                                     // Register the dispatched publish to track the acks
-                                    match self.unacked_pubs.register_pending(
-                                        &publish,
-                                        manual_ack,
-                                        num_dispatches,
-                                    ) {
+                                    match self
+                                        .unacked_pubs
+                                        .register_pending(&publish, num_dispatches)
+                                    {
                                         Ok(()) => {
                                             log::debug!(
                                                 "Registered PUB. Waiting for {num_dispatches} acks"
@@ -374,27 +365,27 @@ where
 
 /// Run background tasks for [`Session.run()`]
 async fn run_background(
-    client: impl InternalClient + Clone,
+    client: impl MqttClient + Clone,
     unacked_pubs: Arc<PubTracker>,
-    sat_auth_file: Option<String>,
+    sat_file: Option<String>,
     cancel_token: CancellationToken,
 ) {
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
-    async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl InternalClient) -> ! {
+    async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl MqttClient) -> ! {
         loop {
-            // Get the next ready ack
-            let (ack, pkid) = unacked_pubs.next_ready().await;
+            // Get the next ready publish
+            let publish = unacked_pubs.next_ready().await;
             // Ack the publish
-            match acker.manual_ack(ack).await {
-                Ok(()) => log::debug!("Sent ACK for PKID {pkid}"),
-                Err(e) => log::error!("ACK failed for PKID {pkid}: {e:?}"),
+            match acker.ack(&publish).await {
+                Ok(()) => log::debug!("Sent ACK for PKID {}", publish.pkid),
+                Err(e) => log::error!("ACK failed for PKID {}: {e:?}", publish.pkid),
                 // TODO: how realistically can this fail? And how to respond if it does?
             }
         }
     }
 
     /// Maintain the SAT token authentication by renewing it before it expires
-    async fn maintain_sat_auth(sat_auth_file: String, client: impl InternalClient) -> ! {
+    async fn maintain_sat_auth(sat_file: String, client: impl MqttClient) -> ! {
         let mut first_pass = true;
         let mut sleep_time = 5;
         loop {
@@ -405,7 +396,7 @@ async fn run_background(
             sleep_time = 5;
 
             // Get SAT token
-            let sat_token = match std::fs::read_to_string(&sat_auth_file) {
+            let sat_token = match std::fs::read_to_string(&sat_file) {
                 Ok(token) => token,
                 Err(e) => {
                     log::error!("Error reading SAT token from file: {e:?}");
@@ -455,7 +446,7 @@ async fn run_background(
     }
 
     // Run the background tasks
-    if let Some(sat_auth_file) = sat_auth_file {
+    if let Some(sat_file) = sat_file {
         tokio::select! {
             () = cancel_token.cancelled() => {
                 log::debug!("Session background task cancelled");
@@ -463,7 +454,7 @@ async fn run_background(
             () = ack_ready_publishes(unacked_pubs, client.clone()) => {
                 log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
-            () = maintain_sat_auth(sat_auth_file, client) => {
+            () = maintain_sat_auth(sat_file, client) => {
                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
             }
         }

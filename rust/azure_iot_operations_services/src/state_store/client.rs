@@ -621,7 +621,7 @@ mod tests {
     fn create_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_client")
             .build()
             .unwrap();

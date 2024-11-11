@@ -73,9 +73,9 @@ The following features are available or planned, along with the current language
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
 | **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :yellow_circle: |
-| **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :yellow_circle: | :yellow_circle: |
-| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :yellow_circle: | :yellow_circle: |
+| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
+| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
 | **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :orange_circle: | :orange_circle: |
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
@@ -87,8 +87,8 @@ The Protocol compiler is a command line tool distributed as a NuGet package. It 
 
 | Component | Description | [.NET](/dotnet) | [Go](/go) | [Rust](/rust) |
 |-|-|-|-|-|
-| [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :yellow_circle:  |
-| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :yellow_circle:  |
+| [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :green_circle:  |
+| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :green_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
 | [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
 

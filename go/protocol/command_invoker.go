@@ -5,6 +5,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
@@ -20,7 +21,6 @@ import (
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        MqttClient
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -49,9 +49,9 @@ type (
 	InvokeOptions struct {
 		FencingToken hlc.HybridLogicalClock
 
-		MessageExpiry uint32
-		TopicTokens   map[string]string
-		Metadata      map[string]string
+		Timeout     time.Duration
+		TopicTokens map[string]string
+		Metadata    map[string]string
 	}
 
 	// WithResponseTopic specifies a translation function from the request topic
@@ -89,7 +89,7 @@ func NewCommandInvoker[Req, Res any](
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
-	requestTopic string,
+	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
 	defer func() { err = errutil.Return(err, true) }()
@@ -106,21 +106,37 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	// Generate the response topic based on the provided options.
-	responseTopic := requestTopic
+	responseTopic := requestTopicPattern
 	if opts.ResponseTopic != nil {
-		responseTopic = opts.ResponseTopic(requestTopic)
+		responseTopic = opts.ResponseTopic(requestTopicPattern)
 	} else {
 		if opts.ResponseTopicPrefix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicPrefix",
+				"invalid response topic prefix",
+				opts.ResponseTopicPrefix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
 		}
 		if opts.ResponseTopicSuffix != "" {
+			err = internal.ValidateTopicPatternComponent(
+				"responseTopicSuffix",
+				"invalid response topic suffix",
+				opts.ResponseTopicSuffix,
+			)
+			if err != nil {
+				return nil, err
+			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
-		"requestTopic",
-		requestTopic,
+		"requestTopicPattern",
+		requestTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -144,16 +160,16 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	ci = &CommandInvoker[Req, Res]{
-		client:        client,
 		responseTopic: resTP,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		client:   client,
 		encoding: requestEncoding,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		client:         ci.client,
+		client:         client,
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
@@ -179,6 +195,20 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	var opts InvokeOptions
 	opts.Apply(opt)
 
+	timeout := opts.Timeout
+	if timeout == 0 {
+		timeout = DefaultTimeout
+	}
+
+	expiry := &internal.Timeout{
+		Duration: timeout,
+		Name:     "MessageExpiry",
+		Text:     commandInvokerErrStr,
+	}
+	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+		return nil, err
+	}
+
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
 		return nil, err
@@ -189,13 +219,13 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, opts.MessageExpiry)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
-	pub.UserProperties[constants.Partition] = ci.client.ID()
+	pub.UserProperties[constants.InvokerClientID] = ci.publisher.client.ID()
+	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}
@@ -208,25 +238,21 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	defer done()
 
 	shallow = false
-	_, err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	err = ci.publisher.publish(ctx, pub)
 	if err != nil {
 		return nil, err
 	}
 
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
-	ctx, cancel := internal.MessageExpiryTimeout(
-		ctx,
-		pub.MessageExpiry,
-		commandInvokerErrStr,
-	)
+	ctx, cancel := expiry.Context(ctx)
 	defer cancel()
 
 	select {
 	case res := <-listen:
 		return res.res, res.err
 	case <-ctx.Done():
-		return nil, errors.Context(ctx, commandInvokerErrStr)
+		return nil, errutil.Context(ctx, commandInvokerErrStr)
 	}
 }
 

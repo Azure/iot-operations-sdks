@@ -24,7 +24,7 @@ type (
 		listener  *listener[T]
 		handler   TelemetryHandler[T]
 		manualAck bool
-		timeout   internal.Timeout
+		timeout   *internal.Timeout
 	}
 
 	// TelemetryReceiverOption represents a single telemetry receiver option.
@@ -36,9 +36,9 @@ type (
 	TelemetryReceiverOptions struct {
 		ManualAck bool
 
-		Concurrency      uint
-		ExecutionTimeout time.Duration
-		ShareName        string
+		Concurrency uint
+		Timeout     time.Duration
+		ShareName   string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -55,8 +55,12 @@ type (
 	TelemetryMessage[T any] struct {
 		Message[T]
 
-		// Ack provides a function to manually ack if enabled; it will be nil
-		// otherwise.
+		// CloudEvent will be present if the message was sent with cloud events.
+		*CloudEvent
+
+		// Ack provides a function to manually ack if enabled and if possible;
+		// it will be nil otherwise. Note that, since QoS0 messages cannot be
+		// acked, this will be nil in this case even if manual ack is enabled.
 		Ack func() error
 	}
 
@@ -88,10 +92,12 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	to, err := internal.NewExecutionTimeout(opts.ExecutionTimeout,
-		"telemetry handler timed out",
-	)
-	if err != nil {
+	to := &internal.Timeout{
+		Duration: opts.Timeout,
+		Name:     "ExecutionTimeout",
+		Text:     telemetryReceiverErrStr,
+	}
+	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
 		return nil, err
 	}
 
@@ -158,18 +164,20 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		return err
 	}
 
-	if tr.manualAck {
+	message.CloudEvent = cloudEventFromMessage(pub)
+
+	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
 	}
 
-	handlerCtx, cancel := tr.timeout(ctx)
+	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
 	if err := tr.handle(handlerCtx, message); err != nil {
 		return err
 	}
 
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return nil
@@ -180,7 +188,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	if !tr.manualAck {
+	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.ack(ctx, pub)
 	}
 	return errutil.Return(err, false)
@@ -214,7 +222,7 @@ func (tr *TelemetryReceiver[T]) handle(
 		}()
 
 		err = tr.handler(ctx, msg)
-		if e := errors.Context(ctx, telemetryReceiverErrStr); e != nil {
+		if e := errutil.Context(ctx, telemetryReceiverErrStr); e != nil {
 			// An error from the context overrides any return value.
 			err = e
 		} else if err != nil {
@@ -240,7 +248,7 @@ func (tr *TelemetryReceiver[T]) handle(
 	case err := <-rchan:
 		return err
 	case <-ctx.Done():
-		return errors.Context(ctx, telemetryReceiverErrStr)
+		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }
 

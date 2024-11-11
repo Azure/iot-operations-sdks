@@ -1,7 +1,7 @@
 {
   "@context": [
-    "dtmi:dtdl:context;3",
-    "dtmi:dtdl:extension:mqtt;1"
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
   ],
   "@id": "dtmi:com:example:Passthrough;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,11 +14,11 @@
       "name": "pass",
       "request": {
         "name": "In",
-        "schema": "string"
+        "schema": "bytes"
       },
       "response": {
         "name": "Out",
-        "schema": "string"
+        "schema": "bytes"
       }
     }
   ]

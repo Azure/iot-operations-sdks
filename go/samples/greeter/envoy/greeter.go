@@ -106,7 +106,7 @@ func NewGreeterServer(
 		&opt,
 		protocol.WithIdempotent(true),
 		protocol.WithCacheTTL(10*time.Second),
-		protocol.WithExecutionTimeout(30*time.Second),
+		protocol.WithTimeout(30*time.Second),
 	)
 	if err != nil {
 		s.Close()

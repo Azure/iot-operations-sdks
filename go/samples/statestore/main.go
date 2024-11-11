@@ -2,10 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"os"
-	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
@@ -16,15 +14,10 @@ func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
-	clientID := fmt.Sprintf("sampleClient-%d", time.Now().UnixMilli())
-	connStr := fmt.Sprintf(
-		"ClientID=%s;HostName=%s;TcpPort=%s;SessionExpiry=%s",
-		clientID,
-		"localhost",
-		"1883",
-		"PT10M",
-	)
-	mqttClient := must(mqtt.NewSessionClientFromConnectionString(connStr))
+	mqttClient := must(mqtt.NewSessionClient(
+		mqtt.TCPConnection("localhost", 1883),
+		mqtt.WithSessionExpiryInterval(10*60), // 10 minutes
+	))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
@@ -35,7 +28,7 @@ func main() {
 	kn, rm := client.Notify(stateStoreKey)
 	defer rm()
 
-	check(mqttClient.Connect(ctx))
+	check(mqttClient.Start())
 	check(client.Start(ctx))
 
 	check(client.KeyNotify(ctx, stateStoreKey))
