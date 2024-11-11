@@ -397,6 +397,7 @@ public class TelemetrySenderTests
         TelemetrySenderWithCE sender = new(mockClient)
         {
             TopicPattern = "someTopicPattern/{senderId}/telemetry",
+            DataSchema = "mystring",
         };
 
         sender.TopicTokenMap["senderId"] = "mock-client";
@@ -404,9 +405,6 @@ public class TelemetrySenderTests
         var telemetryMetadata = new OutgoingTelemetryMetadata
         {
             CloudEvent = new CloudEvent(new Uri("mySource", UriKind.RelativeOrAbsolute), "test-type")
-            {
-                DataSchema = "mystring",
-            }
         };
 
         string telemetry = "someTelemetry";
