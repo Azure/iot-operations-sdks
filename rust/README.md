@@ -12,9 +12,13 @@ The following Azure IoT Operations crates are available:
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | [**azure_iot_operations_services**](azure_iot_operations_services) | Clients for using services of Azure IoT Operations |
 
-## Getting started with Rust
+## Getting started
 
-To get familiar with the Rust language, there are several resources available in our [Rust Resources](/doc/dev/rust_resources.md) guide.
+### Rust
+To set up and get familiar with the Rust language, there are several resources available in our [Rust Resources](/doc/dev/rust_resources.md) guide.
+
+### Azure IoT Operations
+To set up your cluster and install Azure IoT Operations, refer to the [setup guide](https://github.com/Azure/iot-operations-sdks/blob/main/README.md)
 
 ## Installing crates
 
@@ -24,7 +28,7 @@ To get familiar with the Rust language, there are several resources available in
 
 1. Install the SSL toolkit:
 
-    ### Linux
+    ### Ubuntu/Debian Linux
 
     ```bash
     sudo apt-get install libssl-dev pkg-config
@@ -56,7 +60,7 @@ To get familiar with the Rust language, there are several resources available in
 2. Take a dependency on the crate(s) you want to use in your `Cargo.toml` file for your application, specifying the commit SHA of the nightly build you want:
     ```toml
     [dependencies]
-    azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
+    azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
     azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
     azure_iot_operations_services = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
     ```
@@ -64,11 +68,6 @@ To get familiar with the Rust language, there are several resources available in
 
     * Note that using a nightly build requires a GH credential, which is difficult to work with in automated deployments.
     * Note also that directly referencing different release tags can create dependency issues, thus the recommendation of using a SHA.
-
-## Set up broker
-
-The samples in this repository assume a broker is running on `localhost`.
-The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Operations MQ broker, but are compatible with any MQTTv5 broker, local or remote.
 
 ## Running samples
 
@@ -80,3 +79,8 @@ cargo run --example <sample name>
 
 > [!NOTE]
 > You should **not** include the `.rs` extension in the sample name.
+
+
+The samples in this repository assume a broker is running on `localhost`.
+
+## Developing an application
