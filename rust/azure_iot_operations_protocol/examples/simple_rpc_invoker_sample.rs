@@ -3,7 +3,6 @@
 use std::time::Duration;
 use std::{num::ParseIntError, str::Utf8Error};
 
-use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use env_logger::Builder;
 use thiserror::Error;
 
@@ -25,7 +24,7 @@ const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
@@ -74,7 +73,6 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
             .unwrap()
             .timeout(Duration::from_secs(2))
             .executor_id(None)
-            .fencing_token(HybridLogicalClock::new())
             .build()
             .unwrap();
         let response = incr_invoker.invoke(payload).await;

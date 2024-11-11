@@ -156,6 +156,7 @@ where
             match std::fs::read_to_string(sat_file) {
                 Ok(token) => match get_sat_expiry(&token) {
                     Ok(expiry) => {
+                        // If elapsed is Ok, then the token is expired
                         if (UNIX_EPOCH + Duration::from_secs(expiry)).elapsed().is_ok() {
                             return Err(std::convert::Into::into(
                                 SessionErrorKind::CredentialError(
@@ -530,15 +531,15 @@ pub(crate) fn get_sat_expiry(token: &str) -> Result<u64, String> {
                 Ok(payload_json) => match payload_json.get("exp") {
                     Some(exp_time) => match exp_time.as_u64() {
                         Some(exp_time) => Ok(exp_time),
-                        None => Err("Unable to parse JWT token expiry time".to_string()),
+                        None => Err("Unable to parse SAT token expiry time".to_string()),
                     },
-                    None => Err("JWT token does not contain expiry time".to_string()),
+                    None => Err("SAT token does not contain expiry time".to_string()),
                 },
-                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+                Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
             },
-            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+            Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
         },
-        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+        Err(e) => Err(format!("Unable to decode SAT token: {e:?}")),
     }
 }
 

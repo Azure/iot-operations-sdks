@@ -58,7 +58,7 @@ pub enum SessionErrorKind {
     #[error("{0}")]
     InvalidState(String),
     // TODO: Reevaluate this error kind.
-    /// Error occurred while handling credentials ending the MQTT session.
+    /// Error occurred while handling credentials, ending the MQTT session.
     #[error("{0}")]
     CredentialError(String),
 }

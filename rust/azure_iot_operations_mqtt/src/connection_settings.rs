@@ -203,7 +203,6 @@ impl MqttConnectionSettingsBuilder {
                 }
             }
         }
-
         if let Some(key_file) = &self.key_file {
             if key_file.is_some() {
                 if let Some(cert_file) = &self.cert_file {
