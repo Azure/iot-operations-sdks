@@ -27,7 +27,7 @@ async fn state_store_network_tests() {
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("state-store-client-rust")
-        .host_name("localhost")
+        .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -85,6 +85,20 @@ async fn state_store_network_tests() {
 //    23. with fencing token where fencing_token required
 //    24. without fencing token where fencing_token required (expect error)
 //    25. without fencing token where fencing_token not required
+// OBSERVE
+//    26. where key exists
+//    27. where key does not exist (success looks the same as if the key exists)
+//    28. where key is already being observed (error returned)
+//    29. where key is already being observed, but the KeyObservation has been dropped (successful)
+//    37. where key was observed, unobserved, and then observed again (successful)
+// UNOBSERVE
+//    30. where key is being observed
+//    31. where key was not being observed (expect success that indicates the key wasn't being observed)
+// KEY NOTIFICATION
+//    32. 1 set(v1) notification received after observe and then key is set(V1)
+//    33. 1 del notification received after observe and then key is del
+//    34. 1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del
+//    35. TODO set with key expiry, recv delete notification once key expires
 async fn state_store_tests(
     state_store_client: state_store::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
@@ -92,6 +106,8 @@ async fn state_store_tests(
     let timeout = Duration::from_secs(10);
     let value1 = b"value1";
     let value2 = b"value2";
+    let value3 = b"value3";
+    let value4 = b"value4";
 
     // ~~~~~~~~ Key 1 ~~~~~~~~
     // Test basic set and delete without fencing tokens or expiry
@@ -152,7 +168,7 @@ async fn state_store_tests(
     let set_fencing_token = state_store_client
         .set(
             key2.to_vec(),
-            b"value3".to_vec(),
+            value3.to_vec(),
             timeout,
             Some(key2_fencing_token),
             SetOptions {
@@ -167,7 +183,6 @@ async fn state_store_tests(
     key2_fencing_token = set_fencing_token.version.unwrap();
 
     // Tests 3 (with fencing token where fencing_token required)
-    let value4 = b"value4";
     let set_fencing_token_required = state_store_client
         .set(
             key2.to_vec(),
@@ -429,6 +444,348 @@ async fn state_store_tests(
         .unwrap();
     assert_eq!(v_delete_response.response, 1);
     log::info!("VDelete response: {:?}", v_delete_response);
+
+    // ~~~~~~~~ Key 5 ~~~~~~~~
+    // Tests basic recv set notification, as well as basic observe (where key doesn't exist) and unobserve
+    let key5 = b"key5";
+
+    // Tests 27 (where key does not exist (success))
+    let mut observe_no_key = state_store_client
+        .observe(key5.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!("observe_no_key response: {:?}", observe_no_key);
+    // TODO: asserts inside a spawned task don't fail the test
+    tokio::task::spawn({
+        async move {
+            let mut count = 0;
+            // Tests 32 (1 set(v1) notification received after observe and then key is set(V1))
+            while let Some((notification, _)) = observe_no_key.response.recv_notification().await {
+                count += 1;
+                log::info!("Notification: {:?}", notification);
+                // assert_eq!(notification.key, key5);
+                assert_eq!(
+                    notification.operation,
+                    state_store::Operation::Set(value1.to_vec())
+                );
+            }
+            // only one set notification should occur
+            assert_eq!(count, 1);
+            log::info!("Notification receiver closed");
+        }
+    });
+    let set_for_notification = state_store_client
+        .set(
+            key5.to_vec(),
+            value1.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_for_notification.response);
+    log::info!("set_for_notification response: {:?}", set_for_notification);
+
+    // Tests 30 (where key is being observed)
+    let unobserve_where_observed = state_store_client
+        .unobserve(key5.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(unobserve_where_observed.response);
+    log::info!(
+        "unobserve_where_observed response: {:?}",
+        unobserve_where_observed
+    );
+
+    // ~~~~~~~~ Key 6 ~~~~~~~~
+    // basic recv del notification, as well as basic observe (where key does exist) and unobserve
+    let key6 = b"key6";
+
+    let set_for_key6_notification = state_store_client
+        .set(
+            key6.to_vec(),
+            value1.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_for_key6_notification.response);
+    log::info!(
+        "set_for_key6_notification response: {:?}",
+        set_for_key6_notification
+    );
+
+    // Tests 26 (where key exists)
+    let mut observe_key = state_store_client
+        .observe(key6.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!("observe_key response: {:?}", observe_key);
+    // TODO: asserts inside a spawned task don't fail the test
+    tokio::task::spawn({
+        async move {
+            let mut count = 0;
+            // Tests 33 (1 del notification received after observe and then key is del)
+            while let Some((notification, _)) = observe_key.response.recv_notification().await {
+                count += 1;
+                log::info!("Notification: {:?}", notification);
+                // assert_eq!(notification.key, key6);
+                assert_eq!(notification.operation, state_store::Operation::Del);
+            }
+            // only one del notification should occur
+            assert_eq!(count, 1);
+            log::info!("Notification receiver closed");
+        }
+    });
+    let del_for_notification = state_store_client
+        .del(key6.to_vec(), None, timeout)
+        .await
+        .unwrap();
+    assert_eq!(del_for_notification.response, 1);
+    log::info!("del_for_notification response: {:?}", del_for_notification);
+
+    // Tests 30 (where key is being observed)
+    let unobserve_key6 = state_store_client
+        .unobserve(key6.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(unobserve_key6.response);
+    log::info!("unobserve_key6 response: {:?}", unobserve_key6);
+
+    // ~~~~~~~~ Key 7 ~~~~~~~~
+    // testing observe and unobserve scenarios around being or not being observed and still having or not having references to being observed
+    let key7 = b"key7";
+
+    // Tests 31 (where key was not being observed (expect success that indicates the key wasn't being observed))
+    let unobserve_no_observe = state_store_client
+        .unobserve(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(!unobserve_no_observe.response);
+    log::info!("unobserve_no_observe response: {:?}", unobserve_no_observe);
+
+    // Tests 27 (where key does not exist (success))
+    let observe_key7 = state_store_client
+        .observe(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!("observe_key7 response: {:?}", observe_key7);
+
+    // Tests 28 (where key is already being observed (error returned))
+    let double_observe_key7 = state_store_client
+        .observe(key7.to_vec(), timeout)
+        .await
+        .expect_err("Expected error");
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!("double_observe_key7 response: {:?}", double_observe_key7);
+
+    // drop KeyObservation
+    drop(observe_key7.response);
+
+    // Tests 29 (where key is already being observed, but the KeyObservation has been dropped (successful))
+    let observe_key7_after_drop = state_store_client
+        .observe(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!(
+        "observe_key7_after_drop response: {:?}",
+        observe_key7_after_drop
+    );
+
+    let unobserve_key7 = state_store_client
+        .unobserve(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(unobserve_key7.response);
+    log::info!("unobserve_key7 response: {:?}", unobserve_key7);
+
+    // Tests 37 (where key was observed, unobserved, and then observed again (successful))
+    let observe_key7_after_unobserve = state_store_client
+        .observe(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!(
+        "observe_key7_after_unobserve response: {:?}",
+        observe_key7_after_unobserve
+    );
+
+    // clean up
+    let unobserve_key7_cleanup = state_store_client
+        .unobserve(key7.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(unobserve_key7_cleanup.response);
+    log::info!(
+        "unobserve_key7_cleanup response: {:?}",
+        unobserve_key7_cleanup
+    );
+
+    // ~~~~~~~~ Key 8 ~~~~~~~~
+    // complicated recv scenario checking for the right number of notifications
+    let key8 = b"key8";
+
+    let set_for_key8_notification = state_store_client
+        .set(
+            key8.to_vec(),
+            value1.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_for_key8_notification.response);
+    log::info!(
+        "set_for_key8_notification response: {:?}",
+        set_for_key8_notification
+    );
+
+    let del_for_key8_notification = state_store_client
+        .del(key8.to_vec(), None, timeout)
+        .await
+        .unwrap();
+    assert_eq!(del_for_key8_notification.response, 1);
+    log::info!(
+        "del_for_key8_notification response: {:?}",
+        del_for_key8_notification
+    );
+
+    let mut observe_key8 = state_store_client
+        .observe(key8.to_vec(), timeout)
+        .await
+        .unwrap();
+    // assert_eq!(v_delete_response.response, 1);
+    log::info!("observe_key8 response: {:?}", observe_key8);
+    // TODO: asserts inside a spawned task don't fail the test
+    tokio::task::spawn({
+        async move {
+            let mut count = 0;
+            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
+                count += 1;
+                log::info!("Notification: {:?}", notification);
+                // assert_eq!(notification.key, key8);
+                assert_eq!(
+                    notification.operation,
+                    state_store::Operation::Set(value2.to_vec())
+                );
+            }
+            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
+                count += 1;
+                log::info!("Notification: {:?}", notification);
+                // assert_eq!(notification.key, key8);
+                assert_eq!(notification.operation, state_store::Operation::Del);
+            }
+            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
+                count += 1;
+                log::info!("Notification: {:?}", notification);
+                // assert_eq!(notification.key, key8);
+                assert_eq!(
+                    notification.operation,
+                    state_store::Operation::Set(value3.to_vec())
+                );
+            }
+            while let Some((notification, _)) = observe_key8.response.recv_notification().await {
+                count += 1;
+                log::error!("Unexpected: {:?}", notification);
+                // assert_eq!(notification.key, key8);
+            }
+            // only the 3 expected notifications should occur
+            assert_eq!(count, 3);
+            log::info!("Notification receiver closed");
+        }
+    });
+    let set_key8_value2 = state_store_client
+        .set(
+            key8.to_vec(),
+            value2.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_key8_value2.response);
+    log::info!("set_key8_value2 response: {:?}", set_key8_value2);
+
+    let del_key8 = state_store_client
+        .del(key8.to_vec(), None, timeout)
+        .await
+        .unwrap();
+    assert_eq!(del_key8.response, 1);
+    log::info!("del_key8 response: {:?}", del_key8);
+
+    let set_key8_value3 = state_store_client
+        .set(
+            key8.to_vec(),
+            value3.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_key8_value3.response);
+    log::info!("set_key8_value3 response: {:?}", set_key8_value3);
+
+    // Tests 30 (where key is being observed)
+    let unobserve_key8 = state_store_client
+        .unobserve(key8.to_vec(), timeout)
+        .await
+        .unwrap();
+    assert!(unobserve_key8.response);
+    log::info!("unobserve_key8 response: {:?}", unobserve_key8);
+
+    let set_key8_no_notification = state_store_client
+        .set(
+            key8.to_vec(),
+            value4.to_vec(),
+            timeout,
+            None,
+            SetOptions {
+                expires: Some(Duration::from_secs(10)),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+    assert!(set_key8_no_notification.response);
+    log::info!(
+        "set_key8_no_notification response: {:?}",
+        set_key8_no_notification
+    );
+
+    let del_key8_no_notification = state_store_client
+        .del(key8.to_vec(), None, timeout)
+        .await
+        .unwrap();
+    assert_eq!(del_key8_no_notification.response, 1);
+    log::info!(
+        "del_key8_no_notification response: {:?}",
+        del_key8_no_notification
+    );
 
     exit_handle.try_exit().await.unwrap();
 }
