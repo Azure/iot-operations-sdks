@@ -145,7 +145,7 @@ public class MemMonEnvoyTests
         var memStatsMD = memmonClient.ReceivedMemoryStatsTelemetryMetadata[0];
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
-        Assert.Equal(8, memStatsMD.UserData.Count);
+        Assert.Equal(9, memStatsMD.UserData.Count);
         Assert.NotNull(memStatsMD.CloudEvent);
         Assert.Equal("1.0", memStatsMD.CloudEvent.SpecVersion);
         Assert.Equal("test://mq/", memStatsMD.CloudEvent.Source!.ToString());
