@@ -1,0 +1,23 @@
+---
+test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
+aka:
+- ReceiveTelemetry_MalformedPayloadThrows
+description:
+  condition: >-
+    TelemetryReceiver receives telemetry with payload that cannot deserialize.
+  expect: >-
+    TelemetryReceiver does not relay telemetry to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  payload: '{ "invalid" "json" }'
+  bypass-serialization: true
+
+epilogue:
+  acknowledgement-count: 0 # is this correct behavior?
+  telemetry-count: 0
+...

@@ -151,8 +151,8 @@
       </Subsection>
 
       <Paragraph>
-        The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite) and [`CommandInvoker`](#commandinvoker-test-suite) test cases.
-        A final section describes [common test elements](#common-test-elements) that are usable in both CommandExecutor and CommandInvoker test cases.
+        The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite), [`CommandInvoker`](#commandinvoker-test-suite), [`TelemetryReceiver`](#telemetryreceiver-test-suite), and [`TelemetrySender`](#telemetrysender-test-suite) test cases.
+        A final section describes [common test elements](#common-test-elements) that are usable across test cases.
       </Paragraph>
 
     </Section>
@@ -698,17 +698,413 @@
 
     </Section>
 
+    <Section suite="TelemetryReceiver">
+      <Heading>TelemetryReceiver test suite</Heading>
+
+      <Subsection>
+
+        <Paragraph>
+          A Telemetry type of `string` is used for testing the `TelemetryReceiver`.
+          There are no shared components across `TelemetryReceiver` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>TelemetryReceiver test language</Subheading>
+
+      <Subsection item="ReceiverTestCase">
+
+        <Paragraph>
+          The YAML file for a `TelemetryReceiver` test case can have the following top-level keys.
+        </Paragraph>
+
+        <ObjectPropertyTable />
+
+        <Paragraph>
+          The `test-name`, `aka`, and `descriptions` keys are to assist human readability.
+          The `requires` key is described above in the introduction to this document.
+          The `prologue`, `actions`, and `epilogue` keys define the three main regions of the test case.
+          These regions are detailed below, beginning with the simpler prologue and epilogue regions, followed by the set of supported actions.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>TelemetryReceiver test prologue</Subheading>
+
+      <Paragraph>
+        The prologue defines initialization to perform prior to stepping through any test-case actions.
+        This includes configuring the MQTT client and instantiating one or more TelemetryReceivers.
+        The prologue can also define an expectation of error behavior when the configuration or initialization is intentionally invalid.
+        Following is an example TelemetryReceiver prologue:
+      </Paragraph>
+
+      <Example key="prologue">
+        <Include key="catch" />
+      </Example>
+
+      <Paragraph>
+        When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
+      </Paragraph>
+
+      <Subsection item="ReceiverPrologue">
+        <Subsubheading />
+
+        <Paragraph>
+          A TelemetryReceiver prologue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
+          The value type for `receivers` is specific to TelemetryReceiver and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="Receiver">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `receivers` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.receiver" kinds="include" />
+
+      </Subsection>
+
+      <Subheading>TelemetryReceiver test epilogue</Subheading>
+
+      <Paragraph>
+        The epilogue defines finalization to perform after stepping through any test-case actions.
+        This mainly involves checking to ensure that various things have happened as they should have.
+        This includes MQTT subscriptions, publications, and acknowledgements.
+        The epilogue can also define an expectation of error behavior during finalization.
+        Following is an example TelemetryReceiver epilogue:
+      </Paragraph>
+
+      <Example key="epilogue" />
+
+      <Subsection item="ReceiverEpilogue">
+        <Subsubheading />
+
+        <Paragraph>
+          A TelemetryReceiver epilogue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value type for `received-telemetries` is specific to TelemetryReceiver and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ReceivedTelemetry">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `received-telemetries` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The order of messasges in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
+          The value type for `cloud-event` is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ReceivedCloudEvent">
+        <Subsubheading />
+
+        <Paragraph>
+          The cloud event can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+      </Subsection>
+
+      <Subheading>TelemetryReceiver test actions</Subheading>
+
+      <Paragraph>
+        The actions define a sequence of test operations to perform.
+        Following is an example TelemetryReceiver actions array:
+      </Paragraph>
+
+      <Example key="actions" maxWidth="50" minChildren="2" />
+
+      <Subsection item="ReceiverAction">
+        <Subsubheading />
+
+        <Paragraph>
+          The elements in a TelemetryReceiver action array have polymorphic types, each of which defines a specific test action, as indicated by the following table:
+        </Paragraph>
+
+        <ObjectSubtypeTable discriminator="action">
+          <Column name="Action" field="const"/>
+          <Column name="Subtype" field="subtype" />
+          <Column name="Description" field="description" />
+        </ObjectSubtypeTable>
+
+        <Paragraph>
+          The details of actions `await acknowledgement`, `disconnect`, `sleep`, `freeze time`, and `unfreeze time` are common across classes, so they are defined towards the end of this document.
+          The details of action `receive telemetry` are described in the following subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionReceiveTelemetry">
+        <Subsubheading />
+
+        <Paragraph>
+          A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="receive telemetry" />
+
+        <Paragraph>
+          When the value of the `action` key is `receive telemetry`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="actions.receive-telemetry" consts="include" kinds="include" />
+
+        <Paragraph>
+          Values for `sender-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+          The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
+        </Paragraph>
+
+      </Subsection>
+
+    </Section>
+
+    <Section suite="TelemetrySender">
+      <Heading>TelemetrySender test suite</Heading>
+
+      <Subsection>
+
+        <Paragraph>
+          A Telemetry type of `string` is used for testing the `TelemetrySender`.
+          There are no shared components across `TelemetrySender` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>TelemetrySender test language</Subheading>
+
+      <Subsection item="SenderTestCase">
+
+        <Paragraph>
+          The YAML file for a `TelemetrySender` test case can have the following top-level keys.
+        </Paragraph>
+
+        <ObjectPropertyTable />
+
+        <Paragraph>
+          The `test-name`, `aka`, and `descriptions` keys are to assist human readability.
+          The `requires` key is described above in the introduction to this document.
+          The `prologue`, `actions`, and `epilogue` keys define the three main regions of the test case.
+          These regions are detailed below, beginning with the simpler prologue and epilogue regions, followed by the set of supported actions.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>TelemetrySender test prologue</Subheading>
+
+      <Paragraph>
+        The prologue defines initialization to perform prior to stepping through any test-case actions.
+        This includes configuring the MQTT client and instantiating one or more TelemetrySenders.
+        The prologue can also define an expectation of error behavior when the configuration or initialization is intentionally invalid.
+        Following is an example TelemetrySender prologue:
+      </Paragraph>
+
+      <Example key="prologue">
+        <Include key="catch" />
+      </Example>
+
+      <Paragraph>
+        When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
+      </Paragraph>
+
+      <Subsection item="SenderPrologue">
+        <Subsubheading />
+
+        <Paragraph>
+          A TelemetrySender prologue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value types for `mqtt-config`, `push-acks`, and `catch` are common across classes, so they are defined towards the end of this document.
+          The value type for `senders` is specific to TelemetrySender and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="Sender">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `senders` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.sender" kinds="include" />
+
+      </Subsection>
+
+      <Subheading>TelemetrySender test epilogue</Subheading>
+
+      <Paragraph>
+        The epilogue defines finalization to perform after stepping through any test-case actions.
+        This mainly involves checking to ensure that various things have happened as they should have.
+        This includes MQTT subscriptions, publications, and acknowledgements.
+        The epilogue can also define an expectation of error behavior during finalization.
+        Following is an example TelemetrySender epilogue:
+      </Paragraph>
+
+      <Example key="epilogue" />
+
+      <Subsection item="SenderEpilogue">
+        <Subsubheading />
+
+        <Paragraph>
+          A TelemetrySender epilogue can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The value type for `published-messages` is specific to TelemetrySender and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="PublishedTelemetry">
+        <Subsubheading />
+
+        <Paragraph>
+          Each element of the `published-messages` array can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+        <Paragraph>
+          The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subheading>TelemetrySender test actions</Subheading>
+
+      <Paragraph>
+        The actions define a sequence of test operations to perform.
+        Following is an example TelemetrySender actions array:
+      </Paragraph>
+
+      <Example key="actions" maxWidth="50" minChildren="2" />
+
+      <Subsection item="SenderAction">
+        <Subsubheading />
+
+        <Paragraph>
+          The elements in a TelemetrySender action array have polymorphic types, each of which defines a specific test action, as indicated by the following table:
+        </Paragraph>
+
+        <ObjectSubtypeTable discriminator="action">
+          <Column name="Action" field="const"/>
+          <Column name="Subtype" field="subtype" />
+          <Column name="Description" field="description" />
+        </ObjectSubtypeTable>
+
+        <Paragraph>
+          The details of action `disconnect` is common across classes, so it is defined towards the end of this document.
+          The details of actions `send telemetry`, `await send`, and `await publish` are described in the following subsections.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ActionSendTelemetry">
+        <Subsubheading />
+
+        <Paragraph>
+          A `send telemetry` action causes the TelemetrySender to send a telemetry without waiting for its completion, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="send telemetry" />
+
+        <Paragraph>
+          When the value of the `action` key is `send telemetry`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="actions.send-telemetry" consts="include" kinds="include" />
+
+        <Paragraph>
+          The value type for `cloud-event` is specific to TelemetrySender and is defined in the next subsection.
+        </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="OriginatingCloudEvent">
+        <Subsubheading />
+
+        <Paragraph>
+          The cloud event can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="ActionAwaitSend">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await send` action causes the test system to wait for a telemetry send to complete, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await send" />
+
+        <Paragraph>
+          When the value of the `action` key is `await send`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="ActionAwaitPublishTelemetry">
+        <Subsubheading />
+
+        <Paragraph>
+          An `await publish` action causes the test system to wait for the TelemetrySender to publish a telemetry message, as in the following example:
+        </Paragraph>
+
+        <Example key="action" value="await publish" />
+
+        <Paragraph>
+          When the value of the `action` key is `await publish`, the following sibling keys are also available:
+        </Paragraph>
+
+        <ObjectPropertyTable consts="include" kinds="include" />
+
+      </Subsection>
+
+    </Section>
+
     <Section>
       <Heading>Common test elements</Heading>
 
       <Paragraph>
-        Several test elements are usable in both CommandExecutor and CommandInvoker unit test cases.
+        Several test elements are usable in multiple kinds of unit test cases.
       </Paragraph>
 
       <Subheading>Common test actions</Subheading>
 
       <Paragraph>
-        Several action subtypes are usable in both CommandExecutor and CommandInvoker unit test cases.
+        Several action subtypes are usable in multiple kinds of unit test cases.
       </Paragraph>
 
       <Subsection item="ActionAwaitAck">
@@ -798,7 +1194,7 @@
       <Subheading>Common prologue value types</Subheading>
 
       <Paragraph>
-        Both CommandExecutor and CommandInvoker prologues have keys `mqtt-config`, `push-acks`, and `catch`, which have value types defined in this section.
+        All test-suite prologues have keys `mqtt-config`, `push-acks`, and `catch`, which have value types defined in this section.
       </Paragraph>
 
       <Subsection item="MqttConfig">

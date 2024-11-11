@@ -1,4 +1,4 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class DefaultInvoker
     {
@@ -7,6 +7,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public string? RequestTopic { get; set; }
 
         public string? ModelId { get; set; }
+
+        public string? TopicNamespace { get; set; }
 
         public string? ResponseTopicPrefix { get; set; }
 
