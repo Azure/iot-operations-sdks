@@ -81,8 +81,8 @@ func (*SessionLostError) Error() string {
 // issue opening the network connection to the MQTT server. It may wrap an
 // underlying error using Go standard error wrapping.
 type ConnectionError struct {
-	wrapped error
 	message string
+	wrapped error
 }
 
 func (e *ConnectionError) Error() string {
@@ -128,8 +128,8 @@ func (e *FatalConnackError) Error() string {
 // for an option. It may wrap an underlying error using Go standard error
 // wrapping.
 type InvalidArgumentError struct {
-	wrapped error
 	message string
+	wrapped error
 }
 
 func (e *InvalidArgumentError) Error() string {
