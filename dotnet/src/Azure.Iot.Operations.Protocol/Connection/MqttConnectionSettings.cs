@@ -164,7 +164,7 @@ public class MqttConnectionSettings
         bool cleanStart = true;
         string? satMountPath = string.Empty;
         string? tlsCaCertMountPath = string.Empty;
-        int? port;
+        int port;
 
         try
         {
@@ -174,11 +174,16 @@ public class MqttConnectionSettings
                 throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
             }
 
-            var targetAddressParts = targetAddressAndPort.Split(":");
-            targetAddress = targetAddressParts[0];
-            port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture); //TODO check for error when parsing
-
-            Trace.TraceInformation($"Target address parts: {targetAddress} {targetAddressParts[1]}");
+            try
+            {
+                var targetAddressParts = targetAddressAndPort.Split(":");
+                targetAddress = targetAddressParts[0];
+                port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException($"MQ_TARGET_ADDRESS is malformed. Cannot parse MQTT port from MQ_TARGET_ADDRESS. Expected format <hostname>:<port>. Found: {targetAddressAndPort}", e);
+            }
         }
         catch (Exception ex)
         {
@@ -229,7 +234,8 @@ public class MqttConnectionSettings
                 UseTls = useTls,
                 SatAuthFile = satMountPath,
                 TrustChain = chain,
-                CleanStart = cleanStart
+                CleanStart = cleanStart,
+                TcpPort = port
             };
         }
         catch (ArgumentException ex)

@@ -40,19 +40,6 @@ namespace HttpServerConnectorApp
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            var targetAddressAndPort = File.ReadAllText(Environment.GetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH")! + "/MQ_TARGET_ADDRESS");
-            if (string.IsNullOrEmpty(targetAddressAndPort))
-            {
-                throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
-            }
-
-            var targetAddressParts = targetAddressAndPort.Split(":");
-            string targetAddress = targetAddressParts[0];
-            int port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture); //TODO check for error when parsing
-
-            Trace.TraceInformation($"Target address parts: {targetAddress} {targetAddressParts[1]}");
-
-
             try
             {
                 _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
