@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new("mockClient");
             var exception = Assert.Throws<AkriMqttException>(() => { new InvokerStub(mock, null); });
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new("mockClient");
             var exception = Assert.Throws<AkriMqttException>(() => { new InvokerStub(mock, string.Empty); });
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -159,7 +159,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -181,7 +181,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -267,7 +267,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -290,7 +290,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -334,7 +334,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["modelId"] = "Invalid//Model";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
@@ -357,7 +357,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             stub.TopicTokenMap["commandName"] = "invalid//name";
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => stub.InvokeCommandAsync("request"));
-            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, exception.Kind);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);

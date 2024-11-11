@@ -1,0 +1,11 @@
+{
+    "title": "SenderAction",
+    "type": "object",
+    "anyOf": [
+        { "$ref": "ActionSendTelemetry.schema.json" },
+        { "$ref": "ActionAwaitSend.schema.json" },
+        { "$ref": "ActionAwaitPublishTelemetry.schema.json" },
+        { "$ref": "ActionDisconnect.schema.json" }
+    ],
+    "required": [ "action" ]
+}

@@ -2,7 +2,7 @@
 using System.Xml;
 using Xunit;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public static class AkriMqttExceptionChecker
     {
@@ -25,6 +25,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             if (testCaseCatch.Message != null)
             {
                 Assert.Equal(testCaseCatch.Message, exception.Message);
+            }
+            if (testCaseCatch.Supplemental == null)
+            {
+                return;
             }
 
             if (testCaseCatch.Supplemental.TryGetValue(TestCaseCatch.HeaderNameKey, out string? headerName))

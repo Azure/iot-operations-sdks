@@ -56,7 +56,12 @@ func runOneCommandInvokerTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		// TODO: We cannot test these until Paho supports returning pubacks from
+		// async publishes (https://github.com/eclipse/paho.golang/issues/216).
+		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
+		"CommandInvokerPubAckFailure_ThrowsException",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -267,6 +272,7 @@ func getCommandInvoker(
 		}
 
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
+		CheckError(t, *catch, err)
 	}
 
 	return invoker
@@ -350,7 +356,7 @@ func awaitInvocation(
 func receiveResponse(
 	t *testing.T,
 	actionReceiveResponse *TestCaseActionReceiveResponse,
-	stubClient StubClient,
+	stubClient *StubMqttClient,
 	correlationIDs map[int][]byte,
 	packetIDs map[int]uint16,
 ) {
@@ -457,7 +463,7 @@ func receiveResponse(
 func checkPublishedRequest(
 	t *testing.T,
 	publishedMessage TestCasePublishedMessage,
-	stubClient StubClient,
+	stubClient *StubMqttClient,
 	correlationIDs map[int][]byte,
 ) {
 	var lookupKey []byte

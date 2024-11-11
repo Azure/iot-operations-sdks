@@ -15,7 +15,7 @@ using TestModel.dtmi_test_TestModel__1;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Converters;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class CommandExecutorTester
     {
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             string defaultsFilePath = Path.Combine(executorCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
-                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = PascalToKebabCase });
+                DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
                 TestCaseExecutor.DefaultCommandName = defaultTestCase.Prologue.Executor.CommandName;
                 TestCaseExecutor.DefaultRequestTopic = defaultTestCase.Prologue.Executor.RequestTopic;
@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                 TestCaseExecutor.DefaultExecutorId = defaultTestCase.Prologue.Executor.ExecutorId;
                 TestCaseExecutor.DefaultTopicNamespace = defaultTestCase.Prologue.Executor.TopicNamespace;
                 TestCaseExecutor.DefaultIdempotent = defaultTestCase.Prologue.Executor.Idempotent;
-                TestCaseExecutor.DefaultCacheableDuration = defaultTestCase.Prologue.Executor.CacheableDuration;
+                TestCaseExecutor.DefaultCacheTtl = defaultTestCase.Prologue.Executor.CacheTtl;
                 TestCaseExecutor.DefaultExecutorTimeout = defaultTestCase.Prologue.Executor.ExecutionTimeout;
                 TestCaseExecutor.DefaultRequestResponsesMap = defaultTestCase.Prologue.Executor.RequestResponsesMap;
                 TestCaseExecutor.DefaultExecutionConcurrency = defaultTestCase.Prologue.Executor.ExecutionConcurrency;
@@ -331,14 +331,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         {
             try
             {
-                TestCommandExecutor commandExecutor = testCaseExecutor.CacheableDuration != null ?
+                TestCommandExecutor commandExecutor = testCaseExecutor.CacheTtl != null ?
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
                         TopicNamespace = testCaseExecutor.TopicNamespace,
                         IsIdempotent = testCaseExecutor.Idempotent,
-                        CacheableDuration = testCaseExecutor.CacheableDuration.ToTimeSpan(),
+                        CacheTtl = testCaseExecutor.CacheTtl.ToTimeSpan(),
                         OnCommandReceived = null!,
                     } :
                     new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
@@ -350,9 +350,28 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
                         OnCommandReceived = null!,
                     };
 
-                commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId!;
-                commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName!;
-                commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId!;
+                if (testCaseExecutor.ModelId != null)
+                {
+                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
+                }
+
+                if (testCaseExecutor.CommandName != null)
+                {
+                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
+                }
+
+                if (testCaseExecutor.ExecutorId != null)
+                {
+                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
+                }
+
+                if (testCaseExecutor.CustomTokenMap != null)
+                {
+                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.CustomTokenMap)
+                    {
+                        commandExecutor.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                    }
+                }
 
                 if (testCaseExecutor.ExecutionTimeout != null)
                 {
@@ -612,6 +631,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             {
                 Assert.True(!MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) || isAppError?.ToLower() == "false");
             }
+
+            if (publishedMessage.Expiry != null)
+            {
+                Assert.Equal((uint)publishedMessage.Expiry, appMsg.MessageExpiryInterval);
+            }
         }
 
         private static async Task<Object_Test_Response> ProcessRequest(ExtendedRequest<Object_Test_Request> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
@@ -650,31 +674,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
             else
             {
                 return null!;
-            }
-        }
-
-        private static string PascalToKebabCase(string name)
-        {
-            StringBuilder builder = new();
-            try
-            {
-                char c = '\0';
-                foreach (char c2 in name)
-                {
-                    if (char.IsUpper(c2) && !char.IsUpper(c) && c != 0 && c != '-')
-                    {
-                        builder.Append('-');
-                    }
-
-                    builder.Append(char.ToLowerInvariant(c2));
-                    c = c2;
-                }
-
-                return builder.ToString();
-            }
-            finally
-            {
-                builder.Length = 0;
             }
         }
     }

@@ -104,7 +104,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .build()
         .unwrap();
     let read_response = read_invoker.invoke(read_payload).await.unwrap();
-    log::info!("Counter value: {:?}", read_response);
+    log::info!("Counter value: {}", read_response.payload.counter_response);
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
@@ -156,21 +156,29 @@ impl PayloadSerialize for CounterResponsePayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
+
     fn serialize(&self) -> Result<Vec<u8>, CounterSerializerError> {
-        Ok(format!("{{\"CounterResponse\":{}}}", self.counter_response).into())
+        // This is a response payload, client does not need to serialize it
+        unimplemented!()
     }
 
     fn deserialize(payload: &[u8]) -> Result<CounterResponsePayload, CounterSerializerError> {
-        log::info!("payload: {:?}", std::str::from_utf8(payload).unwrap());
-        if payload.starts_with(b"{\"CounterResponse\":") && payload.ends_with(b"}") {
-            match std::str::from_utf8(&payload[19..payload.len() - 1]) {
-                Ok(s) => match s.parse::<u64>() {
-                    Ok(n) => Ok(CounterResponsePayload {
-                        counter_response: n,
-                    }),
-                    Err(e) => Err(CounterSerializerError::ParseIntError(e)),
-                },
-                Err(e) => Err(CounterSerializerError::Utf8Error(e)),
+        let payload = match std::str::from_utf8(payload) {
+            Ok(p) => {
+                log::info!("payload: {:?}", p);
+                p
+            }
+            Err(e) => return Err(CounterSerializerError::Utf8Error(e)),
+        };
+
+        let start_str = "{\"CounterResponse\":";
+
+        if payload.starts_with(start_str) && payload.ends_with('}') {
+            match payload[start_str.len()..payload.len() - 1].parse::<u64>() {
+                Ok(n) => Ok(CounterResponsePayload {
+                    counter_response: n,
+                }),
+                Err(e) => Err(CounterSerializerError::ParseIntError(e)),
             }
         } else {
             Err(CounterSerializerError::InvalidPayload(payload.into()))

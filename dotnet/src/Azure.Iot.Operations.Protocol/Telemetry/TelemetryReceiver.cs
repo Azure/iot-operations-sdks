@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private bool isDisposed;
 
-        public Func<string, T, IncomingTelemetryMetadata, Task>? OnTelemetryReceived { get; init; }
+        public Func<string, T, IncomingTelemetryMetadata, Task>? OnTelemetryReceived { get; set; }
 
         public string ServiceGroupId { get; init; }
 
@@ -163,9 +163,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                if (!MqttTopicProcessor.TryValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out _, out _))
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+                if (patternValidity != PatternValidity.Valid)
                 {
-                    throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg);
+                    throw patternValidity switch
+                    {
+                        PatternValidity.InvalidResidentReplacement => AkriMqttException.GetConfigurationInvalidException(errToken!, errReplacement!, errMsg),
+                        _ => AkriMqttException.GetConfigurationInvalidException(nameof(TopicPattern), TopicPattern, errMsg),
+                    };
                 }
 
                 string telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();

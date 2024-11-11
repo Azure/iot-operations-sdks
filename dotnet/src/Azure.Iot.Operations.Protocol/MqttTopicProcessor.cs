@@ -78,17 +78,17 @@
         /// Validates that a topic pattern is valid for use in a Command or Telemetry.
         /// </summary>
         /// <param name="pattern">The topic pattern.</param>
-        /// <param name="tokenMap1">A first optional token replacement map.</param>
-        /// <param name="tokenMap2">A second optional token replacement map.</param>
+        /// <param name="residentTokenMap">An optional token replacement map, expected to last the lifetime of the calling class.</param>
+        /// <param name="transientTokenMap">An optional token replacement map, expected to last for a single execution of a call tree.</param>
         /// <param name="requireReplacement">True if a replacement value is required for any token in the pattern.</param>
         /// <param name="errMsg">Out parameter to receive error message if validation fails.</param>
         /// <param name="errToken">Out parameter to receive the value of a missing or invalid token, if any.</param>
         /// <param name="errReplacement">Out parameter to receive the value of a missing or invalid replacement, if any.</param>
-        /// <returns>True if pattern is valid; false otherwise.</returns>
-        public static bool TryValidateTopicPattern(
+        /// <returns>A <see cref="PatternValidity"/> value indicating whether the pattern is valid or the way in which it is invalid.</returns>
+        public static PatternValidity ValidateTopicPattern(
             string? pattern,
-            IReadOnlyDictionary<string, string>? tokenMap1,
-            IReadOnlyDictionary<string, string>? tokenMap2,
+            IReadOnlyDictionary<string, string>? residentTokenMap,
+            IReadOnlyDictionary<string, string>? transientTokenMap,
             bool requireReplacement,
             out string errMsg,
             out string? errToken,
@@ -100,13 +100,13 @@
             if (string.IsNullOrEmpty(pattern))
             {
                 errMsg = "MQTT topic pattern must not be empty";
-                return false;
+                return PatternValidity.InvalidPattern;
             }
 
             if (pattern.StartsWith('$'))
             {
                 errMsg = "MQTT topic pattern starts with reserved character '$'";
-                return false;
+                return PatternValidity.InvalidPattern;
             }
 
             foreach (string level in pattern.Split('/'))
@@ -114,7 +114,7 @@
                 if (level.Length == 0)
                 {
                     errMsg = "MQTT topic pattern contains empty level";
-                    return false;
+                    return PatternValidity.InvalidPattern;
                 }
 
                 bool isToken = level.StartsWith('{') && level.EndsWith('}');
@@ -124,38 +124,51 @@
                     if (token.Length == 0)
                     {
                         errMsg = "Token in MQTT topic pattern is empty";
-                        return false;
+                        return PatternValidity.InvalidPattern;
                     }
                     else if (ContainsInvalidChar(token))
                     {
                         errMsg = $"Token '{level}' in MQTT topic pattern contains invalid character";
-                        return false;
+                        return PatternValidity.InvalidPattern;
                     }
-                    else if (tokenMap1 == null && tokenMap2 == null)
+                    else if (residentTokenMap == null && transientTokenMap == null)
                     {
                         if (requireReplacement)
                         {
                             errMsg = $"Token '{level}' in MQTT topic pattern, but no replacement map provided";
                             errToken = token;
-                            return false;
+                            return PatternValidity.MissingReplacement;
                         }
                     }
-                    else if ((tokenMap1 == null || !tokenMap1.TryGetValue(token, out string? replacement))
-                        && (tokenMap2 == null || !tokenMap2.TryGetValue(token, out replacement)))
+                    else
                     {
-                        if (requireReplacement)
+                        string? residentReplacement = null;
+                        string? transientReplacement = null;
+                        bool hasResidentReplacement = residentTokenMap != null && residentTokenMap.TryGetValue(token, out residentReplacement);
+                        bool hasTransientReplacement = transientTokenMap != null && transientTokenMap.TryGetValue(token, out transientReplacement);
+                        if (!hasResidentReplacement && !hasTransientReplacement)
                         {
-                            errMsg = $"Token '{level}' in MQTT topic pattern, but key '{token}' not found in replacement map";
-                            errToken = token;
-                            return false;
+                            if (requireReplacement)
+                            {
+                                errMsg = $"Token '{level}' in MQTT topic pattern, but key '{token}' not found in replacement map";
+                                errToken = token;
+                                return PatternValidity.MissingReplacement;
+                            }
                         }
-                    }
-                    else if (!IsValidReplacement(replacement))
-                    {
-                        errMsg = $"Token '{level}' in MQTT topic pattern has replatement value '{replacement}' that is not valid";
-                        errToken = token;
-                        errReplacement = replacement;
-                        return false;
+                        else if (hasResidentReplacement && !IsValidReplacement(residentReplacement))
+                        {
+                            errMsg = $"Token '{level}' in MQTT topic pattern has resident replacement value '{residentReplacement}' that is not valid";
+                            errToken = token;
+                            errReplacement = residentReplacement;
+                            return PatternValidity.InvalidResidentReplacement;
+                        }
+                        else if (hasTransientReplacement && !IsValidReplacement(transientReplacement))
+                        {
+                            errMsg = $"Token '{level}' in MQTT topic pattern has transient replacement value '{transientReplacement}' that is not valid";
+                            errToken = token;
+                            errReplacement = transientReplacement;
+                            return PatternValidity.InvalidTransientReplacement;
+                        }
                     }
                 }
                 else
@@ -163,13 +176,13 @@
                     if (ContainsInvalidChar(level))
                     {
                         errMsg = $"Level '{level}' in MQTT topic pattern contains invalid character";
-                        return false;
+                        return PatternValidity.InvalidPattern;
                     }
                 }
             }
 
             errMsg = string.Empty;
-            return true;
+            return PatternValidity.Valid;
         }
 
         private static bool ContainsInvalidChar(string s)
