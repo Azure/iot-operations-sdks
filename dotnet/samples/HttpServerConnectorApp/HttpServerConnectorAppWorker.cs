@@ -6,8 +6,6 @@ using Azure.Iot.Operations.Services.AzureDeviceRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Globalization;
 using System.Text;
 using System.Text.Json;
 
@@ -40,23 +38,6 @@ namespace HttpServerConnectorApp
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            string tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
-
-            if (string.IsNullOrWhiteSpace(tlsCaCertMountPath))
-            {
-                throw new InvalidOperationException("No tls cert path found");
-            }
-
-            if (!Directory.Exists(tlsCaCertMountPath))
-            {
-                throw new InvalidOperationException("tls cert path directory not present");
-            }
-
-            foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
-            {
-                _logger.LogInformation($"Found file in CA cert path: {caFilePath}.");
-            }
-
             try
             {
                 _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
@@ -79,10 +60,6 @@ namespace HttpServerConnectorApp
                 // Create MQTT client from credentials provided by the operator
                 MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
                 _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
-                foreach (var cert in mqttConnectionSettings.TrustChain.ToList())
-                {
-                    _logger.LogInformation($"{cert.FriendlyName}");
-                }
 
                 await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 

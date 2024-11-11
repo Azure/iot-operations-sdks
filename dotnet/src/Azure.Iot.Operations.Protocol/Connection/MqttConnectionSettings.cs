@@ -217,29 +217,19 @@ public class MqttConnectionSettings
         {
             tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
 
-            if (string.IsNullOrWhiteSpace(tlsCaCertMountPath))
+            if (Directory.Exists(tlsCaCertMountPath))
             {
-                throw new InvalidOperationException("No tls cert path found");
+                foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
+                {
+                    chain.ImportFromPemFile(caFilePath);
+                }
             }
-
-            if (!Directory.Exists(tlsCaCertMountPath))
+            else
             {
-                throw new InvalidOperationException("tls cert path directory not present");
-            }
-
-            bool fileFound = false;
-            foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
-            {
-                fileFound = true;
-                chain.ImportFromPemFile(caFilePath);
-            }
-
-            if (!fileFound)
-            { 
-                throw new InvalidOperationException("No files in tls cert dir");
+                throw new InvalidOperationException("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH was set, but the provided directory does not exist");
             }
         }
-        catch (NotImplementedException)
+        catch
         {
             Trace.TraceInformation("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
         }
