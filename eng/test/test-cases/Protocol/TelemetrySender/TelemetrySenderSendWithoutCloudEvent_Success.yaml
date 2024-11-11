@@ -26,4 +26,5 @@ epilogue:
       "specversion": # not present
       "datacontenttype": # not present
       "subject": # not present
+      "dataschema": # not present
 ...

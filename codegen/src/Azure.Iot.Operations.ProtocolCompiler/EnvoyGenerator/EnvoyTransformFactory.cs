@@ -95,11 +95,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             string? telemetryName = telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() : null;
             string schemaClass = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
+            string dataSchema = telemElt.GetProperty(AnnexFileProperties.DataSchema).GetString()!;
 
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                    yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass, dataSchema);
                     yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
                     break;
                 case "go":

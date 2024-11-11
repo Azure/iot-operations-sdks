@@ -18,13 +18,14 @@
   "<#=InterfaceAnnex.CmdServiceGroupId#>": "<#=this.cmdServiceGroupId#>",
 <# } #>
   "<#=InterfaceAnnex.TelemetryList#>": [
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemNameSchemaData in this.telemNameSchemaDatas) { #>
     {
-<# if (telemNameSchema.Item1 != null) { #>
-      "<#=InterfaceAnnex.TelemName#>": "<#=telemNameSchema.Item1#>",
+<# if (telemNameSchemaData.Item1 != null) { #>
+      "<#=InterfaceAnnex.TelemName#>": "<#=telemNameSchemaData.Item1#>",
 <# } #>
-      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemNameSchema.Item2#>"
-    }<#=this.IsLastTelem(telemNameSchema) ? "" : ","#>
+      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemNameSchemaData.Item2#>",
+      "<#=InterfaceAnnex.DataSchema#>": "<#=telemNameSchemaData.Item3#>"
+    }<#=this.IsLastTelem(telemNameSchemaData) ? "" : ","#>
 <# } #>
   ],
   "<#=InterfaceAnnex.CommandList#>": [
@@ -42,7 +43,7 @@
 <#+
     private string GetSchema(string schema) => schema != null ? $"\"{schema}\"" : "null";
 
-    private bool IsLastTelem((string, string) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
+    private bool IsLastTelem((string, string, string) telemNameSchemaData) => telemNameSchemaData.Item1 == this.telemNameSchemaDatas.Last().Item1;
 
     private bool IsLastCmd((string, string, string, bool, string) cmdNameReqRespIdemStale) => cmdNameReqRespIdemStale.Item1 == this.cmdNameReqRespIdemStales.Last().Item1;
 #>

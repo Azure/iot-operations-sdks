@@ -26,6 +26,8 @@
 
         public const string TelemSchema = "schemaClass";
 
+        public const string DataSchema = "dataSchema";
+
         public const string CommandList = "commands";
 
         public const string CommandName = "commandName";

@@ -49,6 +49,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# if (this.telemetryName != null) { #>
                 base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName#>";
 <# } #>
+
+                DataSchema = "<#=this.dataSchema#>";
             }
         }
     }
