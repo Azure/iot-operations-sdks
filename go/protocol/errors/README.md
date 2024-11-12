@@ -8,31 +8,11 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 
 ## Index
 
-- [func Context\(ctx context.Context, msg string\) error](<#Context>)
-- [func Normalize\(err error, msg string\) error](<#Normalize>)
 - [type Error](<#Error>)
   - [func \(e \*Error\) Attrs\(\) \[\]slog.Attr](<#Error.Attrs>)
   - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
 - [type Kind](<#Kind>)
 
-
-<a name="Context"></a>
-## func [Context](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L44>)
-
-```go
-func Context(ctx context.Context, msg string) error
-```
-
-Context extracts the timeout or cancellation error from a context.
-
-<a name="Normalize"></a>
-## func [Normalize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/util.go#L13>)
-
-```go
-func Normalize(err error, msg string) error
-```
-
-Normalize well\-known errors into protocol errors.
 
 <a name="Error"></a>
 ## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L9-L34>)

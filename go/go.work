@@ -16,6 +16,7 @@ use (
 	./samples/leasedlock
 	./samples/statestore
 	./services
+	./test/integration
 	./test/protocol
 )
 

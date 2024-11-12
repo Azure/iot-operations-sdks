@@ -1,0 +1,47 @@
+{
+    "title": "ReceiverEpilogue",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "subscribed-topics": {
+            "description": "A list of MQTT topics that have been subscribed.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "kind": "check"
+        },
+        "acknowledgement-count": {
+            "description": "The count of acknowledgements sent.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "telemetry-count": {
+            "description": "For a single receiver, the number of telemetries received.",
+            "type": "integer",
+            "kind": "check"
+        },
+        "telemetry-counts": {
+            "description": "For multiple receivers, a map from the receiver's index to the number of Telemetries received.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\d+$": { "type": "integer" }
+            },
+            "kind": "check"
+        },
+        "received-telemetries": {
+            "description": "An ordered list of Telemetries received.",
+            "type": "array",
+            "items": {
+                "$ref": "ReceivedTelemetry.schema.json"
+            },
+            "kind": "check"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught during finalization.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        }
+    }
+}

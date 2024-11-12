@@ -1,0 +1,28 @@
+---
+test-name: TelemetrySenderPubAckFailure_ThrowsException
+aka:
+- SendTelemetry_PubAckFailedWithUnspecifiedError
+- SendTelemetry_PubAckFailedWithNotAuthorized
+- SendTelemetry_PubAckFailedWithNoMatchingSubscribers
+description:
+  condition: >-
+    TelemetrySenders sends Telemetry but ACK fails when publishing request.
+  expect: >-
+    Send throws 'mqtt error' exception.
+
+prologue:
+  senders:
+  - { }
+  push-acks:
+    publish: [ fail ]
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
+...

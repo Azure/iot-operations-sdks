@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -19,10 +18,10 @@ func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
-	mqttClient := must(mqtt.NewSessionClient(
-		"tcp://localhost:1883",
-		mqtt.WithSessionExpiry(10*time.Minute),
-	))
+	mqttClient := mqtt.NewSessionClient(
+		mqtt.TCPConnection("localhost", 1883),
+		mqtt.WithSessionExpiry(600), // 10 minutes
+	)
 	client := must(dtmi_akri_samples_oven__1.NewOvenClient(
 		mqttClient,
 		func(

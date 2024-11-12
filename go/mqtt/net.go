@@ -5,89 +5,114 @@ package mqtt
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"net"
-	"net/url"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/eclipse/paho.golang/packets"
-	"github.com/gorilla/websocket"
 )
 
-// buildNetConn establishes the network connection
-// based on the provided configurations.
-func buildNetConn(
-	ctx context.Context,
-	serverURL string,
-	tlsConfig *tls.Config,
-) (net.Conn, error) {
-	var conn net.Conn
-	var err error
+// ConnectionProvider is a function that returns a net.Conn connected to an
+// MQTT server that is ready to read to and write from. Note that the returned
+// net.Conn must be thread-safe (i.e., concurrent Write calls must not
+// interleave).
+type ConnectionProvider func(context.Context) (net.Conn, error)
 
-	// serverURL parsing error is ignored here,
-	// since url has already been validated before during client setup.
-	u, _ := url.Parse(serverURL)
-
-	switch u.Scheme {
-	case "mqtt", "tcp", "":
-		conn, err = buildTCPConnection(ctx, u.Host)
-	case "ssl", "tls", "mqtts", "mqtt+ssl", "tcps":
-		conn, err = buildTLSConnection(ctx, tlsConfig, u.Host)
-	case "ws":
-		conn, err = buildWebsocketConnection(ctx, nil, u)
-	case "wss":
-		conn, err = buildWebsocketConnection(ctx, tlsConfig, u)
-	default:
-		return nil, &errors.Error{
-			Kind:          errors.ConfigurationInvalid,
-			Message:       "unsupported URL scheme",
-			PropertyName:  "serverURL",
-			PropertyValue: serverURL,
+// TCPConnection is a connection provider that connects to an MQTT server over
+// TCP.
+func TCPConnection(hostname string, port uint16) ConnectionProvider {
+	return func(ctx context.Context) (net.Conn, error) {
+		var d net.Dialer
+		conn, err := d.DialContext(
+			ctx,
+			"tcp",
+			fmt.Sprintf("%s:%d", hostname, port),
+		)
+		if err != nil {
+			return nil, &ConnectionError{
+				message: "error opening TCP connection",
+				wrapped: err,
+			}
 		}
+		return conn, nil
 	}
-
-	if err != nil {
-		return nil, retryableErr{&errors.Error{
-			Kind:        errors.UnknownError,
-			Message:     "MQTT network connection error",
-			NestedError: err,
-		}}
-	}
-	return conn, nil
 }
 
-func buildTCPConnection(
-	ctx context.Context,
-	address string,
-) (net.Conn, error) {
-	var d net.Dialer
-	return d.DialContext(ctx, "tcp", address)
+// TLSOption is a function that modifies a *tls.Config to be used when opening
+// a TLS connection to an MQTT server. More than one can be provided to
+// TLSConnection; they will be executed in order, with the first passed the
+// empty (default) TLS config. See tls.Config for more information on TLS
+// configuration options.
+type TLSOption func(context.Context, *tls.Config) error
+
+// WithX509 appends an X509 certificate to the TLS certificates.
+func WithX509(certFile, keyFile string) TLSOption {
+	return func(_ context.Context, cfg *tls.Config) error {
+		cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+		if err != nil {
+			return err
+		}
+		cfg.Certificates = append(cfg.Certificates, cert)
+		return nil
+	}
 }
 
-func buildTLSConnection(
-	ctx context.Context,
-	tlsCfg *tls.Config,
-	address string,
-) (net.Conn, error) {
-	d := tls.Dialer{
-		Config: tlsCfg,
+// WithEncryptedX509 appends an X509 certificate to the TLS certificates, using
+// a password file to decrypt the certificate key.
+func WithEncryptedX509(certFile, keyFile, passFile string) TLSOption {
+	return func(_ context.Context, cfg *tls.Config) error {
+		cert, err := loadX509KeyPairWithPassword(certFile, keyFile, passFile)
+		if err != nil {
+			return err
+		}
+		cfg.Certificates = append(cfg.Certificates, cert)
+		return nil
 	}
-	conn, err := d.DialContext(ctx, "tcp", address)
-	return packets.NewThreadSafeConn(conn), err
 }
 
-func buildWebsocketConnection(
-	ctx context.Context,
-	tlsCfg *tls.Config,
-	serverURL *url.URL,
-) (net.Conn, error) {
-	d := *websocket.DefaultDialer
-	if tlsCfg != nil {
-		d.TLSClientConfig = tlsCfg
+// WithCA loads a CA certificate pool into the root CAs of the TLS
+// configuration.
+func WithCA(caFile string) TLSOption {
+	return func(_ context.Context, cfg *tls.Config) error {
+		certPool, err := loadCACertPool(caFile)
+		if err != nil {
+			return err
+		}
+		cfg.RootCAs = certPool
+		return nil
 	}
-	// Optional subprotocol setting.
-	d.Subprotocols = []string{"mqtt"}
+}
 
-	conn, _, err := d.DialContext(ctx, serverURL.String(), nil)
+// TLSConnection is a connection provider that connects to an MQTT server with
+// TLS over TCP.
+func TLSConnection(
+	hostname string,
+	port uint16,
+	opts ...TLSOption,
+) ConnectionProvider {
+	return func(ctx context.Context) (net.Conn, error) {
+		tlsConfig := &tls.Config{MinVersion: tls.VersionTLS12}
+		for _, opt := range opts {
+			if err := opt(ctx, tlsConfig); err != nil {
+				return nil, &ConnectionError{
+					message: "error getting TLS configuration",
+					wrapped: err,
+				}
+			}
+		}
 
-	return conn.NetConn(), err
+		d := tls.Dialer{Config: tlsConfig}
+		conn, err := d.DialContext(
+			ctx,
+			"tcp",
+			fmt.Sprintf("%s:%d", hostname, port),
+		)
+		if err != nil {
+			return nil, &ConnectionError{
+				message: "error opening TLS connection",
+				wrapped: err,
+			}
+		}
+		// https://github.com/golang/go/issues/27203
+		return packets.NewThreadSafeConn(conn), nil
+	}
 }
