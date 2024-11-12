@@ -194,8 +194,8 @@ impl MqttConnectionSettingsBuilder {
             }
         }
         if let Some(Some(_)) = &self.key_file {
-            if let Some(cert_file) = &self.cert_file {
-                if cert_file.is_none() || cert_file.clone().unwrap().is_empty() {
+            if let Some(Some(cert_file)) = &self.cert_file {
+                if cert_file.is_empty() {
                     return Err("key_file and cert_file need to be provided together.".to_string());
                 }
             } else {
