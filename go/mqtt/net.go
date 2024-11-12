@@ -69,9 +69,9 @@ func WithEncryptedX509(certFile, keyFile, passFile string) TLSOption {
 	}
 }
 
-// WithCACertPool loads a CA certificate pool into the root CAs of the TLS
+// WithCA loads a CA certificate pool into the root CAs of the TLS
 // configuration.
-func WithCACertPool(caFile string) TLSOption {
+func WithCA(caFile string) TLSOption {
 	return func(_ context.Context, cfg *tls.Config) error {
 		certPool, err := loadCACertPool(caFile)
 		if err != nil {

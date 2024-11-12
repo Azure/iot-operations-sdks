@@ -68,7 +68,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type SubscribeOption](<#SubscribeOption>)
 - [type SubscribeOptions](<#SubscribeOptions>)
 - [type TLSOption](<#TLSOption>)
-  - [func WithCACertPool\(caFile string\) TLSOption](<#WithCACertPool>)
+  - [func WithCA\(caFile string\) TLSOption](<#WithCA>)
   - [func WithEncryptedX509\(certFile, keyFile, passFile string\) TLSOption](<#WithEncryptedX509>)
   - [func WithX509\(certFile, keyFile string\) TLSOption](<#WithX509>)
 - [type UnsubscribeOption](<#UnsubscribeOption>)
@@ -687,14 +687,14 @@ TLSOption is a function that modifies a \*tls.Config to be used when opening a T
 type TLSOption func(context.Context, *tls.Config) error
 ```
 
-<a name="WithCACertPool"></a>
-### func [WithCACertPool](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/net.go#L74>)
+<a name="WithCA"></a>
+### func [WithCA](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/net.go#L74>)
 
 ```go
-func WithCACertPool(caFile string) TLSOption
+func WithCA(caFile string) TLSOption
 ```
 
-WithCACertPool loads a CA certificate pool into the root CAs of the TLS configuration.
+WithCA loads a CA certificate pool into the root CAs of the TLS configuration.
 
 <a name="WithEncryptedX509"></a>
 ### func [WithEncryptedX509](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/net.go#L61>)

@@ -199,7 +199,7 @@ func (b *connectionProviderBuilder) build() (ConnectionProvider, error) {
 	}
 
 	if b.caFile != "" {
-		tlsOpts = append(tlsOpts, WithCACertPool(b.caFile))
+		tlsOpts = append(tlsOpts, WithCA(b.caFile))
 	}
 
 	return TLSConnection(b.hostname, b.port, tlsOpts...), nil
