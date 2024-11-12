@@ -236,7 +236,7 @@ pub struct TelemetrySenderOptions {
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
-///   .topic_token_map(&HashMap::new(), None)
+///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()

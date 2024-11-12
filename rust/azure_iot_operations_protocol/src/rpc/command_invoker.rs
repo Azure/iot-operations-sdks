@@ -23,7 +23,7 @@ use crate::{
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::{FormatIndicator, PayloadSerialize},
-        topic_processor::{self, contains_invalid_char, TopicPattern},
+        topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
@@ -172,7 +172,7 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
 ///   .topic_namespace("test_namespace".to_string())
-///   .topic_token_map(&HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]), None)
+///   .topic_token_map(HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]))
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {

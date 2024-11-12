@@ -659,6 +659,29 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
+    // Payload that has an invalid content type for testing
+    struct InvalidContentTypePayload {}
+    impl Clone for InvalidContentTypePayload {
+        fn clone(&self) -> Self {
+            unimplemented!()
+        }
+    }
+    impl PayloadSerialize for InvalidContentTypePayload {
+        type Error = String;
+        fn content_type() -> &'static str {
+            "application/json\u{0000}"
+        }
+        fn format_indicator() -> FormatIndicator {
+            unimplemented!()
+        }
+        fn serialize(&self) -> Result<Vec<u8>, String> {
+            unimplemented!()
+        }
+        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+            unimplemented!()
+        }
+    }
+
     // TODO: This should return a mock Session instead
     fn get_session() -> Session {
         // TODO: Make a real mock that implements Session
