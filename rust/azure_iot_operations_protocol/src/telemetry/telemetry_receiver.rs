@@ -267,6 +267,18 @@ where
             &receiver_options.topic_token_map,
         )?;
 
+        // TODO: Temporary fix for missing senderID reserved token
+        // Check if {senderId} token is present in the topic pattern
+        if !&receiver_options.topic_pattern.contains("{senderId}") {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "topic_pattern",
+                Value::String(receiver_options.topic_pattern.clone()),
+                Some("The topic pattern must contain a senderId token".to_string()),
+                None,
+            ));
+        }
+
         // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
 
