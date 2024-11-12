@@ -435,6 +435,9 @@ async fn run_background(
             let target_time = UNIX_EPOCH + Duration::from_secs(expiry);
             let Ok(time_until_expiry) = target_time.duration_since(SystemTime::now()) else {
                 log::error!("SAT token expiry time has already passed");
+                // Sleep for 1 seconds before trying again
+                sleep_time = 1;
+                first_pass = false;
                 continue;
             };
             let time_until_expiry = time_until_expiry.as_secs();
