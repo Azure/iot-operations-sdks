@@ -1,16 +1,16 @@
 ﻿
-namespace ConnectorApp
+namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// A bundle of asset name + dataset name in one class to fit how <see cref="Timer"/> passes around context
     /// </summary>
-    internal class DatasetSourceContext
+    internal class DatasetSamplerContext
     {
         internal string AssetName { get; set; }
 
         internal string DatasetName { get; set; }
 
-        internal DatasetSourceContext(string assetName, string datasetName)
+        internal DatasetSamplerContext(string assetName, string datasetName)
         {
             AssetName = assetName;
             DatasetName = datasetName;

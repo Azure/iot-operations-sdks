@@ -1,12 +1,13 @@
-﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
+﻿using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Services.Assets;
 
 namespace HttpServerConnectorApp
 {
-    public class HttpDatasetSourceFactory : IDatasetSourceFactory
+    public class HttpDatasetSamplerFactory : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSourceFactory> HttpDatasetSourceFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> HttpDatasetSourceFactoryProvider = service =>
         {
-            return new HttpDatasetSourceFactory();
+            return new HttpDatasetSamplerFactory();
         };
 
         /// <summary>
@@ -16,7 +17,7 @@ namespace HttpServerConnectorApp
         /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSource CreateDatasetSource(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
             if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
@@ -25,7 +26,7 @@ namespace HttpServerConnectorApp
                     BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSource(httpClient, asset.DisplayName!, assetEndpointProfile.Credentials);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!, assetEndpointProfile.Credentials);
             }
             else
             {

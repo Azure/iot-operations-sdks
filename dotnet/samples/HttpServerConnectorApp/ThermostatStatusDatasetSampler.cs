@@ -1,16 +1,17 @@
-﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
+﻿using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Services.Assets;
 using System.Net.Http.Headers;
 using System.Text;
 
 namespace HttpServerConnectorApp
 {
-    internal class ThermostatStatusDatasetSource : IDatasetSource
+    internal class ThermostatStatusDatasetSampler : IDatasetSampler
     {
         private HttpClient _httpClient;
         private string _assetName;
         private AssetEndpointProfileCredentials _credentials;
 
-        public ThermostatStatusDatasetSource(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
@@ -24,7 +25,7 @@ namespace HttpServerConnectorApp
         /// <param name="assetEndpointProfileCredentials">The credentials to use when sampling the asset. May be null if no credentials are required.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The serialized payload containing the sampled dataset.</returns>
-        public async Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             try
             {
