@@ -5,11 +5,11 @@ package mqtt
 import (
 	"math"
 	"sync/atomic"
-	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
+	"github.com/eclipse/paho.golang/paho"
 	"github.com/eclipse/paho.golang/paho/session"
 	"github.com/eclipse/paho.golang/paho/session/state"
 )
@@ -22,12 +22,12 @@ type (
 		// are only started after Start() is called.
 		sessionStarted atomic.Bool
 
-		// Used to internally to signal client shutdown for cleaning up
-		// background goroutines and inflight operations
+		// Used to signal client shutdown for cleaning up background goroutines
+		// and inflight operations. Only valid once started.
 		shutdown *internal.Background
 
 		// Tracker for the connection. Only valid once started.
-		conn *internal.ConnectionTracker[PahoClient]
+		conn *internal.ConnectionTracker[*paho.Client]
 
 		// A list of functions that listen for incoming messages.
 		messageHandlers *internal.AppendableListWithRemoval[messageHandler]
@@ -50,41 +50,10 @@ type (
 		// Paho's internal MQTT session tracker.
 		session session.SessionManager
 
-		// Paho client constructor (by default paho.NewClient + Conn).
-		pahoConstructor PahoConstructor
-
-		config    *connectionConfig
-		connRetry retry.Policy
+		connectionProvider ConnectionProvider
+		options            SessionClientOptions
 
 		log internal.Logger
-	}
-
-	connectionConfig struct {
-		connectionProvider ConnectionProvider
-		authProvider       auth.Provider
-
-		clientID string
-
-		userNameProvider UserNameProvider
-		passwordProvider PasswordProvider
-
-		firstConnectionCleanStart bool
-		keepAlive                 uint16
-		sessionExpiryInterval     uint32
-		receiveMaximum            uint16
-		userProperties            map[string]string
-
-		// If connectionTimeout is 0, connection will have no timeout.
-		//
-		// NOTE: this timeout applies to a single connection attempt.
-		// Configuring a timeout accross multiple attempts can be done through
-		// the retry policy.
-		//
-		// TODO: this is currently treated as the timeout for a single
-		// connection attempt. Once discussion on this occurs, ensure this is
-		// aligned with the other session client implementations and update the
-		// note above if this has changed.
-		connectionTimeout time.Duration
 	}
 )
 
@@ -92,10 +61,12 @@ type (
 func NewSessionClient(
 	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
-) (*SessionClient, error) {
+) *SessionClient {
 	// Default client options.
 	client := &SessionClient{
-		conn:                    internal.NewConnectionTracker[PahoClient](),
+		connectionProvider: connectionProvider,
+
+		conn:                    internal.NewConnectionTracker[*paho.Client](),
 		messageHandlers:         internal.NewAppendableListWithRemoval[messageHandler](),
 		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
 		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),
@@ -104,64 +75,37 @@ func NewSessionClient(
 		outgoingPublishes: make(chan *outgoingPublish, maxPublishQueueSize),
 
 		session: state.NewInMemory(),
-
-		config: &connectionConfig{
-			connectionProvider:        connectionProvider,
-			userNameProvider:          defaultUserName,
-			passwordProvider:          defaultPassword,
-			clientID:                  internal.RandomClientID(),
-			firstConnectionCleanStart: true,
-			keepAlive:                 60,
-			sessionExpiryInterval:     math.MaxUint32,
-			receiveMaximum:            math.MaxUint16,
-		},
-	}
-	client.pahoConstructor = client.defaultPahoConstructor
-
-	for _, opt := range opts {
-		opt(client)
 	}
 
-	// Do this after options since we need the user-configured logger for the
-	// default retry.
-	if client.connRetry == nil {
-		client.connRetry = &retry.ExponentialBackoff{Logger: client.log.Wrapped}
+	client.options.Apply(opts)
+
+	if client.options.ClientID == "" {
+		client.options.ClientID = internal.RandomClientID()
 	}
 
-	return client, nil
-}
-
-// NewSessionClientFromConnectionString constructs a new session client from a
-// user-defined connection string. Note that values from the connection string
-// take priority over any functional options.
-func NewSessionClientFromConnectionString(
-	connStr string,
-	opts ...SessionClientOption,
-) (*SessionClient, error) {
-	config, err := configFromConnectionString(connStr)
-	if err != nil {
-		return nil, err
+	if client.options.KeepAlive == 0 {
+		client.options.KeepAlive = 60
 	}
 
-	opts = append(opts, withConnectionConfig(config))
-	return NewSessionClient(config.connectionProvider, opts...)
-}
-
-// NewSessionClientFromEnv constructs a new session client
-// from user's environment variables. Note that values from environment
-// variables take priorty over any functional options.
-func NewSessionClientFromEnv(
-	opts ...SessionClientOption,
-) (*SessionClient, error) {
-	config, err := configFromEnv()
-	if err != nil {
-		return nil, err
+	if client.options.SessionExpiry == 0 {
+		client.options.SessionExpiry = math.MaxUint32
 	}
 
-	opts = append(opts, withConnectionConfig(config))
-	return NewSessionClient(config.connectionProvider, opts...)
+	if client.options.ReceiveMaximum == 0 {
+		client.options.ReceiveMaximum = math.MaxUint16
+	}
+
+	if client.options.ConnectionRetry == nil {
+		client.options.ConnectionRetry = &retry.ExponentialBackoff{
+			Logger: client.options.Logger,
+		}
+	}
+
+	client.log.Logger = log.Wrap(client.options.Logger)
+
+	return client
 }
 
 func (c *SessionClient) ID() string {
-	return c.config.clientID
+	return c.options.ClientID
 }

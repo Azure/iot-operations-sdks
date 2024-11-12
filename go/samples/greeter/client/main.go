@@ -20,11 +20,10 @@ func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 
-	mqttClient := must(mqtt.NewSessionClient(
-		//"tcp://localhost:1883",
+	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
-		mqtt.WithSessionExpiryInterval(10*60), // 10 minutes
-	))
+		mqtt.WithSessionExpiry(600), // 10 minutes
+	)
 	client := must(envoy.NewGreeterClient(mqttClient))
 	defer client.Close()
 
