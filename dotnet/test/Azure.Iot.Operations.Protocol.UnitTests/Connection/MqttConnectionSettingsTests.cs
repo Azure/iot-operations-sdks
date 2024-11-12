@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
                 KeepAlive = TimeSpan.FromSeconds(23),
                 KeyFile = "keyfile",
                 KeyFilePassword = "password",
-                PasswordFile = "password",
+                PasswordFile = "password.txt",
                 TcpPort = 2323,
                 Username = "me",
                 UseTls = false
@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal("TestSdkLiteCertPem.txt", cs.CertFile);
             Assert.Equal("keyfile", cs.KeyFile);
             Assert.Equal("me", cs.Username);
-            Assert.Equal("password", cs.PasswordFile);
+            Assert.Equal("password.txt", cs.PasswordFile);
             Assert.Equal("clientId", cs.ClientId);
             Assert.False(cs.CleanStart);
             Assert.Equal(TimeSpan.FromSeconds(23), cs.KeepAlive);
