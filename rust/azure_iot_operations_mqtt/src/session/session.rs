@@ -452,7 +452,7 @@ async fn run_background<C>(
             let expiry = match get_sat_expiry(&sat_token) {
                 Ok(expiry) => expiry,
                 Err(e) => {
-                    log::error!("{e:?}");
+                    log::error!("Invalid SAT token provided: {e:?}");
                     break;
                 }
             };
@@ -478,12 +478,12 @@ async fn run_background<C>(
             // Sleep until 5 seconds prior to the token expiry
             let target_time = UNIX_EPOCH + Duration::from_secs(expiry);
             let Ok(time_until_expiry) = target_time.duration_since(SystemTime::now()) else {
-                log::error!("Error calculating SAT token expiry time");
+                log::error!("SAT token expiry time has already passed");
                 break;
             };
             let time_until_expiry = time_until_expiry.as_secs();
             if time_until_expiry > 5 {
-                sleep_time = time_until_expiry;
+                sleep_time = time_until_expiry - 5;
             }
             first_pass = false;
         }
