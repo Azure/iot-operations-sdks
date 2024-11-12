@@ -33,21 +33,12 @@ namespace Azure.Iot.Operations.Protocol.Models
             CleanSession = cs.CleanStart;
             SessionExpiryInterval = (uint)cs.SessionExpiry.TotalSeconds;
 
-            //if (cs.ConnectionTimeout != null)
-            //{
-            //    Timeout = cs.ConnectionTimeout.Value;
-            //}
-
             if (!string.IsNullOrEmpty(cs.Username))
             {
                 if (!string.IsNullOrEmpty(cs.PasswordFile))
                 {
                     Credentials = new MqttClientCredentials(cs.Username, File.ReadAllBytes(cs.PasswordFile));
                 }
-                //else if (!string.IsNullOrEmpty(cs.Password))
-                //{
-                //    Credentials = new MqttClientCredentials(cs.Username, Encoding.UTF8.GetBytes(cs.Password));
-                //}
                 else
                 {
                     Credentials = new MqttClientCredentials(cs.Username);
