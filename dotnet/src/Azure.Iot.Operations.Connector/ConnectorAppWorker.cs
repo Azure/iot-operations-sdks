@@ -15,12 +15,10 @@ namespace Azure.Iot.Operations.Connector
 {
     public class ConnectorAppWorker : BackgroundService
     {
-        private bool doSchemaWork = false;
         private readonly ILogger<ConnectorAppWorker> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
-        private SchemaRegistryClient _schemaRegistryClient;
         private AssetMonitor _adrClient;
 
         private Dictionary<string, Asset> _assets = new();
@@ -34,7 +32,6 @@ namespace Azure.Iot.Operations.Connector
             _logger = logger;
             _sessionClient = mqttSessionClient;
             _datasetSamplerFactory = datasetSamplerFactory;
-            _schemaRegistryClient = new(_sessionClient);
             _adrClient = new();
         }
 
@@ -42,15 +39,9 @@ namespace Azure.Iot.Operations.Connector
         {
             try
             {
-                _assetEndpointProfile = await _adrClient.GetAssetEndpointProfileAsync(cancellationToken);
-
-                if (_assetEndpointProfile == null)
-                {
-                    throw new InvalidOperationException("Missing asset endpoint profile configuration");
-                }
-
                 _adrClient.AssetEndpointProfileChanged += (sender, args) =>
                 {
+                    //TODO only start observing assets once an AEP is detected?
                     _logger.LogInformation("Recieved a notification that the asset endpoint definition has changed.");
                     _assetEndpointProfile = args.AssetEndpointProfile;
                 };
@@ -71,22 +62,12 @@ namespace Azure.Iot.Operations.Connector
                 {
                     if (args.ChangeType == ChangeType.Deleted)
                     {
-                        _logger.LogInformation($"Recieved a notification the asset with name {args.AssetName} has been deleted.");
-
-                        // Stop sampling this asset since it was deleted
-                        foreach (Timer datasetSampler in _samplers[args.AssetName].Values)
-                        {
-                            datasetSampler.Dispose();
-                        }
-
-                        _samplers.Remove(args.AssetName);
-                        _assets.Remove(args.AssetName);
+                        StopSamplingAsset(args.AssetName);
                     }
                     else if (args.ChangeType == ChangeType.Created)
                     {
                         _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been created.");
-
-                        _ = StartSamplingAssetAsync(args.AssetName, cancellationToken);
+                        StartSamplingAsset(args.Asset!, cancellationToken);
                     }
                     else
                     {
@@ -120,10 +101,24 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StartSamplingAssetAsync(string assetName, CancellationToken cancellationToken = default)
+        private void StopSamplingAsset(string assetName)
         {
+            _logger.LogInformation($"Recieved a notification the asset with name {assetName} has been deleted.");
+
+            // Stop sampling this asset since it was deleted
+            foreach (Timer datasetSampler in _samplers[assetName].Values)
+            {
+                datasetSampler.Dispose();
+            }
+
+            _samplers.Remove(assetName);
+            _assets.Remove(assetName);
+        }
+
+        private void StartSamplingAsset(Asset asset, CancellationToken cancellationToken = default)
+        {
+            string assetName = asset.DisplayName!;
             _logger.LogInformation($"Discovered asset with name {assetName}");
-            Asset? asset = await _adrClient.GetAssetAsync(assetName, cancellationToken);
 
             if (asset == null)
             {
@@ -160,36 +155,6 @@ namespace Azure.Iot.Operations.Connector
                     string mqttMessageSchema = dataset.GetMqttMessageSchema();
                     _logger.LogInformation($"Derived the schema for dataset with name {datasetName} in asset with name {assetName}:");
                     _logger.LogInformation(mqttMessageSchema);
-
-                    if (doSchemaWork)
-                    {
-                        var schema = await _schemaRegistryClient.PutAsync(
-                            mqttMessageSchema,
-                            Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
-                            Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
-                            "1.0.0", //TODO version?
-                        new(),
-                            null,
-                            cancellationToken);
-
-                        if (schema == null)
-                        {
-                            throw new InvalidOperationException("Failed to register the message schema with the schema registry service");
-                        }
-
-                        asset.Status ??= new();
-                        asset.Status.Events ??= new StatusEvents[1]; //TODO more status events later if asset changes?
-                        asset.Status.Events[0] = new StatusEvents()
-                        {
-                            Name = schema.Name,
-                            MessageSchemaReference = new()
-                            {
-                                SchemaName = schema.Name,
-                                SchemaRegistryNamespace = schema.Namespace,
-                                SchemaVersion = schema.Version,
-                            }
-                        };
-                    }
                 }
             }
         }
@@ -239,26 +204,15 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            if (asset.Status != null
-                && asset.Status.DatasetsDictionary != null
-                && asset.Status.DatasetsDictionary[datasetName] != null
-                && asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference != null)
-            {
-                _logger.LogInformation("Message schema configured, will include cloud event headers");
-                var messageSchemaReference = asset.Status.DatasetsDictionary[datasetName].MessageSchemaReference!;
-
-                mqttMessage.AddCloudEvents(
-                    new CloudEvent(
-                        new Uri(_assetEndpointProfile!.TargetAddress),
-                        messageSchemaReference.SchemaRegistryNamespace + messageSchemaReference.SchemaName,
-                        messageSchemaReference.SchemaVersion));
-            }
-
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
-            if (puback.ReasonCode != MqttClientPublishReasonCode.Success
-                && puback.ReasonCode != MqttClientPublishReasonCode.NoMatchingSubscribers) // There is no consumer of these messages yet, so ignore this expected NoMatchingSubscribers error
+            if (puback.ReasonCode == MqttClientPublishReasonCode.Success)
             {
+                _logger.LogInformation($"Received successful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+            }
+            else
+            {
+                // There is no consumer of these messages yet, so NoMatchingSubscribers error is expected here
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
         }
