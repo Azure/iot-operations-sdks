@@ -1,0 +1,49 @@
+{
+    "title": "ActionSendTelemetry",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Send a Telemetry without waiting for its completion.",
+            "type": "string",
+            "const": "send telemetry"
+        },
+        "telemetry-name": {
+            "description": "The name of the Telemetry.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "timeout": {
+            "description": "Telemetry timeout duration.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "telemetry-value": {
+            "description": "A UTF8 string (or null) value for the Telemetry content.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "metadata": {
+            "description": "Keys and values for user metadata.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
+        "cloud-event": {
+            "description": "A CloudEvent associated with the Telemetry.",
+            "$ref": "OriginatingCloudEvent.schema.json",
+            "kind": "drive"
+        },
+        "qos": {
+            "description": "MQTT QoS level.",
+            "type": "integer",
+            "kind": "drive"
+        }
+    },
+    "required": [ "action" ]
+}

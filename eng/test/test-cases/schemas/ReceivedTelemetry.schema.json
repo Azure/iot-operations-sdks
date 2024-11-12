@@ -1,0 +1,30 @@
+{
+    "title": "ReceivedTelemetry",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "telemetry-value": {
+            "description": "A UTF8 string expected for the Telemetry content.",
+            "type": "string",
+            "kind": "check"
+        },
+        "metadata": {
+            "description": "Keys and values of expected metadata; a null value indicates key should not be present.",
+            "type": "object",
+            "additionalProperties": {
+                "type": [ "string", "null" ]
+            },
+            "kind": "check"
+        },
+        "cloud-event": {
+            "description": "A CloudEvent expected to be associated with the Telemetry.",
+            "$ref": "ReceivedCloudEvent.schema.json",
+            "kind": "check"
+        },
+        "sender-index": {
+            "description": "An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry.",
+            "type": "integer",
+            "kind": "check"
+        }
+    }
+}

@@ -10,6 +10,12 @@
     ],
     "schemas/InvokerTestCase.schema.json": [
         "Protocol/CommandInvoker/*.yaml"
+    ],
+    "schemas/ReceiverTestCase.schema.json": [
+        "Protocol/TelemetryReceiver/*.yaml"
+    ],
+    "schemas/SenderTestCase.schema.json": [
+        "Protocol/TelemetrySender/*.yaml"
     ]
 }
 }
