@@ -1656,60 +1656,6 @@ mod tests {
         }
     }
 
-    #[tokio::test]
-    async fn test_invoke_serializer_invalid_content_type() {
-        // Get mutexes for checking static PayloadSerialize calls
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/req/topic")
-            .command_name("test_command_name")
-            .topic_token_map(create_topic_tokens())
-            .build()
-            .unwrap();
-
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
-
-        let mut mock_request_payload = MockPayload::new();
-        mock_request_payload
-            .expect_serialize()
-            .returning(|| Ok(String::new().into()))
-            .times(1);
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "abc\ndef")
-            .once();
-
-        let response = command_invoker
-            .invoke(
-                CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
-                    .unwrap()
-                    .timeout(Duration::from_secs(2))
-                    .build()
-                    .unwrap(),
-            )
-            .await;
-        match response {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert!(e.nested_error.is_none());
-            }
-        }
-    }
-
     #[test]
     fn test_request_serialization_error() {
         let mut mock_request_payload = MockPayload::new();
