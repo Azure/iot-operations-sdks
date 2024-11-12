@@ -1,6 +1,7 @@
-use std::collections::HashMap;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+use std::collections::HashMap;
 use std::time::Duration;
 
 use env_logger::Builder;
