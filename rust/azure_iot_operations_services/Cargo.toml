@@ -19,6 +19,7 @@ log.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
+data-encoding = "2.5"
 
 [dev-dependencies]
 env_logger.workspace = true

@@ -1,9 +1,8 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.RPC;
     using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
-    using MQTTnet.Client;
 
     public class TestCommandInvoker : CommandInvoker<string, string>
     {

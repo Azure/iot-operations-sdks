@@ -3,11 +3,10 @@
 package mqtt
 
 import (
-	"context"
-	"crypto/tls"
-	"sync"
-	"time"
+	"math"
+	"sync/atomic"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 	"github.com/eclipse/paho.golang/paho"
@@ -16,42 +15,25 @@ import (
 )
 
 type (
-	// SessionClient implements an MQTT Session client
-	// supporting MQTT v5 with QoS 0 and QoS 1.
-	// TODO: Add support for QoS 2.
+	// SessionClient implements an MQTT Session client supporting MQTT v5 with
+	// QoS 0 and QoS 1 support.
 	SessionClient struct {
-		// **Paho MQTTv5 client**
-		pahoClient   PahoClient
-		pahoClientMu sync.RWMutex
+		// Used to ensure Start() is called only once and that user operations
+		// are only started after Start() is called.
+		sessionStarted atomic.Bool
 
-		// **Connection**
-		connSettings *connectionSettings
-		connRetry    retry.Policy
+		// Used to signal client shutdown for cleaning up background goroutines
+		// and inflight operations. Only valid once started.
+		shutdown *internal.Background
 
-		// Count of the successful connections.
-		connCount int64
+		// Tracker for the connection. Only valid once started.
+		conn *internal.ConnectionTracker[*paho.Client]
 
-		// Connection status signal.
-		connected bool
-
-		// Queue for storing pending packets when the connection fails.
-		pendingPackets *internal.Queue[queuedPacket]
-
-		// Protects connected and pendingPackets.
-		connectionMu sync.Mutex
-
-		// Connection shut down callback.
-		connStop context.CancelFunc
-
-		// Allowing session restoration upon reconnection.
-		session session.SessionManager
-
-		// **Management**
-		// A list of functions that listen for incoming publishes
-		incomingPublishHandlers *internal.AppendableListWithRemoval[func(*paho.Publish) bool]
+		// A list of functions that listen for incoming messages.
+		messageHandlers *internal.AppendableListWithRemoval[messageHandler]
 
 		// A list of functions that are called in order to notify the user of
-		// successful MQTT connections
+		// successful MQTT connections.
 		connectEventHandlers *internal.AppendableListWithRemoval[ConnectEventHandler]
 
 		// A list of functions that are called in order to notify the user of a
@@ -59,190 +41,71 @@ type (
 		disconnectEventHandlers *internal.AppendableListWithRemoval[DisconnectEventHandler]
 
 		// A list of functions that are called in goroutines to notify the user
-		// of a SessionClient termination due to a fatal error.
+		// of a session client termination due to a fatal error.
 		fatalErrorHandlers *internal.AppendableListWithRemoval[func(error)]
 
-		// Error channel for connection errors from Paho.
-		// Errors during connection will be captured in this channel.
-		// A message on the clientErrC indicates
-		// a disconnection has occurred or will occur.
-		// Only 1 error for 1 connection at the time to make sure
-		// error would be handled immediately after sending.
-		clientErrC internal.BufferChan[error]
+		// Buffered channel containing the PUBLISH packets to be sent.
+		outgoingPublishes chan *outgoingPublish
 
-		// Error channel for translated disconnect errors
-		// from Paho.OnServerDisconnect callback,
-		// indicating an abnormal disconnection event
-		// from the server, thus potentially prompting a retry.
-		disconnErrC internal.BufferChan[error]
+		// Paho's internal MQTT session tracker.
+		session session.SessionManager
 
-		log logger
+		connectionProvider ConnectionProvider
+		options            SessionClientOptions
 
-		// **Testing**
-		// Factory for initializing the Paho Client.
-		// Currently, this is intended only for testing convenience.
-		pahoClientFactory func(*paho.ClientConfig) PahoClient
-		// Nil by default since it's only needed for stub client.
-		pahoClientConfig *paho.ClientConfig
-	}
-
-	connectionSettings struct {
-		clientID string
-		// serverURL would be parsed into url.URL.
-		serverURL string
-		username  string
-		password  []byte
-		// Path to the password file. It would override password
-		// if both are provided.
-		passwordFile string
-
-		cleanStart bool
-		// If keepAlive is 0,the Client is not obliged to send
-		// MQTT Control Packets on any particular schedule.
-		keepAlive time.Duration
-		// If sessionExpiry is absent, its value 0 is used.
-		sessionExpiry time.Duration
-		// If receiveMaximum value is absent, its value defaults to 65,535.
-		receiveMaximum uint16
-		// If connectionTimeout is 0, connection will have no timeout.
-		// Note the connectionTimeout would work with connRetry.
-		connectionTimeout time.Duration
-		userProperties    map[string]string
-
-		// TLS transport protocol.
-		useTLS bool
-		// User can provide either a complete TLS configuration
-		// or specify individual TLS parameters.
-		// If both are provided, the individual parameters will take precedence.
-		tlsConfig *tls.Config
-		// Path to the client certificate file (PEM-encoded).
-		certFile string
-		// keyFilePassword would allow loading
-		// an RFC 7468 PEM-encoded certificate
-		// along with its password-protected private key,
-		// similar to the .NET method CreateFromEncryptedPemFile.
-		keyFile         string
-		keyFilePassword string
-		// Path to the certificate authority (CA) file (PEM-encoded).
-		caFile string
-		// TODO: check the revocation status of the CA.
-		caRequireRevocationCheck bool
-
-		// Enhanced Authentication.
-		authOptions *AuthOptions
-
-		// Last Will and Testament (LWT) option.
-		willMessage    *WillMessage
-		willProperties *WillProperties
-	}
-
-	// queuedPacket would hold packets such as
-	// paho.Subscribe, paho.Publish, or paho.Unsubscribe,
-	// and other necessary information.
-	queuedPacket struct {
-		packet any
-		errC   chan error
+		log internal.Logger
 	}
 )
 
 // NewSessionClient constructs a new session client with user options.
 func NewSessionClient(
-	serverURL string,
+	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
-) (*SessionClient, error) {
-	client := &SessionClient{}
-
+) *SessionClient {
 	// Default client options.
-	client.initialize()
+	client := &SessionClient{
+		connectionProvider: connectionProvider,
 
-	// Only required client setting.
-	client.connSettings.serverURL = serverURL
+		conn:                    internal.NewConnectionTracker[*paho.Client](),
+		messageHandlers:         internal.NewAppendableListWithRemoval[messageHandler](),
+		connectEventHandlers:    internal.NewAppendableListWithRemoval[ConnectEventHandler](),
+		disconnectEventHandlers: internal.NewAppendableListWithRemoval[DisconnectEventHandler](),
+		fatalErrorHandlers:      internal.NewAppendableListWithRemoval[func(error)](),
 
-	// User client settings.
-	for _, opt := range opts {
-		opt(client)
+		outgoingPublishes: make(chan *outgoingPublish, maxPublishQueueSize),
+
+		session: state.NewInMemory(),
 	}
 
-	// Do this after options since we need the user-configured logger for the
-	// default retry.
-	if client.connRetry == nil {
-		client.connRetry = &retry.ExponentialBackoff{Logger: client.log.Wrapped}
+	client.options.Apply(opts)
+
+	if client.options.ClientID == "" {
+		client.options.ClientID = internal.RandomClientID()
 	}
 
-	// Validate connection settings.
-	if err := client.connSettings.validate(); err != nil {
-		return nil, err
+	if client.options.KeepAlive == 0 {
+		client.options.KeepAlive = 60
 	}
 
-	return client, nil
-}
-
-// NewSessionClientFromConnectionString constructs a new session client
-// from an user-defined connection string.
-func NewSessionClientFromConnectionString(
-	connStr string,
-	opts ...SessionClientOption,
-) (*SessionClient, error) {
-	connSettings := &connectionSettings{}
-	if err := connSettings.fromConnectionString(connStr); err != nil {
-		return nil, err
+	if client.options.SessionExpiry == 0 {
+		client.options.SessionExpiry = math.MaxUint32
 	}
 
-	opts = append(opts, withConnSettings(connSettings))
-	client, err := NewSessionClient(connSettings.serverURL, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
-}
-
-// NewSessionClientFromEnv constructs a new session client
-// from user's environment variables.
-func NewSessionClientFromEnv(
-	opts ...SessionClientOption,
-) (*SessionClient, error) {
-	connSettings := &connectionSettings{}
-	if err := connSettings.fromEnv(); err != nil {
-		return nil, err
+	if client.options.ReceiveMaximum == 0 {
+		client.options.ReceiveMaximum = math.MaxUint16
 	}
 
-	opts = append(opts, withConnSettings(connSettings))
-	client, err := NewSessionClient(connSettings.serverURL, opts...)
-	if err != nil {
-		return nil, err
+	if client.options.ConnectionRetry == nil {
+		client.options.ConnectionRetry = &retry.ExponentialBackoff{
+			Logger: client.options.Logger,
+		}
 	}
-	return client, nil
+
+	client.log.Logger = log.Wrap(client.options.Logger)
+
+	return client
 }
 
 func (c *SessionClient) ID() string {
-	return c.connSettings.clientID
-}
-
-// initialize sets all default configurations
-// to ensure the SessionClient is properly initialized.
-func (c *SessionClient) initialize() {
-	c.connSettings = &connectionSettings{
-		clientID: randomClientID(),
-		// If receiveMaximum is 0, we can't establish connection.
-		receiveMaximum: defaultReceiveMaximum,
-		// Ensures AuthInterval is set for automatic credential refresh
-		// otherwise ticker in RefreshAuth() will panic.
-		authOptions: &AuthOptions{AuthInterval: defaultAuthInterval},
-	}
-
-	c.session = state.NewInMemory()
-
-	c.incomingPublishHandlers = internal.NewAppendableListWithRemoval[func(*paho.Publish) bool]()
-	c.connectEventHandlers = internal.NewAppendableListWithRemoval[ConnectEventHandler]()
-	c.disconnectEventHandlers = internal.NewAppendableListWithRemoval[DisconnectEventHandler]()
-	c.fatalErrorHandlers = internal.NewAppendableListWithRemoval[func(error)]()
-
-	c.pendingPackets = internal.NewQueue[queuedPacket](maxPacketQueueSize)
-
-	c.clientErrC = *internal.NewBufferChan[error](1)
-	c.disconnErrC = *internal.NewBufferChan[error](1)
-
-	c.pahoClientFactory = func(config *paho.ClientConfig) PahoClient {
-		return paho.NewClient(*config)
-	}
+	return c.options.ClientID
 }

@@ -1,0 +1,35 @@
+{
+    "title": "Sender",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "telemetry-name": {
+            "description": "The name of the Telemetry.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "telemetry-topic": {
+            "description": "The MQTT topic pattern for the Telemetry.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "model-id": {
+            "description": "The identifier of the the service model, which is the full DTMI of the Interface.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "topic-namespace": {
+            "description": "A leading namespace for the Telemetry MQTT topic patterns.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "custom-token-map": {
+            "description": "A map from custom topic tokens to replacement values.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        }
+    }
+}

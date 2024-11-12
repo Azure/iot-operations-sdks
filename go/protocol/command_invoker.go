@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -14,14 +15,12 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
 type (
 	// CommandInvoker provides the ability to invoke a single command.
 	CommandInvoker[Req any, Res any] struct {
-		client        MqttClient
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
@@ -161,16 +160,16 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	ci = &CommandInvoker[Req, Res]{
-		client:        client,
 		responseTopic: resTP,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		client:   client,
 		encoding: requestEncoding,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		client:         ci.client,
+		client:         client,
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
@@ -225,8 +224,8 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.client.ID()
-	pub.UserProperties[constants.Partition] = ci.client.ID()
+	pub.UserProperties[constants.InvokerClientID] = ci.publisher.client.ID()
+	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
 	}
@@ -239,7 +238,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	defer done()
 
 	shallow = false
-	_, err = ci.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
+	err = ci.publisher.publish(ctx, pub)
 	if err != nil {
 		return nil, err
 	}
@@ -253,7 +252,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	case res := <-listen:
 		return res.res, res.err
 	case <-ctx.Done():
-		return nil, errors.Context(ctx, commandInvokerErrStr)
+		return nil, errutil.Context(ctx, commandInvokerErrStr)
 	}
 }
 
@@ -277,7 +276,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	res *CommandResponse[Res],
 	err error,
 ) error {
-	defer ci.listener.ack(ctx, pub)
+	defer pub.Ack()
 
 	cdata := string(pub.CorrelationData)
 	if pending, ok := ci.pending.Get(cdata); ok {

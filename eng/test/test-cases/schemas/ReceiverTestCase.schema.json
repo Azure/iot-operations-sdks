@@ -1,0 +1,39 @@
+{
+    "title": "ReceiverTestCase",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "test-name": {
+            "description": "The name of the test case, usually matches the file name without extension.",
+            "type": "string"
+        },
+        "aka": {
+            "description": "Alternative names the test case is 'also known as'.",
+            "type": "array",
+            "items": { "type": "string" }
+        },
+        "description": {
+            "description": "English description of the test case.",
+            "$ref": "Description.schema.json"
+        },
+        "requires": {
+            "description": "List of features required by the test case.",
+            "type": "array",
+            "items": { "$ref": "FeatureKind.schema.json" }
+        },
+        "prologue": {
+            "description": "Initialization to perform prior to stepping through the test-case actions.",
+            "$ref": "ReceiverPrologue.schema.json"
+        },
+        "actions": {
+            "description": "A sequence of actions to perform.",
+            "type": "array",
+            "items": { "$ref": "ReceiverAction.schema.json" }
+        },
+        "epilogue": {
+            "description": "Finalization to perform after stepping through the test-case actions.",
+            "$ref": "ReceiverEpilogue.schema.json"
+        }
+    },
+    "required": [ "test-name", "description", "prologue" ]
+}

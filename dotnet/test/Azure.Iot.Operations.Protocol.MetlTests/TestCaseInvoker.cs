@@ -1,10 +1,11 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseInvoker
     {
         public static string? DefaultCommandName;
         public static string? DefaultRequestTopic;
         public static string? DefaultModelId;
+        public static string? DefaultTopicNamespace;
         public static string? DefaultResponseTopicPrefix;
         public static string? DefaultResponseTopicSuffix;
 
@@ -14,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public string? ModelId { get; set; } = DefaultModelId;
 
-        public string? TopicNamespace { get; set; }
+        public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
 
         public string? ResponseTopicPrefix { get; set; } = DefaultResponseTopicPrefix;
 

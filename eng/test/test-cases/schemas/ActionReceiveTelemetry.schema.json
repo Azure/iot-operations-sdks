@@ -1,0 +1,69 @@
+{
+    "title": "ActionReceiveTelemetry",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Receive a telemetry message.",
+            "type": "string",
+            "const": "receive telemetry"
+        },
+        "topic": {
+            "description": "The MQTT topic on which the message is published.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "payload": {
+            "description": "A UTF8 string to encapsulate in the telemetry payload; if null, omit payload from telemetry message.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "bypass-serialization": {
+            "description": "Bypass serializing the payload and just embed raw bytes.",
+            "type": "boolean",
+            "kind": "drive"
+        },
+        "content-type": {
+            "description": "The value of the ContentType header in the message, or null if no such header.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
+        "format-indicator": {
+            "description": "The value of the PayloadFormatIndicator header in the message, or null if no such header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "metadata": {
+            "description": "Keys and values for header fields in the message.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
+        "qos": {
+            "description": "MQTT QoS level.",
+            "type": "integer",
+            "kind": "drive"
+        },
+        "message-expiry": {
+            "description": "Maximum duration for which a response remains desired by the sender.",
+            "anyOf": [
+                { "$ref": "Duration.schema.json" },
+                { "type": "null" }
+            ],
+            "kind": "drive"
+        },
+        "sender-index": {
+            "description": "An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry; null omits sender ID in header.",
+            "type": [ "integer", "null" ],
+            "kind": "drive"
+        },
+        "packet-index": {
+            "description": "An arbitrary numeric value used to identify the packet ID in the message.",
+            "type": "integer",
+            "kind": "match"
+        }
+    },
+    "required": [ "action" ]
+}

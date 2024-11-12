@@ -13,11 +13,13 @@ import "github.com/Azure/iot-operations-sdks/go/services/leasedlock"
   - [func New\[K, V Bytes\]\(client \*statestore.Client\[K, V\], name K\) \*Lock\[K, V\]](<#New>)
   - [func \(l \*Lock\[K, V\]\) Acquire\(ctx context.Context, duration time.Duration, opt ...Option\) \(hlc.HybridLogicalClock, error\)](<#Lock[K, V].Acquire>)
   - [func \(l \*Lock\[K, V\]\) Edit\(ctx context.Context, key K, duration time.Duration, edit func\(context.Context, V\) \(V, error\), opt ...Option\) error](<#Lock[K, V].Edit>)
+  - [func \(l \*Lock\[K, V\]\) Holder\(ctx context.Context, opt ...Option\) \(string, error\)](<#Lock[K, V].Holder>)
   - [func \(l \*Lock\[K, V\]\) Release\(ctx context.Context, opt ...Option\) \(bool, error\)](<#Lock[K, V].Release>)
   - [func \(l \*Lock\[K, V\]\) TryAcquire\(ctx context.Context, duration time.Duration, opt ...Option\) \(hlc.HybridLogicalClock, error\)](<#Lock[K, V].TryAcquire>)
 - [type Option](<#Option>)
 - [type Options](<#Options>)
   - [func \(o \*Options\) Apply\(opts \[\]Option, rest ...Option\)](<#Options.Apply>)
+- [type WithSessionID](<#WithSessionID>)
 - [type WithTimeout](<#WithTimeout>)
 
 
@@ -52,7 +54,7 @@ func New[K, V Bytes](client *statestore.Client[K, V], name K) *Lock[K, V]
 New creates a new leased lock from an underlying state store client and a lock name.
 
 <a name="Lock[K, V].Acquire"></a>
-### func \(\*Lock\[K, V\]\) [Acquire](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L58-L62>)
+### func \(\*Lock\[K, V\]\) [Acquire](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L65-L69>)
 
 ```go
 func (l *Lock[K, V]) Acquire(ctx context.Context, duration time.Duration, opt ...Option) (hlc.HybridLogicalClock, error)
@@ -69,8 +71,17 @@ func (l *Lock[K, V]) Edit(ctx context.Context, key K, duration time.Duration, ed
 
 Edit a key under the protection of this lock.
 
+<a name="Lock[K, V].Holder"></a>
+### func \(\*Lock\[K, V\]\) [Holder](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L140-L143>)
+
+```go
+func (l *Lock[K, V]) Holder(ctx context.Context, opt ...Option) (string, error)
+```
+
+Holder gets the current holder of the lock, if any. An empty value indicates that there is no current lock holder.
+
 <a name="Lock[K, V].Release"></a>
-### func \(\*Lock\[K, V\]\) [Release](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L117-L120>)
+### func \(\*Lock\[K, V\]\) [Release](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L124-L127>)
 
 ```go
 func (l *Lock[K, V]) Release(ctx context.Context, opt ...Option) (bool, error)
@@ -79,7 +90,7 @@ func (l *Lock[K, V]) Release(ctx context.Context, opt ...Option) (bool, error)
 Release the lock. Returns a boolean indicating whether the lock was successfully released \(e.g. whether the lock had been acquired\).
 
 <a name="Lock[K, V].TryAcquire"></a>
-### func \(\*Lock\[K, V\]\) [TryAcquire](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L33-L37>)
+### func \(\*Lock\[K, V\]\) [TryAcquire](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L40-L44>)
 
 ```go
 func (l *Lock[K, V]) TryAcquire(ctx context.Context, duration time.Duration, opt ...Option) (hlc.HybridLogicalClock, error)
@@ -99,18 +110,19 @@ type Option interface {
 ```
 
 <a name="Options"></a>
-## type [Options](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L17-L19>)
+## type [Options](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L17-L20>)
 
 Options are the resolved options for the lock requests.
 
 ```go
 type Options struct {
-    Timeout time.Duration
+    Timeout   time.Duration
+    SessionID string
 }
 ```
 
 <a name="Options.Apply"></a>
-### func \(\*Options\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L26-L29>)
+### func \(\*Options\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L31-L34>)
 
 ```go
 func (o *Options) Apply(opts []Option, rest ...Option)
@@ -118,8 +130,17 @@ func (o *Options) Apply(opts []Option, rest ...Option)
 
 Apply resolves the provided list of options.
 
+<a name="WithSessionID"></a>
+## type [WithSessionID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L27>)
+
+WithSessionID adds an optional session ID suffix to the lock holder to allow distinct locks on the same key with the same MQTT client.
+
+```go
+type WithSessionID string
+```
+
 <a name="WithTimeout"></a>
-## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L22>)
+## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L23>)
 
 WithTimeout adds a timeout to the request \(with second precision\).
 

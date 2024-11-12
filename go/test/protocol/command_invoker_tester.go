@@ -15,7 +15,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
-	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/packets"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
@@ -56,7 +56,12 @@ func runOneCommandInvokerTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		// TODO: We cannot test these until Paho supports returning pubacks from
+		// async publishes (https://github.com/eclipse/paho.golang/issues/216).
+		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
+		"CommandInvokerPubAckFailure_ThrowsException",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -93,18 +98,18 @@ func runOneCommandInvokerTest(
 		mqttClientID = fmt.Sprintf("InvokerTestClient%d", testCaseIndex)
 	}
 
-	stubClient, sessionClient := getStubAndSessionClient(t, mqttClientID)
+	stubBroker, sessionClient := getStubAndSessionClient(t, mqttClientID)
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Publish {
-		stubClient.enqueuePubAck(ackKind)
+		stubBroker.EnqueuePubAck(ackKind)
 	}
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Subscribe {
-		stubClient.enqueueSubAck(ackKind)
+		stubBroker.EnqueueSubAck(ackKind)
 	}
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Unsubscribe {
-		stubClient.enqueueUnsubAck(ackKind)
+		stubBroker.EnqueueUnsubAck(ackKind)
 	}
 
 	commandInvokers := make(map[string]*TestingCommandInvoker)
@@ -147,26 +152,23 @@ func runOneCommandInvokerTest(
 			receiveResponse(
 				t,
 				action.AsReceiveResponse(),
-				stubClient,
+				stubBroker,
 				correlationIDs,
 				packetIDs,
 			)
 		case AwaitAck:
-			awaitAcknowledgement(t, action.AsAwaitAck(), stubClient, packetIDs)
+			awaitAcknowledgement(t, action.AsAwaitAck(), stubBroker, packetIDs)
 		case AwaitPublish:
 			awaitPublish(
 				t,
 				action.AsAwaitPublish(),
-				stubClient,
+				stubBroker,
 				correlationIDs,
 			)
 		case Sleep:
 			sleep(action.AsSleep())
 		case Disconnect:
-			t.Skipf(
-				"Skipping test %s because action 'disconnect' not implemented",
-				testName,
-			)
+			stubBroker.Disconnect()
 		case FreezeTime:
 			freezeTicket = freezeTime()
 		case UnfreezeTime:
@@ -176,26 +178,26 @@ func runOneCommandInvokerTest(
 	}
 
 	for _, topic := range testCase.Epilogue.SubscribedTopics {
-		require.True(t, stubClient.hasSubscribed(topic))
+		require.True(t, stubBroker.HasSubscribed(topic))
 	}
 
 	if testCase.Epilogue.PublicationCount != nil {
 		require.Equal(
 			t,
 			*testCase.Epilogue.PublicationCount,
-			stubClient.PublicationCount(),
+			stubBroker.PublicationCount,
 		)
 	}
 
 	for _, publishedMessage := range testCase.Epilogue.PublishedMessages {
-		checkPublishedRequest(t, publishedMessage, stubClient, correlationIDs)
+		checkPublishedRequest(t, publishedMessage, stubBroker, correlationIDs)
 	}
 
 	if testCase.Epilogue.AcknowledgementCount != nil {
 		require.Equal(
 			t,
 			*testCase.Epilogue.AcknowledgementCount,
-			stubClient.AcknowledgementCount(),
+			stubBroker.AcknowledgementCount,
 		)
 	}
 }
@@ -351,17 +353,21 @@ func awaitInvocation(
 func receiveResponse(
 	t *testing.T,
 	actionReceiveResponse *TestCaseActionReceiveResponse,
-	stubClient StubClient,
+	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 	packetIDs map[int]uint16,
 ) {
-	var props paho.PublishProperties
+	var props packets.Properties
 
 	var packetID uint16
 	if actionReceiveResponse.PacketIndex != nil {
-		packetID = packetIDs[*actionReceiveResponse.PacketIndex]
+		var ok bool
+		packetID, ok = packetIDs[*actionReceiveResponse.PacketIndex]
+		if !ok {
+			packetID = stubBroker.GetNewPacketID()
+		}
 	} else {
-		packetID = stubClient.getNewPacketID()
+		packetID = stubBroker.GetNewPacketID()
 	}
 
 	if actionReceiveResponse.ContentType != nil {
@@ -396,48 +402,48 @@ func receiveResponse(
 	}
 
 	for key, val := range actionReceiveResponse.Metadata {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   key,
 			Value: val,
 		})
 	}
 
 	if actionReceiveResponse.Status != nil {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   Status,
 			Value: *actionReceiveResponse.Status,
 		})
 	}
 
 	if actionReceiveResponse.StatusMessage != nil {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   StatusMessage,
 			Value: *actionReceiveResponse.StatusMessage,
 		})
 	}
 
 	if actionReceiveResponse.IsApplicationError != nil {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   IsApplicationError,
 			Value: *actionReceiveResponse.IsApplicationError,
 		})
 	}
 
 	if actionReceiveResponse.InvalidPropertyName != nil {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   InvalidPropertyName,
 			Value: *actionReceiveResponse.InvalidPropertyName,
 		})
 	}
 
 	if actionReceiveResponse.InvalidPropertyValue != nil {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   InvalidPropertyValue,
 			Value: *actionReceiveResponse.InvalidPropertyValue,
 		})
 	}
 
-	response := paho.Publish{
+	response := packets.Publish{
 		PacketID:   packetID,
 		Topic:      *actionReceiveResponse.Topic,
 		Properties: &props,
@@ -448,7 +454,7 @@ func receiveResponse(
 		response.QoS = byte(*actionReceiveResponse.Qos)
 	}
 
-	stubClient.receiveMessage(&response)
+	stubBroker.ReceiveMessage(&response)
 
 	if actionReceiveResponse.PacketIndex != nil {
 		packetIDs[*actionReceiveResponse.PacketIndex] = packetID
@@ -458,7 +464,7 @@ func receiveResponse(
 func checkPublishedRequest(
 	t *testing.T,
 	publishedMessage TestCasePublishedMessage,
-	stubClient StubClient,
+	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 ) {
 	var lookupKey []byte
@@ -466,7 +472,7 @@ func checkPublishedRequest(
 		lookupKey = correlationIDs[*publishedMessage.CorrelationIndex]
 	}
 
-	msg, ok := stubClient.getPublishedMessage(lookupKey)
+	msg, ok := stubBroker.GetPublishedMessage(lookupKey)
 	require.True(t, ok)
 
 	if publishedMessage.Topic != nil {

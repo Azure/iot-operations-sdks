@@ -11,17 +11,19 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::common::aio_protocol_error::Value;
-use crate::common::{
-    aio_protocol_error::AIOProtocolError,
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::PayloadSerialize,
-    topic_processor::TopicPattern,
-    user_properties::{validate_user_properties, UserProperty},
-};
 use crate::telemetry::cloud_event::{
     CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+};
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::TopicPattern,
+        user_properties::{validate_user_properties, UserProperty},
+    },
+    AIO_PROTOCOL_VERSION,
 };
 
 /// Cloud Event struct
@@ -227,7 +229,7 @@ pub struct TelemetrySenderOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
-/// #     .host_name("mqtt://localhost")
+/// #     .hostname("mqtt://localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
@@ -360,6 +362,11 @@ where
             .custom_user_data
             .push((UserProperty::Timestamp.to_string(), timestamp.to_string()));
 
+        message.custom_user_data.push((
+            UserProperty::ProtocolVersion.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
+        ));
+
         // Create MQTT Properties
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data),
@@ -458,7 +465,7 @@ mod tests {
     fn get_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_client")
             .build()
             .unwrap();
