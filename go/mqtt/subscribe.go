@@ -88,8 +88,8 @@ func (c *SessionClient) Subscribe(
 
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
+				message: "invalid arguments in SUBSCRIBE options",
 				wrapped: err,
-				message: "invalid arguments in Subscribe() options",
 			}
 		}
 
@@ -130,8 +130,8 @@ func (c *SessionClient) Unsubscribe(
 
 		if errors.Is(err, paho.ErrInvalidArguments) {
 			return nil, &InvalidArgumentError{
+				message: "invalid arguments in UNSUBSCRIBE options",
 				wrapped: err,
-				message: "invalid arguments in Unsubscribe() options",
 			}
 		}
 

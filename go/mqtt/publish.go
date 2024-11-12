@@ -66,7 +66,7 @@ func (c *SessionClient) nextOutgoingPublish(
 // channel. Returns whether it was successful.
 func (c *SessionClient) sendOutgoingPublish(
 	ctx context.Context,
-	pahoClient PahoClient,
+	pahoClient *paho.Client,
 	pub *outgoingPublish,
 ) bool {
 	// NOTE: we cannot get back the PUBACK on this due to a limitation in Paho
@@ -100,8 +100,8 @@ func (c *SessionClient) sendOutgoingPublish(
 		// give up on this PUBLISH and notify the application.
 		pub.result <- &publishResult{
 			err: &InvalidArgumentError{
+				message: "invalid arguments in PUBLISH options",
 				wrapped: err,
-				message: "invalid arguments in Publish() options",
 			},
 		}
 		return true

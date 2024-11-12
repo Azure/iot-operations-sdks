@@ -3,225 +3,156 @@
 package mqtt
 
 import (
-	"context"
 	"log/slog"
-	"os"
+	"maps"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/internal/log"
-	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
 )
 
-type SessionClientOption func(*SessionClient)
+type (
+	// SessionClientOption represents a single option for the session client.
+	SessionClientOption interface{ sessionClient(*SessionClientOptions) }
 
-// ******LOGGER******
+	// SessionClientOptions are the resolved options for the session client.
+	SessionClientOptions struct {
+		ClientID              string
+		CleanStart            bool
+		KeepAlive             uint16
+		SessionExpiry         uint32
+		ReceiveMaximum        uint16
+		ConnectUserProperties map[string]string
 
-// WithLogger sets the logger for the MQTT session client.
-func WithLogger(
-	l *slog.Logger,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.log = internal.Logger{Logger: log.Wrap(l)}
+		ConnectionRetry   retry.Policy
+		ConnectionTimeout time.Duration
+
+		Username UsernameProvider
+		Password PasswordProvider
+		Auth     auth.Provider
+
+		Logger *slog.Logger
+	}
+
+	// WithConnectionTimeout sets the connection timeout for a single connection
+	// attempt. If a timeout is desired for the entire connection process, it
+	// should be specified via the connection retry policy.
+	WithConnectionTimeout time.Duration
+
+	// WithClientID sets the client identifier. If not provided, it will default
+	// to a random valid client ID to support session reconnection.
+	WithClientID string
+
+	// WithCleanStart sets whether the initial connection will be made without
+	// retaining any existing session state. This is by definition set to false
+	// for any reconnections.
+	WithCleanStart bool
+
+	// WithKeepAlive sets the keep-alive interval (in seconds).
+	WithKeepAlive uint16
+
+	// WithSessionExpiry sets the session expiry interval (in seconds).
+	WithSessionExpiry uint32
+
+	// WithReceiveMaximum sets the client-side receive maximum.
+	WithReceiveMaximum uint16
+
+	// WithConnectUserProperties sets the user properties for the CONNECT
+	// packet.
+	WithConnectUserProperties map[string]string
+
+	// WithUsername sets the UsernameProvider that the session client uses to
+	// get the username for each connection.
+	WithUsername UsernameProvider
+
+	// WithPassword sets the PasswordProvider that the session client uses to
+	// get the password for each connection.
+	WithPassword PasswordProvider
+
+	withConnectionRetry struct{ retry.Policy }
+	withAuth            struct{ auth.Provider }
+	withLogger          struct{ *slog.Logger }
+)
+
+// Apply resolves the provided list of options.
+func (o *SessionClientOptions) Apply(
+	opts []SessionClientOption,
+	rest ...SessionClientOption,
+) {
+	for opt := range options.Apply[SessionClientOption](opts, rest...) {
+		opt.sessionClient(o)
 	}
 }
 
-// ******INTERNAL CONFIG******
-
-// withConnectionConfig sets config for the MQTT session client.
-// Note that this is not publicly exposed to users because the connectionConfig
-// should not be directly set by users.
-func withConnectionConfig(
-	config *connectionConfig,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config = config
+func (o *SessionClientOptions) sessionClient(opt *SessionClientOptions) {
+	if o != nil {
+		*opt = *o
 	}
 }
 
-// ******CLEAN START******
+func (o WithConnectionTimeout) sessionClient(opt *SessionClientOptions) {
+	opt.ConnectionTimeout = time.Duration(o)
+}
 
-// WithFirstConnectionCleanStart sets the value of Clean Start in the CONNECT
-// packet for the first connection. Note that Clean Start will always be false
-// on reconnections.
-//
-// This setting is true by default, and it should not be changed unless you are
-// aware of the implications. If there is a possibility of a session on the
-// MQTT server for this Client ID with inflight QoS 1+ PUBLISHes or QoS 2
-// SUBSCRIBEs, it may result in message loss and/or MQTT protocol violations.
-func WithFirstConnectionCleanStart(
-	firstConnectionCleanStart bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.firstConnectionCleanStart = firstConnectionCleanStart
+func (o WithClientID) sessionClient(opt *SessionClientOptions) {
+	opt.ClientID = string(o)
+}
+
+func (o WithCleanStart) sessionClient(opt *SessionClientOptions) {
+	opt.CleanStart = bool(o)
+}
+
+func (o WithKeepAlive) sessionClient(opt *SessionClientOptions) {
+	opt.KeepAlive = uint16(o)
+}
+
+func (o WithSessionExpiry) sessionClient(opt *SessionClientOptions) {
+	opt.SessionExpiry = uint32(o)
+}
+
+func (o WithReceiveMaximum) sessionClient(opt *SessionClientOptions) {
+	opt.ReceiveMaximum = uint16(o)
+}
+
+func (o WithConnectUserProperties) sessionClient(opt *SessionClientOptions) {
+	if opt.ConnectUserProperties == nil {
+		opt.ConnectUserProperties = map[string]string{}
 	}
+	maps.Copy(opt.ConnectUserProperties, o)
 }
 
-// ******RETRY POLICY******
-
-// WithConnRetry sets the connection retry policy for the MQTT session client.
-func WithConnRetry(
-	connRetry retry.Policy,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.connRetry = connRetry
-	}
+func (o WithUsername) sessionClient(opt *SessionClientOptions) {
+	opt.Username = UsernameProvider(o)
 }
 
-// ******CLIENT IDENTIFIER******
-
-// WithClientID sets MQTT Client Identifier.
-func WithClientID(
-	clientID string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.clientID = clientID
-	}
+func (o WithPassword) sessionClient(opt *SessionClientOptions) {
+	opt.Password = PasswordProvider(o)
 }
 
-// ******USER NAME******
-
-// UserNameProvider is a function that returns an MQTT User Name and User Name
-// Flag. Note that if the return value userNameFlag is false, the return value
-// userName is ignored.
-type UserNameProvider func(context.Context) (userName string, userNameFlag bool, err error)
-
-// WithUserName sets the UserNameProvider that the SessionClient uses to get the
-// MQTT User Name for each MQTT connection.
-func WithUserName(provider UserNameProvider) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.userNameProvider = provider
-	}
+// WithConnectionRetry sets the connection retry policy for the session client.
+func WithConnectionRetry(policy retry.Policy) SessionClientOption {
+	return withConnectionRetry{policy}
 }
 
-// defaultUserName is a UserNameProvider implementation that returns no MQTT
-// User Name. Note that this is unexported because users don't have to use this
-// directly. It is used by default if no UserNameProvider is provided by the
-// user.
-func defaultUserName(context.Context) (string, bool, error) {
-	return "", false, nil
+func (o withConnectionRetry) sessionClient(opt *SessionClientOptions) {
+	opt.ConnectionRetry = o.Policy
 }
 
-// ConstantUserName is a UserNameProvider implementation that returns an
-// unchanging User Name. This can be used if the User Name does not need to be
-// updated between MQTT connections.
-func ConstantUserName(userName string) UserNameProvider {
-	return func(context.Context) (string, bool, error) {
-		return userName, true, nil
-	}
+// WithAuth sets the enhanced authentication provider for the session client.
+func WithAuth(provider auth.Provider) SessionClientOption {
+	return withAuth{provider}
 }
 
-// ******PASSWORD******
-
-// PasswordProvider is a function that returns an MQTT Password and Password
-// Flag. Note that if the return value passwordFlag is false, the return value
-// password is ignored.
-type PasswordProvider func(context.Context) (password []byte, passwordFlag bool, err error)
-
-// WithPassword sets the PasswordProvider that the SessionClient uses to get the
-// MQTT Password for each MQTT connection.
-func WithPassword(provider PasswordProvider) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.passwordProvider = provider
-	}
+func (o withAuth) sessionClient(opt *SessionClientOptions) {
+	opt.Auth = o.Provider
 }
 
-// defaultPassword is a PasswordProvider implementation that returns no MQTT
-// Password. Note that this is unexported because users don't have to use this
-// directly. It is used by default if no PasswordProvider is provided by the
-// user.
-func defaultPassword(context.Context) ([]byte, bool, error) {
-	return nil, false, nil
+// WithLogger sets the logger for the session client.
+func WithLogger(log *slog.Logger) SessionClientOption {
+	return withLogger{log}
 }
 
-// ConstantPassword is a PasswordProvider implementation that returns an
-// unchanging Password. This can be used if the Password does not need to be
-// updated between MQTT connections.
-func ConstantPassword(password []byte) PasswordProvider {
-	return func(context.Context) ([]byte, bool, error) {
-		return password, true, nil
-	}
-}
-
-// FilePassword is a PasswordProvider implementation that reads an MQTT Password
-// from a given filename for each MQTT connection.
-func FilePassword(filename string) PasswordProvider {
-	return func(context.Context) ([]byte, bool, error) {
-		data, err := os.ReadFile(filename)
-		if err != nil {
-			return nil, false, err
-		}
-		return data, true, nil
-	}
-}
-
-// ******KEEP ALIVE******
-
-// WithKeepAlive sets the keepAlive interval for the MQTT connection.
-func WithKeepAlive(
-	keepAlive uint16,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.keepAlive = keepAlive
-	}
-}
-
-// ******SESSION EXPIRY INTERVAL******
-
-// WithSessionExpiryInterval sets the MQTT Session Expiry Interval.
-func WithSessionExpiryInterval(
-	sessionExpiryInterval uint32,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.sessionExpiryInterval = sessionExpiryInterval
-	}
-}
-
-// ******RECEIVE MAXIMUM******
-
-// WithReceiveMaximum sets the MQTT client-side Receive Maximum.
-func WithReceiveMaximum(
-	receiveMaximum uint16,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.receiveMaximum = receiveMaximum
-	}
-}
-
-// ******CONNECTION TIMEOUT******
-
-// WithConnectionTimeout sets the connection timeout.
-func WithConnectionTimeout(
-	connectionTimeout time.Duration,
-) SessionClientOption {
-	// TODO: this is currently treated as the timeout for a single connection
-	// attempt. Once discussion on this occurs, ensure this is aligned with the
-	// other session client implementations and document the specific meaning
-	// of "connection timeout" here.
-	return func(c *SessionClient) {
-		c.config.connectionTimeout = connectionTimeout
-	}
-}
-
-// ******CONNECT USER PROPERTIES******
-
-// WithConnectPropertiesUser sets the user properties for the CONNECT packet.
-func WithConnectPropertiesUser(
-	userProperties map[string]string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.config.userProperties = userProperties
-	}
-}
-
-// ******TESTING******
-
-// WithPahoConstructor replaces the default Paho constructor with a custom one
-// for testing.
-func WithPahoConstructor(
-	pahoConstructor PahoConstructor,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.pahoConstructor = pahoConstructor
-	}
+func (o withLogger) sessionClient(opt *SessionClientOptions) {
+	opt.Logger = o.Logger
 }

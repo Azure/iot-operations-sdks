@@ -134,8 +134,8 @@ jobs:
 
     - name: Run counter server
       working-directory: ./go/samples/counter/server
-      run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8884 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} MQTT_CLIENT_ID=CounterServer-go go run server.go &
+      run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=8884 AIO_TLS_CA_FILE=${{ env.CA_FILE_PATH }} AIO_SAT_FILE=${{ env.TOKEN_FILE_PATH }} AIO_MQTT_CLIENT_ID=CounterServer-go go run server.go &
 
     - name: Run counter client
       working-directory: ./go/samples/counter/client
-      run: MQTT_HOST_NAME=localhost MQTT_USE_TLS=true MQTT_TCP_PORT=8884 MQTT_AUTH_METHOD=K8S-SAT MQTT_CA_FILE=${{ env.CA_FILE_PATH }} MQTT_SAT_AUTH_FILE=${{ env.TOKEN_FILE_PATH }} COUNTER_SERVER_ID=CounterServer-go go run client.go
+      run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=8884 AIO_TLS_CA_FILE=${{ env.CA_FILE_PATH }} AIO_SAT_FILE=${{ env.TOKEN_FILE_PATH }} COUNTER_SERVER_ID=CounterServer-go go run client.go
