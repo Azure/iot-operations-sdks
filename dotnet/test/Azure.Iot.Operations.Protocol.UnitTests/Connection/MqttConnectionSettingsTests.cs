@@ -3,6 +3,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Diagnostics;
 using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
@@ -714,6 +715,37 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.True(options.ChannelOptions.TlsOptions.UseTls);
             Assert.NotEmpty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
+        }
+
+
+        [Fact]
+        public void BuildWithConnectionSettingsWithCATrustChain()
+        {
+            X509Certificate2Collection expectedTrustChain = new();
+            expectedTrustChain.ImportFromPemFile("Connection/ca.txt");
+
+            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            {
+                ClientId = "clientId",
+                TcpPort = 4343,
+                Username = "user",
+                KeepAlive = TimeSpan.FromSeconds(15),
+                TrustChain = expectedTrustChain,
+            };
+            MqttClientOptions options = new(mqttConnectionSettings);
+            Assert.NotNull(options);
+            Assert.True(options.CleanSession);
+            Assert.Equal("clientId", options.ClientId);
+            Assert.Equal(MqttProtocolVersion.V500, options.ProtocolVersion);
+            Assert.Equal(TimeSpan.FromSeconds(15), options.KeepAlivePeriod);
+            MqttClientTcpOptions tcpOptions = (MqttClientTcpOptions)options.ChannelOptions;
+            Assert.Equal("localhost", tcpOptions.Host);
+            Assert.Equal(4343, tcpOptions.Port);
+            Assert.Equal(3600, (double)options.SessionExpiryInterval);
+            Assert.True(options.ChannelOptions.TlsOptions.UseTls);
+            Assert.Empty(options.ChannelOptions.TlsOptions.ClientCertificatesProvider!.GetCertificates());
+            Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
+            Assert.Equal(expectedTrustChain, options.ChannelOptions.TlsOptions.TrustChain);
         }
     }
 }

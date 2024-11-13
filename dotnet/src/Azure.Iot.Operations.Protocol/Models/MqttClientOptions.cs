@@ -79,7 +79,11 @@ namespace Azure.Iot.Operations.Protocol.Models
                     tlsParams.SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
 
                     X509Certificate2Collection caCerts = new();
-                    if (!string.IsNullOrEmpty(cs.CaFile))
+                    if (cs.TrustChain != null)
+                    {
+                        tlsParams.TrustChain = cs.TrustChain;
+                    }
+                    else if (!string.IsNullOrEmpty(cs.CaFile))
                     {
                         caCerts.ImportFromPemFile(cs.CaFile);
                         tlsParams.TrustChain = caCerts;
