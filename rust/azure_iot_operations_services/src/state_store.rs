@@ -170,5 +170,5 @@ pub struct KeyNotification {
     /// The [`Operation`] that was performed on the key
     pub operation: Operation,
     /// The version of the key as a [`HybridLogicalClock`].
-    pub version: Option<HybridLogicalClock>,
+    pub version: HybridLogicalClock,
 }
