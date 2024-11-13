@@ -27,7 +27,7 @@ The MQTT RPC protocol aims at providing QoS2-like traits at the cost of QoS1, pl
 
 ### The role of server-side data cache
 
-QoS2 differs from QoS1 in which QoS2 guarantees an only-once delivery semantic. QoS2 is almost twice as chatty as QoS2 in terms of messaging, and complex to implement. Some commercial brokers do not implement it. Relying on QoS2 semantic would pose a portability risk, as well create a performance challenge.
+QoS2 differs from QoS1 in which QoS2 guarantees an only-once delivery semantic. QoS2 is almost twice as chatty as QoS1 in terms of messaging, and complex to implement. Some commercial brokers do not implement it. Relying on QoS2 semantic would pose a portability risk, as well create a performance challenge.
 
 For this reason, we elect to utilize QoS1 with a client-provided timeout and a server-side cache to:
 
@@ -61,7 +61,7 @@ sequenceDiagram;
     
     App-)CommandInvoker:start
     par Init Client
-        CommandInvoker->>+Broker: Sub(Request Topic)
+        CommandInvoker->>+Broker: Sub(Response Topic)
         Broker-->>+CommandInvoker: SubAck
     end
     
