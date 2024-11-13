@@ -9,20 +9,23 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::PayloadSerialize,
-    topic_processor::{TopicPattern, WILDCARD},
-    user_properties::{UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::{TopicPattern, WILDCARD},
+        user_properties::{UserProperty, RESERVED_PREFIX},
+    },
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 use crate::{
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Cloud Event struct
 ///
@@ -136,7 +139,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Custom user data set as custom MQTT User Properties on the telemetry message.
     pub custom_user_data: Vec<(String, String)>,
     /// Client ID of the sender of the telemetry message.
-    pub sender_id: String,
+    pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
@@ -438,6 +441,7 @@ where
 
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
+                            let mut sender_id = None;
                             let mut cloud_event = None;
 
                             if let Some(properties) = properties {
@@ -452,7 +456,7 @@ where
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                                let mut message_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
                                 if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
                                     if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
                                         message_protocol_version = message_version;
@@ -492,6 +496,9 @@ where
                                         },
                                         Ok(UserProperty::ProtocolVersion) => {
                                             // skip, already processed
+                                        },
+                                        Ok(UserProperty::SourceId) => {
+                                            sender_id = Some(value);
                                         },
                                         Err(()) => {
                                             match CloudEventFields::from_str(&key) {
@@ -566,11 +573,6 @@ where
                             // Parse the sender ID from the topic
                             let Ok(received_topic) = String::from_utf8(m.topic.to_vec()) else {
                                 log::error!("[pkid: {}] Invalid telemetry topic", m.pkid);
-                                break 'process_message;
-                            };
-                            let Some(sender_id) = self.topic_pattern.parse_wildcard(&received_topic)
-                            else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry topic", m.pkid);
                                 break 'process_message;
                             };
 
