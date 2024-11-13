@@ -75,6 +75,10 @@ func reflectAttr(name string, val reflect.Value) []slog.Attr {
 	// Fix QoS not being actually PascalCased.
 	case "qo_s":
 		return []slog.Attr{slog.Any("qos", val.Interface())}
+
+	// Do not log secrets.
+	case "password", "auth_data":
+		return nil
 	}
 
 	switch v := val.Interface().(type) {

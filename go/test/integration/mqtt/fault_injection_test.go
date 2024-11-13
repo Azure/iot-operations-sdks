@@ -17,27 +17,26 @@ import (
 )
 
 const (
-	faultInjectableBrokerHostname string = "localhost"
-	faultInjectableBrokerPort     int    = 1884
-	rejectConnectFault            string = "fault:rejectconnect"
-	disconnectFault               string = "fault:disconnect"
-	faultRequestID                string = "fault:requestid"
-	delayFault                    string = "fault:delay"
+	faultInjectableBrokerHostname = "localhost"
+	faultInjectableBrokerPort     = 1884
+	rejectConnectFault            = "fault:rejectconnect"
+	disconnectFault               = "fault:disconnect"
+	faultRequestID                = "fault:requestid"
+	delayFault                    = "fault:delay"
 
 	serverBusy           byte = 0x89
 	administrativeAction byte = 0x98
 )
 
 func TestSessionClientHandlesDisconnectWhileIdle(t *testing.T) {
-	client, err := mqtt.NewSessionClient(
+	client := mqtt.NewSessionClient(
 		mqtt.TCPConnection(
 			faultInjectableBrokerHostname,
 			faultInjectableBrokerPort,
 		),
 		mqtt.WithClientID("TestSessionClientHandlesDisconnectWhileIdle"),
-		mqtt.WithSessionExpiryInterval(10),
+		mqtt.WithSessionExpiry(10),
 	)
-	require.NoError(t, err)
 
 	conn := make(ChannelCallback[*mqtt.ConnectEvent])
 	disconn := make(ChannelCallback[*mqtt.DisconnectEvent])
@@ -51,7 +50,7 @@ func TestSessionClientHandlesDisconnectWhileIdle(t *testing.T) {
 
 	<-conn
 
-	_, err = client.Publish(
+	_, err := client.Publish(
 		context.Background(),
 		"test-topic",
 		[]byte("test-data"),
@@ -67,19 +66,18 @@ func TestSessionClientHandlesDisconnectWhileIdle(t *testing.T) {
 }
 
 func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
-	client, err := mqtt.NewSessionClient(
+	client := mqtt.NewSessionClient(
 		mqtt.TCPConnection(
 			faultInjectableBrokerHostname,
 			faultInjectableBrokerPort,
 		),
 		mqtt.WithClientID("TestSessionClientHandlesFailedConnackDuringConnect"),
-		mqtt.WithSessionExpiryInterval(10),
-		mqtt.WithConnectPropertiesUser(map[string]string{
+		mqtt.WithSessionExpiry(10),
+		mqtt.WithConnectUserProperties{
 			rejectConnectFault: strconv.Itoa(int(serverBusy)),
 			faultRequestID:     uuid.NewString(),
-		}),
+		},
 	)
-	require.NoError(t, err)
 
 	conn := make(ChannelCallback[*mqtt.ConnectEvent])
 	connDone := client.RegisterConnectEventHandler(conn.Func)
@@ -94,21 +92,20 @@ func TestSessionClientHandlesFailedConnackDuringConnect(t *testing.T) {
 }
 
 func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
-	client, err := mqtt.NewSessionClient(
+	client := mqtt.NewSessionClient(
 		mqtt.TCPConnection(
 			faultInjectableBrokerHostname,
 			faultInjectableBrokerPort,
 		),
 		mqtt.WithClientID("TestSessionClientHandlesDisconnectDuringSubscribe"),
-		mqtt.WithSessionExpiryInterval(10),
+		mqtt.WithSessionExpiry(10),
 		mqtt.WithKeepAlive(10),
 	)
-	require.NoError(t, err)
 
 	require.NoError(t, client.Start())
 	defer func() { require.NoError(t, client.Stop()) }()
 
-	_, err = client.Subscribe(
+	_, err := client.Subscribe(
 		context.Background(),
 		"test-topic",
 		mqtt.WithUserProperties{
@@ -120,7 +117,7 @@ func TestSessionClientHandlesDisconnectDuringSubscribe(t *testing.T) {
 }
 
 func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
-	client, err := mqtt.NewSessionClient(
+	client := mqtt.NewSessionClient(
 		mqtt.TCPConnection(
 			faultInjectableBrokerHostname,
 			faultInjectableBrokerPort,
@@ -128,15 +125,14 @@ func TestSessionClientHandlesDisconnectDuringUnsubscribe(t *testing.T) {
 		mqtt.WithClientID(
 			"TestSessionClientHandlesDisconnectDuringUnsubscribe",
 		),
-		mqtt.WithSessionExpiryInterval(10),
+		mqtt.WithSessionExpiry(10),
 		mqtt.WithKeepAlive(10),
 	)
-	require.NoError(t, err)
 
 	require.NoError(t, client.Start())
 	defer func() { require.NoError(t, client.Stop()) }()
 
-	_, err = client.Subscribe(context.Background(), "test-topic")
+	_, err := client.Subscribe(context.Background(), "test-topic")
 	require.NoError(t, err)
 
 	_, err = client.Unsubscribe(
