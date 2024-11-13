@@ -551,15 +551,14 @@ where
                             Ok((notification, ack_token)) => {
                                 let key_name = notification.sender_id.clone();
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
-                                if notification.timestamp.is_none() {
+                                let Some(notification_timestamp) = notification.timestamp else {
                                     log::error!("Received key notification with no version. Ignoring.");
                                     continue;
-                                }
+                                };
                                 let key_notification = state_store::KeyNotification {
                                     key: decoded_key_name,
                                     operation: notification.payload.clone(),
-                                    // this unwrap is safe because if it `is_none()` in the check above, we don't reach this code
-                                    version: notification.timestamp.unwrap(),
+                                    version: notification_timestamp,
                                 };
 
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
