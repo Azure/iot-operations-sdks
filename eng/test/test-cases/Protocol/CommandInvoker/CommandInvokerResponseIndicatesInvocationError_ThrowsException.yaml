@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseIndicatesInvocationError_ThrowsException
-aka:
-- InvokeLegalRequestWrongParameterType
 description:
   condition: >-
     CommandInvoker receives response message with status indicating the request data is not valid at the application level.

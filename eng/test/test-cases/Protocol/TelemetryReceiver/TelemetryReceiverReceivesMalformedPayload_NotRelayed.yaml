@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
-aka:
-- ReceiveTelemetry_MalformedPayloadThrows
 description:
   condition: >-
     TelemetryReceiver receives telemetry with payload that cannot deserialize.

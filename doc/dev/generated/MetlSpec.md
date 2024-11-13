@@ -25,34 +25,31 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandExecutorNoRequestTopicPattern_ThrowsException
+test-name: CommandInvokerSubAckFailure_ThrowsException
 description:
   condition: >-
-    CommandExecutor initialized with no request topic string.
+    CommandInvoker initialized but ACK fails when subscribing.
   expect: >-
-    CommandExecutor throws 'invalid configuration' exception.
+    CommandInvoker throws 'mqtt error' exception.
 prologue:
-  executors:
-  - request-topic: ""
+  push-acks:
+    subscribe: [ fail ]
+  invokers:
+  - { }
   catch:
-    error-kind: invalid configuration
+    error-kind: mqtt error
     in-application: !!bool false
-    is-shallow: !!bool true
+    is-shallow: !!bool false
     is-remote: !!bool false 
-    supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
 ```
 
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
-aka:
-- ReceiveTelemetry_MismatchedContentTypeDoesNotThrow
+test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
+    TelemetryReceiver receives telemetry with payload that cannot deserialize.
   expect: >-
     TelemetryReceiver does not relay telemetry to user code.
 prologue:
@@ -60,7 +57,8 @@ prologue:
   - { }
 actions:
 - action: receive telemetry
-  content-type: "raw/0"
+  payload: '{ "invalid" "json" }'
+  bypass-serialization: true
 epilogue:
   acknowledgement-count: 0 # is this correct behavior?
   telemetry-count: 0
@@ -221,7 +219,6 @@ The YAML file for a `CommandExecutor` test case can have the following top-level
 | Key | Required | Value Type | Description |
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
-| aka | no | array of string | Alternative names the test case is 'also known as'. |
 | description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [ExecutorPrologue](#executorprologue) | Initialization to perform prior to stepping through the test-case actions. |
@@ -543,7 +540,6 @@ The YAML file for a `CommandInvoker` test case can have the following top-level 
 | Key | Required | Value Type | Description |
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
-| aka | no | array of string | Alternative names the test case is 'also known as'. |
 | description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [InvokerPrologue](#invokerprologue) | Initialization to perform prior to stepping through the test-case actions. |
@@ -831,7 +827,6 @@ The YAML file for a `TelemetryReceiver` test case can have the following top-lev
 | Key | Required | Value Type | Description |
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
-| aka | no | array of string | Alternative names the test case is 'also known as'. |
 | description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [ReceiverPrologue](#receiverprologue) | Initialization to perform prior to stepping through the test-case actions. |
@@ -1029,7 +1024,6 @@ The YAML file for a `TelemetrySender` test case can have the following top-level
 | Key | Required | Value Type | Description |
 | --- | --- | --- | --- |
 | test-name | yes | string | The name of the test case, usually matches the file name without extension. |
-| aka | no | array of string | Alternative names the test case is 'also known as'. |
 | description | yes | Description | English description of the test case. |
 | requires | no | array of [FeatureKind](#featurekind) | List of features required by the test case. |
 | prologue | yes | [SenderPrologue](#senderprologue) | Initialization to perform prior to stepping through the test-case actions. |

@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestNoContentType_RespondsOk
-aka:
-- ContentTypeMissing_AckOK
 description:
   condition: >-
     CommandExecutor receives request with no ContentType metadata.

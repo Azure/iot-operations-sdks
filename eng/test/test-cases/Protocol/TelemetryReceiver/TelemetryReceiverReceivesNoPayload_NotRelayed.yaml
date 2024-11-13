@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
-aka:
-- ReceiveTelemetry_NoPayloadWhenExpected
 description:
   condition: >-
     TelemetryReceiver receives telemetry with no payload when one was expected.

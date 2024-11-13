@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendWithCloudEvent_Success
-aka:
-- SendTelemetry_WithCloudEvents
 description:
   condition: >-
     TelemetrySender sends a Telemetry with attached CloudEvent info.
