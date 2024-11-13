@@ -44,7 +44,7 @@ public class MqttConnectionSettings
 
     public string? KeyFile { get; set; }
 
-    public string? KeyFilePassword { get; set; }
+    public string? KeyPasswordFile { get; set; }
 
     public X509Certificate2? ClientCertificate { get; set; }
 
@@ -67,7 +67,7 @@ public class MqttConnectionSettings
             ClientId = GetStringValue(connectionSettings, nameof(ClientId)) ?? string.Empty;
             CertFile = GetStringValue(connectionSettings, nameof(CertFile));
             KeyFile = GetStringValue(connectionSettings, nameof(KeyFile));
-            KeyFilePassword = GetStringValue(connectionSettings, nameof(KeyFilePassword));
+            KeyPasswordFile = GetStringValue(connectionSettings, nameof(KeyPasswordFile));
             Username = GetStringValue(connectionSettings, nameof(Username));
             PasswordFile = GetStringValue(connectionSettings, nameof(PasswordFile));
             ModelId = GetStringValue(connectionSettings, nameof(ModelId));
@@ -135,7 +135,7 @@ public class MqttConnectionSettings
                 TcpPort = string.IsNullOrEmpty(tcpPort) ? DefaultTcpPort : CheckForValidIntegerInput(nameof(TcpPort), tcpPort),
                 UseTls = string.IsNullOrEmpty(useTls) || CheckForValidBooleanInput(nameof(UseTls), useTls),
                 CaFile = caFile,
-                KeyFilePassword = string.IsNullOrEmpty(keyPasswordFile) ? null : File.ReadAllText(keyPasswordFile).Trim(),
+                KeyPasswordFile = string.IsNullOrEmpty(keyPasswordFile) ? null : File.ReadAllText(keyPasswordFile).Trim(),
                 SatAuthFile = satAuthFile
             };
         }
@@ -260,13 +260,13 @@ public class MqttConnectionSettings
 
         if (!string.IsNullOrWhiteSpace(CertFile))
         {
-            if (string.IsNullOrWhiteSpace(KeyFilePassword))
+            if (string.IsNullOrWhiteSpace(KeyPasswordFile))
             {
                 ClientCertificate = X509Certificate2.CreateFromPemFile(CertFile, KeyFile);
             }
             else
             {
-                ClientCertificate = X509Certificate2.CreateFromEncryptedPemFile(CertFile, KeyFilePassword, KeyFile);
+                ClientCertificate = X509Certificate2.CreateFromEncryptedPemFile(CertFile, KeyPasswordFile, KeyFile);
             }
         }
 
@@ -392,7 +392,7 @@ public class MqttConnectionSettings
         AppendIfNotNullOrEmpty(result, nameof(PasswordFile), PasswordFile);
         AppendIfNotNullOrEmpty(result, nameof(CertFile), CertFile);
         AppendIfNotNullOrEmpty(result, nameof(KeyFile), KeyFile);
-        AppendIfNotNullOrEmpty(result, nameof(KeyFilePassword), KeyFilePassword);
+        AppendIfNotNullOrEmpty(result, nameof(KeyPasswordFile), KeyPasswordFile);
         AppendIfNotNullOrEmpty(result, nameof(TcpPort), TcpPort.ToString(CultureInfo.InvariantCulture));
         AppendIfNotNullOrEmpty(result, nameof(CleanStart), CleanStart.ToString());
         AppendIfNotNullOrEmpty(result, nameof(SessionExpiry), ((int)SessionExpiry.TotalSeconds).ToString(CultureInfo.InvariantCulture));

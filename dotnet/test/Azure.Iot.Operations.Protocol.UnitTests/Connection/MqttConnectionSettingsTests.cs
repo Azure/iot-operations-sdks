@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
                 CertFile = "TestSdkLiteCertPem.txt",
                 KeepAlive = TimeSpan.FromSeconds(23),
                 KeyFile = "keyfile",
-                KeyFilePassword = "password",
+                KeyPasswordFile = "password",
                 PasswordFile = "password.txt",
                 TcpPort = 2323,
                 Username = "me",
@@ -227,7 +227,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             {
                 CertFile = "Connection/TestSdkLiteCertPwdPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertPwdKey.txt",
-                KeyFilePassword = "sdklite"
+                KeyPasswordFile = "sdklite"
             };
             cs.ValidateMqttSettings(true);
 
@@ -255,9 +255,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
                 ClientId="clientId",
                 CertFile = "TestSdkLiteCertPwdPem.txt",
                 KeyFile = "TestSdkLiteCertPwdKey.txt",
-                KeyFilePassword = "TestSdkLiteKeyPwd.txt"
+                KeyPasswordFile = "TestSdkLiteKeyPwd.txt"
             };
-            Assert.Equal("HostName=localhost;ClientId=clientId;CertFile=TestSdkLiteCertPwdPem.txt;KeyFile=***;KeyFilePassword=***;TcpPort=8883;CleanStart=True;SessionExpiry=3600;KeepAlive=60;UseTls=True", mcs.ToString());
+            Assert.Equal("HostName=localhost;ClientId=clientId;CertFile=TestSdkLiteCertPwdPem.txt;KeyFile=***;KeyPasswordFile=***;TcpPort=8883;CleanStart=True;SessionExpiry=3600;KeepAlive=60;UseTls=True", mcs.ToString());
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal("Connection/ca.txt", cs.CaFile);
             Assert.Equal("Connection/TestSdkLiteCertPwdPem.txt", cs.CertFile);
             Assert.Equal("Connection/TestSdkLiteCertPwdKey.txt", cs.KeyFile);
-            Assert.Equal("sdklite", cs.KeyFilePassword);
+            Assert.Equal("sdklite", cs.KeyPasswordFile);
 
             ResetEnvironmentVariables();
         }

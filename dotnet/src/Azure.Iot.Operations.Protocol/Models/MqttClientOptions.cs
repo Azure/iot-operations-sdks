@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                     List<X509Certificate2> certs = new();
                     if (!string.IsNullOrEmpty(cs.CertFile) && !string.IsNullOrEmpty(cs.KeyFile))
                     {
-                        X509Certificate2 cert = X509ClientCertificateLocator.Load(cs.CertFile, cs.KeyFile, cs.KeyFilePassword);
+                        X509Certificate2 cert = X509ClientCertificateLocator.Load(cs.CertFile, cs.KeyFile, cs.KeyPasswordFile);
                         if (!cert.HasPrivateKey)
                         {
                             throw new SecurityException("Provided certificate is missing the private key information.");
