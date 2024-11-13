@@ -2,7 +2,7 @@
 using System.Xml;
 using Xunit;
 
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public static class AkriMqttExceptionChecker
     {

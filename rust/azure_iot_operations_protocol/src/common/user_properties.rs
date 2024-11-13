@@ -33,6 +33,10 @@ pub enum UserProperty {
     /// User property indicating which major versions the command executor supports. The value of
     /// this property is a space-separated list of integers like "1 2 3".
     SupportedMajorVersions,
+    /// User property indicating what protocol version the request had.
+    /// This property is only used when a command executor rejects a command invocation because the
+    /// requested protocol version either wasn't supported or was malformed.
+    RequestProtocolVersion,
 }
 
 impl Display for UserProperty {
@@ -49,6 +53,7 @@ impl Display for UserProperty {
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
             UserProperty::ProtocolVersion => write!(f, "__protVer"),
             UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
+            UserProperty::RequestProtocolVersion => write!(f, "__requestProtVer"),
         }
     }
 }
@@ -68,6 +73,7 @@ impl FromStr for UserProperty {
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
             "__protVer" => Ok(UserProperty::ProtocolVersion),
             "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
+            "__requestProtVer" => Ok(UserProperty::RequestProtocolVersion),
             _ => Err(()),
         }
     }
@@ -114,6 +120,7 @@ mod tests {
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
     #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
     #[test_case(UserProperty::SupportedMajorVersions; "supported_major_versions")]
+    #[test_case(UserProperty::RequestProtocolVersion; "request_protocol_version")]
     fn test_to_from_string(prop: UserProperty) {
         assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
     }

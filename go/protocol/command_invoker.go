@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -14,7 +15,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -276,7 +276,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	res *CommandResponse[Res],
 	err error,
 ) error {
-	defer ci.listener.ack(ctx, pub)
+	defer pub.Ack()
 
 	cdata := string(pub.CorrelationData)
 	if pending, ok := ci.pending.Get(cdata); ok {

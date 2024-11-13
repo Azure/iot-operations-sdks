@@ -2,30 +2,26 @@
 // Licensed under the MIT License.
 package auth
 
-import (
-	"fmt"
-	"os"
-)
+import "os"
 
-// MQServiceAccountToken impelements an EnhancedAuthenticationProvider that
-// reads an a Kubernetes Service Account token from the given filename and
-// puts it into MQTT Enhanced Authentication values for Azure IoT Operations MQ.
-type MQServiceAccountToken struct {
+// AIOServiceAccountToken impelements an enhanced authentication provider that
+// reads a Kubernetes Service Account Token for the AIO Broker.
+type AIOServiceAccountToken struct {
 	filename string
 }
 
-func NewMQServiceAccountToken(filename string) *MQServiceAccountToken {
-	return &MQServiceAccountToken{filename: filename}
+// NewAIOServiceAccountToken creates a new AIO SAT auth provider from the given
+// filename.
+func NewAIOServiceAccountToken(filename string) *AIOServiceAccountToken {
+	return &AIOServiceAccountToken{filename: filename}
 }
 
-func (sat *MQServiceAccountToken) InitiateAuthExchange(
-	reauthentication bool,
+func (sat *AIOServiceAccountToken) InitiateAuth(
+	reauth bool,
 ) (*Values, error) {
-	if reauthentication {
+	if reauth {
 		// TODO: remove this error when we implement re-authentication
-		return nil, fmt.Errorf(
-			"reauthentication request received when it wasn't implemented yet",
-		)
+		return nil, ErrUnexpected
 	}
 
 	token, err := os.ReadFile(sat.filename)
@@ -33,21 +29,17 @@ func (sat *MQServiceAccountToken) InitiateAuthExchange(
 		return nil, err
 	}
 	return &Values{
-		AuthenticationMethod: "K8S-SAT",
-		AuthenticationData:   token,
+		AuthMethod: "K8S-SAT",
+		AuthData:   token,
 	}, nil
 }
 
-func (*MQServiceAccountToken) ContinueAuthExchange(
-	_ *Values,
-) (*Values, error) {
-	return nil, fmt.Errorf(
-		"ContinueAuthExchange called on MQServiceAccountToken, but multiple rounds of exchange was not expected",
-	)
+func (*AIOServiceAccountToken) ContinueAuth(*Values) (*Values, error) {
+	return nil, ErrUnexpected
 }
 
-func (*MQServiceAccountToken) AuthSuccess(func()) {
+func (*AIOServiceAccountToken) AuthSuccess(func()) {
 	// TODO: start a timer or a file watcher for re-authentication. It is not
 	// strictly necessary for the session client to function with MQ, but it
-	// will prevent reconnections from ocurring when the token expires.
+	// will prevent reconnections from occurring when the token expires.
 }

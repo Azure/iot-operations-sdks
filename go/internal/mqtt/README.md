@@ -37,7 +37,7 @@ import "github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 
 
 <a name="Ack"></a>
-## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L45-L49>)
+## type [Ack](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L46-L50>)
 
 Ack contains values from PUBACK/SUBACK/UNSUBACK packets received from the MQTT server.
 
@@ -50,7 +50,7 @@ type Ack struct {
 ```
 
 <a name="ConnectEvent"></a>
-## type [ConnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L24-L26>)
+## type [ConnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L25-L27>)
 
 ConnectEvent contains the relevent metadata provided to the handler when the MQTT client connects to the broker.
 
@@ -61,7 +61,7 @@ type ConnectEvent struct {
 ```
 
 <a name="ConnectEventHandler"></a>
-## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L30>)
+## type [ConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L31>)
 
 ConnectEventHandler is a user\-defined callback function used to respond to connection notifications from the MQTT client.
 
@@ -70,7 +70,7 @@ type ConnectEventHandler = func(*ConnectEvent)
 ```
 
 <a name="DisconnectEvent"></a>
-## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L34-L37>)
+## type [DisconnectEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L35-L38>)
 
 DisconnectEvent contains the relevent metadata provided to the handler when the MQTT client disconnects from the broker.
 
@@ -82,7 +82,7 @@ type DisconnectEvent struct {
 ```
 
 <a name="DisconnectEventHandler"></a>
-## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L41>)
+## type [DisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L42>)
 
 DisconnectEventHandler is a user\-defined callback function used to respond to disconnection notifications from the MQTT client.
 
@@ -91,26 +91,29 @@ type DisconnectEventHandler = func(*DisconnectEvent)
 ```
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L10-L15>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L9-L17>)
 
-Message represents a received message. The client implementation must support manual ack, since acks are managed by the protocol.
+Message represents a received message.
 
 ```go
 type Message struct {
     Topic   string
     Payload []byte
     PublishOptions
-    Ack func() error
+
+    // Ack will manually ack the message. All handled messages must be acked
+    // (except for QoS 0 messages, in which case this is a no-op).
+    Ack func()
 }
 ```
 
 <a name="MessageHandler"></a>
-## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L20>)
+## type [MessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/types.go#L21>)
 
-MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic. Returns whether the handler takes ownership of the message.
+MessageHandler is a user\-defined callback function used to handle messages received on the subscribed topic.
 
 ```go
-type MessageHandler = func(context.Context, *Message) bool
+type MessageHandler = func(context.Context, *Message)
 ```
 
 <a name="PublishOption"></a>

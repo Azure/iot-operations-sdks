@@ -17,7 +17,12 @@ use crate::common::{
     topic_processor::{TopicPattern, WILDCARD},
     user_properties::{UserProperty, RESERVED_PREFIX},
 };
-use crate::telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
+use crate::{
+    telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    ProtocolVersion,
+};
+
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Cloud Event struct
 ///
@@ -446,6 +451,26 @@ where
                                     }
                                 }
 
+                                // unused beyond validation, but may be used in the future to determine how to handle other fields.
+                                let mut message_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                                if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
+                                    if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                        message_protocol_version = message_version;
+                                    } else {
+                                        log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
+                                            m.pkid
+                                        );
+                                        break 'process_message;
+                                    }
+                                }
+                                // Check that the version (or the default version if one isn't provided) is supported
+                                if message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                    log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
+                                        m.pkid
+                                    );
+                                    break 'process_message;
+                                }
+
                                 let mut cloud_event_present = false;
                                 let mut cloud_event_builder = CloudEventBuilder::default();
                                 let mut cloud_event_time = None;
@@ -465,8 +490,8 @@ where
                                                 }
                                             }
                                         },
-                                        Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
-                                            // TODO: Implement protocol version check
+                                        Ok(UserProperty::ProtocolVersion) => {
+                                            // skip, already processed
                                         },
                                         Err(()) => {
                                             match CloudEventFields::from_str(&key) {

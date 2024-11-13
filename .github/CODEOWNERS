@@ -1,8 +1,8 @@
 * @jrdouceur
 *.md    @ryanwinter
 
-dotnet  @timtay-microsoft @tmahmood-microsoft @lev-i
+dotnet  @timtay-microsoft @lev-i @olivakar
 
 /rust   @cartertinney @vaavva @RLeclair
 
-/go @vishnureddy17 @clecompt-msft
+/go @lev-i @clecompt-msft

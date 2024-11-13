@@ -1,0 +1,22 @@
+---
+test-name: TelemetrySenderNoTopicPattern_ThrowsException
+aka:
+- SendTelemetry_EmptyTopicPatternThrows
+description:
+  condition: >-
+    TelemetrySender initialized with a topic pattern that is empty.
+  expect: >-
+    TelemetrySender throws 'invalid configuration' exception.
+
+prologue:
+  senders:
+  - telemetry-topic: ""
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false 
+    supplemental:
+      property-name: 'topicpattern'
+      property-value: ""
+...

@@ -72,7 +72,7 @@ func aesGCMDecrypt(encrypted, key []byte) ([]byte, error) {
 func loadX509KeyPairWithPassword(
 	certFile,
 	keyFile,
-	password string,
+	passFile string,
 ) (tls.Certificate, error) {
 	certPEMBlock, err := os.ReadFile(certFile)
 	if err != nil {
@@ -80,6 +80,11 @@ func loadX509KeyPairWithPassword(
 	}
 
 	keyPEMBlock, err := os.ReadFile(keyFile)
+	if err != nil {
+		return tls.Certificate{}, err
+	}
+
+	password, err := os.ReadFile(passFile)
 	if err != nil {
 		return tls.Certificate{}, err
 	}
@@ -94,7 +99,7 @@ func loadX509KeyPairWithPassword(
 	// x509.DecryptPEMBlock is deprecated due to insecurity,
 	// and x509 library doesn't want to support it:
 	// https://github.com/golang/go/issues/8860
-	decryptedDERBlock, err := decryptPEMBlock(keyDERBlock, []byte(password))
+	decryptedDERBlock, err := decryptPEMBlock(keyDERBlock, password)
 	if err != nil {
 		return tls.Certificate{}, err
 	}

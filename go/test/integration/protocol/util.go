@@ -12,16 +12,12 @@ import (
 func sessionClients(
 	t *testing.T,
 ) (client, server *mqtt.SessionClient, done func()) {
-	var err error
-
 	conn := mqtt.TCPConnection("localhost", 1883)
 
-	client, err = mqtt.NewSessionClient(conn)
-	require.NoError(t, err)
+	client = mqtt.NewSessionClient(conn)
 	require.NoError(t, client.Start())
 
-	server, err = mqtt.NewSessionClient(conn)
-	require.NoError(t, err)
+	server = mqtt.NewSessionClient(conn)
 	require.NoError(t, server.Start())
 
 	return client, server, func() {

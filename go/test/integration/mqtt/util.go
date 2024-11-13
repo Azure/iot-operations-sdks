@@ -13,8 +13,9 @@ type (
 	ChannelCallback[T any] chan T
 
 	TestTopicHandled struct {
-		Topic string
-		done  chan struct{}
+		Topic   string
+		done    chan struct{}
+		payload string
 	}
 
 	WaitConn struct {
@@ -27,20 +28,21 @@ func (cc ChannelCallback[T]) Func(v T) {
 	cc <- v
 }
 
-func (t *TestTopicHandled) Init() {
+func (t *TestTopicHandled) Init(payload string) {
 	t.done = make(chan struct{})
+	t.payload = payload
 }
 
 func (t *TestTopicHandled) Wait() {
 	<-t.done
 }
 
-func (t *TestTopicHandled) Func(_ context.Context, msg *mqtt.Message) bool {
-	if mqtt.IsTopicFilterMatch(t.Topic, msg.Topic) {
+func (t *TestTopicHandled) Func(_ context.Context, msg *mqtt.Message) {
+	if mqtt.IsTopicFilterMatch(t.Topic, msg.Topic) &&
+		string(msg.Payload) == t.payload {
 		close(t.done)
-		return true
 	}
-	return false
+	msg.Ack()
 }
 
 func (wc *WaitConn) Provider(ctx context.Context) (net.Conn, error) {

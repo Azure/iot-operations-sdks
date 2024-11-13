@@ -17,10 +17,10 @@ func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 
-	mqttClient := must(mqtt.NewSessionClient(
+	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
-		mqtt.WithSessionExpiryInterval(10*60), // 10 minutes
-	))
+		mqtt.WithSessionExpiry(600), // 10 minutes
+	)
 
 	client := must(statestore.New[string, string](mqttClient))
 	defer client.Close()

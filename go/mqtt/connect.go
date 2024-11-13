@@ -18,7 +18,7 @@ import (
 // of time to avoid blocking the session client.
 func (c *SessionClient) RegisterConnectEventHandler(
 	handler ConnectEventHandler,
-) (unregisterHandler func()) {
+) func() {
 	return c.connectEventHandlers.AppendEntry(handler)
 }
 
@@ -29,7 +29,7 @@ func (c *SessionClient) RegisterConnectEventHandler(
 // of time to avoid blocking the session client.
 func (c *SessionClient) RegisterDisconnectEventHandler(
 	handler DisconnectEventHandler,
-) (unregisterHandler func()) {
+) func() {
 	return c.disconnectEventHandlers.AppendEntry(handler)
 }
 
@@ -37,7 +37,7 @@ func (c *SessionClient) RegisterDisconnectEventHandler(
 // if the session client terminates due to a fatal error.
 func (c *SessionClient) RegisterFatalErrorHandler(
 	handler func(error),
-) (unregisterHandler func()) {
+) func() {
 	return c.fatalErrorHandlers.AppendEntry(handler)
 }
 
@@ -95,16 +95,16 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 	var reconnect bool
 	for {
 		var connack *paho.Connack
-		err := c.connRetry.Start(ctx, "connect",
+		err := c.options.ConnectionRetry.Start(ctx, "connect",
 			func(ctx context.Context) (bool, error) {
 				var err error
 
 				connCtx := ctx
-				if c.config.connectionTimeout != 0 {
+				if c.options.ConnectionTimeout > 0 {
 					var cancel func()
 					connCtx, cancel = context.WithTimeout(
 						ctx,
-						c.config.connectionTimeout,
+						c.options.ConnectionTimeout,
 					)
 					defer cancel()
 				}
@@ -174,14 +174,21 @@ func (c *SessionClient) connect(
 ) (*paho.Connack, error) {
 	attempt := c.conn.Attempt()
 
-	var auther paho.Auther
-	if c.config.authProvider != nil {
-		auther = &pahoAuther{c: c}
+	conn, err := c.connectionProvider(ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	pahoClient, err := c.pahoConstructor(ctx, &paho.ClientConfig{
-		ClientID: c.config.clientID,
-		Session:  c.session,
+	var auther paho.Auther
+	if c.options.Auth != nil {
+		auther = &pahoAuther{c}
+	}
+
+	pahoClient := paho.NewClient(paho.ClientConfig{
+		ClientID:    c.options.ClientID,
+		Session:     c.session,
+		Conn:        conn,
+		AuthHandler: auther,
 
 		// Set Paho's packet timeout to the maximum possible value to
 		// effectively disable it. We can still control any timeouts through the
@@ -208,14 +215,9 @@ func (c *SessionClient) connect(
 		OnClientError: func(err error) {
 			c.conn.Disconnect(attempt, err)
 		},
-
-		AuthHandler: auther,
 	})
-	if err != nil {
-		return nil, err
-	}
 
-	conn, err := c.buildConnectPacket(ctx, reconnect)
+	connect, err := c.buildConnectPacket(ctx, reconnect)
 	if err != nil {
 		return nil, err
 	}
@@ -223,8 +225,8 @@ func (c *SessionClient) connect(
 	// NOTE: there is no way for the user to know if the session was present if
 	// this is the first connection and firstConnectionCleanStart is set to
 	// false
-	c.log.Packet(ctx, "connect", conn)
-	connack, err := pahoClient.Connect(ctx, conn)
+	c.log.Packet(ctx, "connect", connect)
+	connack, err := pahoClient.Connect(ctx, connect)
 	c.log.Packet(ctx, "connack", connack)
 
 	switch {
@@ -290,7 +292,7 @@ func (c *SessionClient) signalDisconnection(
 
 func (c *SessionClient) forceDisconnect(
 	ctx context.Context,
-	client PahoClient,
+	client *paho.Client,
 ) {
 	immediateSessionExpiry := uint32(0)
 	disconn := &paho.Disconnect{
@@ -303,74 +305,62 @@ func (c *SessionClient) forceDisconnect(
 	_ = client.Disconnect(disconn)
 }
 
-func (c *SessionClient) defaultPahoConstructor(
-	ctx context.Context,
-	cfg *paho.ClientConfig,
-) (PahoClient, error) {
-	conn, err := c.config.connectionProvider(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	cfg.Conn = conn
-	return paho.NewClient(*cfg), nil
-}
-
 func (c *SessionClient) buildConnectPacket(
 	ctx context.Context,
 	reconnect bool,
 ) (*paho.Connect, error) {
-	sessionExpiryInterval := c.config.sessionExpiryInterval
-	properties := paho.ConnectProperties{
-		SessionExpiryInterval: &sessionExpiryInterval,
-		ReceiveMaximum:        &c.config.receiveMaximum,
-		RequestProblemInfo:    true,
-		User: internal.MapToUserProperties(
-			c.config.userProperties,
-		),
-	}
-
 	packet := &paho.Connect{
-		ClientID:   c.config.clientID,
-		CleanStart: !reconnect && c.config.firstConnectionCleanStart,
-		KeepAlive:  c.config.keepAlive,
-		Properties: &properties,
+		ClientID:   c.options.ClientID,
+		CleanStart: !reconnect && c.options.CleanStart,
+		KeepAlive:  c.options.KeepAlive,
+		Properties: &paho.ConnectProperties{
+			SessionExpiryInterval: &c.options.SessionExpiry,
+			ReceiveMaximum:        &c.options.ReceiveMaximum,
+			RequestProblemInfo:    true,
+			User: internal.MapToUserProperties(
+				c.options.ConnectUserProperties,
+			),
+		},
 	}
 
-	userName, userNameFlag, err := c.config.userNameProvider(ctx)
-	if err != nil {
-		return nil, &InvalidArgumentError{
-			wrapped: err,
-			message: "error getting user name from UserNameProvider",
-		}
-	}
-	if userNameFlag {
-		packet.UsernameFlag = true
-		packet.Username = userName
-	}
-
-	password, passwordFlag, err := c.config.passwordProvider(ctx)
-	if err != nil {
-		return nil, &InvalidArgumentError{
-			wrapped: err,
-			message: "error getting password from PasswordProvider",
-		}
-	}
-	if passwordFlag {
-		packet.PasswordFlag = true
-		packet.Password = password
-	}
-
-	if c.config.authProvider != nil {
-		authValues, err := c.config.authProvider.InitiateAuthExchange(false)
+	if c.options.Username != nil {
+		username, usernameFlag, err := c.options.Username(ctx)
 		if err != nil {
 			return nil, &InvalidArgumentError{
+				message: "error getting username",
 				wrapped: err,
-				message: "error getting auth values from EnhancedAuthenticationProvider",
 			}
 		}
-		packet.Properties.AuthData = authValues.AuthenticationData
-		packet.Properties.AuthMethod = authValues.AuthenticationMethod
+		if usernameFlag {
+			packet.UsernameFlag = true
+			packet.Username = username
+		}
+	}
+
+	if c.options.Password != nil {
+		password, passwordFlag, err := c.options.Password(ctx)
+		if err != nil {
+			return nil, &InvalidArgumentError{
+				message: "error getting password",
+				wrapped: err,
+			}
+		}
+		if passwordFlag {
+			packet.PasswordFlag = true
+			packet.Password = password
+		}
+	}
+
+	if c.options.Auth != nil {
+		authValues, err := c.options.Auth.InitiateAuth(false)
+		if err != nil {
+			return nil, &InvalidArgumentError{
+				message: "error getting auth values",
+				wrapped: err,
+			}
+		}
+		packet.Properties.AuthData = authValues.AuthData
+		packet.Properties.AuthMethod = authValues.AuthMethod
 	}
 
 	return packet, nil

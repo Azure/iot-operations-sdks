@@ -1,0 +1,35 @@
+---
+test-name: TelemetrySenderSendMultipleUnique_Success
+aka:
+- SendTelemetry_MultipleMessages
+- SendTelemetry_MultipleUniqueMessages
+description:
+  condition: >-
+    TelemetrySender sends multiple unique Telemetries in seqence.
+  expect: >-
+    TelemetrySender performs sequence of sends.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  telemetry-value: "Telemetry_Foo"
+- action: send telemetry
+  telemetry-value: "Telemetry_Bar"
+- action: send telemetry
+  telemetry-value: "Telemetry_Baz"
+- action: await publish
+- action: await publish
+- action: await publish
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Telemetry_Foo"
+  - topic: "mock/test"
+    payload: "Telemetry_Bar"
+  - topic: "mock/test"
+    payload: "Telemetry_Baz"
+...

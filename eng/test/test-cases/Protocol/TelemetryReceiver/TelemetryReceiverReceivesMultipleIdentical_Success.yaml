@@ -1,0 +1,38 @@
+---
+test-name: TelemetryReceiverReceivesMultipleIdentical_Success
+aka:
+- ReceiveTelemetry_TwoOrMoreIdenticalMessages
+description:
+  condition: >-
+    TelemetryReceiver receives multiple identical Telemetries.
+  expect: >-
+    TelemetryReceiver relays Telemetries to user code and acknowledges messages.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+- action: receive telemetry
+  packet-index: 1
+- action: await acknowledgement
+  packet-index: 1
+- action: receive telemetry
+  packet-index: 2
+- action: await acknowledgement
+  packet-index: 2
+
+epilogue:
+  telemetry-count: 3
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 3
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+  - telemetry-value: "Test_Telemetry"
+  - telemetry-value: "Test_Telemetry"
+...
