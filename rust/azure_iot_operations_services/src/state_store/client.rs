@@ -29,8 +29,8 @@ const REQUEST_TOPIC_PATTERN: &str =
 const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
 const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
-// where the telemetryName is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and senderId is a hex encoded representation of the key that changed
-const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{encodedClientId}/command/notify/{senderId}";
+// where the encodedClientId is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and encodedKeyName is a hex encoded representation of the key that changed
+const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{encodedClientId}/command/notify/{encodedKeyName}";
 
 /// Type defined to repress clippy warning about very complex type
 type ArcMutexHashmap<K, V> = Arc<Mutex<HashMap<K, V>>>;
@@ -553,7 +553,10 @@ where
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
-                                let key_name = notification.sender_id.clone();
+                                let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
+                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    continue;
+                                };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let key_notification = state_store::KeyNotification {
                                     key: decoded_key_name,
@@ -564,7 +567,7 @@ where
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(&key_name) {
+                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);

@@ -234,9 +234,9 @@ pub struct TelemetrySenderOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
-///   .topic_pattern("test/telemetry/{senderId}")
+///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
-///   .topic_token_map(HashMap::from([("senderId".to_string(), "test_client".to_string())]))
+///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
@@ -301,18 +301,6 @@ where
             &sender_options.topic_token_map,
         )?;
 
-        // TODO: Temporary fix for missing senderID reserved token
-        // Check if {senderId} token is present in the topic pattern
-        if !&sender_options.topic_pattern.contains("{senderId}") {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "topic_pattern",
-                Value::String(sender_options.topic_pattern.clone()),
-                Some("The topic pattern must contain {senderId} as a token".to_string()),
-                None,
-            ));
-        }
-
         Ok(Self {
             mqtt_client: client,
             message_payload_type: PhantomData,
@@ -368,6 +356,11 @@ where
         message.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
             AIO_PROTOCOL_VERSION.to_string(),
+        ));
+
+        message.custom_user_data.push((
+            UserProperty::SourceId.to_string(),
+            self.mqtt_client.client_id().to_string(),
         ));
 
         // Create MQTT Properties
@@ -491,7 +484,7 @@ mod tests {
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/test_telemetry/{senderId}")
+            .topic_pattern("test/test_telemetry")
             .build()
             .unwrap();
 
@@ -511,12 +504,12 @@ mod tests {
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/{telemetryName}/{senderId}")
+            .topic_pattern("test/{telemetryName}")
             .topic_namespace("test_namespace")
-            .topic_token_map(HashMap::from([
-                ("telemetryName".to_string(), "test_telemetry".to_string()),
-                ("senderId".to_string(), "test_sender".to_string()),
-            ]))
+            .topic_token_map(HashMap::from([(
+                "telemetryName".to_string(),
+                "test_telemetry".to_string(),
+            )]))
             .build()
             .unwrap();
 

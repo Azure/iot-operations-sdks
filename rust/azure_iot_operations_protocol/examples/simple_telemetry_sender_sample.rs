@@ -21,8 +21,8 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myClient";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
-// senderId is a token that should be replaced with the client ID of the sender, it is required to be present in the topic pattern
-const TOPIC: &str = "akri/samples/{senderId}/dtmi:akri:samples:oven;1/new";
+const TOPIC: &str = "akri/samples/{modelId}/new";
+const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -78,8 +78,8 @@ async fn telemetry_loop(
             })
             .unwrap()
             .topic_tokens(HashMap::from([(
-                "senderId".to_string(),
-                CLIENT_ID.to_string(),
+                "modelId".to_string(),
+                MODEL_ID.to_string(),
             )]))
             .message_expiry(Duration::from_secs(2))
             .cloud_event(cloud_event)

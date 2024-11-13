@@ -24,6 +24,8 @@ pub enum UserProperty {
     IsApplicationError,
     /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
     CommandInvokerId,
+    /// User Property indicating the source ID of a request, response, or message.
+    SourceId,
     /// The name of an MQTT property in a request header that is missing or has an invalid value.
     InvalidPropertyName,
     /// The value of an MQTT property in a request header that is invalid.
@@ -49,6 +51,7 @@ impl Display for UserProperty {
             UserProperty::StatusMessage => write!(f, "__stMsg"),
             UserProperty::IsApplicationError => write!(f, "__apErr"),
             UserProperty::CommandInvokerId => write!(f, "__invId"),
+            UserProperty::SourceId => write!(f, "__srcId"),
             UserProperty::InvalidPropertyName => write!(f, "__propName"),
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
             UserProperty::ProtocolVersion => write!(f, "__protVer"),
@@ -116,6 +119,7 @@ mod tests {
     #[test_case(UserProperty::StatusMessage; "status_message")]
     #[test_case(UserProperty::IsApplicationError; "is_application_error")]
     #[test_case(UserProperty::CommandInvokerId; "command_invoker_id")]
+    #[test_case(UserProperty::SourceId; "source_id")]
     #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
     #[test_case(UserProperty::ProtocolVersion; "protocol_version")]

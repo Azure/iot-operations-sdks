@@ -19,8 +19,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myReceiver";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
-// senderId is a token that will be replaced with the client ID of the sender, it is required to be present in the topic pattern
-const TOPIC: &str = "akri/samples/{senderId}/{modelId}/new";
+const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
@@ -77,9 +76,11 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {
+                let sender_id = message.sender_id.unwrap();
+
                 println!(
                     "Sender {} sent temperature reading: {:?}",
-                    message.sender_id, message.payload
+                    sender_id, message.payload
                 );
 
                 // Parse cloud event

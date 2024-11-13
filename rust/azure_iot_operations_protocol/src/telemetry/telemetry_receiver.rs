@@ -135,8 +135,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub payload: T,
     /// Custom user data set as custom MQTT User Properties on the telemetry message.
     pub custom_user_data: Vec<(String, String)>,
-    /// Client ID of the sender of the telemetry message.
-    pub sender_id: String,
+    /// If present, contains the client ID of the sender of the telemetry message.
+    pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
@@ -194,7 +194,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/{senderId}/telemetry")
+///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -266,18 +266,6 @@ where
             receiver_options.topic_namespace.as_deref(),
             &receiver_options.topic_token_map,
         )?;
-
-        // TODO: Temporary fix for missing senderID reserved token
-        // Check if {senderId} token is present in the topic pattern
-        if !&receiver_options.topic_pattern.contains("{senderId}") {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "topic_pattern",
-                Value::String(receiver_options.topic_pattern.clone()),
-                Some("The topic pattern must contain a senderId token".to_string()),
-                None,
-            ));
-        }
 
         // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
@@ -442,6 +430,7 @@ where
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
                             let mut cloud_event = None;
+                            let mut sender_id = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
@@ -495,6 +484,9 @@ where
                                         },
                                         Ok(UserProperty::ProtocolVersion) => {
                                             // skip, already processed
+                                        },
+                                        Ok(UserProperty::SourceId) => {
+                                            sender_id = Some(value);
                                         },
                                         Err(()) => {
                                             match CloudEventFields::from_str(&key) {
@@ -576,14 +568,6 @@ where
                             };
 
                             let topic_tokens = self.topic_pattern.parse_tokens(topic);
-                            // TODO: Temporary fix for missing senderId reserved token
-                            // The senderId token in the topic pattern is required
-                            let sender_id = if let Some(id) = topic_tokens.get("senderId") {
-                                id.clone()
-                            } else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry message", m.pkid);
-                                break 'process_message;
-                            };
 
                             // Deserialize payload
                             let payload = match T::deserialize(&m.payload) {
@@ -725,7 +709,7 @@ mod tests {
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/receiver")
+            .topic_pattern("test/receiver")
             .build()
             .unwrap();
 
@@ -745,7 +729,7 @@ mod tests {
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{telemetryName}/receiver")
+            .topic_pattern("test/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
             .topic_token_map(create_topic_tokens())
             .build()
@@ -759,7 +743,7 @@ mod tests {
     fn test_invalid_telemetry_content_type() {
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/receiver")
+            .topic_pattern("test/receiver")
             .build()
             .unwrap();
 
