@@ -87,8 +87,6 @@ jobs:
       - name: Run Counter Server rust
         if: matrix.counter_server == 'counter-server-rust'
         run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }}  rust/target/release/counter_server &
-        # run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} cargo run rust/sample_applications/counter/counter_server &
-        #run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_server &
 
       - name: Run Counter Client dotnet
         if: matrix.counter_client == 'counter-client-dotnet'
@@ -101,6 +99,3 @@ jobs:
       - name: Run Counter Client rust
         if: matrix.counter_client == 'counter-client-rust'
         run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/counter_client
-
-        # run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_client
-        # run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} cargo run rust/sample_applications/counter/counter_client
