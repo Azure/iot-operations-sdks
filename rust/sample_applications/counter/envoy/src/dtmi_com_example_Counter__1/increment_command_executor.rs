@@ -18,17 +18,23 @@ pub type IncrementRequest = CommandRequest<EmptyJson, IncrementResponsePayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
 pub type IncrementResponseBuilderError = CommandResponseBuilderError;
 
+/// Builder for [`IncrementResponse`]
 #[derive(Default)]
 pub struct IncrementResponseBuilder {
     inner_builder: CommandResponseBuilder<IncrementResponsePayload>,
 }
 
 impl IncrementResponseBuilder {
+    /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
         self
     }
 
+    /// Payload of the response
+    ///
+    /// # Errors
+    /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
         payload: &IncrementResponsePayload,
@@ -37,11 +43,17 @@ impl IncrementResponseBuilder {
         Ok(self)
     }
 
+    /// Builds a new `IncrementResponse`
+    ///
+    /// # Errors
+    /// If a required field has not been initialized
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<IncrementResponse, IncrementResponseBuilderError> {
         self.inner_builder.build()
     }
 }
 
+/// Command Executor for `Increment`
 pub struct IncrementCommandExecutor<C>(CommandExecutor<EmptyJson, IncrementResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -52,6 +64,10 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
+    /// Creates a new [`IncrementCommandExecutor`]
+    ///
+    /// # Panics
+    /// If the DTDL that generated this code was invalid
     pub fn new(client: C, options: &CommonOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
@@ -71,6 +87,10 @@ where
         )
     }
 
+    /// Receive the next [`IncrementRequest`]
+    ///
+    /// # Errors
+    /// [`AIOProtocolError`] if there is a failure receiving a request
     pub async fn recv(&mut self) -> Result<IncrementRequest, AIOProtocolError> {
         self.0.recv().await
     }

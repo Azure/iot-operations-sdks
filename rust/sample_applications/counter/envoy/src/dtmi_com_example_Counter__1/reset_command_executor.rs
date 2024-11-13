@@ -16,17 +16,24 @@ pub type ResetRequest = CommandRequest<EmptyJson, EmptyJson>;
 pub type ResetResponse = CommandResponse<EmptyJson>;
 pub type ResetResponseBuilderError = CommandResponseBuilderError;
 
+/// Builder for [`ResetResponse`]
 #[derive(Default)]
 pub struct ResetResponseBuilder {
     inner_builder: CommandResponseBuilder<EmptyJson>,
 }
 
 impl ResetResponseBuilder {
+    /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
         self
     }
 
+    /// Builds a new `ResetResponse`
+    ///
+    /// # Errors
+    /// If a required field has not been initialized
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<ResetResponse, ResetResponseBuilderError> {
         self.inner_builder.payload(&EmptyJson {}).unwrap();
 
@@ -34,6 +41,7 @@ impl ResetResponseBuilder {
     }
 }
 
+/// Command Executor for `Reset`
 pub struct ResetCommandExecutor<C>(CommandExecutor<EmptyJson, EmptyJson, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -44,6 +52,10 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
+    /// Creates a new [`ResetCommandExecutor`]
+    ///
+    /// # Panics
+    /// If the DTDL that generated this code was invalid
     pub fn new(client: C, options: &CommonOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
@@ -63,6 +75,10 @@ where
         )
     }
 
+    /// Receive the next [`ResetRequest`]
+    ///
+    /// # Errors
+    /// [`AIOProtocolError`] if there is a failure receiving a request
     pub async fn recv(&mut self) -> Result<ResetRequest, AIOProtocolError> {
         self.0.recv().await
     }

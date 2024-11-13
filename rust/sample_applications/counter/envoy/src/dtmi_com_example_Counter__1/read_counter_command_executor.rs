@@ -18,17 +18,23 @@ pub type ReadCounterRequest = CommandRequest<EmptyJson, ReadCounterResponsePaylo
 pub type ReadCounterResponse = CommandResponse<ReadCounterResponsePayload>;
 pub type ReadCounterResponseBuilderError = CommandResponseBuilderError;
 
+/// Builder for [`ReadCounterResponse`]
 #[derive(Default)]
 pub struct ReadCounterResponseBuilder {
     inner_builder: CommandResponseBuilder<ReadCounterResponsePayload>,
 }
 
 impl ReadCounterResponseBuilder {
+    /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
         self
     }
 
+    /// Payload of the response
+    ///
+    /// # Errors
+    /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
         payload: &ReadCounterResponsePayload,
@@ -37,11 +43,17 @@ impl ReadCounterResponseBuilder {
         Ok(self)
     }
 
+    /// Builds a new `ReadCounterResponse`
+    ///
+    /// # Errors
+    /// If a required field has not been initialized
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<ReadCounterResponse, ReadCounterResponseBuilderError> {
         self.inner_builder.build()
     }
 }
 
+/// Command Executor for `ReadCounter`
 pub struct ReadCounterCommandExecutor<C>(CommandExecutor<EmptyJson, ReadCounterResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -52,6 +64,10 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
+    /// Creates a new [`ReadCounterCommandExecutor`]
+    ///
+    /// # Panics
+    /// If the DTDL that generated this code was invalid
     pub fn new(client: C, options: &CommonOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
@@ -71,6 +87,10 @@ where
         )
     }
 
+    /// Receive the next [`ReadCounterRequest`]
+    ///
+    /// # Errors
+    /// [`AIOProtocolError`] if there is a failure receiving a request
     pub async fn recv(&mut self) -> Result<ReadCounterRequest, AIOProtocolError> {
         self.0.recv().await
     }
