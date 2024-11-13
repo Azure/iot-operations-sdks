@@ -9,7 +9,7 @@ import (
 	"github.com/eclipse/paho.golang/paho"
 )
 
-func (c *SessionClient) requestReauthentication() {
+func (c *SessionClient) requestReauth() {
 	current := c.conn.Current()
 
 	if current.Client == nil {
@@ -22,11 +22,11 @@ func (c *SessionClient) requestReauthentication() {
 		ctx, cancel := current.Down.With(context.Background())
 		defer cancel()
 
-		values, err := c.config.authProvider.InitiateAuthExchange(true)
+		values, err := c.options.Auth.InitiateAuth(true)
 		if err != nil {
-			// using context.TODO() here because we are not passing a context
-			// into InitiateAuthExchange and we want to review logging contexts
-			// to ensure they get torn down with the client.
+			// Using context.TODO() here because we are not passing a context
+			// into InitiateAuth and we want to review logging contexts to
+			// ensure they get torn down with the client.
 			c.log.Error(context.TODO(), err)
 			return
 		}
@@ -34,12 +34,12 @@ func (c *SessionClient) requestReauthentication() {
 		packet := &paho.Auth{
 			ReasonCode: authReauthenticate,
 			Properties: &paho.AuthProperties{
-				AuthData:   values.AuthenticationData,
-				AuthMethod: values.AuthenticationMethod,
+				AuthData:   values.AuthData,
+				AuthMethod: values.AuthMethod,
 			},
 		}
 
-		// NOTE: we ignore the return values of client.Authenticate() because
+		// NOTE: We ignore the return values of client.Authenticate() because
 		// if it fails, there's nothing we can do except let the client
 		// eventually disconnect and try to reconnect.
 		_, err = current.Client.Authenticate(ctx, packet)
@@ -50,15 +50,13 @@ func (c *SessionClient) requestReauthentication() {
 }
 
 // Implements paho.Auther.
-type pahoAuther struct {
-	c *SessionClient
-}
+type pahoAuther struct{ *SessionClient }
 
 func (a *pahoAuther) Authenticate(packet *paho.Auth) *paho.Auth {
-	values, err := a.c.config.authProvider.ContinueAuthExchange(
+	values, err := a.options.Auth.ContinueAuth(
 		&auth.Values{
-			AuthenticationMethod: packet.Properties.AuthMethod,
-			AuthenticationData:   packet.Properties.AuthData,
+			AuthMethod: packet.Properties.AuthMethod,
+			AuthData:   packet.Properties.AuthData,
 		},
 	)
 	if err != nil {
@@ -71,12 +69,12 @@ func (a *pahoAuther) Authenticate(packet *paho.Auth) *paho.Auth {
 	return &paho.Auth{
 		ReasonCode: authContinueAuthentication,
 		Properties: &paho.AuthProperties{
-			AuthMethod: values.AuthenticationMethod,
-			AuthData:   values.AuthenticationData,
+			AuthMethod: values.AuthMethod,
+			AuthData:   values.AuthData,
 		},
 	}
 }
 
 func (a *pahoAuther) Authenticated() {
-	a.c.config.authProvider.AuthSuccess(a.c.requestReauthentication)
+	a.options.Auth.AuthSuccess(a.requestReauth)
 }
