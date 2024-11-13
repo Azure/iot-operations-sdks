@@ -1,4 +1,3 @@
-output: '{{.Dir}}/README.md'
 repository:
     url: https://github.com/Azure/iot-operations-sdks
     defaultBranch: main

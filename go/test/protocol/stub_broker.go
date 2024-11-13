@@ -65,7 +65,7 @@ func NewStubBroker() (*StubBroker, mqtt.ConnectionProvider) {
 	return s, func(context.Context) (net.Conn, error) {
 		s.mu.RLock()
 		defer s.mu.RUnlock()
-		return packets.NewThreadSafeConn(s.client), nil
+		return s.client, nil
 	}
 }
 
@@ -259,8 +259,8 @@ func (s *StubBroker) Disconnect() {
 	}
 
 	client, server := net.Pipe()
-	s.client = client
-	s.server = server
+	s.client = packets.NewThreadSafeConn(client)
+	s.server = packets.NewThreadSafeConn(server)
 
 	go func() {
 		for {
