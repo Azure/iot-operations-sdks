@@ -46,15 +46,15 @@ use env_logger::Builder;
 //    27. where key does not exist (success looks the same as if the key exists)
 //    28. where key is already being observed (error returned)
 //    29. where key is already being observed, but the KeyObservation has been dropped (successful)
-//    37. where key was observed, unobserved, and then observed again (successful)
+//    30. where key was observed, unobserved, and then observed again (successful)
 // UNOBSERVE
-//    30. where key is being observed
-//    31. where key was not being observed (expect success that indicates the key wasn't being observed)
+//    31. where key is being observed
+//    32. where key was not being observed (expect success that indicates the key wasn't being observed)
 // KEY NOTIFICATION
-//    32. 1 set(v1) notification received after observe and then key is set(V1)
-//    33. 1 del notification received after observe and then key is del
-//    34. 1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del
-//    35. TODO set with key expiry, recv delete notification once key expires
+//    33. 1 set(v1) notification received after observe and then key is set(V1)
+//    34. 1 del notification received after observe and then key is del
+//    35. 1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del
+//    36. TODO set with key expiry, recv delete notification once key expires
 
 const VALUE1: &[u8] = b"value1";
 const VALUE2: &[u8] = b"value2";
@@ -109,6 +109,8 @@ fn setup_test(
     Ok((session, state_store_client, exit_handle))
 }
 
+/// ~~~~~~~~ Key 1 ~~~~~~~~
+/// Tests basic set and delete without fencing tokens or expiry
 #[tokio::test]
 async fn state_store_basic_set_delete_network_tests() {
     let log_identifier = "basic_set_delete";
@@ -121,8 +123,6 @@ async fn state_store_basic_set_delete_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 1 ~~~~~~~~
-            // Test basic set and delete without fencing tokens or expiry
             let key1 = b"key1";
 
             // Delete key1 in case it was left over from a previous run
@@ -205,6 +205,8 @@ async fn state_store_basic_set_delete_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 2 ~~~~~~~~
+/// Tests where fencing token is required
 #[tokio::test]
 async fn state_store_fencing_token_network_tests() {
     let log_identifier = "fencing_token";
@@ -217,8 +219,6 @@ async fn state_store_fencing_token_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 2 ~~~~~~~~
-            // Tests where fencing token is required
             let key2 = b"key2";
             let mut key2_fencing_token = HybridLogicalClock::default();
 
@@ -350,6 +350,8 @@ async fn state_store_fencing_token_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ never key ~~~~~~~~
+/// Tests scenarios where the key isn't found
 #[tokio::test]
 async fn state_store_key_not_found_network_tests() {
     let log_identifier = "key_not_found";
@@ -362,8 +364,6 @@ async fn state_store_key_not_found_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ never key ~~~~~~~~
-            // Tests scenarios where the key isn't found
             let never_key = b"never_key";
             // Tests 14 (where key does not exist (expect success that indicates the key wasn't found))
             let get_no_key_response = state_store_client
@@ -426,6 +426,8 @@ async fn state_store_key_not_found_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 3 ~~~~~~~~
+/// Tests sets with various SetConditions
 #[tokio::test]
 async fn state_store_set_conditions_network_tests() {
     let log_identifier = "set_conditions";
@@ -438,8 +440,6 @@ async fn state_store_set_conditions_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 3 ~~~~~~~~
-            // Tests sets with various SetConditions
             let key3 = b"key3";
 
             // Tests 8 (with setCondition OnlyIfDoesNotExist and key doesn't exist)
@@ -561,6 +561,8 @@ async fn state_store_set_conditions_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 4 ~~~~~~~~
+/// Tests some other SetConditions
 #[tokio::test]
 async fn state_store_key_set_conditions_2_network_tests() {
     let log_identifier = "set_conditions_2";
@@ -573,8 +575,6 @@ async fn state_store_key_set_conditions_2_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 4 ~~~~~~~~
-            // Tests some other SetConditions
             let key4 = b"key4";
             let mut key4_fencing_token = HybridLogicalClock::default();
 
@@ -669,6 +669,8 @@ async fn state_store_key_set_conditions_2_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 5 ~~~~~~~~
+/// Tests basic recv set notification, as well as basic observe (where key doesn't exist) and unobserve
 #[tokio::test]
 async fn state_store_set_key_notifications_network_tests() {
     let log_identifier = "set_key_notifications";
@@ -681,8 +683,6 @@ async fn state_store_set_key_notifications_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 5 ~~~~~~~~
-            // Tests basic recv set notification, as well as basic observe (where key doesn't exist) and unobserve
             let key5 = b"key5";
 
             // Tests 27 (where key does not exist (success))
@@ -697,7 +697,7 @@ async fn state_store_set_key_notifications_network_tests() {
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    // Tests 32 (1 set(v1) notification received after observe and then key is set(V1))
+                    // Tests 33 (1 set(v1) notification received after observe and then key is set(V1))
                     while let Some((notification, _)) =
                         observe_no_key.response.recv_notification().await
                     {
@@ -736,7 +736,7 @@ async fn state_store_set_key_notifications_network_tests() {
                 set_for_notification
             );
 
-            // Tests 30 (where key is being observed)
+            // Tests 31 (where key is being observed)
             let unobserve_where_observed = state_store_client
                 .unobserve(key5.to_vec(), TIMEOUT)
                 .await
@@ -777,6 +777,8 @@ async fn state_store_set_key_notifications_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 6 ~~~~~~~~
+/// basic recv del notification, as well as basic observe (where key does exist) and unobserve
 #[tokio::test]
 async fn state_store_del_key_notifications_network_tests() {
     let log_identifier = "del_key_notifications";
@@ -789,8 +791,6 @@ async fn state_store_del_key_notifications_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 6 ~~~~~~~~
-            // basic recv del notification, as well as basic observe (where key does exist) and unobserve
             let key6 = b"key6";
             let set_for_key6_notification = state_store_client
                 .set(
@@ -820,7 +820,7 @@ async fn state_store_del_key_notifications_network_tests() {
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    // Tests 33 (1 del notification received after observe and then key is del)
+                    // Tests 34 (1 del notification received after observe and then key is del)
                     while let Some((notification, _)) =
                         observe_key.response.recv_notification().await
                     {
@@ -847,7 +847,7 @@ async fn state_store_del_key_notifications_network_tests() {
                 del_for_notification
             );
 
-            // Tests 30 (where key is being observed)
+            // Tests 31 (where key is being observed)
             let unobserve_key6 = state_store_client
                 .unobserve(key6.to_vec(), TIMEOUT)
                 .await
@@ -888,6 +888,8 @@ async fn state_store_del_key_notifications_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 7 ~~~~~~~~
+/// testing observe and unobserve scenarios around being or not being observed and still having or not having references to being observed
 #[tokio::test]
 async fn state_store_observe_unobserve_network_tests() {
     let log_identifier = "observe_unobserve";
@@ -900,11 +902,9 @@ async fn state_store_observe_unobserve_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 7 ~~~~~~~~
-            // testing observe and unobserve scenarios around being or not being observed and still having or not having references to being observed
             let key7 = b"key7";
 
-            // Tests 31 (where key was not being observed (expect success that indicates the key wasn't being observed))
+            // Tests 32 (where key was not being observed (expect success that indicates the key wasn't being observed))
             let unobserve_no_observe = state_store_client
                 .unobserve(key7.to_vec(), TIMEOUT)
                 .await
@@ -958,7 +958,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 unobserve_key7
             );
 
-            // Tests 37 (where key was observed, unobserved, and then observed again (successful))
+            // Tests 30 (where key was observed, unobserved, and then observed again (successful))
             let observe_key7_after_unobserve = state_store_client
                 .observe(key7.to_vec(), TIMEOUT)
                 .await
@@ -1007,6 +1007,9 @@ async fn state_store_observe_unobserve_network_tests() {
     .is_ok());
 }
 
+/// ~~~~~~~~ Key 8 ~~~~~~~~
+/// complicated recv scenario checking for the right number of notifications
+/// Tests 35 (1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del)
 #[tokio::test]
 async fn state_store_complicated_recv_key_notifications_network_tests() {
     let log_identifier = "complicated_recv_key_notifications";
@@ -1019,8 +1022,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // ~~~~~~~~ Key 8 ~~~~~~~~
-            // complicated recv scenario checking for the right number of notifications
+            // Tests 35 (1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del)
             let key8 = b"key8";
 
             let set_for_key8_notification = state_store_client
@@ -1060,8 +1062,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 "[{log_identifier}] observe_key8 response: {:?}",
                 observe_key8
             );
-            // TODO: asserts inside a spawned task don't fail the test
-            tokio::task::spawn({
+            let receive_notifications_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
                     if let Some((notification, _)) = observe_key8.response.recv_notification().await
@@ -1096,7 +1097,9 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                     {
                         count += 1;
                         log::error!("[{log_identifier}] Unexpected: {:?}", notification);
-                        // TODO: assert fail here or let it go on to see how many it gets? Whatever decision is here, update elsewhere
+                        // if something weird happens, this should prevent an infinite loop.
+                        // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
+                        assert!(count < 4);
                     }
                     // only the 3 expected notifications should occur
                     assert_eq!(count, 3);
@@ -1148,7 +1151,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 set_key8_value3
             );
 
-            // Tests 30 (where key is being observed)
+            // Tests 31 (where key is being observed)
             let unobserve_key8 = state_store_client
                 .unobserve(key8.to_vec(), TIMEOUT)
                 .await
@@ -1188,6 +1191,8 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 del_key8_no_notification
             );
 
+            // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
+            assert!(receive_notifications_task.await.is_ok());
             // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
             match exit_handle.try_exit().await {
                 Ok(()) => Ok(()),
