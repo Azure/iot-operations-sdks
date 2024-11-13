@@ -558,10 +558,14 @@ where
                                     continue;
                                 };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
+                                let Some(notification_timestamp) = notification.timestamp else {
+                                    log::error!("Received key notification with no version. Ignoring.");
+                                    continue;
+                                };
                                 let key_notification = state_store::KeyNotification {
                                     key: decoded_key_name,
                                     operation: notification.payload.clone(),
-                                    version: notification.timestamp,
+                                    version: notification_timestamp,
                                 };
 
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
