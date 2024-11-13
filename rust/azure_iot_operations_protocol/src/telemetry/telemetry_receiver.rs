@@ -464,7 +464,7 @@ where
                                     }
                                 }
                                 // Check that the version (or the default version if one isn't provided) is supported
-                                if message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                                     log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
                                         m.pkid
                                     );
