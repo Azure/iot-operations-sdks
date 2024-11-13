@@ -2,7 +2,7 @@
 
 ## Status
 
-PROPOSED
+APPROVED
 
 ## Context
 
@@ -26,19 +26,26 @@ A new [MQTT header](../../reference/message-metadata.md) will be added to the pr
 The new header will be used as follows:
 
 * The TelemetrySender will set the "__srcId" header in all Telemetry messages; the TelemetrySender's ID will be the header value.
+* The TelemetryReceiver will not reqire the "__srcId" header to be present in a received Telemetry message.
 * The TelemetrySender will no longer require that topic patterns contain the token `{senderId}`.
-* The TelemeetryReceiver will extract the sender's ID from the "__srcId" header value and relay it to the user code that receives the Telemetry.
+* If a "__srcId" header is present in a received Telemetry message, the TelemetryReceiver will extract the sender's ID from the "__srcId" header value and relay it to the user code that receives the Telemetry.
 * The CommandInvoker will set the new "__srcId" header instead of the "__invId" header.
+* The CommandExecutor will require the "__srcId" header to be present in a received Command request message.
 * The CommandExecutor will read the value of the "__srcId" header instead of the "__invId" header when determining the requester ID to use for caching policy decisions.
 
-## Protocol Versioning
+## Protocol Transition
 
-In accordance with the design of [Protocol Versioning](../../reference/protocol-versioning.md), this change will bump the major version number from 1 to 2, since it is a breaking change.
+Because the AIO components are not yet in preview, this change will be made in a non-backward-compatible fashion.
 
-To ease the transition to the new protocol version, a minor-version change is also defined.
-In protocol version 1.1:
+However, to ease the transition to the revised protocol:
 
-* The TelemetrySender will set the "__srcId" header in all Telemetry messages BUT WILL CONTUNUE TO require that topic patterns contain the token `{senderId}`.
-* The TelemeetryReceiver will extract the sender's ID from the "__srcId" header if present, BUT WILL FALL BACK TO extracting from the topic if the new header is not present.
-* The CommandInvoker will set the new "__srcId" header IN ADDITION TO the "__invId" header.
-* The CommandExecutor will read the value of the "__srcId" header instead if present, BUT WILL FALL BACU TO the "__invId" header if the new header is not present.
+* The next revision of the TelemetryReceiver will:
+  * First attempt to extract the sender's ID from the "__srcId" header if present.
+  * Second, attempt to extract the sender's ID from the topic if the topic patterns contain the token `{senderId}`.
+  * Third, continue without error if neither of the above two attempts is successful at determining  the sender's ID.
+* The next revision of the TelemetrySender will have no special transitional behavior; it will set the "__srcId" header inTelemetry messages, per the above design.
+* The next revision of the CommandInvoker will set BOTH the new "__srcId" header AND the old "__invId" header, using the same sender ID for the value.
+* The next revision of the CommandExecutor will:
+  * First, attemt to extract the the invoker's ID from the "__srcId" header if present.
+  * Second, attempt to extract the the invoker's ID from the "__invId" header if present.
+  * Third, return an error to the CommandInvoker if neither the "__srcId" nor the "__invId" header is preset in the Command request message.
