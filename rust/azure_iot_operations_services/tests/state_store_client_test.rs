@@ -11,51 +11,7 @@ use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalCl
 use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
 use env_logger::Builder;
 
-#[tokio::main(flavor = "current_thread")]
-#[test]
-async fn state_store_network_tests() {
-    Builder::new()
-        .filter_level(log::LevelFilter::max())
-        .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
-        .init();
-    if env::var("ENABLE_NETWORK_TESTS").is_err() {
-        log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
-        return;
-    }
-
-    let connection_settings = MqttConnectionSettingsBuilder::default()
-        .client_id("state-store-client-rust")
-        .hostname("localhost")
-        .tcp_port(1883u16)
-        .keep_alive(Duration::from_secs(5))
-        .use_tls(false)
-        .build()
-        .unwrap();
-
-    let session_options = SessionOptionsBuilder::default()
-        .connection_settings(connection_settings)
-        .build()
-        .unwrap();
-
-    let mut session = Session::new(session_options).unwrap();
-
-    tokio::task::spawn(state_store_tests(
-        state_store::Client::new(
-            session.create_managed_client(),
-            state_store::ClientOptionsBuilder::default()
-                .build()
-                .unwrap(),
-        )
-        .unwrap(),
-        session.create_exit_handle(),
-    ));
-
-    session.run().await.unwrap();
-}
-
-// Tests these scenarios:
+// These tests test these scenarios - numbers are linked inline:
 // SET
 //    1. valid new key/value with default setOptions
 //    2. valid existing key/value with default setOptions
@@ -99,693 +55,1163 @@ async fn state_store_network_tests() {
 //    33. 1 del notification received after observe and then key is del
 //    34. 1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del
 //    35. TODO set with key expiry, recv delete notification once key expires
-async fn state_store_tests(
-    state_store_client: state_store::Client<SessionManagedClient>,
-    exit_handle: SessionExitHandle,
-) {
-    let timeout = Duration::from_secs(10);
-    let value1 = b"value1";
-    let value2 = b"value2";
-    let value3 = b"value3";
-    let value4 = b"value4";
 
-    // ~~~~~~~~ Key 1 ~~~~~~~~
-    // Test basic set and delete without fencing tokens or expiry
-    let key1 = b"key1";
+const VALUE1: &[u8] = b"value1";
+const VALUE2: &[u8] = b"value2";
+const VALUE3: &[u8] = b"value3";
+const VALUE4: &[u8] = b"value4";
+const TIMEOUT: Duration = Duration::from_secs(10);
 
-    // Delete key1 in case it was left over from a previous run
-    let delete_cleanup_response = state_store_client
-        .del(key1.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    log::info!("Delete key1: {:?}", delete_cleanup_response);
-
-    // Tests 1 (valid new key/value with default setOptions), 6 (without fencing token where fencing_token not required)
-    let set_new_key_value = state_store_client
-        .set(
-            key1.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions::default(),
-        )
-        .await
-        .unwrap();
-    assert!(set_new_key_value.response);
-    log::info!("set_new_key_value response: {:?}", set_new_key_value);
-
-    // Tests 2 (valid existing key/value with default setOptions)
-    let set_existing_key_value = state_store_client
-        .set(
-            key1.to_vec(),
-            value2.to_vec(),
-            timeout,
-            None,
-            SetOptions::default(),
-        )
-        .await
-        .unwrap();
-    assert!(set_existing_key_value.response);
-    log::info!(
-        "set_existing_key_value response: {:?}",
-        set_existing_key_value
-    );
-
-    // Tests 15 (where key exists), 19 (without fencing token where fencing_token not required)
-    let delete_response = state_store_client
-        .del(key1.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(delete_response.response, 1);
-    log::info!("Delete response: {:?}", delete_response);
-
-    // ~~~~~~~~ Key 2 ~~~~~~~~
-    // Tests where fencing token is required
-    let key2 = b"key2";
-    let mut key2_fencing_token = HybridLogicalClock::default();
-
-    // Tests 5 (with fencing token where fencing_token not required), 7 (with SetOption.expires set)
-    let set_fencing_token = state_store_client
-        .set(
-            key2.to_vec(),
-            value3.to_vec(),
-            timeout,
-            Some(key2_fencing_token),
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_fencing_token.response);
-    log::info!("set_fencing_token response: {:?}", set_fencing_token);
-    key2_fencing_token = set_fencing_token.version.unwrap();
-
-    // Tests 3 (with fencing token where fencing_token required)
-    let set_fencing_token_required = state_store_client
-        .set(
-            key2.to_vec(),
-            value4.to_vec(),
-            timeout,
-            Some(key2_fencing_token),
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_fencing_token_required.response);
-    log::info!(
-        "set_fencing_token_required response: {:?}",
-        set_fencing_token_required
-    );
-    // save new version of fencing token
-    key2_fencing_token = set_fencing_token_required.version.unwrap();
-
-    // Tests 4 (without fencing token where fencing_token required (expect error))
-    let set_missing_fencing_token = state_store_client
-        .set(
-            key2.to_vec(),
-            b"value5".to_vec(),
-            timeout,
-            None,
-            SetOptions::default(),
-        )
-        .await
-        .expect_err("Expected error");
-    log::info!(
-        "set_missing_fencing_token response: {:?}",
-        set_missing_fencing_token
-    );
-
-    // Tests 13 (where key exists), and also validates that `get` doesn't need fencing token
-    let get_response = state_store_client
-        .get(key2.to_vec(), timeout)
-        .await
-        .unwrap();
-    log::info!("Get response: {:?}", get_response);
-    if let Some(value) = get_response.response {
-        assert_eq!(value, value4.to_vec());
+fn setup_test(
+    client_id: &str,
+) -> Result<
+    (
+        Session,
+        state_store::Client<SessionManagedClient>,
+        SessionExitHandle,
+    ),
+    (),
+> {
+    let _ = Builder::new()
+        .filter_level(log::LevelFilter::max())
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations", log::LevelFilter::Warn)
+        .try_init();
+    if env::var("ENABLE_NETWORK_TESTS").is_err() {
+        log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
+        return Err(());
     }
 
-    // Tests 18 (without fencing token where fencing_token required (expect error))
-    let delete_missing_fencing_token_response = state_store_client
-        .del(key2.to_vec(), None, timeout)
-        .await
-        .expect_err("Expected error");
-    log::info!(
-        "delete_missing_fencing_token_response: {:?}",
-        delete_missing_fencing_token_response
-    );
-
-    // Tests 24 (without fencing token where fencing_token required (expect error))
-    let v_delete_missing_fencing_token_response = state_store_client
-        .vdel(key2.to_vec(), value4.to_vec(), None, timeout)
-        .await
-        .expect_err("Expected error");
-    log::info!(
-        "v_delete_missing_fencing_token_response: {:?}",
-        v_delete_missing_fencing_token_response
-    );
-
-    // Tests 15 (where key exists), 17 (with fencing token where fencing_token required)
-    let delete_with_fencing_token_response = state_store_client
-        .del(key2.to_vec(), Some(key2_fencing_token), timeout)
-        .await
+    let connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(client_id)
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .use_tls(false)
+        .build()
         .unwrap();
-    assert_eq!(delete_with_fencing_token_response.response, 1);
-    log::info!(
-        "delete_with_fencing_token_response: {:?}",
-        delete_with_fencing_token_response
-    );
 
-    // ~~~~~~~~ never key ~~~~~~~~
-    // Tests scenarios where the key isn't found
-    let never_key = b"never_key";
-    // Tests 14 (where key does not exist (expect success that indicates the key wasn't found))
-    let get_no_key_response = state_store_client
-        .get(never_key.to_vec(), timeout)
-        .await
+    let session_options = SessionOptionsBuilder::default()
+        .connection_settings(connection_settings)
+        .build()
         .unwrap();
-    assert!(get_no_key_response.response.is_none());
-    log::info!("get_no_key_response: {:?}", get_no_key_response);
 
-    // Tests 16 (where key does not exist (expect success that indicates 0 keys were deleted))
-    let delete_no_key_response = state_store_client
-        .del(never_key.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(delete_no_key_response.response, 0);
-    log::info!("delete_no_key_response: {:?}", delete_no_key_response);
+    let session = Session::new(session_options).unwrap();
+    let state_store_client = state_store::Client::new(
+        session.create_managed_client(),
+        state_store::ClientOptionsBuilder::default()
+            .build()
+            .unwrap(),
+    )
+    .unwrap();
+    let exit_handle: SessionExitHandle = session.create_exit_handle();
+    Ok((session, state_store_client, exit_handle))
+}
 
-    // Tests 21 (where key does not exist (expect success that indicates 0 keys were deleted))
-    let v_delete_no_key_response = state_store_client
-        .vdel(never_key.to_vec(), b"never_value".to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(v_delete_no_key_response.response, 0);
-    log::info!("v_delete_no_key_response: {:?}", v_delete_no_key_response);
+#[tokio::test]
+async fn state_store_basic_set_delete_network_tests() {
+    let log_identifier = "basic_set_delete";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_basic_set_delete_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
 
-    // ~~~~~~~~ Key 3 ~~~~~~~~
-    // Tests sets with various SetConditions
-    let key3 = b"key3";
-
-    // Tests 8 (with setCondition OnlyIfDoesNotExist and key doesn't exist)
-    let set_if_not_exist = state_store_client
-        .set(
-            key3.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                set_condition: SetCondition::OnlyIfDoesNotExist,
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_if_not_exist.response);
-    log::info!("set_if_not_exist response: {:?}", set_if_not_exist);
-
-    // Tests 9 (with setCondition OnlyIfDoesNotExist and key exists (expect success that indicates the key wasn't set))
-    let set_if_not_exist_fail = state_store_client
-        .set(
-            key3.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                set_condition: SetCondition::OnlyIfDoesNotExist,
-            },
-        )
-        .await
-        .unwrap();
-    assert!(!set_if_not_exist_fail.response);
-    log::info!(
-        "set_if_not_exist_fail response: {:?}",
-        set_if_not_exist_fail
-    );
-
-    // Tests 10 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and is equal)
-    let set_if_equal_or_not_exist_equal = state_store_client
-        .set(
-            key3.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_if_equal_or_not_exist_equal.response);
-    log::info!(
-        "set_if_equal_or_not_exist_equal response: {:?}",
-        set_if_equal_or_not_exist_equal
-    );
-
-    // Tests 11 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and isn't equal (expect success that indicates the key wasn't set))
-    let set_if_equal_or_not_exist_fail = state_store_client
-        .set(
-            key3.to_vec(),
-            value2.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-            },
-        )
-        .await
-        .unwrap();
-    assert!(!set_if_equal_or_not_exist_fail.response);
-    log::info!(
-        "set_if_equal_or_not_exist_fail response: {:?}",
-        set_if_equal_or_not_exist_fail
-    );
-
-    // Tests 25 (without fencing token where fencing_token not required)
-    let v_delete_response_no_fencing_token = state_store_client
-        .vdel(key3.to_vec(), value1.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(v_delete_response_no_fencing_token.response, 1);
-    log::info!(
-        "v_delete_response_no_fencing_token response: {:?}",
-        v_delete_response_no_fencing_token
-    );
-
-    // ~~~~~~~~ Key 4 ~~~~~~~~
-    // Tests some other SetConditions
-    let key4 = b"key4";
-    let mut key4_fencing_token = HybridLogicalClock::default();
-
-    // Tests 12 (with setCondition OnlyIfEqualOrDoesNotExist and key doesn't exist)
-    let set_if_equal_or_not_exist_does_not_exist = state_store_client
-        .set(
-            key4.to_vec(),
-            value1.to_vec(),
-            timeout,
-            Some(key4_fencing_token),
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_if_equal_or_not_exist_does_not_exist.response);
-    log::info!(
-        "set_if_equal_or_not_exist_does_not_exist response: {:?}",
-        set_if_equal_or_not_exist_does_not_exist
-    );
-    key4_fencing_token = set_if_equal_or_not_exist_does_not_exist.version.unwrap();
-
-    // Tests 22 (where key exists and value doesn't match (expect success that indicates -1 keys were deleted))
-    let v_delete_value_mismatch = state_store_client
-        .vdel(
-            key4.to_vec(),
-            value2.to_vec(),
-            Some(key4_fencing_token.clone()),
-            timeout,
-        )
-        .await
-        .unwrap();
-    assert_eq!(v_delete_value_mismatch.response, -1);
-    log::info!(
-        "v_delete_value_mismatch response: {:?}",
-        v_delete_value_mismatch
-    );
-
-    // Tests 26 (without fencing token where fencing_token required (expect error))
-    let v_delete_response_missing_fencing_token = state_store_client
-        .vdel(key4.to_vec(), value1.to_vec(), None, timeout)
-        .await
-        .expect_err("Expected error");
-    log::info!(
-        "v_delete_response_missing_fencing_token response: {:?}",
-        v_delete_response_missing_fencing_token
-    );
-
-    // Tests 20 (where key exists and value matches), 23 (with fencing token where fencing_token required)
-    let v_delete_response = state_store_client
-        .vdel(
-            key4.to_vec(),
-            value1.to_vec(),
-            Some(key4_fencing_token),
-            timeout,
-        )
-        .await
-        .unwrap();
-    assert_eq!(v_delete_response.response, 1);
-    log::info!("VDelete response: {:?}", v_delete_response);
-
-    // ~~~~~~~~ Key 5 ~~~~~~~~
-    // Tests basic recv set notification, as well as basic observe (where key doesn't exist) and unobserve
-    let key5 = b"key5";
-
-    // Tests 27 (where key does not exist (success))
-    let mut observe_no_key = state_store_client
-        .observe(key5.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!("observe_no_key response: {:?}", observe_no_key);
-    // TODO: asserts inside a spawned task don't fail the test
-    tokio::task::spawn({
+    let test_task = tokio::task::spawn({
         async move {
-            let mut count = 0;
-            // Tests 32 (1 set(v1) notification received after observe and then key is set(V1))
-            while let Some((notification, _)) = observe_no_key.response.recv_notification().await {
-                count += 1;
-                log::info!("Notification: {:?}", notification);
-                // assert_eq!(notification.key, key5);
-                assert_eq!(
-                    notification.operation,
-                    state_store::Operation::Set(value1.to_vec())
-                );
+            // ~~~~~~~~ Key 1 ~~~~~~~~
+            // Test basic set and delete without fencing tokens or expiry
+            let key1 = b"key1";
+
+            // Delete key1 in case it was left over from a previous run
+            let delete_cleanup_response = state_store_client
+                .del(key1.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] Delete key1: {:?}",
+                delete_cleanup_response
+            );
+
+            // Tests 1 (valid new key/value with default setOptions), 6 (without fencing token where fencing_token not required)
+            let set_new_key_value = state_store_client
+                .set(
+                    key1.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions::default(),
+                )
+                .await
+                .unwrap();
+            assert!(set_new_key_value.response);
+            log::info!(
+                "[{log_identifier}] set_new_key_value response: {:?}",
+                set_new_key_value
+            );
+
+            // Tests 2 (valid existing key/value with default setOptions)
+            let set_existing_key_value = state_store_client
+                .set(
+                    key1.to_vec(),
+                    VALUE2.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions::default(),
+                )
+                .await
+                .unwrap();
+            assert!(set_existing_key_value.response);
+            log::info!(
+                "[{log_identifier}] set_existing_key_value response: {:?}",
+                set_existing_key_value
+            );
+
+            // Tests 15 (where key exists), 19 (without fencing token where fencing_token not required)
+            let delete_response = state_store_client
+                .del(key1.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(delete_response.response, 1);
+            log::info!("[{log_identifier}] Delete response: {:?}", delete_response);
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
             }
-            // only one set notification should occur
-            assert_eq!(count, 1);
-            log::info!("Notification receiver closed");
         }
     });
-    let set_for_notification = state_store_client
-        .set(
-            key5.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_for_notification.response);
-    log::info!("set_for_notification response: {:?}", set_for_notification);
 
-    // Tests 30 (where key is being observed)
-    let unobserve_where_observed = state_store_client
-        .unobserve(key5.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(unobserve_where_observed.response);
-    log::info!(
-        "unobserve_where_observed response: {:?}",
-        unobserve_where_observed
-    );
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
 
-    // ~~~~~~~~ Key 6 ~~~~~~~~
-    // basic recv del notification, as well as basic observe (where key does exist) and unobserve
-    let key6 = b"key6";
+#[tokio::test]
+async fn state_store_fencing_token_network_tests() {
+    let log_identifier = "fencing_token";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_fencing_token_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
 
-    let set_for_key6_notification = state_store_client
-        .set(
-            key6.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_for_key6_notification.response);
-    log::info!(
-        "set_for_key6_notification response: {:?}",
-        set_for_key6_notification
-    );
-
-    // Tests 26 (where key exists)
-    let mut observe_key = state_store_client
-        .observe(key6.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!("observe_key response: {:?}", observe_key);
-    // TODO: asserts inside a spawned task don't fail the test
-    tokio::task::spawn({
+    let test_task = tokio::task::spawn({
         async move {
-            let mut count = 0;
-            // Tests 33 (1 del notification received after observe and then key is del)
-            while let Some((notification, _)) = observe_key.response.recv_notification().await {
-                count += 1;
-                log::info!("Notification: {:?}", notification);
-                // assert_eq!(notification.key, key6);
-                assert_eq!(notification.operation, state_store::Operation::Del);
+            // ~~~~~~~~ Key 2 ~~~~~~~~
+            // Tests where fencing token is required
+            let key2 = b"key2";
+            let mut key2_fencing_token = HybridLogicalClock::default();
+
+            // Tests 5 (with fencing token where fencing_token not required), 7 (with SetOption.expires set)
+            let set_fencing_token = state_store_client
+                .set(
+                    key2.to_vec(),
+                    VALUE3.to_vec(),
+                    TIMEOUT,
+                    Some(key2_fencing_token),
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_fencing_token.response);
+            log::info!(
+                "[{log_identifier}] set_fencing_token response: {:?}",
+                set_fencing_token
+            );
+            key2_fencing_token = set_fencing_token.version.unwrap();
+
+            // Tests 3 (with fencing token where fencing_token required)
+            let set_fencing_token_required = state_store_client
+                .set(
+                    key2.to_vec(),
+                    VALUE4.to_vec(),
+                    TIMEOUT,
+                    Some(key2_fencing_token),
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_fencing_token_required.response);
+            log::info!(
+                "[{log_identifier}] set_fencing_token_required response: {:?}",
+                set_fencing_token_required
+            );
+            // save new version of fencing token
+            key2_fencing_token = set_fencing_token_required.version.unwrap();
+
+            // Tests 4 (without fencing token where fencing_token required (expect error))
+            let set_missing_fencing_token = state_store_client
+                .set(
+                    key2.to_vec(),
+                    b"value5".to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions::default(),
+                )
+                .await
+                .expect_err("Expected error");
+            log::info!(
+                "[{log_identifier}] set_missing_fencing_token response: {:?}",
+                set_missing_fencing_token
+            );
+
+            // Tests 13 (where key exists), and also validates that `get` doesn't need fencing token
+            let get_response = state_store_client
+                .get(key2.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get response: {:?}", get_response);
+            if let Some(value) = get_response.response {
+                assert_eq!(value, VALUE4.to_vec());
             }
-            // only one del notification should occur
-            assert_eq!(count, 1);
-            log::info!("Notification receiver closed");
+
+            // Tests 18 (without fencing token where fencing_token required (expect error))
+            let delete_missing_fencing_token_response = state_store_client
+                .del(key2.to_vec(), None, TIMEOUT)
+                .await
+                .expect_err("Expected error");
+            log::info!(
+                "[{log_identifier}] delete_missing_fencing_token_response: {:?}",
+                delete_missing_fencing_token_response
+            );
+
+            // Tests 24 (without fencing token where fencing_token required (expect error))
+            let v_delete_missing_fencing_token_response = state_store_client
+                .vdel(key2.to_vec(), VALUE4.to_vec(), None, TIMEOUT)
+                .await
+                .expect_err("Expected error");
+            log::info!(
+                "[{log_identifier}] v_delete_missing_fencing_token_response: {:?}",
+                v_delete_missing_fencing_token_response
+            );
+
+            // Tests 15 (where key exists), 17 (with fencing token where fencing_token required)
+            let delete_with_fencing_token_response = state_store_client
+                .del(key2.to_vec(), Some(key2_fencing_token), TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(delete_with_fencing_token_response.response, 1);
+            log::info!(
+                "[{log_identifier}] delete_with_fencing_token_response: {:?}",
+                delete_with_fencing_token_response
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
         }
     });
-    let del_for_notification = state_store_client
-        .del(key6.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(del_for_notification.response, 1);
-    log::info!("del_for_notification response: {:?}", del_for_notification);
 
-    // Tests 30 (where key is being observed)
-    let unobserve_key6 = state_store_client
-        .unobserve(key6.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(unobserve_key6.response);
-    log::info!("unobserve_key6 response: {:?}", unobserve_key6);
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
 
-    // ~~~~~~~~ Key 7 ~~~~~~~~
-    // testing observe and unobserve scenarios around being or not being observed and still having or not having references to being observed
-    let key7 = b"key7";
+#[tokio::test]
+async fn state_store_key_not_found_network_tests() {
+    let log_identifier = "key_not_found";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_key_not_found_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
 
-    // Tests 31 (where key was not being observed (expect success that indicates the key wasn't being observed))
-    let unobserve_no_observe = state_store_client
-        .unobserve(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(!unobserve_no_observe.response);
-    log::info!("unobserve_no_observe response: {:?}", unobserve_no_observe);
-
-    // Tests 27 (where key does not exist (success))
-    let observe_key7 = state_store_client
-        .observe(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!("observe_key7 response: {:?}", observe_key7);
-
-    // Tests 28 (where key is already being observed (error returned))
-    let double_observe_key7 = state_store_client
-        .observe(key7.to_vec(), timeout)
-        .await
-        .expect_err("Expected error");
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!("double_observe_key7 response: {:?}", double_observe_key7);
-
-    // drop KeyObservation
-    drop(observe_key7.response);
-
-    // Tests 29 (where key is already being observed, but the KeyObservation has been dropped (successful))
-    let observe_key7_after_drop = state_store_client
-        .observe(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!(
-        "observe_key7_after_drop response: {:?}",
-        observe_key7_after_drop
-    );
-
-    let unobserve_key7 = state_store_client
-        .unobserve(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(unobserve_key7.response);
-    log::info!("unobserve_key7 response: {:?}", unobserve_key7);
-
-    // Tests 37 (where key was observed, unobserved, and then observed again (successful))
-    let observe_key7_after_unobserve = state_store_client
-        .observe(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!(
-        "observe_key7_after_unobserve response: {:?}",
-        observe_key7_after_unobserve
-    );
-
-    // clean up
-    let unobserve_key7_cleanup = state_store_client
-        .unobserve(key7.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(unobserve_key7_cleanup.response);
-    log::info!(
-        "unobserve_key7_cleanup response: {:?}",
-        unobserve_key7_cleanup
-    );
-
-    // ~~~~~~~~ Key 8 ~~~~~~~~
-    // complicated recv scenario checking for the right number of notifications
-    let key8 = b"key8";
-
-    let set_for_key8_notification = state_store_client
-        .set(
-            key8.to_vec(),
-            value1.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_for_key8_notification.response);
-    log::info!(
-        "set_for_key8_notification response: {:?}",
-        set_for_key8_notification
-    );
-
-    let del_for_key8_notification = state_store_client
-        .del(key8.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(del_for_key8_notification.response, 1);
-    log::info!(
-        "del_for_key8_notification response: {:?}",
-        del_for_key8_notification
-    );
-
-    let mut observe_key8 = state_store_client
-        .observe(key8.to_vec(), timeout)
-        .await
-        .unwrap();
-    // assert_eq!(v_delete_response.response, 1);
-    log::info!("observe_key8 response: {:?}", observe_key8);
-    // TODO: asserts inside a spawned task don't fail the test
-    tokio::task::spawn({
+    let test_task = tokio::task::spawn({
         async move {
-            let mut count = 0;
-            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
-                count += 1;
-                log::info!("Notification: {:?}", notification);
-                // assert_eq!(notification.key, key8);
-                assert_eq!(
-                    notification.operation,
-                    state_store::Operation::Set(value2.to_vec())
-                );
+            // ~~~~~~~~ never key ~~~~~~~~
+            // Tests scenarios where the key isn't found
+            let never_key = b"never_key";
+            // Tests 14 (where key does not exist (expect success that indicates the key wasn't found))
+            let get_no_key_response = state_store_client
+                .get(never_key.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(get_no_key_response.response.is_none());
+            log::info!(
+                "[{log_identifier}] get_no_key_response: {:?}",
+                get_no_key_response
+            );
+
+            // Tests 16 (where key does not exist (expect success that indicates 0 keys were deleted))
+            let delete_no_key_response = state_store_client
+                .del(never_key.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(delete_no_key_response.response, 0);
+            log::info!(
+                "[{log_identifier}] delete_no_key_response: {:?}",
+                delete_no_key_response
+            );
+
+            // Tests 21 (where key does not exist (expect success that indicates 0 keys were deleted))
+            let v_delete_no_key_response = state_store_client
+                .vdel(never_key.to_vec(), b"never_value".to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(v_delete_no_key_response.response, 0);
+            log::info!(
+                "[{log_identifier}] v_delete_no_key_response: {:?}",
+                v_delete_no_key_response
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
             }
-            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
-                count += 1;
-                log::info!("Notification: {:?}", notification);
-                // assert_eq!(notification.key, key8);
-                assert_eq!(notification.operation, state_store::Operation::Del);
-            }
-            if let Some((notification, _)) = observe_key8.response.recv_notification().await {
-                count += 1;
-                log::info!("Notification: {:?}", notification);
-                // assert_eq!(notification.key, key8);
-                assert_eq!(
-                    notification.operation,
-                    state_store::Operation::Set(value3.to_vec())
-                );
-            }
-            while let Some((notification, _)) = observe_key8.response.recv_notification().await {
-                count += 1;
-                log::error!("Unexpected: {:?}", notification);
-                // assert_eq!(notification.key, key8);
-            }
-            // only the 3 expected notifications should occur
-            assert_eq!(count, 3);
-            log::info!("Notification receiver closed");
         }
     });
-    let set_key8_value2 = state_store_client
-        .set(
-            key8.to_vec(),
-            value2.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_key8_value2.response);
-    log::info!("set_key8_value2 response: {:?}", set_key8_value2);
 
-    let del_key8 = state_store_client
-        .del(key8.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(del_key8.response, 1);
-    log::info!("del_key8 response: {:?}", del_key8);
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
 
-    let set_key8_value3 = state_store_client
-        .set(
-            key8.to_vec(),
-            value3.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_key8_value3.response);
-    log::info!("set_key8_value3 response: {:?}", set_key8_value3);
+#[tokio::test]
+async fn state_store_set_conditions_network_tests() {
+    let log_identifier = "set_conditions";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_set_conditions_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
 
-    // Tests 30 (where key is being observed)
-    let unobserve_key8 = state_store_client
-        .unobserve(key8.to_vec(), timeout)
-        .await
-        .unwrap();
-    assert!(unobserve_key8.response);
-    log::info!("unobserve_key8 response: {:?}", unobserve_key8);
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 3 ~~~~~~~~
+            // Tests sets with various SetConditions
+            let key3 = b"key3";
 
-    let set_key8_no_notification = state_store_client
-        .set(
-            key8.to_vec(),
-            value4.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(10)),
-                ..Default::default()
-            },
-        )
-        .await
-        .unwrap();
-    assert!(set_key8_no_notification.response);
-    log::info!(
-        "set_key8_no_notification response: {:?}",
-        set_key8_no_notification
-    );
+            // Tests 8 (with setCondition OnlyIfDoesNotExist and key doesn't exist)
+            let set_if_not_exist = state_store_client
+                .set(
+                    key3.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        set_condition: SetCondition::OnlyIfDoesNotExist,
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_if_not_exist.response);
+            log::info!(
+                "[{log_identifier}] set_if_not_exist response: {:?}",
+                set_if_not_exist
+            );
 
-    let del_key8_no_notification = state_store_client
-        .del(key8.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    assert_eq!(del_key8_no_notification.response, 1);
-    log::info!(
-        "del_key8_no_notification response: {:?}",
-        del_key8_no_notification
-    );
+            // Tests 9 (with setCondition OnlyIfDoesNotExist and key exists (expect success that indicates the key wasn't set))
+            let set_if_not_exist_fail = state_store_client
+                .set(
+                    key3.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        set_condition: SetCondition::OnlyIfDoesNotExist,
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(!set_if_not_exist_fail.response);
+            log::info!(
+                "[{log_identifier}] set_if_not_exist_fail response: {:?}",
+                set_if_not_exist_fail
+            );
 
-    exit_handle.try_exit().await.unwrap();
+            // Tests 10 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and is equal)
+            let set_if_equal_or_not_exist_equal = state_store_client
+                .set(
+                    key3.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_if_equal_or_not_exist_equal.response);
+            log::info!(
+                "[{log_identifier}] set_if_equal_or_not_exist_equal response: {:?}",
+                set_if_equal_or_not_exist_equal
+            );
+
+            // Tests 11 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and isn't equal (expect success that indicates the key wasn't set))
+            let set_if_equal_or_not_exist_fail = state_store_client
+                .set(
+                    key3.to_vec(),
+                    VALUE2.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(!set_if_equal_or_not_exist_fail.response);
+            log::info!(
+                "[{log_identifier}] set_if_equal_or_not_exist_fail response: {:?}",
+                set_if_equal_or_not_exist_fail
+            );
+
+            // Tests 25 (without fencing token where fencing_token not required)
+            let v_delete_response_no_fencing_token = state_store_client
+                .vdel(key3.to_vec(), VALUE1.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(v_delete_response_no_fencing_token.response, 1);
+            log::info!(
+                "[{log_identifier}] v_delete_response_no_fencing_token response: {:?}",
+                v_delete_response_no_fencing_token
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn state_store_key_set_conditions_2_network_tests() {
+    let log_identifier = "set_conditions_2";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_set_conditions_2_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 4 ~~~~~~~~
+            // Tests some other SetConditions
+            let key4 = b"key4";
+            let mut key4_fencing_token = HybridLogicalClock::default();
+
+            // Tests 12 (with setCondition OnlyIfEqualOrDoesNotExist and key doesn't exist)
+            let set_if_equal_or_not_exist_does_not_exist = state_store_client
+                .set(
+                    key4.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    Some(key4_fencing_token),
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_if_equal_or_not_exist_does_not_exist.response);
+            log::info!(
+                "[{log_identifier}] set_if_equal_or_not_exist_does_not_exist response: {:?}",
+                set_if_equal_or_not_exist_does_not_exist
+            );
+            key4_fencing_token = set_if_equal_or_not_exist_does_not_exist.version.unwrap();
+
+            // Tests 22 (where key exists and value doesn't match (expect success that indicates -1 keys were deleted))
+            let v_delete_value_mismatch = state_store_client
+                .vdel(
+                    key4.to_vec(),
+                    VALUE2.to_vec(),
+                    Some(key4_fencing_token.clone()),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            assert_eq!(v_delete_value_mismatch.response, -1);
+            log::info!(
+                "[{log_identifier}] v_delete_value_mismatch response: {:?}",
+                v_delete_value_mismatch
+            );
+
+            // Tests 26 (without fencing token where fencing_token required (expect error))
+            let v_delete_response_missing_fencing_token = state_store_client
+                .vdel(key4.to_vec(), VALUE1.to_vec(), None, TIMEOUT)
+                .await
+                .expect_err("Expected error");
+            log::info!(
+                "[{log_identifier}] v_delete_response_missing_fencing_token response: {:?}",
+                v_delete_response_missing_fencing_token
+            );
+
+            // Tests 20 (where key exists and value matches), 23 (with fencing token where fencing_token required)
+            let v_delete_response = state_store_client
+                .vdel(
+                    key4.to_vec(),
+                    VALUE1.to_vec(),
+                    Some(key4_fencing_token),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            assert_eq!(v_delete_response.response, 1);
+            log::info!(
+                "[{log_identifier}] VDelete response: {:?}",
+                v_delete_response
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn state_store_set_key_notifications_network_tests() {
+    let log_identifier = "set_key_notifications";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_set_key_notifications_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 5 ~~~~~~~~
+            // Tests basic recv set notification, as well as basic observe (where key doesn't exist) and unobserve
+            let key5 = b"key5";
+
+            // Tests 27 (where key does not exist (success))
+            let mut observe_no_key = state_store_client
+                .observe(key5.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] observe_no_key response: {:?}",
+                observe_no_key
+            );
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    let mut count = 0;
+                    // Tests 32 (1 set(v1) notification received after observe and then key is set(V1))
+                    while let Some((notification, _)) =
+                        observe_no_key.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        assert_eq!(notification.key, key5);
+                        assert_eq!(
+                            notification.operation,
+                            state_store::Operation::Set(VALUE1.to_vec())
+                        );
+                        // if something weird happens, this should prevent an infinite loop.
+                        // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
+                        assert!(count < 2);
+                    }
+                    // only one set notification should occur
+                    assert_eq!(count, 1);
+                    log::info!("[{log_identifier}] Notification receiver closed");
+                }
+            });
+            let set_for_notification = state_store_client
+                .set(
+                    key5.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_for_notification.response);
+            log::info!(
+                "[{log_identifier}] set_for_notification response: {:?}",
+                set_for_notification
+            );
+
+            // Tests 30 (where key is being observed)
+            let unobserve_where_observed = state_store_client
+                .unobserve(key5.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(unobserve_where_observed.response);
+            log::info!(
+                "[{log_identifier}] unobserve_where_observed response: {:?}",
+                unobserve_where_observed
+            );
+
+            // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
+            assert!(receive_notifications_task.await.is_ok());
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn state_store_del_key_notifications_network_tests() {
+    let log_identifier = "del_key_notifications";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_del_key_notifications_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 6 ~~~~~~~~
+            // basic recv del notification, as well as basic observe (where key does exist) and unobserve
+            let key6 = b"key6";
+            let set_for_key6_notification = state_store_client
+                .set(
+                    key6.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_for_key6_notification.response);
+            log::info!(
+                "[{log_identifier}] set_for_key6_notification response: {:?}",
+                set_for_key6_notification
+            );
+
+            // Tests 26 (where key exists)
+            let mut observe_key = state_store_client
+                .observe(key6.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] observe_key response: {:?}", observe_key);
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    let mut count = 0;
+                    // Tests 33 (1 del notification received after observe and then key is del)
+                    while let Some((notification, _)) =
+                        observe_key.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        assert_eq!(notification.key, key6);
+                        assert_eq!(notification.operation, state_store::Operation::Del);
+                        // if something weird happens, this should prevent an infinite loop.
+                        // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
+                        assert!(count < 2);
+                    }
+                    // only one del notification should occur
+                    assert_eq!(count, 1);
+                    log::info!("[{log_identifier}] Notification receiver closed");
+                }
+            });
+            let del_for_notification = state_store_client
+                .del(key6.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(del_for_notification.response, 1);
+            log::info!(
+                "[{log_identifier}] del_for_notification response: {:?}",
+                del_for_notification
+            );
+
+            // Tests 30 (where key is being observed)
+            let unobserve_key6 = state_store_client
+                .unobserve(key6.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(unobserve_key6.response);
+            log::info!(
+                "[{log_identifier}] unobserve_key6 response: {:?}",
+                unobserve_key6
+            );
+
+            // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
+            assert!(receive_notifications_task.await.is_ok());
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn state_store_observe_unobserve_network_tests() {
+    let log_identifier = "observe_unobserve";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_observe_unobserve_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 7 ~~~~~~~~
+            // testing observe and unobserve scenarios around being or not being observed and still having or not having references to being observed
+            let key7 = b"key7";
+
+            // Tests 31 (where key was not being observed (expect success that indicates the key wasn't being observed))
+            let unobserve_no_observe = state_store_client
+                .unobserve(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(!unobserve_no_observe.response);
+            log::info!(
+                "[{log_identifier}] unobserve_no_observe response: {:?}",
+                unobserve_no_observe
+            );
+
+            // Tests 27 (where key does not exist (success))
+            let observe_key7 = state_store_client
+                .observe(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] observe_key7 response: {:?}",
+                observe_key7
+            );
+
+            // Tests 28 (where key is already being observed (error returned))
+            let double_observe_key7 = state_store_client
+                .observe(key7.to_vec(), TIMEOUT)
+                .await
+                .expect_err("Expected error");
+            log::info!(
+                "[{log_identifier}] double_observe_key7 response: {:?}",
+                double_observe_key7
+            );
+
+            // drop KeyObservation
+            drop(observe_key7.response);
+
+            // Tests 29 (where key is already being observed, but the KeyObservation has been dropped (successful))
+            let observe_key7_after_drop = state_store_client
+                .observe(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] observe_key7_after_drop response: {:?}",
+                observe_key7_after_drop
+            );
+
+            let unobserve_key7 = state_store_client
+                .unobserve(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(unobserve_key7.response);
+            log::info!(
+                "[{log_identifier}] unobserve_key7 response: {:?}",
+                unobserve_key7
+            );
+
+            // Tests 37 (where key was observed, unobserved, and then observed again (successful))
+            let observe_key7_after_unobserve = state_store_client
+                .observe(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] observe_key7_after_unobserve response: {:?}",
+                observe_key7_after_unobserve
+            );
+
+            // clean up
+            let unobserve_key7_cleanup = state_store_client
+                .unobserve(key7.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(unobserve_key7_cleanup.response);
+            log::info!(
+                "[{log_identifier}] unobserve_key7_cleanup response: {:?}",
+                unobserve_key7_cleanup
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn state_store_complicated_recv_key_notifications_network_tests() {
+    let log_identifier = "complicated_recv_key_notifications";
+    let Ok((mut session, state_store_client, exit_handle)) =
+        setup_test("state_store_complicated_recv_key_notifications_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // ~~~~~~~~ Key 8 ~~~~~~~~
+            // complicated recv scenario checking for the right number of notifications
+            let key8 = b"key8";
+
+            let set_for_key8_notification = state_store_client
+                .set(
+                    key8.to_vec(),
+                    VALUE1.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_for_key8_notification.response);
+            log::info!(
+                "[{log_identifier}] set_for_key8_notification response: {:?}",
+                set_for_key8_notification
+            );
+
+            let del_for_key8_notification = state_store_client
+                .del(key8.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(del_for_key8_notification.response, 1);
+            log::info!(
+                "[{log_identifier}] del_for_key8_notification response: {:?}",
+                del_for_key8_notification
+            );
+
+            let mut observe_key8 = state_store_client
+                .observe(key8.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] observe_key8 response: {:?}",
+                observe_key8
+            );
+            // TODO: asserts inside a spawned task don't fail the test
+            tokio::task::spawn({
+                async move {
+                    let mut count = 0;
+                    if let Some((notification, _)) = observe_key8.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        assert_eq!(notification.key, key8);
+                        assert_eq!(
+                            notification.operation,
+                            state_store::Operation::Set(VALUE2.to_vec())
+                        );
+                    }
+                    if let Some((notification, _)) = observe_key8.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        assert_eq!(notification.key, key8);
+                        assert_eq!(notification.operation, state_store::Operation::Del);
+                    }
+                    if let Some((notification, _)) = observe_key8.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        assert_eq!(notification.key, key8);
+                        assert_eq!(
+                            notification.operation,
+                            state_store::Operation::Set(VALUE3.to_vec())
+                        );
+                    }
+                    while let Some((notification, _)) =
+                        observe_key8.response.recv_notification().await
+                    {
+                        count += 1;
+                        log::error!("[{log_identifier}] Unexpected: {:?}", notification);
+                        // TODO: assert fail here or let it go on to see how many it gets? Whatever decision is here, update elsewhere
+                    }
+                    // only the 3 expected notifications should occur
+                    assert_eq!(count, 3);
+                    log::info!("[{log_identifier}] Notification receiver closed");
+                }
+            });
+            let set_key8_value2 = state_store_client
+                .set(
+                    key8.to_vec(),
+                    VALUE2.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_key8_value2.response);
+            log::info!(
+                "[{log_identifier}] set_key8_value2 response: {:?}",
+                set_key8_value2
+            );
+
+            let del_key8 = state_store_client
+                .del(key8.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(del_key8.response, 1);
+            log::info!("[{log_identifier}] del_key8 response: {:?}", del_key8);
+
+            let set_key8_value3 = state_store_client
+                .set(
+                    key8.to_vec(),
+                    VALUE3.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_key8_value3.response);
+            log::info!(
+                "[{log_identifier}] set_key8_value3 response: {:?}",
+                set_key8_value3
+            );
+
+            // Tests 30 (where key is being observed)
+            let unobserve_key8 = state_store_client
+                .unobserve(key8.to_vec(), TIMEOUT)
+                .await
+                .unwrap();
+            assert!(unobserve_key8.response);
+            log::info!(
+                "[{log_identifier}] unobserve_key8 response: {:?}",
+                unobserve_key8
+            );
+
+            let set_key8_no_notification = state_store_client
+                .set(
+                    key8.to_vec(),
+                    VALUE4.to_vec(),
+                    TIMEOUT,
+                    None,
+                    SetOptions {
+                        expires: Some(Duration::from_secs(10)),
+                        ..Default::default()
+                    },
+                )
+                .await
+                .unwrap();
+            assert!(set_key8_no_notification.response);
+            log::info!(
+                "[{log_identifier}] set_key8_no_notification response: {:?}",
+                set_key8_no_notification
+            );
+
+            let del_key8_no_notification = state_store_client
+                .del(key8.to_vec(), None, TIMEOUT)
+                .await
+                .unwrap();
+            assert_eq!(del_key8_no_notification.response, 1);
+            log::info!(
+                "[{log_identifier}] del_key8_no_notification response: {:?}",
+                del_key8_no_notification
+            );
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
 }

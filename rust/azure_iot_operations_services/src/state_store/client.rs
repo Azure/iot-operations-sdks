@@ -383,7 +383,7 @@ where
 
     /// Starts observation of any changes on a key from the State Store Service
     ///
-    /// Returns `OK([KeyObservation])` if the key is now being observed.
+    /// Returns OK([`state_store::Response<KeyObservation>`]) if the key is now being observed.
     /// The [`KeyObservation`] can be used to receive key notifications for this key
     ///
     /// <div class="warning">
