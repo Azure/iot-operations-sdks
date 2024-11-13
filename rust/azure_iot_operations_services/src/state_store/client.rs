@@ -558,6 +558,7 @@ where
                                 let key_notification = state_store::KeyNotification {
                                     key: decoded_key_name,
                                     operation: notification.payload.clone(),
+                                    // this unwrap is safe because if it `is_none()` in the check above, we don't reach this code
                                     version: notification.timestamp.unwrap(),
                                 };
 
