@@ -72,6 +72,7 @@ impl FromStr for UserProperty {
             "__stMsg" => Ok(UserProperty::StatusMessage),
             "__apErr" => Ok(UserProperty::IsApplicationError),
             "__invId" => Ok(UserProperty::CommandInvokerId),
+            "__srcId" => Ok(UserProperty::SourceId),
             "__propName" => Ok(UserProperty::InvalidPropertyName),
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
             "__protVer" => Ok(UserProperty::ProtocolVersion),
