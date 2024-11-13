@@ -9,11 +9,13 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 use envoy::common_types::common_options::CommonOptionsBuilder;
-use envoy::dtmi_com_example_Counter__1::client::{IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker, ReadCounterRequestBuilder};
+use envoy::dtmi_com_example_Counter__1::client::{
+    IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker,
+    ReadCounterRequestBuilder,
+};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -40,7 +42,6 @@ async fn main() {
     session.run().await.unwrap();
 }
 
-
 /// Send a read request, 15 increment requests, and another read request and wait for their responses, then disconnect
 async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create invokers
@@ -58,8 +59,14 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .executor_id(target_executor_id.clone())
         .build()
         .unwrap();
-    let read_counter_response = read_counter_invoker.invoke(read_counter_request).await.unwrap();
-    log::info!("Counter value: {:?}", read_counter_response.payload.counter_response);
+    let read_counter_response = read_counter_invoker
+        .invoke(read_counter_request)
+        .await
+        .unwrap();
+    log::info!(
+        "Counter value: {:?}",
+        read_counter_response.payload.counter_response
+    );
 
     // Increment the counter 15 times on the server
     for _ in 1..15 {
@@ -70,7 +77,10 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             .build()
             .unwrap();
         let increment_response = increment_invoker.invoke(increment_request).await.unwrap();
-        log::info!("Counter value after increment:: {:?}", increment_response.payload.counter_response);
+        log::info!(
+            "Counter value after increment:: {:?}",
+            increment_response.payload.counter_response
+        );
     }
 
     // Final counter read from the server
@@ -80,8 +90,14 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         .executor_id(target_executor_id)
         .build()
         .unwrap();
-    let read_counter_response = read_counter_invoker.invoke(read_counter_request).await.unwrap();
-    log::info!("Counter value: {:?}", read_counter_response.payload.counter_response);
+    let read_counter_response = read_counter_invoker
+        .invoke(read_counter_request)
+        .await
+        .unwrap();
+    log::info!(
+        "Counter value: {:?}",
+        read_counter_response.payload.counter_response
+    );
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();

@@ -10,7 +10,10 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 use envoy::common_types::common_options::CommonOptionsBuilder;
-use envoy::dtmi_com_example_Counter__1::service::{IncrementCommandExecutor, ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload, IncrementResponseBuilder, IncrementResponsePayload};
+use envoy::dtmi_com_example_Counter__1::service::{
+    IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
+    ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
+};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -51,7 +54,6 @@ async fn main() {
     session.run().await.unwrap();
 }
 
-
 /// Run an executor that responds to requests to read the counter value.
 async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
     // Create executor
@@ -87,7 +89,7 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32
         *counter_guard += 1;
         // Respond
         let response_payload = IncrementResponsePayload {
-            counter_response: *counter_guard
+            counter_response: *counter_guard,
         };
         let response = IncrementResponseBuilder::default()
             .payload(&response_payload)
