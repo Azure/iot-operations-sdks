@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged
-aka:
-- ExecutorReconnect_CommandExpires_ShouldNotBeAcked
 description:
   condition: >-
     CommandExecutor receives a request whose expiry time elapses while the CommandExecutor is disconnected.

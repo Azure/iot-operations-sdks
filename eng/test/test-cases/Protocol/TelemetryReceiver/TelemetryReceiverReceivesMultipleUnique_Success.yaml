@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesMultipleUnique_Success
-aka:
-- ReceiveTelemetry_TwoOrMoreUniqueMessages
 description:
   condition: >-
     TelemetryReceiver receives multiple unique Telemetries.

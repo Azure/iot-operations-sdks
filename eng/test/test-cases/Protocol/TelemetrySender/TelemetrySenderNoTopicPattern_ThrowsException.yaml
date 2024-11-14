@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderNoTopicPattern_ThrowsException
-aka:
-- SendTelemetry_EmptyTopicPatternThrows
 description:
   condition: >-
     TelemetrySender initialized with a topic pattern that is empty.

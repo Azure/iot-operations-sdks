@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
-aka:
-- ReceiveTelemetry_NoPayloadWhenExpected
 description:
   condition: >-
     TelemetryReceiver receives telemetry with no payload when one was expected.
@@ -16,8 +14,10 @@ actions:
 - action: receive telemetry
   payload:
   packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 
 epilogue:
-  acknowledgement-count: 0 # is this correct behavior?
+  acknowledgement-count: 1
   telemetry-count: 0
 ...
