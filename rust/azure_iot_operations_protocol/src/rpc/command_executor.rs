@@ -17,7 +17,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{FormatIndicator, PayloadSerialize},
+        payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
@@ -617,17 +617,6 @@ where
                                 break 'process_request;
                             }
 
-                            // Get payload format indicator (underlying mqtt client should validate that format indicator is 0 or 1)
-                            if let Some(format_indicator) = properties.payload_format_indicator {
-                                if format_indicator != FormatIndicator::Utf8EncodedCharacterData as u8 && format_indicator != TReq::format_indicator() as u8 {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Format indicator {format_indicator} is not appropriate for {} content", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Payload Format Indicator".to_string());
-                                    response_arguments.invalid_property_value = Some(format_indicator.to_string());
-                                    break 'process_request;
-                                }
-                            };
-
                             // Get content type
                             if let Some(content_type) = properties.content_type {
                                 if TReq::content_type() != content_type {
@@ -1025,7 +1014,7 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{MockPayload, CONTENT_TYPE_MTX},
+        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
 
     // Payload that has an invalid content type for testing
