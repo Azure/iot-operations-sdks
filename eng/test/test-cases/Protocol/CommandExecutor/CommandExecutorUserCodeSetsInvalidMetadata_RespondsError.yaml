@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorUserCodeSetsInvalidMetadata_RespondsError
-aka:
-- ExecuteCommandThatSetsInvalidResponseMetadata_ApplicationErrorInternalServerError
 description:
   condition: >-
     CommandExecutor user code sets metadata header with reserved prefix

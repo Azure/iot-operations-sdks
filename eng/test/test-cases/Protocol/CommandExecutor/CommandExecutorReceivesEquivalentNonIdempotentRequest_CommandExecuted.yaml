@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorReceivesEquivalentNonIdempotentRequest_CommandExecuted
-aka:
-- EquivalentRequest_NonIdempotent_NotRetrievedFromCache
 description:
   condition: >-
     CommandExecutor receives equivalent non-idempotent request.
