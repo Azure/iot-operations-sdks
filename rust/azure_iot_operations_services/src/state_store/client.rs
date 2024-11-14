@@ -115,12 +115,7 @@ where
             .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
-        let mut encoded_client_id: String = String::new();
-        client
-            .client_id()
-            .as_bytes()
-            .iter()
-            .for_each(|b| encoded_client_id.push_str(&format!("{b:X}")));
+        let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
         let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
