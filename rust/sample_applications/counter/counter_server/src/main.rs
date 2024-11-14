@@ -8,7 +8,6 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-
 use envoy::common_types::common_options::CommonOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
