@@ -50,7 +50,8 @@
                 try
                 {
                     HashSet<string> sourceFilePaths = new();
-                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, sourceFilePaths).ToList();
+                    HashSet<SchemaKind> distinctSchemaKinds = new();
+                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, sourceFilePaths, distinctSchemaKinds).ToList();
                 }
                 catch
                 {
