@@ -24,10 +24,7 @@ func (c *SessionClient) requestReauth() {
 
 		values, err := c.options.Auth.InitiateAuth(true)
 		if err != nil {
-			// Using context.TODO() here because we are not passing a context
-			// into InitiateAuth and we want to review logging contexts to
-			// ensure they get torn down with the client.
-			c.log.Error(context.TODO(), err)
+			c.log.Error(ctx, err)
 			return
 		}
 
@@ -39,10 +36,12 @@ func (c *SessionClient) requestReauth() {
 			},
 		}
 
-		// NOTE: We ignore the return values of client.Authenticate() because
-		// if it fails, there's nothing we can do except let the client
-		// eventually disconnect and try to reconnect.
-		_, err = current.Client.Authenticate(ctx, packet)
+		// NOTE: We ignore the error return of client.Authenticate() because if
+		// it fails, there's nothing we can do except let the client eventually
+		// disconnect and try to reconnect.
+		c.log.Packet(ctx, "auth", packet)
+		resp, err := current.Client.Authenticate(ctx, packet)
+		c.log.Packet(ctx, "auth response", resp)
 		if err != nil {
 			c.log.Error(ctx, err)
 		}
