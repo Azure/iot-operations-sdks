@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerWithInvalidMetadata_ThrowsException
-aka:
-- RequestWithInvalidMetadataThrowsException
 description:
   condition: >-
     CommandInvoker invokes command with metadata key that uses reserved prefix.

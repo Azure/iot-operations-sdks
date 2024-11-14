@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseIndicatesUnsupportedMediaType_ThrowsException
-aka:
-- InvokerRequestBadPayload
 description:
   condition: >-
     CommandInvoker receives response message with status indicating Unsupported Media Type

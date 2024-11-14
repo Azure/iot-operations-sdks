@@ -4,8 +4,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         public string? TestName { get; set; }
 
-        public List<string> Aka { get; set; } = new();
-
         public TestCaseDescription? Description { get; set; }
 
         public List<TestFeatureKind> Requires { get; set; } = new();

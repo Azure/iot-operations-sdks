@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestNoPayload_RespondsError
-aka:
-- MissingRequestPayload_RpcErrorBadRequest
 description:
   condition: >-
     CommandExecutor receives request with no payload.
