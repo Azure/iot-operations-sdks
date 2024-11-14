@@ -292,14 +292,6 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             try
             {
-                if (!_isObservingLock)
-                {
-                    Debug.Assert(_lockKey != null);
-                    // The user may already be observing the lock separately from this single attempt to acquire the lock, so don't 
-                    // observe it if the user is already observing it.
-                    await _stateStoreClient.ObserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
-                }
-
                 AcquireLockResponse response;
                 do
                 {
@@ -311,6 +303,14 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     {
                         await _lockFreeToAcquireTaskCompletionSource.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
                         _lockFreeToAcquireTaskCompletionSource = new TaskCompletionSource();
+                    }
+
+                    if (!_isObservingLock)
+                    {
+                        Debug.Assert(_lockKey != null);
+                        // The user may already be observing the lock separately from this single attempt to acquire the lock, so don't 
+                        // observe it if the user is already observing it.
+                        await _stateStoreClient.ObserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
                     }
                 } while (!response.Success);
 
