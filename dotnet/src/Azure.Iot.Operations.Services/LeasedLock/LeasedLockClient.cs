@@ -316,6 +316,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
                 return response;
             }
+            catch (Exception e)
+            {
+                Trace.TraceInformation($"Encountered an error while acquiring lock: {e}");
+                throw;
+            }
             finally
             {
                 if (!_isObservingLock)
