@@ -41,12 +41,12 @@ internal class Program
         var syncOption = new Option<bool>(
             name: "--sync",
             description: "Generate synchronous API");
+#endif
 
         var sdkPathOption = new Option<string?>(
             name: "--sdkPath",
             description: "Local path or feed URL for Azure.Iot.Operations.Protocol SDK")
             { ArgumentHelpName = "FILEPATH | URL" };
-#endif
 
         var langOption = new Option<string>(
             name: "--lang",
@@ -63,8 +63,8 @@ internal class Program
             outDirOption,
 #if DEBUG
             syncOption,
-            sdkPathOption,
 #endif
+            sdkPathOption,
             langOption,
         };
 
@@ -72,7 +72,7 @@ internal class Program
 #if DEBUG
             async (modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language); },
 #else
-            async (modelFiles, modelId, dmrRoot, workingDir, outDir, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, null, language); },
+            async (modelFiles, modelId, dmrRoot, workingDir, outDir, sdkPath, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, sdkPath, language); },
 #endif
             modelFileOption,
             modelIdOption,
@@ -81,8 +81,8 @@ internal class Program
             outDirOption,
 #if DEBUG
             syncOption,
-            sdkPathOption,
 #endif
+            sdkPathOption,
             langOption);
 
         return await rootCommand.InvokeAsync(args);
