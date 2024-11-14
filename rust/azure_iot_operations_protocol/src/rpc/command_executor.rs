@@ -17,7 +17,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{FormatIndicator, PayloadSerialize},
+        payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
@@ -617,17 +617,6 @@ where
                                 break 'process_request;
                             }
 
-                            // Get payload format indicator (underlying mqtt client should validate that format indicator is 0 or 1)
-                            if let Some(format_indicator) = properties.payload_format_indicator {
-                                if format_indicator != FormatIndicator::Utf8EncodedCharacterData as u8 && format_indicator != TReq::format_indicator() as u8 {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Format indicator {format_indicator} is not appropriate for {} content", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Payload Format Indicator".to_string());
-                                    response_arguments.invalid_property_value = Some(format_indicator.to_string());
-                                    break 'process_request;
-                                }
-                            };
-
                             // Get content type
                             if let Some(content_type) = properties.content_type {
                                 if TReq::content_type() != content_type {
@@ -664,6 +653,7 @@ where
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
+                            let mut fencing_token = None;
                             for (key,value) in properties.user_properties {
                                 match UserProperty::from_str(&key) {
                                     Ok(UserProperty::Timestamp) => {
@@ -683,6 +673,18 @@ where
                                     Ok(UserProperty::CommandInvokerId) => {
                                         invoker_id = Some(value);
                                     },
+                                    Ok(UserProperty::FencingToken) => {
+                                        fencing_token = match HybridLogicalClock::from_str(&value) {
+                                            Ok(ft) => Some(ft),
+                                            Err(e) => {
+                                                response_arguments.status_code = StatusCode::BadRequest;
+                                                response_arguments.status_message = Some(format!("Fencing token invalid: {e}"));
+                                                response_arguments.invalid_property_name = Some(UserProperty::FencingToken.to_string());
+                                                response_arguments.invalid_property_value = Some(value);
+                                                break 'process_request;
+                                            }
+                                        }
+                                    },
                                     Ok(UserProperty::ProtocolVersion) => {
                                         // skip, already processed
                                     }
@@ -697,7 +699,6 @@ where
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                         // Don't return error, although above properties shouldn't be in the request
-                                        // TODO: Add validation for Fencing Token
                                         log::error!("Request should not contain MQTT user property {key}. Value is {value}");
                                     }
                                 }
@@ -725,7 +726,7 @@ where
                             let command_request = CommandRequest {
                                 payload,
                                 custom_user_data: user_data,
-                                fencing_token: None, // TODO: Add fencing token
+                                fencing_token,
                                 timestamp,
                                 invoker_id,
                                 response_tx,
@@ -1013,7 +1014,7 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{MockPayload, CONTENT_TYPE_MTX},
+        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
 
     // Payload that has an invalid content type for testing

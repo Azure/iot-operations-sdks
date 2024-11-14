@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess
-aka:
-- InvokeOneRequestAndDropPubAck
 description:
   condition: >-
     CommandInvoker invokes command but ACK dropped when publishing request.

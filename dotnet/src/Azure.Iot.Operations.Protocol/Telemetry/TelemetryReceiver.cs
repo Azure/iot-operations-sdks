@@ -130,6 +130,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
                 catch (Exception outerEx)
                 {
+                    await GetDispatcher()(null, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     Trace.TraceError($"Exception thrown while deserializing payload, callback skipped: {outerEx.Message}");
                 }
             }

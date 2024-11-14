@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorReceivesDuplicateNonIdempotentRequest_ResponseFromCache
-aka:
-- DuplicateRequest_NotIdempotent_WithinCommandTimeout_RetrievedFromCache
 description:
   condition: >-
     CommandExecutor receives duplicate non-idempotent request within command timeout.

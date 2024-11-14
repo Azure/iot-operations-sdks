@@ -1,9 +1,5 @@
 ---
 test-name: TelemetrySenderPubAckFailure_ThrowsException
-aka:
-- SendTelemetry_PubAckFailedWithUnspecifiedError
-- SendTelemetry_PubAckFailedWithNotAuthorized
-- SendTelemetry_PubAckFailedWithNoMatchingSubscribers
 description:
   condition: >-
     TelemetrySenders sends Telemetry but ACK fails when publishing request.

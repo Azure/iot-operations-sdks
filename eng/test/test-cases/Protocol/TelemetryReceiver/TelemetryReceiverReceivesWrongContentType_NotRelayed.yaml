@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
-aka:
-- ReceiveTelemetry_MismatchedContentTypeDoesNotThrow
 description:
   condition: >-
     TelemetryReceiver receives telemetry with mismatched ContentType metadata.

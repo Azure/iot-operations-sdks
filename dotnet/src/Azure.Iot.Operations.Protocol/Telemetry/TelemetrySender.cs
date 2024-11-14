@@ -36,6 +36,11 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
 
     private readonly Dictionary<string, string> topicTokenMap = new();
 
+    /// <summary>
+    /// Gets or sets the data schema used in a cloud event when one is associated with the telemetry.
+    /// </summary>
+    public string? DataSchema { get; set; }
+
     public string TopicPattern { get; init; }
 
     public string? TopicNamespace { get; set; }
@@ -108,9 +113,7 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
                 metadata.CloudEvent.Time = DateTime.UtcNow;
                 metadata.CloudEvent.Subject = telemTopic.ToString();
                 metadata.CloudEvent.DataContentType = _serializer.ContentType;
-                
-                // TBD https://github.com/microsoft/mqtt-patterns/discussions/917
-                // metadata.CloudEventsMetadata.DataSchema = _serializer.Schema; 
+                metadata.CloudEvent.DataSchema = DataSchema;
             }
 
             var applicationMessage = new MqttApplicationMessage(telemTopic.ToString(), qos)
