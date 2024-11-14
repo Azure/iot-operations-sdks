@@ -374,15 +374,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (requestMsg.PayloadFormatIndicator != MqttPayloadFormatIndicator.Unspecified && (int)requestMsg.PayloadFormatIndicator != this.serializer.CharacterDataFormatIndicator)
-            {
-                status = CommandStatusCode.UnsupportedMediaType;
-                statusMessage = $"Format indicator {requestMsg.PayloadFormatIndicator} is not appropriate for {this.serializer.ContentType} content.";
-                invalidPropertyName = "Payload Format Indicator";
-                invalidPropertyValue = ((int)requestMsg.PayloadFormatIndicator).ToString(CultureInfo.InvariantCulture);
-                return false;
-            }
-
             if (requestMsg.CorrelationData == null || requestMsg.CorrelationData.Length == 0)
             {
                 status = CommandStatusCode.BadRequest;
