@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverNoTopicPattern_ThrowsException
-aka:
-- ReceiveTelemetry_InvlidTopicPatternThrows
 description:
   condition: >-
     TelemetryReceiver initialized with a topic pattern that is empty.

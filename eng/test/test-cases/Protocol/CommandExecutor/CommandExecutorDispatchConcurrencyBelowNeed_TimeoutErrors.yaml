@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors
-aka:
-- MaximumConcurrencyOne_ProcessMessagesSequentially
 description:
   condition: >-
     CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed.

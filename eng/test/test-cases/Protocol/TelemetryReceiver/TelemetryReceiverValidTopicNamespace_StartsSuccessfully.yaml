@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverValidTopicNamespace_StartsSuccessfully
-aka:
-- ReceiveTelemetry_ReceiverStarts
 description:
   condition: >-
     TelemetryReceiver initialized with a topic namespace that is valid.
