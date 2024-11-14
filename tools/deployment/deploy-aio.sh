@@ -59,7 +59,7 @@ kubectl create configmap client-ca-trust-bundle \
 # setup new Broker
 kubectl apply -f yaml/aio-$deploy_type.yaml
 
-# Update the credientials locally for connecting to MQTT Broker
+# Update the credentials locally for connecting to MQTT Broker
 ./update-credentials.sh
 
 # Add ADR
