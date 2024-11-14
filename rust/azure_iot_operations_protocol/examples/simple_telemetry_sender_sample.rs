@@ -67,7 +67,7 @@ async fn telemetry_loop(
 ) {
     for i in 1..10 {
         let cloud_event = CloudEventBuilder::default()
-            .source("github.com")
+            .source("aio://oven/sample")
             .build()
             .unwrap();
         let message = TelemetryMessageBuilder::default()
