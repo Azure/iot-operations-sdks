@@ -12,7 +12,7 @@ MQTT messages will include some system and user properties to define metadata va
 |`FormatIndicator`|yes|system|| 1 for character data (as JSON), 0 for unspecified.|
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`CorrelationData`|no|system||A unique identifier for the message, must be GUID represented as a `byte[16]`|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 1.0 is assumed by the telemetry receiver. |
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 0.1 is assumed by the telemetry receiver. |
 
 ### CloudEvents Header
 
@@ -46,8 +46,8 @@ We will use the next properties
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`Timestamp`|no|user|`__ts`|A hybrid clock (HLC) value that can be used to identify the time when the message was produced.|
 |`FencingToken`|no|user|`__ft`|A hybrid clock (HLC) value that can be used to protect the object of the request from conflicting updates.|
-|`InvokerClientId`|yes|user|`__invId`|String represening the MQTT client ID used bn the invoker.|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the request. If not provided, a protocol version of 1.0 is assumed by the receiving executor. | 
+|`SourceId`|yes|user|`__srcId`|String representing an identifier of the command invoker.|
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the request. If not provided, a protocol version of 0.1 is assumed by the receiving executor. | 
 
 ### Response Message
 

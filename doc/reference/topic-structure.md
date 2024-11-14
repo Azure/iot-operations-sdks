@@ -18,21 +18,10 @@ Topic structure SHOULD be compatible with:
 * A topic pattern is a sequence of _labels_ separated by `/`.
 * Each _label_ is one of:
     * A string of printable ASCII characters not including space, `"`, `+`, `#`, `{`, `}`, or `/`
-    * A *recognized token* from the first column in the tables below, specifically:
-        * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry pattern](envoy-binder.md#telemetry-envoy)
-        * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, or `{commandName}` for [Command pattern](envoy-binder.md#command-envoy)
-    * A *custom token*, defined as string that begins with `{ex:`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{ex:customToken}`
+    * A *token*, defined as string that begins with `{`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{userToken}`
 * The first label must not start with `$`
 
 ## Telemetry
-
-Telemetry topic patterns MAY contain the following recognized tokens.
-
-| Topic token | Description | Required |
-| --- | --- | --- |
-| `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface, might include the version | optional |
-| `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | required |
-| `{telemetryName}` | The name of the Telemetry | optional |
 
 A *telemetry namespace* is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
 The string MAY contain one or more `/` characters, but it MUST NOT begin with a `/` character, MUST NOT end with a `/` character, and MUST NOT contain two or more `/` characters in succession.

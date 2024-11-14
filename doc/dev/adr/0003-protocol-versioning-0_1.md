@@ -23,6 +23,5 @@ The SDKs will assume the protocol version is 0.1 if the header is not present.
   - Both `TelemetrySender` and `CommandInvoker` will use `__srcId` to specify their client ID.
   - The `CommandExecutor` and `TelemetryReceiver` do not require `__srcId`. If not included:
     - The `TelemetryReceiver` will not provide the sender's ID to the application.
-    - The `CommandInvoker` will still expect `__invId`. 
-  - `CommandExecutor` will accept both `__srcId` and `__invId` to determine the requester ID, with `__srcId` taking precedence should both be present.
+    - The `CommandInvoker` will return an error indicating a missing field. 
 
