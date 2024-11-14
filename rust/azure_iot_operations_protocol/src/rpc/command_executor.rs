@@ -664,6 +664,7 @@ where
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
+                            let mut fencing_token = None;
                             for (key,value) in properties.user_properties {
                                 match UserProperty::from_str(&key) {
                                     Ok(UserProperty::Timestamp) => {
@@ -683,6 +684,18 @@ where
                                     Ok(UserProperty::CommandInvokerId) => {
                                         invoker_id = Some(value);
                                     },
+                                    Ok(UserProperty::FencingToken) => {
+                                        fencing_token = match HybridLogicalClock::from_str(&value) {
+                                            Ok(ft) => Some(ft),
+                                            Err(e) => {
+                                                response_arguments.status_code = StatusCode::BadRequest;
+                                                response_arguments.status_message = Some(format!("Fencing token invalid: {e}"));
+                                                response_arguments.invalid_property_name = Some(UserProperty::FencingToken.to_string());
+                                                response_arguments.invalid_property_value = Some(value);
+                                                break 'process_request;
+                                            }
+                                        }
+                                    },
                                     Ok(UserProperty::ProtocolVersion) => {
                                         // skip, already processed
                                     }
@@ -697,7 +710,6 @@ where
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                         // Don't return error, although above properties shouldn't be in the request
-                                        // TODO: Add validation for Fencing Token
                                         log::error!("Request should not contain MQTT user property {key}. Value is {value}");
                                     }
                                 }
@@ -725,7 +737,7 @@ where
                             let command_request = CommandRequest {
                                 payload,
                                 custom_user_data: user_data,
-                                fencing_token: None, // TODO: Add fencing token
+                                fencing_token,
                                 timestamp,
                                 invoker_id,
                                 response_tx,
