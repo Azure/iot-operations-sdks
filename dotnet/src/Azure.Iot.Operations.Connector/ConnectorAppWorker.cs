@@ -67,10 +67,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     _logger.LogInformation("Received notification that this pod is the leader");
                 }
-                else
-                {
-                    _logger.LogInformation("Received notification that this pod is not the leader");
-                }
+
                 return Task.CompletedTask;
             };
 
