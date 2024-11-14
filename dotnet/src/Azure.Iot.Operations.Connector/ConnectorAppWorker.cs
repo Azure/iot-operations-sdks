@@ -49,23 +49,9 @@ namespace Azure.Iot.Operations.Connector
             await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
             await using StateStoreClient stateStoreClient = new(_sessionClient);
-
-            try
-            {
-                await stateStoreClient.SetAsync(_leadershipPositionId, "someValue");
-                _logger.LogError("Successfully set the leadership key");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to set the leadership key");
-                _logger.LogError(e.Message);
-                _logger.LogError(e.StackTrace);
-            }
-
             try
             {
                 await stateStoreClient.ObserveAsync(_leadershipPositionId);
-                _logger.LogError("Successfully observed the leadership key");
             }
             catch (Exception e)
             {
@@ -76,8 +62,18 @@ namespace Azure.Iot.Operations.Connector
 
             try
             {
+                await stateStoreClient.SetAsync(_leadershipPositionId, "someValue");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Failed to set the leadership key");
+                _logger.LogError(e.Message);
+                _logger.LogError(e.StackTrace);
+            }
+
+            try
+            {
                 await stateStoreClient.UnobserveAsync(_leadershipPositionId);
-                _logger.LogError("Successfully unobserved the leadership key");
             }
             catch (Exception e)
             {
