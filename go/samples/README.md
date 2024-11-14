@@ -23,8 +23,8 @@ and the `server`.
 
 ```bash
 # from go/samples/protocol/counter/server
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 MQTT_CLIENT_ID=CounterServer-go go run
+MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 MQTT_CLIENT_ID=CounterServer-go go run .
 
 # from go/samples/protocol/counter/client
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 COUNTER_SERVER_ID=CounterServer-go go run
+MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 COUNTER_SERVER_ID=CounterServer-go go run .
 ```
