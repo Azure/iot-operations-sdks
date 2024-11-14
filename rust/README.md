@@ -75,7 +75,10 @@ The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Opera
 
 ## Running samples
 
-To run a sample for one of the crates, navigate to its respective directory and run the command
+### Crate samples
+Each crate has its own set of samples demonstrating the usage of its API. They can be found in the `examples` directory inside the particular crate.
+
+To run a sample for one of the crates run the command:
 
 ```bash
 cargo run --example <sample name>
@@ -84,6 +87,7 @@ cargo run --example <sample name>
 > [!NOTE]
 > You should **not** include the `.rs` extension in the sample name.
 
-The samples in this repository assume a broker is running on `localhost`.
+These samples may assume the use of a broker running on `localhost`, or settings/credentials supplied by [environment variables](/doc/reference/connection-settings.md). They can be modified to supply different settings/credentials as necessary.
 
-## Developing an application
+### SDK samples
+Additionally there are samples that show a set of related applications that can be built using the various components of the Rust SDK, including codegen. They can be found in the `sample_applications` directory, along with instructions for running them.
