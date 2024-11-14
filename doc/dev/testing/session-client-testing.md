@@ -6,7 +6,7 @@ Unit tests for the MQTT session client should follow these principles:
 
 * Use a mocked MQTT client as the base client that the session client uses to connect/publish/subscribe/etc.
     * This mocked MQTT client must be able to simulate events such as connection loss, PUBACK received, Publish received, etc.
-    * Note that this mocked MQTT client is a mock of the underlying MQTT library, not a mock of the IPubSubClient detailed in [Connection Management](./connection-management.md).
+    * Note that this mocked MQTT client is a mock of the underlying MQTT library, not a mock of the IPubSubClient detailed in [Connection Management](../reference/connection-management.md).
 * Do not establish any actual network connections 
     * Random network instability could interfere with deliberate simulated network instability or with deliberate simulated network stability.
 

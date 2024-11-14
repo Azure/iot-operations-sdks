@@ -1,6 +1,6 @@
 # Commands
 
-Commands build on top of the [RPC protocol](protocol-protocol.md).
+Commands build on top of the [RPC protocol](rpc-protocol.md).
 
 ## CommandExecutor
 

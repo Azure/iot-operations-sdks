@@ -15,7 +15,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 1. Install the [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
-1. Run the [Event Drive Application](tutorial/EventDrivenApp) tutorial.
+1. Run the [Event Drive Application](tutorials/EventDrivenApp) tutorial.
 
 ## Developing an edge application
 

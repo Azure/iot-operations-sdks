@@ -20,7 +20,7 @@ Developing an edge application requires a Kubernetes cluster with Azure IoT Oper
 
 Follow the [setup instructions](../setup.md) steps to get your development environment ready.
 
-## Creating your first applications
+## Creating your first application
 
 Once your development environment is setup, its time to create your first application. The first step is to choose your preferred language. Currently the SDKs are available in .NET, Go and Rust.
 

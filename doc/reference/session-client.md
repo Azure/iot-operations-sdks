@@ -14,10 +14,6 @@ While there are some managed clients that already exist in the respective MQTT c
 
 1. The primary goal for this session client is to meet our connection and session management needs in the various binders and clients.
 
-## Test Strategy
-
-For details on the test strategy for the Session Client, see [Session Client Testing](session-client-testing.md).
-
 ## Request queue (Publish, Subscribe, Unsubscribe)
 
 The MQTT session client includes a request queue for Publish, Subscribe, and Unsubscribe requests. In the case of normal operations, the queuing mechanism allows the session client to process requests in order and to complete delayed acknowledgement. In the case of connection interruption, the queuing mechanism allows the managed client to track incomplete requests and resume processing upon successful retry.
