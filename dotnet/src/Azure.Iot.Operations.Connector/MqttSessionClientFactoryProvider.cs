@@ -17,7 +17,6 @@ namespace Azure.Iot.Operations.Connector
                 RetryOnFirstConnect = true,
             };
 
-            Trace.Listeners.Add(new ConsoleTraceListener());
 
             return new MqttSessionClient(sessionClientOptions);
         };
