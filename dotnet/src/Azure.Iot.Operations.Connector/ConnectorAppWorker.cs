@@ -56,16 +56,24 @@ namespace Azure.Iot.Operations.Connector
             await using LeaderElectionClient leaderElectionClient = new(_sessionClient, _leadershipPositionId, candidateName);
 
             TimeSpan leaderElectionTermLength = TimeSpan.FromSeconds(5);
-            leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
+            /*leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
             {
                 AutomaticRenewal = true,
                 ElectionTerm = leaderElectionTermLength,
                 RenewalPeriod = leaderElectionTermLength.Subtract(TimeSpan.FromSeconds(1))
-            };
+            };*/
 
             leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
             {
                 isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
+                if (isLeader)
+                {
+                    _logger.LogInformation("Received notification that this pod is the leader");
+                }
+                else
+                {
+                    _logger.LogInformation("Received notification that this pod is not the leader");
+                }
                 return Task.CompletedTask;
             };
 
