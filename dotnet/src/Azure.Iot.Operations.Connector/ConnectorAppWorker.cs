@@ -143,7 +143,7 @@ namespace Azure.Iot.Operations.Connector
                         assetMonitor.ObserveAssets(null, cancellationToken);
 
                         // Wait until the worker is cancelled or it is no longer the leader
-                        while (!cancellationToken.IsCancellationRequested && isLeader && aepDeletedOrUpdatedTcs.Task.IsCompleted)
+                        while (!cancellationToken.IsCancellationRequested && isLeader && !aepDeletedOrUpdatedTcs.Task.IsCompleted)
                         {
                             try
                             {
