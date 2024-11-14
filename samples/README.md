@@ -18,17 +18,17 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 
 |Category | Sample | Description | Go | .NET | Rust |
 |-|-|-|:-:|:-:|:-:|
-| **MQTT** | **Session client** | Connect to the MQTT broker | :yellow_circle: | [.NET](/dotnet/samples/SessionClientConnectionManagementSample) | :yellow_circle: |
-|| **Session client - SAT auth** | Connect to the MQTT broker with SAT | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| **MQTT** | **Session client** | Connect to the MQTT broker | :yellow_circle: | [.NET](/dotnet/samples/SessionClientConnectionManagementSample) | [Rust](https://github.com/Azure/iot-operations-sdks/blob/main/rust/azure_iot_operations_mqtt/examples/simple_sample.rs) |
+|| **Session client - SAT auth** | Connect to the MQTT broker with SAT | :yellow_circle: | :yellow_circle: | [Rust](https://github.com/Azure/iot-operations-sdks/blob/main/rust/azure_iot_operations_mqtt/examples/sat_auth_sample.rs) |
 || **Session client - x509 auth** | Connect to the MQTT broker with x509 | :yellow_circle: | :yellow_circle: | :yellow_circle: |
 ||
-| **Protocol** | **Telemetry** | Send and receive messages to a MQTT topic | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+| **Protocol** | **Telemetry** | Send and receive messages to a MQTT topic | :yellow_circle: | :yellow_circle: | [Rust](https://github.com/Azure/iot-operations-sdks/blob/main/rust/azure_iot_operations_protocol/examples/simple_telemetry_sender_sample.rs) |
 || **Telemetry with Cloud Events** | Send and receive messages to a MQTT topic with cloud events | :yellow_circle: | :yellow_circle: | :yellow_circle: |
-|| **Command** | Invoke and execute and command using the MQTT RPC protocol | :yellow_circle: | :yellow_circle: | :yellow_circle: |
+|| **Command** | Invoke and execute and command using the MQTT RPC protocol | :yellow_circle: | :yellow_circle: | [Rust](https://github.com/Azure/iot-operations-sdks/blob/main/rust/azure_iot_operations_protocol/examples/simple_rpc_invoker_sample.rs) |
 ||
-| **Services** | **State store client** | Get, set and delete a key | :yellow_circle: | [.NET](/dotnet/samples/StateStoreClientSample) | :yellow_circle: |
+| **Services** | **State store client** | Get, set and delete a key | [Go](https://github.com/Azure/iot-operations-sdks/tree/main/go/samples/statestore) | [.NET](/dotnet/samples/StateStoreClientSample) | [Rust](https://github.com/Azure/iot-operations-sdks/blob/main/rust/azure_iot_operations_services/examples/state_store_client.rs) |
 || **State store client - observe key** | Observe a key and receive a notification | :yellow_circle: | [.NET](/dotnet/samples/StateStoreObserveKeySample) | :yellow_circle: |
-|| **Lease lock client** | Lock a key in the state store shared between applications | :yellow_circle: | [.NET](/dotnet/samples/StateStoreObserveKeySample) | :yellow_circle: |
+|| **Lease lock client** | Lock a key in the state store shared between applications | [Go](https://github.com/Azure/iot-operations-sdks/tree/main/go/samples/leasedlock) | [.NET](/dotnet/samples/StateStoreObserveKeySample) | :yellow_circle: |
 || **Leader election client** | Leader assignment for highly available applications | :yellow_circle: | [.NET](/dotnet/samples/PassiveReplicationSample) | :yellow_circle: |
 || **Schema registry client** | Get and set schemas from the registry | :yellow_circle: | [.NET](/dotnet/samples/SchemaRegistrySample) | :yellow_circle: |
 || **ADR client** | Read asset and asset endpoint profiles | :yellow_circle: | :yellow_circle: | :yellow_circle: |
