@@ -4,7 +4,7 @@ aka:
 - CorrelationDataMissing_RpcErrorBadRequest
 description:
   condition: >-
-    CommandExecutor receives request with no __invId header.
+    CommandExecutor receives request with no __srcId header.
   expect: >-
     CommandExecutor sends response with status BadRequest.
 
@@ -15,7 +15,7 @@ prologue:
 actions:
 - action: receive request
   correlation-index: 0
-  invoker-index: # null omits __invId header
+  invoker-index: # null omits __srcId header
   packet-index: 0
 - action: await acknowledgement
   packet-index: 0
@@ -27,6 +27,6 @@ epilogue:
     command-status: 400 # BadRequest
     is-application-error: false
     metadata:
-      "__propName": "__invId"
+      "__propName": "__srcId"
       "__propVal": # not present
 ...
