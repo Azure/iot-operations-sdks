@@ -93,7 +93,7 @@ where
             .topic_token_map
             .clone()
             .into_iter()
-            .map(|(k, v)| (format!("ex:{}", k), v))
+            .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
