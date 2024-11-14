@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorNullName_ThrowsException
-aka:
-- ConstructExecutorWithNullNameThrowsException
 description:
   condition: >-
     CommandExecutor initialized with null command name.

@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverUnsubAckFailure_ThrowsException
-aka:
-- ReceiveTelemetry_UnsubAckFailedWithUnspecifiedError
 description:
   condition: >-
     During finalization, TelemetryReceiver unsubscribes but ACK fails.

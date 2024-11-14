@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSend_TimeoutPropagated
-aka:
-- SendTelemetry_PropagatesTelemetryTimeout
 description:
   condition: >-
     TelemetrySender sends a Telemetry.

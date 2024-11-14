@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerWithTopicNamespace_Success
-aka:
-- InvokerWithCustomPrefix
 description:
   condition: >-
     CommandInvoker with topic namespace invokes command and receives response.

@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendOneWithMetadata_Success
-aka:
-- SendTelemetry_SingleMessageWithMetadata
 description:
   condition: >-
     TelemetrySender sends a single Telemetry containing metadata.

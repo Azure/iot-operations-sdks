@@ -405,10 +405,10 @@ async fn run_background(
             };
 
             // Get the expiry time of the SAT token
-            let expiry = match get_jwt_expiry(&sat_token) {
+            let expiry = match get_sat_expiry(&sat_token) {
                 Ok(expiry) => expiry,
                 Err(e) => {
-                    log::error!("{e:?}");
+                    log::error!("Invalid SAT token provided: {e:?}");
                     continue;
                 }
             };
@@ -434,12 +434,15 @@ async fn run_background(
             // Sleep until 5 seconds prior to the token expiry
             let target_time = UNIX_EPOCH + Duration::from_secs(expiry);
             let Ok(time_until_expiry) = target_time.duration_since(SystemTime::now()) else {
-                log::error!("Error calculating SAT token expiry time");
+                log::error!("SAT token expiry time has already passed");
+                // Sleep for 1 second before trying again
+                sleep_time = 1;
+                first_pass = false;
                 continue;
             };
             let time_until_expiry = time_until_expiry.as_secs();
             if time_until_expiry > 5 {
-                sleep_time = time_until_expiry;
+                sleep_time = time_until_expiry - 5;
             }
             first_pass = false;
         }
@@ -470,7 +473,7 @@ async fn run_background(
     }
 }
 
-fn get_jwt_expiry(token: &str) -> Result<u64, String> {
+pub(crate) fn get_sat_expiry(token: &str) -> Result<u64, String> {
     let parts: Vec<_> = token.split('.').collect();
 
     if parts.len() != 3 {
@@ -483,15 +486,15 @@ fn get_jwt_expiry(token: &str) -> Result<u64, String> {
                 Ok(payload_json) => match payload_json.get("exp") {
                     Some(exp_time) => match exp_time.as_u64() {
                         Some(exp_time) => Ok(exp_time),
-                        None => Err("Unable to parse JWT token expiry time".to_string()),
+                        None => Err("Unable to parse SAT token expiry time".to_string()),
                     },
-                    None => Err("JWT token does not contain expiry time".to_string()),
+                    None => Err("SAT token does not contain expiry time".to_string()),
                 },
-                Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+                Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
             },
-            Err(e) => Err(format!("Unable to parse JWT token: {e:?}")),
+            Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
         },
-        Err(e) => Err(format!("Unable to decode JWT token: {e:?}")),
+        Err(e) => Err(format!("Unable to decode SAT token: {e:?}")),
     }
 }
 

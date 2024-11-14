@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerRequestTopicModelIdWithoutReplacement_ThrowsException
-aka:
-- RequestTopicModelIdWithoutReplacementThrowsException
 description:
   condition: >-
     CommandInvoker request topic contains a '{modelId}' token but no model ID is specified
@@ -19,5 +17,4 @@ prologue:
     is-remote: !!bool false 
     supplemental:
       property-name: 'modelid'
-      property-value:
 ...
