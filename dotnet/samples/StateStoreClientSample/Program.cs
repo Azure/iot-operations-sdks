@@ -3,9 +3,18 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
+using System.Diagnostics;
 
+MqttSessionClientOptions sessionClientOptions = new()
+{
+    EnableMqttLogging = true,
+    RetryOnFirstConnect = true,
+};
 
-var mqttClient = new MqttSessionClient();
+Trace.Listeners.Add(new ConsoleTraceListener());
+
+var mqttClient = new MqttSessionClient(sessionClientOptions);
+
 
 MqttConnectionSettings connectionSettings = new("localhost") { TcpPort = 1883, ClientId = "someClientId", UseTls = false };
 MqttClientConnectResult result = await mqttClient.ConnectAsync(connectionSettings);
@@ -21,6 +30,9 @@ try
 {
     string stateStoreKey = "someKey";
     string stateStoreValue = "someValue";
+
+    await stateStoreClient.ObserveAsync(stateStoreKey);
+
     StateStoreSetResponse setResponse =
         await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue);
 
