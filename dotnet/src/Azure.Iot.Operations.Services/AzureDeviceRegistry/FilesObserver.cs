@@ -114,6 +114,10 @@ namespace Azure.Iot.Operations.Services.Assets
                             }
                         }
                     }
+                    catch (ObjectDisposedException)
+                    { 
+                        // The cancellation token used to control this thread has been disposed. End this thread gracefully
+                    }
                     finally
                     {
                         _startedObserving = false;
