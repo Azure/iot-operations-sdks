@@ -22,7 +22,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{FormatIndicator, PayloadSerialize},
+        payload_serialize::PayloadSerialize,
         topic_processor::{self, contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
@@ -407,7 +407,6 @@ where
     ///
     /// [`AIOProtocolError`] of kind [`HeaderInvalid`](AIOProtocolErrorKind::HeaderInvalid) if
     /// - The response's `content_type` doesn't match the `content_type` of [`TResp`](PayloadSerialize)
-    /// - The response's `format_indicator` is `Utf8EncodedCharacterData` and doesn't match the `format_indicator` of [`TResp`](PayloadSerialize)
     /// - The response has a [`UserProperty::Timestamp`] that is malformed
     /// - The response has a [`UserProperty::Status`] that can't be parsed as an integer
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and a [`UserProperty::InvalidPropertyValue`] is specified
@@ -714,27 +713,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     TResp::content_type()
                 )),
                 Some(command_name)
-            ));
-        }
-    }
-
-    // If format indicator is Utf8EncodedCharacterData, it matches the response type format indicator.
-    // If it's UnspecifiedBytes, it doesn't matter whether it matches or not
-    if let Some(format_indicator) = response_properties.payload_format_indicator {
-        if format_indicator != FormatIndicator::UnspecifiedBytes as u8
-            && format_indicator != TResp::format_indicator() as u8
-        {
-            return Err(AIOProtocolError::new_header_invalid_error(
-                "Payload Format Indicator",
-                &format_indicator.to_string(),
-                false,
-                None,
-                Some(format!(
-                    "Format indicator '{}' is not appropriate for '{}' content.",
-                    format_indicator,
-                    TResp::content_type()
-                )),
-                Some(command_name),
             ));
         }
     }
