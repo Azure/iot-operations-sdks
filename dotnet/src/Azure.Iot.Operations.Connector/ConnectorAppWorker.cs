@@ -45,8 +45,6 @@ namespace Azure.Iot.Operations.Connector
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
             _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
-            mqttConnectionSettings.ClientId = Guid.NewGuid().ToString();
-
             //TODO retry if it fails, but wait until what to try again? Just rely on retry policy?
             await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
