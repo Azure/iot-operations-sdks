@@ -8,6 +8,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? ModelId { get; set; }
 
+        public string? DataSchema { get; set; }
+
         public string? TopicNamespace { get; set; }
     }
 }

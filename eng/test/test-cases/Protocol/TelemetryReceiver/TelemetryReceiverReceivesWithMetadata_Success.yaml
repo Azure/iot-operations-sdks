@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesWithMetadata_Success
-aka:
-- ReceiveTelemetry_HappyPathWithMetadata
 description:
   condition: >-
     TelemetryReceiver receives a single valid Telemetry with metadata.

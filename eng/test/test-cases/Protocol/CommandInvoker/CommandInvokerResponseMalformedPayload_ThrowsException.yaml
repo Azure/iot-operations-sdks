@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseMalformedPayload_ThrowsException
-aka:
-- InvokeLegalRequestInvokerDeserializationError
 description:
   condition: >-
     CommandInvoker receives response with payload that cannot deserialize.

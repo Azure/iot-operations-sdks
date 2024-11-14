@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendOne_Success
-aka:
-- SendTelemetry_SingleMessage
 description:
   condition: >-
     TelemetrySender sends a single Telemetry.

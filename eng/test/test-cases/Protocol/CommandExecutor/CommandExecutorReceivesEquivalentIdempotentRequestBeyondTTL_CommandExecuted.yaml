@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorReceivesEquivalentIdempotentRequestBeyondTTL_CommandExecuted
-aka:
-- EquivalentRequest_Idempotent_CacheExpired_NotRetrievedFromCache
 description:
   condition: >-
     CommandExecutor receives equivalent idempotent request beyond cacheable TTL.
