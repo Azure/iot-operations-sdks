@@ -8,12 +8,15 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     internal class DatasetSamplerContext
     {
+        internal AssetEndpointProfile AssetEndpointProfile { get; set; }
+
         internal Asset Asset { get; set; }
 
         internal string DatasetName { get; set; }
 
-        internal DatasetSamplerContext(Asset asset, string datasetName)
+        internal DatasetSamplerContext(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName)
         {
+            AssetEndpointProfile = assetEndpointProfile;
             Asset = asset;
             DatasetName = datasetName;
         }

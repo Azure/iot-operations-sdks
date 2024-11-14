@@ -17,10 +17,7 @@ namespace Azure.Iot.Operations.Connector
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
-        private AssetMonitor _adrClient;
         private string _leadershipPositionId;
-
-        private AssetEndpointProfile? _assetEndpointProfile;
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
@@ -34,7 +31,6 @@ namespace Azure.Iot.Operations.Connector
             _logger = logger;
             _sessionClient = mqttSessionClient;
             _datasetSamplerFactory = datasetSamplerFactory;
-            _adrClient = new();
             _leadershipPositionId = leadershipPositionId;
         }
 
@@ -91,8 +87,11 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation("This pod was elected leader.");
 
-                        TaskCompletionSource<AssetEndpointProfile> aepTcs = new();
-                        _adrClient.AssetEndpointProfileChanged += (sender, args) =>
+                        AssetMonitor assetMonitor = new AssetMonitor();
+
+                        TaskCompletionSource aepDeletedOrUpdatedTcs = new();
+                        TaskCompletionSource<AssetEndpointProfile> aepCreatedTcs = new();
+                        assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
                         {
                             // Each connector should have one AEP deployed to the pod. It shouldn't ever be deleted, but it may be updated.
                             if (args.ChangeType == ChangeType.Created)
@@ -104,24 +103,24 @@ namespace Azure.Iot.Operations.Connector
                                 }
                                 else
                                 {
-                                    aepTcs.TrySetResult(args.AssetEndpointProfile);
+                                    aepCreatedTcs.TrySetResult(args.AssetEndpointProfile);
                                 }
                             }
-
-                            //TODO upon AEP updated, just re-create all samplers? Stick this whole function in a loop. Would need to re-create the asset monitor
-                            // so that it starts with no assets saved?
-
-                            _assetEndpointProfile = args.AssetEndpointProfile;
+                            else
+                            {
+                                aepDeletedOrUpdatedTcs.TrySetResult();
+                            }
                         };
 
-                        _adrClient.ObserveAssetEndpointProfile(null, cancellationToken);
+                        assetMonitor.ObserveAssetEndpointProfile(null, cancellationToken);
 
                         _logger.LogInformation("Waiting for asset endpoint profile to be discovered");
-                        await aepTcs.Task.WaitAsync(cancellationToken);
+                        AssetEndpointProfile assetEndpointProfile = await aepCreatedTcs.Task.WaitAsync(cancellationToken);
+                        
 
-                        _logger.LogInformation("Successfully retrieved asset endpoint profile");
+                        _logger.LogInformation("Successfully discovered the asset endpoint profile");
 
-                        _adrClient.AssetChanged += (sender, args) =>
+                        assetMonitor.AssetChanged += (sender, args) =>
                         {
                             _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been {args.ChangeType.ToString().ToLower()}.");
 
@@ -131,7 +130,7 @@ namespace Azure.Iot.Operations.Connector
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
-                                StartSamplingAsset(args.Asset!, cancellationToken);
+                                StartSamplingAsset(assetEndpointProfile, args.Asset!, cancellationToken);
                             }
                             else
                             {
@@ -139,20 +138,40 @@ namespace Azure.Iot.Operations.Connector
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
                                 StopSamplingAsset(args.AssetName);
-                                StartSamplingAsset(args.Asset!, cancellationToken);
+                                StartSamplingAsset(assetEndpointProfile, args.Asset!, cancellationToken);
                             }
                         };
 
                         _logger.LogInformation("Now monitoring for asset creation/deletion/updates");
-                        _adrClient.ObserveAssets(null, cancellationToken);
+                        assetMonitor.ObserveAssets(null, cancellationToken);
 
                         // Wait until the worker is cancelled or it is no longer the leader
-                        while (!cancellationToken.IsCancellationRequested && isLeader)
+                        while (!cancellationToken.IsCancellationRequested && isLeader && aepDeletedOrUpdatedTcs.Task.IsCompleted)
                         {
-                            await Task.Delay(leaderElectionTermLength);
+                            try
+                            {
+                                await Task.WhenAny(
+                                    aepDeletedOrUpdatedTcs.Task,
+                                    Task.Delay(leaderElectionTermLength)).WaitAsync(cancellationToken);
+                            }
+                            catch (OperationCanceledException)
+                            { 
+                                // expected outcome, allow the while loop to check status again
+                            }
                         }
 
-                        _logger.LogInformation("Pod is either shutting down or is no longer the leader. It will now stop monitoring and sampling assets.");
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            _logger.LogInformation("This pod is shutting down. It will now stop monitoring and sampling assets.");
+                        }
+                        else if (aepDeletedOrUpdatedTcs.Task.IsCompleted)
+                        { 
+                            _logger.LogInformation("Received a notification that the asset endpoint profile has changed. This pod will now cancel current asset sampling and restart monitoring assets.");
+                        }
+                        else
+                        {
+                            _logger.LogInformation("This pod is either no longer the leader. It will now stop monitoring and sampling assets.");
+                        }
 
                         foreach (Dictionary<string, Timer> datasetSamplers in _samplers.Values)
                         {
@@ -163,8 +182,8 @@ namespace Azure.Iot.Operations.Connector
                         }
 
                         _samplers.Clear();
-                        _adrClient.UnobserveAssets();
-                        _adrClient.UnobserveAssetEndpointProfile();
+                        assetMonitor.UnobserveAssets();
+                        assetMonitor.UnobserveAssetEndpointProfile();
                     }
                     catch (Exception ex)
                     {
@@ -189,7 +208,7 @@ namespace Azure.Iot.Operations.Connector
             _samplers.Remove(assetName);
         }
 
-        private void StartSamplingAsset(Asset asset, CancellationToken cancellationToken = default)
+        private void StartSamplingAsset(AssetEndpointProfile assetEndpointProfile, Asset asset, CancellationToken cancellationToken = default)
         {
             string assetName = asset.DisplayName!;
 
@@ -215,7 +234,7 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(asset, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     _samplers[assetName][datasetName] = datasetSamplingTimer;
 
                     string mqttMessageSchema = dataset.GetMqttMessageSchema();
@@ -245,7 +264,7 @@ namespace Azure.Iot.Operations.Connector
 
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(_assetEndpointProfile!, asset, dataset));
+                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(samplerContext.AssetEndpointProfile, asset, dataset));
             }
 
             if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSampler? datasetSampler))
