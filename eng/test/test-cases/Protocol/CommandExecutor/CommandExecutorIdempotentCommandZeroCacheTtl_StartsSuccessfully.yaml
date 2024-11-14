@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorIdempotentCommandZeroCacheTtl_StartsSuccessfully
-aka:
-- IdempotentCommandZeroCacheTtlDoesNotThrow
 description:
   condition: >-
     CommandExecutor initialized with idempotent command that has a zero cache TTL.

@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseWithWrongContentType_ThrowsException
-aka:
-- InvokeLegalRequestWrongContentTypeInvokerSide
 description:
   condition: >-
     CommandInvoker receives response message with content type other than expected.

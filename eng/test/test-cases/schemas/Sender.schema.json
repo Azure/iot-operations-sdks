@@ -18,6 +18,11 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "data-schema": {
+            "description": "The data schema to use in a cloud event when associated with the telemetry.",
+            "type": [ "string", "null" ],
+            "kind": "drive"
+        },
         "topic-namespace": {
             "description": "A leading namespace for the Telemetry MQTT topic patterns.",
             "type": [ "string", "null" ],
