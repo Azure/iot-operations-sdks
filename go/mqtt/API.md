@@ -470,7 +470,7 @@ func NewSessionClient(connectionProvider ConnectionProvider, opts ...SessionClie
 NewSessionClient constructs a new session client with user options.
 
 <a name="NewSessionClientFromEnv"></a>
-### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/env.go#L127-L129>)
+### func [NewSessionClientFromEnv](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/env.go#L134-L136>)
 
 ```go
 func NewSessionClientFromEnv(opt ...SessionClientOption) (*SessionClient, error)
@@ -497,7 +497,7 @@ func (c *SessionClient) Publish(ctx context.Context, topic string, payload []byt
 
 
 <a name="SessionClient.RegisterConnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L19-L21>)
+### func \(\*SessionClient\) [RegisterConnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L20-L22>)
 
 ```go
 func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler) func()
@@ -506,7 +506,7 @@ func (c *SessionClient) RegisterConnectEventHandler(handler ConnectEventHandler)
 RegisterConnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the session client successfully establishes an MQTT connection. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the session client.
 
 <a name="SessionClient.RegisterDisconnectEventHandler"></a>
-### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L30-L32>)
+### func \(\*SessionClient\) [RegisterDisconnectEventHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L31-L33>)
 
 ```go
 func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHandler) func()
@@ -515,7 +515,7 @@ func (c *SessionClient) RegisterDisconnectEventHandler(handler DisconnectEventHa
 RegisterDisconnectEventHandler registers a handler to a list of handlers that are called synchronously in registration order whenever the session client detects a disconnection from the MQTT server. Note that since the handler gets called synchronously, handlers should not block for an extended period of time to avoid blocking the session client.
 
 <a name="SessionClient.RegisterFatalErrorHandler"></a>
-### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L38-L40>)
+### func \(\*SessionClient\) [RegisterFatalErrorHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L39-L41>)
 
 ```go
 func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) func()
@@ -524,7 +524,7 @@ func (c *SessionClient) RegisterFatalErrorHandler(handler func(error)) func()
 RegisterFatalErrorHandler registers a handler that is called in a goroutine if the session client terminates due to a fatal error.
 
 <a name="SessionClient.RegisterMessageHandler"></a>
-### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L57>)
+### func \(\*SessionClient\) [RegisterMessageHandler](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L63>)
 
 ```go
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
@@ -533,7 +533,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func()
 RegisterMessageHandler registers a message handler on this client. Returns a callback to remove the message handler.
 
 <a name="SessionClient.Start"></a>
-### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L47>)
+### func \(\*SessionClient\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L48>)
 
 ```go
 func (c *SessionClient) Start() error
@@ -542,7 +542,7 @@ func (c *SessionClient) Start() error
 Start starts the session client, spawning any necessary background goroutines. In order to terminate the session client and clean up any running goroutines, Stop\(\) must be called after calling Start\(\).
 
 <a name="SessionClient.Stop"></a>
-### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L72>)
+### func \(\*SessionClient\) [Stop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/connect.go#L73>)
 
 ```go
 func (c *SessionClient) Stop() error
@@ -551,7 +551,7 @@ func (c *SessionClient) Stop() error
 Stop stops the session client, terminating any pending operations and cleaning up background goroutines.
 
 <a name="SessionClient.Subscribe"></a>
-### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L68-L72>)
+### func \(\*SessionClient\) [Subscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L74-L78>)
 
 ```go
 func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...SubscribeOption) (*Ack, error)
@@ -560,7 +560,7 @@ func (c *SessionClient) Subscribe(ctx context.Context, topic string, opts ...Sub
 
 
 <a name="SessionClient.Unsubscribe"></a>
-### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L110-L114>)
+### func \(\*SessionClient\) [Unsubscribe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/subscribe.go#L116-L120>)
 
 ```go
 func (c *SessionClient) Unsubscribe(ctx context.Context, topic string, opts ...UnsubscribeOption) (*Ack, error)
