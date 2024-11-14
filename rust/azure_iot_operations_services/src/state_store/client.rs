@@ -122,7 +122,7 @@ where
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
             .topic_token_map(HashMap::from([(
                 "encodedClientId".to_string(),
-                encoded_client_id.clone()),
+                encoded_client_id),
                 ]))
             .auto_ack(options.key_notification_auto_ack)
             .build()

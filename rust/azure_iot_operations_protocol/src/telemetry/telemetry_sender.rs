@@ -269,7 +269,6 @@ where
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - [`telemetry_name`](TelemetrySenderOptions::telemetry_name) is used in the [`topic_pattern`](TelemetrySenderOptions::topic_pattern) and is empty, whitespace or invalid
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
     /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
@@ -317,7 +316,7 @@ where
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if
     /// - [`payload`][TelemetryMessage::payload]'s content type isn't valid utf-8
     ///
-    /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::MqttError) if
+    /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
     pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
