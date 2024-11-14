@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private readonly string projectName;
         private readonly string? sdkPath;
+        private readonly bool usesAnySchemas;
         private readonly bool usesIntEnum;
         private readonly List<(string, string)> packageVersions;
 
@@ -24,6 +25,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             this.projectName = NamingSupport.ToSnakeCase(projectName);
             this.sdkPath = sdkPath?.Replace('\\', '/');
+            this.usesAnySchemas = distinctSchemaKinds.Any();
             this.usesIntEnum = distinctSchemaKinds.Contains(SchemaKind.EnumInt);
 
             packageVersions = serializerPackageVersions[genFormat];
