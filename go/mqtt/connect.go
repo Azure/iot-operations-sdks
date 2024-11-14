@@ -4,6 +4,7 @@ package mqtt
 
 import (
 	"context"
+	"io"
 	"log/slog"
 	"math"
 
@@ -81,16 +82,7 @@ func (c *SessionClient) Stop() error {
 // reconnections. Blocks until the ctx is cancelled or the connection can no
 // longer be maintained (due to a fatal error or retry policy exhaustion).
 func (c *SessionClient) manageConnection(ctx context.Context) error {
-	// On cleanup, send a DISCONNECT packet if possible and signal a
-	// disconnection to other goroutines if needed.
-	defer func() {
-		pahoClient := c.conn.Current().Client
-		if pahoClient == nil {
-			return
-		}
-		c.forceDisconnect(ctx, pahoClient)
-		c.signalDisconnection(ctx, &DisconnectEvent{})
-	}()
+	defer c.cleanup(ctx)
 
 	var reconnect bool
 	for {
@@ -249,6 +241,11 @@ func (c *SessionClient) connect(
 		if err := c.conn.Connect(pahoClient); err != nil {
 			return nil, err
 		}
+		if c.options.Auth != nil && connack.Properties.AuthMethod == "" {
+			// Ensure the auth provider is notified of success even if the MQTT
+			// server fails to echo the auth method.
+			c.options.Auth.AuthSuccess(c.requestReauth)
+		}
 		return connack, nil
 	}
 }
@@ -303,6 +300,21 @@ func (c *SessionClient) forceDisconnect(
 	}
 	c.log.Packet(ctx, "disconnect", disconn)
 	_ = client.Disconnect(disconn)
+}
+
+func (c *SessionClient) cleanup(ctx context.Context) {
+	// Send a DISCONNECT packet if possible and signal disconnection if needed.
+	if pahoClient := c.conn.Current().Client; pahoClient != nil {
+		c.forceDisconnect(ctx, pahoClient)
+		c.signalDisconnection(ctx, &DisconnectEvent{})
+	}
+
+	// If the auth provider has cleanup to do, do so now.
+	if closer, ok := c.options.Auth.(io.Closer); ok {
+		if err := closer.Close(); err != nil {
+			c.log.Error(ctx, err)
+		}
+	}
 }
 
 func (c *SessionClient) buildConnectPacket(

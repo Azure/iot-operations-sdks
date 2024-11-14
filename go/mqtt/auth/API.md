@@ -8,10 +8,11 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 
 - [Variables](<#variables>)
 - [type AIOServiceAccountToken](<#AIOServiceAccountToken>)
-  - [func NewAIOServiceAccountToken\(filename string\) \*AIOServiceAccountToken](<#NewAIOServiceAccountToken>)
-  - [func \(\*AIOServiceAccountToken\) AuthSuccess\(func\(\)\)](<#AIOServiceAccountToken.AuthSuccess>)
+  - [func NewAIOServiceAccountToken\(filename string\) \(\*AIOServiceAccountToken, error\)](<#NewAIOServiceAccountToken>)
+  - [func \(sat \*AIOServiceAccountToken\) AuthSuccess\(requestReauth func\(\)\)](<#AIOServiceAccountToken.AuthSuccess>)
+  - [func \(sat \*AIOServiceAccountToken\) Close\(\) error](<#AIOServiceAccountToken.Close>)
   - [func \(\*AIOServiceAccountToken\) ContinueAuth\(\*Values\) \(\*Values, error\)](<#AIOServiceAccountToken.ContinueAuth>)
-  - [func \(sat \*AIOServiceAccountToken\) InitiateAuth\(reauth bool\) \(\*Values, error\)](<#AIOServiceAccountToken.InitiateAuth>)
+  - [func \(sat \*AIOServiceAccountToken\) InitiateAuth\(bool\) \(\*Values, error\)](<#AIOServiceAccountToken.InitiateAuth>)
 - [type Provider](<#Provider>)
 - [type Values](<#Values>)
 
@@ -25,7 +26,7 @@ var ErrUnexpected = errors.New("unexpected call to auth provider")
 ```
 
 <a name="AIOServiceAccountToken"></a>
-## type [AIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L9-L11>)
+## type [AIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L14-L20>)
 
 AIOServiceAccountToken impelements an enhanced authentication provider that reads a Kubernetes Service Account Token for the AIO Broker.
 
@@ -36,25 +37,34 @@ type AIOServiceAccountToken struct {
 ```
 
 <a name="NewAIOServiceAccountToken"></a>
-### func [NewAIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L15>)
+### func [NewAIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L24-L26>)
 
 ```go
-func NewAIOServiceAccountToken(filename string) *AIOServiceAccountToken
+func NewAIOServiceAccountToken(filename string) (*AIOServiceAccountToken, error)
 ```
 
 NewAIOServiceAccountToken creates a new AIO SAT auth provider from the given filename.
 
 <a name="AIOServiceAccountToken.AuthSuccess"></a>
-### func \(\*AIOServiceAccountToken\) [AuthSuccess](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L41>)
+### func \(\*AIOServiceAccountToken\) [AuthSuccess](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L59>)
 
 ```go
-func (*AIOServiceAccountToken) AuthSuccess(func())
+func (sat *AIOServiceAccountToken) AuthSuccess(requestReauth func())
+```
+
+
+
+<a name="AIOServiceAccountToken.Close"></a>
+### func \(\*AIOServiceAccountToken\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L65>)
+
+```go
+func (sat *AIOServiceAccountToken) Close() error
 ```
 
 
 
 <a name="AIOServiceAccountToken.ContinueAuth"></a>
-### func \(\*AIOServiceAccountToken\) [ContinueAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L37>)
+### func \(\*AIOServiceAccountToken\) [ContinueAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L55>)
 
 ```go
 func (*AIOServiceAccountToken) ContinueAuth(*Values) (*Values, error)
@@ -63,18 +73,18 @@ func (*AIOServiceAccountToken) ContinueAuth(*Values) (*Values, error)
 
 
 <a name="AIOServiceAccountToken.InitiateAuth"></a>
-### func \(\*AIOServiceAccountToken\) [InitiateAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L19-L21>)
+### func \(\*AIOServiceAccountToken\) [InitiateAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L44>)
 
 ```go
-func (sat *AIOServiceAccountToken) InitiateAuth(reauth bool) (*Values, error)
+func (sat *AIOServiceAccountToken) InitiateAuth(bool) (*Values, error)
 ```
 
 
 
 <a name="Provider"></a>
-## type [Provider](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/types.go#L14-L46>)
+## type [Provider](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/types.go#L16-L48>)
 
-Provider implements an MQTT enhanced authentication exchange.
+Provider implements an MQTT enhanced authentication exchange. The provider may also implement io.Closer in order to clean up any resources when the client is shut down.
 
 ```go
 type Provider interface {
