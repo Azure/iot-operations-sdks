@@ -50,47 +50,9 @@ namespace Azure.Iot.Operations.Connector
 
             await using StateStoreClient stateStoreClient = new(_sessionClient);
 
-            try
-            {
-                await stateStoreClient.SetAsync(_leadershipPositionId, "someValue");
-                _logger.LogError("Successfully set the leadership key");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to set the leadership key");
-                _logger.LogError(e.Message);
-                _logger.LogError(e.StackTrace);
-            }
-
-            try
-            {
-                await stateStoreClient.ObserveAsync(_leadershipPositionId);
-                _logger.LogError("Successfully observed the leadership key");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to observe the leadership key");
-                _logger.LogError(e.Message); 
-                _logger.LogError(e.StackTrace);
-            }
-
-            try
-            {
-                await stateStoreClient.UnobserveAsync(_leadershipPositionId);
-                _logger.LogError("Successfully unobserved the leadership key");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to unobserve the leadership key");
-                _logger.LogError(e.Message);
-                _logger.LogError(e.StackTrace);
-            }
-
             //TODO do active passive LE in the template level. Check replica count > 1 in connector config works as expected
             string candidateName = Guid.NewGuid().ToString();
             bool isLeader = false;
-
-
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
