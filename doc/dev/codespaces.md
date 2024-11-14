@@ -126,7 +126,6 @@ By default, if you create a Codespace on a fork, you will quickly run out of fre
    git pull origin main
    ```
 
-
 ## Using K9s
 
 K9s comes pre-installed in this CodeSpace and provides easy access to viewing details about the cluster.
