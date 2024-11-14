@@ -103,21 +103,6 @@ namespace Azure.Iot.Operations.Connector
                 ElectionTerm = leaderElectionTermLength,
                 RenewalPeriod = leaderElectionTermLength.Subtract(TimeSpan.FromSeconds(1))
             };*/
-
-            leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
-            {
-                isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
-                if (isLeader)
-                {
-                    _logger.LogInformation("Received notification that this pod is the leader");
-                }
-                else
-                {
-                    _logger.LogInformation("Received notification that this pod is not the leader");
-                }
-                return Task.CompletedTask;
-            };
-
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -130,81 +115,6 @@ namespace Azure.Iot.Operations.Connector
                         await leaderElectionClient.CampaignAsync(leaderElectionTermLength);
 
                         _logger.LogInformation("This pod was elected leader.");
-
-                        TaskCompletionSource<AssetEndpointProfile> aepTcs = new();
-                        _adrClient.AssetEndpointProfileChanged += (sender, args) =>
-                        {
-                            // Each connector should have one AEP deployed to the pod. It shouldn't ever be deleted, but it may be updated.
-                            if (args.ChangeType == ChangeType.Created)
-                            {
-                                if (args.AssetEndpointProfile == null)
-                                {
-                                    // shouldn't ever happen
-                                    _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
-                                }
-                                else
-                                {
-                                    aepTcs.TrySetResult(args.AssetEndpointProfile);
-                                }
-                            }
-
-                            //TODO upon AEP updated, just re-create all samplers? Stick this whole function in a loop. Would need to re-create the asset monitor
-                            // so that it starts with no assets saved?
-
-                            _assetEndpointProfile = args.AssetEndpointProfile;
-                        };
-
-                        _adrClient.ObserveAssetEndpointProfile(null, cancellationToken);
-
-                        _logger.LogInformation("Waiting for asset endpoint profile to be discovered");
-                        await aepTcs.Task.WaitAsync(cancellationToken);
-
-                        _logger.LogInformation("Successfully retrieved asset endpoint profile");
-
-                        _adrClient.AssetChanged += (sender, args) =>
-                        {
-                            _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been {args.ChangeType.ToString().ToLower()}.");
-
-                            if (args.ChangeType == ChangeType.Deleted)
-                            {
-                                StopSamplingAsset(args.AssetName);
-                            }
-                            else if (args.ChangeType == ChangeType.Created)
-                            {
-                                StartSamplingAsset(args.Asset!, cancellationToken);
-                            }
-                            else
-                            {
-                                // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
-                                // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
-                                // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                StopSamplingAsset(args.AssetName);
-                                StartSamplingAsset(args.Asset!, cancellationToken);
-                            }
-                        };
-
-                        _logger.LogInformation("Now monitoring for asset creation/deletion/updates");
-                        _adrClient.ObserveAssets(null, cancellationToken);
-
-                        // Wait until the worker is cancelled or it is no longer the leader
-                        while (!cancellationToken.IsCancellationRequested && isLeader)
-                        {
-                            await Task.Delay(leaderElectionTermLength);
-                        }
-
-                        _logger.LogInformation("Pod is either shutting down or is no longer the leader. It will now stop monitoring and sampling assets.");
-
-                        foreach (Dictionary<string, Timer> datasetSamplers in _samplers.Values)
-                        {
-                            foreach (Timer datasetSampler in datasetSamplers.Values)
-                            {
-                                datasetSampler.Dispose();
-                            }
-                        }
-
-                        _samplers.Clear();
-                        _adrClient.UnobserveAssets();
-                        _adrClient.UnobserveAssetEndpointProfile();
                     }
                     catch (Exception ex)
                     {
