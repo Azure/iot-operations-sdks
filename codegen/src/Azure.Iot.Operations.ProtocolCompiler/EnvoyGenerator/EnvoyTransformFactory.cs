@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", "") },
         };
 
-        public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, HashSet<string> sourceFilePaths)
+        public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
             string modelId = annexDocument.RootElement.GetProperty(AnnexFileProperties.ModelId).GetString()!;
             string genNamespace = annexDocument.RootElement.GetProperty(AnnexFileProperties.Namespace).GetString()!;
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 yield return templateTransform;
             }
 
-            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, sourceFilePaths, schemaTypes))
+            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, sourceFilePaths, schemaTypes, distinctSchemaKinds))
             {
                 yield return templateTransform;
             }
@@ -220,7 +220,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, string genNamespace, string genFormat, string? sdkPath, HashSet<string> sourceFilePaths, List<string> schemaTypes)
+        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, string genNamespace, string genFormat, string? sdkPath, HashSet<string> sourceFilePaths, List<string> schemaTypes, HashSet<SchemaKind> distinctSchemaKinds)
         {
             switch (language)
             {
@@ -235,7 +235,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     break;
                 case "rust":
                     yield return new RustLib(genNamespace);
-                    yield return new RustCargoToml(projectName, genFormat, sdkPath);
+                    yield return new RustCargoToml(projectName, genFormat, sdkPath, distinctSchemaKinds);
                     break;
                 case "c":
                     break;

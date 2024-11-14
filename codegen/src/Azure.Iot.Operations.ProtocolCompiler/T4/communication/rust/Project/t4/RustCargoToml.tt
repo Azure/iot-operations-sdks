@@ -6,7 +6,9 @@ edition = "2021"
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
+<# if (this.usesIntEnum) { #>
 serde_repr = "0.1"
+<# } #>
 <# foreach (var packageVersion in this.packageVersions) { #>
 <#=packageVersion.Item1#> = "<#=packageVersion.Item2#>"
 <# } #>
@@ -17,7 +19,6 @@ base64 = "0.22.1"
 bigdecimal = "0.4.5"
 time = { version = "0.3", features = ["serde", "formatting", "parsing"] }
 uuid = { version = "1.8.0", features = ["serde", "v4"] }
-lazy_static = "1.4.0"
 derive_builder = "0.20"
 <# if (this.sdkPath != null) { #>
 azure_iot_operations_mqtt = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_mqtt")#>" }
