@@ -1,4 +1,6 @@
 ﻿
+using Azure.Iot.Operations.Services.Assets;
+
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
@@ -6,13 +8,13 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     internal class DatasetSamplerContext
     {
-        internal string AssetName { get; set; }
+        internal Asset Asset { get; set; }
 
         internal string DatasetName { get; set; }
 
-        internal DatasetSamplerContext(string assetName, string datasetName)
+        internal DatasetSamplerContext(Asset asset, string datasetName)
         {
-            AssetName = assetName;
+            Asset = asset;
             DatasetName = datasetName;
         }
     }

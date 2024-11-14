@@ -248,18 +248,27 @@ namespace Azure.Iot.Operations.Services.Assets
             string fileName = e.FileName;
 
             //TODO do we care about filtering out changes to unrelated files?
-            new Task(async () =>
+
+            _ = Task.Run(async () =>
             {
-                //TODO an AEP can only be updated, right? Some files that hold information about the AEP
-                // may be created/deleted over time (password file may disappear if credentials no longer needed)
-                // but it may be a stretch to mark all file changes as "updates"
-                AssetEndpointProfileChanged?.Invoke(this, new(ChangeType.Updated, await GetAssetEndpointProfileAsync()));
-            }).Start();
+                if (e.ChangeType == ChangeType.Deleted)
+                {
+                    // Don't bother trying to fetch the aep since it won't exist
+                    AssetEndpointProfileChanged?.Invoke(this, new(e.ChangeType, null));
+                }
+                else
+                {
+                    //TODO an AEP can only be updated, right? Some files that hold information about the AEP
+                    // may be created/deleted over time (password file may disappear if credentials no longer needed)
+                    // but it may be a stretch to mark all file changes as "updates"
+                    AssetEndpointProfileChanged?.Invoke(this, new(e.ChangeType, await GetAssetEndpointProfileAsync()));
+                }
+            });
         }
 
         private void OnAssetFileChanged(object? sender, FileChangedEventArgs e)
         {
-            new Task(async () =>
+            _ = Task.Run(async () =>
             {
                 if (e.ChangeType == ChangeType.Deleted)
                 {
@@ -269,13 +278,12 @@ namespace Azure.Iot.Operations.Services.Assets
                 { 
                     AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, await GetAssetAsync(e.FileName)));
                 }
-            }).Start();
+            });
         }
 
         private static async Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
         {
             byte[]? bytesRead = await GetMountedConfigurationValueAsync(path);
-
             return bytesRead != null ? Encoding.UTF8.GetString(bytesRead) : null;
         }
 

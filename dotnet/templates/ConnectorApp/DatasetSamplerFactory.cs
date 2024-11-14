@@ -5,7 +5,7 @@ namespace ConnectorApp
 {
     public class DatasetSamplerFactory : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSampleFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSamplerFactoryProvider = service =>
         {
             return new DatasetSamplerFactory();
         };

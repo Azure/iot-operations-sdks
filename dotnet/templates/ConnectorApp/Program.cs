@@ -5,8 +5,9 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(DatasetSamplerFactory.DatasetSampleFactoryProvider);
+        services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddHostedService<ConnectorAppWorker>();
+        services.AddSingleton<string>("yourLeadershipPositionId");
     })
     .Build();
 
