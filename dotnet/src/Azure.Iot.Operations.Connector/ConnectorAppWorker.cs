@@ -56,7 +56,6 @@ namespace Azure.Iot.Operations.Connector
             catch (Exception e)
             {
                 _logger.LogError("Failed to observe the leadership key");
-                _logger.LogError(e.Message); 
                 _logger.LogError(e.StackTrace);
             }
 
@@ -67,7 +66,6 @@ namespace Azure.Iot.Operations.Connector
             catch (Exception e)
             {
                 _logger.LogError("Failed to set the leadership key");
-                _logger.LogError(e.Message);
                 _logger.LogError(e.StackTrace);
             }
 
@@ -78,7 +76,6 @@ namespace Azure.Iot.Operations.Connector
             catch (Exception e)
             {
                 _logger.LogError("Failed to unobserve the leadership key");
-                _logger.LogError(e.Message);
                 _logger.LogError(e.StackTrace);
             }
 
