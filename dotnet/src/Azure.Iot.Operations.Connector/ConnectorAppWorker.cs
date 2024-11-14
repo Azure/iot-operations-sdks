@@ -3,7 +3,6 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
-using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -41,49 +40,16 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            //TODO do active passive LE in the template level. Check replica count > 1 in connector config works as expected
+            string candidateName = Guid.NewGuid().ToString();
+            bool isLeader = false;
+
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
             _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
             //TODO retry if it fails, but wait until what to try again? Just rely on retry policy?
             await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
-
-            await using StateStoreClient stateStoreClient = new(_sessionClient);
-            try
-            {
-                await stateStoreClient.ObserveAsync(_leadershipPositionId);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to observe the leadership key");
-                _logger.LogError(e.StackTrace);
-            }
-
-            try
-            {
-                await stateStoreClient.SetAsync(_leadershipPositionId, "someValue");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to set the leadership key");
-                _logger.LogError(e.StackTrace);
-            }
-
-            try
-            {
-                await stateStoreClient.UnobserveAsync(_leadershipPositionId);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Failed to unobserve the leadership key");
-                _logger.LogError(e.StackTrace);
-            }
-
-            //TODO do active passive LE in the template level. Check replica count > 1 in connector config works as expected
-            string candidateName = Guid.NewGuid().ToString();
-            bool isLeader = false;
-
-
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
