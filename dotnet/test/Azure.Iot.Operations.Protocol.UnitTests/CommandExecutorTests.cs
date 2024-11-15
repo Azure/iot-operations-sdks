@@ -236,7 +236,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
-            requestMsg.AddUserProperty(AkriSystemProperties.CommandInvokerId, invClientId1);
+            requestMsg.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
             await mock.SimulateNewMessage(requestMsg);
             await mock.SimulateNewMessage(requestMsg);
@@ -283,7 +283,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
-            requestMsg.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            requestMsg.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             await mock.SimulateNewMessage(requestMsg);
             await mock.SimulateNewMessage(requestMsg);
@@ -333,7 +333,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
-            requestMsg1.AddUserProperty(AkriSystemProperties.CommandInvokerId, invClientId1);
+            requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
@@ -345,7 +345,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
-            requestMsg2.AddUserProperty(AkriSystemProperties.CommandInvokerId, invClientId2);
+            requestMsg2.AddUserProperty(AkriSystemProperties.SourceId, invClientId2);
 
             await mock.SimulateNewMessage(requestMsg1);
             await mock.SimulateNewMessage(requestMsg2);
@@ -402,7 +402,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = "mock/any/echo/response",
             };
 
-            requestMsg1.AddUserProperty(AkriSystemProperties.CommandInvokerId, invClientId1);
+            requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage("mock/any/echo")
             {
@@ -414,7 +414,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 ResponseTopic = "mock/any/echo/response",
             };
 
-            requestMsg2.AddUserProperty(AkriSystemProperties.CommandInvokerId, invClientId1);
+            requestMsg2.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
             await mock.SimulateNewMessage(requestMsg1);
             await mock.SimulateNewMessage(requestMsg2);
@@ -469,7 +469,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = 25,
             };
 
-            requestMsg.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            requestMsg.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
             requestMsg.AddUserProperty("_failFirstPubAck", "true");
 
             await mock.SimulateNewMessage(requestMsg);
@@ -540,7 +540,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = 10,
             };
 
-            message1.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            message1.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             MqttApplicationMessage message2 = new MqttApplicationMessage(requestTopic)
             {
@@ -552,7 +552,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = 10,
             };
 
-            message2.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            message2.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             MqttApplicationMessage message3 = new MqttApplicationMessage(requestTopic)
             {
@@ -564,7 +564,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = 10,
             };
 
-            message3.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            message3.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             await mock.SimulateNewMessage(message1);
             await mock.SimulateNewMessage(message2);
@@ -616,7 +616,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = (uint)timeout.TotalSeconds,
             };
 
-            message.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             await mock.SimulateNewMessage(message);
             await mock.SimulatedMessageAcknowledged();
@@ -673,7 +673,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 MessageExpiryInterval = 10,
             };
 
-            message.AddUserProperty(AkriSystemProperties.CommandInvokerId, Guid.NewGuid().ToString());
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
             await mock.SimulateNewMessage(message);
             await mock.SimulatedMessageAcknowledged();

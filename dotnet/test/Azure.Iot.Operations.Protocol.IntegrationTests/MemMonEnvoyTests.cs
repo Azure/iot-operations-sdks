@@ -155,6 +155,7 @@ public class MemMonEnvoyTests
         Assert.Equal("application/avro", memStatsMD.CloudEvent.DataContentType);
         Assert.True(DateTime.TryParse(memStatsMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
         Assert.True(Guid.TryParse(memStatsMD.CloudEvent.Id, out Guid _));
+        Assert.Equal(mqttSender.ClientId, memStatsMD.SenderId);
 
 
         var managedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
@@ -169,6 +170,7 @@ public class MemMonEnvoyTests
         Assert.Equal("application/avro", managedMemoryMD.CloudEvent.DataContentType);
         Assert.True(DateTime.TryParse(managedMemoryMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
         Assert.True(Guid.TryParse(managedMemoryMD.CloudEvent.Id, out Guid _));
+        Assert.Equal(mqttSender.ClientId, managedMemoryMD.SenderId);
 
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
