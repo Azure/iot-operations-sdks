@@ -1,13 +1,13 @@
 # Setup
 
-The following instructions will get your started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
+The following instructions will get you started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
 
 ## Setup the platform
 
-We recommend three different platform paths for developing with Azure IoT Operations, all of which are use [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
+We recommend three different platform paths for developing with Azure IoT Operations which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provide the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
 > [!NOTE]
-> For development, its recommendation is make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
+> For development, it's recommended to make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
 
 The Codespaces approach is the recommended option and it provides all the necessary tools pre-installed.
 
@@ -65,7 +65,7 @@ Installation of Azure IoT Operations can be performed by connecting your cluster
 
 ### Install with Azure Arc
 
-Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy need Assets.
+Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy Assets.
 
 1. Open a shell in the root directory of this repository
 
@@ -84,7 +84,7 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 
 ### Install with Helm
 
-Installation via Helm provides allows you to get started quicker, however this is missing the Azure integration so may not be suitable for some development.
+Installation via Helm allows you to get started quickly, however this is missing the Azure integration so it may not be suitable for some development.
 
 1. Open a shell in the root directory of this repository
 

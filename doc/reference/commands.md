@@ -13,9 +13,12 @@ Commands are the basis for:
 * Messaging that cannot be resolved using Telemetry
 * Built-in service for the Azure IoT Operations ecosystem
 
-## CommandExecutor
+## Command executor
 
-The CommandExecutor Binder listens to the Request Topic, deserializes the request and triggers an event that can be implemented by the users application to implement the command. It may be configured to listen to different topics with _wildcards_. Once the command has been executed, the response will be serialized and published to the response topic. The CommandExecutor always uses QoS1, persistent sessions, and _delayed ACKs_ to take advantage of the broker capabilities with persistent sessions and implement guaranteed delivery of method invocations.
+The Command executor Binder listens to the Request Topic, deserializes the request and triggers an event that can be implemented by the users application to implement the command. It may be configured to listen to different topics with _wildcards_. Once the command has been executed, the response will be serialized and published to the response topic. 
+
+> [!NOTE]
+> The Command executor should use QoS1, persistent sessions, and _delayed ACKs_ to take advantage of the broker capabilities with persistent sessions and implement guaranteed delivery of method invocations.
 
 ```mermaid
 sequenceDiagram;
@@ -48,9 +51,12 @@ sequenceDiagram;
 > [!NOTE]
 >  The Dispatcher also works with an in-memory cache to de-duplicate requests resend on reconnection.
 
-## CommandInvoker
+## Command invoker
 
-The CommandInvoker is initiated by the user. It will subscribe to the Response Topic, Serialize the Request and publish a message to the Request Topic. Since the response is not guaranteed, the client should timeout after a period of time. Once the response is received, it will be deserialized and sent back to the client application. A command invoker uses QoS1, persistent session and _delayed ACKs_ to guarantee delivery of request and response.
+The Command invoker is initiated by the user. It will subscribe to the Response Topic, Serialize the Request and publish a message to the Request Topic. Since the response is not guaranteed, the client should timeout after a period of time. Once the response is received, it will be deserialized and sent back to the client application. 
+
+> [!NOTE]
+> A command invoker should use QoS1, persistent session and _delayed ACKs_ to guarantee delivery of request and response.
 
 ```mermaid
 sequenceDiagram;

@@ -10,7 +10,7 @@ This client provides a seemless way to connect an application to the MQTT Broker
 
 ## Protocol
 
-Protocol contains Telemetry, Commands and Serialization. Telemetry consists of a sender and a receiver. A Command provide an invoker and an executor.
+Protocol contains Telemetry, Commands and Serialization. Telemetry consists of a sender and a receiver. Command provides an invoker and an executor.
 
 ### Telemetry sender
 
@@ -26,7 +26,7 @@ The invoker is the origin of the call (or the client). It will generate the comm
 
 ### Command executor
 
-The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker per executor for each command type, however the usage of share subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
+The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker per executor for each command type, however the usage of shared subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
 
 ### Serializers
 
@@ -40,7 +40,7 @@ The state store client communicates with the [state store](https://learn.microso
 
 ### Schema registry client
 
-The schema registry client provides an interface to get and set Schemas from the Azure IoT Operations [schema registry](https://learn.microsoft.com/en-us/azure/iot-operations/connect-to-cloud/concept-schema-registry). The registry would typically contain schemas describing the different assets available to be consumed by the an edge application.
+The schema registry client provides an interface to get and set Schemas from the Azure IoT Operations [schema registry](https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-schema-registry). The registry would typically contain schemas describing the different assets available to be consumed by the an edge application.
 
 ### ADR client
 

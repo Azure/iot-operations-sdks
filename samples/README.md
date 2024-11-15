@@ -1,9 +1,11 @@
 # Samples and Tutorials
 
-The following is a list of tutorials and samples are available across all languages. Each language may have additional samples which can also be found within each language directory.
+The following is a list of tutorials and samples that are available across all languages. Each language may have additional samples which can also be found within each language directory.
 
 > [!IMPORTANT]
 > Refer to [getting started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
+
+A :yellow_circle: mean the tutorial or sample is planned in the near future.
 
 ## Tutorials
 

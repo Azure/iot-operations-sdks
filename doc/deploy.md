@@ -13,7 +13,7 @@ Some languages have built in container support, however all binaries can be depl
 
 ### .NET
 
-Refer to [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) for details on building a creating a container from a .NET 8 project.
+Refer to [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) for details on building and creating a container from a .NET 8 project.
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

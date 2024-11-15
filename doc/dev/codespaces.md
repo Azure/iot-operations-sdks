@@ -6,7 +6,7 @@ Opening the codespace in Desktop VSCode will allow the MQTT broker to be accesse
 
 1. Run VSCode.
 1. Press `F1` and choose `Codespaces: Connect to Codespace...`.
-1. Select the Codespaces for this repository you created earlier.
+1. Select the codespace for this repository you created earlier.
 
 > [!IMPORTANT]
 > The `az login` command may fail when used in the **Codespaces web browser**. Run the Codespaces in a local VSCode to bypass this issue.
@@ -23,7 +23,7 @@ A k3d cluster is already installed in Codespaces, however you can add another cl
 
 1. Stop the existing cluster:
 
-    The clusters both expose the same ports (1883 and 8883), so they can't run simultaneously. Also the CodeSpace has limited RAM so running multiple cluster may fail, so its best to stop the other clusters:
+    The clusters both expose the same ports (1883 and 8883), so they can't run simultaneously. Also the codeSpace has limited RAM so running multiple clusters may fail, so its best to stop the other clusters:
 
     ```bash
     k3d cluster stop
@@ -108,7 +108,7 @@ By default, if you create a Codespace on a fork, you will quickly run out of fre
 
 1. Create a [Personal Access Token](https://github.com/settings/tokens) (PAT) with write access to the repository fork.
 
-1. Set the `GH_TOKEN` variable in your [Codespaces user secrets](https://github.com/settings/codespaces) to the PAT.
+1. Add the `GH_TOKEN` variable in your [Codespaces user secrets](https://github.com/settings/codespaces) to the PAT.
 
 1. Restart the codespace to pull in the new `GH_TOKEN`.
 
@@ -141,5 +141,5 @@ Some popular shortcuts:
 * `:events:` : list all events on the cluster, press `shift-l` to sort by last seen.
 * `:secrets:` : show cluster secrets
 * `:configmap:` : show cluster config maps
-* `:Broker` : list the IoT Mq Brokers
-* `:BrokerListeners` : Show the IoT Mq BrokerListeners
+* `:Broker` : list the MQTT brokers
+* `:BrokerListeners` : Show the BrokerListeners

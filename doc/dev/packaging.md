@@ -45,21 +45,21 @@ To refresh the dependencies, execute the following:
 
 ## Rust
 
-To refresh the dependencies, execute the following:
+To pull the required dependencies from upstream crates.io into Azure IoT Operations SDKs feed, execute the following:
 
-1. Create a personal access token with with Packaging | Read & write permissions.
+1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions.
 
 1. Authenticate using the PAT:
 
     ```bash
-    export PAT={PAT_TOKEN}
+    export PAT=<PAT_TOKEN>
+    cd rust
     echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
     ```
 
 1. Change into the rust directory and publish the crates:
 
     ```bash
-    cd rust
     cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdk
     cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdk
     cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdk
@@ -68,5 +68,5 @@ To refresh the dependencies, execute the following:
 1. **[Optional]** Build the rumqttc dependency:
 
     ```bash
-    cargo publish --manfest-path rumqttc/Cargo.toml --registry aio-sdk --features use-native-tls --no-default-features
+    cargo publish --manifest-path rumqttc/Cargo.toml --registry aio-sdk --features use-native-tls --no-default-features
     ```

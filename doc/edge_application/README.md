@@ -1,6 +1,6 @@
 # Edge application development
 
-The Azure IoT Operations SDKs directly supports building edge applications in a number of ways:
+The Azure IoT Operations SDKs directly support building edge applications in a number of ways:
 
 1. Provides a MQTT `session client` enabling simple secure connectivity to MQTT broker including automatic online credential renewal and session resuming on reconnection to minimum message loss.
 
