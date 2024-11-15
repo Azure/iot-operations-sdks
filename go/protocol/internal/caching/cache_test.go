@@ -119,7 +119,7 @@ func (tc *test) messages() (*mqtt.Message, *mqtt.Message) {
 		CorrelationData: []byte{1, 2, 3, 4, tc.num},
 		MessageExpiry:   uint32(tc.exp.Seconds()),
 		UserProperties: map[string]string{
-			constants.InvokerClientID: "client",
+			constants.SourceID: "client",
 		},
 	}
 	req := &mqtt.Message{Payload: []byte(tc.req), PublishOptions: opts}

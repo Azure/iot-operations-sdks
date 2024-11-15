@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -156,8 +155,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 ) error {
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
-
-	message.ClientID = pub.UserProperties[constants.SenderClientID]
 
 	message.Payload, err = tr.listener.payload(pub)
 	if err != nil {

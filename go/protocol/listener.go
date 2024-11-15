@@ -118,6 +118,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		return
 	}
 
+	msg.ClientID = msg.Mqtt.UserProperties[constants.SourceID]
+
 	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
 		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:    "correlation data missing",
