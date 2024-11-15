@@ -55,7 +55,7 @@ jobs:
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
           (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
-        #  (pushd samples/rust/counter/counter_envoy; $codegen --modelFile ../../../counter.json --sdkPath ../../../../lib --lang rust; cargo fmt; popd)
+          (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
 
       - name: Build dotnet
         if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
@@ -74,7 +74,7 @@ jobs:
         if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
         run: |
           cd rust
-          cargo build --release --examples --config profile.release.panic=\'abort\'
+          cargo build --release --config profile.release.panic=\'abort\'
 
       - name: Run Counter Server dotnet
         if: matrix.counter_server == 'counter-server-dotnet'
@@ -86,7 +86,7 @@ jobs:
 
       - name: Run Counter Server rust
         if: matrix.counter_server == 'counter-server-rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_server &
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }}  rust/target/release/counter_server &
 
       - name: Run Counter Client dotnet
         if: matrix.counter_client == 'counter-client-dotnet'
@@ -98,4 +98,4 @@ jobs:
 
       - name: Run Counter Client rust
         if: matrix.counter_client == 'counter-client-rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/examples/counter_client
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/counter_client
