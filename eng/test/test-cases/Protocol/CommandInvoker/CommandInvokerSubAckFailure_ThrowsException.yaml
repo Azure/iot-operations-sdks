@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerSubAckFailure_ThrowsException
-aka:
-- InvokerSubscribeThrowException
 description:
   condition: >-
     CommandInvoker initialized but ACK fails when subscribing.

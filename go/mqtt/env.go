@@ -99,7 +99,14 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 			opts.Password = FilePassword(val)
 
 		case "AIO_SAT_FILE":
-			opts.Auth = auth.NewAIOServiceAccountToken(val)
+			satAuth, err := auth.NewAIOServiceAccountToken(val)
+			if err != nil {
+				return nil, nil, &InvalidArgumentError{
+					message: "error setting up the AIO SAT auth provider",
+					wrapped: err,
+				}
+			}
+			opts.Auth = satAuth
 
 		case "AIO_TLS_CA_FILE":
 			conn.caFile = val

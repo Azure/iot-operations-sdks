@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendWithoutCloudEvent_Success
-aka:
-- SendTelemetry_WithCloudEvents
 description:
   condition: >-
     TelemetrySender sends a Telemetry without attached CloudEvent info.
@@ -26,4 +24,5 @@ epilogue:
       "specversion": # not present
       "datacontenttype": # not present
       "subject": # not present
+      "dataschema": # not present
 ...

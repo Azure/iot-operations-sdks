@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerWithCustomResponseTopic_Success
-aka:
-- InvokeWithExecutorIdWithCustomResponse
 description:
   condition: >-
     CommandInvoker with custom response topic invokes command and receives response.

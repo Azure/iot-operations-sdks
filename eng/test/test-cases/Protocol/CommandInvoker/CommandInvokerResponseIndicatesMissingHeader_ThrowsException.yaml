@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseIndicatesMissingHeader_ThrowsException
-aka:
-- InvokerRequestBadPayload
 description:
   condition: >-
     CommandInvoker receives response message with status indicating Bad Request and invalid property name.

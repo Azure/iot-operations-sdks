@@ -10,7 +10,9 @@ type Values struct {
 	AuthData   []byte
 }
 
-// Provider implements an MQTT enhanced authentication exchange.
+// Provider implements an MQTT enhanced authentication exchange. The provider
+// may also implement io.Closer in order to clean up any resources when the
+// client is shut down.
 type Provider interface {
 	// InitiateAuth is called by the session client when an enhanced auth
 	// exchange is initiated. An enhanced auth exchange is initiated when a new
