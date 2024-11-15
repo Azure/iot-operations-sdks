@@ -19,7 +19,7 @@ The SDKs will assume the protocol version is 0.1 if the `__protVer` header is no
 ## Protocol Version 0.1:
   - `{senderID}` in the topic for telemetry envoys is no longer required. If included, it will be handled like other generalized topic tokens.
   - Both `TelemetrySender` and `CommandInvoker` will use `__srcId` to specify their client ID.
-  - The `CommandExecutor` and `TelemetryReceiver` do not require `__srcId`. If not included:
+  - The `TelemetryReceiver` does not require `__srcId`, but the `CommandExecutor` does. If not included::
     - The `TelemetryReceiver` will not provide the sender's ID to the application.
-    - The `CommandInvoker` will return an error indicating a missing field. 
+    - The `CommandExecutor` will return an error indicating a missing field. 
 
