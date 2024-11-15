@@ -78,6 +78,7 @@ func (p *publisher[T]) build(
 	if err != nil {
 		return nil, err
 	}
+	pub.UserProperties[constants.SourceID] = p.client.ID()
 	pub.UserProperties[constants.Timestamp] = ts.String()
 	pub.UserProperties[constants.ProtocolVersion] = version.ProtocolString
 

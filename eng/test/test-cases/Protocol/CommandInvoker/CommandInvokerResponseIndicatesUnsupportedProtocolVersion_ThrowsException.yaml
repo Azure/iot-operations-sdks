@@ -21,8 +21,8 @@ actions:
   is-application-error: "false"
   metadata:
     "__supProtMajVer": "2 3 4"
-    "__requestProtVer": "1.0"
-    "__protVer": "1.0"
+    "__requestProtVer": "0.1"
+    "__protVer": "0.1"
     "__stMsg": "This is a not supported version exception"
 - action: await invocation
   invocation-index: 0
@@ -34,6 +34,6 @@ actions:
     status-code: 505
     message: "This is a not supported version exception"
     supplemental:
-      protocol-version: '1.0'
+      protocol-version: '0.1'
       supported-protocols: "2 3 4"
 ...

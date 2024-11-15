@@ -494,7 +494,7 @@ func checkPublishedRequest(
 	}
 
 	if publishedMessage.InvokerID != nil {
-		invokerID, ok := getUserProperty(t, msg, InvokerClientID)
+		invokerID, ok := getUserProperty(t, msg, SourceID)
 		require.True(t, ok)
 		require.Equal(t, *publishedMessage.InvokerID, invokerID)
 	}
