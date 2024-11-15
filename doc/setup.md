@@ -1,94 +1,168 @@
-# Environment Setup
+# Setup
 
-## Platform Setup
+The following instructions will get you started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
 
-### **Codespaces**
+## Setup the platform
 
-Use Github Codespaces to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine. Setting up in [GitHub Codespaces](https://github.com/features/codespaces) can be done with the below badge:
+We recommend three different platform paths for developing with Azure IoT Operations which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provide the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
+> [!NOTE]
+> For development, it's recommended to make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
 
+The Codespaces approach is the recommended option and it provides all the necessary tools pre-installed.
 
-### **Linux**
+### Codespaces *(Recommended)*
 
-Install on Linux by following the [k3d documentation](https://k3d.io/#releases).
+1. Install [VS Code](https://code.visualstudio.com/)
 
-### **Windows (WSL)**
+1. Launch Codespaces:
 
-Installation on Windows uses WSL, which can be added by [Installing Linux on Windows with WSL](https://learn.microsoft.com/windows/wsl/install).
+    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
-Ensure you also follow the steps under [Upgrade version from WSL 1 to WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
+1. Open the codespace in VS Code Desktop - this is required to login to Azure in a later step:
 
-Then [install k3d](https://k3d.io/#releases).
+    > **Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**
 
-## Cluster Setup
+### Linux
 
-Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Steps for both are included below.
+1. Install [Ubuntu](https://ubuntu.com/download/desktop)
 
-### Helm (Nightly Build)
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
 
-1. [Install Helm](https://helm.sh/docs/intro/install/)
+> [!CAUTION]
+> Ubuntu provides unofficial Docker packages via snap or apt. Install directly from Docker guarantees that latest version.
 
-2. Create a cluster with the `initialize-cluster` script:
+### Windows Subsystem for Linux (WSL)
 
-    From the root directory of the repo:
-    ```bash
-    ./tools/deployment/initialize-cluster.sh
+1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
+
+    ```powershell
+    wsl --install Ubuntu
     ```
 
-3. Install Azure IoT Operations with the `deploy-aio.sh` script:
+1. Install [Docker Desktop with WSL 2](https://docs.docker.com/desktop/features/wsl/)
 
-    From the root directory of the repo, for the **nightly** build
+## Install prerequisites
+
+> [!NOTE]
+> Codespaces comes pre-installed with all required prerequisites. If you have deployed a codespace from the Azure IoT Operations SDKs repository, then you can skip these steps.
+
+1. Install Git:
+
+    ```bash
+    sudo apt-get install git
+    ```
+
+1. Clone the Azure IoT Operations SDK repository:
+
+    ```bash
+    git clone https://github.com/Azure/iot-operations-sdks
+    ```
+
+## Install Azure IoT Operations
+
+Installation of Azure IoT Operations can be performed by connecting your cluster to Azure Arc (simulating a production environment) or by installing directly to the cluster with Helm.
+
+### Install with Azure Arc
+
+Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy Assets.
+
+1. Open a shell in the root directory of this repository
+
+1. Run the init script which will install k3d (plus other dependencies) and create a new cluster:
+
+    ```bash
+    sudo ./tools/deployment/initialize-cluster.sh
+    ```
+
+1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to connect your cluster to Azure Arc and deploy Azure IoT Operations.
+
+1. [Connect your cluster](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster?tabs=ubuntu#arc-enable-your-cluster)
+ to Azure Arc
+
+1. [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli) to your cluster
+
+### Install with Helm
+
+Installation via Helm allows you to get started quickly, however this is missing the Azure integration so it may not be suitable for some development.
+
+1. Open a shell in the root directory of this repository
+
+1. Create a new k3d cluster:
+
+    ```bash
+    sudo ./tools/deployment/initialize-cluster.sh
+    ```
+
+1. Install Azure IoT Operations:
+
     ```bash
     ./tools/deployment/deploy-aio.sh nightly
     ```
 
-Scripts can be executed with the above commands for ease of use, however if you would like to see the exact steps being performed or would like more info, navigate to the [deployment folder](../tools/deployment/).
+> [!CAUTION]
+> The scripts linked above simplify the environment setup. To understand the steps, review the scripts in the [deployment directory](/tools/deployment/).
 
-### Azure Arc (Release Build)
+## Broker configuration
 
-The release build must be installed using Azure Arc.
+Once setup is complete, the cluster will contain the following MQTT broker definitions:
 
-1. Run the `initialize-cluster` script
+| Component | Name | Description |
+|-|-|-|
+| `Broker` | default | The MQTT broker |
+| `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
+| `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
+| `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
+| `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
 
-    From the root directory of the repo:
+## Local artifacts
+
+As part of the deployment script, the following files are created in the local environment, to facilitate connection and authentication to the MQTT broker. These files are located in the `.session` directory, found at the repository root.
+
+> [!NOTE]
+> For applications that will be deployed to the cluster, SAT  is the preferred authentication method for connecting to the MQTT broker.
+
+| File | Description |
+|-|-|
+| `broker-ca.crt` | The MQTT broker trust bundle required to validate the MQTT broker on ports `8883` and `8884`
+| `token.txt` | A Service authentication token (SAT) for authenticating with the MQTT broker on `8884`
+| `client.crt` | A x509 client certificate for authenticating with the MQTT broker on port `8883`
+| `client.key` | A x509 client private key for authenticating with the MQTT broker on port `8883`
+
+## Testing the Setup
+
+To test the setup is working correctly, use `mosquitto_pub` to connect to the locally accessible MQTT broker ports to validate the x509 certs, SAT and trust bundle.
+
+1. Export the `.session` directory:
+
     ```bash
-    ./tools/deployment/initialize-cluster.sh
+    export SESSION=$(git rev-parse --show-toplevel)/.session
     ```
 
-2. [Arc-enable your cluster](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster?tabs=ubuntu#arc-enable-your-cluster)
-3. [Install Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli)
+1. Test no TLS, no auth:
 
-## Language
+    ```bash
+    mosquitto_pub -L mqtt://localhost:1883/hello -m world --debug
+    ```
 
-### .NET
+1. Test TLS with x509 auth:
 
-1. Install the .NET 8 SDK by following [Install .NET on Linux](https://learn.microsoft.com/dotnet/core/install/linux).
+    ```bash
+    mosquitto_pub -L mqtts://localhost:8883/hello -m world --cafile $SESSION/broker-ca.crt --cert $SESSION/client.crt --key $SESSION/client.key --debug
+    ```
 
-2. Check the correct version of the SDK is installed:
+1. Test TLS with SAT auth:
 
-```bash
-dotnet --version
-```
+    ```bash
+    mosquitto_pub -L mqtts://localhost:8884/hello -m world --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt) --debug
+    ```
 
-Output:
+## Next Steps
 
-```bash
-8.0.xxx
-```
+The development environment is now setup! Refer to the language documentation for further instructions on setting up the SDK:
 
-3. Refer to the [.NET documentation](/dotnet/) for further steps.
+* Get started with the [.NET SDK ](/dotnet/)
 
-### Go
+* Get started with the [Go SDK](/go/)
 
-1. Install Go by following the [Go Install Dev Doc](https://go.dev/doc/install).
-
-1. Refer to the [Go documentation](/go/) for further steps.
-
-### Rust
-
-1. Install Rust by following [Installing Rust](https://www.rust-lang.org/tools/install).
-
-1. Refer to the [Rust documentation](/rust/) for further steps.
-
-1. Additional Rust resources, including guides and tooling, can be found in the doc folder: [Rust Resources](/doc/dev/rust_resources.md)
+* Get started with the [Rust SDK](/rust/)
