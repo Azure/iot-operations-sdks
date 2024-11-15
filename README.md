@@ -74,14 +74,13 @@ The following tables outlines the current feature set, along with the associated
 |-|-|
 | :green_circle:&nbsp;Complete | Feature is released and **actively** supported by the team. |
 | :yellow_circle:&nbsp;In&nbsp;progress | Under development, **no support** provided. |
-| :orange_circle:&nbsp;Planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on planned features. |
-| :red_circle:&nbsp;Not&nbsp;planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on unplanned features. |
+| :orange_circle:&nbsp;Planned | Work is planned in the near future. |
 
 | Feature | Description | .NET | Go | Rust |
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
-| **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Command** client | Command (invoker/executor) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Telemetry** client | Telemetry (sender/receiver) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |

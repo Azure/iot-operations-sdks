@@ -41,11 +41,11 @@ The Azure IoT Operations SDKs provide a number of layers for a customer to devel
 
 1. A set of primitives, designed to assist customers in creating applications built on the fundamental protocol implementations, **Commands** and **Telemetry**. 
 
-1. A s**ession client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
+1. A **Session Client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
 
 1. A set of clients implementing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
 
-1. The Protocol Compiler allows clients and servers to communicate via a schema contract. Describe the communication (Telemetry, RPC and serialization) using DTDL, then generate a set of client libraries and server library stubs across a set of popular programming languages.
+1. The **Protocol Compiler** allows clients and servers to communicate via a schema contract. First describe the communication (using **Telemetry** and **Commands**) with DTDL, then generate a set of client libraries and server library stubs across the supported programming languages.
 
 ## Applications types
 
