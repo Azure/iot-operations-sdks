@@ -13,7 +13,7 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 
 |Name|Environment variable|Required|Type|Default value|Description|
 |-|-|-|-|-|-|
-|`HostName`|`AIO_BROKER_HOSTNAME`|yes|string|n/a|FQDN to the endpoint, eg: mybroker.mydomain.com|
+|`Hostname`|`AIO_BROKER_HOSTNAME`|yes|string|n/a|FQDN to the endpoint, eg: mybroker.mydomain.com|
 |`TcpPort`|`AIO_BROKER_TCP_PORT`|no|int|`8883`|TCP port to access the endpoint eg: 8883|
 |`UseTls`|`AIO_MQTT_USE_TLS`|no|bool|`true`|Enable TLS negotiation (disabling not recommended for production)|
 |`CaFile`|`AIO_TLS_CA_FILE`|no|string|null|Path to a PEM file to validate server identity|
