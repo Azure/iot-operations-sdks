@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorIdempotentCommandPositiveCacheTtl_StartsSuccessfully
-aka:
-- IdempotentCommandPositiveCacheTtlDoesNotThrow
 description:
   condition: >-
     CommandExecutor initialized with idempotent command that has a positive cache TTL.

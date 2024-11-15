@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestNoResponseTopic_NoResponse
-aka:
-- ResponseTopicMissing_MessageNotProcessedButAcknowledged
 description:
   condition: >-
     CommandExecutor receives request with invalid ResponseTopic metadata.

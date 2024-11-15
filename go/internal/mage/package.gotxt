@@ -1,11 +1,4 @@
 
-{{- if eq .Name "main" -}}
-	{{- header .Level .Dirname -}}
-{{- else -}}
-	{{- header .Level .Name -}}
-{{- end -}}
-{{- spacer -}}
-
 {{- template "import" . -}}
 {{- spacer -}}
 

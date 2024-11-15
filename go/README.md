@@ -11,6 +11,7 @@ The following Azure IoT Operations modules are available:
 | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | [**github.com/Azure/iot-operations-sdks/go/mqtt**](mqtt)         | MQTTv5 client library for decoupled asynchronous applications          |
 | [**github.com/Azure/iot-operations-sdks/go/protocol**](protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
+| [**github.com/Azure/iot-operations-sdks/go/services**](services) | Clients for using services of Azure IoT Operations                     |
 
 ## Installing modules
 
@@ -40,6 +41,7 @@ The following Azure IoT Operations modules are available:
     ```bash
     go get github.com/Azure/iot-operations-sdks/go/mqtt@<version>
     go get github.com/Azure/iot-operations-sdks/go/protocol@<version>
+    go get github.com/Azure/iot-operations-sdks/go/services@<version>
     ```
 
 ## Set up broker

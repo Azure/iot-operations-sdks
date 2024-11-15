@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerWithCustomTopicTokenMap_Success
-aka:
-- InvokerWithCustomTopicToken
 description:
   condition: >-
     CommandInvoker with custom topic-token map invokes command and receives response.

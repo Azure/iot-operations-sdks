@@ -52,8 +52,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             { PayloadFormat.Avro, new List<string> {
                 "match apache_avro::to_value(self) {",
-                "    Ok(v) => { apache_avro::to_avro_datum(&SCHEMA, v) },",
-                "    Err(e) => { Err(SerializerError { nested_error: Box::new(e) }) },",
+                "    Ok(v) => apache_avro::to_avro_datum(&SCHEMA, v),",
+                "    Err(e) => Err(e),",
                 "}",
             } },
             { PayloadFormat.Json, new List<string> { "serde_json::to_vec(self)" } },
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Avro, new List<string> {
                 "match apache_avro::from_avro_datum(&SCHEMA, &mut Cursor::new(payload), None) {",
                 "    Ok(v) => { apache_avro::from_value(&v) },",
-                "    Err(e) => { Err(SerializerError { nested_error: Box::new(e) }) },",
+                "    Err(e) => Err(e),",
                 "}",
             } },
             { PayloadFormat.Json, new List<string> { "serde_json::from_slice(payload)" } },
