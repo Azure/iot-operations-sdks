@@ -13,7 +13,7 @@ MQTT messages will include some system and user properties to define metadata va
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`CorrelationData`|no|system||A unique identifier for the message, must be GUID represented as a `byte[16]`|
 |`SourceId`|no|user|`__srcId`|String representing an identifier of the telemetry sender.|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 1.0 is assumed by the telemetry receiver. |
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the message. If not provided, a protocol version of 0.1 is assumed by the telemetry receiver. |
 
 ### CloudEvents Header
 
@@ -48,7 +48,7 @@ We will use the next properties
 |`Timestamp`|no|user|`__ts`|A hybrid clock (HLC) value that can be used to identify the time when the message was produced.|
 |`FencingToken`|no|user|`__ft`|A hybrid clock (HLC) value that can be used to protect the object of the request from conflicting updates.|
 |`SourceId`|yes|user|`__srcId`|String representing an identifier of the command invoker.|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the request. If not provided, a protocol version of 1.0 is assumed by the receiving executor.|
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the request. If not provided, a protocol version of 0.1 is assumed by the receiving executor. | 
 
 ### Response Message
 
@@ -64,6 +64,6 @@ We will use the next properties
 |`IsApplicationError`|no|user|`__apErr`|String with value `true` if an error is at the application level.|
 |`InvalidPropertyName`|no|user|`__propName`|String identifying the name of a property that is missing or has an invalid value.|
 |`InvalidPropertyValue`|no|user|`__propVal`|String indicating the value of a property that is invalid.|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the response. If not provided, a protocol version of 1.0 is assumed by the receiving invoker. |
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the response. If not provided, a protocol version of 0.1 is assumed by the receiving invoker. |
 |`SupportedProtocolMajorVersion`|no|user|`__supProtMajVer`| A space separated list of protocol major versions that the executor supports. Only provided if the request provided an unsupported protocol version. |
 |`RequestProtocolVersion`|no|user|`__requestProtVer`| The full protocol version of the request that was rejected because it was unsupported by the executor. Only provided if the request provided an unsupported protocol version. |
