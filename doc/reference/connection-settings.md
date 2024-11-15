@@ -17,9 +17,9 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 |`UseTls`|`AIO_MQTT_USE_TLS`|no|bool|`true`|Enable TLS negotiation (disabling not recommended for production)|
 |`CaFile`|`AIO_TLS_CA_FILE`|no|string|null|Path to a PEM file to validate server identity|
 |`CleanStart`|`AIO_MQTT_CLEAN_START`|no|bool|false|Whether to use persistent session on first connect, subsequent connections will be `false`. `true` requires a unique `ClientId`.
-|`KeepAlive`|`AIO_MQTT_KEEP_ALIVE`|no|int32|`60`|Interval of ping packets, in seconds|
+|`KeepAlive`|`AIO_MQTT_KEEP_ALIVE`|no|uint32|`60`|Interval of ping packets, in seconds|
 |`ClientId`|`AIO_MQTT_CLIENT_ID`|no|string|empty|MQTT Client Id, required for persistent sessions (`CleanStart=false`)|
-|`SessionExpiry`|`AIO_MQTT_SESSION_EXPIRY`|no|int32|`3600`|Connection session duration, in seconds|
+|`SessionExpiry`|`AIO_MQTT_SESSION_EXPIRY`|no|uint32|`3600`|Connection session duration, in seconds|
 |`Username`|`AIO_MQTT_USERNAME`|no|string|null|MQTT Username to authenticate the connection|
 |`PasswordFile`|`AIO_MQTT_PASSWORD_FILE`|no|string|null|MQTT Password file|
 |`CertFile`|`AIO_TLS_CERT_FILE`|no|string|null|Path to a PEM file to establish X509 client authentication|
