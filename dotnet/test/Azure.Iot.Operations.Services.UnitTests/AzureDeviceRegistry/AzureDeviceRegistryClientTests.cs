@@ -281,19 +281,29 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
                 string testAssetName = Guid.NewGuid().ToString();
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                TaskCompletionSource<AssetChangedEventArgs> assetTcs = new();
+                TaskCompletionSource<AssetChangedEventArgs> assetCreated = new();
+                TaskCompletionSource<AssetChangedEventArgs> assetUpdated = new();
                 adrClient.AssetChanged += (sender, args) =>
                 {
-                    assetTcs.TrySetResult(args);
+                    if (args.ChangeType == ChangeType.Updated)
+                    {
+                        assetUpdated.TrySetResult(args);
+                    }
+                    else if (args.ChangeType == ChangeType.Created)
+                    { 
+                        assetCreated.TrySetResult(args);
+                    }
                 };
 
                 adrClient.ObserveAssets(TimeSpan.FromMilliseconds(100));
+
+                await assetCreated.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 string newTopicPath = Guid.NewGuid().ToString();
                 testAsset.DefaultTopic.Path = newTopicPath;
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                var assetChangeEventArgs = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                var assetChangeEventArgs = await assetUpdated.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 Assert.Equal(ChangeType.Updated, assetChangeEventArgs.ChangeType);
                 Asset? observedAsset = assetChangeEventArgs.Asset;
