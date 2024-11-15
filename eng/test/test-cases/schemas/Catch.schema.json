@@ -19,7 +19,9 @@
                 "unknown error",
                 "invocation error",
                 "execution error",
-                "mqtt error"
+                "mqtt error",
+                "request version not supported",
+                "response version not supported"
             ],
             "kind": "check"
         },

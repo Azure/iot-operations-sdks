@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorUserCodeRaisesContentError_RespondsError
-aka:
-- ExecuteCommandWithException_ApplicationErrorInvocationException
 description:
   condition: >-
     CommandExecutor user code raises error indicating problem with request content

@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+use std::collections::HashMap;
 use std::time::Duration;
 
 use env_logger::Builder;
@@ -17,7 +19,7 @@ use azure_iot_operations_protocol::{
 const CLIENT_ID: &str = "myReceiver";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/{modelId}/{senderId}/new";
+const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
@@ -60,7 +62,10 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .model_id(MODEL_ID)
+        .topic_token_map(HashMap::from([(
+            "modelId".to_string(),
+            MODEL_ID.to_string(),
+        )]))
         .auto_ack(false)
         .build()
         .unwrap();
@@ -71,9 +76,11 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {
+                let sender_id = message.sender_id.unwrap();
+
                 println!(
                     "Sender {} sent temperature reading: {:?}",
-                    message.sender_id, message.payload
+                    sender_id, message.payload
                 );
 
                 // Parse cloud event

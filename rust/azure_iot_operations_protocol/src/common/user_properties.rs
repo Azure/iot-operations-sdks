@@ -20,9 +20,11 @@ pub enum UserProperty {
     Status,
     /// User Property indicating a human-readable status message; used when Status != 200 (OK).
     StatusMessage,
-    /// User property indicating if a non-200 <see cref="Status"/> is an application-level error.
+    /// User property indicating if a non-200 see <cref="Status"/> is an application-level error.
     IsApplicationError,
-    /// User Property indicating the MQTT Client ID of the source of the message.
+    /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
+    CommandInvokerId,
+    /// User Property indicating the source ID of a request, response, or message.
     SourceId,
     /// The name of an MQTT property in a request header that is missing or has an invalid value.
     InvalidPropertyName,

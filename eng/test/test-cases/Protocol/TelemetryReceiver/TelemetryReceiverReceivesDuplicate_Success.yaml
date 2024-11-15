@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverReceivesDuplicate_Success
-aka:
-- ReceiveTelemetry_DropPubAck
 description:
   condition: >-
     TelemetryReceiver receives duplicated Telemetry message.

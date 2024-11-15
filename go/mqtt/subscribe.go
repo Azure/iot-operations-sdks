@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
+	"github.com/eclipse/paho.golang/packets"
 	"github.com/eclipse/paho.golang/paho"
 )
 
@@ -42,8 +43,13 @@ func (c *SessionClient) makeOnPublishReceived(
 					return
 				}
 
-				// Errors from Ack are highly unlikely, so just log them.
+				// Paho does this asynchronously, but we still log it here for
+				// best-effort information before we hand it off.
+				c.log.Packet(ctx, "puback sent", &packets.Puback{
+					PacketID: packet.PacketID,
+				})
 				if err := current.Client.Ack(packet); err != nil {
+					// Errors from Ack are highly unlikely, so just log them.
 					c.log.Error(ctx, err)
 				}
 			}()

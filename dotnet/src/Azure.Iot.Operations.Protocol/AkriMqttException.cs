@@ -91,7 +91,7 @@ namespace Azure.Iot.Operations.Protocol
 
         internal static AkriMqttException GetConfigurationInvalidException(
             string configurationName,
-            object configurationValue,
+            object? configurationValue,
             string? message = default,
             Exception? innerException = default,
             string? commandName = default)
