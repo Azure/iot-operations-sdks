@@ -90,4 +90,4 @@ cargo run --example <sample name>
 These samples may assume the use of a broker running on `localhost`, or settings/credentials supplied by [environment variables](/doc/reference/connection-settings.md). They can be modified to supply different settings/credentials as necessary.
 
 ### SDK samples
-Additionally there are higher-level samples that show a set of related applications that can be built using the various components of the Rust SDK, including codegen. They can be found in the `sample_applications` directory, along with instructions for running them.
+Additionally there are higher-level samples that show a set of related applications that can be built using the various components of the Rust SDK, including codegen. They can be found in the [`sample_applications`](sample_applications) directory, along with instructions for running them.
