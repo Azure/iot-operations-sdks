@@ -258,9 +258,6 @@ namespace Azure.Iot.Operations.Services.Assets
                 }
                 else
                 {
-                    //TODO an AEP can only be updated, right? Some files that hold information about the AEP
-                    // may be created/deleted over time (password file may disappear if credentials no longer needed)
-                    // but it may be a stretch to mark all file changes as "updates"
                     AssetEndpointProfileChanged?.Invoke(this, new(e.ChangeType, await GetAssetEndpointProfileAsync()));
                 }
             });
