@@ -37,7 +37,7 @@ func TCPConnection(hostname string, port uint16) ConnectionProvider {
 	}
 }
 
-// TLSOption is a function that modifies a *tls.Config to be used when opening
+// TLSOption is a function that modifies a tls.Config to be used when opening
 // a TLS connection to an MQTT server. More than one can be provided to
 // TLSConnection; they will be executed in order, with the first passed the
 // empty (default) TLS config. See tls.Config for more information on TLS

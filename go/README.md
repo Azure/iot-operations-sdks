@@ -3,6 +3,9 @@
 This directory contains the source code, samples, and tests for the Azure IoT
 Operations Go SDK.
 
+| [Samples](samples) |
+[Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=go%2F) |
+
 ## Overview
 
 The following Azure IoT Operations modules are available:
@@ -43,19 +46,3 @@ The following Azure IoT Operations modules are available:
     go get github.com/Azure/iot-operations-sdks/go/protocol@<version>
     go get github.com/Azure/iot-operations-sdks/go/services@<version>
     ```
-
-## Set up broker
-
-The samples in this repository assume a broker is running on `localhost`. The Go
-`mqtt` module is intended for use with the Azure IoT Operations MQTT broker, but
-it is compatible with any MQTTv5 broker.
-
-## Running samples
-
-To run one of the samples, navigate to its directory (`go/samples/<sample>`) and
-run its server and/or client via:
-
-```bash
-go run ./server
-go run ./client
-```

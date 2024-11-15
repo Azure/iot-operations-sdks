@@ -52,7 +52,7 @@ var ceReserved = []string{
 	ceTime,
 }
 
-// Attrs returns additional error attributes for slog.
+// Attrs returns additional attributes for slog.
 func (ce *CloudEvent) Attrs() []slog.Attr {
 	// Cloud events were not specified; just bail out.
 	if ce == nil {

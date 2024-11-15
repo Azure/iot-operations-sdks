@@ -1,30 +1,50 @@
-# GO Samples
+# Go Samples
 
-This folder contains samples for GO based on a DTDL code generation tool. A MQTT
-broker is needed to run them.
+This folder contains samples for the various Azure IoT Operations Go modules.
 
 ## Prerequisites
 
-### Generate the Test Envoys
+The samples in this repository assume a broker is running on `localhost`. The
+[github.com/Azure/iot-operations-sdks/go/mqtt](../mqtt) module is intended for
+use with the Azure IoT Operations MQTT Broker, but it is compatible with any
+MQTTv5 broker.
 
-```sh
-./codegen/build.sh
+Depending on the sample, the MQTT connection settings may be configured via code
+or via [environment variables](../../doc/reference/connection-settings.md).
 
-cd go/samples/protocol/counter/envoy
-./gen.sh
-```
+## Samples for [github.com/Azure/iot-operations-sdks/go/protocol](../protocol)
 
-## How to run
+Each of these samples contains three directories:
 
-Each sample has 3 projects, the `envoy` with the generated code, the `client`
-and the `server`.
+-   `server` - This contains an example of the server side of the protocol - the
+    command executor in the case of RPC or the telemetry sender.
+-   `client` - This contains an example of the client side of the protocol - the
+    command invoker in the case of RPC or the telemetry receiver.
+-   `envoy` - This contains the common type definitions and scaffolding that
+    allow the client and server to communicate.
 
-### Counter
+To run one of the samples, navigate to its directory
+(`go/samples/protocol/<sample>`) and run its server and/or client via:
 
 ```bash
-# from go/samples/protocol/counter/server
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 MQTT_CLIENT_ID=CounterServer-go go run .
+go run ./server
+go run ./client
+```
 
-# from go/samples/protocol/counter/client
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 COUNTER_SERVER_ID=CounterServer-go go run .
+### Protocol Compiler
+
+Some of these samples ([cloudevents](protocol/cloudevents) and
+[counter](protocol/counter)) use an envoy generated using the
+[Protocol Compiler](../../codegen). To regenerate these envoys, build the
+Protocol compiler and run the `gen.sh` script in the corresponding `envoy`
+directory.
+
+## Samples for [github.com/Azure/iot-operations-sdks/go/services](../services)
+
+These contain samples of interactions with the Azure IOT Operations Services. To
+run one of the samples, navigate to its directory
+(`go/samples/services/<sample>`) and run it via:
+
+```bash
+go run .
 ```
