@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverWithTopicNamespace_Success
-aka:
-- ReceiveTelemetry_HappyPath
 description:
   condition: >-
     TelemetryReceiver with topic namespace receives a single valid Telemetry.

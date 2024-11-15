@@ -9,20 +9,23 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::PayloadSerialize,
-    topic_processor::{TopicPattern, WILDCARD},
-    user_properties::{UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::TopicPattern,
+        user_properties::{UserProperty, RESERVED_PREFIX},
+    },
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 use crate::{
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Cloud Event struct
 ///
@@ -135,12 +138,14 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub payload: T,
     /// Custom user data set as custom MQTT User Properties on the telemetry message.
     pub custom_user_data: Vec<(String, String)>,
-    /// Client ID of the sender of the telemetry message.
-    pub sender_id: String,
+    /// If present, contains the client ID of the sender of the telemetry message.
+    pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
     pub cloud_event: Option<CloudEvent>,
+    /// Resolved topic tokens from the incoming message's topic.
+    pub topic_tokens: HashMap<String, String>,
 }
 
 /// Telemetry Receiver Options struct
@@ -150,18 +155,12 @@ pub struct TelemetryReceiverOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
-    /// Telemetry name if required by the topic pattern
-    #[builder(default = "None")]
-    telemetry_name: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// If true, telemetry messages are auto-acknowledged
     #[builder(default = "true")]
     auto_ack: bool,
@@ -198,7 +197,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/{senderId}/telemetry")
+///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -223,7 +222,6 @@ where
 }
 
 /// Implementation of a Telemetry Sender
-#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetryReceiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
@@ -240,14 +238,13 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`telemetry_topic_pattern`](TelemetryReceiverOptions::telemetry_topic_pattern),
-    ///   [`telemetry_name`](TelemetryReceiverOptions::telemetry_name),
-    ///   [`model_id`](TelemetryReceiverOptions::model_id),
+    /// - [`topic_pattern`](TelemetryReceiverOptions::topic_pattern),
     ///   [`topic_namespace`](TelemetryReceiverOptions::topic_namespace), are Some and and invalid
     ///   or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](TelemetryReceiverOptions::custom_topic_token_map) is not empty
+    /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
     /// - Content type of the telemetry message is not valid utf-8
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
         receiver_options: TelemetryReceiverOptions,
@@ -266,14 +263,11 @@ where
             ));
         }
         // Validation for topic pattern and related options done in
-        // [`TopicPattern::new_telemetry_pattern`]
-        let topic_pattern = TopicPattern::new_telemetry_pattern(
+        // [`TopicPattern::new`]
+        let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
-            WILDCARD,
-            receiver_options.telemetry_name.as_deref(),
-            receiver_options.model_id.as_deref(),
             receiver_options.topic_namespace.as_deref(),
-            &receiver_options.custom_topic_token_map,
+            &receiver_options.topic_token_map,
         )?;
 
         // Get the telemetry topic
@@ -439,6 +433,7 @@ where
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
                             let mut cloud_event = None;
+                            let mut sender_id = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
@@ -452,7 +447,7 @@ where
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                                let mut message_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
                                 if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
                                     if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
                                         message_protocol_version = message_version;
@@ -464,7 +459,7 @@ where
                                     }
                                 }
                                 // Check that the version (or the default version if one isn't provided) is supported
-                                if message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                                     log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
                                         m.pkid
                                     );
@@ -492,6 +487,9 @@ where
                                         },
                                         Ok(UserProperty::ProtocolVersion) => {
                                             // skip, already processed
+                                        },
+                                        Ok(UserProperty::SourceId) => {
+                                            sender_id = Some(value);
                                         },
                                         Err(()) => {
                                             match CloudEventFields::from_str(&key) {
@@ -563,16 +561,16 @@ where
                                 }
                             }
 
-                            // Parse the sender ID from the topic
-                            let Ok(received_topic) = String::from_utf8(m.topic.to_vec()) else {
-                                log::error!("[pkid: {}] Invalid telemetry topic", m.pkid);
-                                break 'process_message;
+                            let topic = match std::str::from_utf8(&m.topic) {
+                                Ok(topic) => topic,
+                                Err(e) => {
+                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                    log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
+                                    break 'process_message;
+                                }
                             };
-                            let Some(sender_id) = self.topic_pattern.parse_wildcard(&received_topic)
-                            else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry topic", m.pkid);
-                                break 'process_message;
-                            };
+
+                            let topic_tokens = self.topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
                             let payload = match T::deserialize(&m.payload) {
@@ -589,6 +587,7 @@ where
                                 sender_id,
                                 timestamp,
                                 cloud_event,
+                                topic_tokens,
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
@@ -659,8 +658,6 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    const MODEL_ID: &str = "test_model";
-
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
     impl Clone for InvalidContentTypePayload {
@@ -699,6 +696,10 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())])
+    }
+
     #[test]
     fn test_new_defaults() {
         // Get mutex lock for content type
@@ -711,16 +712,12 @@ mod tests {
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/receiver")
+            .topic_pattern("test/receiver")
             .build()
             .unwrap();
 
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
-
-        assert!(telemetry_receiver
-            .topic_pattern
-            .is_match("test/test_sender/receiver"));
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
     }
 
     #[test]
@@ -734,29 +731,22 @@ mod tests {
             .returning(|| "application/json");
 
         let session = get_session();
-        let custom_token_map = HashMap::from([("customToken".to_string(), "123".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{telemetryName}/{ex:customToken}/{modelId}/receiver")
-            .telemetry_name("test_telemetry")
-            .model_id("test_model")
+            .topic_pattern("test/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(custom_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
 
-        assert!(telemetry_receiver.topic_pattern.is_match(
-            format!("test_namespace/test/test_sender/test_telemetry/123/{MODEL_ID}/receiver")
-                .as_str()
-        ));
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
     }
 
     #[test]
     fn test_invalid_telemetry_content_type() {
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/receiver")
+            .topic_pattern("test/receiver")
             .build()
             .unwrap();
 

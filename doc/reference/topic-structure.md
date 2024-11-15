@@ -31,7 +31,7 @@ Telemetry topic patterns MAY contain the following recognized tokens.
 | Topic token | Description | Required |
 | --- | --- | --- |
 | `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface, might include the version | optional |
-| `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | required |
+| `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | optional |
 | `{telemetryName}` | The name of the Telemetry | optional |
 
 A *telemetry namespace* is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.

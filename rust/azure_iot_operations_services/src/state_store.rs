@@ -25,7 +25,7 @@ pub use resp3::{Operation, SetCondition, SetOptions};
 pub struct StateStoreError(#[from] StateStoreErrorKind);
 
 impl StateStoreError {
-    /// Returns the [`SessionErrorKind`] of the error.
+    /// Returns the [`StateStoreErrorKind`] of the error.
     #[must_use]
     pub fn kind(&self) -> &StateStoreErrorKind {
         &self.0
@@ -170,5 +170,5 @@ pub struct KeyNotification {
     /// The [`Operation`] that was performed on the key
     pub operation: Operation,
     /// The version of the key as a [`HybridLogicalClock`].
-    pub version: Option<HybridLogicalClock>,
+    pub version: HybridLogicalClock,
 }

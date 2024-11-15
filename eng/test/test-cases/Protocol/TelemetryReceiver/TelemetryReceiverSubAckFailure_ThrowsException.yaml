@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverSubAckFailure_ThrowsException
-aka:
-- ReceiveTelemetry_SubAckFailedWithUnspecifiedError
 description:
   condition: >-
     During initialization, TelemetryReceiver subscribes but ACK fails.

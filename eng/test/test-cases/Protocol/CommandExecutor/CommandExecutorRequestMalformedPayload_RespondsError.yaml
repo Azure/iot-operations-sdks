@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestMalformedPayload_RespondsError
-aka:
-- DeserializationFailure_RpcErrorBadRequest
 description:
   condition: >-
     CommandExecutor receives request with payload that cannot deserialize.
