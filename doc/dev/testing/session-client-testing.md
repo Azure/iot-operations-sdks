@@ -6,7 +6,7 @@ Unit tests for the MQTT session client should follow these principles:
 
 * Use a mocked MQTT client as the base client that the session client uses to connect/publish/subscribe/etc.
     * This mocked MQTT client must be able to simulate events such as connection loss, PUBACK received, Publish received, etc.
-    * Note that this mocked MQTT client is a mock of the underlying MQTT library, not a mock of the IPubSubClient detailed in [Connection Management](./connection-management.md).
+    * Note that this mocked MQTT client is a mock of the underlying MQTT library, not a mock of the IPubSubClient detailed in [Connection Management](/doc/reference/connection-management.md).
 * Do not establish any actual network connections 
     * Random network instability could interfere with deliberate simulated network instability or with deliberate simulated network stability.
 
@@ -34,8 +34,6 @@ Stress tests for the MQTT session client should follow these principles:
 * No additional "application level" retry logic should exist in these tests.
     * Any actual/accidental network outage should be handled by the MQTT session client even if the test isn't about that outage.
 * The MQTT Broker has some fault injection capabilities and these should be used to aggressively stress the session client's ability to maintain a connection and session.
-
-**<span style="color:red"><TBD: List may not be exhaustive. Update as needed>**
 
 ## Normative Definition of Unit Tests
 
