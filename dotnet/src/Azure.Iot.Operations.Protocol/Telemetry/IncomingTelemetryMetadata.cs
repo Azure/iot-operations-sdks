@@ -42,6 +42,14 @@ public class IncomingTelemetryMetadata
     /// </summary>
     public CloudEvent? CloudEvent { get; internal set; }
 
+    /// <summary>
+    /// The MQTT client Id of the client that sent this telemetry.
+    /// </summary>
+    /// <remarks>
+    /// This value is null if the received telemetry did not include the <see cref="AkriSystemProperties.SourceId"/> header.
+    /// </remarks>
+    public string? SenderId { get; internal set; }
+
     internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId)
     {
         UserData = [];
@@ -55,6 +63,9 @@ public class IncomingTelemetryMetadata
                 {
                     case AkriSystemProperties.Timestamp:
                         Timestamp = HybridLogicalClock.DecodeFromString(AkriSystemProperties.Timestamp, property.Value);
+                        break;
+                    case AkriSystemProperties.SourceId:
+                        SenderId = property.Value;
                         break;
                     default:
                         if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))

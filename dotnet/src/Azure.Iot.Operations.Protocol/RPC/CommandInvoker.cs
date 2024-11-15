@@ -497,9 +497,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
                 }
 
-                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
+                requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 byte[]? payload = serializer.ToBytes(request);
                 if (payload != null)
