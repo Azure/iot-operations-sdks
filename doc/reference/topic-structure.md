@@ -18,7 +18,10 @@ Topic structure SHOULD be compatible with:
 * A topic pattern is a sequence of _labels_ separated by `/`.
 * Each _label_ is one of:
     * A string of printable ASCII characters not including space, `"`, `+`, `#`, `{`, `}`, or `/`
-    * A *token*, defined as string that begins with `{`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{userToken}`
+    * A *recognized token* from the first column in the tables below, specifically:
+        * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry pattern](envoy-binder.md#telemetry-envoy)
+        * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, or `{commandName}` for [Command pattern](envoy-binder.md#command-envoy)
+    * A *custom token*, defined as string that begins with `{ex:`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{ex:customToken}`
 * The first label must not start with `$`
 
 ## Telemetry
