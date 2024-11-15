@@ -10,7 +10,7 @@ pub struct CommonOptions {
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     pub topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
-    pub custom_topic_token_map: HashMap<String, String>,
+    pub topic_token_map: HashMap<String, String>,
 }

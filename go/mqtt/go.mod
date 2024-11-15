@@ -5,6 +5,7 @@ go 1.23.0
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.1.0
 	github.com/eclipse/paho.golang v0.21.0
+	github.com/fsnotify/fsnotify v1.8.0
 	github.com/iancoleman/strcase v0.3.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/crypto v0.28.0

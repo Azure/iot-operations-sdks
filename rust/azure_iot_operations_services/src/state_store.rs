@@ -25,7 +25,7 @@ pub use resp3::{Operation, SetCondition, SetOptions};
 pub struct StateStoreError(#[from] StateStoreErrorKind);
 
 impl StateStoreError {
-    /// Returns the [`SessionErrorKind`] of the error.
+    /// Returns the [`StateStoreErrorKind`] of the error.
     #[must_use]
     pub fn kind(&self) -> &StateStoreErrorKind {
         &self.0

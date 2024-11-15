@@ -23,7 +23,7 @@ use crate::{
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
-        topic_processor::{self, contains_invalid_char, TopicPattern},
+        topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
@@ -50,12 +50,12 @@ where
     /// Default is an empty vector.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    /// Topic token keys/values to be replaced into the publish topic of the request.
+    #[builder(default)]
+    topic_tokens: HashMap<String, String>,
     /// Optional Fencing Token of the command request.
     #[builder(default = "None")]
     fencing_token: Option<HybridLogicalClock>,
-    /// Executor ID to use if required in the request topic
-    #[builder(default = "None")]
-    executor_id: Option<String>,
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
@@ -126,15 +126,12 @@ pub struct CommandInvokerOptions {
     response_topic_pattern: Option<String>,
     /// Command name
     command_name: String,
-    /// Model ID if required by the topic patterns
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic patterns
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic patterns
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// Prefix for the response topic
     #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
     response_topic_prefix: Option<String>,
@@ -174,9 +171,8 @@ pub struct CommandInvokerOptions {
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
-///   .model_id("test_model".to_string())
 ///   .topic_namespace("test_namespace".to_string())
-///   .custom_topic_token_map(HashMap::new())
+///   .topic_token_map(HashMap::from([("invokerClientId".to_string(), "test_client".to_string())]))
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
@@ -184,7 +180,7 @@ pub struct CommandInvokerOptions {
 /// let request = CommandRequestBuilder::default()
 ///   .payload(&SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
-///   .executor_id(Some("test_executor".to_string()))
+///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
 /// let result = command_invoker.invoke(request);
 /// //let response: CommandResponse<SamplePayload> = result.await.unwrap();
@@ -240,9 +236,8 @@ where
     ///     [`topic_namespace`](CommandInvokerOptions::topic_namespace),
     ///     [`response_topic_prefix`](CommandInvokerOptions::response_topic_prefix),
     ///     [`response_topic_suffix`](CommandInvokerOptions::response_topic_suffix),
-    ///     or [`model_id`](CommandInvokerOptions::model_id)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](CommandInvokerOptions::custom_topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](CommandInvokerOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
@@ -302,25 +297,18 @@ where
                 response_topic_pattern = response_topic_pattern + "/" + &suffix;
             }
         }
+
         // Generate the request and response topics
-        let request_topic_pattern = TopicPattern::new_command_pattern(
+        let request_topic_pattern = TopicPattern::new(
             &invoker_options.request_topic_pattern,
-            &invoker_options.command_name,
-            topic_processor::WILDCARD,
-            client.client_id(),
-            invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.custom_topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
-        let response_topic_pattern = TopicPattern::new_command_pattern(
+        let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
-            &invoker_options.command_name,
-            topic_processor::WILDCARD,
-            client.client_id(),
-            invoker_options.model_id.as_deref(),
             invoker_options.topic_namespace.as_deref(),
-            &invoker_options.custom_topic_token_map,
+            &invoker_options.topic_token_map,
         )?;
 
         // Create mutex to track subscription state
@@ -517,11 +505,25 @@ where
         // Get request topic. Validates executor_id
         let request_topic = self
             .request_topic_pattern
-            .as_publish_topic(request.executor_id.as_deref())?;
+            .as_publish_topic(&request.topic_tokens)?;
         // Get response topic. Validates executor_id
         let response_topic = self
             .response_topic_pattern
-            .as_publish_topic(request.executor_id.as_deref())?;
+            .as_publish_topic(&request.topic_tokens)?;
+        // Get and validate content_type
+        let content_type = TReq::content_type();
+        if is_invalid_utf8(content_type) {
+            return Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                None,
+                None,
+                Some(format!(
+                    "The payload's content type '{content_type}' isn't valid utf-8"
+                )),
+                Some(self.command_name.clone()),
+            ));
+        }
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -1046,6 +1048,13 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([
+            ("commandName".to_string(), "test_command_name".to_string()),
+            ("invokerClientId".to_string(), "test_client".to_string()),
+        ])
+    }
+
     #[tokio::test]
     async fn test_new_defaults() {
         // Get mutex lock for content type
@@ -1061,17 +1070,12 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
             CommandInvoker::new(managed_client, invoker_options).unwrap();
-        assert!(command_invoker
-            .request_topic_pattern
-            .is_match("test/test_command_name/some_executor/request"));
-        assert!(command_invoker
-            .response_topic_pattern
-            .is_match("clients/test_client/test/test_command_name/some_executor/request"));
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/test_command_name/+/request"
@@ -1091,14 +1095,11 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{modelId}/{executorId}/request")
-            .response_topic_pattern(
-                "test/{commandName}/{modelId}/{executorId}/response".to_string(),
-            )
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
+            .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
             .command_name("test_command_name")
-            .model_id("test_model_id".to_string())
             .topic_namespace("test_namespace".to_string())
-            .custom_topic_token_map(HashMap::new())
+            .topic_token_map(create_topic_tokens())
             .response_topic_prefix("custom/{invokerClientId}".to_string())
             .response_topic_suffix("custom/response".to_string())
             .build()
@@ -1106,16 +1107,10 @@ mod tests {
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
             CommandInvoker::new(managed_client, invoker_options).unwrap();
-        assert!(command_invoker
-            .request_topic_pattern
-            .is_match("test_namespace/test/test_command_name/test_model_id/some_executor/request"));
         // prefix and suffix should be ignored if response_topic_pattern is provided
-        assert!(command_invoker.response_topic_pattern.is_match(
-            "test_namespace/test/test_command_name/test_model_id/some_executor/response"
-        ));
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
-            "test_namespace/test/test_command_name/test_model_id/+/response"
+            "test_namespace/test/test_command_name/+/response"
         );
     }
 
@@ -1334,13 +1329,13 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
-
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
 
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
@@ -1376,6 +1371,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1452,6 +1448,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1520,6 +1517,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1596,6 +1594,7 @@ mod tests {
         let invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1613,7 +1612,10 @@ mod tests {
                     .payload(&mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
-                    .executor_id(Some("+++".to_string()))
+                    .topic_tokens(HashMap::from([(
+                        "executorId".to_string(),
+                        "+++".to_string(),
+                    )]))
                     .build()
                     .unwrap(),
             )
@@ -1632,82 +1634,58 @@ mod tests {
         }
     }
 
-    // Test cases for subscribe
-    // Tests success:
-    //    Subscribe is called on first invoke request and suback is received
-    //    Subscribe is not called on subsequent invoke requests
-    //    Subscribe fails on first invoke request, so subscribe is called again on second invoke request
-    // Tests failure:
-    //    subscribe call fails (invalid filter or failure on sending outbound sub async) and an `ClientError` error is returned (first error scenario should not be possible with topic parsing checks)
-    //    suback returns bad reason code and an `ClientError` error is returned
+    #[tokio::test]
+    async fn test_invoke_missing_token() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
 
-    // Test cases for invoke create publish, publish, get puback
-    // Tests success:
-    //    Publish is called on invoke request and puback is received
-    //    custom user data property doesn't start with __ and is added to the publish properties
-    //    invalid executor id when it's not in either topic pattern
-    //    payload is successfully serialized
-    //    invoker client id is correctly added to user properties on message
-    //    fencing_token is provided and added to user properties
-    //    fencing_token isn't provided and isn't added to user properties
-    // Tests failure:
-    //     x timeout is > u32::max (invalid value) and an `ArgumentInvalid` error is returned
-    //     x custom user data property starts with __
-    //     x custom user data property key or value is malformed utf-8
-    //     x invalid executor id
-    //     x payload fails serialization
-    //     x serializer sets invalid content_type
-    //     puback returns bad reason code and an `ClientError` error is returned
-    //     publish call fails (invalid topic or failure on sending outbound pub async) and an `ClientError` error is returned (first error scenario should not be possible with topic parsing checks)
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/req/{executorId}/topic")
+            .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
 
-    // Test cases for invoke receive
-    // Receive response loop
-    // Tests success:
-    //     publish received on the correct topic, gets sent to pending command requests
-    //     publish received on a different topic, message ignored
-    //     publish received on the correct topic, no pending commands. Message ignored
-    //     receive cancellation token is called and the loop exits
-    //     mqtt_receiver sends a lagged error
-    //     mqtt_receiver sends a closed error
-    // Tests failure:
-    //     should never fail
-    //
-    // validation
-    // Tests success:
-    //     content type matches TReq content type
-    //     content type isn't present
-    //     format indicator not present, 0, or (1 and TResp format indicator is 1)
-    //     valid timestamp present and is returned on the CommandResponse
-    //     no timestamp is present
-    //     status is a number and is one of StatusCode's enum values
-    //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this
-    //     custom user properties are correctly passed to the application. Any starting with the reserved prefix '__' that aren't ours are logged and ignored
-    //     status code is no content and the payload is empty
-    //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
-    //     response payload deserializes successfully
-    // Tests failure:
-    //     content type doesn't match TResp content type. 'HeaderInvalid' error returned
-    //     format indicator is 1 and TResp format indicator is 0. 'HeaderInvalid' error returned
-    //     timestamp cannot be parsed (more or less than 3 sections, invalid section values for each of the three sections)
-    //     status can't be parsed as a number
-    //     status isn't one of StatusCode's enum values
-    //     status is missing
-    //     status code is no content, but the payload isn't empty
-    //     failure deserializing response payload
-    //     has unsupported protocol version and returns an error
-    //     has unparsable protocol version and returns an error
-    //
-    // Wait for/match response
-    // Tests success:
-    //    response with correct correlation_id received. Parsing begins
-    //    response with incorrect correlation_id received. Message ignored
-    //    response with missing properties received. Message ignored
-    //    response with missing correlation data received. Message ignored
-    //    response_rx returns lagged error. Error logged and continue waiting for the response
-    // Tests failure:
-    //    response_rx returns closed error. Returns cancellation error
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
+            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| Ok(String::new().into()))
+            .times(1);
 
-    // CommandRequest tests
+        let response = command_invoker
+            .invoke(
+                CommandRequestBuilder::default()
+                    .payload(&mock_request_payload)
+                    .unwrap()
+                    .timeout(Duration::from_secs(2))
+                    .topic_tokens(HashMap::new())
+                    .build()
+                    .unwrap(),
+            )
+            .await;
+
+        match response {
+            Ok(_) => panic!("Expected error"),
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("executorId".to_string()));
+                assert_eq!(e.property_value, Some(Value::String(String::new())));
+            }
+        }
+    }
 
     #[test]
     fn test_request_serialization_error() {
@@ -1744,3 +1722,77 @@ mod tests {
         assert!(request_builder_result.is_err());
     }
 }
+
+// CommandRequest tests
+// Test cases for subscribe
+// Tests success:
+//    Subscribe is called on first invoke request and suback is received
+//    Subscribe is not called on subsequent invoke requests
+//    Subscribe fails on first invoke request, so subscribe is called again on second invoke request
+// Tests failure:
+//    subscribe call fails (invalid filter or failure on sending outbound sub async) and an `ClientError` error is returned (first error scenario should not be possible with topic parsing checks)
+//    suback returns bad reason code and an `ClientError` error is returned
+
+// Test cases for invoke create publish, publish, get puback
+// Tests success:
+//    Publish is called on invoke request and puback is received
+//    custom user data property doesn't start with __ and is added to the publish properties
+//    invalid executor id when it's not in either topic pattern
+//    payload is successfully serialized
+//    invoker client id is correctly added to user properties on message
+//    fencing_token is provided and added to user properties
+//    fencing_token isn't provided and isn't added to user properties
+// Tests failure:
+//     x timeout is > u32::max (invalid value) and an `ArgumentInvalid` error is returned
+//     x custom user data property starts with __
+//     x custom user data property key or value is malformed utf-8
+//     x invalid executor id
+//     x payload fails serialization
+//     x serializer sets invalid content_type
+//     puback returns bad reason code and an `ClientError` error is returned
+//     publish call fails (invalid topic or failure on sending outbound pub async) and an `ClientError` error is returned (first error scenario should not be possible with topic parsing checks)
+
+// Test cases for invoke receive
+// Receive response loop
+// Tests success:
+//     publish received on the correct topic, gets sent to pending command requests
+//     publish received on a different topic, message ignored
+//     publish received on the correct topic, no pending commands. Message ignored
+//     receive cancellation token is called and the loop exits
+//     mqtt_receiver sends a lagged error
+//     mqtt_receiver sends a closed error
+// Tests failure:
+//     should never fail
+//
+// validation
+// Tests success:
+//     content type matches TReq content type
+//     content type isn't present
+//     format indicator not present, 0, or (1 and TResp format indicator is 1)
+//     valid timestamp present and is returned on the CommandResponse
+//     no timestamp is present
+//     status is a number and is one of StatusCode's enum values
+//     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this
+//     custom user properties are correctly passed to the application. Any starting with the reserved prefix '__' that aren't ours are logged and ignored
+//     status code is no content and the payload is empty
+//     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
+//     response payload deserializes successfully
+// Tests failure:
+//     content type doesn't match TResp content type. 'HeaderInvalid' error returned
+//     format indicator is 1 and TResp format indicator is 0. 'HeaderInvalid' error returned
+//     timestamp cannot be parsed (more or less than 3 sections, invalid section values for each of the three sections)
+//     status can't be parsed as a number
+//     status isn't one of StatusCode's enum values
+//     status is missing
+//     status code is no content, but the payload isn't empty
+//     failure deserializing response payload
+//
+// Wait for/match response
+// Tests success:
+//    response with correct correlation_id received. Parsing begins
+//    response with incorrect correlation_id received. Message ignored
+//    response with missing properties received. Message ignored
+//    response with missing correlation data received. Message ignored
+//    response_rx returns lagged error. Error logged and continue waiting for the response
+// Tests failure:
+//    response_rx returns closed error. Returns cancellation error
