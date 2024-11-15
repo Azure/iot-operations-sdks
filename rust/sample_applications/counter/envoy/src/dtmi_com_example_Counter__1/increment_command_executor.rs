@@ -89,6 +89,7 @@ where
 
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .command_name("increment")
             .is_idempotent(false)
             .topic_token_map(topic_token_map)
             .build()
