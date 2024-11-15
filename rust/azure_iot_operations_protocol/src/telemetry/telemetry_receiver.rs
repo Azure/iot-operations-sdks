@@ -432,7 +432,6 @@ where
 
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
-                            let mut sender_id = None;
                             let mut cloud_event = None;
                             let mut sender_id = None;
 
