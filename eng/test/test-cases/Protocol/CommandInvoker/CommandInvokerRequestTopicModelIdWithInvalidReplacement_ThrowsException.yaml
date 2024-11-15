@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerRequestTopicModelIdWithInvalidReplacement_ThrowsException
-aka:
-- RequestTopicModelIdWithInvalidReplacementThrowsException
 description:
   condition: >-
     CommandInvoker request topic contains a '{modelId}' token but model ID is not a valid replacement.

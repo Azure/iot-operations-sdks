@@ -87,13 +87,14 @@
                 SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
                 HashSet<string> sourceFilePaths = new();
+                HashSet<SchemaKind> distinctSchemaKinds = new();
 
                 foreach (string schemaFileName in schemaFiles)
                 {
-                    TypesGenerator.GenerateType(language, projectName, schemaFileName, workingDir, outDir, genNamespace, sourceFilePaths);
+                    TypesGenerator.GenerateType(language, projectName, schemaFileName, workingDir, outDir, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(language, projectName, annexFile, workingDir, outDir, genNamespace, sdkPath, syncApi, sourceFilePaths);
+                EnvoyGenerator.GenerateEnvoys(language, projectName, annexFile, workingDir, outDir, genNamespace, sdkPath, syncApi, sourceFilePaths, distinctSchemaKinds);
             }
             catch (Exception ex)
             {

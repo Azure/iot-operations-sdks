@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseNoStatusProperty_ThrowsException
-aka:
-- InvokerRequestNoStatusProperty
 description:
   condition: >-
     CommandInvoker receives response message with no status property in header.

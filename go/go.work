@@ -4,17 +4,17 @@ use (
 	./internal
 	./mqtt
 	./protocol
-	./samples/cloudevents/client
-	./samples/cloudevents/envoy
-	./samples/cloudevents/server
-	./samples/counter/client
-	./samples/counter/envoy
-	./samples/counter/server
-	./samples/greeter/client
-	./samples/greeter/envoy
-	./samples/greeter/server
-	./samples/leasedlock
-	./samples/statestore
+	./samples/protocol/cloudevents/client
+	./samples/protocol/cloudevents/envoy
+	./samples/protocol/cloudevents/server
+	./samples/protocol/counter/client
+	./samples/protocol/counter/envoy
+	./samples/protocol/counter/server
+	./samples/protocol/greeter/client
+	./samples/protocol/greeter/envoy
+	./samples/protocol/greeter/server
+	./samples/services/leasedlock
+	./samples/services/statestore
 	./services
 	./test/integration
 	./test/protocol

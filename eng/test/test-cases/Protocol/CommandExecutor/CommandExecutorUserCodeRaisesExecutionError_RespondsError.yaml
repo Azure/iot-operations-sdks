@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorUserCodeRaisesExecutionError_RespondsError
-aka:
-- ExecuteCommandWithException_ApplicationErrorNotImplementedException
 description:
   condition: >-
     CommandExecutor user code raises error indicating problem with request execution

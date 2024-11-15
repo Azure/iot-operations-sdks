@@ -1,9 +1,5 @@
 ---
 test-name: CommandInvokerPubAckFailure_ThrowsException
-aka:
-- InvokeOneRequestAndFailurePubAck
-- InvokeOneRequestAndPubAckNotAuthorized
-- InvokeOneRequestAndPubAckNoMatchingSubscribers
 description:
   condition: >-
     CommandInvoker invokes command but ACK fails when publishing request.
