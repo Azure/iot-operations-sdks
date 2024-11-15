@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendMultipleIdentical_Success
-aka:
-- SendTelemetry_MultipleIdenticalMessages
 description:
   condition: >-
     TelemetrySender sends multiple identical Telemetries in seqence.

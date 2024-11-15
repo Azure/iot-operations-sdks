@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerExecutorSpecificInvocation_Success
-aka:
-- InvokeWithExecutorId
 description:
   condition: >-
     CommandInvoker with executor-specific topic pattern invokes command and receives response.

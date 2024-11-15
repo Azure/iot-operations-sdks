@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseTopicSuffixModelIdWithInvalidReplacement_ThrowsException
-aka:
-- ResponseTopicSuffixModelIdWithInvalidReplacementThrowsException
 description:
   condition: >-
     CommandInvoker response topic suffix contains a '{modelId}' token but model ID is not a valid replacement.

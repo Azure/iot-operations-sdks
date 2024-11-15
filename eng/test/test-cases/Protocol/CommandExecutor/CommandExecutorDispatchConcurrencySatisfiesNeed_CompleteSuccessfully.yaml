@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorDispatchConcurrencySatisfiesNeed_CompleteSuccessfully
-aka:
-- MaximumConcurrencyGreaterThanOne_ProcessMessagesInParallel
 description:
   condition: >-
     CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed.

@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorSubAckFailure_ThrowsException
-aka:
-- ExecutorStartAsync_SubAckFailedWithUnspecifiedError
 description:
   condition: >-
     During initialization, CommandExecutor subscribes but ACK fails.

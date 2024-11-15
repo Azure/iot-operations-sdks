@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestWrongContentType_RespondsError
-aka:
-- ContentTypeMismatch_RpcErrorUnsupportedMediaType
 description:
   condition: >-
     CommandExecutor receives request with mismatched ContentType metadata.

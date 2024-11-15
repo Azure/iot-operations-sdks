@@ -1,0 +1,41 @@
+---
+test-name: TelemetryReceiverReceivesWithCloudEvent_Success.yaml
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry with attached CloudEvent info.
+  expect: >-
+    TelemetryReceiver relays Telemetry and CloudEvent to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  metadata:
+    "id": "dtmi:test:someAssignedId;1"
+    "source": "dtmi:test:myEventSource;1"
+    "type": "test-type"
+    "specversion": "1.0"
+    "datacontenttype": "application/json"
+    "subject": "mock/test"
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+    cloud-event:
+      source: "dtmi:test:myEventSource;1"
+      type: "test-type"
+      spec-version: "1.0"
+      data-content-type: "application/json"
+      subject: "mock/test"
+      data-schema: "dtmi:test:MyModel:_contents:__test;1"
+...
