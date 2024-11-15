@@ -10,7 +10,7 @@ broker is needed to run them.
 ```sh
 ./codegen/build.sh
 
-cd go/samples/counter/envoy
+cd go/samples/protocol/counter/envoy
 ./gen.sh
 ```
 
@@ -22,9 +22,9 @@ and the `server`.
 ### Counter
 
 ```bash
-# from go/samples/counter/server
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 MQTT_CLIENT_ID=CounterServer-go go run server.go
+# from go/samples/protocol/counter/server
+MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 MQTT_CLIENT_ID=CounterServer-go go run .
 
-# from go/samples/counter/client
-MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 COUNTER_SERVER_ID=CounterServer-go go run client.go
+# from go/samples/protocol/counter/client
+MQTT_HOST_NAME=localhost MQTT_USE_TLS=false MQTT_TCP_PORT=1883 COUNTER_SERVER_ID=CounterServer-go go run .
 ```
