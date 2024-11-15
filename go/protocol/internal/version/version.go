@@ -16,7 +16,7 @@ var Supported = ParseSupported(SupportedString)
 
 func ParseProtocol(v string) (major, minor int) {
 	if v == "" {
-		return 0, 0
+		return 0, 1
 	}
 
 	parts := strings.Split(v, ".")
