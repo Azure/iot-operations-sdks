@@ -127,7 +127,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 DateTime commandExpirationTime = messageReceivedTime + commandTimeout;
                 DateTime ttl = messageReceivedTime + CacheTtl;
 
-                string requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? "0.1";
+                string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
                     await GetDispatcher()(

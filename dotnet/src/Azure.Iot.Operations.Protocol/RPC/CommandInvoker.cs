@@ -208,7 +208,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
                 {
                     // Assume a protocol version of 1.0 if no protocol version was specified
-                    string responseProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? "0.1";
+                    string? responseProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                     if (!ProtocolVersion.TryParseProtocolVersion(responseProtocolVersion, out ProtocolVersion? protocolVersion))
                     {
                         var akriException = new AkriMqttException($"Received a response with an unparsable protocol version number: {responseProtocolVersion}")
@@ -500,6 +500,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
+
+                // TODO remove this once akri service is code gen'd to expect srcId instead of invId
+                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
                 byte[]? payload = serializer.ToBytes(request);
                 if (payload != null)

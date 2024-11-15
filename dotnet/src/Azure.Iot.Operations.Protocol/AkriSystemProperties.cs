@@ -74,5 +74,8 @@
         /// User property indicating what client sent this request.
         /// </summary>
         internal const string SourceId = ReservedPrefix + "srcId";
+
+        // TODO remove this once akri service is code gen'd to expect srcId instead of invId
+        public const string CommandInvokerId = ReservedPrefix + "invId";
     }
 }
