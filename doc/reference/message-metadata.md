@@ -64,6 +64,6 @@ We will use the next properties
 |`IsApplicationError`|no|user|`__apErr`|String with value `true` if an error is at the application level.|
 |`InvalidPropertyName`|no|user|`__propName`|String identifying the name of a property that is missing or has an invalid value.|
 |`InvalidPropertyValue`|no|user|`__propVal`|String indicating the value of a property that is invalid.|
-|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the response. If not provided, a protocol version of 1.0 is assumed by the receiving invoker. |
+|`ProtocolVersion`|no|user|`__protVer`| The protocol version of the response. If not provided, a protocol version of 0.1 is assumed by the receiving invoker. |
 |`SupportedProtocolMajorVersion`|no|user|`__supProtMajVer`| A space separated list of protocol major versions that the executor supports. Only provided if the request provided an unsupported protocol version. |
 |`RequestProtocolVersion`|no|user|`__requestProtVer`| The full protocol version of the request that was rejected because it was unsupported by the executor. Only provided if the request provided an unsupported protocol version. |
