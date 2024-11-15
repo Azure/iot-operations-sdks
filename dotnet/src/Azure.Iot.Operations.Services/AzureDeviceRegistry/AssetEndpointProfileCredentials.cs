@@ -4,7 +4,7 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
+namespace Azure.Iot.Operations.Services.Assets
 {
     /// <summary>
     /// The credentials to use when connecting to an asset endpoint.

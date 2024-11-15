@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
+namespace Azure.Iot.Operations.Services.Assets
 {
     /// <summary>
     /// The connection-level details to use when connecting with an asset endpoint.

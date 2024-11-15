@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 
-namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
+namespace Azure.Iot.Operations.Services.Assets
 {
     /// <summary>
     /// A utility for monitoring for changes in any of a set of files.
@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
         }
 
-        internal async Task StartAsync()
+        internal void Start()
         {
             if (_startedObserving)
             {
@@ -40,15 +40,6 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             _startedObserving = true;
 
             _observationTaskCancellationTokenSource = new();
-
-            string directoryToObserve = _directoryRetriever.Invoke();
-            if (!string.IsNullOrWhiteSpace(directoryToObserve) && Directory.Exists(directoryToObserve))
-            {
-                foreach (string filePath in Directory.EnumerateFiles(directoryToObserve))
-                {
-                    await SaveFileStateAsync(filePath);
-                }
-            }
 
             var observationTask = new Task(
                 async () =>
@@ -123,6 +114,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
                             }
                         }
                     }
+                    catch (ObjectDisposedException)
+                    { 
+                        // The cancellation token used to control this thread has been disposed. End this thread gracefully
+                    }
                     finally
                     {
                         _startedObserving = false;
@@ -132,10 +127,10 @@ namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
             observationTask.Start();
         }
 
-        internal Task StopAsync()
+        internal void Stop()
         {
             _observationTaskCancellationTokenSource?.Cancel();
-            return Task.CompletedTask;
+            _observationTaskCancellationTokenSource?.Dispose();
         }
 
         internal async Task SaveFileStateAsync(string filePath)

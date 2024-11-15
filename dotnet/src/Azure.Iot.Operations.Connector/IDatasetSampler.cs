@@ -1,11 +1,11 @@
-﻿using Azure.Iot.Operations.Services.AzureDeviceRegistry;
+﻿using Azure.Iot.Operations.Services.Assets;
 
-namespace ConnectorApp
+namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// A sampler of a single dataset within an asset. For an example, see the HttpServerConnectorApp sample code.
     /// </summary>
-    public interface IDatasetSource
+    public interface IDatasetSampler
     {
         /// <summary>
         /// Sample the datapoints from the asset and return the full serialized dataset.
@@ -17,6 +17,6 @@ namespace ConnectorApp
         /// This method will be invoked by the <see cref="ConnectorAppWorker"/> each time that a dataset needs to be sampled. The worker service
         /// will then forward the returned serialized payload to the MQTT broker stamped with cloud event headers.
         /// </remarks>
-        public Task<byte[]> SampleAsync(Dataset dataset, CancellationToken cancellationToken = default);
+        public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default);
     }
 }

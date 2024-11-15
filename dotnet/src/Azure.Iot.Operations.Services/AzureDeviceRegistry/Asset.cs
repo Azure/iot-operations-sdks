@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
 
-namespace Azure.Iot.Operations.Services.AzureDeviceRegistry
+namespace Azure.Iot.Operations.Services.Assets
 {
     public record Asset
     {
