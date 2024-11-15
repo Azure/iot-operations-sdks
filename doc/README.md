@@ -10,17 +10,6 @@ The goals of the Azure IoT Operations SDKS is to provide an application framewor
 
 The SDKs can be used to build highly available applications at the edge, that interact with Azure IoT Operations to perform operations such as **asset discovery**, **protocol translation** and **data transformation**.
 
-## Components
-
-Read further about the underlying terminology and different components of the SDKs:
-
-* [Terminology](terminology.md) - Understand the different terms used to describe the concepts and construction of the SDKs.
-* [Components](components.md) - An outline of each of the client libraries, and their function.
-
-## Limitations
-
-Review any [known limitations](limitations.md) associated with the current service and client implementations.
-
 ## Benefits
 
 The SDKs provide a number of benefits compared to utilizing the MQTT client directly:
@@ -35,17 +24,22 @@ The SDKs provide a number of benefits compared to utilizing the MQTT client dire
 | **High availability** | Building blocks for building HA apps via State Store, Lease Lock and Leader Election clients |
 | **Payload formats** | Supports multiple serialization formats, built in |
 
-## Layering
+## Components
 
-The Azure IoT Operations SDKs provide a number of layers for a customer to develop with:
+The Azure IoT Operations SDKs provide a number of components available for customers:
 
-1. A set of primitives, designed to assist customers in creating applications built on the fundamental protocol implementations, **Commands** and **Telemetry**. 
+* A set of protocol primitives, designed to assist in creating applications, built on the fundamental protocol implementations; **Commands** and **Telemetry**. 
 
-1. A **Session Client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
+* A **Session client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
 
-1. A set of clients implementing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
+* A set of clients providing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
 
-1. The **Protocol Compiler** allows clients and servers to communicate via a schema contract. First describe the communication (using **Telemetry** and **Commands**) with DTDL, then generate a set of client libraries and server library stubs across the supported programming languages.
+* The **Protocol Compiler (Codegen)** allows clients and servers to communicate via a schema contract. First describe the communication (using **Telemetry** and **Commands**) with DTDL, then generate a set of client libraries and server library stubs across the supported programming languages.
+
+Read further about the underlying terminology and different components of the SDKs:
+
+* [Terminology](terminology.md) - Understand the different terms used to describe the concepts and construction of the SDKs.
+* [Components](components.md) - An outline of each client library and their function.
 
 ## Applications types
 
@@ -66,6 +60,10 @@ The SDK supports the following application types:
 1. Review the [samples](/samples) directory for samples and tutorials.
 
 1. Learn how to [deploy](deploy.md) your application to the cluster.
+
+## Limitations
+
+Review any [known limitations](limitations.md) associated with the current service and client implementations.
 
 ## Reference
 

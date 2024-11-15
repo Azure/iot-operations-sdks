@@ -68,7 +68,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 ## Features
 
-The following tables outlines the current feature set, along with the associated language support:
+The following tables outline the current feature set, along with the associated language support:
 
 | State | Support |
 |-|-|
@@ -88,7 +88,7 @@ The following tables outlines the current feature set, along with the associated
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
 | **Akri** client | Record discovered assets and asset endpoints | :yellow_circle: | :orange_circle: | :orange_circle: |
 
-## Protocol compiler
+## Protocol compiler (Codegen)
 
 The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
 

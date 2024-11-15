@@ -1,16 +1,16 @@
 # Components of the SDKs
 
-The following is the major components of the SDKs which are generally available in three packages.
+The following are the major components of the SDKs which are available in three packages.
 
 ## MQTT 
 
 ### Session client
 
-This client provides a seemless way to connect an application to the MQTT Broker and other connected service available in Azure IoT Operations. It takes care of configuration, (re)connection, authentication and security.
+This client provides a seemless way to connect an application to the MQTT Broker and other Azure IoT Operations services. It takes care of configuration, connection, reconnection, authentication and security.
 
 ## Telemetry
 
-Telemetry consists of a sender and a receiver
+Telemetry consists of a sender and a receiver.
 
 ### Telemetry sender
 
@@ -30,7 +30,7 @@ The invoker is the origin of the call (or the client). It will generate the comm
 
 ### Command executor
 
-The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker for executor for each command type, however the usage of share subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
+The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker per executor for each command type, however the usage of share subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
 
 ## Serializers
 

@@ -13,28 +13,39 @@ The Codespaces approach is the recommended option and it provides all the necess
 
 ### Codespaces *(Recommended)*
 
-1. [Install VS Code](https://code.visualstudio.com/). This is required to correctly authenticate with Azure.
+1. Install [VS Code](https://code.visualstudio.com/)
 
 1. Launch Codespaces:
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
-1. Open the codespace in VS Code Desktop  (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
+1. Open the codespace in VS Code Desktop - this is required to login to Azure in a later step:
+
+    > **Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**
 
 ### Linux
 
-1. Install [Ubuntu 24.04](https://ubuntu.com/#get-ubuntu).
+1. Install [Ubuntu](https://ubuntu.com/download/desktop)
+
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+
+> [!CAUTION]
+> Ubuntu provides unofficial Docker packages via snap or apt. Install directly from Docker guarantees that latest version.
 
 ### Windows Subsystem for Linux (WSL)
 
-1. [Install WSL](https://learn.microsoft.com/windows/wsl/install)
+1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
 
-1. If you already use WSL, [confirm it's WSL 2](https://learn.microsoft.com/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2).
+    ```powershell
+    wsl --install Ubuntu
+    ```
+
+1. Install [Docker Desktop with WSL 2](https://docs.docker.com/desktop/features/wsl/)
 
 ## Install prerequisites
 
 > [!NOTE]
-> Codespaces comes pre-installed with all required prerequisites. If you have deployed a codespace from the Azure IoT Operations SDKs repository, then you can skip this step.
+> Codespaces comes pre-installed with all required prerequisites. If you have deployed a codespace from the Azure IoT Operations SDKs repository, then you can skip these steps.
 
 1. Install Git:
 
@@ -90,7 +101,7 @@ Installation via Helm provides allows you to get started quicker, however this i
     ```
 
 > [!CAUTION]
-> The scripts linked above simplify the environment setup. To understand the performed steps, review the scripts in the [deployment directory](/tools/deployment/).
+> The scripts linked above simplify the environment setup. To understand the steps, review the scripts in the [deployment directory](/tools/deployment/).
 
 ## Broker configuration
 
