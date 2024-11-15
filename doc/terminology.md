@@ -2,24 +2,22 @@
 
 The following outlines some of the main terms used to describe the different basic primitives used to construct the SDKs.
 
+## Envoys and Binders
+
+* A `Binder` is an abstraction to encapsulate the interactions between the application and the broker using a topic, schema and serialization format.
+* An `Envoy` is a pair of `Binders` to represent both the Publisher and Subscriber components and how the interact via the broker.
+
 ## Telemetry
 
 Messages sent from a client such as a _device_ or an _asset_ to a given topic using a pre-defined schema, describable with [DTDL](https://github.com/Azure/opendigitaltwins-dtdl).
 
-Described in detail in [telemetry-api.md](reference/telemetry-api.md).
+Described in detail in [telemetry.md](reference/telemetry.md).
 
-## Command
+## Commands
 
 Implement an RPC pattern, to decouple _clients_ and _servers_, where the client _invokes_ the command, and the server _executes_ the command, whether directly or by delegation.
 
-Described in detail in [command-api.md](reference/command-api.md).
-
-## Envoys and Binders
-
-* A `Binder` is an abstraction to encapsulate the interactions between the application and the broker using a topic, schema and serialization format.
-* An `Envoy` is a pair of `Binders` to represent both the Publisher and Subscriber components and how the interact.
-
-Described in detail in [envoy-binder.md](reference/envoy-binder.md).
+Described in detail in [commands.md](reference/commands.md).
 
 ## Serializers
 

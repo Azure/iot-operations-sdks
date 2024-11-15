@@ -3,17 +3,22 @@
 set -o errexit
 set -o pipefail
 
-# install k3d
-if [ ! $(which k3d) ] 
-then
-    wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-fi
+script_dir=$(dirname $(readlink -f $0))
 
-# install Step
-if [ ! $(which step) ] 
+# Install requirements
+$script_dir/install-requirements.sh
+
+# Prompt user if this is an interactive shell
+if [[ $- =~ i ]]
 then
-    wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
-    sudo dpkg -i /tmp/step-cli_amd64.deb
+    echo "This script will delete the default k3d cluster and create a new one."
+    echo "Are you sure you want to proceed?"
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) break;;
+            No ) exit;;
+        esac
+    done
 fi
 
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
@@ -27,3 +32,11 @@ k3d cluster create \
 
 # Set the default context / namespace to azure-iot-operations
 kubectl config set-context k3d-k3s-default --namespace=azure-iot-operations
+
+echo
+echo =================================================================================================
+echo The k3d cluster has been created and the default context has been set to azure-iot-operations.
+echo If you need non-root access to the cluster, run the following command:
+echo
+echo "mkdir ~/.kube; sudo install -o $USER -g $USER -m 600 /root/.kube/config ~/.kube/config"
+echo =================================================================================================
