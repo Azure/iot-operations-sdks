@@ -13,10 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
-        private int[] supportedMajorProtocolVersions = [1];
+        private int[] supportedMajorProtocolVersions = [0];
 
         private static readonly int PreferredDispatchConcurrency = 10;
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -79,7 +76,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, telemTopicFilter))
             {
-                string? requestProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
+                string requestProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? "0.1";
 
                 if (!ProtocolVersion.TryParseProtocolVersion(requestProtocolVersion, out ProtocolVersion? protocolVersion))
                 {
