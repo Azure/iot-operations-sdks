@@ -12,8 +12,8 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     where T : class
 {
 
-    private const int majorProtocolVersion = 1;
-    private const int minorProtocolVersion = 0;
+    private const int majorProtocolVersion = 0;
+    private const int minorProtocolVersion = 1;
 
     private readonly IMqttPubSubClient _mqttClient;
     private readonly string? _telemetryName;
