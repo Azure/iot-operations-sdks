@@ -29,8 +29,8 @@ const REQUEST_TOPIC_PATTERN: &str =
 const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
 const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
-// where the telemetryName is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and senderId is a hex encoded representation of the key that changed
-const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{telemetryName}/command/notify/{senderId}";
+// where the encodedClientId is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and encodedKeyName is a hex encoded representation of the key that changed
+const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{encodedClientId}/command/notify/{encodedKeyName}";
 
 /// Type defined to repress clippy warning about very complex type
 type ArcMutexHashmap<K, V> = Arc<Mutex<HashMap<K, V>>>;
@@ -102,6 +102,7 @@ where
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
+            .topic_token_map(HashMap::from([("invokerClientId".to_string(), client.client_id().to_string())]))
             .command_name(COMMAND_NAME)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
@@ -114,17 +115,15 @@ where
             .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
-        let mut encoded_client_id: String = String::new();
-        client
-            .client_id()
-            .as_bytes()
-            .iter()
-            .for_each(|b| encoded_client_id.push_str(&format!("{b:X}")));
+        let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
         let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
-            .telemetry_name(encoded_client_id)
+            .topic_token_map(HashMap::from([(
+                "encodedClientId".to_string(),
+                encoded_client_id),
+                ]))
             .auto_ack(options.key_notification_auto_ack)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
@@ -549,7 +548,10 @@ where
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
-                                let key_name = notification.sender_id.clone();
+                                let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
+                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    continue;
+                                };
                                 let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
                                 let Some(notification_timestamp) = notification.timestamp else {
                                     log::error!("Received key notification with no version. Ignoring.");
@@ -564,7 +566,7 @@ where
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(&key_name) {
+                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
