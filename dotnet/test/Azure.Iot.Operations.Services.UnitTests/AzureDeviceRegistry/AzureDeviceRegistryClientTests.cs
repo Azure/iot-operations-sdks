@@ -151,9 +151,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 
                 adrClient.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
 
-                // The first observed change is always "created"
-                await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AzureDeviceRegistryTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress);
                 var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
