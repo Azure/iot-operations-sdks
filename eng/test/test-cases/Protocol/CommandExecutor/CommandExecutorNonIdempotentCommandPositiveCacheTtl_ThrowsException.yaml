@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorNonIdempotentCommandPositiveCacheTtl_ThrowsException
-aka:
-- NonIdempotentCommandPositiveCacheTtlThrowsException
 description:
   condition: >-
     CommandExecutor initialized with non-idempotent command that has a positive cache TTL.

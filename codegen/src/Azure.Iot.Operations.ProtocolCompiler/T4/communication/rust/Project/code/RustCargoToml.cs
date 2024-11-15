@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         internal static readonly Dictionary<string, List<(string, string)>> serializerPackageVersions = new()
         {
-            { PayloadFormat.Avro, new List<(string, string)> { ("apache-avro", "0.16.0") } },
+            { PayloadFormat.Avro, new List<(string, string)> { ("apache-avro", "0.16.0"), ("lazy_static", "1.4.0") } },
             { PayloadFormat.Cbor, new List<(string, string)> { } },
             { PayloadFormat.Json, new List<(string, string)> { ("serde_json", "1.0.105") } },
             { PayloadFormat.Proto2, new List<(string, string)> { } },
@@ -17,12 +17,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private readonly string projectName;
         private readonly string? sdkPath;
+        private readonly bool usesAnySchemas;
+        private readonly bool usesIntEnum;
         private readonly List<(string, string)> packageVersions;
 
-        public RustCargoToml(string projectName, string genFormat, string? sdkPath)
+        public RustCargoToml(string projectName, string genFormat, string? sdkPath, HashSet<SchemaKind> distinctSchemaKinds)
         {
             this.projectName = NamingSupport.ToSnakeCase(projectName);
             this.sdkPath = sdkPath?.Replace('\\', '/');
+            this.usesAnySchemas = distinctSchemaKinds.Any();
+            this.usesIntEnum = distinctSchemaKinds.Contains(SchemaKind.EnumInt);
 
             packageVersions = serializerPackageVersions[genFormat];
         }

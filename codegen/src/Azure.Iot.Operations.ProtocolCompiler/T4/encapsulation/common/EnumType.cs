@@ -4,6 +4,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public class EnumType : SchemaType
     {
+        public override SchemaKind Kind { get => EnumValues.FirstOrDefault()?.StringValue != null ? SchemaKind.EnumString : SchemaKind.EnumInt; }
+
         public EnumType(string schemaName, string? description, string[] names, int[]? intValues = null, string[]? stringValues = null)
         {
             SchemaName = schemaName;

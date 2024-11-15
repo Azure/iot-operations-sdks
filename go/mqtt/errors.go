@@ -50,7 +50,7 @@ type DisconnectError struct {
 
 func (e *DisconnectError) Error() string {
 	return fmt.Sprintf(
-		"received DISCONNECT packet with reason code %x",
+		"received DISCONNECT packet with reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -64,7 +64,7 @@ type FatalDisconnectError struct {
 
 func (e *FatalDisconnectError) Error() string {
 	return fmt.Sprintf(
-		"received DISCONNECT packet with fatal reason code %x",
+		"received DISCONNECT packet with fatal reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -106,7 +106,7 @@ type ConnackError struct {
 
 func (e *ConnackError) Error() string {
 	return fmt.Sprintf(
-		"received CONNACK packet with error reason code %x",
+		"received CONNACK packet with error reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -119,7 +119,7 @@ type FatalConnackError struct {
 
 func (e *FatalConnackError) Error() string {
 	return fmt.Sprintf(
-		"received CONNACK packet with fatal reason code %x",
+		"received CONNACK packet with fatal reason code 0x%x",
 		e.ReasonCode,
 	)
 }

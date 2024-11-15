@@ -72,7 +72,6 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
             .payload(&IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
-            .executor_id(None)
             .build()
             .unwrap();
         let response = incr_invoker.invoke(payload).await;

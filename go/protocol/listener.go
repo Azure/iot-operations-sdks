@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"fmt"
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -161,26 +160,6 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 // Handle payload manually, since it may be ignored on errors.
 func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	var zero T
-
-	switch pub.PayloadFormat {
-	case 0: // Do nothing; always valid.
-	case 1:
-		if l.encoding.PayloadFormat() == 0 {
-			return zero, &errors.Error{
-				Message:     "payload format indicator mismatch",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  constants.FormatIndicator,
-				HeaderValue: fmt.Sprint(pub.PayloadFormat),
-			}
-		}
-	default:
-		return zero, &errors.Error{
-			Message:     "payload format indicator invalid",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.FormatIndicator,
-			HeaderValue: fmt.Sprint(pub.PayloadFormat),
-		}
-	}
 
 	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
 		pub.ContentType != l.encoding.ContentType() {
