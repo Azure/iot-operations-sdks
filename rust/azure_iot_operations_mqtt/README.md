@@ -11,6 +11,7 @@ MQTT version 5.0 client library providing flexibility for decoupled asynchronous
 * Enables you to create decoupled components without the need for considering connection state.
 
 ## Simple Send and Receive
+The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Operations MQ broker, but is compatible with any MQTTv5 broker, local or remote.
 
 ```rust, no_run
 use std::str;
