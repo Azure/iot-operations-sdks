@@ -6,7 +6,7 @@
 [![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml)
 
 > [!CAUTION]
-> The assets in this repository are currently in Private Preview and have been made available for early access and feedback purposes.
+> The assets in this repository are currently in **Private Preview** and have been made available for early access and feedback purposes.
 
 ## What is Azure IoT Operations?
 
@@ -22,7 +22,7 @@ The focus of the SDKs it to assist customers in developing applications by provi
 
 | Feature | Description |
 |-|-|
-| <code>**Highly available** | Provides infrastructure and guidance to build HA into your applications |
+| **Highly available** | Provides infrastructure and guidance to build HA into your applications |
 | **Any language** | The SDKs target multiple languages to support any development environment |
 | **Secure** | Uses the latest crypto libraries and protocols |
 | **Zero data loss** | Builds on MQTT broker to remove data loss due to application failure |
@@ -56,24 +56,31 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
-## SDK Features
+## Next steps
 
-| State | Support | Location |
-|-|-|-|
-| :green_circle:&nbsp;Complete | Feature is released and actively supported by the team. | [Releases](https://github.com/Azure/iot-operations-sdks/releases) |
-| :yellow_circle:&nbsp;In&nbsp;progress | Under development, no support provided. | `main` and `feature` branches |
-| :orange_circle:&nbsp;Planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for details on planned features. | - |
-| :red_circle:&nbsp;Not&nbsp;planned | Refer to [discussions](https://github.com/Azure/iot-operations-sdks/discussions) for detail on unplanned features. | - |
+1. [Read the documentation](./doc) on building an edge applications using the Azure IoT Operations SDKs.
 
-### Feature status
+1. Refer to each language directory for specific instructions on using each SDK:
 
-The following features are available or planned, along with the current language support:
+   * **.NET** - [/dotnet](/dotnet)
+   * **Go** - [/go](/go)
+   * **Rust** - [/rust](/rust)
 
-| Feature | Description | [.NET](./dotnet) | [Go](./go) | [Rust](./rust) |
+## Features
+
+The following tables outline the current feature set, along with the associated language support:
+
+| State | Support |
+|-|-|
+| :green_circle:&nbsp;Complete | Feature is released and **actively** supported by the team. |
+| :yellow_circle:&nbsp;In&nbsp;progress | Under development, **no support** provided. |
+| :orange_circle:&nbsp;Planned | Work is planned in the near future. |
+
+| Feature | Description | .NET | Go | Rust |
 |-|-|-|-|-|
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
-| **RPC** protocol | RPC (request/response) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Telemetry** protocol | Telemetry (publish) protocol build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Command** client | Command (invoker/executor) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Telemetry** client | Telemetry (sender/receiver) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
@@ -81,24 +88,16 @@ The following features are available or planned, along with the current language
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
 | **Akri** client | Record discovered assets and asset endpoints | :yellow_circle: | :orange_circle: | :orange_circle: |
 
-### Protocol compiler
+## Protocol compiler (Codegen)
 
-The Protocol compiler is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
+The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
 
-| Component | Description | [.NET](/dotnet) | [Go](/go) | [Rust](/rust) |
+| Component | Description | .NET | Go | Rust |
 |-|-|-|-|-|
 | [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :green_circle:  |
 | [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :green_circle:  |
 | [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
 | [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
-
-### Other tooling
-
-Tools available for use during development of IoT Operation applications.
-
-| Tool | Description | Status |
-|-|-|-|
-| [**State store CLI**](/tools/dsscli) | Interact with the state store via a CLI. Get, set and delete keys. | :green_circle: |
 
 ## Need help?
 

@@ -29,7 +29,7 @@ Unit tests MUST be exhaustive, and therefore MUST neither assume correct behavio
 1. Protocol errors should be as fine grain and descriptive as possible.
 1. Protocol errors should use error codes for brevity. Error messages as strings should be adopted for usability, but should never be transmitted on the wire.
 1. Protocol errors should be surfaced to application using language-appropriate constructs.
-1. Normative definition of tests assumes protocol uses MQTT5 user properties to convey errors **<span style="color:red"><TBD: is this correct? Correct test definions if not>**.
+1. Normative definition of tests assumes protocol uses MQTT5 user properties to convey errors **<span style="color:red"><TBD: is this correct? Correct test definitions if not>**.
 1. Normative definition of tests may also cover cases that are practically impossible because of actual implementation. This should be considered a negative, non-relevant case and may not be implemented.
 1. Executor may serve requests by indicating a freshness value for the response as a time-to-live.
 1. Executor must use a cache for de-duplicating requests within the request timeout window. This is necessarynot to invoke non-idempotent method multiple times, which would result in incorrect app logic, and optimize execution by avoiding executing same request multiple times  unnecessarily.
