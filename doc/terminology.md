@@ -11,13 +11,13 @@ The following outlines some of the main terms used to describe the different bas
 
 Messages sent from a client such as a _device_ or an _asset_ to a given topic using a pre-defined schema, describable with [DTDL](https://github.com/Azure/opendigitaltwins-dtdl).
 
-Described in detail in [telemetry-api.md](reference/telemetry.md).
+Described in detail in [telemetry.md](reference/telemetry.md).
 
-## Command
+## Commands
 
 Implement an RPC pattern, to decouple _clients_ and _servers_, where the client _invokes_ the command, and the server _executes_ the command, whether directly or by delegation.
 
-Described in detail in [command-api.md](reference/commands.md).
+Described in detail in [commands.md](reference/commands.md).
 
 ## Serializers
 

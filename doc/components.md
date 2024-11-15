@@ -1,6 +1,6 @@
 # Components of the SDKs
 
-The following are the major components of the SDKs which are available in three packages.
+The following are the major components of the SDKs and the protocol compiler.
 
 ## MQTT 
 
@@ -8,9 +8,9 @@ The following are the major components of the SDKs which are available in three 
 
 This client provides a seemless way to connect an application to the MQTT Broker and other Azure IoT Operations services. It takes care of configuration, connection, reconnection, authentication and security.
 
-## Telemetry
+## Protocol
 
-Telemetry consists of a sender and a receiver.
+Protocol contains Telemetry, Commands and Serialization. Telemetry consists of a sender and a receiver. A Command provide an invoker and an executor.
 
 ### Telemetry sender
 
@@ -20,10 +20,6 @@ Sends, or publishes, a message to a MQTT topic with a specified serialization fo
 
 Receives (via subscription) a telemetry message from a sender. It will automatically deserialize the payload and provide this to the application.
 
-## Command
-
-The command provide an invoker and an executor for sending and receiving RPC over MQTT.
-
 ### Command invoker
 
 The invoker is the origin of the call (or the client). It will generate the command along with its associated request payload, serialized with the specified format. The call is routed via the MQTT broker, to the RPC executor. The combination of the invoker, broker and executor are responsible for the lifetime of the message and delivery guarantees. There can be one or more invokers for each executor.
@@ -32,7 +28,7 @@ The invoker is the origin of the call (or the client). It will generate the comm
 
 The executor will execute the command and request payload, and send back a response to the invoker. There is typically a single invoker per executor for each command type, however the usage of share subscriptions can allow for multiple executors to be present, however each invocation will still only be executed one time (the MQTT Broker is responsible for assigning the executor to each command instance).
 
-## Serializers
+### Serializers
 
 The serializer pattern allows customer serialization to be used on the MQTT messages. Textual formats such as JSON are a popular payload format, however for large data structure or constrained network links, a binary format may be more desired.
 
@@ -61,4 +57,10 @@ The leader election client utilized the state store to designate which instance 
 ### Lease lock client
 
 The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
+
+## Protocol compiler (Codegen)
+
+The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages from a [DTDL](https://github.com/Azure/opendigitaltwins-dtdl) input.
+
+The primary purpose of the tool is to facilitate communication between two edge applications via the MQTT broker.
 

@@ -28,9 +28,9 @@ The SDKs provide a number of benefits compared to utilizing the MQTT client dire
 
 The Azure IoT Operations SDKs provide a number of components available for customers:
 
-* A set of protocol primitives, designed to assist in creating applications, built on the fundamental protocol implementations; **Commands** and **Telemetry**. 
-
 * A **Session client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
+
+* A set of protocol primitives, designed to assist in creating applications, built on the fundamental protocol implementations; **Commands** and **Telemetry**. 
 
 * A set of clients providing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, and **Schema Registry**.
 
@@ -39,7 +39,7 @@ The Azure IoT Operations SDKs provide a number of components available for custo
 Read further about the underlying terminology and different components of the SDKs:
 
 * [Terminology](terminology.md) - Understand the different terms used to describe the concepts and construction of the SDKs.
-* [Components](components.md) - An outline of each client library and their function.
+* [Components](components.md) - An outline of each component and their function.
 
 ## Applications types
 
