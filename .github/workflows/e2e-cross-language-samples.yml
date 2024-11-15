@@ -54,7 +54,7 @@ jobs:
         run: |
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
-          (pushd go/samples/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
+          (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
         #  (pushd samples/rust/counter/counter_envoy; $codegen --modelFile ../../../counter.json --sdkPath ../../../../lib --lang rust; cargo fmt; popd)
 
       - name: Build dotnet
@@ -67,8 +67,8 @@ jobs:
         if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
         run: |
           cd go
-          go build samples/counter/server/server.go
-          go build samples/counter/client/client.go
+          go build -o server samples/protocol/counter/server/main.go
+          go build -o client samples/protocol/counter/client/main.go
 
       - name: Build rust
         if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
