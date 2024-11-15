@@ -67,8 +67,8 @@ jobs:
         if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
         run: |
           cd go
-          go build samples/counter/server/main.go
-          go build samples/counter/client/main.go
+          go build samples/protocol/counter/server/main.go
+          go build samples/protocol/counter/client/main.go
 
       - name: Build rust
         if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
