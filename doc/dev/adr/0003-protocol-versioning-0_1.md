@@ -14,7 +14,7 @@ All languages will use protocol version 0.1 instead of 1.0 to indicate that our 
 
 This version will not be backward compatible with 1.0; rather, it is a redefinition and update to our protocol version. 
 
-The SDKs will assume the protocol version is 0.1 if the `__protVer` header is not present. Once the protocol goes GA, the assumed protocol version will be `1.0` again.
+The SDKs will assume the protocol version is 0.1 if the `__protVer` header is not present. Once the protocol goes GA, the assumed protocol version will be `1.0` again and every compliant client will include a protocol version number.
 
 ## Protocol Version 0.1:
   - `{senderID}` in the topic for telemetry envoys is no longer required. If included, it will be handled like other generalized topic tokens.
