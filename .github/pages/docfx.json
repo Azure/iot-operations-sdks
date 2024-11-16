@@ -25,6 +25,8 @@
     "globalMetadata": {
       "_appName": "Azure IoT Operations .NET SDK",
       "_appTitle": "Azure IoT Operations .NET SDK",
+      "_appFooter": false,
+      "_appLogoUrl": "https://github.com/azure/iot-operations-sdks",
       "_enableSearch": true,
       "pdf": false
     }
