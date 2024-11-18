@@ -7,9 +7,9 @@ spec:
   replicas: 3
   assetEndpointProfileType: http-dss
   image: httpserverconnectorapp:latest
-  mqTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local:18883  # expected format: {hostname}:{port}
-  mqTls:
-    enabled: true
+  brokerTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local:18883  # expected format: {hostname}:{port}
+  brokerTls:
+    mode: Enabled
     caTrustBundle: azure-iot-operations-aio-ca-trust-bundle
   mqAuthentication:
     audience: aio-internal

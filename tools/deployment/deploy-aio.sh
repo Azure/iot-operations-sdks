@@ -66,7 +66,7 @@ kubectl apply -f yaml/aio-$deploy_type.yaml
 helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
 
 # Deploy the Akri Operator
-helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.1-preview -n azure-iot-operations --wait
+helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.3-preview -n azure-iot-operations --wait
 
 # Add AKRI Service for 38884
 helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
