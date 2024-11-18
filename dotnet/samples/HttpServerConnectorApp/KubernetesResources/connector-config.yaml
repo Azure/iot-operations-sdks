@@ -11,5 +11,6 @@ spec:
   brokerTls:
     mode: Enabled
     caTrustBundle: azure-iot-operations-aio-ca-trust-bundle
-  mqAuthentication:
-    audience: aio-internal
+  brokerAuthentication:
+    mode: ServiceAccountToken
+    satAudience: aio-internal
