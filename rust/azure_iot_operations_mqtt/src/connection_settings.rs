@@ -97,12 +97,12 @@ impl MqttConnectionSettingsBuilder {
             .unwrap_or(None);
         let keep_alive = env::var("AIO_MQTT_KEEP_ALIVE")
             .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
+            .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
         let session_expiry = env::var("AIO_MQTT_SESSION_EXPIRY")
             .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
+            .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
         let clean_start = env::var("AIO_MQTT_CLEAN_START")
