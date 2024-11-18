@@ -30,8 +30,8 @@ type (
 	}
 
 	key struct {
-		invokerClientID string
-		correlationData string
+		id string
+		cd string
 	}
 
 	Cache struct {
@@ -234,8 +234,8 @@ func costWeightedBenefit(msg *mqtt.Message, exec time.Duration) float64 {
 
 func getKey(msg *mqtt.Message) key {
 	return key{
-		invokerClientID: msg.UserProperties[constants.InvokerClientID],
-		correlationData: string(msg.CorrelationData),
+		id: msg.UserProperties[constants.SourceID],
+		cd: string(msg.CorrelationData),
 	}
 }
 
@@ -280,7 +280,7 @@ func (c *Cache) ignoreMetadata(key string) bool {
 	switch key {
 	case constants.Timestamp, constants.FencingToken, constants.Partition:
 		return true
-	case constants.InvokerClientID:
+	case constants.SourceID:
 		return c.ignoreClient
 	default:
 		return false

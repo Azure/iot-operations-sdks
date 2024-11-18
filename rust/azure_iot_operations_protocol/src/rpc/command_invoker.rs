@@ -27,9 +27,10 @@ use crate::{
         user_properties::{self, validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Command Request struct.
 /// Used by the [`CommandInvoker`]
@@ -531,7 +532,7 @@ where
 
         // Add internal user properties
         request.custom_user_data.push((
-            UserProperty::CommandInvokerId.to_string(),
+            UserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
         request.custom_user_data.push((
@@ -747,7 +748,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
