@@ -36,11 +36,6 @@
         public const string IsApplicationError = ReservedPrefix + "apErr";
 
         /// <summary>
-        /// User Property indicating the MQTT Client ID of a Command invoker.
-        /// </summary>
-        public const string CommandInvokerId = ReservedPrefix + "invId";
-
-        /// <summary>
         /// User Property indicating the MQTT Client ID of a Telemetry sender.
         /// </summary>
         public const string TelemetrySenderId = ReservedPrefix + "sndId";
@@ -74,5 +69,13 @@
         /// requested protocol version either wasn't supported or was malformed.
         /// </remarks>
         internal const string RequestedProtocolVersion = ReservedPrefix + "requestProtVer";
+
+        /// <summary>
+        /// User property indicating what client sent this request.
+        /// </summary>
+        internal const string SourceId = ReservedPrefix + "srcId";
+
+        // TODO remove this once akri service is code gen'd to expect srcId instead of invId
+        public const string CommandInvokerId = ReservedPrefix + "invId";
     }
 }

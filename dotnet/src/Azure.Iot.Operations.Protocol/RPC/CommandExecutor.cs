@@ -16,10 +16,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
+        private const int majorProtocolVersion = 0;
+        private const int minorProtocolVersion = 1;
 
-        private int[] supportedMajorProtocolVersions = [1];
+        private readonly int[] supportedMajorProtocolVersions = [0];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -127,7 +127,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 DateTime commandExpirationTime = messageReceivedTime + commandTimeout;
                 DateTime ttl = messageReceivedTime + CacheTtl;
 
-                string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? null;
+                string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
                     await GetDispatcher()(
@@ -145,12 +145,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
-                string invokerId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.CommandInvokerId)?.Value ?? string.Empty;
+                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await commandResponseCache.RetrieveAsync(
                         this.commandName,
-                        invokerId,
+                        sourceId,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.PayloadSegment.Array ?? Array.Empty<byte>(),
                         isCacheable: CacheTtl > TimeSpan.Zero,
@@ -209,7 +209,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, payload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, payload, extended.ResponseMetadata);
                         await commandResponseCache.StoreAsync(
                             this.commandName,
-                            invokerId,
+                            sourceId,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.PayloadSegment.Array,
                             responseMessage,
@@ -392,12 +392,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            string? invokerId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.CommandInvokerId)?.Value;
+            string? invokerId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
             if (invokerId == null)
             {
                 status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Invoker Client ID ({AkriSystemProperties.CommandInvokerId}) property present.";
-                invalidPropertyName = AkriSystemProperties.CommandInvokerId;
+                statusMessage = $"No Invoker Client ID ({AkriSystemProperties.SourceId}) property present.";
+                invalidPropertyName = AkriSystemProperties.SourceId;
                 invalidPropertyValue = null;
                 return false;
             }
