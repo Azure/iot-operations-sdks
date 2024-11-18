@@ -147,7 +147,7 @@ public class MqttConnectionSettings
 
     /// <summary>
     /// This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
-    /// Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
+    /// Files used: BROKER_TARGET_ADDRESS, BROKER_USE_TLS, BROKER_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
     /// MqttConnectionSettings are created from these settings to construct a session client.
     /// This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
     /// </summary>
@@ -165,10 +165,10 @@ public class MqttConnectionSettings
 
         try
         {
-            var targetAddressAndPort = File.ReadAllText(configMapPath + "/MQ_TARGET_ADDRESS");
+            var targetAddressAndPort = File.ReadAllText(configMapPath + "/BROKER_TARGET_ADDRESS");
             if (string.IsNullOrEmpty(targetAddressAndPort))
             {
-                throw new ArgumentException("MQ_TARGET_ADDRESS is missing.");
+                throw new ArgumentException("BROKER_TARGET_ADDRESS is missing.");
             }
 
             try
@@ -179,40 +179,40 @@ public class MqttConnectionSettings
             }
             catch (Exception e)
             {
-                throw new ArgumentException($"MQ_TARGET_ADDRESS is malformed. Cannot parse MQTT port from MQ_TARGET_ADDRESS. Expected format <hostname>:<port>. Found: {targetAddressAndPort}", e);
+                throw new ArgumentException($"BROKER_TARGET_ADDRESS is malformed. Cannot parse MQTT port from BROKER_TARGET_ADDRESS. Expected format <hostname>:<port>. Found: {targetAddressAndPort}", e);
             }
         }
         catch (Exception ex)
         {
-            throw AkriMqttException.GetConfigurationInvalidException("MQ_TARGET_ADDRESS", string.Empty, "Missing target address configuration file", ex);
+            throw AkriMqttException.GetConfigurationInvalidException("BROKER_TARGET_ADDRESS", string.Empty, "Missing target address configuration file", ex);
         }
 
         try
         {
-            string? useTlsString = File.ReadAllText(configMapPath + "/MQ_USE_TLS");
+            string? useTlsString = File.ReadAllText(configMapPath + "/BROKER_USE_TLS");
             if (!bool.TryParse(useTlsString, out useTls))
             {
-                throw new ArgumentException("MQ_USE_TLS must be a valid boolean value.");
+                throw new ArgumentException("BROKER_USE_TLS must be a valid boolean value.");
             }
         }
         catch
         {
-            throw AkriMqttException.GetConfigurationInvalidException("MQ_USE_TLS", string.Empty, "MQ_USE_TLS not set.");
+            throw AkriMqttException.GetConfigurationInvalidException("BROKER_USE_TLS", string.Empty, "BROKER_USE_TLS not set.");
         }
 
         try
         {
-            satMountPath = Environment.GetEnvironmentVariable("MQ_SAT_MOUNT_PATH");
+            satMountPath = Environment.GetEnvironmentVariable("BROKER_SAT_MOUNT_PATH");
         }
         catch
         {
-            Trace.TraceInformation("MQ_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
+            Trace.TraceInformation("BROKER_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
         }
 
         X509Certificate2Collection chain = new();
         try
         {
-            tlsCaCertMountPath = Environment.GetEnvironmentVariable("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
+            tlsCaCertMountPath = Environment.GetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
 
             if (Directory.Exists(tlsCaCertMountPath))
             {
@@ -223,12 +223,12 @@ public class MqttConnectionSettings
             }
             else
             {
-                throw new InvalidOperationException("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH was set, but the provided directory does not exist");
+                throw new InvalidOperationException("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH was set, but the provided directory does not exist");
             }
         }
         catch
         {
-            Trace.TraceInformation("MQ_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
+            Trace.TraceInformation("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
         }
 
         try
