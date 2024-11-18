@@ -549,7 +549,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.InvokerId != null)
             {
-                Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.CommandInvokerId, out string? cmdInvokerId));
+                Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.SourceId, out string? cmdInvokerId));
                 Assert.Equal(publishedMessage.InvokerId, cmdInvokerId);
             }
 

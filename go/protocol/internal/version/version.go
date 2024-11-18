@@ -8,30 +8,30 @@ import (
 )
 
 const (
-	ProtocolString  = "1.0"
-	SupportedString = "1"
+	ProtocolString  = "0.1"
+	SupportedString = "0"
 )
 
 var Supported = ParseSupported(SupportedString)
 
 func ParseProtocol(v string) (major, minor int) {
 	if v == "" {
-		return 1, 0
+		return 0, 1
 	}
 
 	parts := strings.Split(v, ".")
 	if len(parts) != 2 {
-		return 0, 0
+		return -1, 0
 	}
 
 	var err error
 	major, err = strconv.Atoi(parts[0])
 	if err != nil {
-		return 0, 0
+		return -1, 0
 	}
 	minor, err = strconv.Atoi(parts[1])
 	if err != nil {
-		return 0, 0
+		return -1, 0
 	}
 	return major, minor
 }

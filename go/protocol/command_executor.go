@@ -215,12 +215,11 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		req := &CommandRequest[Req]{Message: *msg}
 		var err error
 
-		req.ClientID = pub.UserProperties[constants.InvokerClientID]
-		if req.ClientID == "" {
+		if msg.ClientID == "" {
 			return nil, &errors.Error{
-				Message:    "invoker client ID missing",
+				Message:    "source client ID missing",
 				Kind:       errors.HeaderMissing,
-				HeaderName: constants.InvokerClientID,
+				HeaderName: constants.SourceID,
 			}
 		}
 

@@ -299,7 +299,7 @@ func receiveRequest(
 			invokerIDs[*actionReceiveRequest.InvokerIndex] = invokerID
 		}
 		props.User = append(props.User, packets.User{
-			Key:   InvokerClientID,
+			Key:   SourceID,
 			Value: invokerID,
 		})
 	}

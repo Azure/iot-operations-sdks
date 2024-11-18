@@ -12,8 +12,8 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     where T : class
 {
 
-    private const int majorProtocolVersion = 1;
-    private const int minorProtocolVersion = 0;
+    private const int majorProtocolVersion = 0;
+    private const int minorProtocolVersion = 1;
 
     private readonly IMqttPubSubClient _mqttClient;
     private readonly string? _telemetryName;
@@ -78,6 +78,12 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
         ValidateAsNeeded();
         cancellationToken.ThrowIfCancellationRequested();
 
+        string? clientId = _mqttClient.ClientId;
+        if (string.IsNullOrEmpty(clientId))
+        {
+            throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+        }
+
         TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;
 
         if (verifiedMessageExpiryInterval <= TimeSpan.Zero)
@@ -130,6 +136,7 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
             }
 
             applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+            applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
             MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
             var pubReasonCode = pubAck.ReasonCode;

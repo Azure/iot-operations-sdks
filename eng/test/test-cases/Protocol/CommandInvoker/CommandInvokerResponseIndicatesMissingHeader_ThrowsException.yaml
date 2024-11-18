@@ -19,7 +19,7 @@ actions:
   correlation-index: 0
   status: "400" # Bad Request
   metadata:
-    "__propName": "__invId"
+    "__propName": "__srcId"
 - action: await invocation
   invocation-index: 0
   catch:
@@ -29,5 +29,5 @@ actions:
     is-remote: !!bool true
     status-code: 400
     supplemental:
-      header-name: "__invId"
+      header-name: "__srcId"
 ...
