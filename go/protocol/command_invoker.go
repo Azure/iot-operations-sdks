@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -14,7 +15,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/container"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -224,7 +224,6 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.publisher.client.ID()
 	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()

@@ -1,1 +1,1 @@
-MQTT_HOST_NAME = localhost
+AIO_BROKER_HOSTNAME = localhost

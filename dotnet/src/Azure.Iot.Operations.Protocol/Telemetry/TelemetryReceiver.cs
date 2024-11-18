@@ -13,10 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
-        private int[] supportedMajorProtocolVersions = [1];
+        private int[] supportedMajorProtocolVersions = [0];
 
         private static readonly int PreferredDispatchConcurrency = 10;
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -130,6 +127,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
                 catch (Exception outerEx)
                 {
+                    await GetDispatcher()(null, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     Trace.TraceError($"Exception thrown while deserializing payload, callback skipped: {outerEx.Message}");
                 }
             }

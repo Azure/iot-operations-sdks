@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestTopicModelIdWithValidReplacement_StartsSuccessfully
-aka:
-- RequestTopicModelIdWithValidReplacementDoesNotThrow
 description:
   condition: >-
     CommandExecutor request topic contains a {modelId} token and model ID is a valid replacement.

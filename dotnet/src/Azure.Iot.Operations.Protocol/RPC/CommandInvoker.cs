@@ -16,10 +16,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
+        private const int majorProtocolVersion = 0;
+        private const int minorProtocolVersion = 1;
 
-        private int[] supportedMajorProtocolVersions = [1];
+        private int[] supportedMajorProtocolVersions = [0];
 
         private const string? DefaultResponseTopicPrefix = null;
         private const string? DefaultResponseTopicSuffix = null;
@@ -208,7 +208,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
                 {
                     // Assume a protocol version of 1.0 if no protocol version was specified
-                    string? responseProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? "1.0";
+                    string? responseProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                     if (!ProtocolVersion.TryParseProtocolVersion(responseProtocolVersion, out ProtocolVersion? protocolVersion))
                     {
                         var akriException = new AkriMqttException($"Received a response with an unparsable protocol version number: {responseProtocolVersion}")
@@ -364,15 +364,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (responseMsg.PayloadFormatIndicator != MqttPayloadFormatIndicator.Unspecified && (int)responseMsg.PayloadFormatIndicator != this.serializer.CharacterDataFormatIndicator)
-            {
-                errorKind = AkriMqttErrorKind.HeaderInvalid;
-                message = $"Format indicator {responseMsg.PayloadFormatIndicator} is not appropriate for {this.serializer.ContentType} content.";
-                headerName = "Payload Format Indicator";
-                headerValue = ((int)responseMsg.PayloadFormatIndicator).ToString(CultureInfo.InvariantCulture);
-                return false;
-            }
-
             if (!Guid.TryParse(correlationId, out _))
             {
                 errorKind = AkriMqttErrorKind.HeaderInvalid;
@@ -506,9 +497,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
                 }
 
-                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
+                requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
+
+                // TODO remove this once akri service is code gen'd to expect srcId instead of invId
+                requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
                 byte[]? payload = serializer.ToBytes(request);
                 if (payload != null)

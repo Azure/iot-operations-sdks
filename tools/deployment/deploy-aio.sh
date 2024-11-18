@@ -19,8 +19,9 @@ session_dir=$script_dir/../../.session
 mkdir -p $session_dir
 cd $script_dir
 
-# add/upgrade the azure-iot-ops extension
+# add/upgrade the azure-iot-ops / connectedk8s extensions
 az extension add --upgrade --name azure-iot-ops
+az extension add --upgrade --name connectedk8s
 
 # If its a nightly build, we need to install all the dependencies
 if [ "$deploy_type" = "nightly" ]; then
@@ -35,7 +36,7 @@ if [ "$deploy_type" = "nightly" ]; then
 
     # install AIO Broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --values ./yaml/broker-values.yaml --wait
+    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 fi
 
 # create CA for client connections. This will not be used directly by a service so many of the fields are not applicable
@@ -58,13 +59,13 @@ kubectl create configmap client-ca-trust-bundle \
 # setup new Broker
 kubectl apply -f yaml/aio-$deploy_type.yaml
 
-# Update the credientials locally for connecting to MQTT Broker
+# Update the credentials locally for connecting to MQTT Broker
 ./update-credentials.sh
 
-# Deploy ADR
-helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
+# Add ADR
+helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
 
-# Deploy Operator helm chart
+# Deploy the Akri Operator
 helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.1-preview -n azure-iot-operations --wait
 
 # Add AKRI Service for 38884
@@ -73,7 +74,8 @@ helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-mana
 --set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
 --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
 --set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
---set agent.extensionService.mqttBroker.port=38884
+--set agent.extensionService.mqttBroker.port=38884 \
+-n azure-iot-operations --wait
 
 
 echo Setup complete, session related files are in the '.session' directory

@@ -12,8 +12,8 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     where T : class
 {
 
-    private const int majorProtocolVersion = 1;
-    private const int minorProtocolVersion = 0;
+    private const int majorProtocolVersion = 0;
+    private const int minorProtocolVersion = 1;
 
     private readonly IMqttPubSubClient _mqttClient;
     private readonly string? _telemetryName;
@@ -35,6 +35,11 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
     private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
     private readonly Dictionary<string, string> topicTokenMap = new();
+
+    /// <summary>
+    /// Gets or sets the data schema used in a cloud event when one is associated with the telemetry.
+    /// </summary>
+    public string? DataSchema { get; set; }
 
     public string TopicPattern { get; init; }
 
@@ -73,6 +78,12 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
         ValidateAsNeeded();
         cancellationToken.ThrowIfCancellationRequested();
 
+        string? clientId = _mqttClient.ClientId;
+        if (string.IsNullOrEmpty(clientId))
+        {
+            throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+        }
+
         TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;
 
         if (verifiedMessageExpiryInterval <= TimeSpan.Zero)
@@ -108,9 +119,7 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
                 metadata.CloudEvent.Time = DateTime.UtcNow;
                 metadata.CloudEvent.Subject = telemTopic.ToString();
                 metadata.CloudEvent.DataContentType = _serializer.ContentType;
-                
-                // TBD https://github.com/microsoft/mqtt-patterns/discussions/917
-                // metadata.CloudEventsMetadata.DataSchema = _serializer.Schema; 
+                metadata.CloudEvent.DataSchema = DataSchema;
             }
 
             var applicationMessage = new MqttApplicationMessage(telemTopic.ToString(), qos)
@@ -127,6 +136,7 @@ public abstract class TelemetrySender<T> : IAsyncDisposable
             }
 
             applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+            applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
             MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
             var pubReasonCode = pubAck.ReasonCode;

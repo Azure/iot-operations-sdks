@@ -484,7 +484,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (invokerId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.CommandInvokerId, ((Guid)invokerId!).ToString());
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, ((Guid)invokerId!).ToString());
             }
 
             if (correlationId != null)

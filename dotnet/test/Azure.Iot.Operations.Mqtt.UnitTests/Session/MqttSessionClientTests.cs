@@ -355,7 +355,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 KeepAlive = TimeSpan.FromSeconds(5),
                 CleanStart = true,
                 ClientId = Guid.NewGuid().ToString(),
-                ConnectionTimeout = TimeSpan.FromSeconds(5),
                 SessionExpiry = TimeSpan.FromSeconds(50),
             };
 

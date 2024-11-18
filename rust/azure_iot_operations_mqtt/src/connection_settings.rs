@@ -97,12 +97,12 @@ impl MqttConnectionSettingsBuilder {
             .unwrap_or(None);
         let keep_alive = env::var("AIO_MQTT_KEEP_ALIVE")
             .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
+            .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
         let session_expiry = env::var("AIO_MQTT_SESSION_EXPIRY")
             .ok()
-            .map(|v| v.parse::<u64>().map(Duration::from_secs))
+            .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
             .unwrap_or(None);
         let clean_start = env::var("AIO_MQTT_CLEAN_START")
@@ -185,35 +185,21 @@ impl MqttConnectionSettingsBuilder {
                 );
             }
         }
-        if let Some(sat_file) = &self.sat_file {
-            if sat_file.is_some() {
-                if let Some(password) = &self.password {
-                    if password.is_some() {
-                        return Err(
-                            "sat_file cannot be used with password or password_file.".to_string()
-                        );
-                    }
-                }
-                if let Some(password_file) = &self.password_file {
-                    if password_file.is_some() {
-                        return Err(
-                            "sat_file cannot be used with password or password_file.".to_string()
-                        );
-                    }
-                }
+        if let Some(Some(_)) = &self.sat_file {
+            if let Some(Some(_)) = &self.password {
+                return Err("sat_file cannot be used with password or password_file.".to_string());
+            }
+            if let Some(Some(_)) = &self.password_file {
+                return Err("sat_file cannot be used with password or password_file.".to_string());
             }
         }
-        if let Some(key_file) = &self.key_file {
-            if key_file.is_some() {
-                if let Some(cert_file) = &self.cert_file {
-                    if cert_file.is_none() || cert_file.clone().unwrap().is_empty() {
-                        return Err(
-                            "key_file and cert_file need to be provided together.".to_string()
-                        );
-                    }
-                } else {
+        if let Some(Some(_)) = &self.key_file {
+            if let Some(Some(cert_file)) = &self.cert_file {
+                if cert_file.is_empty() {
                     return Err("key_file and cert_file need to be provided together.".to_string());
                 }
+            } else {
+                return Err("key_file and cert_file need to be provided together.".to_string());
             }
         }
         Ok(())

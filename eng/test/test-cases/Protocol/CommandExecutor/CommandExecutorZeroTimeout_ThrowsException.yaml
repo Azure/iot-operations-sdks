@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorZeroTimeout_ThrowsException
-aka:
-- ExecutorZeroTimeout_ThrowsException
 description:
   condition: >-
     CommandExecutor initialized with an execution timeout of zero

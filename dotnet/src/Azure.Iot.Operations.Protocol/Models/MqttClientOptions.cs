@@ -33,20 +33,11 @@ namespace Azure.Iot.Operations.Protocol.Models
             CleanSession = cs.CleanStart;
             SessionExpiryInterval = (uint)cs.SessionExpiry.TotalSeconds;
 
-            if (cs.ConnectionTimeout != null)
-            {
-                Timeout = cs.ConnectionTimeout.Value;
-            }
-
             if (!string.IsNullOrEmpty(cs.Username))
             {
                 if (!string.IsNullOrEmpty(cs.PasswordFile))
                 {
                     Credentials = new MqttClientCredentials(cs.Username, File.ReadAllBytes(cs.PasswordFile));
-                }
-                else if (!string.IsNullOrEmpty(cs.Password))
-                {
-                    Credentials = new MqttClientCredentials(cs.Username, Encoding.UTF8.GetBytes(cs.Password));
                 }
                 else
                 {
@@ -93,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                     List<X509Certificate2> certs = new();
                     if (!string.IsNullOrEmpty(cs.CertFile) && !string.IsNullOrEmpty(cs.KeyFile))
                     {
-                        X509Certificate2 cert = X509ClientCertificateLocator.Load(cs.CertFile, cs.KeyFile, cs.KeyFilePassword);
+                        X509Certificate2 cert = X509ClientCertificateLocator.Load(cs.CertFile, cs.KeyFile, cs.KeyPasswordFile);
                         if (!cert.HasPrivateKey)
                         {
                             throw new SecurityException("Provided certificate is missing the private key information.");

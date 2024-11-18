@@ -1,7 +1,5 @@
 ---
 test-name: TelemetrySenderSendWithCloudEvent_Success
-aka:
-- SendTelemetry_WithCloudEvents
 description:
   condition: >-
     TelemetrySender sends a Telemetry with attached CloudEvent info.
@@ -30,4 +28,5 @@ epilogue:
       "specversion": "1.0"
       "datacontenttype": "application/json"
       "subject": "mock/test"
+      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ...

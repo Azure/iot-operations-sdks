@@ -50,7 +50,7 @@ type DisconnectError struct {
 
 func (e *DisconnectError) Error() string {
 	return fmt.Sprintf(
-		"received DISCONNECT packet with reason code %x",
+		"received DISCONNECT packet with reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -64,7 +64,7 @@ type FatalDisconnectError struct {
 
 func (e *FatalDisconnectError) Error() string {
 	return fmt.Sprintf(
-		"received DISCONNECT packet with fatal reason code %x",
+		"received DISCONNECT packet with fatal reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -81,8 +81,8 @@ func (*SessionLostError) Error() string {
 // issue opening the network connection to the MQTT server. It may wrap an
 // underlying error using Go standard error wrapping.
 type ConnectionError struct {
-	wrapped error
 	message string
+	wrapped error
 }
 
 func (e *ConnectionError) Error() string {
@@ -106,7 +106,7 @@ type ConnackError struct {
 
 func (e *ConnackError) Error() string {
 	return fmt.Sprintf(
-		"received CONNACK packet with error reason code %x",
+		"received CONNACK packet with error reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -119,7 +119,7 @@ type FatalConnackError struct {
 
 func (e *FatalConnackError) Error() string {
 	return fmt.Sprintf(
-		"received CONNACK packet with fatal reason code %x",
+		"received CONNACK packet with fatal reason code 0x%x",
 		e.ReasonCode,
 	)
 }
@@ -128,8 +128,8 @@ func (e *FatalConnackError) Error() string {
 // for an option. It may wrap an underlying error using Go standard error
 // wrapping.
 type InvalidArgumentError struct {
-	wrapped error
 	message string
+	wrapped error
 }
 
 func (e *InvalidArgumentError) Error() string {

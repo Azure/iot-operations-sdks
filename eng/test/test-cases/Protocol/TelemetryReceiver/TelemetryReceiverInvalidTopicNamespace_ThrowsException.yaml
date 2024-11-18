@@ -1,7 +1,5 @@
 ---
 test-name: TelemetryReceiverInvalidTopicNamespace_ThrowsException
-aka:
-- ReceiveTelemetry_UnsupportedTopicNamespaceThrows
 description:
   condition: >-
     TelemetryReceiver initialized with a topic namespace that is invalid.
