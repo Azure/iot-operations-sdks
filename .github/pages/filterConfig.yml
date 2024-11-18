@@ -1,0 +1,5 @@
+apiRules:
+- exclude: 
+    uidRegex: \.dtmi_
+- exclude: 
+    uidRegex: RESP3

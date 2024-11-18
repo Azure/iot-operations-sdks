@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_services"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 license = "MIT"
 description = "Azure IoT Operations Services"
@@ -12,8 +12,8 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-azure_iot_operations_protocol = { version = "0.4", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
-azure_iot_operations_mqtt = { version = "0.4", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
+azure_iot_operations_protocol = { version = "0.5", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
+azure_iot_operations_mqtt = { version = "0.5", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
