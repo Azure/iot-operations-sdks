@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionPrefix>0.6.0</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

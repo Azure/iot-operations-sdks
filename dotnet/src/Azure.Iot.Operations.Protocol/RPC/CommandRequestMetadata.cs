@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         case AkriSystemProperties.FencingToken:
                             FencingToken = HybridLogicalClock.DecodeFromString(AkriSystemProperties.FencingToken, property.Value);
                             break;
-                        case AkriSystemProperties.CommandInvokerId:
+                        case AkriSystemProperties.SourceId:
                             InvokerClientId = property.Value;
                             break;
                         case "$partition":
