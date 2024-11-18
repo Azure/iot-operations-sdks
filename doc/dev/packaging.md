@@ -57,7 +57,7 @@ To pull the required dependencies from upstream crates.io into Azure IoT Operati
     echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
     ```
 
-1. Change into the rust directory and publish the crates:
+1. Publish the crates:
 
     ```bash
     cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks
@@ -65,8 +65,43 @@ To pull the required dependencies from upstream crates.io into Azure IoT Operati
     cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks
     ```
 
-1. **[Optional]** Build the rumqttc dependency:
+1. **[Optional]** Publish rumqttc:
 
     ```bash
     cargo publish --manifest-path rumqttc/Cargo.toml --registry aio-sdks --features use-native-tls --no-default-features
+    ```
+
+### Rust dependencies
+
+The Rust dependencies aren't automatically populated into the feed. To do this, you need to use a special URL to force authentication.
+
+1. Update the `rust/.cargo/config.toml` with the following:
+
+    ```yaml
+    [registry]
+    global-credential-providers = ["cargo:token"]
+
+    [registries]
+    aio-sdks-auth = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview~force-auth/Cargo/index/" }
+
+    [source.crates-io]
+    replace-with = "aio-sdks-auth"
+    ```
+
+1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions.
+
+1. Authenticate using the PAT:
+
+    ```bash
+    cd rust
+    export PAT=<PAT_TOKEN>
+    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks-auth
+    ```
+
+1. Build the crates:
+
+    ```bash
+    cargo build --manifest-path azure_iot_operations_mqtt/Cargo.toml
+    cargo build --manifest-path azure_iot_operations_protocol/Cargo.toml
+    cargo build --manifest-path azure_iot_operations_services/Cargo.toml
     ```
