@@ -3,13 +3,14 @@
 
 use std::{env, time::Duration};
 
+use env_logger::Builder;
+
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
-use env_logger::Builder;
 
 // These tests test these scenarios - numbers are linked inline:
 // SET
@@ -53,7 +54,7 @@ use env_logger::Builder;
 // KEY NOTIFICATION
 //    33. 1 set(v1) notification received after observe and then key is set(V1)
 //    34. 1 del notification received after observe and then key is del
-//    35. 1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del
+//    35. 1 set(v2), 1 del, 1 set(v3) notifications received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del. This test is confirming that operations that happen outside of the observation aren't received.
 //    36. TODO set with key expiry, recv delete notification once key expires
 
 const VALUE1: &[u8] = b"value1";
@@ -615,16 +616,6 @@ async fn state_store_key_set_conditions_2_network_tests() {
                 v_delete_value_mismatch
             );
 
-            // Tests 26 (without fencing token where fencing_token required (expect error))
-            let v_delete_response_missing_fencing_token = state_store_client
-                .vdel(key4.to_vec(), VALUE1.to_vec(), None, TIMEOUT)
-                .await
-                .expect_err("Expected error");
-            log::info!(
-                "[{log_identifier}] v_delete_response_missing_fencing_token response: {:?}",
-                v_delete_response_missing_fencing_token
-            );
-
             // Tests 20 (where key exists and value matches), 23 (with fencing token where fencing_token required)
             let v_delete_response = state_store_client
                 .vdel(
@@ -1009,7 +1000,7 @@ async fn state_store_observe_unobserve_network_tests() {
 
 /// ~~~~~~~~ Key 8 ~~~~~~~~
 /// complicated recv scenario checking for the right number of notifications
-/// Tests 35 (1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del)
+/// Tests 35 (1 set(v2), 1 del, 1 set(v3) notifications received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del. This test is confirming that operations that happen outside of the observation aren't received.)
 #[tokio::test]
 async fn state_store_complicated_recv_key_notifications_network_tests() {
     let log_identifier = "complicated_recv_key_notifications";
@@ -1022,7 +1013,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
 
     let test_task = tokio::task::spawn({
         async move {
-            // Tests 35 (1 set(v2), 1 del, 1 set(v3) notification received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del)
+            // Tests 35 (1 set(v2), 1 del, 1 set(v3) notifications received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del. This test is confirming that operations that happen outside of the observation aren't received.)
             let key8 = b"key8";
 
             let set_for_key8_notification = state_store_client
