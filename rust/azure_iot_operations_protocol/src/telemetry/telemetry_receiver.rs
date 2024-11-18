@@ -307,32 +307,31 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if !self.is_subscribed {
-            return Ok(());
-        }
-        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        if self.is_subscribed {
+            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
-        match unsubscribe_result {
-            Ok(unsub_ct) => {
-                match unsub_ct.await {
-                    Ok(()) => { /* Success */ }
-                    Err(e) => {
-                        log::error!("Unsuback error: {e}");
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on telemetry receiver unsuback".to_string()),
-                            Box::new(e),
-                            None,
-                        ));
+            match unsubscribe_result {
+                Ok(unsub_ct) => {
+                    match unsub_ct.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("Unsuback error: {e}");
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Box::new(e),
+                                None,
+                            ));
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                log::error!("Client error while unsubscribing: {e}");
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on telemetry receiver unsubscribe".to_string()),
-                    Box::new(e),
-                    None,
-                ));
+                Err(e) => {
+                    log::error!("Client error while unsubscribing: {e}");
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on telemetry receiver unsubscribe".to_string()),
+                        Box::new(e),
+                        None,
+                    ));
+                }
             }
         }
         log::info!("Stopped");
