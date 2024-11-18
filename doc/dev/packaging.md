@@ -54,7 +54,7 @@ To pull the required dependencies from upstream crates.io into Azure IoT Operati
     ```bash
     cd rust
     export PAT=<PAT_TOKEN>
-    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks-auth
+    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
     ```
 
 1. Change into the rust directory and publish the crates:
