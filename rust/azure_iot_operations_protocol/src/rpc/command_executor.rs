@@ -22,6 +22,7 @@ use crate::{
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
     supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -31,7 +32,7 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -615,7 +616,7 @@ where
                             };
 
                             // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                            let mut request_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                            let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
                             if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
                                 if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
                                     request_protocol_version = request_version;
@@ -656,7 +657,7 @@ where
                                             }
                                         }
                                     },
-                                    Ok(UserProperty::CommandInvokerId) => {
+                                    Ok(UserProperty::SourceId) => {
                                         invoker_id = Some(value);
                                     },
                                     Ok(UserProperty::FencingToken) => {
@@ -692,8 +693,8 @@ where
 
                             let Some(invoker_id) = invoker_id else {
                                  response_arguments.status_code = StatusCode::BadRequest;
-                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::CommandInvokerId));
-                                 response_arguments.invalid_property_name = Some(UserProperty::CommandInvokerId.to_string());
+                                 response_arguments.status_message = Some(format!("No source client id ({}) property present", UserProperty::SourceId));
+                                 response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
                                  break 'process_request;
                             };
 

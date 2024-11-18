@@ -224,7 +224,6 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
-	pub.UserProperties[constants.InvokerClientID] = ci.publisher.client.ID()
 	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
 	if !opts.FencingToken.IsZero() {
 		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()

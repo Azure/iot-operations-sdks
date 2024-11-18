@@ -9,20 +9,23 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::PayloadSerialize,
-    topic_processor::TopicPattern,
-    user_properties::{UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::TopicPattern,
+        user_properties::{UserProperty, RESERVED_PREFIX},
+    },
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 use crate::{
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Cloud Event struct
 ///
@@ -444,7 +447,7 @@ where
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                                let mut message_protocol_version = ProtocolVersion { major: 1, minor: 0 }; // assume default version if none is provided
+                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
                                 if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
                                     if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
                                         message_protocol_version = message_version;
