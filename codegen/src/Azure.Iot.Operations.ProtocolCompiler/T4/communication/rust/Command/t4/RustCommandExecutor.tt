@@ -118,6 +118,7 @@ where
 
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
+            .command_name("<#=this.commandName#>")
 <# if (this.ttl != null) { #>
             .cacheable_duration(
                 "<#=this.ttl#>"
