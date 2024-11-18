@@ -25,6 +25,7 @@ dotnet new aioconnectorapp -n MyConnectorApp
 
 Where "aioconnectorapp" is the short name defined in the project template's [template.josn file](./ConnectorApp/.template.config/template.json) and where "MyConnectorApp" is the name of your project.
 
+Note that this command will create the project 'MyConnectorApp' in the same directory that the command was run from.
 
 ## How To Uninstall A .NET Project Template
 
