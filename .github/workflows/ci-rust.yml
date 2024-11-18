@@ -49,10 +49,15 @@ jobs:
         set -e
         make check
 
+    - name: Setup Cluster
+      run: |
+        ../tools/deployment/initialize-cluster.sh
+        ../tools/deployment/deploy-aio.sh nightly
+
     - name: Run Tests
       run: |
         set -e
-        make test
+        ENABLE_NETWORK_TESTS=true make test
 
     - name: Run Coverage Report
       run: |
