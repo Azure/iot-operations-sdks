@@ -301,12 +301,15 @@ where
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic.
+    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
+        if !self.is_subscribed {
+            return Ok(());
+        }
         let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
         match unsubscribe_result {
@@ -808,10 +811,30 @@ mod tests {
             }
         }
     }
+
+    #[tokio::test]
+    async fn test_shutdown_without_subscribe() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+        let session = get_session();
+        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern("test/receiver")
+            .build()
+            .unwrap();
+
+        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
+            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        assert!(telemetry_receiver.shutdown().await.is_ok());
+    }
 }
 
 // Test cases for recv telemetry
-// Tests success:
+// Tests success (now tested in /tests/telemetry_tests.rs):
 //   recv() is called and a telemetry message is received by the application with sender_id
 //   if cloud event properties are present, they are successfully parsed
 //   if user properties are present, they don't start with reserved prefix
