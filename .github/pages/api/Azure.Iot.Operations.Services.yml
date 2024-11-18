@@ -1,0 +1,247 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Services
+  id: Services
+  parent: Azure.Iot.Operations
+  children:
+  - Azure.Iot.Operations.Services.Akri
+  - Azure.Iot.Operations.Services.LeaderElection
+  - Azure.Iot.Operations.Services.LeasedLock
+  - Azure.Iot.Operations.Services.SchemaRegistry
+  - Azure.Iot.Operations.Services.StateStore
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Services
+  type: Namespace
+references:
+- uid: Azure.Iot.Operations.Services.Akri
+  commentId: N:Azure.Iot.Operations.Services.Akri
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.Akri
+  nameWithType: Azure.Iot.Operations.Services.Akri
+  fullName: Azure.Iot.Operations.Services.Akri
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.Akri
+    name: Akri
+    href: Azure.Iot.Operations.Services.Akri.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.Akri
+    name: Akri
+    href: Azure.Iot.Operations.Services.Akri.html
+- uid: Azure.Iot.Operations.Services.LeaderElection
+  commentId: N:Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.LeaderElection
+  nameWithType: Azure.Iot.Operations.Services.LeaderElection
+  fullName: Azure.Iot.Operations.Services.LeaderElection
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html
+- uid: Azure.Iot.Operations.Services.LeasedLock
+  commentId: N:Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.LeasedLock
+  nameWithType: Azure.Iot.Operations.Services.LeasedLock
+  fullName: Azure.Iot.Operations.Services.LeasedLock
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeasedLock
+    name: LeasedLock
+    href: Azure.Iot.Operations.Services.LeasedLock.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeasedLock
+    name: LeasedLock
+    href: Azure.Iot.Operations.Services.LeasedLock.html
+- uid: Azure.Iot.Operations.Services.SchemaRegistry
+  commentId: N:Azure.Iot.Operations.Services.SchemaRegistry
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.SchemaRegistry
+  nameWithType: Azure.Iot.Operations.Services.SchemaRegistry
+  fullName: Azure.Iot.Operations.Services.SchemaRegistry
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.SchemaRegistry
+    name: SchemaRegistry
+    href: Azure.Iot.Operations.Services.SchemaRegistry.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.SchemaRegistry
+    name: SchemaRegistry
+    href: Azure.Iot.Operations.Services.SchemaRegistry.html
+- uid: Azure.Iot.Operations.Services.StateStore
+  commentId: N:Azure.Iot.Operations.Services.StateStore
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.StateStore
+  nameWithType: Azure.Iot.Operations.Services.StateStore
+  fullName: Azure.Iot.Operations.Services.StateStore
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.StateStore
+    name: StateStore
+    href: Azure.Iot.Operations.Services.StateStore.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.StateStore
+    name: StateStore
+    href: Azure.Iot.Operations.Services.StateStore.html

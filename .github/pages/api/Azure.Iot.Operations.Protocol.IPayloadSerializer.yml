@@ -1,0 +1,287 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  commentId: T:Azure.Iot.Operations.Protocol.IPayloadSerializer
+  id: IPayloadSerializer
+  parent: Azure.Iot.Operations.Protocol
+  children:
+  - Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+  - Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+  - Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes``1(System.Byte[])
+  - Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes``1(``0)
+  langs:
+  - csharp
+  - vb
+  name: IPayloadSerializer
+  nameWithType: IPayloadSerializer
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  type: Interface
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: IPayloadSerializer
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+    startLine: 2
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: public interface IPayloadSerializer
+    content.vb: Public Interface IPayloadSerializer
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+  commentId: P:Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+  id: ContentType
+  parent: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  langs:
+  - csharp
+  - vb
+  name: ContentType
+  nameWithType: IPayloadSerializer.ContentType
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ContentType
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+    startLine: 4
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: string ContentType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property ContentType As String
+  overload: Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType*
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+  commentId: P:Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+  id: CharacterDataFormatIndicator
+  parent: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  langs:
+  - csharp
+  - vb
+  name: CharacterDataFormatIndicator
+  nameWithType: IPayloadSerializer.CharacterDataFormatIndicator
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CharacterDataFormatIndicator
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+    startLine: 6
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: int CharacterDataFormatIndicator { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property CharacterDataFormatIndicator As Integer
+  overload: Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator*
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes``1(``0)
+  commentId: M:Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes``1(``0)
+  id: ToBytes``1(``0)
+  parent: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  langs:
+  - csharp
+  - vb
+  name: ToBytes<T>(T?)
+  nameWithType: IPayloadSerializer.ToBytes<T>(T?)
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes<T>(T?)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ToBytes
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+    startLine: 8
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: 'byte[]? ToBytes<T>(T? payload) where T : class'
+    parameters:
+    - id: payload
+      type: '{T}'
+    typeParameters:
+    - id: T
+    return:
+      type: System.Byte[]
+    content.vb: Function ToBytes(Of T As Class)(payload As T) As Byte()
+  overload: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes*
+  nameWithType.vb: IPayloadSerializer.ToBytes(Of T)(T)
+  fullName.vb: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes(Of T)(T)
+  name.vb: ToBytes(Of T)(T)
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes``1(System.Byte[])
+  commentId: M:Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes``1(System.Byte[])
+  id: FromBytes``1(System.Byte[])
+  parent: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  langs:
+  - csharp
+  - vb
+  name: FromBytes<T>(byte[]?)
+  nameWithType: IPayloadSerializer.FromBytes<T>(byte[]?)
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes<T>(byte[]?)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: FromBytes
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/IPayloadSerializer.cs
+    startLine: 10
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: 'T FromBytes<T>(byte[]? payload) where T : class'
+    parameters:
+    - id: payload
+      type: System.Byte[]
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+    content.vb: Function FromBytes(Of T As Class)(payload As Byte()) As T
+  overload: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes*
+  nameWithType.vb: IPayloadSerializer.FromBytes(Of T)(Byte())
+  fullName.vb: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes(Of T)(Byte())
+  name.vb: FromBytes(Of T)(Byte())
+references:
+- uid: Azure.Iot.Operations.Protocol
+  commentId: N:Azure.Iot.Operations.Protocol
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol
+  nameWithType: Azure.Iot.Operations.Protocol
+  fullName: Azure.Iot.Operations.Protocol
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType*
+  commentId: Overload:Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+  href: Azure.Iot.Operations.Protocol.IPayloadSerializer.html#Azure_Iot_Operations_Protocol_IPayloadSerializer_ContentType
+  name: ContentType
+  nameWithType: IPayloadSerializer.ContentType
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.ContentType
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator*
+  commentId: Overload:Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+  href: Azure.Iot.Operations.Protocol.IPayloadSerializer.html#Azure_Iot_Operations_Protocol_IPayloadSerializer_CharacterDataFormatIndicator
+  name: CharacterDataFormatIndicator
+  nameWithType: IPayloadSerializer.CharacterDataFormatIndicator
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.CharacterDataFormatIndicator
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes*
+  commentId: Overload:Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes
+  href: Azure.Iot.Operations.Protocol.IPayloadSerializer.html#Azure_Iot_Operations_Protocol_IPayloadSerializer_ToBytes__1___0_
+  name: ToBytes
+  nameWithType: IPayloadSerializer.ToBytes
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.ToBytes
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes*
+  commentId: Overload:Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes
+  href: Azure.Iot.Operations.Protocol.IPayloadSerializer.html#Azure_Iot_Operations_Protocol_IPayloadSerializer_FromBytes__1_System_Byte___
+  name: FromBytes
+  nameWithType: IPayloadSerializer.FromBytes
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer.FromBytes

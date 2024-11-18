@@ -1,0 +1,469 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  id: ExtendedResponse`1
+  parent: Azure.Iot.Operations.Protocol.RPC
+  children:
+  - Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse(`0)
+  - Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response
+  - Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: ExtendedResponse<TResp>
+  nameWithType: ExtendedResponse<TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>
+  type: Struct
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ExtendedResponse
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+    startLine: 2
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: 'public struct ExtendedResponse<TResp> where TResp : class'
+    typeParameters:
+    - id: TResp
+    content.vb: Public Structure ExtendedResponse(Of TResp As Class)
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: ExtendedResponse(Of TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp)
+  name.vb: ExtendedResponse(Of TResp)
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response
+  id: Response
+  parent: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  langs:
+  - csharp
+  - vb
+  name: Response
+  nameWithType: ExtendedResponse<TResp>.Response
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.Response
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Response
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public TResp Response { readonly get; set; }
+    parameters: []
+    return:
+      type: '{TResp}'
+    content.vb: Public Property Response As TResp
+  overload: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response*
+  nameWithType.vb: ExtendedResponse(Of TResp).Response
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).Response
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata
+  id: ResponseMetadata
+  parent: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  langs:
+  - csharp
+  - vb
+  name: ResponseMetadata
+  nameWithType: ExtendedResponse<TResp>.ResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.ResponseMetadata
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ResponseMetadata
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public CommandResponseMetadata? ResponseMetadata { readonly get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+    content.vb: Public Property ResponseMetadata As CommandResponseMetadata
+  overload: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata*
+  nameWithType.vb: ExtendedResponse(Of TResp).ResponseMetadata
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).ResponseMetadata
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse(`0)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse(`0)
+  id: CreateFromResponse(`0)
+  parent: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  langs:
+  - csharp
+  - vb
+  name: CreateFromResponse(TResp)
+  nameWithType: ExtendedResponse<TResp>.CreateFromResponse(TResp)
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.CreateFromResponse(TResp)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CreateFromResponse
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/ExtendedResponse.cs
+    startLine: 10
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
+    parameters:
+    - id: response
+      type: '{TResp}'
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    content.vb: Public Shared Function CreateFromResponse(response As TResp) As ExtendedResponse(Of TResp)
+  overload: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse*
+  nameWithType.vb: ExtendedResponse(Of TResp).CreateFromResponse(TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).CreateFromResponse(TResp)
+references:
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.Response
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html#Azure_Iot_Operations_Protocol_RPC_ExtendedResponse_1_Response
+  name: Response
+  nameWithType: ExtendedResponse<TResp>.Response
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.Response
+  nameWithType.vb: ExtendedResponse(Of TResp).Response
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).Response
+- uid: '{TResp}'
+  commentId: '!:TResp'
+  definition: TResp
+  name: TResp
+  nameWithType: TResp
+  fullName: TResp
+- uid: TResp
+  name: TResp
+  nameWithType: TResp
+  fullName: TResp
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.ResponseMetadata
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html#Azure_Iot_Operations_Protocol_RPC_ExtendedResponse_1_ResponseMetadata
+  name: ResponseMetadata
+  nameWithType: ExtendedResponse<TResp>.ResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.ResponseMetadata
+  nameWithType.vb: ExtendedResponse(Of TResp).ResponseMetadata
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).ResponseMetadata
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html
+  name: CommandResponseMetadata
+  nameWithType: CommandResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1.CreateFromResponse
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html#Azure_Iot_Operations_Protocol_RPC_ExtendedResponse_1_CreateFromResponse__0_
+  name: CreateFromResponse
+  nameWithType: ExtendedResponse<TResp>.CreateFromResponse
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>.CreateFromResponse
+  nameWithType.vb: ExtendedResponse(Of TResp).CreateFromResponse
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp).CreateFromResponse
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  name: ExtendedResponse<TResp>
+  nameWithType: ExtendedResponse<TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>
+  nameWithType.vb: ExtendedResponse(Of TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp)
+  name.vb: ExtendedResponse(Of TResp)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: <
+  - name: TResp
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResp
+  - name: )

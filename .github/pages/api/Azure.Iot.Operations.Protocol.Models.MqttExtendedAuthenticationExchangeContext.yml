@@ -1,0 +1,714 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  id: MqttExtendedAuthenticationExchangeContext
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+  - Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+  langs:
+  - csharp
+  - vb
+  name: MqttExtendedAuthenticationExchangeContext
+  nameWithType: MqttExtendedAuthenticationExchangeContext
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttExtendedAuthenticationExchangeContext
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public class MqttExtendedAuthenticationExchangeContext
+    content.vb: Public Class MqttExtendedAuthenticationExchangeContext
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)
+  id: '#ctor(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode)
+  nameWithType: MqttExtendedAuthenticationExchangeContext.MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.MqttExtendedAuthenticationExchangeContext(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode reasonCode)
+    parameters:
+    - id: reasonCode
+      type: Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode
+    content.vb: Public Sub New(reasonCode As MqttAuthenticateReasonCode)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor*
+  nameWithType.vb: MqttExtendedAuthenticationExchangeContext.New(MqttAuthenticateReasonCode)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.New(Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode)
+  name.vb: New(MqttAuthenticateReasonCode)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+  id: ReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: ReasonCode
+  nameWithType: MqttExtendedAuthenticationExchangeContext.ReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReasonCode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 16
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the reason code.
+
+    Hint: MQTT 5 feature only.
+  example: []
+  syntax:
+    content: public MqttAuthenticateReasonCode ReasonCode { get; init; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode
+    content.vb: Public Property ReasonCode As MqttAuthenticateReasonCode
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+  id: ReasonString
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: ReasonString
+  nameWithType: MqttExtendedAuthenticationExchangeContext.ReasonString
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReasonString
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 22
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the reason string.
+
+    Hint: MQTT 5 feature only.
+  example: []
+  syntax:
+    content: public string? ReasonString { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ReasonString As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  id: AuthenticationMethod
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: AuthenticationMethod
+  nameWithType: MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AuthenticationMethod
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 28
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the authentication method.
+
+    Hint: MQTT 5 feature only.
+  example: []
+  syntax:
+    content: public string? AuthenticationMethod { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AuthenticationMethod As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  id: AuthenticationData
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: AuthenticationData
+  nameWithType: MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AuthenticationData
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 34
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the authentication data.
+
+    Hint: MQTT 5 feature only.
+  example: []
+  syntax:
+    content: public byte[]? AuthenticationData { get; init; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public Property AuthenticationData As Byte()
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+  id: UserProperties
+  parent: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext
+  langs:
+  - csharp
+  - vb
+  name: UserProperties
+  nameWithType: MqttExtendedAuthenticationExchangeContext.UserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UserProperties
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttExtendedAuthenticationExchangeContext.cs
+    startLine: 43
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the user properties.
+
+    In MQTT 5, user properties are basic UTF-8 string key-value pairs that you can append to almost every type of MQTT packet.
+
+    As long as you don’t exceed the maximum message size, you can use an unlimited number of user properties to add metadata to MQTT messages and pass information between publisher, broker, and subscriber.
+
+    The feature is very similar to the HTTP header concept.
+
+    Hint: MQTT 5 feature only.
+  example: []
+  syntax:
+    content: public List<MqttUserProperty> UserProperties { get; init; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+    content.vb: Public Property UserProperties As List(Of MqttUserProperty)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties*
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.#ctor
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext__ctor_Azure_Iot_Operations_Protocol_Models_MqttAuthenticateReasonCode_
+  name: MqttExtendedAuthenticationExchangeContext
+  nameWithType: MqttExtendedAuthenticationExchangeContext.MqttExtendedAuthenticationExchangeContext
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.MqttExtendedAuthenticationExchangeContext
+  nameWithType.vb: MqttExtendedAuthenticationExchangeContext.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.New
+  name.vb: New
+- uid: Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode.html
+  name: MqttAuthenticateReasonCode
+  nameWithType: MqttAuthenticateReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext_ReasonCode
+  name: ReasonCode
+  nameWithType: MqttExtendedAuthenticationExchangeContext.ReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext_ReasonString
+  name: ReasonString
+  nameWithType: MqttExtendedAuthenticationExchangeContext.ReasonString
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.ReasonString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext_AuthenticationMethod
+  name: AuthenticationMethod
+  nameWithType: MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationMethod
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext_AuthenticationData
+  name: AuthenticationData
+  nameWithType: MqttExtendedAuthenticationExchangeContext.AuthenticationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.AuthenticationData
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html#Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeContext_UserProperties
+  name: UserProperties
+  nameWithType: MqttExtendedAuthenticationExchangeContext.UserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.UserProperties
+- uid: System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+  commentId: T:System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<MqttUserProperty>
+  nameWithType: List<MqttUserProperty>
+  fullName: System.Collections.Generic.List<Azure.Iot.Operations.Protocol.Models.MqttUserProperty>
+  nameWithType.vb: List(Of MqttUserProperty)
+  fullName.vb: System.Collections.Generic.List(Of Azure.Iot.Operations.Protocol.Models.MqttUserProperty)
+  name.vb: List(Of MqttUserProperty)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttUserProperty
+    name: MqttUserProperty
+    href: Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttUserProperty
+    name: MqttUserProperty
+    href: Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

@@ -1,0 +1,147 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Services.LeaderElection
+  commentId: N:Azure.Iot.Operations.Services.LeaderElection
+  id: LeaderElection
+  parent: Azure.Iot.Operations.Services
+  children:
+  - Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions
+  - Azure.Iot.Operations.Services.LeaderElection.CampaignResponse
+  - Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse
+  - Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions
+  - Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate
+  - Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient
+  - Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs
+  - Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  - Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions
+  - Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions
+  - Azure.Iot.Operations.Services.LeaderElection.ResignationResponse
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Services.LeaderElection
+  nameWithType: Azure.Iot.Operations.Services.LeaderElection
+  fullName: Azure.Iot.Operations.Services.LeaderElection
+  type: Namespace
+  assemblies:
+  - Azure.Iot.Operations.Services
+references:
+- uid: Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions.html
+  name: CampaignRequestOptions
+  nameWithType: CampaignRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions
+- uid: Azure.Iot.Operations.Services.LeaderElection.CampaignResponse
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.CampaignResponse
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.CampaignResponse.html
+  name: CampaignResponse
+  nameWithType: CampaignResponse
+  fullName: Azure.Iot.Operations.Services.LeaderElection.CampaignResponse
+- uid: Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse
+  href: Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse.html
+  name: GetCurrentLeaderResponse
+  nameWithType: GetCurrentLeaderResponse
+  fullName: Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions.html
+  name: LeaderElectionAutomaticRenewalOptions
+  nameWithType: LeaderElectionAutomaticRenewalOptions
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate.html
+  name: LeaderElectionCandidate
+  nameWithType: LeaderElectionCandidate
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient
+  href: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient.html
+  name: LeaderElectionClient
+  nameWithType: LeaderElectionClient
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs
+  href: Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs.html
+  name: LeadershipChangeEventArgs
+  nameWithType: LeadershipChangeEventArgs
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.html
+  name: LeadershipPositionState
+  nameWithType: LeadershipPositionState
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+- uid: Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions.html
+  name: ObserveLeadershipChangesRequestOptions
+  nameWithType: ObserveLeadershipChangesRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions
+- uid: Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions.html
+  name: ResignationRequestOptions
+  nameWithType: ResignationRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions
+- uid: Azure.Iot.Operations.Services.LeaderElection.ResignationResponse
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.ResignationResponse
+  href: Azure.Iot.Operations.Services.LeaderElection.ResignationResponse.html
+  name: ResignationResponse
+  nameWithType: ResignationResponse
+  fullName: Azure.Iot.Operations.Services.LeaderElection.ResignationResponse
+- uid: Azure.Iot.Operations.Services.LeaderElection
+  commentId: N:Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.LeaderElection
+  nameWithType: Azure.Iot.Operations.Services.LeaderElection
+  fullName: Azure.Iot.Operations.Services.LeaderElection
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html

@@ -1,0 +1,352 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  id: MqttApplicationMessageReceivedReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.ImplementationSpecificError
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NoMatchingSubscribers
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NotAuthorized
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierInUse
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierNotFound
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PayloadFormatInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.QuotaExceeded
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.Success
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.TopicNameInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.UnspecifiedError
+  langs:
+  - csharp
+  - vb
+  name: MqttApplicationMessageReceivedReasonCode
+  nameWithType: MqttApplicationMessageReceivedReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  type: Enum
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttApplicationMessageReceivedReasonCode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 3
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public enum MqttApplicationMessageReceivedReasonCode
+    content.vb: Public Enum MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.Success
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.Success
+  id: Success
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: Success
+  nameWithType: MqttApplicationMessageReceivedReasonCode.Success
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.Success
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Success
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: Success = 0
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NoMatchingSubscribers
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NoMatchingSubscribers
+  id: NoMatchingSubscribers
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: NoMatchingSubscribers
+  nameWithType: MqttApplicationMessageReceivedReasonCode.NoMatchingSubscribers
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NoMatchingSubscribers
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NoMatchingSubscribers
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 6
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: NoMatchingSubscribers = 16
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.UnspecifiedError
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.UnspecifiedError
+  id: UnspecifiedError
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: UnspecifiedError
+  nameWithType: MqttApplicationMessageReceivedReasonCode.UnspecifiedError
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.UnspecifiedError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnspecifiedError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: UnspecifiedError = 128
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.ImplementationSpecificError
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.ImplementationSpecificError
+  id: ImplementationSpecificError
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: ImplementationSpecificError
+  nameWithType: MqttApplicationMessageReceivedReasonCode.ImplementationSpecificError
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.ImplementationSpecificError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ImplementationSpecificError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 8
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ImplementationSpecificError = 131
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NotAuthorized
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NotAuthorized
+  id: NotAuthorized
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: NotAuthorized
+  nameWithType: MqttApplicationMessageReceivedReasonCode.NotAuthorized
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.NotAuthorized
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NotAuthorized
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 9
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: NotAuthorized = 135
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.TopicNameInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.TopicNameInvalid
+  id: TopicNameInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: TopicNameInvalid
+  nameWithType: MqttApplicationMessageReceivedReasonCode.TopicNameInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.TopicNameInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicNameInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 10
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: TopicNameInvalid = 144
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierInUse
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierInUse
+  id: PacketIdentifierInUse
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: PacketIdentifierInUse
+  nameWithType: MqttApplicationMessageReceivedReasonCode.PacketIdentifierInUse
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierInUse
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PacketIdentifierInUse
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 11
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: PacketIdentifierInUse = 145
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierNotFound
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierNotFound
+  id: PacketIdentifierNotFound
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: PacketIdentifierNotFound
+  nameWithType: MqttApplicationMessageReceivedReasonCode.PacketIdentifierNotFound
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PacketIdentifierNotFound
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PacketIdentifierNotFound
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 12
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: PacketIdentifierNotFound = 146
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.QuotaExceeded
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.QuotaExceeded
+  id: QuotaExceeded
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: QuotaExceeded
+  nameWithType: MqttApplicationMessageReceivedReasonCode.QuotaExceeded
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.QuotaExceeded
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: QuotaExceeded
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: QuotaExceeded = 151
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PayloadFormatInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PayloadFormatInvalid
+  id: PayloadFormatInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  langs:
+  - csharp
+  - vb
+  name: PayloadFormatInvalid
+  nameWithType: MqttApplicationMessageReceivedReasonCode.PayloadFormatInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.PayloadFormatInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PayloadFormatInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttApplicationMessageReceivedReasonCode.cs
+    startLine: 14
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: PayloadFormatInvalid = 153
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.html
+  name: MqttApplicationMessageReceivedReasonCode
+  nameWithType: MqttApplicationMessageReceivedReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode

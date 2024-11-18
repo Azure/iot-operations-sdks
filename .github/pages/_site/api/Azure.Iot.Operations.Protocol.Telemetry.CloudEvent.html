@@ -1,0 +1,500 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CloudEvent | Azure IoT Operations .NET SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CloudEvent | Azure IoT Operations .NET SDK ">
+      
+      <meta name="description" content="Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion. Id is required but we want to update it in the same instance. See CloudEvent Spec">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ryanwinterms/iot-operations-sdks/new/docfx/apiSpec/new?filename=Azure_Iot_Operations_Protocol_Telemetry_CloudEvent.md&amp;value=---%0Auid%3A%20Azure.Iot.Operations.Protocol.Telemetry.CloudEvent%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="https://github.com/azure/iot-operations-sdks">
+            <img id="logo" class="svg" src="../logo.svg" alt="Azure IoT Operations .NET SDK">
+            Azure IoT Operations .NET SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent">
+
+
+
+  <h1 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent" class="text-break">
+Class CloudEvent  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Azure.html">Azure</a>.<a class="xref" href="Azure.Iot.html">Iot</a>.<a class="xref" href="Azure.Iot.Operations.html">Operations</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.html">Protocol</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.Telemetry.html">Telemetry</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Azure.Iot.Operations.Protocol.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
+Id is required but we want to update it in the same instance.
+See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a></p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class CloudEvent</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">CloudEvent</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent__ctor_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent__ctor_System_Uri_System_String_System_String_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor(System.Uri,System.String,System.String)">
+  CloudEvent(Uri, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
+Id is required but we want to update it in the same instance.
+See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CloudEvent(Uri source, string type = &quot;ms.aio.telemetry&quot;, string specversion = &quot;1.0&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uri">Uri</a></dt>
+    <dd><p><a class="xref" href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Source">Source</a></p>
+</dd>
+    <dt><code>type</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p><a class="xref" href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Type">Type</a></p>
+</dd>
+    <dt><code>specversion</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p><a class="xref" href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_SpecVersion">SpecVersion</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataContentType_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataContentType" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType">
+  DataContentType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Content type of data value. This attribute enables data to carry any type of content,
+whereby format and encoding might differ from that of the chosen event format.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? DataContentType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataSchema_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataSchema" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema">
+  DataSchema
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the schema that data adheres to.
+Incompatible changes to the schema SHOULD be reflected by a different URI.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? DataSchema { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Id_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Id" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id">
+  Id
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the event. Producers MUST ensure that source + id is unique for each distinct event.
+If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id.
+Consumers MAY assume that Events with identical source and id are duplicates.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Id { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Source_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Source" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source">
+  Source
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the context in which an event happened.
+Often this will include information such as the type of the event source,
+the organization publishing the event or the process that produced the event.
+The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Uri? Source { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uri">Uri</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_SpecVersion_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_SpecVersion" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion">
+  SpecVersion
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The version of the CloudEvents specification which the event uses.
+This enables the interpretation of the context.
+Compliant event producers MUST use a value of 1.0 when referring to this version of the specification.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string SpecVersion { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Subject_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Subject" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject">
+  Subject
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Identifies the subject of the event in the context of the event producer (identified by source).
+In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
+but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Subject { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Time_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Time" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time">
+  Time
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Timestamp of when the occurrence happened.
+If the time of the occurrence cannot be determined then this attribute MAY be set to some other time (such as the current time)
+by the CloudEvents producer,
+however all producers for the same source MUST be consistent in this respect.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime? Time { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Type_" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Type" data-uid="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type">
+  Type
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Contains a value describing the type of event related to the originating occurrence.
+Often this attribute is used for routing, observability, policy enforcement, etc.
+The format of this is producer defined and might include information such as the version of the type</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Type { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          False<span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

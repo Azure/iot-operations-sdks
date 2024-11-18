@@ -1,0 +1,804 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  id: CommandResponseMetadata
+  parent: Azure.Iot.Operations.Protocol.RPC
+  children:
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage)
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+  langs:
+  - csharp
+  - vb
+  name: CommandResponseMetadata
+  nameWithType: CommandResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CommandResponseMetadata
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 6
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public class CommandResponseMetadata
+    content.vb: Public Class CommandResponseMetadata
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+  id: CorrelationId
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: CorrelationId
+  nameWithType: CommandResponseMetadata.CorrelationId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CorrelationId
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: >-
+    The correlation data used to connect a command response to a command request.
+
+    This property has no meaning to a user-code execution function on the CommandExecutor; the CorrelationData is set to null on construction.
+
+    When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the CorrelationData is set from the response message.
+  example: []
+  syntax:
+    content: public Guid? CorrelationId { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Guid}
+    content.vb: Public ReadOnly Property CorrelationId As Guid?
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId*
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+  id: Timestamp
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: Timestamp
+  nameWithType: CommandResponseMetadata.Timestamp
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Timestamp
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 20
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: >-
+    The timestamp attached to the response.
+
+    When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the Timestamp is set from the HybridLogicalClock of the CommandExecutor.
+
+    When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the Timestamp is set from the response message; this will be null if the message contains no timestamp header.
+  example: []
+  syntax:
+    content: public HybridLogicalClock? Timestamp { get; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.HybridLogicalClock
+    content.vb: Public ReadOnly Property Timestamp As HybridLogicalClock
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp*
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+  id: UserData
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: UserData
+  nameWithType: CommandResponseMetadata.UserData
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UserData
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 27
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: >-
+    A dictionary of user properties that are sent along with the response from the CommandExecutor to the CommandInvoker.
+
+    When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the UserData is initialized with an empty dictionary.
+
+    When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the UserData is set from the resonse message.
+  example: []
+  syntax:
+    content: public Dictionary<string, string> UserData { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Property UserData As Dictionary(Of String, String)
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData*
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor
+  id: '#ctor'
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: CommandResponseMetadata()
+  nameWithType: CommandResponseMetadata.CommandResponseMetadata()
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CommandResponseMetadata()
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 40
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
+  remarks: >-
+    * The CorrelationData field will be set to null; if the user-code execution function wants to know the correlation data, it should use the CommandRequestMetadata passed in by the CommandExecutor.
+
+    * The Status field will be set to null; the command status will not be determined until after execution completes.
+
+    * The StatusMessage field will be set to null; the command status will not be determined until after execution completes.
+
+    * The IsApplicationError field will be set to null; the command status will not be determined until after execution completes.
+
+    * The Timestamp field will be set to the current HybridLogicalClock time for the process.
+
+    * The UserData field will be initialized with an empty dictionary; entries in this dictionary can be set by user code as desired.
+  example: []
+  syntax:
+    content: public CommandResponseMetadata()
+    content.vb: Public Sub New()
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor*
+  nameWithType.vb: CommandResponseMetadata.New()
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.New()
+  name.vb: New()
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage)
+  id: MarshalTo(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage)
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  langs:
+  - csharp
+  - vb
+  name: MarshalTo(MqttApplicationMessage)
+  nameWithType: CommandResponseMetadata.MarshalTo(MqttApplicationMessage)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MarshalTo
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandResponseMetadata.cs
+    startLine: 82
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public void MarshalTo(MqttApplicationMessage message)
+    parameters:
+    - id: message
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+    content.vb: Public Sub MarshalTo(message As MqttApplicationMessage)
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo*
+references:
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html#Azure_Iot_Operations_Protocol_RPC_CommandResponseMetadata_CorrelationId
+  name: CorrelationId
+  nameWithType: CommandResponseMetadata.CorrelationId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CorrelationId
+- uid: System.Nullable{System.Guid}
+  commentId: T:System.Nullable{System.Guid}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.guid
+  name: Guid?
+  nameWithType: Guid?
+  fullName: System.Guid?
+  spec.csharp:
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: '?'
+  spec.vb:
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html#Azure_Iot_Operations_Protocol_RPC_CommandResponseMetadata_Timestamp
+  name: Timestamp
+  nameWithType: CommandResponseMetadata.Timestamp
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.Timestamp
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  commentId: T:Azure.Iot.Operations.Protocol.HybridLogicalClock
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html
+  name: HybridLogicalClock
+  nameWithType: HybridLogicalClock
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock
+- uid: Azure.Iot.Operations.Protocol
+  commentId: N:Azure.Iot.Operations.Protocol
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol
+  nameWithType: Azure.Iot.Operations.Protocol
+  fullName: Azure.Iot.Operations.Protocol
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html#Azure_Iot_Operations_Protocol_RPC_CommandResponseMetadata_UserData
+  name: UserData
+  nameWithType: CommandResponseMetadata.UserData
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.UserData
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, string>
+  nameWithType: Dictionary<string, string>
+  fullName: System.Collections.Generic.Dictionary<string, string>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.#ctor
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html#Azure_Iot_Operations_Protocol_RPC_CommandResponseMetadata__ctor
+  name: CommandResponseMetadata
+  nameWithType: CommandResponseMetadata.CommandResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.CommandResponseMetadata
+  nameWithType.vb: CommandResponseMetadata.New
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.New
+  name.vb: New
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html#Azure_Iot_Operations_Protocol_RPC_CommandResponseMetadata_MarshalTo_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_
+  name: MarshalTo
+  nameWithType: CommandResponseMetadata.MarshalTo
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.MarshalTo
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html
+  name: MqttApplicationMessage
+  nameWithType: MqttApplicationMessage
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html

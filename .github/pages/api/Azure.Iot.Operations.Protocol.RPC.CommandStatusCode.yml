@@ -1,0 +1,351 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  id: CommandStatusCode
+  parent: Azure.Iot.Operations.Protocol.RPC
+  children:
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.BadRequest
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.InternalServerError
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NoContent
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NotSupportedVersion
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.OK
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.RequestTimeout
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.ServiceUnavailable
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnprocessableContent
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnsupportedMediaType
+  langs:
+  - csharp
+  - vb
+  name: CommandStatusCode
+  nameWithType: CommandStatusCode
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  type: Enum
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CommandStatusCode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: HTTP status codes used to indicate the status of a Command.
+  example: []
+  syntax:
+    content: public enum CommandStatusCode
+    content.vb: Public Enum CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.OK
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.OK
+  id: OK
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: OK
+  nameWithType: CommandStatusCode.OK
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.OK
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: OK
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 8
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: OK. No error.
+  example: []
+  syntax:
+    content: OK = 200
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NoContent
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NoContent
+  id: NoContent
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: NoContent
+  nameWithType: CommandStatusCode.NoContent
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NoContent
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NoContent
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 11
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: No Content. There is no content to send for this request.
+  example: []
+  syntax:
+    content: NoContent = 204
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.BadRequest
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.BadRequest
+  id: BadRequest
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: BadRequest
+  nameWithType: CommandStatusCode.BadRequest
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.BadRequest
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: BadRequest
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 14
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Bad Request. Header or payload is missing or invalid.
+  example: []
+  syntax:
+    content: BadRequest = 400
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.RequestTimeout
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.RequestTimeout
+  id: RequestTimeout
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: RequestTimeout
+  nameWithType: CommandStatusCode.RequestTimeout
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.RequestTimeout
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RequestTimeout
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 17
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Request Timeout. The request timeout out before a response could be received from the command processor.
+  example: []
+  syntax:
+    content: RequestTimeout = 408
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnsupportedMediaType
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnsupportedMediaType
+  id: UnsupportedMediaType
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: UnsupportedMediaType
+  nameWithType: CommandStatusCode.UnsupportedMediaType
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnsupportedMediaType
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnsupportedMediaType
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 20
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Unsupported Media Type. The content type specified in the request is not supported by this implementation.
+  example: []
+  syntax:
+    content: UnsupportedMediaType = 415
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnprocessableContent
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnprocessableContent
+  id: UnprocessableContent
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: UnprocessableContent
+  nameWithType: CommandStatusCode.UnprocessableContent
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.UnprocessableContent
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnprocessableContent
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 23
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Unprocessable Content. The request was well-formed but was unable to be followed due to semantic errors, as indicated via an <xref href="Azure.Iot.Operations.Protocol.RPC.InvocationException" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: UnprocessableContent = 422
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.InternalServerError
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.InternalServerError
+  id: InternalServerError
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: InternalServerError
+  nameWithType: CommandStatusCode.InternalServerError
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.InternalServerError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: InternalServerError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 26
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Internal Server.  Unknown error, internal logic error, or command processor error other than <xref href="Azure.Iot.Operations.Protocol.RPC.InvocationException" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: InternalServerError = 500
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.ServiceUnavailable
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.ServiceUnavailable
+  id: ServiceUnavailable
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: ServiceUnavailable
+  nameWithType: CommandStatusCode.ServiceUnavailable
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.ServiceUnavailable
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ServiceUnavailable
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 29
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Service Unavailable.  Invalid service state preventing command from executing properly.
+  example: []
+  syntax:
+    content: ServiceUnavailable = 503
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NotSupportedVersion
+  commentId: F:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NotSupportedVersion
+  id: NotSupportedVersion
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  langs:
+  - csharp
+  - vb
+  name: NotSupportedVersion
+  nameWithType: CommandStatusCode.NotSupportedVersion
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.NotSupportedVersion
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NotSupportedVersion
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandStatusCode.cs
+    startLine: 32
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: The request failed because the remote party did not support the requested protocol version.
+  example: []
+  syntax:
+    content: NotSupportedVersion = 505
+    return:
+      type: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+references:
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.html
+  name: CommandStatusCode
+  nameWithType: CommandStatusCode
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.InvocationException
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.InvocationException
+  href: Azure.Iot.Operations.Protocol.RPC.InvocationException.html
+  name: InvocationException
+  nameWithType: InvocationException
+  fullName: Azure.Iot.Operations.Protocol.RPC.InvocationException

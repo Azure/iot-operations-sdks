@@ -1,0 +1,237 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  id: RPC
+  parent: Azure.Iot.Operations.Protocol
+  children:
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  - Azure.Iot.Operations.Protocol.RPC.CommandInvoker`2
+  - Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata
+  - Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  - Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  - Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+  - Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  - Azure.Iot.Operations.Protocol.RPC.InvocationException
+  - Azure.Iot.Operations.Protocol.RPC.RpcCallAsync`1
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  type: Namespace
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+references:
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html
+  name: CommandExecutor<TReq, TResp>
+  nameWithType: CommandExecutor<TReq, TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>
+  nameWithType.vb: CommandExecutor(Of TReq, TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp)
+  name.vb: CommandExecutor(Of TReq, TResp)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+    name: CommandExecutor
+    href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html
+  - name: <
+  - name: TReq
+  - name: ','
+  - name: " "
+  - name: TResp
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+    name: CommandExecutor
+    href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TReq
+  - name: ','
+  - name: " "
+  - name: TResp
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandInvoker`2
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandInvoker`2
+  href: Azure.Iot.Operations.Protocol.RPC.CommandInvoker-2.html
+  name: CommandInvoker<TReq, TResp>
+  nameWithType: CommandInvoker<TReq, TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandInvoker<TReq, TResp>
+  nameWithType.vb: CommandInvoker(Of TReq, TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandInvoker(Of TReq, TResp)
+  name.vb: CommandInvoker(Of TReq, TResp)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.CommandInvoker`2
+    name: CommandInvoker
+    href: Azure.Iot.Operations.Protocol.RPC.CommandInvoker-2.html
+  - name: <
+  - name: TReq
+  - name: ','
+  - name: " "
+  - name: TResp
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.CommandInvoker`2
+    name: CommandInvoker
+    href: Azure.Iot.Operations.Protocol.RPC.CommandInvoker-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TReq
+  - name: ','
+  - name: " "
+  - name: TResp
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata.html
+  name: CommandRequestMetadata
+  nameWithType: CommandRequestMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html
+  name: CommandResponseMetadata
+  nameWithType: CommandResponseMetadata
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.html
+  name: CommandStatusCode
+  nameWithType: CommandStatusCode
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandStatusCode
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html
+  name: ExtendedRequest<TReq>
+  nameWithType: ExtendedRequest<TReq>
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest<TReq>
+  nameWithType.vb: ExtendedRequest(Of TReq)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest(Of TReq)
+  name.vb: ExtendedRequest(Of TReq)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+    name: ExtendedRequest
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html
+  - name: <
+  - name: TReq
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+    name: ExtendedRequest
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TReq
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+  parent: Azure.Iot.Operations.Protocol.RPC
+  href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  name: ExtendedResponse<TResp>
+  nameWithType: ExtendedResponse<TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>
+  nameWithType.vb: ExtendedResponse(Of TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp)
+  name.vb: ExtendedResponse(Of TResp)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: <
+  - name: TResp
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResp
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.InvocationException
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.InvocationException
+  href: Azure.Iot.Operations.Protocol.RPC.InvocationException.html
+  name: InvocationException
+  nameWithType: InvocationException
+  fullName: Azure.Iot.Operations.Protocol.RPC.InvocationException
+- uid: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync`1
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.RpcCallAsync`1
+  href: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync-1.html
+  name: RpcCallAsync<TResp>
+  nameWithType: RpcCallAsync<TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync<TResp>
+  nameWithType.vb: RpcCallAsync(Of TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync(Of TResp)
+  name.vb: RpcCallAsync(Of TResp)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync`1
+    name: RpcCallAsync
+    href: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync-1.html
+  - name: <
+  - name: TResp
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync`1
+    name: RpcCallAsync
+    href: Azure.Iot.Operations.Protocol.RPC.RpcCallAsync-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResp
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html

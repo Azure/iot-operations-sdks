@@ -1,0 +1,632 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MqttSessionClient | Azure IoT Operations .NET SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MqttSessionClient | Azure IoT Operations .NET SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ryanwinterms/iot-operations-sdks/new/docfx/apiSpec/new?filename=Azure_Iot_Operations_Mqtt_Session_MqttSessionClient.md&amp;value=---%0Auid%3A%20Azure.Iot.Operations.Mqtt.Session.MqttSessionClient%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="https://github.com/azure/iot-operations-sdks">
+            <img id="logo" class="svg" src="../logo.svg" alt="Azure IoT Operations .NET SDK">
+            Azure IoT Operations .NET SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient">
+
+
+
+  <h1 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient" class="text-break">
+Class MqttSessionClient  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Azure.html">Azure</a>.<a class="xref" href="Azure.Iot.html">Iot</a>.<a class="xref" href="Azure.Iot.Operations.html">Operations</a>.<a class="xref" href="Azure.Iot.Operations.Mqtt.html">Mqtt</a>.<a class="xref" href="Azure.Iot.Operations.Mqtt.Session.html">Session</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Azure.Iot.Operations.Mqtt.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MqttSessionClient : OrderedAckMqttClient, IMqttClient, IMqttPubSubClient, IAsyncDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html">OrderedAckMqttClient</a></div>
+      <div><span class="xref">MqttSessionClient</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Azure.Iot.Operations.Protocol.IMqttClient.html">IMqttClient</a></div>
+      <div><a class="xref" href="Azure.Iot.Operations.Protocol.IMqttPubSubClient.html">IMqttPubSubClient</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iasyncdisposable">IAsyncDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_UnderlyingMqttClient">OrderedAckMqttClient.UnderlyingMqttClient</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ClientId">OrderedAckMqttClient.ClientId</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ProtocolVersion">OrderedAckMqttClient.ProtocolVersion</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ApplicationMessageReceivedAsync">OrderedAckMqttClient.ApplicationMessageReceivedAsync</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_DisconnectedAsync">OrderedAckMqttClient.DisconnectedAsync</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ConnectedAsync">OrderedAckMqttClient.ConnectedAsync</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_GetMaximumPacketSize">OrderedAckMqttClient.GetMaximumPacketSize()</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ReconnectAsync_System_Threading_CancellationToken_">OrderedAckMqttClient.ReconnectAsync(CancellationToken)</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_IsConnected">OrderedAckMqttClient.IsConnected</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_DisposeAsync_System_Boolean_">OrderedAckMqttClient.DisposeAsync(bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_SendExtendedAuthenticationExchangeDataAsync_Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeData_System_Threading_CancellationToken_">OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData, CancellationToken)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient__ctor_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient__ctor_Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.#ctor(Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions)">
+  MqttSessionClient(MqttSessionClientOptions?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a MQTT session client where the underlying MQTT client is created for you and the connection is maintained
+for you.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttSessionClient(MqttSessionClientOptions? sessionClientOptions = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sessionClientOptions</code> <a class="xref" href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html">MqttSessionClientOptions</a></dt>
+    <dd><p>The configurable options for this MQTT session client.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient__ctor_Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>
+When an MQTT session client is constructed with this constructor, it will automatically recover the connection
+and all previous subscriptions if it detects that the previous connection was lost.
+It will also enqueue publishes/subscribes/unsubscribes and send them when the connection is alive.
+</p>
+<p>
+An MQTT session client created with this constructor will only report connection loss and/or publish/subscribe/unsubscribe
+failures if they are deemed fatal or if the provided retry policy is exhausted. All transient failures will cause the
+retry policy to be checked, but won't cause the DisconnectedAsync event to fire.
+</p>
+</div>
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.ConnectAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)">
+  ConnectAsync(MqttConnectionSettings, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Connect this client and start a clean MQTT session. Once connected, this client will automatically reconnect
+as needed and recover the MQTT session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;MqttClientConnectResult&gt; ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>settings</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html">MqttConnectionSettings</a></dt>
+    <dd><p>The details about how to connect to the MQTT broker.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.html">MqttClientConnectResult</a>&gt;</dt>
+    <dd><p>The CONNACK received from the MQTT broker.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This operation does not retry by default, but can be configured to retry. To do so, set the
+<a class="xref" href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html#Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_RetryOnFirstConnect">RetryOnFirstConnect</a> flag and optionally configure the retry policy
+via <a class="xref" href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html#Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_ConnectionRetryPolicy">ConnectionRetryPolicy</a>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>If this method is called when the client is already managing the connection.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.ConnectAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)">
+  ConnectAsync(MqttClientOptions, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Connect this client and start a clean MQTT session. Once connected, this client will automatically reconnect
+as needed and recover the MQTT session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;MqttClientConnectResult&gt; ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html">MqttClientOptions</a></dt>
+    <dd><p>The details about how to connect to the MQTT broker.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.html">MqttClientConnectResult</a>&gt;</dt>
+    <dd><p>The CONNACK received from the MQTT broker.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This operation does not retry by default, but can be configured to retry. To do so, set the
+<a class="xref" href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html#Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_RetryOnFirstConnect">RetryOnFirstConnect</a> flag and optionally configure the retry policy
+via <a class="xref" href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html#Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_ConnectionRetryPolicy">ConnectionRetryPolicy</a>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>If this method is called when the client is already managing the connection.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_DisconnectAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.DisconnectAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_DisconnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientDisconnectOptions_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)">
+  DisconnectAsync(MqttClientDisconnectOptions?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L146"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Disconnect this client and end the MQTT session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task DisconnectAsync(MqttClientDisconnectOptions? options = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.html">MqttClientDisconnectOptions</a></dt>
+    <dd><p>The optional parameters that can be sent in the DISCONNECT packet to the MQTT broker.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_DisposeAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.DisposeAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_DisposeAsync" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.DisposeAsync">
+  DisposeAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L309"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ValueTask DisposeAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd><p>A task that represents the asynchronous dispose operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_PublishAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.PublishAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)">
+  PublishAsync(MqttApplicationMessage, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L192"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Publish an MQTT message to the MQTT broker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;MqttClientPublishResult&gt; PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>applicationMessage</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html">MqttApplicationMessage</a></dt>
+    <dd><p>The message to publish.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult.html">MqttClientPublishResult</a>&gt;</dt>
+    <dd><p>The PUBACK received from the MQTT broker.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If this operation is interrupted by a connection loss, this client will automatically re-send it once
+the client has recovered the connection.</p>
+<p>This method may be called even when this client is not connected. The request will be sent once the
+connection is established.</p>
+</div>
+
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_SubscribeAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.SubscribeAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)">
+  SubscribeAsync(MqttClientSubscribeOptions, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L236"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Send a SUBSCRIBE request to the MQTT broker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;MqttClientSubscribeResult&gt; SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.html">MqttClientSubscribeOptions</a></dt>
+    <dd><p>The details of the subscribe request.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult.html">MqttClientSubscribeResult</a>&gt;</dt>
+    <dd><p>The SUBACK received from the MQTT broker.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If this operation is interrupted by a connection loss, this client will automatically re-send it once
+the client has recovered the connection.</p>
+<p>This method may be called even when this client is not connected. The request will be sent once the
+connection is established.</p>
+</div>
+
+
+
+
+  <a id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_UnsubscribeAsync_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.UnsubscribeAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)">
+  UnsubscribeAsync(MqttClientUnsubscribeOptions, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L279"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Send a UNSUBSCRIBE request to the MQTT broker.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task&lt;MqttClientUnsubscribeResult&gt; UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>options</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.html">MqttClientUnsubscribeOptions</a></dt>
+    <dd><p>The details of the unsubscribe request.</p>
+</dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>The cancellation token.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult.html">MqttClientUnsubscribeResult</a>&gt;</dt>
+    <dd><p>The UNSUBACK received from the MQTT broker.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If this operation is interrupted by a connection loss, this client will automatically re-send it once
+the client has recovered the connection.</p>
+<p>This method may be called even when this client is not connected. The request will be sent once the
+connection is established.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="Azure_Iot_Operations_Mqtt_Session_MqttSessionClient_SessionLostAsync" data-uid="Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.SessionLostAsync">
+  SessionLostAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Func&lt;MqttClientDisconnectedEventArgs, Task&gt;? SessionLostAsync</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs.html">MqttClientDisconnectedEventArgs</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Mqtt/Session/MqttSessionClient.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          False<span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

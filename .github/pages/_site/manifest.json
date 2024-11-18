@@ -1,0 +1,1632 @@
+{
+  "source_base_path": "/workspaces/iot-operations-sdks/.github/pages",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.MqttConnectingFailedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.MqttConnectingFailedException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.MqttNetTraceLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.MqttNetTraceLogger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.MqttSessionExpiredException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.MqttSessionExpiredException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.Exceptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.MqttSessionClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.Session.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.Session.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Mqtt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Mqtt.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.AkriMqttErrorKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.AkriMqttErrorKind.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.AkriMqttException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.AkriMqttException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.AkriSystemProperties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.AkriSystemProperties.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.CommandBehaviorAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.CommandBehaviorAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.CommandTopicAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.CommandTopicAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Connection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Connection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Events.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Events.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.GuidExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.GuidExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.HybridLogicalClock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.HybridLogicalClock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.HybridLogicalClockException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.HybridLogicalClockException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.IDelayableQueueItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.IDelayableQueueItem.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.IMqttClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.IMqttClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.IMqttPubSubClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.IMqttPubSubClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.IPayloadSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.IPayloadSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.IWallClock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.IWallClock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.ModelIdAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.ModelIdAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.DefaultMqttCertificatesProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.DefaultMqttCertificatesProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientCertificatesProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientCertificatesProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttApplicationMessageReceivedReasonCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttAuthPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttAuthPacket.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttAuthenticateReasonCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCertificateValidationEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCertificateValidationEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientConnectResultCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientConnectResultCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientCredentials.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptionsReason.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptionsReason.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientPublishReasonCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientPublishReasonCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeReasonCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeReasonCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResultItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResultItem.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketProxyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketProxyOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeContext.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttRetainHandling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttRetainHandling.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilterCompareResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilterCompareResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilterComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttTopicFilterComparer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttUserProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Models.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.PatternValidity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.PatternValidity.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandInvoker-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandInvoker-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandRequestMetadata.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandResponseMetadata.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.CommandStatusCode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.InvocationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.InvocationException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.RpcCallAsync-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.RpcCallAsync-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.RPC.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.RPC.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Retry.ExponentialBackoffRetryPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Retry.ExponentialBackoffRetryPolicy.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Retry.IRetryPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Retry.IRetryPolicy.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Retry.NoRetryPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Retry.NoRetryPolicy.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Retry.RetryExpiredException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Retry.RetryExpiredException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Retry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Retry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.ServiceGroupIdAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.ServiceGroupIdAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.Telemetry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.TelemetryTopicAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.TelemetryTopicAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.WallClock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.WallClock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Protocol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Protocol.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.DecimalString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.DecimalString.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.EmptyJson.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.EmptyJson.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.Akri.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.Akri.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.CampaignRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.CampaignResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.CampaignResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.GetCurrentLeaderResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionAutomaticRenewalOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionCandidate.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeaderElectionClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeadershipChangeEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ObserveLeadershipChangesRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ResignationRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ResignationResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.ResignationResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeaderElection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LockState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.LockState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.LeasedLock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.CombinedPrefixedReadOnlyDictionary-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.CombinedPrefixedReadOnlyDictionary-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.EmptyJson.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.EmptyJson.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.ISchemaRegistryClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.ISchemaRegistryClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistryClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistryClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.Utf8JsonSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.Utf8JsonSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.SchemaRegistry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.CombinedPrefixedReadOnlyDictionary-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.CombinedPrefixedReadOnlyDictionary-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.IStateStoreClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.IStateStoreClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.KeyChangeMessageReceivedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.KeyChangeMessageReceivedEventArgs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.KeyState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.KeyState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.PassthroughSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.PassthroughSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.ServiceError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.ServiceError.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.SetCondition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.SetCondition.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreDeleteRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreDeleteRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreDeleteResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreDeleteResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreErrorKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreErrorKind.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreGetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreGetResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreKey.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreObserveRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreObserveRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreOperationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreOperationException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreSetRequestOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreSetRequestOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreSetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreSetResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.StateStoreValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.StateStore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.StateStore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.Services.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Azure.Iot.Operations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Azure.Iot.Operations.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

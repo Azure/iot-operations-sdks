@@ -1,0 +1,147 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Services.LeasedLock
+  commentId: N:Azure.Iot.Operations.Services.LeasedLock
+  id: LeasedLock
+  parent: Azure.Iot.Operations.Services
+  children:
+  - Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions
+  - Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse
+  - Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse
+  - Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions
+  - Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient
+  - Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder
+  - Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs
+  - Azure.Iot.Operations.Services.LeasedLock.LockState
+  - Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions
+  - Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions
+  - Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Services.LeasedLock
+  nameWithType: Azure.Iot.Operations.Services.LeasedLock
+  fullName: Azure.Iot.Operations.Services.LeasedLock
+  type: Namespace
+  assemblies:
+  - Azure.Iot.Operations.Services
+references:
+- uid: Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions.html
+  name: AcquireLockRequestOptions
+  nameWithType: AcquireLockRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeasedLock.AcquireLockRequestOptions
+- uid: Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse.html
+  name: AcquireLockResponse
+  nameWithType: AcquireLockResponse
+  fullName: Azure.Iot.Operations.Services.LeasedLock.AcquireLockResponse
+- uid: Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse
+  href: Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse.html
+  name: GetLockHolderResponse
+  nameWithType: GetLockHolderResponse
+  fullName: Azure.Iot.Operations.Services.LeasedLock.GetLockHolderResponse
+- uid: Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions.html
+  name: LeasedLockAutomaticRenewalOptions
+  nameWithType: LeasedLockAutomaticRenewalOptions
+  fullName: Azure.Iot.Operations.Services.LeasedLock.LeasedLockAutomaticRenewalOptions
+- uid: Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient
+  href: Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient.html
+  name: LeasedLockClient
+  nameWithType: LeasedLockClient
+  fullName: Azure.Iot.Operations.Services.LeasedLock.LeasedLockClient
+- uid: Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder.html
+  name: LeasedLockHolder
+  nameWithType: LeasedLockHolder
+  fullName: Azure.Iot.Operations.Services.LeasedLock.LeasedLockHolder
+- uid: Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs
+  href: Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs.html
+  name: LockChangeEventArgs
+  nameWithType: LockChangeEventArgs
+  fullName: Azure.Iot.Operations.Services.LeasedLock.LockChangeEventArgs
+- uid: Azure.Iot.Operations.Services.LeasedLock.LockState
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.LockState
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.LockState.html
+  name: LockState
+  nameWithType: LockState
+  fullName: Azure.Iot.Operations.Services.LeasedLock.LockState
+- uid: Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions.html
+  name: ObserveLockRequestOptions
+  nameWithType: ObserveLockRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeasedLock.ObserveLockRequestOptions
+- uid: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions
+  parent: Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions.html
+  name: ReleaseLockRequestOptions
+  nameWithType: ReleaseLockRequestOptions
+  fullName: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockRequestOptions
+- uid: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse
+  commentId: T:Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse
+  href: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse.html
+  name: ReleaseLockResponse
+  nameWithType: ReleaseLockResponse
+  fullName: Azure.Iot.Operations.Services.LeasedLock.ReleaseLockResponse
+- uid: Azure.Iot.Operations.Services.LeasedLock
+  commentId: N:Azure.Iot.Operations.Services.LeasedLock
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.LeasedLock
+  nameWithType: Azure.Iot.Operations.Services.LeasedLock
+  fullName: Azure.Iot.Operations.Services.LeasedLock
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeasedLock
+    name: LeasedLock
+    href: Azure.Iot.Operations.Services.LeasedLock.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeasedLock
+    name: LeasedLock
+    href: Azure.Iot.Operations.Services.LeasedLock.html

@@ -1,0 +1,1588 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  commentId: T:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  id: CommandExecutor`2
+  parent: Azure.Iot.Operations.Protocol.RPC
+  children:
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor(Azure.Iot.Operations.Protocol.IMqttPubSubClient,System.String,Azure.Iot.Operations.Protocol.IPayloadSerializer)
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync(System.Boolean)
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore(System.Boolean)
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync(System.Nullable{System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync(System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace
+  - Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap
+  langs:
+  - csharp
+  - vb
+  name: CommandExecutor<TReq, TResp>
+  nameWithType: CommandExecutor<TReq, TResp>
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CommandExecutor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 14
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: 'public abstract class CommandExecutor<TReq, TResp> : IAsyncDisposable where TReq : class where TResp : class'
+    typeParameters:
+    - id: TReq
+    - id: TResp
+    content.vb: Public MustInherit Class CommandExecutor(Of TReq As Class, TResp As Class) Implements IAsyncDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IAsyncDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: CommandExecutor(Of TReq, TResp)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp)
+  name.vb: CommandExecutor(Of TReq, TResp)
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout
+  id: ExecutionTimeout
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: ExecutionTimeout
+  nameWithType: CommandExecutor<TReq, TResp>.ExecutionTimeout
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ExecutionTimeout
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ExecutionTimeout
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 42
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public TimeSpan ExecutionTimeout { get; set; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Property ExecutionTimeout As TimeSpan
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ExecutionTimeout
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ExecutionTimeout
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived
+  id: OnCommandReceived
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: OnCommandReceived
+  nameWithType: CommandExecutor<TReq, TResp>.OnCommandReceived
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.OnCommandReceived
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: OnCommandReceived
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 44
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
+    parameters: []
+    return:
+      type: System.Func{Azure.Iot.Operations.Protocol.RPC.ExtendedRequest{{TReq}},System.Threading.CancellationToken,System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.RPC.ExtendedResponse{{TResp}}}}
+    content.vb: Public Property OnCommandReceived As Func(Of ExtendedRequest(Of TReq), CancellationToken, Task(Of ExtendedResponse(Of TResp)))
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).OnCommandReceived
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).OnCommandReceived
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId
+  id: ExecutorId
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: ExecutorId
+  nameWithType: CommandExecutor<TReq, TResp>.ExecutorId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ExecutorId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ExecutorId
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 46
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public string? ExecutorId { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ExecutorId As String
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ExecutorId
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ExecutorId
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId
+  id: ServiceGroupId
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: ServiceGroupId
+  nameWithType: CommandExecutor<TReq, TResp>.ServiceGroupId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ServiceGroupId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ServiceGroupId
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 48
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public string ServiceGroupId { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ServiceGroupId As String
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ServiceGroupId
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ServiceGroupId
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern
+  id: RequestTopicPattern
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: RequestTopicPattern
+  nameWithType: CommandExecutor<TReq, TResp>.RequestTopicPattern
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.RequestTopicPattern
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RequestTopicPattern
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 50
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public string RequestTopicPattern { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property RequestTopicPattern As String
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).RequestTopicPattern
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).RequestTopicPattern
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace
+  id: TopicNamespace
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: TopicNamespace
+  nameWithType: CommandExecutor<TReq, TResp>.TopicNamespace
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.TopicNamespace
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicNamespace
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 52
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public string? TopicNamespace { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TopicNamespace As String
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).TopicNamespace
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).TopicNamespace
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent
+  id: IsIdempotent
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: IsIdempotent
+  nameWithType: CommandExecutor<TReq, TResp>.IsIdempotent
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.IsIdempotent
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: IsIdempotent
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 54
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public bool IsIdempotent { get; init; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsIdempotent As Boolean
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).IsIdempotent
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).IsIdempotent
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl
+  id: CacheTtl
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: CacheTtl
+  nameWithType: CommandExecutor<TReq, TResp>.CacheTtl
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.CacheTtl
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CacheTtl
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 68
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: The cache time-to-live that will be used for reusing a previously computed response for duplicate or equivalent idempotent command requests.
+  remarks: >-
+    <p>
+
+    Idempotent commands will cache the response of duplicate requests until the maximum of cache time-to-live or the command request expiration.
+
+    Idempotent commands will cache the response of equivalent requests until the cache time-to-live.
+
+    The cache could be cleared before the time-to-live expires if the cost-weighted benefit is too low and the cache is under size pressure.
+
+    </p>
+
+    Two requests are considered to be duplicate when the requests have identical correlation ID.
+
+    Two requests are considered to be equivalent when they have the same payload, parameters and topic, but different correlation ID.
+  example: []
+  syntax:
+    content: public TimeSpan CacheTtl { get; init; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Property CacheTtl As TimeSpan
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).CacheTtl
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).CacheTtl
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap
+  id: TopicTokenMap
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: TopicTokenMap
+  nameWithType: CommandExecutor<TReq, TResp>.TopicTokenMap
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.TopicTokenMap
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicTokenMap
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 74
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: >-
+    Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
+
+    Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+  example: []
+  syntax:
+    content: public virtual Dictionary<string, string> TopicTokenMap { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Overridable ReadOnly Property TopicTokenMap As Dictionary(Of String, String)
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).TopicTokenMap
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).TopicTokenMap
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap
+  commentId: P:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap
+  id: EffectiveTopicTokenMap
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: EffectiveTopicTokenMap
+  nameWithType: CommandExecutor<TReq, TResp>.EffectiveTopicTokenMap
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.EffectiveTopicTokenMap
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: EffectiveTopicTokenMap
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 80
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: >-
+    Gets a dictionary used by this class's code for substituting tokens in request and response topic patterns.
+
+    Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+  example: []
+  syntax:
+    content: protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}
+    content.vb: Protected Overridable ReadOnly Property EffectiveTopicTokenMap As IReadOnlyDictionary(Of String, String)
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).EffectiveTopicTokenMap
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).EffectiveTopicTokenMap
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor(Azure.Iot.Operations.Protocol.IMqttPubSubClient,System.String,Azure.Iot.Operations.Protocol.IPayloadSerializer)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor(Azure.Iot.Operations.Protocol.IMqttPubSubClient,System.String,Azure.Iot.Operations.Protocol.IPayloadSerializer)
+  id: '#ctor(Azure.Iot.Operations.Protocol.IMqttPubSubClient,System.String,Azure.Iot.Operations.Protocol.IPayloadSerializer)'
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: CommandExecutor(IMqttPubSubClient, string, IPayloadSerializer)
+  nameWithType: CommandExecutor<TReq, TResp>.CommandExecutor(IMqttPubSubClient, string, IPayloadSerializer)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.CommandExecutor(Azure.Iot.Operations.Protocol.IMqttPubSubClient, string, Azure.Iot.Operations.Protocol.IPayloadSerializer)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 82
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
+    parameters:
+    - id: mqttClient
+      type: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+    - id: commandName
+      type: System.String
+    - id: serializer
+      type: Azure.Iot.Operations.Protocol.IPayloadSerializer
+    content.vb: Public Sub New(mqttClient As IMqttPubSubClient, commandName As String, serializer As IPayloadSerializer)
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).New(IMqttPubSubClient, String, IPayloadSerializer)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).New(Azure.Iot.Operations.Protocol.IMqttPubSubClient, String, Azure.Iot.Operations.Protocol.IPayloadSerializer)
+  name.vb: New(IMqttPubSubClient, String, IPayloadSerializer)
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync(System.Nullable{System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync(System.Nullable{System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  id: StartAsync(System.Nullable{System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: StartAsync(int?, IReadOnlyDictionary<string, string>?, CancellationToken)
+  nameWithType: CommandExecutor<TReq, TResp>.StartAsync(int?, IReadOnlyDictionary<string, string>?, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.StartAsync(int?, System.Collections.Generic.IReadOnlyDictionary<string, string>?, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: StartAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 272
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public Task StartAsync(int? preferredDispatchConcurrency = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, CancellationToken cancellationToken = default)
+    parameters:
+    - id: preferredDispatchConcurrency
+      type: System.Nullable{System.Int32}
+    - id: transientTopicTokenMap
+      type: System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function StartAsync(preferredDispatchConcurrency As Integer? = Nothing, transientTopicTokenMap As IReadOnlyDictionary(Of String, String) = Nothing, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).StartAsync(Integer?, IReadOnlyDictionary(Of String, String), CancellationToken)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).StartAsync(Integer?, System.Collections.Generic.IReadOnlyDictionary(Of String, String), System.Threading.CancellationToken)
+  name.vb: StartAsync(Integer?, IReadOnlyDictionary(Of String, String), CancellationToken)
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync(System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync(System.Threading.CancellationToken)
+  id: StopAsync(System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: StopAsync(CancellationToken)
+  nameWithType: CommandExecutor<TReq, TResp>.StopAsync(CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.StopAsync(System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: StopAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 309
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public Task StopAsync(CancellationToken cancellationToken = default)
+    parameters:
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function StopAsync(cancellationToken As CancellationToken = Nothing) As Task
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).StopAsync(CancellationToken)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).StopAsync(System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync
+  id: DisposeAsync
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: DisposeAsync()
+  nameWithType: CommandExecutor<TReq, TResp>.DisposeAsync()
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.DisposeAsync()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisposeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 654
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.
+  example: []
+  syntax:
+    content: public virtual ValueTask DisposeAsync()
+    return:
+      type: System.Threading.Tasks.ValueTask
+      description: A task that represents the asynchronous dispose operation.
+    content.vb: Public Overridable Function DisposeAsync() As ValueTask
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync*
+  implements:
+  - System.IAsyncDisposable.DisposeAsync
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).DisposeAsync()
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).DisposeAsync()
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync(System.Boolean)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync(System.Boolean)
+  id: DisposeAsync(System.Boolean)
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: DisposeAsync(bool)
+  nameWithType: CommandExecutor<TReq, TResp>.DisposeAsync(bool)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.DisposeAsync(bool)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisposeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 660
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: public virtual ValueTask DisposeAsync(bool disposing)
+    parameters:
+    - id: disposing
+      type: System.Boolean
+    return:
+      type: System.Threading.Tasks.ValueTask
+    content.vb: Public Overridable Function DisposeAsync(disposing As Boolean) As ValueTask
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).DisposeAsync(Boolean)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).DisposeAsync(Boolean)
+  name.vb: DisposeAsync(Boolean)
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore(System.Boolean)
+  commentId: M:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore(System.Boolean)
+  id: DisposeAsyncCore(System.Boolean)
+  parent: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2
+  langs:
+  - csharp
+  - vb
+  name: DisposeAsyncCore(bool)
+  nameWithType: CommandExecutor<TReq, TResp>.DisposeAsyncCore(bool)
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.DisposeAsyncCore(bool)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisposeAsyncCore
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs
+    startLine: 665
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.RPC
+  syntax:
+    content: protected virtual ValueTask DisposeAsyncCore(bool disposing)
+    parameters:
+    - id: disposing
+      type: System.Boolean
+    return:
+      type: System.Threading.Tasks.ValueTask
+    content.vb: Protected Overridable Function DisposeAsyncCore(disposing As Boolean) As ValueTask
+  overload: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore*
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).DisposeAsyncCore(Boolean)
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).DisposeAsyncCore(Boolean)
+  name.vb: DisposeAsyncCore(Boolean)
+references:
+- uid: Azure.Iot.Operations.Protocol.RPC
+  commentId: N:Azure.Iot.Operations.Protocol.RPC
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.RPC
+  nameWithType: Azure.Iot.Operations.Protocol.RPC
+  fullName: Azure.Iot.Operations.Protocol.RPC
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.RPC
+    name: RPC
+    href: Azure.Iot.Operations.Protocol.RPC.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IAsyncDisposable
+  commentId: T:System.IAsyncDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable
+  name: IAsyncDisposable
+  nameWithType: IAsyncDisposable
+  fullName: System.IAsyncDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutionTimeout
+  name: ExecutionTimeout
+  nameWithType: CommandExecutor<TReq, TResp>.ExecutionTimeout
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ExecutionTimeout
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ExecutionTimeout
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ExecutionTimeout
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_OnCommandReceived
+  name: OnCommandReceived
+  nameWithType: CommandExecutor<TReq, TResp>.OnCommandReceived
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.OnCommandReceived
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).OnCommandReceived
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).OnCommandReceived
+- uid: System.Func{Azure.Iot.Operations.Protocol.RPC.ExtendedRequest{{TReq}},System.Threading.CancellationToken,System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.RPC.ExtendedResponse{{TResp}}}}
+  commentId: T:System.Func{Azure.Iot.Operations.Protocol.RPC.ExtendedRequest{`0},System.Threading.CancellationToken,System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.RPC.ExtendedResponse{`1}}}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>>
+  nameWithType: Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>>
+  fullName: System.Func<Azure.Iot.Operations.Protocol.RPC.ExtendedRequest<TReq>, System.Threading.CancellationToken, System.Threading.Tasks.Task<Azure.Iot.Operations.Protocol.RPC.ExtendedResponse<TResp>>>
+  nameWithType.vb: Func(Of ExtendedRequest(Of TReq), CancellationToken, Task(Of ExtendedResponse(Of TResp)))
+  fullName.vb: System.Func(Of Azure.Iot.Operations.Protocol.RPC.ExtendedRequest(Of TReq), System.Threading.CancellationToken, System.Threading.Tasks.Task(Of Azure.Iot.Operations.Protocol.RPC.ExtendedResponse(Of TResp)))
+  name.vb: Func(Of ExtendedRequest(Of TReq), CancellationToken, Task(Of ExtendedResponse(Of TResp)))
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+    name: ExtendedRequest
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html
+  - name: <
+  - name: TReq
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: <
+  - name: TResp
+  - name: '>'
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest`1
+    name: ExtendedRequest
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TReq
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse`1
+    name: ExtendedResponse
+    href: Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResp
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutorId
+  name: ExecutorId
+  nameWithType: CommandExecutor<TReq, TResp>.ExecutorId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ExecutorId
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ExecutorId
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ExecutorId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ServiceGroupId
+  name: ServiceGroupId
+  nameWithType: CommandExecutor<TReq, TResp>.ServiceGroupId
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.ServiceGroupId
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).ServiceGroupId
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).ServiceGroupId
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_RequestTopicPattern
+  name: RequestTopicPattern
+  nameWithType: CommandExecutor<TReq, TResp>.RequestTopicPattern
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.RequestTopicPattern
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).RequestTopicPattern
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).RequestTopicPattern
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicNamespace
+  name: TopicNamespace
+  nameWithType: CommandExecutor<TReq, TResp>.TopicNamespace
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.TopicNamespace
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).TopicNamespace
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).TopicNamespace
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_IsIdempotent
+  name: IsIdempotent
+  nameWithType: CommandExecutor<TReq, TResp>.IsIdempotent
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.IsIdempotent
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).IsIdempotent
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).IsIdempotent
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_CacheTtl
+  name: CacheTtl
+  nameWithType: CommandExecutor<TReq, TResp>.CacheTtl
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.CacheTtl
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).CacheTtl
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).CacheTtl
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicTokenMap
+  name: TopicTokenMap
+  nameWithType: CommandExecutor<TReq, TResp>.TopicTokenMap
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.TopicTokenMap
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).TopicTokenMap
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).TopicTokenMap
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, string>
+  nameWithType: Dictionary<string, string>
+  fullName: System.Collections.Generic.Dictionary<string, string>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_EffectiveTopicTokenMap
+  name: EffectiveTopicTokenMap
+  nameWithType: CommandExecutor<TReq, TResp>.EffectiveTopicTokenMap
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.EffectiveTopicTokenMap
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).EffectiveTopicTokenMap
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).EffectiveTopicTokenMap
+- uid: System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.IReadOnlyDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  name: IReadOnlyDictionary<string, string>
+  nameWithType: IReadOnlyDictionary<string, string>
+  fullName: System.Collections.Generic.IReadOnlyDictionary<string, string>
+  nameWithType.vb: IReadOnlyDictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of String, String)
+  name.vb: IReadOnlyDictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyDictionary`2
+  commentId: T:System.Collections.Generic.IReadOnlyDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  name: IReadOnlyDictionary<TKey, TValue>
+  nameWithType: IReadOnlyDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>
+  nameWithType.vb: IReadOnlyDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of TKey, TValue)
+  name.vb: IReadOnlyDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2__ctor_Azure_Iot_Operations_Protocol_IMqttPubSubClient_System_String_Azure_Iot_Operations_Protocol_IPayloadSerializer_
+  name: CommandExecutor
+  nameWithType: CommandExecutor<TReq, TResp>.CommandExecutor
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.CommandExecutor
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).New
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).New
+  name.vb: New
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  commentId: T:Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html
+  name: IMqttPubSubClient
+  nameWithType: IMqttPubSubClient
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+- uid: Azure.Iot.Operations.Protocol.IPayloadSerializer
+  commentId: T:Azure.Iot.Operations.Protocol.IPayloadSerializer
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.IPayloadSerializer.html
+  name: IPayloadSerializer
+  nameWithType: IPayloadSerializer
+  fullName: Azure.Iot.Operations.Protocol.IPayloadSerializer
+- uid: Azure.Iot.Operations.Protocol
+  commentId: N:Azure.Iot.Operations.Protocol
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol
+  nameWithType: Azure.Iot.Operations.Protocol
+  fullName: Azure.Iot.Operations.Protocol
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StartAsync_System_Nullable_System_Int32__System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__System_Threading_CancellationToken_
+  name: StartAsync
+  nameWithType: CommandExecutor<TReq, TResp>.StartAsync
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.StartAsync
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).StartAsync
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).StartAsync
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StopAsync_System_Threading_CancellationToken_
+  name: StopAsync
+  nameWithType: CommandExecutor<TReq, TResp>.StopAsync
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.StopAsync
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).StopAsync
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).StopAsync
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsync
+  name: DisposeAsync
+  nameWithType: CommandExecutor<TReq, TResp>.DisposeAsync
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.DisposeAsync
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).DisposeAsync
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).DisposeAsync
+- uid: System.IAsyncDisposable.DisposeAsync
+  commentId: M:System.IAsyncDisposable.DisposeAsync
+  parent: System.IAsyncDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  name: DisposeAsync()
+  nameWithType: IAsyncDisposable.DisposeAsync()
+  fullName: System.IAsyncDisposable.DisposeAsync()
+  spec.csharp:
+  - uid: System.IAsyncDisposable.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IAsyncDisposable.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.ValueTask
+  commentId: T:System.Threading.Tasks.ValueTask
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  name: ValueTask
+  nameWithType: ValueTask
+  fullName: System.Threading.Tasks.ValueTask
+- uid: Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore*
+  commentId: Overload:Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore
+  href: Azure.Iot.Operations.Protocol.RPC.CommandExecutor-2.html#Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsyncCore_System_Boolean_
+  name: DisposeAsyncCore
+  nameWithType: CommandExecutor<TReq, TResp>.DisposeAsyncCore
+  fullName: Azure.Iot.Operations.Protocol.RPC.CommandExecutor<TReq, TResp>.DisposeAsyncCore
+  nameWithType.vb: CommandExecutor(Of TReq, TResp).DisposeAsyncCore
+  fullName.vb: Azure.Iot.Operations.Protocol.RPC.CommandExecutor(Of TReq, TResp).DisposeAsyncCore

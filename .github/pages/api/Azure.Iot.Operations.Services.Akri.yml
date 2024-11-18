@@ -1,0 +1,126 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Services.Akri
+  commentId: N:Azure.Iot.Operations.Services.Akri
+  id: Akri
+  parent: Azure.Iot.Operations.Services
+  children:
+  - Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary`1
+  - Azure.Iot.Operations.Services.Akri.DecimalString
+  - Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient
+  - Azure.Iot.Operations.Services.Akri.EmptyJson
+  - Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient
+  - Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Services.Akri
+  nameWithType: Azure.Iot.Operations.Services.Akri
+  fullName: Azure.Iot.Operations.Services.Akri
+  type: Namespace
+  assemblies:
+  - Azure.Iot.Operations.Services
+references:
+- uid: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary`1
+  commentId: T:Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary`1
+  href: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary-1.html
+  name: CombinedPrefixedReadOnlyDictionary<TValue>
+  nameWithType: CombinedPrefixedReadOnlyDictionary<TValue>
+  fullName: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary<TValue>
+  nameWithType.vb: CombinedPrefixedReadOnlyDictionary(Of TValue)
+  fullName.vb: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary(Of TValue)
+  name.vb: CombinedPrefixedReadOnlyDictionary(Of TValue)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary`1
+    name: CombinedPrefixedReadOnlyDictionary
+    href: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary-1.html
+  - name: <
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary`1
+    name: CombinedPrefixedReadOnlyDictionary
+    href: Azure.Iot.Operations.Services.Akri.CombinedPrefixedReadOnlyDictionary-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Azure.Iot.Operations.Services.Akri.DecimalString
+  commentId: T:Azure.Iot.Operations.Services.Akri.DecimalString
+  parent: Azure.Iot.Operations.Services.Akri
+  href: Azure.Iot.Operations.Services.Akri.DecimalString.html
+  name: DecimalString
+  nameWithType: DecimalString
+  fullName: Azure.Iot.Operations.Services.Akri.DecimalString
+- uid: Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient
+  commentId: T:Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient
+  href: Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient.html
+  name: DiscoveredAssetResourcesClient
+  nameWithType: DiscoveredAssetResourcesClient
+  fullName: Azure.Iot.Operations.Services.Akri.DiscoveredAssetResourcesClient
+- uid: Azure.Iot.Operations.Services.Akri.EmptyJson
+  commentId: T:Azure.Iot.Operations.Services.Akri.EmptyJson
+  href: Azure.Iot.Operations.Services.Akri.EmptyJson.html
+  name: EmptyJson
+  nameWithType: EmptyJson
+  fullName: Azure.Iot.Operations.Services.Akri.EmptyJson
+- uid: Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient
+  commentId: T:Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient
+  parent: Azure.Iot.Operations.Services.Akri
+  href: Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient.html
+  name: IDiscoveredAssetResourcesClient
+  nameWithType: IDiscoveredAssetResourcesClient
+  fullName: Azure.Iot.Operations.Services.Akri.IDiscoveredAssetResourcesClient
+- uid: Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer
+  commentId: T:Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer
+  href: Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer.html
+  name: Utf8JsonSerializer
+  nameWithType: Utf8JsonSerializer
+  fullName: Azure.Iot.Operations.Services.Akri.Utf8JsonSerializer
+- uid: Azure.Iot.Operations.Services.Akri
+  commentId: N:Azure.Iot.Operations.Services.Akri
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.Akri
+  nameWithType: Azure.Iot.Operations.Services.Akri
+  fullName: Azure.Iot.Operations.Services.Akri
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.Akri
+    name: Akri
+    href: Azure.Iot.Operations.Services.Akri.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.Akri
+    name: Akri
+    href: Azure.Iot.Operations.Services.Akri.html

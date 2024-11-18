@@ -1,0 +1,2159 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  id: MqttClientOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(System.String,System.String)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+  - Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+  langs:
+  - csharp
+  - vb
+  name: MqttClientOptions
+  nameWithType: MqttClientOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttClientOptions
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 11
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public sealed class MqttClientOptions
+    content.vb: Public NotInheritable Class MqttClientOptions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  id: '#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientOptions(MqttClientTcpOptions)
+  nameWithType: MqttClientOptions.MqttClientOptions(MqttClientTcpOptions)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MqttClientOptions(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientOptions(MqttClientTcpOptions tcpOptions)
+    parameters:
+    - id: tcpOptions
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+    content.vb: Public Sub New(tcpOptions As MqttClientTcpOptions)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*
+  nameWithType.vb: MqttClientOptions.New(MqttClientTcpOptions)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.New(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  name.vb: New(MqttClientTcpOptions)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)
+  id: '#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientOptions(MqttClientWebSocketOptions)
+  nameWithType: MqttClientOptions.MqttClientOptions(MqttClientWebSocketOptions)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MqttClientOptions(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 18
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientOptions(MqttClientWebSocketOptions websocketOptions)
+    parameters:
+    - id: websocketOptions
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions
+    content.vb: Public Sub New(websocketOptions As MqttClientWebSocketOptions)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*
+  nameWithType.vb: MqttClientOptions.New(MqttClientWebSocketOptions)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.New(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)
+  name.vb: New(MqttClientWebSocketOptions)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)
+  id: '#ctor(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientOptions(MqttConnectionSettings)
+  nameWithType: MqttClientOptions.MqttClientOptions(MqttConnectionSettings)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MqttClientOptions(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 23
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientOptions(MqttConnectionSettings cs)
+    parameters:
+    - id: cs
+      type: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+    content.vb: Public Sub New(cs As MqttConnectionSettings)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*
+  nameWithType.vb: MqttClientOptions.New(MqttConnectionSettings)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.New(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)
+  name.vb: New(MqttConnectionSettings)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+  id: AllowPacketFragmentation
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: AllowPacketFragmentation
+  nameWithType: MqttClientOptions.AllowPacketFragmentation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AllowPacketFragmentation
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 132
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Usually the MQTT packets can be send partially. This is done by using multiple TCP packets
+
+    or WebSocket frames etc. Unfortunately not all brokers (like Amazon Web Services (AWS)) do support this feature and
+
+    will close the connection when receiving such packets. If such a service is used this flag must
+
+    be set to _false_.
+  example: []
+  syntax:
+    content: public bool AllowPacketFragmentation { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowPacketFragmentation As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+  id: AuthenticationData
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: AuthenticationData
+  nameWithType: MqttClientOptions.AuthenticationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AuthenticationData
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 138
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the authentication data.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public byte[]? AuthenticationData { get; set; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public Property AuthenticationData As Byte()
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+  id: AuthenticationMethod
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: AuthenticationMethod
+  nameWithType: MqttClientOptions.AuthenticationMethod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AuthenticationMethod
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 144
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the authentication method.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public string? AuthenticationMethod { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AuthenticationMethod As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+  id: ChannelOptions
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ChannelOptions
+  nameWithType: MqttClientOptions.ChannelOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ChannelOptions
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 146
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public IMqttClientChannelOptions ChannelOptions { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+    content.vb: Public Property ChannelOptions As IMqttClientChannelOptions
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+  id: CleanSession
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: CleanSession
+  nameWithType: MqttClientOptions.CleanSession
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CleanSession
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 158
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets a value indicating whether clean sessions are used or not.
+
+    When a client connects to a broker it can connect using either a non persistent connection (clean session) or a
+
+    persistent connection.
+
+    With a non persistent connection the broker doesn't store any subscription information or undelivered messages for
+
+    the client.
+
+    This mode is ideal when the client only publishes messages.
+
+    It can also connect as a durable client using a persistent connection.
+
+    In this mode, the broker will store subscription information, and undelivered messages for the client.
+  example: []
+  syntax:
+    content: public bool CleanSession { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CleanSession As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+  id: ClientId
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ClientId
+  nameWithType: MqttClientOptions.ClientId
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ClientId
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 164
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the client identifier.
+
+    Hint: This identifier needs to be unique over all used clients / devices on the broker to avoid connection issues.
+  example: []
+  syntax:
+    content: public string ClientId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ClientId As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+  id: Credentials
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: Credentials
+  nameWithType: MqttClientOptions.Credentials
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Credentials
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 166
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public IMqttClientCredentialsProvider? Credentials { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider
+    content.vb: Public Property Credentials As IMqttClientCredentialsProvider
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  id: ExtendedAuthenticationExchangeHandler
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ExtendedAuthenticationExchangeHandler
+  nameWithType: MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ExtendedAuthenticationExchangeHandler
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 168
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public IMqttExtendedAuthenticationExchangeHandler? ExtendedAuthenticationExchangeHandler { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler
+    content.vb: Public Property ExtendedAuthenticationExchangeHandler As IMqttExtendedAuthenticationExchangeHandler
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+  id: KeepAlivePeriod
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: KeepAlivePeriod
+  nameWithType: MqttClientOptions.KeepAlivePeriod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: KeepAlivePeriod
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 178
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the keep alive period.
+
+    The connection is normally left open by the client so that is can send and receive data at any time.
+
+    If no data flows over an open connection for a certain time period then the client will generate a PINGREQ and
+
+    expect to receive a PINGRESP from the broker.
+
+    This message exchange confirms that the connection is open and working.
+
+    This period is known as the keep alive period.
+  example: []
+  syntax:
+    content: public TimeSpan KeepAlivePeriod { get; set; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Property KeepAlivePeriod As TimeSpan
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+  id: MaximumPacketSize
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: MaximumPacketSize
+  nameWithType: MqttClientOptions.MaximumPacketSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MaximumPacketSize
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 184
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the maximum packet size.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public uint MaximumPacketSize { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property MaximumPacketSize As UInteger
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+  id: ProtocolVersion
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ProtocolVersion
+  nameWithType: MqttClientOptions.ProtocolVersion
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ProtocolVersion
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 186
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttProtocolVersion ProtocolVersion { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+    content.vb: Public Property ProtocolVersion As MqttProtocolVersion
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+  id: ReceiveMaximum
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ReceiveMaximum
+  nameWithType: MqttClientOptions.ReceiveMaximum
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReceiveMaximum
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 193
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the receive maximum.
+
+    This gives the maximum length of the receive messages.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public ushort ReceiveMaximum { get; set; }
+    parameters: []
+    return:
+      type: System.UInt16
+    content.vb: Public Property ReceiveMaximum As UShort
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+  id: RequestProblemInformation
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: RequestProblemInformation
+  nameWithType: MqttClientOptions.RequestProblemInformation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RequestProblemInformation
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 199
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the request problem information.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public bool RequestProblemInformation { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RequestProblemInformation As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+  id: RequestResponseInformation
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: RequestResponseInformation
+  nameWithType: MqttClientOptions.RequestResponseInformation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RequestResponseInformation
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 205
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the request response information.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public bool RequestResponseInformation { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RequestResponseInformation As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+  id: SessionExpiryInterval
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: SessionExpiryInterval
+  nameWithType: MqttClientOptions.SessionExpiryInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SessionExpiryInterval
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 212
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the session expiry interval.
+
+    The time after a session expires when it's not actively used.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public uint SessionExpiryInterval { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property SessionExpiryInterval As UInteger
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  id: ThrowOnNonSuccessfulConnectResponse
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ThrowOnNonSuccessfulConnectResponse
+  nameWithType: MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ThrowOnNonSuccessfulConnectResponse
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 217
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: Gets or sets whether an exception should be thrown when the server has sent a non success ACK packet.
+  example: []
+  syntax:
+    content: public bool ThrowOnNonSuccessfulConnectResponse { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ThrowOnNonSuccessfulConnectResponse As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+  id: Timeout
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: Timeout
+  nameWithType: MqttClientOptions.Timeout
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Timeout
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 223
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the timeout which will be applied at socket level and internal operations.
+
+    The default value is the same as for sockets in .NET in general.
+  example: []
+  syntax:
+    content: public TimeSpan Timeout { get; set; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Property Timeout As TimeSpan
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+  id: TopicAliasMaximum
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: TopicAliasMaximum
+  nameWithType: MqttClientOptions.TopicAliasMaximum
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicAliasMaximum
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 230
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the topic alias maximum.
+
+    This gives the maximum length of the topic alias.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public ushort TopicAliasMaximum { get; set; }
+    parameters: []
+    return:
+      type: System.UInt16
+    content.vb: Public Property TopicAliasMaximum As UShort
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+  id: TryPrivate
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: TryPrivate
+  nameWithType: MqttClientOptions.TryPrivate
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TryPrivate
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 242
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    If set to true, the bridge will attempt to indicate to the remote broker that it is a bridge not an ordinary
+
+    client.
+
+    If successful, this means that loop detection will be more effective and that retained messages will be propagated
+
+    correctly.
+
+    <remarks>
+        Not all brokers support this feature so it may be necessary to set it to false if your bridge does not
+        connect properly.
+    </remarks>
+  example: []
+  syntax:
+    content: public bool TryPrivate { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property TryPrivate As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+  id: UserProperties
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: UserProperties
+  nameWithType: MqttClientOptions.UserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UserProperties
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 253
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the user properties.
+
+    In MQTT 5, user properties are basic UTF-8 string key-value pairs that you can append to almost every type of MQTT
+
+    packet.
+
+    As long as you don’t exceed the maximum message size, you can use an unlimited number of user properties to add
+
+    metadata to MQTT messages and pass information between publisher, broker, and subscriber.
+
+    The feature is very similar to the HTTP header concept.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public List<MqttUserProperty> UserProperties { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+    content.vb: Public Property UserProperties As List(Of MqttUserProperty)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+  id: ValidateFeatures
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: ValidateFeatures
+  nameWithType: MqttClientOptions.ValidateFeatures
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ValidateFeatures
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 262
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    When this feature is enabled the client will check if used properties are supported in the selected protocol
+
+    version.
+
+    This feature can be validated if an application message is generated one time but sent via different protocol
+
+    versions.
+
+    Default values are applied if the validation is off and features are not supported.
+  example: []
+  syntax:
+    content: public bool ValidateFeatures { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ValidateFeatures As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+  id: WillContentType
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillContentType
+  nameWithType: MqttClientOptions.WillContentType
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillContentType
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 268
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the content type of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public string? WillContentType { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property WillContentType As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+  id: WillCorrelationData
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillCorrelationData
+  nameWithType: MqttClientOptions.WillCorrelationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillCorrelationData
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 274
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the correlation data of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public byte[]? WillCorrelationData { get; set; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public Property WillCorrelationData As Byte()
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+  id: WillDelayInterval
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillDelayInterval
+  nameWithType: MqttClientOptions.WillDelayInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillDelayInterval
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 281
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the will delay interval.
+
+    This is the time between the client disconnect and the time the will message will be sent.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public uint WillDelayInterval { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property WillDelayInterval As UInteger
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+  id: WillMessageExpiryInterval
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillMessageExpiryInterval
+  nameWithType: MqttClientOptions.WillMessageExpiryInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillMessageExpiryInterval
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 287
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the message expiry interval of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public uint WillMessageExpiryInterval { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property WillMessageExpiryInterval As UInteger
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+  id: WillPayload
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillPayload
+  nameWithType: MqttClientOptions.WillPayload
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillPayload
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 292
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: Gets or sets the payload of the will message.
+  example: []
+  syntax:
+    content: public byte[]? WillPayload { get; set; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public Property WillPayload As Byte()
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+  id: WillPayloadFormatIndicator
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillPayloadFormatIndicator
+  nameWithType: MqttClientOptions.WillPayloadFormatIndicator
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillPayloadFormatIndicator
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 298
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the payload format indicator of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public MqttPayloadFormatIndicator WillPayloadFormatIndicator { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator
+    content.vb: Public Property WillPayloadFormatIndicator As MqttPayloadFormatIndicator
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+  id: WillQualityOfServiceLevel
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillQualityOfServiceLevel
+  nameWithType: MqttClientOptions.WillQualityOfServiceLevel
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillQualityOfServiceLevel
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 303
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: Gets or sets the QoS level of the will message.
+  example: []
+  syntax:
+    content: public MqttQualityOfServiceLevel WillQualityOfServiceLevel { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel
+    content.vb: Public Property WillQualityOfServiceLevel As MqttQualityOfServiceLevel
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+  id: WillResponseTopic
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillResponseTopic
+  nameWithType: MqttClientOptions.WillResponseTopic
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillResponseTopic
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 309
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the response topic of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public string? WillResponseTopic { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property WillResponseTopic As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+  id: WillRetain
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillRetain
+  nameWithType: MqttClientOptions.WillRetain
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillRetain
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 314
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: Gets or sets the retain flag of the will message.
+  example: []
+  syntax:
+    content: public bool WillRetain { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property WillRetain As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+  id: WillTopic
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillTopic
+  nameWithType: MqttClientOptions.WillTopic
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillTopic
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 319
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: Gets or sets the topic of the will message.
+  example: []
+  syntax:
+    content: public string? WillTopic { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property WillTopic As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+  id: WillUserProperties
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WillUserProperties
+  nameWithType: MqttClientOptions.WillUserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WillUserProperties
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 325
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the user properties of the will message.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public List<MqttUserProperty> WillUserProperties { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+    content.vb: Public Property WillUserProperties As List(Of MqttUserProperty)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+  id: WriterBufferSize
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WriterBufferSize
+  nameWithType: MqttClientOptions.WriterBufferSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WriterBufferSize
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 332
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the default and initial size of the packet write buffer.
+
+    It is recommended to set this to a value close to the usual expected packet size * 1.5.
+
+    Do not change this value when no memory issues are experienced.
+  example: []
+  syntax:
+    content: public int WriterBufferSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property WriterBufferSize As Integer
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+  id: WriterBufferSizeMax
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: WriterBufferSizeMax
+  nameWithType: MqttClientOptions.WriterBufferSizeMax
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WriterBufferSizeMax
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 339
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the maximum size of the buffer writer. The writer will reduce its internal buffer
+
+    to this value after serializing a packet.
+
+    Do not change this value when no memory issues are experienced.
+  example: []
+  syntax:
+    content: public int WriterBufferSizeMax { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property WriterBufferSizeMax As Integer
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(System.String,System.String)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(System.String,System.String)
+  id: AddUserProperty(System.String,System.String)
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  langs:
+  - csharp
+  - vb
+  name: AddUserProperty(string, string)
+  nameWithType: MqttClientOptions.AddUserProperty(string, string)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(string, string)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AddUserProperty
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs
+    startLine: 341
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public void AddUserProperty(string name, string value)
+    parameters:
+    - id: name
+      type: System.String
+    - id: value
+      type: System.String
+    content.vb: Public Sub AddUserProperty(name As String, value As String)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty*
+  nameWithType.vb: MqttClientOptions.AddUserProperty(String, String)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(String, String)
+  name.vb: AddUserProperty(String, String)
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_
+  name: MqttClientOptions
+  nameWithType: MqttClientOptions.MqttClientOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MqttClientOptions
+  nameWithType.vb: MqttClientOptions.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.New
+  name.vb: New
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html
+  name: MqttClientTcpOptions
+  nameWithType: MqttClientTcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions.html
+  name: MqttClientWebSocketOptions
+  nameWithType: MqttClientWebSocketOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions
+- uid: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+  commentId: T:Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+  parent: Azure.Iot.Operations.Protocol.Connection
+  href: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html
+  name: MqttConnectionSettings
+  nameWithType: MqttConnectionSettings
+  fullName: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+- uid: Azure.Iot.Operations.Protocol.Connection
+  commentId: N:Azure.Iot.Operations.Protocol.Connection
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Connection
+  nameWithType: Azure.Iot.Operations.Protocol.Connection
+  fullName: Azure.Iot.Operations.Protocol.Connection
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Connection
+    name: Connection
+    href: Azure.Iot.Operations.Protocol.Connection.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Connection
+    name: Connection
+    href: Azure.Iot.Operations.Protocol.Connection.html
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AllowPacketFragmentation
+  name: AllowPacketFragmentation
+  nameWithType: MqttClientOptions.AllowPacketFragmentation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationData
+  name: AuthenticationData
+  nameWithType: MqttClientOptions.AuthenticationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationMethod
+  name: AuthenticationMethod
+  nameWithType: MqttClientOptions.AuthenticationMethod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ChannelOptions
+  name: ChannelOptions
+  nameWithType: MqttClientOptions.ChannelOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions
+- uid: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.html
+  name: IMqttClientChannelOptions
+  nameWithType: IMqttClientChannelOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_CleanSession
+  name: CleanSession
+  nameWithType: MqttClientOptions.CleanSession
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ClientId
+  name: ClientId
+  nameWithType: MqttClientOptions.ClientId
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Credentials
+  name: Credentials
+  nameWithType: MqttClientOptions.Credentials
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials
+- uid: Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider
+  commentId: T:Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider.html
+  name: IMqttClientCredentialsProvider
+  nameWithType: IMqttClientCredentialsProvider
+  fullName: Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ExtendedAuthenticationExchangeHandler
+  name: ExtendedAuthenticationExchangeHandler
+  nameWithType: MqttClientOptions.ExtendedAuthenticationExchangeHandler
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler
+- uid: Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler
+  commentId: T:Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler.html
+  name: IMqttExtendedAuthenticationExchangeHandler
+  nameWithType: IMqttExtendedAuthenticationExchangeHandler
+  fullName: Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_KeepAlivePeriod
+  name: KeepAlivePeriod
+  nameWithType: MqttClientOptions.KeepAlivePeriod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_MaximumPacketSize
+  name: MaximumPacketSize
+  nameWithType: MqttClientOptions.MaximumPacketSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ProtocolVersion
+  name: ProtocolVersion
+  nameWithType: MqttClientOptions.ProtocolVersion
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion
+- uid: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion.html
+  name: MqttProtocolVersion
+  nameWithType: MqttProtocolVersion
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ReceiveMaximum
+  name: ReceiveMaximum
+  nameWithType: MqttClientOptions.ReceiveMaximum
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum
+- uid: System.UInt16
+  commentId: T:System.UInt16
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint16
+  name: ushort
+  nameWithType: ushort
+  fullName: ushort
+  nameWithType.vb: UShort
+  fullName.vb: UShort
+  name.vb: UShort
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestProblemInformation
+  name: RequestProblemInformation
+  nameWithType: MqttClientOptions.RequestProblemInformation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestResponseInformation
+  name: RequestResponseInformation
+  nameWithType: MqttClientOptions.RequestResponseInformation
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_SessionExpiryInterval
+  name: SessionExpiryInterval
+  nameWithType: MqttClientOptions.SessionExpiryInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ThrowOnNonSuccessfulConnectResponse
+  name: ThrowOnNonSuccessfulConnectResponse
+  nameWithType: MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Timeout
+  name: Timeout
+  nameWithType: MqttClientOptions.Timeout
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TopicAliasMaximum
+  name: TopicAliasMaximum
+  nameWithType: MqttClientOptions.TopicAliasMaximum
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TryPrivate
+  name: TryPrivate
+  nameWithType: MqttClientOptions.TryPrivate
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_UserProperties
+  name: UserProperties
+  nameWithType: MqttClientOptions.UserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties
+- uid: System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+  commentId: T:System.Collections.Generic.List{Azure.Iot.Operations.Protocol.Models.MqttUserProperty}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<MqttUserProperty>
+  nameWithType: List<MqttUserProperty>
+  fullName: System.Collections.Generic.List<Azure.Iot.Operations.Protocol.Models.MqttUserProperty>
+  nameWithType.vb: List(Of MqttUserProperty)
+  fullName.vb: System.Collections.Generic.List(Of Azure.Iot.Operations.Protocol.Models.MqttUserProperty)
+  name.vb: List(Of MqttUserProperty)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttUserProperty
+    name: MqttUserProperty
+    href: Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttUserProperty
+    name: MqttUserProperty
+    href: Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ValidateFeatures
+  name: ValidateFeatures
+  nameWithType: MqttClientOptions.ValidateFeatures
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillContentType
+  name: WillContentType
+  nameWithType: MqttClientOptions.WillContentType
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillCorrelationData
+  name: WillCorrelationData
+  nameWithType: MqttClientOptions.WillCorrelationData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillDelayInterval
+  name: WillDelayInterval
+  nameWithType: MqttClientOptions.WillDelayInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillMessageExpiryInterval
+  name: WillMessageExpiryInterval
+  nameWithType: MqttClientOptions.WillMessageExpiryInterval
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayload
+  name: WillPayload
+  nameWithType: MqttClientOptions.WillPayload
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayloadFormatIndicator
+  name: WillPayloadFormatIndicator
+  nameWithType: MqttClientOptions.WillPayloadFormatIndicator
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator
+- uid: Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator.html
+  name: MqttPayloadFormatIndicator
+  nameWithType: MqttPayloadFormatIndicator
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillQualityOfServiceLevel
+  name: WillQualityOfServiceLevel
+  nameWithType: MqttClientOptions.WillQualityOfServiceLevel
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel
+- uid: Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel.html
+  name: MqttQualityOfServiceLevel
+  nameWithType: MqttQualityOfServiceLevel
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillResponseTopic
+  name: WillResponseTopic
+  nameWithType: MqttClientOptions.WillResponseTopic
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillRetain
+  name: WillRetain
+  nameWithType: MqttClientOptions.WillRetain
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillTopic
+  name: WillTopic
+  nameWithType: MqttClientOptions.WillTopic
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillUserProperties
+  name: WillUserProperties
+  nameWithType: MqttClientOptions.WillUserProperties
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSize
+  name: WriterBufferSize
+  nameWithType: MqttClientOptions.WriterBufferSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSizeMax
+  name: WriterBufferSizeMax
+  nameWithType: MqttClientOptions.WriterBufferSizeMax
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AddUserProperty_System_String_System_String_
+  name: AddUserProperty
+  nameWithType: MqttClientOptions.AddUserProperty
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty

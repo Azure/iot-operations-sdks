@@ -1,0 +1,933 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  id: MqttClientTcpOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor(System.String,System.Int32)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+  - Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientTcpOptions
+  nameWithType: MqttClientTcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttClientTcpOptions
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: 'public sealed class MqttClientTcpOptions : IMqttClientChannelOptions'
+    content.vb: Public NotInheritable Class MqttClientTcpOptions Implements IMqttClientChannelOptions
+  inheritance:
+  - System.Object
+  implements:
+  - Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor(System.String,System.Int32)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor(System.String,System.Int32)
+  id: '#ctor(System.String,System.Int32)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientTcpOptions(string, int)
+  nameWithType: MqttClientTcpOptions.MqttClientTcpOptions(string, int)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.MqttClientTcpOptions(string, int)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientTcpOptions(string host, int port)
+    parameters:
+    - id: host
+      type: System.String
+    - id: port
+      type: System.Int32
+    content.vb: Public Sub New(host As String, port As Integer)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor*
+  nameWithType.vb: MqttClientTcpOptions.New(String, Integer)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.New(String, Integer)
+  name.vb: New(String, Integer)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+  id: AddressFamily
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: AddressFamily
+  nameWithType: MqttClientTcpOptions.AddressFamily
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AddressFamily
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public AddressFamily AddressFamily { get; set; }
+    parameters: []
+    return:
+      type: System.Net.Sockets.AddressFamily
+    content.vb: Public Property AddressFamily As AddressFamily
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+  id: BufferSize
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: BufferSize
+  nameWithType: MqttClientTcpOptions.BufferSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: BufferSize
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 15
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public int BufferSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property BufferSize As Integer
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+  id: DualMode
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: DualMode
+  nameWithType: MqttClientTcpOptions.DualMode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DualMode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 22
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets whether the underlying socket should run in dual mode.
+
+    Leaving this _null_ will avoid setting this value at socket level.
+
+    Setting this a value other than _null_ will throw an exception when only IPv4 is supported on the machine.
+  example: []
+  syntax:
+    content: public bool? DualMode { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property DualMode As Boolean?
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+  id: LingerState
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: LingerState
+  nameWithType: MqttClientTcpOptions.LingerState
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: LingerState
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 24
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public LingerOption LingerState { get; set; }
+    parameters: []
+    return:
+      type: System.Net.Sockets.LingerOption
+    content.vb: Public Property LingerState As LingerOption
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+  id: LocalEndpoint
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: LocalEndpoint
+  nameWithType: MqttClientTcpOptions.LocalEndpoint
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: LocalEndpoint
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 30
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets the local endpoint (network card) which is used by the client.
+
+    Set it to _null_ to let the OS select the network card.
+  example: []
+  syntax:
+    content: public EndPoint? LocalEndpoint { get; set; }
+    parameters: []
+    return:
+      type: System.Net.EndPoint
+    content.vb: Public Property LocalEndpoint As EndPoint
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+  id: NoDelay
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: NoDelay
+  nameWithType: MqttClientTcpOptions.NoDelay
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NoDelay
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 38
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Enables or disables the Nagle algorithm for the socket.
+
+    This is only supported for TCP.
+
+    For other protocol types the value is ignored.
+
+    Default: true
+  example: []
+  syntax:
+    content: public bool NoDelay { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property NoDelay As Boolean
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+  id: ProtocolType
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: ProtocolType
+  nameWithType: MqttClientTcpOptions.ProtocolType
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ProtocolType
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 44
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    The MQTT transport is usually TCP but when using other endpoint types like
+
+    unix sockets it must be changed (IP for unix sockets).
+  example: []
+  syntax:
+    content: public ProtocolType ProtocolType { get; set; }
+    parameters: []
+    return:
+      type: System.Net.Sockets.ProtocolType
+    content.vb: Public Property ProtocolType As ProtocolType
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+  id: Host
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: Host
+  nameWithType: MqttClientTcpOptions.Host
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Host
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 46
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public string Host { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Host As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+  id: Port
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: Port
+  nameWithType: MqttClientTcpOptions.Port
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Port
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 48
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public int Port { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Port As Integer
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+  id: TlsOptions
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  langs:
+  - csharp
+  - vb
+  name: TlsOptions
+  nameWithType: MqttClientTcpOptions.TlsOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TlsOptions
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientTcpOptions.cs
+    startLine: 50
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  example: []
+  syntax:
+    content: public MqttClientTlsOptions TlsOptions { get; set; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions
+    content.vb: Public Property TlsOptions As MqttClientTlsOptions
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions*
+  implements:
+  - Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.TlsOptions
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.html
+  name: IMqttClientChannelOptions
+  nameWithType: IMqttClientChannelOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.#ctor
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions__ctor_System_String_System_Int32_
+  name: MqttClientTcpOptions
+  nameWithType: MqttClientTcpOptions.MqttClientTcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.MqttClientTcpOptions
+  nameWithType.vb: MqttClientTcpOptions.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_AddressFamily
+  name: AddressFamily
+  nameWithType: MqttClientTcpOptions.AddressFamily
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.AddressFamily
+- uid: System.Net.Sockets.AddressFamily
+  commentId: T:System.Net.Sockets.AddressFamily
+  parent: System.Net.Sockets
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.sockets.addressfamily
+  name: AddressFamily
+  nameWithType: AddressFamily
+  fullName: System.Net.Sockets.AddressFamily
+- uid: System.Net.Sockets
+  commentId: N:System.Net.Sockets
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Sockets
+  nameWithType: System.Net.Sockets
+  fullName: System.Net.Sockets
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Sockets
+    name: Sockets
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.sockets
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Sockets
+    name: Sockets
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.sockets
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_BufferSize
+  name: BufferSize
+  nameWithType: MqttClientTcpOptions.BufferSize
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.BufferSize
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_DualMode
+  name: DualMode
+  nameWithType: MqttClientTcpOptions.DualMode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.DualMode
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool?
+  nameWithType: bool?
+  fullName: bool?
+  nameWithType.vb: Boolean?
+  fullName.vb: Boolean?
+  name.vb: Boolean?
+  spec.csharp:
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '?'
+  spec.vb:
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_LingerState
+  name: LingerState
+  nameWithType: MqttClientTcpOptions.LingerState
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LingerState
+- uid: System.Net.Sockets.LingerOption
+  commentId: T:System.Net.Sockets.LingerOption
+  parent: System.Net.Sockets
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.sockets.lingeroption
+  name: LingerOption
+  nameWithType: LingerOption
+  fullName: System.Net.Sockets.LingerOption
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_LocalEndpoint
+  name: LocalEndpoint
+  nameWithType: MqttClientTcpOptions.LocalEndpoint
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.LocalEndpoint
+- uid: System.Net.EndPoint
+  commentId: T:System.Net.EndPoint
+  parent: System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.endpoint
+  name: EndPoint
+  nameWithType: EndPoint
+  fullName: System.Net.EndPoint
+- uid: System.Net
+  commentId: N:System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net
+  nameWithType: System.Net
+  fullName: System.Net
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_NoDelay
+  name: NoDelay
+  nameWithType: MqttClientTcpOptions.NoDelay
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.NoDelay
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_ProtocolType
+  name: ProtocolType
+  nameWithType: MqttClientTcpOptions.ProtocolType
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.ProtocolType
+- uid: System.Net.Sockets.ProtocolType
+  commentId: T:System.Net.Sockets.ProtocolType
+  parent: System.Net.Sockets
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.sockets.protocoltype
+  name: ProtocolType
+  nameWithType: ProtocolType
+  fullName: System.Net.Sockets.ProtocolType
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_Host
+  name: Host
+  nameWithType: MqttClientTcpOptions.Host
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Host
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_Port
+  name: Port
+  nameWithType: MqttClientTcpOptions.Port
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.Port
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html#Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_TlsOptions
+  name: TlsOptions
+  nameWithType: MqttClientTcpOptions.TlsOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.TlsOptions
+- uid: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.TlsOptions
+  commentId: P:Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.TlsOptions
+  parent: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions
+  href: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.html#Azure_Iot_Operations_Protocol_Models_IMqttClientChannelOptions_TlsOptions
+  name: TlsOptions
+  nameWithType: IMqttClientChannelOptions.TlsOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.TlsOptions
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions.html
+  name: MqttClientTlsOptions
+  nameWithType: MqttClientTlsOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTlsOptions

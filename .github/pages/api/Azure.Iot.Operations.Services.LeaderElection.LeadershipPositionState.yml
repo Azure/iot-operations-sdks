@@ -1,0 +1,142 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  id: LeadershipPositionState
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  children:
+  - Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.LeaderElected
+  - Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.NoLeader
+  langs:
+  - csharp
+  - vb
+  name: LeadershipPositionState
+  nameWithType: LeadershipPositionState
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  type: Enum
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: LeadershipPositionState
+    path: ../../dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Services
+  namespace: Azure.Iot.Operations.Services.LeaderElection
+  summary: The state of the leadership position
+  example: []
+  syntax:
+    content: public enum LeadershipPositionState
+    content.vb: Public Enum LeadershipPositionState
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.LeaderElected
+  commentId: F:Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.LeaderElected
+  id: LeaderElected
+  parent: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  langs:
+  - csharp
+  - vb
+  name: LeaderElected
+  nameWithType: LeadershipPositionState.LeaderElected
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.LeaderElected
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: LeaderElected
+    path: ../../dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+    startLine: 10
+  assemblies:
+  - Azure.Iot.Operations.Services
+  namespace: Azure.Iot.Operations.Services.LeaderElection
+  summary: A leader was just elected.
+  example: []
+  syntax:
+    content: LeaderElected = 0
+    return:
+      type: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.NoLeader
+  commentId: F:Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.NoLeader
+  id: NoLeader
+  parent: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  langs:
+  - csharp
+  - vb
+  name: NoLeader
+  nameWithType: LeadershipPositionState.NoLeader
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.NoLeader
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NoLeader
+    path: ../../dotnet/src/Azure.Iot.Operations.Services/LeaderElection/LeadershipPositionState.cs
+    startLine: 15
+  assemblies:
+  - Azure.Iot.Operations.Services
+  namespace: Azure.Iot.Operations.Services.LeaderElection
+  summary: A leader just resigned or their term just ended. A new leader can be elected at this time.
+  example: []
+  syntax:
+    content: NoLeader = 1
+    return:
+      type: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+references:
+- uid: Azure.Iot.Operations.Services.LeaderElection
+  commentId: N:Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.html
+  name: Azure.Iot.Operations.Services.LeaderElection
+  nameWithType: Azure.Iot.Operations.Services.LeaderElection
+  fullName: Azure.Iot.Operations.Services.LeaderElection
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services
+    name: Services
+    href: Azure.Iot.Operations.Services.html
+  - name: .
+  - uid: Azure.Iot.Operations.Services.LeaderElection
+    name: LeaderElection
+    href: Azure.Iot.Operations.Services.LeaderElection.html
+- uid: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  commentId: T:Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState
+  parent: Azure.Iot.Operations.Services.LeaderElection
+  href: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState.html
+  name: LeadershipPositionState
+  nameWithType: LeadershipPositionState
+  fullName: Azure.Iot.Operations.Services.LeaderElection.LeadershipPositionState

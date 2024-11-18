@@ -1,0 +1,1452 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MqttClientOptions | Azure IoT Operations .NET SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MqttClientOptions | Azure IoT Operations .NET SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ryanwinterms/iot-operations-sdks/new/docfx/apiSpec/new?filename=Azure_Iot_Operations_Protocol_Models_MqttClientOptions.md&amp;value=---%0Auid%3A%20Azure.Iot.Operations.Protocol.Models.MqttClientOptions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="https://github.com/azure/iot-operations-sdks">
+            <img id="logo" class="svg" src="../logo.svg" alt="Azure IoT Operations .NET SDK">
+            Azure IoT Operations .NET SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions">
+
+
+
+  <h1 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions" class="text-break">
+Class MqttClientOptions  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Azure.html">Azure</a>.<a class="xref" href="Azure.Iot.html">Iot</a>.<a class="xref" href="Azure.Iot.Operations.html">Operations</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.html">Protocol</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.Models.html">Models</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Azure.Iot.Operations.Protocol.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class MqttClientOptions</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MqttClientOptions</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings)">
+  MqttClientOptions(MqttConnectionSettings)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttClientOptions(MqttConnectionSettings cs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>cs</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html">MqttConnectionSettings</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)">
+  MqttClientOptions(MqttClientTcpOptions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttClientOptions(MqttClientTcpOptions tcpOptions)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tcpOptions</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html">MqttClientTcpOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions__ctor_Azure_Iot_Operations_Protocol_Models_MqttClientWebSocketOptions_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.#ctor(Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions)">
+  MqttClientOptions(MqttClientWebSocketOptions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttClientOptions(MqttClientWebSocketOptions websocketOptions)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>websocketOptions</code> <a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttClientWebSocketOptions.html">MqttClientWebSocketOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AllowPacketFragmentation_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AllowPacketFragmentation" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AllowPacketFragmentation">
+  AllowPacketFragmentation
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Usually the MQTT packets can be send partially. This is done by using multiple TCP packets
+or WebSocket frames etc. Unfortunately not all brokers (like Amazon Web Services (AWS)) do support this feature and
+will close the connection when receiving such packets. If such a service is used this flag must
+be set to <em>false</em>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AllowPacketFragmentation { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationData_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationData" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationData">
+  AuthenticationData
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L139"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the authentication data.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[]? AuthenticationData { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationMethod_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AuthenticationMethod" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AuthenticationMethod">
+  AuthenticationMethod
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L145"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the authentication method.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? AuthenticationMethod { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ChannelOptions_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ChannelOptions" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ChannelOptions">
+  ChannelOptions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IMqttClientChannelOptions ChannelOptions { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.IMqttClientChannelOptions.html">IMqttClientChannelOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_CleanSession_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_CleanSession" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.CleanSession">
+  CleanSession
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets a value indicating whether clean sessions are used or not.
+When a client connects to a broker it can connect using either a non persistent connection (clean session) or a
+persistent connection.
+With a non persistent connection the broker doesn't store any subscription information or undelivered messages for
+the client.
+This mode is ideal when the client only publishes messages.
+It can also connect as a durable client using a persistent connection.
+In this mode, the broker will store subscription information, and undelivered messages for the client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CleanSession { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ClientId_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ClientId" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ClientId">
+  ClientId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the client identifier.
+Hint: This identifier needs to be unique over all used clients / devices on the broker to avoid connection issues.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ClientId { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Credentials_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Credentials" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Credentials">
+  Credentials
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IMqttClientCredentialsProvider? Credentials { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.IMqttClientCredentialsProvider.html">IMqttClientCredentialsProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ExtendedAuthenticationExchangeHandler_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ExtendedAuthenticationExchangeHandler" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ExtendedAuthenticationExchangeHandler">
+  ExtendedAuthenticationExchangeHandler
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IMqttExtendedAuthenticationExchangeHandler? ExtendedAuthenticationExchangeHandler { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.IMqttExtendedAuthenticationExchangeHandler.html">IMqttExtendedAuthenticationExchangeHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_KeepAlivePeriod_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_KeepAlivePeriod" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.KeepAlivePeriod">
+  KeepAlivePeriod
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L179"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the keep alive period.
+The connection is normally left open by the client so that is can send and receive data at any time.
+If no data flows over an open connection for a certain time period then the client will generate a PINGREQ and
+expect to receive a PINGRESP from the broker.
+This message exchange confirms that the connection is open and working.
+This period is known as the keep alive period.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan KeepAlivePeriod { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_MaximumPacketSize_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_MaximumPacketSize" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.MaximumPacketSize">
+  MaximumPacketSize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L185"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the maximum packet size.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint MaximumPacketSize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ProtocolVersion_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ProtocolVersion" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ProtocolVersion">
+  ProtocolVersion
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L187"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttProtocolVersion ProtocolVersion { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion.html">MqttProtocolVersion</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ReceiveMaximum_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ReceiveMaximum" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ReceiveMaximum">
+  ReceiveMaximum
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L194"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the receive maximum.
+This gives the maximum length of the receive messages.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort ReceiveMaximum { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint16">ushort</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestProblemInformation_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestProblemInformation" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestProblemInformation">
+  RequestProblemInformation
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L200"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the request problem information.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RequestProblemInformation { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestResponseInformation_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_RequestResponseInformation" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.RequestResponseInformation">
+  RequestResponseInformation
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L206"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the request response information.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RequestResponseInformation { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_SessionExpiryInterval_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_SessionExpiryInterval" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.SessionExpiryInterval">
+  SessionExpiryInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L213"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the session expiry interval.
+The time after a session expires when it's not actively used.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint SessionExpiryInterval { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ThrowOnNonSuccessfulConnectResponse_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ThrowOnNonSuccessfulConnectResponse" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ThrowOnNonSuccessfulConnectResponse">
+  ThrowOnNonSuccessfulConnectResponse
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L218"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets whether an exception should be thrown when the server has sent a non success ACK packet.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ThrowOnNonSuccessfulConnectResponse { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Timeout_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_Timeout" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.Timeout">
+  Timeout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L224"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the timeout which will be applied at socket level and internal operations.
+The default value is the same as for sockets in .NET in general.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan Timeout { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TopicAliasMaximum_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TopicAliasMaximum" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TopicAliasMaximum">
+  TopicAliasMaximum
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the topic alias maximum.
+This gives the maximum length of the topic alias.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort TopicAliasMaximum { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint16">ushort</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TryPrivate_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_TryPrivate" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.TryPrivate">
+  TryPrivate
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>If set to true, the bridge will attempt to indicate to the remote broker that it is a bridge not an ordinary
+client.
+If successful, this means that loop detection will be more effective and that retained messages will be propagated
+correctly.
+<remarks>
+Not all brokers support this feature so it may be necessary to set it to false if your bridge does not
+connect properly.
+</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryPrivate { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_UserProperties_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_UserProperties" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.UserProperties">
+  UserProperties
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L254"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the user properties.
+In MQTT 5, user properties are basic UTF-8 string key-value pairs that you can append to almost every type of MQTT
+packet.
+As long as you don’t exceed the maximum message size, you can use an unlimited number of user properties to add
+metadata to MQTT messages and pass information between publisher, broker, and subscriber.
+The feature is very similar to the HTTP header concept.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MqttUserProperty&gt; UserProperties { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html">MqttUserProperty</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ValidateFeatures_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_ValidateFeatures" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.ValidateFeatures">
+  ValidateFeatures
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L263"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>When this feature is enabled the client will check if used properties are supported in the selected protocol
+version.
+This feature can be validated if an application message is generated one time but sent via different protocol
+versions.
+Default values are applied if the validation is off and features are not supported.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ValidateFeatures { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillContentType_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillContentType" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillContentType">
+  WillContentType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L269"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the content type of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? WillContentType { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillCorrelationData_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillCorrelationData" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillCorrelationData">
+  WillCorrelationData
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L275"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the correlation data of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[]? WillCorrelationData { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillDelayInterval_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillDelayInterval" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillDelayInterval">
+  WillDelayInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L282"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the will delay interval.
+This is the time between the client disconnect and the time the will message will be sent.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint WillDelayInterval { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillMessageExpiryInterval_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillMessageExpiryInterval" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillMessageExpiryInterval">
+  WillMessageExpiryInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L288"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the message expiry interval of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint WillMessageExpiryInterval { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayload_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayload" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayload">
+  WillPayload
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L293"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the payload of the will message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[]? WillPayload { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayloadFormatIndicator_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillPayloadFormatIndicator" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillPayloadFormatIndicator">
+  WillPayloadFormatIndicator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L299"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the payload format indicator of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttPayloadFormatIndicator WillPayloadFormatIndicator { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttPayloadFormatIndicator.html">MqttPayloadFormatIndicator</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillQualityOfServiceLevel_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillQualityOfServiceLevel" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillQualityOfServiceLevel">
+  WillQualityOfServiceLevel
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L304"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the QoS level of the will message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MqttQualityOfServiceLevel WillQualityOfServiceLevel { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttQualityOfServiceLevel.html">MqttQualityOfServiceLevel</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillResponseTopic_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillResponseTopic" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillResponseTopic">
+  WillResponseTopic
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L310"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the response topic of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? WillResponseTopic { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillRetain_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillRetain" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillRetain">
+  WillRetain
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L315"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the retain flag of the will message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool WillRetain { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillTopic_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillTopic" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillTopic">
+  WillTopic
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L320"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the topic of the will message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? WillTopic { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillUserProperties_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WillUserProperties" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WillUserProperties">
+  WillUserProperties
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L326"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the user properties of the will message.
+<remarks>MQTT 5.0.0+ feature.</remarks></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MqttUserProperty&gt; WillUserProperties { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.Models.MqttUserProperty.html">MqttUserProperty</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSize_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSize" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSize">
+  WriterBufferSize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L333"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the default and initial size of the packet write buffer.
+It is recommended to set this to a value close to the usual expected packet size * 1.5.
+Do not change this value when no memory issues are experienced.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int WriterBufferSize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSizeMax_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_WriterBufferSizeMax" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.WriterBufferSizeMax">
+  WriterBufferSizeMax
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L340"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the maximum size of the buffer writer. The writer will reduce its internal buffer
+to this value after serializing a packet.
+Do not change this value when no memory issues are experienced.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int WriterBufferSizeMax { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AddUserProperty_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_Models_MqttClientOptions_AddUserProperty_System_String_System_String_" data-uid="Azure.Iot.Operations.Protocol.Models.MqttClientOptions.AddUserProperty(System.String,System.String)">
+  AddUserProperty(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L342"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUserProperty(string name, string value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientOptions.cs/#L12" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          False<span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

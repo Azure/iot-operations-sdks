@@ -1,0 +1,892 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  id: MqttClientDisconnectReason
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.AdministrativeAction
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.BadAuthenticationMethod
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ConnectionRateExceeded
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.DisconnectWithWillMessage
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ImplementationSpecificError
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.KeepAliveTimeout
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MalformedPacket
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MaximumConnectTime
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MessageRateTooHigh
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NormalDisconnection
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NotAuthorized
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PacketTooLarge
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PayloadFormatInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ProtocolError
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QosNotSupported
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QuotaExceeded
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ReceiveMaximumExceeded
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.RetainNotSupported
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerBusy
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerMoved
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerShuttingDown
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SessionTakenOver
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SharedSubscriptionsNotSupported
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SubscriptionIdentifiersNotSupported
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicAliasInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicFilterInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicNameInvalid
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UnspecifiedError
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UseAnotherServer
+  - Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.WildcardSubscriptionsNotSupported
+  langs:
+  - csharp
+  - vb
+  name: MqttClientDisconnectReason
+  nameWithType: MqttClientDisconnectReason
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  type: Enum
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttClientDisconnectReason
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 3
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public enum MqttClientDisconnectReason
+    content.vb: Public Enum MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NormalDisconnection
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NormalDisconnection
+  id: NormalDisconnection
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: NormalDisconnection
+  nameWithType: MqttClientDisconnectReason.NormalDisconnection
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NormalDisconnection
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NormalDisconnection
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: NormalDisconnection = 0
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.DisconnectWithWillMessage
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.DisconnectWithWillMessage
+  id: DisconnectWithWillMessage
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: DisconnectWithWillMessage
+  nameWithType: MqttClientDisconnectReason.DisconnectWithWillMessage
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.DisconnectWithWillMessage
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisconnectWithWillMessage
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 6
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: DisconnectWithWillMessage = 4
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UnspecifiedError
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UnspecifiedError
+  id: UnspecifiedError
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: UnspecifiedError
+  nameWithType: MqttClientDisconnectReason.UnspecifiedError
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UnspecifiedError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnspecifiedError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: UnspecifiedError = 128
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MalformedPacket
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MalformedPacket
+  id: MalformedPacket
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: MalformedPacket
+  nameWithType: MqttClientDisconnectReason.MalformedPacket
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MalformedPacket
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MalformedPacket
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 8
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: MalformedPacket = 129
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ProtocolError
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ProtocolError
+  id: ProtocolError
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ProtocolError
+  nameWithType: MqttClientDisconnectReason.ProtocolError
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ProtocolError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ProtocolError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 9
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ProtocolError = 130
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ImplementationSpecificError
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ImplementationSpecificError
+  id: ImplementationSpecificError
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ImplementationSpecificError
+  nameWithType: MqttClientDisconnectReason.ImplementationSpecificError
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ImplementationSpecificError
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ImplementationSpecificError
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 10
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ImplementationSpecificError = 131
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NotAuthorized
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NotAuthorized
+  id: NotAuthorized
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: NotAuthorized
+  nameWithType: MqttClientDisconnectReason.NotAuthorized
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.NotAuthorized
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NotAuthorized
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 11
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: NotAuthorized = 135
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerBusy
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerBusy
+  id: ServerBusy
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ServerBusy
+  nameWithType: MqttClientDisconnectReason.ServerBusy
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerBusy
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ServerBusy
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 12
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ServerBusy = 137
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerShuttingDown
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerShuttingDown
+  id: ServerShuttingDown
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ServerShuttingDown
+  nameWithType: MqttClientDisconnectReason.ServerShuttingDown
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerShuttingDown
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ServerShuttingDown
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ServerShuttingDown = 139
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.BadAuthenticationMethod
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.BadAuthenticationMethod
+  id: BadAuthenticationMethod
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: BadAuthenticationMethod
+  nameWithType: MqttClientDisconnectReason.BadAuthenticationMethod
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.BadAuthenticationMethod
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: BadAuthenticationMethod
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 14
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: BadAuthenticationMethod = 140
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.KeepAliveTimeout
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.KeepAliveTimeout
+  id: KeepAliveTimeout
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: KeepAliveTimeout
+  nameWithType: MqttClientDisconnectReason.KeepAliveTimeout
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.KeepAliveTimeout
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: KeepAliveTimeout
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 15
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: KeepAliveTimeout = 141
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SessionTakenOver
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SessionTakenOver
+  id: SessionTakenOver
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: SessionTakenOver
+  nameWithType: MqttClientDisconnectReason.SessionTakenOver
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SessionTakenOver
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SessionTakenOver
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 16
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: SessionTakenOver = 142
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicFilterInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicFilterInvalid
+  id: TopicFilterInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: TopicFilterInvalid
+  nameWithType: MqttClientDisconnectReason.TopicFilterInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicFilterInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicFilterInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 17
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: TopicFilterInvalid = 143
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicNameInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicNameInvalid
+  id: TopicNameInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: TopicNameInvalid
+  nameWithType: MqttClientDisconnectReason.TopicNameInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicNameInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicNameInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 18
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: TopicNameInvalid = 144
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ReceiveMaximumExceeded
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ReceiveMaximumExceeded
+  id: ReceiveMaximumExceeded
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ReceiveMaximumExceeded
+  nameWithType: MqttClientDisconnectReason.ReceiveMaximumExceeded
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ReceiveMaximumExceeded
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReceiveMaximumExceeded
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 19
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ReceiveMaximumExceeded = 147
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicAliasInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicAliasInvalid
+  id: TopicAliasInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: TopicAliasInvalid
+  nameWithType: MqttClientDisconnectReason.TopicAliasInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.TopicAliasInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicAliasInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 20
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: TopicAliasInvalid = 148
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PacketTooLarge
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PacketTooLarge
+  id: PacketTooLarge
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: PacketTooLarge
+  nameWithType: MqttClientDisconnectReason.PacketTooLarge
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PacketTooLarge
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PacketTooLarge
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 21
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: PacketTooLarge = 149
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MessageRateTooHigh
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MessageRateTooHigh
+  id: MessageRateTooHigh
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: MessageRateTooHigh
+  nameWithType: MqttClientDisconnectReason.MessageRateTooHigh
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MessageRateTooHigh
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MessageRateTooHigh
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 22
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: MessageRateTooHigh = 150
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QuotaExceeded
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QuotaExceeded
+  id: QuotaExceeded
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: QuotaExceeded
+  nameWithType: MqttClientDisconnectReason.QuotaExceeded
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QuotaExceeded
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: QuotaExceeded
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 23
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: QuotaExceeded = 151
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.AdministrativeAction
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.AdministrativeAction
+  id: AdministrativeAction
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: AdministrativeAction
+  nameWithType: MqttClientDisconnectReason.AdministrativeAction
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.AdministrativeAction
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AdministrativeAction
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 24
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: AdministrativeAction = 152
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PayloadFormatInvalid
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PayloadFormatInvalid
+  id: PayloadFormatInvalid
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: PayloadFormatInvalid
+  nameWithType: MqttClientDisconnectReason.PayloadFormatInvalid
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.PayloadFormatInvalid
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PayloadFormatInvalid
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 25
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: PayloadFormatInvalid = 153
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.RetainNotSupported
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.RetainNotSupported
+  id: RetainNotSupported
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: RetainNotSupported
+  nameWithType: MqttClientDisconnectReason.RetainNotSupported
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.RetainNotSupported
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RetainNotSupported
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 26
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: RetainNotSupported = 154
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QosNotSupported
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QosNotSupported
+  id: QosNotSupported
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: QosNotSupported
+  nameWithType: MqttClientDisconnectReason.QosNotSupported
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.QosNotSupported
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: QosNotSupported
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 27
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: QosNotSupported = 155
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UseAnotherServer
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UseAnotherServer
+  id: UseAnotherServer
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: UseAnotherServer
+  nameWithType: MqttClientDisconnectReason.UseAnotherServer
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.UseAnotherServer
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UseAnotherServer
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 28
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: UseAnotherServer = 156
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerMoved
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerMoved
+  id: ServerMoved
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ServerMoved
+  nameWithType: MqttClientDisconnectReason.ServerMoved
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ServerMoved
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ServerMoved
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 29
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ServerMoved = 157
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SharedSubscriptionsNotSupported
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SharedSubscriptionsNotSupported
+  id: SharedSubscriptionsNotSupported
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: SharedSubscriptionsNotSupported
+  nameWithType: MqttClientDisconnectReason.SharedSubscriptionsNotSupported
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SharedSubscriptionsNotSupported
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SharedSubscriptionsNotSupported
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 30
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: SharedSubscriptionsNotSupported = 158
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ConnectionRateExceeded
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ConnectionRateExceeded
+  id: ConnectionRateExceeded
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: ConnectionRateExceeded
+  nameWithType: MqttClientDisconnectReason.ConnectionRateExceeded
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.ConnectionRateExceeded
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ConnectionRateExceeded
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 31
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: ConnectionRateExceeded = 159
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MaximumConnectTime
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MaximumConnectTime
+  id: MaximumConnectTime
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: MaximumConnectTime
+  nameWithType: MqttClientDisconnectReason.MaximumConnectTime
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.MaximumConnectTime
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MaximumConnectTime
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 32
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: MaximumConnectTime = 160
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SubscriptionIdentifiersNotSupported
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SubscriptionIdentifiersNotSupported
+  id: SubscriptionIdentifiersNotSupported
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: SubscriptionIdentifiersNotSupported
+  nameWithType: MqttClientDisconnectReason.SubscriptionIdentifiersNotSupported
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.SubscriptionIdentifiersNotSupported
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SubscriptionIdentifiersNotSupported
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 33
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: SubscriptionIdentifiersNotSupported = 161
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.WildcardSubscriptionsNotSupported
+  commentId: F:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.WildcardSubscriptionsNotSupported
+  id: WildcardSubscriptionsNotSupported
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  langs:
+  - csharp
+  - vb
+  name: WildcardSubscriptionsNotSupported
+  nameWithType: MqttClientDisconnectReason.WildcardSubscriptionsNotSupported
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.WildcardSubscriptionsNotSupported
+  type: Field
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: WildcardSubscriptionsNotSupported
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientDisconnectReason.cs
+    startLine: 34
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: WildcardSubscriptionsNotSupported = 162
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason.html
+  name: MqttClientDisconnectReason
+  nameWithType: MqttClientDisconnectReason
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectReason

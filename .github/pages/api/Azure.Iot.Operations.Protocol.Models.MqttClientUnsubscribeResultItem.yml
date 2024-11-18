@@ -1,0 +1,466 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  id: MqttClientUnsubscribeResultItem
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor(System.String,Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+  - Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter
+  langs:
+  - csharp
+  - vb
+  name: MqttClientUnsubscribeResultItem
+  nameWithType: MqttClientUnsubscribeResultItem
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttClientUnsubscribeResultItem
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+    startLine: 4
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public class MqttClientUnsubscribeResultItem
+    content.vb: Public Class MqttClientUnsubscribeResultItem
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor(System.String,Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor(System.String,Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)
+  id: '#ctor(System.String,Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  langs:
+  - csharp
+  - vb
+  name: MqttClientUnsubscribeResultItem(string, MqttClientUnsubscribeReasonCode)
+  nameWithType: MqttClientUnsubscribeResultItem.MqttClientUnsubscribeResultItem(string, MqttClientUnsubscribeReasonCode)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.MqttClientUnsubscribeResultItem(string, Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+    startLine: 6
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientUnsubscribeResultItem(string topicFilter, MqttClientUnsubscribeReasonCode reasonCode)
+    parameters:
+    - id: topicFilter
+      type: System.String
+    - id: reasonCode
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode
+    content.vb: Public Sub New(topicFilter As String, reasonCode As MqttClientUnsubscribeReasonCode)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor*
+  nameWithType.vb: MqttClientUnsubscribeResultItem.New(String, MqttClientUnsubscribeReasonCode)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.New(String, Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode)
+  name.vb: New(String, MqttClientUnsubscribeReasonCode)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+  id: ReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  langs:
+  - csharp
+  - vb
+  name: ReasonCode
+  nameWithType: MqttClientUnsubscribeResultItem.ReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReasonCode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+    startLine: 16
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the result code.
+
+    <remarks>MQTT 5.0.0+ feature.</remarks>
+  example: []
+  syntax:
+    content: public MqttClientUnsubscribeReasonCode ReasonCode { get; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode
+    content.vb: Public ReadOnly Property ReasonCode As MqttClientUnsubscribeReasonCode
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter
+  id: TopicFilter
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem
+  langs:
+  - csharp
+  - vb
+  name: TopicFilter
+  nameWithType: MqttClientUnsubscribeResultItem.TopicFilter
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TopicFilter
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientUnsubscribeResultItem.cs
+    startLine: 22
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  summary: >-
+    Gets or sets the topic filter.
+
+    The topic filter can contain topics and wildcards.
+  example: []
+  syntax:
+    content: public string TopicFilter { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property TopicFilter As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter*
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.#ctor
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.html#Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeResultItem__ctor_System_String_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeReasonCode_
+  name: MqttClientUnsubscribeResultItem
+  nameWithType: MqttClientUnsubscribeResultItem.MqttClientUnsubscribeResultItem
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.MqttClientUnsubscribeResultItem
+  nameWithType.vb: MqttClientUnsubscribeResultItem.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode.html
+  name: MqttClientUnsubscribeReasonCode
+  nameWithType: MqttClientUnsubscribeReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.html#Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeResultItem_ReasonCode
+  name: ReasonCode
+  nameWithType: MqttClientUnsubscribeResultItem.ReasonCode
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.ReasonCode
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.html#Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeResultItem_TopicFilter
+  name: TopicFilter
+  nameWithType: MqttClientUnsubscribeResultItem.TopicFilter
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResultItem.TopicFilter

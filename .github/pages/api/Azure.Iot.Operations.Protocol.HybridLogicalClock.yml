@@ -1,0 +1,929 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  commentId: T:Azure.Iot.Operations.Protocol.HybridLogicalClock
+  id: HybridLogicalClock
+  parent: Azure.Iot.Operations.Protocol
+  children:
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(System.Nullable{System.DateTime},System.Int32,System.String)
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals(System.Object)
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString
+  - Azure.Iot.Operations.Protocol.HybridLogicalClock.Update(Azure.Iot.Operations.Protocol.HybridLogicalClock,System.Nullable{System.TimeSpan})
+  langs:
+  - csharp
+  - vb
+  name: HybridLogicalClock
+  nameWithType: HybridLogicalClock
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: HybridLogicalClock
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 9
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: public class HybridLogicalClock
+    content.vb: Public Class HybridLogicalClock
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance
+  id: GetInstance
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: GetInstance()
+  nameWithType: HybridLogicalClock.GetInstance()
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: GetInstance
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 29
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Get a HybridLogicalClock instance.
+  example: []
+  syntax:
+    content: public static HybridLogicalClock GetInstance()
+    return:
+      type: Azure.Iot.Operations.Protocol.HybridLogicalClock
+      description: The single instantiation of HybridLogicalClock for the process.
+    content.vb: Public Shared Function GetInstance() As HybridLogicalClock
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  commentId: P:Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  id: Timestamp
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: Timestamp
+  nameWithType: HybridLogicalClock.Timestamp
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Timestamp
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 47
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: The current timestamp for this hybrid logical clock.
+  remarks: >-
+    <p>
+
+    This value is used in conjunction with <xref href="Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter" data-throw-if-not-resolved="false"></xref> to coordinate ordering of events within
+
+    a distributed system where each device may have slightly different system clock times.
+
+    </p>
+
+    <p>
+
+    This timestamp only allows for millisecond-level precision. Any provided value will automatically
+
+    be rounded down to the nearest millisecond.
+
+    </p>
+  example: []
+  syntax:
+    content: public DateTime Timestamp { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property Timestamp As Date
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  commentId: P:Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  id: Counter
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: Counter
+  nameWithType: HybridLogicalClock.Counter
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Counter
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 62
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: The counter for this hybrid logical clock.
+  remarks: >-
+    This counter is used in conjunction with the <xref href="Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp" data-throw-if-not-resolved="false"></xref> to coordinate ordering of
+
+    events within a distributed system where each device may have slightly different system clock times.
+  example: []
+  syntax:
+    content: public int Counter { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Counter As Integer
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+  commentId: P:Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+  id: NodeId
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: NodeId
+  nameWithType: HybridLogicalClock.NodeId
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: NodeId
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 71
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: A unique identifier for this node.
+  remarks: >-
+    This is only used to break ties where both the counter and timestamp of
+
+    two competing nodes are exactly the same.
+  example: []
+  syntax:
+    content: public string NodeId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property NodeId As String
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(System.Nullable{System.DateTime},System.Int32,System.String)
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(System.Nullable{System.DateTime},System.Int32,System.String)
+  id: '#ctor(System.Nullable{System.DateTime},System.Int32,System.String)'
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: HybridLogicalClock(DateTime?, int, string?)
+  nameWithType: HybridLogicalClock.HybridLogicalClock(DateTime?, int, string?)
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.HybridLogicalClock(System.DateTime?, int, string?)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 79
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Construct a HybridLogicalClock instance.
+  example: []
+  syntax:
+    content: public HybridLogicalClock(DateTime? timestamp = null, int counter = 0, string? nodeId = null)
+    parameters:
+    - id: timestamp
+      type: System.Nullable{System.DateTime}
+      description: The timestamp for this clock. This timestamp will be rounded down to the nearest millisecond.
+    - id: counter
+      type: System.Int32
+      description: The counter for this clock.
+    - id: nodeId
+      type: System.String
+      description: The node identifier for this clock.
+    content.vb: Public Sub New(timestamp As Date? = Nothing, counter As Integer = 0, nodeId As String = Nothing)
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor*
+  nameWithType.vb: HybridLogicalClock.New(Date?, Integer, String)
+  fullName.vb: Azure.Iot.Operations.Protocol.HybridLogicalClock.New(Date?, Integer, String)
+  name.vb: New(Date?, Integer, String)
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  id: '#ctor(Azure.Iot.Operations.Protocol.HybridLogicalClock)'
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: HybridLogicalClock(HybridLogicalClock)
+  nameWithType: HybridLogicalClock.HybridLogicalClock(HybridLogicalClock)
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.HybridLogicalClock(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 106
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Copy construct a HybridLogicalClock from another HybridLogicalClock
+  example: []
+  syntax:
+    content: public HybridLogicalClock(HybridLogicalClock other)
+    parameters:
+    - id: other
+      type: Azure.Iot.Operations.Protocol.HybridLogicalClock
+      description: ''
+    content.vb: Public Sub New(other As HybridLogicalClock)
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor*
+  nameWithType.vb: HybridLogicalClock.New(HybridLogicalClock)
+  fullName.vb: Azure.Iot.Operations.Protocol.HybridLogicalClock.New(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  name.vb: New(HybridLogicalClock)
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update(Azure.Iot.Operations.Protocol.HybridLogicalClock,System.Nullable{System.TimeSpan})
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.Update(Azure.Iot.Operations.Protocol.HybridLogicalClock,System.Nullable{System.TimeSpan})
+  id: Update(Azure.Iot.Operations.Protocol.HybridLogicalClock,System.Nullable{System.TimeSpan})
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: Update(HybridLogicalClock?, TimeSpan?)
+  nameWithType: HybridLogicalClock.Update(HybridLogicalClock?, TimeSpan?)
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update(Azure.Iot.Operations.Protocol.HybridLogicalClock?, System.TimeSpan?)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Update
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 119
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Update this clock with details provided by another clock.
+  example: []
+  syntax:
+    content: public void Update(HybridLogicalClock? other = null, TimeSpan? maxClockDrift = null)
+    parameters:
+    - id: other
+      type: Azure.Iot.Operations.Protocol.HybridLogicalClock
+      description: The other clock.
+    - id: maxClockDrift
+      type: System.Nullable{System.TimeSpan}
+      description: The maximum allowed clock drift.
+    content.vb: Public Sub Update(other As HybridLogicalClock = Nothing, maxClockDrift As TimeSpan? = Nothing)
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update*
+  exceptions:
+  - type: Azure.Iot.Operations.Protocol.AkriMqttException
+    commentId: T:Azure.Iot.Operations.Protocol.AkriMqttException
+    description: >-
+      If the other clock has the same node Id, if
+          the counter on this clock overflows, or if clock skew that exceeds the provided 
+          <code class="paramref">maxClockDrift</code> is detected.
+  nameWithType.vb: HybridLogicalClock.Update(HybridLogicalClock, TimeSpan?)
+  fullName.vb: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update(Azure.Iot.Operations.Protocol.HybridLogicalClock, System.TimeSpan?)
+  name.vb: Update(HybridLogicalClock, TimeSpan?)
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  id: CompareTo(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: CompareTo(HybridLogicalClock)
+  nameWithType: HybridLogicalClock.CompareTo(HybridLogicalClock)
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo(Azure.Iot.Operations.Protocol.HybridLogicalClock)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CompareTo
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 180
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  syntax:
+    content: public int CompareTo(HybridLogicalClock other)
+    parameters:
+    - id: other
+      type: Azure.Iot.Operations.Protocol.HybridLogicalClock
+    return:
+      type: System.Int32
+    content.vb: Public Function CompareTo(other As HybridLogicalClock) As Integer
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals(System.Object)
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: HybridLogicalClock.Equals(object?)
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Equals
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 202
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Determines whether the specified object is equal to the current object.
+  example: []
+  syntax:
+    content: public override bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the specified object  is equal to the current object; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.Object.Equals(System.Object)
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals*
+  nameWithType.vb: HybridLogicalClock.Equals(Object)
+  fullName.vb: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode
+  id: GetHashCode
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: HybridLogicalClock.GetHashCode()
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: GetHashCode
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 330
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Serves as the default hash function.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A hash code for the current object.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.Object.GetHashCode
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode*
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString
+  commentId: M:Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString
+  id: ToString
+  parent: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: HybridLogicalClock.ToString()
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ToString
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/HybridLogicalClock.cs
+    startLine: 335
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol
+  summary: Returns a string that represents the current object.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.Object.ToString
+  overload: Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString*
+references:
+- uid: Azure.Iot.Operations.Protocol
+  commentId: N:Azure.Iot.Operations.Protocol
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol
+  nameWithType: Azure.Iot.Operations.Protocol
+  fullName: Azure.Iot.Operations.Protocol
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_GetInstance
+  name: GetInstance
+  nameWithType: HybridLogicalClock.GetInstance
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetInstance
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock
+  commentId: T:Azure.Iot.Operations.Protocol.HybridLogicalClock
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html
+  name: HybridLogicalClock
+  nameWithType: HybridLogicalClock
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  commentId: P:Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Counter
+  name: Counter
+  nameWithType: HybridLogicalClock.Counter
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Timestamp
+  name: Timestamp
+  nameWithType: HybridLogicalClock.Timestamp
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  commentId: P:Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Timestamp
+  name: Timestamp
+  nameWithType: HybridLogicalClock.Timestamp
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Timestamp
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Counter
+  name: Counter
+  nameWithType: HybridLogicalClock.Counter
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Counter
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_NodeId
+  name: NodeId
+  nameWithType: HybridLogicalClock.NodeId
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.NodeId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.#ctor
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock__ctor_System_Nullable_System_DateTime__System_Int32_System_String_
+  name: HybridLogicalClock
+  nameWithType: HybridLogicalClock.HybridLogicalClock
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.HybridLogicalClock
+  nameWithType.vb: HybridLogicalClock.New
+  fullName.vb: Azure.Iot.Operations.Protocol.HybridLogicalClock.New
+  name.vb: New
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime?
+  nameWithType: DateTime?
+  fullName: System.DateTime?
+  nameWithType.vb: Date?
+  fullName.vb: Date?
+  name.vb: Date?
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+  spec.vb:
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.AkriMqttException
+  commentId: T:Azure.Iot.Operations.Protocol.AkriMqttException
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.AkriMqttException.html
+  name: AkriMqttException
+  nameWithType: AkriMqttException
+  fullName: Azure.Iot.Operations.Protocol.AkriMqttException
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.Update
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Update_Azure_Iot_Operations_Protocol_HybridLogicalClock_System_Nullable_System_TimeSpan__
+  name: Update
+  nameWithType: HybridLogicalClock.Update
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Update
+- uid: System.Nullable{System.TimeSpan}
+  commentId: T:System.Nullable{System.TimeSpan}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan?
+  nameWithType: TimeSpan?
+  fullName: System.TimeSpan?
+  spec.csharp:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  spec.vb:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_CompareTo_Azure_Iot_Operations_Protocol_HybridLogicalClock_
+  name: CompareTo
+  nameWithType: HybridLogicalClock.CompareTo
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.CompareTo
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_Equals_System_Object_
+  name: Equals
+  nameWithType: HybridLogicalClock.Equals
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.Equals
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_GetHashCode
+  name: GetHashCode
+  nameWithType: HybridLogicalClock.GetHashCode
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.GetHashCode
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString*
+  commentId: Overload:Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString
+  href: Azure.Iot.Operations.Protocol.HybridLogicalClock.html#Azure_Iot_Operations_Protocol_HybridLogicalClock_ToString
+  name: ToString
+  nameWithType: HybridLogicalClock.ToString
+  fullName: Azure.Iot.Operations.Protocol.HybridLogicalClock.ToString

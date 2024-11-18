@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CommandExecutor&lt;TReq, TResp&gt; | Azure IoT Operations .NET SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CommandExecutor&lt;TReq, TResp&gt; | Azure IoT Operations .NET SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ryanwinterms/iot-operations-sdks/new/docfx/apiSpec/new?filename=Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2.md&amp;value=---%0Auid%3A%20Azure.Iot.Operations.Protocol.RPC.CommandExecutor%602%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="https://github.com/azure/iot-operations-sdks">
+            <img id="logo" class="svg" src="../logo.svg" alt="Azure IoT Operations .NET SDK">
+            Azure IoT Operations .NET SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2">
+
+
+
+  <h1 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2" class="text-break">
+Class CommandExecutor&lt;TReq, TResp&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Azure.html">Azure</a>.<a class="xref" href="Azure.Iot.html">Iot</a>.<a class="xref" href="Azure.Iot.Operations.html">Operations</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.html">Protocol</a>.<a class="xref" href="Azure.Iot.Operations.Protocol.RPC.html">RPC</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Azure.Iot.Operations.Protocol.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class CommandExecutor&lt;TReq, TResp&gt; : IAsyncDisposable where TReq : class where TResp : class</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TReq</code></dt>
+    <dd></dd>
+    <dt><code>TResp</code></dt>
+    <dd></dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">CommandExecutor&lt;TReq, TResp&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iasyncdisposable">IAsyncDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2__ctor_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2__ctor_Azure_Iot_Operations_Protocol_IMqttPubSubClient_System_String_Azure_Iot_Operations_Protocol_IPayloadSerializer_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.#ctor(Azure.Iot.Operations.Protocol.IMqttPubSubClient,System.String,Azure.Iot.Operations.Protocol.IPayloadSerializer)">
+  CommandExecutor(IMqttPubSubClient, string, IPayloadSerializer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mqttClient</code> <a class="xref" href="Azure.Iot.Operations.Protocol.IMqttPubSubClient.html">IMqttPubSubClient</a></dt>
+    <dd></dd>
+    <dt><code>commandName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>serializer</code> <a class="xref" href="Azure.Iot.Operations.Protocol.IPayloadSerializer.html">IPayloadSerializer</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_CacheTtl_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_CacheTtl" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.CacheTtl">
+  CacheTtl
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The cache time-to-live that will be used for reusing a previously computed response for duplicate or equivalent idempotent command requests.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan CacheTtl { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_CacheTtl_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>
+Idempotent commands will cache the response of duplicate requests until the maximum of cache time-to-live or the command request expiration.
+Idempotent commands will cache the response of equivalent requests until the cache time-to-live.
+The cache could be cleared before the time-to-live expires if the cost-weighted benefit is too low and the cache is under size pressure.
+</p>
+Two requests are considered to be duplicate when the requests have identical correlation ID.
+Two requests are considered to be equivalent when they have the same payload, parameters and topic, but different correlation ID.
+</div>
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_EffectiveTopicTokenMap_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_EffectiveTopicTokenMap" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.EffectiveTopicTokenMap">
+  EffectiveTopicTokenMap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a dictionary used by this class's code for substituting tokens in request and response topic patterns.
+Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual IReadOnlyDictionary&lt;string, string&gt; EffectiveTopicTokenMap { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutionTimeout_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutionTimeout" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutionTimeout">
+  ExecutionTimeout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan ExecutionTimeout { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutorId_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ExecutorId" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ExecutorId">
+  ExecutorId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? ExecutorId { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_IsIdempotent_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_IsIdempotent" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.IsIdempotent">
+  IsIdempotent
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsIdempotent { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_OnCommandReceived_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_OnCommandReceived" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.OnCommandReceived">
+  OnCommandReceived
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public required Func&lt;ExtendedRequest&lt;TReq&gt;, CancellationToken, Task&lt;ExtendedResponse&lt;TResp&gt;&gt;&gt; OnCommandReceived { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-3">Func</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.RPC.ExtendedRequest-1.html">ExtendedRequest</a>&lt;TReq&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Azure.Iot.Operations.Protocol.RPC.ExtendedResponse-1.html">ExtendedResponse</a>&lt;TResp&gt;&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_RequestTopicPattern_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_RequestTopicPattern" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.RequestTopicPattern">
+  RequestTopicPattern
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string RequestTopicPattern { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ServiceGroupId_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_ServiceGroupId" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.ServiceGroupId">
+  ServiceGroupId
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L49"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ServiceGroupId { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicNamespace_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicNamespace" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicNamespace">
+  TopicNamespace
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? TopicNamespace { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicTokenMap_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_TopicTokenMap" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.TopicTokenMap">
+  TopicTokenMap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
+Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Dictionary&lt;string, string&gt; TopicTokenMap { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsync_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsync" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync">
+  DisposeAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L655"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ValueTask DisposeAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd><p>A task that represents the asynchronous dispose operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsync_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsync_System_Boolean_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsync(System.Boolean)">
+  DisposeAsync(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L661"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ValueTask DisposeAsync(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsyncCore_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_DisposeAsyncCore_System_Boolean_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.DisposeAsyncCore(System.Boolean)">
+  DisposeAsyncCore(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L666"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ValueTask DisposeAsyncCore(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StartAsync_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StartAsync_System_Nullable_System_Int32__System_Collections_Generic_IReadOnlyDictionary_System_String_System_String__System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StartAsync(System.Nullable{System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)">
+  StartAsync(int?, IReadOnlyDictionary&lt;string, string&gt;?, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L273"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StartAsync(int? preferredDispatchConcurrency = null, IReadOnlyDictionary&lt;string, string&gt;? transientTopicTokenMap = null, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>preferredDispatchConcurrency</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd></dd>
+    <dt><code>transientTopicTokenMap</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StopAsync_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync*"></a>
+
+  <h3 id="Azure_Iot_Operations_Protocol_RPC_CommandExecutor_2_StopAsync_System_Threading_CancellationToken_" data-uid="Azure.Iot.Operations.Protocol.RPC.CommandExecutor`2.StopAsync(System.Threading.CancellationToken)">
+  StopAsync(CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L310"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StopAsync(CancellationToken cancellationToken = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>cancellationToken</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ryanwinterms/iot-operations-sdks/blob/docfx/dotnet/src/Azure.Iot.Operations.Protocol/RPC/CommandExecutor.cs/#L15" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          False<span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

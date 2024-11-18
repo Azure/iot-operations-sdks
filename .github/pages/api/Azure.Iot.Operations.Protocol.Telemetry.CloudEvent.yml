@@ -1,0 +1,815 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  id: CloudEvent
+  parent: Azure.Iot.Operations.Protocol.Telemetry
+  children:
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor(System.Uri,System.String,System.String)
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  langs:
+  - csharp
+  - vb
+  name: CloudEvent
+  nameWithType: CloudEvent
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: CloudEvent
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 12
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
+
+    Id is required but we want to update it in the same instance. 
+
+    See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
+  example: []
+  syntax:
+    content: public class CloudEvent
+    content.vb: Public Class CloudEvent
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor(System.Uri,System.String,System.String)
+  commentId: M:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor(System.Uri,System.String,System.String)
+  id: '#ctor(System.Uri,System.String,System.String)'
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: CloudEvent(Uri, string, string)
+  nameWithType: CloudEvent.CloudEvent(Uri, string, string)
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.CloudEvent(System.Uri, string, string)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 12
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
+
+    Id is required but we want to update it in the same instance. 
+
+    See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
+  example: []
+  syntax:
+    content: public CloudEvent(Uri source, string type = "ms.aio.telemetry", string specversion = "1.0")
+    parameters:
+    - id: source
+      type: System.Uri
+      description: <xref href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source" data-throw-if-not-resolved="false"></xref>
+    - id: type
+      type: System.String
+      description: <xref href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type" data-throw-if-not-resolved="false"></xref>
+    - id: specversion
+      type: System.String
+      description: <xref href="Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub New(source As Uri, type As String = "ms.aio.telemetry", specversion As String = "1.0")
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor*
+  nameWithType.vb: CloudEvent.New(Uri, String, String)
+  fullName.vb: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.New(System.Uri, String, String)
+  name.vb: New(Uri, String, String)
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  id: Source
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: Source
+  nameWithType: CloudEvent.Source
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Source
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 22
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Identifies the context in which an event happened.
+
+    Often this will include information such as the type of the event source, 
+
+    the organization publishing the event or the process that produced the event. 
+
+    The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
+  example: []
+  syntax:
+    content: public Uri? Source { get; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public ReadOnly Property Source As Uri
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  id: SpecVersion
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: SpecVersion
+  nameWithType: CloudEvent.SpecVersion
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SpecVersion
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 28
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    The version of the CloudEvents specification which the event uses. 
+        This enables the interpretation of the context. 
+        Compliant event producers MUST use a value of 1.0 when referring to this version of the specification.
+  example: []
+  syntax:
+    content: public string SpecVersion { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SpecVersion As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  id: Type
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: CloudEvent.Type
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Type
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 35
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Contains a value describing the type of event related to the originating occurrence. 
+
+    Often this attribute is used for routing, observability, policy enforcement, etc. 
+
+    The format of this is producer defined and might include information such as the version of the type
+  example: []
+  syntax:
+    content: public string Type { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Type As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+  id: Id
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: CloudEvent.Id
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Id
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 42
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Identifies the event. Producers MUST ensure that source + id is unique for each distinct event. 
+
+    If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id. 
+
+    Consumers MAY assume that Events with identical source and id are duplicates.
+  example: []
+  syntax:
+    content: public string? Id { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Id As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+  id: Time
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: Time
+  nameWithType: CloudEvent.Time
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Time
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 56
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Timestamp of when the occurrence happened. 
+
+    If the time of the occurrence cannot be determined then this attribute MAY be set to some other time (such as the current time) 
+
+    by the CloudEvents producer, 
+
+    however all producers for the same source MUST be consistent in this respect.
+  example: []
+  syntax:
+    content: public DateTime? Time { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public Property Time As Date?
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+  id: DataContentType
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: DataContentType
+  nameWithType: CloudEvent.DataContentType
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DataContentType
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 62
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Content type of data value. This attribute enables data to carry any type of content, 
+
+    whereby format and encoding might differ from that of the chosen event format.
+  example: []
+  syntax:
+    content: public string? DataContentType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataContentType As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+  id: Subject
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: Subject
+  nameWithType: CloudEvent.Subject
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: Subject
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 69
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Identifies the subject of the event in the context of the event producer (identified by source). 
+
+    In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source, 
+
+    but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
+  example: []
+  syntax:
+    content: public string? Subject { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Subject As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject*
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema
+  id: DataSchema
+  parent: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  langs:
+  - csharp
+  - vb
+  name: DataSchema
+  nameWithType: CloudEvent.DataSchema
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DataSchema
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Telemetry/CloudEvent.cs
+    startLine: 75
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Telemetry
+  summary: >-
+    Identifies the schema that data adheres to. 
+
+    Incompatible changes to the schema SHOULD be reflected by a different URI.
+  example: []
+  syntax:
+    content: public string? DataSchema { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataSchema As String
+  overload: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema*
+references:
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Source
+  name: Source
+  nameWithType: CloudEvent.Source
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Type
+  name: Type
+  nameWithType: CloudEvent.Type
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  commentId: P:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_SpecVersion
+  name: SpecVersion
+  nameWithType: CloudEvent.SpecVersion
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+- uid: Azure.Iot.Operations.Protocol.Telemetry
+  commentId: N:Azure.Iot.Operations.Protocol.Telemetry
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Telemetry
+  nameWithType: Azure.Iot.Operations.Protocol.Telemetry
+  fullName: Azure.Iot.Operations.Protocol.Telemetry
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Telemetry
+    name: Telemetry
+    href: Azure.Iot.Operations.Protocol.Telemetry.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Telemetry
+    name: Telemetry
+    href: Azure.Iot.Operations.Protocol.Telemetry.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.#ctor
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent__ctor_System_Uri_System_String_System_String_
+  name: CloudEvent
+  nameWithType: CloudEvent.CloudEvent
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.CloudEvent
+  nameWithType.vb: CloudEvent.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.New
+  name.vb: New
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uri
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Source
+  name: Source
+  nameWithType: CloudEvent.Source
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Source
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_SpecVersion
+  name: SpecVersion
+  nameWithType: CloudEvent.SpecVersion
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.SpecVersion
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Type
+  name: Type
+  nameWithType: CloudEvent.Type
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Type
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Id
+  name: Id
+  nameWithType: CloudEvent.Id
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Id
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Time
+  name: Time
+  nameWithType: CloudEvent.Time
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Time
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime?
+  nameWithType: DateTime?
+  fullName: System.DateTime?
+  nameWithType.vb: Date?
+  fullName.vb: Date?
+  name.vb: Date?
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+  spec.vb:
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataContentType
+  name: DataContentType
+  nameWithType: CloudEvent.DataContentType
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataContentType
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_Subject
+  name: Subject
+  nameWithType: CloudEvent.Subject
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.Subject
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html#Azure_Iot_Operations_Protocol_Telemetry_CloudEvent_DataSchema
+  name: DataSchema
+  nameWithType: CloudEvent.DataSchema
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.DataSchema

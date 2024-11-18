@@ -1,0 +1,2229 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  commentId: T:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  id: OrderedAckMqttClient
+  parent: Azure.Iot.Operations.Mqtt
+  children:
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor(MQTTnet.Client.IMqttClient)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ApplicationMessageReceivedAsync
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectedAsync
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectedAsync
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync(System.Boolean)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+  - Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  langs:
+  - csharp
+  - vb
+  name: OrderedAckMqttClient
+  nameWithType: OrderedAckMqttClient
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: OrderedAckMqttClient
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 15
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: A simple pass-through implementation of the IMqttPubSubClient interface that uses MQTTNet as the underlying MQTT client.
+  remarks: This client has no built-in retry logic or connection handling. It does add ACK ordering support, though.
+  example: []
+  syntax:
+    content: 'public class OrderedAckMqttClient : IMqttClient, IMqttPubSubClient, IAsyncDisposable'
+    content.vb: Public Class OrderedAckMqttClient Implements IMqttClient, IMqttPubSubClient, IAsyncDisposable
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - Azure.Iot.Operations.Mqtt.Session.MqttSessionClient
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  - System.IAsyncDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor(MQTTnet.Client.IMqttClient)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor(MQTTnet.Client.IMqttClient)
+  id: '#ctor(MQTTnet.Client.IMqttClient)'
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: OrderedAckMqttClient(IMqttClient)
+  nameWithType: OrderedAckMqttClient.OrderedAckMqttClient(IMqttClient)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.OrderedAckMqttClient(MQTTnet.Client.IMqttClient)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 27
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  syntax:
+    content: public OrderedAckMqttClient(IMqttClient mqttNetClient)
+    parameters:
+    - id: mqttNetClient
+      type: MQTTnet.Client.IMqttClient
+    content.vb: Public Sub New(mqttNetClient As IMqttClient)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor*
+  nameWithType.vb: OrderedAckMqttClient.New(IMqttClient)
+  fullName.vb: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.New(MQTTnet.Client.IMqttClient)
+  name.vb: New(IMqttClient)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+  commentId: P:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+  id: UnderlyingMqttClient
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: UnderlyingMqttClient
+  nameWithType: OrderedAckMqttClient.UnderlyingMqttClient
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnderlyingMqttClient
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 44
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: The MQTT client used by this client to handle all MQTT operations.
+  example: []
+  syntax:
+    content: public IMqttClient UnderlyingMqttClient { get; }
+    parameters: []
+    return:
+      type: MQTTnet.Client.IMqttClient
+    content.vb: Public ReadOnly Property UnderlyingMqttClient As IMqttClient
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient*
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+  commentId: P:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+  id: ClientId
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ClientId
+  nameWithType: OrderedAckMqttClient.ClientId
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ClientId
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 47
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Returns the client Id used by this client.
+  remarks: If a client Id has not been assigned yet by the user or by the broker, this value is null.
+  example: []
+  syntax:
+    content: public string? ClientId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ClientId As String
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.ClientId
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+  commentId: P:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+  id: ProtocolVersion
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ProtocolVersion
+  nameWithType: OrderedAckMqttClient.ProtocolVersion
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ProtocolVersion
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 50
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: The version of the MQTT protocol that this client is using.
+  example: []
+  syntax:
+    content: public MqttProtocolVersion ProtocolVersion { get; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+    content.vb: Public ReadOnly Property ProtocolVersion As MqttProtocolVersion
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.ProtocolVersion
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ApplicationMessageReceivedAsync
+  commentId: E:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ApplicationMessageReceivedAsync
+  id: ApplicationMessageReceivedAsync
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ApplicationMessageReceivedAsync
+  nameWithType: OrderedAckMqttClient.ApplicationMessageReceivedAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ApplicationMessageReceivedAsync
+  type: Event
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ApplicationMessageReceivedAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 53
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: The event that notifies you when this client receives a PUBLISH from the MQTT broker.
+  remarks: >-
+    Users are responsible for acknowledging each received PUBLISH. Users must either automatically acknowledge the message
+
+    by opting into automatically sending the acknowledgement by setting the <xref href="Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AutoAcknowledge" data-throw-if-not-resolved="false"></xref> flag, 
+
+    or they can manually acknowledge the PUBLISH by invoking <xref href="Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)" data-throw-if-not-resolved="false"></xref>.
+
+
+    Note that this client sends PUBLISH acknowledgements in the order that the corresponding PUBLISH packets were received,
+
+    so failing to acknowledge a PUBLISH will block sending acknowledgements for all subsequent PUBLISH packets received.
+  example: []
+  syntax:
+    content: public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync
+    return:
+      type: System.Func{Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs,System.Threading.Tasks.Task}
+    content.vb: Public Event ApplicationMessageReceivedAsync As Func(Of MqttApplicationMessageReceivedEventArgs, Task)
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.ApplicationMessageReceivedAsync
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectedAsync
+  commentId: E:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectedAsync
+  id: DisconnectedAsync
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: DisconnectedAsync
+  nameWithType: OrderedAckMqttClient.DisconnectedAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectedAsync
+  type: Event
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisconnectedAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 58
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: An event that executes every time this client is disconnected.
+  example: []
+  syntax:
+    content: public event Func<MqttClientDisconnectedEventArgs, Task>? DisconnectedAsync
+    return:
+      type: System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs,System.Threading.Tasks.Task}
+    content.vb: Public Event DisconnectedAsync As Func(Of MqttClientDisconnectedEventArgs, Task)
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.DisconnectedAsync
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectedAsync
+  commentId: E:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectedAsync
+  id: ConnectedAsync
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ConnectedAsync
+  nameWithType: OrderedAckMqttClient.ConnectedAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectedAsync
+  type: Event
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ConnectedAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 63
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: An event that executes every time this client is connected.
+  example: []
+  syntax:
+    content: public event Func<MqttClientConnectedEventArgs, Task>? ConnectedAsync
+    return:
+      type: System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs,System.Threading.Tasks.Task}
+    content.vb: Public Event ConnectedAsync As Func(Of MqttClientConnectedEventArgs, Task)
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.ConnectedAsync
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  id: ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ConnectAsync(MqttClientOptions, CancellationToken)
+  nameWithType: OrderedAckMqttClient.ConnectAsync(MqttClientOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ConnectAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 66
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Connect this client to the MQTT broker configured in the provided connection options.
+  example: []
+  syntax:
+    content: public virtual Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
+    parameters:
+    - id: options
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+      description: The details about the MQTT broker to connect to.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult}
+      description: The CONNACK returned by the MQTT broker.
+    content.vb: Public Overridable Function ConnectAsync(options As MqttClientOptions, cancellationToken As CancellationToken = Nothing) As Task(Of MqttClientConnectResult)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize
+  id: GetMaximumPacketSize
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: GetMaximumPacketSize()
+  nameWithType: OrderedAckMqttClient.GetMaximumPacketSize()
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: GetMaximumPacketSize
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 93
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Get the maximum packet size that this client can send.
+  example: []
+  syntax:
+    content: public uint GetMaximumPacketSize()
+    return:
+      type: System.UInt32
+      description: The maximum packet size.
+    content.vb: Public Function GetMaximumPacketSize() As UInteger
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize*
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  id: ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ConnectAsync(MqttConnectionSettings, CancellationToken)
+  nameWithType: OrderedAckMqttClient.ConnectAsync(MqttConnectionSettings, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ConnectAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 104
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Connect this client to the MQTT broker configured in the provided connection settings.
+  example: []
+  syntax:
+    content: public virtual Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
+    parameters:
+    - id: settings
+      type: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+      description: The details about the MQTT broker to connect to.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult}
+      description: The CONNACK returned by the MQTT broker.
+    content.vb: Public Overridable Function ConnectAsync(settings As MqttConnectionSettings, cancellationToken As CancellationToken = Nothing) As Task(Of MqttClientConnectResult)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  id: ReconnectAsync(System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: ReconnectAsync(CancellationToken)
+  nameWithType: OrderedAckMqttClient.ReconnectAsync(CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: ReconnectAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 111
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: >-
+    Reconnect the client if it is disconnected. This will use the <xref href="Azure.Iot.Operations.Protocol.Models.MqttClientOptions" data-throw-if-not-resolved="false"></xref> last provided
+
+    when connecting.
+  example: []
+  syntax:
+    content: public Task ReconnectAsync(CancellationToken cancellationToken = default)
+    parameters:
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function ReconnectAsync(cancellationToken As CancellationToken = Nothing) As Task
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  id: DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: DisconnectAsync(MqttClientDisconnectOptions?, CancellationToken)
+  nameWithType: OrderedAckMqttClient.DisconnectAsync(MqttClientDisconnectOptions?, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions?, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisconnectAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 126
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Disconnect this client from the MQTT broker.
+  example: []
+  syntax:
+    content: public virtual Task DisconnectAsync(MqttClientDisconnectOptions? options = null, CancellationToken cancellationToken = default)
+    parameters:
+    - id: options
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+      description: The optional parameters to include in the DISCONNECT request.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Overridable Function DisconnectAsync(options As MqttClientDisconnectOptions = Nothing, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  nameWithType.vb: OrderedAckMqttClient.DisconnectAsync(MqttClientDisconnectOptions, CancellationToken)
+  fullName.vb: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions, System.Threading.CancellationToken)
+  name.vb: DisconnectAsync(MqttClientDisconnectOptions, CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  id: PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: PublishAsync(MqttApplicationMessage, CancellationToken)
+  nameWithType: OrderedAckMqttClient.PublishAsync(MqttApplicationMessage, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: PublishAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 156
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Publish a message to the MQTT broker.
+  remarks: The behavior of publishing when the MQTT client is disconnected will vary depending on the implementation.
+  example: []
+  syntax:
+    content: public virtual Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
+    parameters:
+    - id: applicationMessage
+      type: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+      description: The message to publish
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult}
+      description: The result of the publish.
+    content.vb: Public Overridable Function PublishAsync(applicationMessage As MqttApplicationMessage, cancellationToken As CancellationToken = Nothing) As Task(Of MqttClientPublishResult)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  id: SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: SubscribeAsync(MqttClientSubscribeOptions, CancellationToken)
+  nameWithType: OrderedAckMqttClient.SubscribeAsync(MqttClientSubscribeOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SubscribeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 166
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Subscribe to a topic on the MQTT broker.
+  remarks: The behavior of subscribing when the MQTT client is disconnected will vary depending on the implementation.
+  example: []
+  syntax:
+    content: public virtual Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
+    parameters:
+    - id: options
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+      description: The details of the subscribe.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult}
+      description: The MQTT broker's response.
+    content.vb: Public Overridable Function SubscribeAsync(options As MqttClientSubscribeOptions, cancellationToken As CancellationToken = Nothing) As Task(Of MqttClientSubscribeResult)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  id: UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeAsync(MqttClientUnsubscribeOptions, CancellationToken)
+  nameWithType: OrderedAckMqttClient.UnsubscribeAsync(MqttClientUnsubscribeOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: UnsubscribeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 175
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Unsubscribe from a topic on the MQTT broker.
+  remarks: The behavior of unsubscribing when the MQTT client is disconnected will vary depending on the implementation.
+  example: []
+  syntax:
+    content: public virtual Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default)
+    parameters:
+    - id: options
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+      description: The details of the unsubscribe request.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult}
+      description: The MQTT broker's response.
+    content.vb: Public Overridable Function UnsubscribeAsync(options As MqttClientUnsubscribeOptions, cancellationToken As CancellationToken = Nothing) As Task(Of MqttClientUnsubscribeResult)
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+  commentId: P:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+  id: IsConnected
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: IsConnected
+  nameWithType: OrderedAckMqttClient.IsConnected
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: IsConnected
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 183
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Get if this MQTT client is currently connected or not.
+  example: []
+  syntax:
+    content: public bool IsConnected { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsConnected As Boolean
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.IsConnected
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync
+  id: DisposeAsync
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: DisposeAsync()
+  nameWithType: OrderedAckMqttClient.DisposeAsync()
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync()
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisposeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 329
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.
+  example: []
+  syntax:
+    content: public virtual ValueTask DisposeAsync()
+    return:
+      type: System.Threading.Tasks.ValueTask
+      description: A task that represents the asynchronous dispose operation.
+    content.vb: Public Overridable Function DisposeAsync() As ValueTask
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync*
+  implements:
+  - System.IAsyncDisposable.DisposeAsync
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync(System.Boolean)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync(System.Boolean)
+  id: DisposeAsync(System.Boolean)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: DisposeAsync(bool)
+  nameWithType: OrderedAckMqttClient.DisposeAsync(bool)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync(bool)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: DisposeAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 335
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  example: []
+  syntax:
+    content: public virtual ValueTask DisposeAsync(bool disposing)
+    parameters:
+    - id: disposing
+      type: System.Boolean
+    return:
+      type: System.Threading.Tasks.ValueTask
+    content.vb: Public Overridable Function DisposeAsync(disposing As Boolean) As ValueTask
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(System.Boolean)
+  nameWithType.vb: OrderedAckMqttClient.DisposeAsync(Boolean)
+  fullName.vb: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync(Boolean)
+  name.vb: DisposeAsync(Boolean)
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  id: SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient
+  langs:
+  - csharp
+  - vb
+  name: SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData, CancellationToken)
+  nameWithType: OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData, CancellationToken)
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: SendExtendedAuthenticationExchangeDataAsync
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/OrderedAckMqttClient.cs
+    startLine: 370
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt
+  summary: Send additional authentication data. May be done on an active connection.
+  example: []
+  syntax:
+    content: public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+    parameters:
+    - id: data
+      type: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData
+      description: The authentication data to send.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: Cancellation token.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SendExtendedAuthenticationExchangeDataAsync(data As MqttExtendedAuthenticationExchangeData, cancellationToken As CancellationToken = Nothing) As Task
+  overload: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync*
+  implements:
+  - Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+references:
+- uid: Azure.Iot.Operations.Mqtt
+  commentId: N:Azure.Iot.Operations.Mqtt
+  href: Azure.html
+  name: Azure.Iot.Operations.Mqtt
+  nameWithType: Azure.Iot.Operations.Mqtt
+  fullName: Azure.Iot.Operations.Mqtt
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt
+    name: Mqtt
+    href: Azure.Iot.Operations.Mqtt.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt
+    name: Mqtt
+    href: Azure.Iot.Operations.Mqtt.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Azure.Iot.Operations.Protocol.IMqttClient
+  commentId: T:Azure.Iot.Operations.Protocol.IMqttClient
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html
+  name: IMqttClient
+  nameWithType: IMqttClient
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  commentId: T:Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  parent: Azure.Iot.Operations.Protocol
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html
+  name: IMqttPubSubClient
+  nameWithType: IMqttPubSubClient
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+- uid: System.IAsyncDisposable
+  commentId: T:System.IAsyncDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable
+  name: IAsyncDisposable
+  nameWithType: IAsyncDisposable
+  fullName: System.IAsyncDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol
+  commentId: N:Azure.Iot.Operations.Protocol
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol
+  nameWithType: Azure.Iot.Operations.Protocol
+  fullName: Azure.Iot.Operations.Protocol
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.#ctor
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient__ctor_MQTTnet_Client_IMqttClient_
+  name: OrderedAckMqttClient
+  nameWithType: OrderedAckMqttClient.OrderedAckMqttClient
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.OrderedAckMqttClient
+  nameWithType.vb: OrderedAckMqttClient.New
+  fullName.vb: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.New
+  name.vb: New
+- uid: MQTTnet.Client.IMqttClient
+  commentId: T:MQTTnet.Client.IMqttClient
+  parent: MQTTnet.Client
+  isExternal: true
+  name: IMqttClient
+  nameWithType: IMqttClient
+  fullName: MQTTnet.Client.IMqttClient
+- uid: MQTTnet.Client
+  commentId: N:MQTTnet.Client
+  isExternal: true
+  name: MQTTnet.Client
+  nameWithType: MQTTnet.Client
+  fullName: MQTTnet.Client
+  spec.csharp:
+  - uid: MQTTnet
+    name: MQTTnet
+    isExternal: true
+  - name: .
+  - uid: MQTTnet.Client
+    name: Client
+    isExternal: true
+  spec.vb:
+  - uid: MQTTnet
+    name: MQTTnet
+    isExternal: true
+  - name: .
+  - uid: MQTTnet.Client
+    name: Client
+    isExternal: true
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_UnderlyingMqttClient
+  name: UnderlyingMqttClient
+  nameWithType: OrderedAckMqttClient.UnderlyingMqttClient
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnderlyingMqttClient
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ClientId
+  name: ClientId
+  nameWithType: OrderedAckMqttClient.ClientId
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ClientId
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ClientId
+  commentId: P:Azure.Iot.Operations.Protocol.IMqttPubSubClient.ClientId
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_ClientId
+  name: ClientId
+  nameWithType: IMqttPubSubClient.ClientId
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ClientId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ProtocolVersion
+  name: ProtocolVersion
+  nameWithType: OrderedAckMqttClient.ProtocolVersion
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ProtocolVersion
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ProtocolVersion
+  commentId: P:Azure.Iot.Operations.Protocol.IMqttPubSubClient.ProtocolVersion
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_ProtocolVersion
+  name: ProtocolVersion
+  nameWithType: IMqttPubSubClient.ProtocolVersion
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ProtocolVersion
+- uid: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion.html
+  name: MqttProtocolVersion
+  nameWithType: MqttProtocolVersion
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttProtocolVersion
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AutoAcknowledge
+  commentId: P:Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AutoAcknowledge
+  href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html#Azure_Iot_Operations_Protocol_Events_MqttApplicationMessageReceivedEventArgs_AutoAcknowledge
+  name: AutoAcknowledge
+  nameWithType: MqttApplicationMessageReceivedEventArgs.AutoAcknowledge
+  fullName: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AutoAcknowledge
+- uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html#Azure_Iot_Operations_Protocol_Events_MqttApplicationMessageReceivedEventArgs_AcknowledgeAsync_System_Threading_CancellationToken_
+  name: AcknowledgeAsync(CancellationToken)
+  nameWithType: MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)
+    name: AcknowledgeAsync
+    href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html#Azure_Iot_Operations_Protocol_Events_MqttApplicationMessageReceivedEventArgs_AcknowledgeAsync_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.AcknowledgeAsync(System.Threading.CancellationToken)
+    name: AcknowledgeAsync
+    href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html#Azure_Iot_Operations_Protocol_Events_MqttApplicationMessageReceivedEventArgs_AcknowledgeAsync_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ApplicationMessageReceivedAsync
+  commentId: E:Azure.Iot.Operations.Protocol.IMqttPubSubClient.ApplicationMessageReceivedAsync
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_ApplicationMessageReceivedAsync
+  name: ApplicationMessageReceivedAsync
+  nameWithType: IMqttPubSubClient.ApplicationMessageReceivedAsync
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.ApplicationMessageReceivedAsync
+- uid: System.Func{Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<MqttApplicationMessageReceivedEventArgs, Task>
+  nameWithType: Func<MqttApplicationMessageReceivedEventArgs, Task>
+  fullName: System.Func<Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of MqttApplicationMessageReceivedEventArgs, Task)
+  fullName.vb: System.Func(Of Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs, System.Threading.Tasks.Task)
+  name.vb: Func(Of MqttApplicationMessageReceivedEventArgs, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs
+    name: MqttApplicationMessageReceivedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs
+    name: MqttApplicationMessageReceivedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttApplicationMessageReceivedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectedAsync
+  commentId: E:Azure.Iot.Operations.Protocol.IMqttClient.DisconnectedAsync
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_DisconnectedAsync
+  name: DisconnectedAsync
+  nameWithType: IMqttClient.DisconnectedAsync
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectedAsync
+- uid: System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<MqttClientDisconnectedEventArgs, Task>
+  nameWithType: Func<MqttClientDisconnectedEventArgs, Task>
+  fullName: System.Func<Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of MqttClientDisconnectedEventArgs, Task)
+  fullName.vb: System.Func(Of Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs, System.Threading.Tasks.Task)
+  name.vb: Func(Of MqttClientDisconnectedEventArgs, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs
+    name: MqttClientDisconnectedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs
+    name: MqttClientDisconnectedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttClientDisconnectedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectedAsync
+  commentId: E:Azure.Iot.Operations.Protocol.IMqttClient.ConnectedAsync
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectedAsync
+  name: ConnectedAsync
+  nameWithType: IMqttClient.ConnectedAsync
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.ConnectedAsync
+- uid: System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<MqttClientConnectedEventArgs, Task>
+  nameWithType: Func<MqttClientConnectedEventArgs, Task>
+  fullName: System.Func<Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of MqttClientConnectedEventArgs, Task)
+  fullName.vb: System.Func(Of Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs, System.Threading.Tasks.Task)
+  name.vb: Func(Of MqttClientConnectedEventArgs, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs
+    name: MqttClientConnectedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs
+    name: MqttClientConnectedEventArgs
+    href: Azure.Iot.Operations.Protocol.Events.MqttClientConnectedEventArgs.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken_
+  name: ConnectAsync
+  nameWithType: OrderedAckMqttClient.ConnectAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ConnectAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken_
+  name: ConnectAsync(MqttClientOptions, CancellationToken)
+  nameWithType: IMqttClient.ConnectAsync(MqttClientOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+    name: ConnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+    name: MqttClientOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientOptions,System.Threading.CancellationToken)
+    name: ConnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+    name: MqttClientOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientOptions.html
+  name: MqttClientOptions
+  nameWithType: MqttClientOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientOptions
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult}
+  commentId: T:System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<MqttClientConnectResult>
+  nameWithType: Task<MqttClientConnectResult>
+  fullName: System.Threading.Tasks.Task<Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult>
+  nameWithType.vb: Task(Of MqttClientConnectResult)
+  fullName.vb: System.Threading.Tasks.Task(Of Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult)
+  name.vb: Task(Of MqttClientConnectResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult
+    name: MqttClientConnectResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult
+    name: MqttClientConnectResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientConnectResult.html
+  - name: )
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_GetMaximumPacketSize
+  name: GetMaximumPacketSize
+  nameWithType: OrderedAckMqttClient.GetMaximumPacketSize
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.GetMaximumPacketSize
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_System_Threading_CancellationToken_
+  name: ConnectAsync(MqttConnectionSettings, CancellationToken)
+  nameWithType: IMqttClient.ConnectAsync(MqttConnectionSettings, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+    name: ConnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+    name: MqttConnectionSettings
+    href: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ConnectAsync(Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings,System.Threading.CancellationToken)
+    name: ConnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ConnectAsync_Azure_Iot_Operations_Protocol_Connection_MqttConnectionSettings_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+    name: MqttConnectionSettings
+    href: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+  commentId: T:Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+  parent: Azure.Iot.Operations.Protocol.Connection
+  href: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings.html
+  name: MqttConnectionSettings
+  nameWithType: MqttConnectionSettings
+  fullName: Azure.Iot.Operations.Protocol.Connection.MqttConnectionSettings
+- uid: Azure.Iot.Operations.Protocol.Connection
+  commentId: N:Azure.Iot.Operations.Protocol.Connection
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Connection
+  nameWithType: Azure.Iot.Operations.Protocol.Connection
+  fullName: Azure.Iot.Operations.Protocol.Connection
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Connection
+    name: Connection
+    href: Azure.Iot.Operations.Protocol.Connection.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Connection
+    name: Connection
+    href: Azure.Iot.Operations.Protocol.Connection.html
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_ReconnectAsync_System_Threading_CancellationToken_
+  name: ReconnectAsync
+  nameWithType: OrderedAckMqttClient.ReconnectAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.ReconnectAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ReconnectAsync_System_Threading_CancellationToken_
+  name: ReconnectAsync(CancellationToken)
+  nameWithType: IMqttClient.ReconnectAsync(CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+    name: ReconnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ReconnectAsync_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.ReconnectAsync(System.Threading.CancellationToken)
+    name: ReconnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_ReconnectAsync_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_DisconnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientDisconnectOptions_System_Threading_CancellationToken_
+  name: DisconnectAsync
+  nameWithType: OrderedAckMqttClient.DisconnectAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisconnectAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_DisconnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientDisconnectOptions_System_Threading_CancellationToken_
+  name: DisconnectAsync(MqttClientDisconnectOptions, CancellationToken)
+  nameWithType: IMqttClient.DisconnectAsync(MqttClientDisconnectOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+    name: DisconnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_DisconnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientDisconnectOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+    name: MqttClientDisconnectOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.DisconnectAsync(Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions,System.Threading.CancellationToken)
+    name: DisconnectAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_DisconnectAsync_Azure_Iot_Operations_Protocol_Models_MqttClientDisconnectOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+    name: MqttClientDisconnectOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions.html
+  name: MqttClientDisconnectOptions
+  nameWithType: MqttClientDisconnectOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientDisconnectOptions
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken_
+  name: PublishAsync
+  nameWithType: OrderedAckMqttClient.PublishAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.PublishAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken_
+  name: PublishAsync(MqttApplicationMessage, CancellationToken)
+  nameWithType: IMqttPubSubClient.PublishAsync(MqttApplicationMessage, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+    name: PublishAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+    name: MqttApplicationMessage
+    href: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.PublishAsync(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage,System.Threading.CancellationToken)
+    name: PublishAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_PublishAsync_Azure_Iot_Operations_Protocol_Models_MqttApplicationMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+    name: MqttApplicationMessage
+    href: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage.html
+  name: MqttApplicationMessage
+  nameWithType: MqttApplicationMessage
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage
+- uid: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult}
+  commentId: T:System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<MqttClientPublishResult>
+  nameWithType: Task<MqttClientPublishResult>
+  fullName: System.Threading.Tasks.Task<Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult>
+  nameWithType.vb: Task(Of MqttClientPublishResult)
+  fullName.vb: System.Threading.Tasks.Task(Of Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult)
+  name.vb: Task(Of MqttClientPublishResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult
+    name: MqttClientPublishResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult
+    name: MqttClientPublishResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientPublishResult.html
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken_
+  name: SubscribeAsync
+  nameWithType: OrderedAckMqttClient.SubscribeAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SubscribeAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken_
+  name: SubscribeAsync(MqttClientSubscribeOptions, CancellationToken)
+  nameWithType: IMqttPubSubClient.SubscribeAsync(MqttClientSubscribeOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+    name: SubscribeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+    name: MqttClientSubscribeOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.SubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions,System.Threading.CancellationToken)
+    name: SubscribeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_SubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientSubscribeOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+    name: MqttClientSubscribeOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions.html
+  name: MqttClientSubscribeOptions
+  nameWithType: MqttClientSubscribeOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions
+- uid: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult}
+  commentId: T:System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<MqttClientSubscribeResult>
+  nameWithType: Task<MqttClientSubscribeResult>
+  fullName: System.Threading.Tasks.Task<Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult>
+  nameWithType.vb: Task(Of MqttClientSubscribeResult)
+  fullName.vb: System.Threading.Tasks.Task(Of Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult)
+  name.vb: Task(Of MqttClientSubscribeResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult
+    name: MqttClientSubscribeResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult
+    name: MqttClientSubscribeResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeResult.html
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken_
+  name: UnsubscribeAsync
+  nameWithType: OrderedAckMqttClient.UnsubscribeAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.UnsubscribeAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken_
+  name: UnsubscribeAsync(MqttClientUnsubscribeOptions, CancellationToken)
+  nameWithType: IMqttPubSubClient.UnsubscribeAsync(MqttClientUnsubscribeOptions, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+    name: UnsubscribeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+    name: MqttClientUnsubscribeOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.UnsubscribeAsync(Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions,System.Threading.CancellationToken)
+    name: UnsubscribeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_UnsubscribeAsync_Azure_Iot_Operations_Protocol_Models_MqttClientUnsubscribeOptions_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+    name: MqttClientUnsubscribeOptions
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions.html
+  name: MqttClientUnsubscribeOptions
+  nameWithType: MqttClientUnsubscribeOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeOptions
+- uid: System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult}
+  commentId: T:System.Threading.Tasks.Task{Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<MqttClientUnsubscribeResult>
+  nameWithType: Task<MqttClientUnsubscribeResult>
+  fullName: System.Threading.Tasks.Task<Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult>
+  nameWithType.vb: Task(Of MqttClientUnsubscribeResult)
+  fullName.vb: System.Threading.Tasks.Task(Of Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult)
+  name.vb: Task(Of MqttClientUnsubscribeResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult
+    name: MqttClientUnsubscribeResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult
+    name: MqttClientUnsubscribeResult
+    href: Azure.Iot.Operations.Protocol.Models.MqttClientUnsubscribeResult.html
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_IsConnected
+  name: IsConnected
+  nameWithType: OrderedAckMqttClient.IsConnected
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.IsConnected
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.IsConnected
+  commentId: P:Azure.Iot.Operations.Protocol.IMqttClient.IsConnected
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_IsConnected
+  name: IsConnected
+  nameWithType: IMqttClient.IsConnected
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.IsConnected
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_DisposeAsync
+  name: DisposeAsync
+  nameWithType: OrderedAckMqttClient.DisposeAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.DisposeAsync
+- uid: System.IAsyncDisposable.DisposeAsync
+  commentId: M:System.IAsyncDisposable.DisposeAsync
+  parent: System.IAsyncDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  name: DisposeAsync()
+  nameWithType: IAsyncDisposable.DisposeAsync()
+  fullName: System.IAsyncDisposable.DisposeAsync()
+  spec.csharp:
+  - uid: System.IAsyncDisposable.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IAsyncDisposable.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable.disposeasync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.ValueTask
+  commentId: T:System.Threading.Tasks.ValueTask
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  name: ValueTask
+  nameWithType: ValueTask
+  fullName: System.Threading.Tasks.ValueTask
+- uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(System.Boolean)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(System.Boolean)
+  parent: Azure.Iot.Operations.Protocol.IMqttPubSubClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_DisposeAsync_System_Boolean_
+  name: DisposeAsync(bool)
+  nameWithType: IMqttPubSubClient.DisposeAsync(bool)
+  fullName: Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(bool)
+  nameWithType.vb: IMqttPubSubClient.DisposeAsync(Boolean)
+  fullName.vb: Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(Boolean)
+  name.vb: DisposeAsync(Boolean)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(System.Boolean)
+    name: DisposeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_DisposeAsync_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttPubSubClient.DisposeAsync(System.Boolean)
+    name: DisposeAsync
+    href: Azure.Iot.Operations.Protocol.IMqttPubSubClient.html#Azure_Iot_Operations_Protocol_IMqttPubSubClient_DisposeAsync_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync
+  href: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.html#Azure_Iot_Operations_Mqtt_OrderedAckMqttClient_SendExtendedAuthenticationExchangeDataAsync_Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeData_System_Threading_CancellationToken_
+  name: SendExtendedAuthenticationExchangeDataAsync
+  nameWithType: OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync
+  fullName: Azure.Iot.Operations.Mqtt.OrderedAckMqttClient.SendExtendedAuthenticationExchangeDataAsync
+- uid: Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  commentId: M:Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+  parent: Azure.Iot.Operations.Protocol.IMqttClient
+  isExternal: true
+  href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_SendExtendedAuthenticationExchangeDataAsync_Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeData_System_Threading_CancellationToken_
+  name: SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData, CancellationToken)
+  nameWithType: IMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData, CancellationToken)
+  fullName: Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+    name: SendExtendedAuthenticationExchangeDataAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_SendExtendedAuthenticationExchangeDataAsync_Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeData_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData
+    name: MqttExtendedAuthenticationExchangeData
+    href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.IMqttClient.SendExtendedAuthenticationExchangeDataAsync(Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData,System.Threading.CancellationToken)
+    name: SendExtendedAuthenticationExchangeDataAsync
+    href: Azure.Iot.Operations.Protocol.IMqttClient.html#Azure_Iot_Operations_Protocol_IMqttClient_SendExtendedAuthenticationExchangeDataAsync_Azure_Iot_Operations_Protocol_Models_MqttExtendedAuthenticationExchangeData_System_Threading_CancellationToken_
+  - name: (
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData
+    name: MqttExtendedAuthenticationExchangeData
+    href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData.html
+  name: MqttExtendedAuthenticationExchangeData
+  nameWithType: MqttExtendedAuthenticationExchangeData
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttExtendedAuthenticationExchangeData

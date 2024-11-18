@@ -1,0 +1,708 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  commentId: T:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  id: MessagePurgedFromQueueException
+  parent: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  children:
+  - Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy})
+  - Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String)
+  - Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String,System.Exception)
+  - Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+  langs:
+  - csharp
+  - vb
+  name: MessagePurgedFromQueueException
+  nameWithType: MessagePurgedFromQueueException
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MessagePurgedFromQueueException
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+    startLine: 11
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  summary: >-
+    Thrown by a MqttSessionClient.PublishAsync(MQTTnet.MqttApplicationMessage, CancellationToken) if the message is 
+
+    removed from the queue because the message queue size was reached. Depending on the <xref href="Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.PendingMessagesOverflowStrategy" data-throw-if-not-resolved="false"></xref>,
+
+    this either signals that this message was the first message in the queue when the max queue size was reached or
+
+    that this message tried to be enqueued when the queue was already at the max queue size.
+  example: []
+  syntax:
+    content: 'public class MessagePurgedFromQueueException : Exception, ISerializable'
+    content.vb: Public Class MessagePurgedFromQueueException Inherits Exception Implements ISerializable
+  inheritance:
+  - System.Object
+  - System.Exception
+  implements:
+  - System.Runtime.Serialization.ISerializable
+  inheritedMembers:
+  - System.Exception.GetBaseException
+  - System.Exception.GetType
+  - System.Exception.ToString
+  - System.Exception.Data
+  - System.Exception.HelpLink
+  - System.Exception.HResult
+  - System.Exception.InnerException
+  - System.Exception.Message
+  - System.Exception.Source
+  - System.Exception.StackTrace
+  - System.Exception.TargetSite
+  - System.Exception.SerializeObjectState
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+  commentId: P:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+  id: MessagePurgeStrategy
+  parent: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  langs:
+  - csharp
+  - vb
+  name: MessagePurgeStrategy
+  nameWithType: MessagePurgedFromQueueException.MessagePurgeStrategy
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MessagePurgeStrategy
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+    startLine: 13
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  syntax:
+    content: public MqttPendingMessagesOverflowStrategy? MessagePurgeStrategy { get; }
+    parameters: []
+    return:
+      type: System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+    content.vb: Public ReadOnly Property MessagePurgeStrategy As MqttPendingMessagesOverflowStrategy?
+  overload: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy*
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy})
+  commentId: M:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy})
+  id: '#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy})'
+  parent: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  langs:
+  - csharp
+  - vb
+  name: MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?)
+  nameWithType: MessagePurgedFromQueueException.MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?)
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgedFromQueueException(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+    startLine: 15
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  syntax:
+    content: public MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy? messagePurgeStrategy = null)
+    parameters:
+    - id: messagePurgeStrategy
+      type: System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+    content.vb: Public Sub New(messagePurgeStrategy As MqttPendingMessagesOverflowStrategy? = Nothing)
+  overload: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor*
+  nameWithType.vb: MessagePurgedFromQueueException.New(MqttPendingMessagesOverflowStrategy?)
+  fullName.vb: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.New(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?)
+  name.vb: New(MqttPendingMessagesOverflowStrategy?)
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String)
+  commentId: M:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String)
+  id: '#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String)'
+  parent: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  langs:
+  - csharp
+  - vb
+  name: MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?, string?)
+  nameWithType: MessagePurgedFromQueueException.MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?, string?)
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgedFromQueueException(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?, string?)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+    startLine: 20
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  syntax:
+    content: public MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy? messagePurgeStrategy, string? message)
+    parameters:
+    - id: messagePurgeStrategy
+      type: System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(messagePurgeStrategy As MqttPendingMessagesOverflowStrategy?, message As String)
+  overload: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor*
+  nameWithType.vb: MessagePurgedFromQueueException.New(MqttPendingMessagesOverflowStrategy?, String)
+  fullName.vb: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.New(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?, String)
+  name.vb: New(MqttPendingMessagesOverflowStrategy?, String)
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String,System.Exception)
+  commentId: M:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String,System.Exception)
+  id: '#ctor(System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy},System.String,System.Exception)'
+  parent: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException
+  langs:
+  - csharp
+  - vb
+  name: MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?, string?, Exception?)
+  nameWithType: MessagePurgedFromQueueException.MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy?, string?, Exception?)
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgedFromQueueException(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?, string?, System.Exception?)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Mqtt/Session/MessagePurgedFromQueueException.cs
+    startLine: 25
+  assemblies:
+  - Azure.Iot.Operations.Mqtt
+  namespace: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  syntax:
+    content: public MessagePurgedFromQueueException(MqttPendingMessagesOverflowStrategy? messagePurgeStrategy, string? message, Exception? innerException)
+    parameters:
+    - id: messagePurgeStrategy
+      type: System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+    - id: message
+      type: System.String
+    - id: innerException
+      type: System.Exception
+    content.vb: Public Sub New(messagePurgeStrategy As MqttPendingMessagesOverflowStrategy?, message As String, innerException As Exception)
+  overload: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor*
+  nameWithType.vb: MessagePurgedFromQueueException.New(MqttPendingMessagesOverflowStrategy?, String, Exception)
+  fullName.vb: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.New(Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?, String, System.Exception)
+  name.vb: New(MqttPendingMessagesOverflowStrategy?, String, Exception)
+references:
+- uid: Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.PendingMessagesOverflowStrategy
+  commentId: P:Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.PendingMessagesOverflowStrategy
+  href: Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.html#Azure_Iot_Operations_Mqtt_Session_MqttSessionClientOptions_PendingMessagesOverflowStrategy
+  name: PendingMessagesOverflowStrategy
+  nameWithType: MqttSessionClientOptions.PendingMessagesOverflowStrategy
+  fullName: Azure.Iot.Operations.Mqtt.Session.MqttSessionClientOptions.PendingMessagesOverflowStrategy
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  commentId: N:Azure.Iot.Operations.Mqtt.Session.Exceptions
+  href: Azure.html
+  name: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  nameWithType: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt
+    name: Mqtt
+    href: Azure.Iot.Operations.Mqtt.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt.Session
+    name: Session
+    href: Azure.Iot.Operations.Mqtt.Session.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt.Session.Exceptions
+    name: Exceptions
+    href: Azure.Iot.Operations.Mqtt.Session.Exceptions.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt
+    name: Mqtt
+    href: Azure.Iot.Operations.Mqtt.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt.Session
+    name: Session
+    href: Azure.Iot.Operations.Mqtt.Session.html
+  - name: .
+  - uid: Azure.Iot.Operations.Mqtt.Session.Exceptions
+    name: Exceptions
+    href: Azure.Iot.Operations.Mqtt.Session.Exceptions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: System.Runtime.Serialization.ISerializable
+  commentId: T:System.Runtime.Serialization.ISerializable
+  parent: System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.iserializable
+  name: ISerializable
+  nameWithType: ISerializable
+  fullName: System.Runtime.Serialization.ISerializable
+- uid: System.Exception.GetBaseException
+  commentId: M:System.Exception.GetBaseException
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  name: GetBaseException()
+  nameWithType: Exception.GetBaseException()
+  fullName: System.Exception.GetBaseException()
+  spec.csharp:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  - name: (
+  - name: )
+- uid: System.Exception.GetType
+  commentId: M:System.Exception.GetType
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  name: GetType()
+  nameWithType: Exception.GetType()
+  fullName: System.Exception.GetType()
+  spec.csharp:
+  - uid: System.Exception.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  - name: (
+  - name: )
+- uid: System.Exception.ToString
+  commentId: M:System.Exception.ToString
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  name: ToString()
+  nameWithType: Exception.ToString()
+  fullName: System.Exception.ToString()
+  spec.csharp:
+  - uid: System.Exception.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  - name: (
+  - name: )
+- uid: System.Exception.Data
+  commentId: P:System.Exception.Data
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.data
+  name: Data
+  nameWithType: Exception.Data
+  fullName: System.Exception.Data
+- uid: System.Exception.HelpLink
+  commentId: P:System.Exception.HelpLink
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.helplink
+  name: HelpLink
+  nameWithType: Exception.HelpLink
+  fullName: System.Exception.HelpLink
+- uid: System.Exception.HResult
+  commentId: P:System.Exception.HResult
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.hresult
+  name: HResult
+  nameWithType: Exception.HResult
+  fullName: System.Exception.HResult
+- uid: System.Exception.InnerException
+  commentId: P:System.Exception.InnerException
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.innerexception
+  name: InnerException
+  nameWithType: Exception.InnerException
+  fullName: System.Exception.InnerException
+- uid: System.Exception.Message
+  commentId: P:System.Exception.Message
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.message
+  name: Message
+  nameWithType: Exception.Message
+  fullName: System.Exception.Message
+- uid: System.Exception.Source
+  commentId: P:System.Exception.Source
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.source
+  name: Source
+  nameWithType: Exception.Source
+  fullName: System.Exception.Source
+- uid: System.Exception.StackTrace
+  commentId: P:System.Exception.StackTrace
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.stacktrace
+  name: StackTrace
+  nameWithType: Exception.StackTrace
+  fullName: System.Exception.StackTrace
+- uid: System.Exception.TargetSite
+  commentId: P:System.Exception.TargetSite
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.targetsite
+  name: TargetSite
+  nameWithType: Exception.TargetSite
+  fullName: System.Exception.TargetSite
+- uid: System.Exception.SerializeObjectState
+  commentId: E:System.Exception.SerializeObjectState
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.serializeobjectstate
+  name: SerializeObjectState
+  nameWithType: Exception.SerializeObjectState
+  fullName: System.Exception.SerializeObjectState
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Runtime.Serialization
+  commentId: N:System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Runtime.Serialization
+  nameWithType: System.Runtime.Serialization
+  fullName: System.Runtime.Serialization
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+  href: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.html#Azure_Iot_Operations_Mqtt_Session_Exceptions_MessagePurgedFromQueueException_MessagePurgeStrategy
+  name: MessagePurgeStrategy
+  nameWithType: MessagePurgedFromQueueException.MessagePurgeStrategy
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgeStrategy
+- uid: System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+  commentId: T:System.Nullable{Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy}
+  parent: System
+  definition: System.Nullable`1
+  href: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy.html
+  name: MqttPendingMessagesOverflowStrategy?
+  nameWithType: MqttPendingMessagesOverflowStrategy?
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy?
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy
+    name: MqttPendingMessagesOverflowStrategy
+    href: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy.html
+  - name: '?'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy
+    name: MqttPendingMessagesOverflowStrategy
+    href: Azure.Iot.Operations.Protocol.Models.MqttPendingMessagesOverflowStrategy.html
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.#ctor
+  href: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.html#Azure_Iot_Operations_Mqtt_Session_Exceptions_MessagePurgedFromQueueException__ctor_System_Nullable_Azure_Iot_Operations_Protocol_Models_MqttPendingMessagesOverflowStrategy__
+  name: MessagePurgedFromQueueException
+  nameWithType: MessagePurgedFromQueueException.MessagePurgedFromQueueException
+  fullName: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.MessagePurgedFromQueueException
+  nameWithType.vb: MessagePurgedFromQueueException.New
+  fullName.vb: Azure.Iot.Operations.Mqtt.Session.Exceptions.MessagePurgedFromQueueException.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

@@ -1,0 +1,649 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  id: MqttClientCertificateSelectionEventArgs
+  parent: Azure.Iot.Operations.Protocol.Models
+  children:
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Cryptography.X509Certificates.X509Certificate,System.String[],Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+  - Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions
+  langs:
+  - csharp
+  - vb
+  name: MqttClientCertificateSelectionEventArgs
+  nameWithType: MqttClientCertificateSelectionEventArgs
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  type: Class
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: MqttClientCertificateSelectionEventArgs
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 5
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: 'public sealed class MqttClientCertificateSelectionEventArgs : EventArgs'
+    content.vb: Public NotInheritable Class MqttClientCertificateSelectionEventArgs Inherits EventArgs
+  inheritance:
+  - System.Object
+  - System.EventArgs
+  inheritedMembers:
+  - System.EventArgs.Empty
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Cryptography.X509Certificates.X509Certificate,System.String[],Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  commentId: M:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Cryptography.X509Certificates.X509Certificate,System.String[],Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  id: '#ctor(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Cryptography.X509Certificates.X509Certificate,System.String[],Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)'
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: MqttClientCertificateSelectionEventArgs(string, X509CertificateCollection, X509Certificate, string[], MqttClientTcpOptions)
+  nameWithType: MqttClientCertificateSelectionEventArgs.MqttClientCertificateSelectionEventArgs(string, X509CertificateCollection, X509Certificate, string[], MqttClientTcpOptions)
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.MqttClientCertificateSelectionEventArgs(string, System.Security.Cryptography.X509Certificates.X509CertificateCollection, System.Security.Cryptography.X509Certificates.X509Certificate, string[], Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  type: Constructor
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: .ctor
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 7
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientCertificateSelectionEventArgs(string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers, MqttClientTcpOptions tcpOptions)
+    parameters:
+    - id: targetHost
+      type: System.String
+    - id: localCertificates
+      type: System.Security.Cryptography.X509Certificates.X509CertificateCollection
+    - id: remoteCertificate
+      type: System.Security.Cryptography.X509Certificates.X509Certificate
+    - id: acceptableIssuers
+      type: System.String[]
+    - id: tcpOptions
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+    content.vb: Public Sub New(targetHost As String, localCertificates As X509CertificateCollection, remoteCertificate As X509Certificate, acceptableIssuers As String(), tcpOptions As MqttClientTcpOptions)
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor*
+  nameWithType.vb: MqttClientCertificateSelectionEventArgs.New(String, X509CertificateCollection, X509Certificate, String(), MqttClientTcpOptions)
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.New(String, System.Security.Cryptography.X509Certificates.X509CertificateCollection, System.Security.Cryptography.X509Certificates.X509Certificate, String(), Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions)
+  name.vb: New(String, X509CertificateCollection, X509Certificate, String(), MqttClientTcpOptions)
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  id: AcceptableIssuers
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: AcceptableIssuers
+  nameWithType: MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: AcceptableIssuers
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 21
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public string[] AcceptableIssuers { get; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public ReadOnly Property AcceptableIssuers As String()
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+  id: LocalCertificates
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: LocalCertificates
+  nameWithType: MqttClientCertificateSelectionEventArgs.LocalCertificates
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: LocalCertificates
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 23
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public X509CertificateCollection LocalCertificates { get; }
+    parameters: []
+    return:
+      type: System.Security.Cryptography.X509Certificates.X509CertificateCollection
+    content.vb: Public ReadOnly Property LocalCertificates As X509CertificateCollection
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  id: RemoteCertificate
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: RemoteCertificate
+  nameWithType: MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: RemoteCertificate
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 25
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public X509Certificate RemoteCertificate { get; }
+    parameters: []
+    return:
+      type: System.Security.Cryptography.X509Certificates.X509Certificate
+    content.vb: Public ReadOnly Property RemoteCertificate As X509Certificate
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+  id: TargetHost
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: TargetHost
+  nameWithType: MqttClientCertificateSelectionEventArgs.TargetHost
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TargetHost
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 27
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public string TargetHost { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property TargetHost As String
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost*
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions
+  commentId: P:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions
+  id: TcpOptions
+  parent: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs
+  langs:
+  - csharp
+  - vb
+  name: TcpOptions
+  nameWithType: MqttClientCertificateSelectionEventArgs.TcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions
+  type: Property
+  source:
+    remote:
+      path: dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+      branch: docfx
+      repo: https://github.com/ryanwinterms/iot-operations-sdks
+    id: TcpOptions
+    path: ../../dotnet/src/Azure.Iot.Operations.Protocol/Models/MqttClientCertificateSelectionEventArgs.cs
+    startLine: 29
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+  namespace: Azure.Iot.Operations.Protocol.Models
+  syntax:
+    content: public MqttClientTcpOptions TcpOptions { get; }
+    parameters: []
+    return:
+      type: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+    content.vb: Public ReadOnly Property TcpOptions As MqttClientTcpOptions
+  overload: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions*
+references:
+- uid: Azure.Iot.Operations.Protocol.Models
+  commentId: N:Azure.Iot.Operations.Protocol.Models
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Models
+  nameWithType: Azure.Iot.Operations.Protocol.Models
+  fullName: Azure.Iot.Operations.Protocol.Models
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Models
+    name: Models
+    href: Azure.Iot.Operations.Protocol.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.EventArgs
+  commentId: T:System.EventArgs
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventargs
+  name: EventArgs
+  nameWithType: EventArgs
+  fullName: System.EventArgs
+- uid: System.EventArgs.Empty
+  commentId: F:System.EventArgs.Empty
+  parent: System.EventArgs
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventargs.empty
+  name: Empty
+  nameWithType: EventArgs.Empty
+  fullName: System.EventArgs.Empty
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.#ctor
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs__ctor_System_String_System_Security_Cryptography_X509Certificates_X509CertificateCollection_System_Security_Cryptography_X509Certificates_X509Certificate_System_String___Azure_Iot_Operations_Protocol_Models_MqttClientTcpOptions_
+  name: MqttClientCertificateSelectionEventArgs
+  nameWithType: MqttClientCertificateSelectionEventArgs.MqttClientCertificateSelectionEventArgs
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.MqttClientCertificateSelectionEventArgs
+  nameWithType.vb: MqttClientCertificateSelectionEventArgs.New
+  fullName.vb: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Security.Cryptography.X509Certificates.X509CertificateCollection
+  commentId: T:System.Security.Cryptography.X509Certificates.X509CertificateCollection
+  parent: System.Security.Cryptography.X509Certificates
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.security.cryptography.x509certificates.x509certificatecollection
+  name: X509CertificateCollection
+  nameWithType: X509CertificateCollection
+  fullName: System.Security.Cryptography.X509Certificates.X509CertificateCollection
+- uid: System.Security.Cryptography.X509Certificates.X509Certificate
+  commentId: T:System.Security.Cryptography.X509Certificates.X509Certificate
+  parent: System.Security.Cryptography.X509Certificates
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.security.cryptography.x509certificates.x509certificate
+  name: X509Certificate
+  nameWithType: X509Certificate
+  fullName: System.Security.Cryptography.X509Certificates.X509Certificate
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  commentId: T:Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+  parent: Azure.Iot.Operations.Protocol.Models
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions.html
+  name: MqttClientTcpOptions
+  nameWithType: MqttClientTcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientTcpOptions
+- uid: System.Security.Cryptography.X509Certificates
+  commentId: N:System.Security.Cryptography.X509Certificates
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Security.Cryptography.X509Certificates
+  nameWithType: System.Security.Cryptography.X509Certificates
+  fullName: System.Security.Cryptography.X509Certificates
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Security
+    name: Security
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security
+  - name: .
+  - uid: System.Security.Cryptography
+    name: Cryptography
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security.cryptography
+  - name: .
+  - uid: System.Security.Cryptography.X509Certificates
+    name: X509Certificates
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security.cryptography.x509certificates
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Security
+    name: Security
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security
+  - name: .
+  - uid: System.Security.Cryptography
+    name: Cryptography
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security.cryptography
+  - name: .
+  - uid: System.Security.Cryptography.X509Certificates
+    name: X509Certificates
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.security.cryptography.x509certificates
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs_AcceptableIssuers
+  name: AcceptableIssuers
+  nameWithType: MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.AcceptableIssuers
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs_LocalCertificates
+  name: LocalCertificates
+  nameWithType: MqttClientCertificateSelectionEventArgs.LocalCertificates
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.LocalCertificates
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs_RemoteCertificate
+  name: RemoteCertificate
+  nameWithType: MqttClientCertificateSelectionEventArgs.RemoteCertificate
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.RemoteCertificate
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs_TargetHost
+  name: TargetHost
+  nameWithType: MqttClientCertificateSelectionEventArgs.TargetHost
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TargetHost
+- uid: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions*
+  commentId: Overload:Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions
+  href: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.html#Azure_Iot_Operations_Protocol_Models_MqttClientCertificateSelectionEventArgs_TcpOptions
+  name: TcpOptions
+  nameWithType: MqttClientCertificateSelectionEventArgs.TcpOptions
+  fullName: Azure.Iot.Operations.Protocol.Models.MqttClientCertificateSelectionEventArgs.TcpOptions

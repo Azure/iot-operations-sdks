@@ -1,0 +1,138 @@
+### YamlMime:ManagedReference
+items:
+- uid: Azure.Iot.Operations.Protocol.Telemetry
+  commentId: N:Azure.Iot.Operations.Protocol.Telemetry
+  id: Telemetry
+  parent: Azure.Iot.Operations.Protocol
+  children:
+  - Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  - Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata
+  - Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata
+  - Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver`1
+  - Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender`1
+  langs:
+  - csharp
+  - vb
+  name: Azure.Iot.Operations.Protocol.Telemetry
+  nameWithType: Azure.Iot.Operations.Protocol.Telemetry
+  fullName: Azure.Iot.Operations.Protocol.Telemetry
+  type: Namespace
+  assemblies:
+  - Azure.Iot.Operations.Protocol
+references:
+- uid: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+  parent: Azure.Iot.Operations.Protocol.Telemetry
+  href: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent.html
+  name: CloudEvent
+  nameWithType: CloudEvent
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.CloudEvent
+- uid: Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata
+  href: Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata.html
+  name: IncomingTelemetryMetadata
+  nameWithType: IncomingTelemetryMetadata
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.IncomingTelemetryMetadata
+- uid: Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata
+  parent: Azure.Iot.Operations.Protocol.Telemetry
+  href: Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata.html
+  name: OutgoingTelemetryMetadata
+  nameWithType: OutgoingTelemetryMetadata
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.OutgoingTelemetryMetadata
+- uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver`1
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver`1
+  href: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver-1.html
+  name: TelemetryReceiver<T>
+  nameWithType: TelemetryReceiver<T>
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver<T>
+  nameWithType.vb: TelemetryReceiver(Of T)
+  fullName.vb: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver(Of T)
+  name.vb: TelemetryReceiver(Of T)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver`1
+    name: TelemetryReceiver
+    href: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver`1
+    name: TelemetryReceiver
+    href: Azure.Iot.Operations.Protocol.Telemetry.TelemetryReceiver-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender`1
+  commentId: T:Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender`1
+  href: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender-1.html
+  name: TelemetrySender<T>
+  nameWithType: TelemetrySender<T>
+  fullName: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender<T>
+  nameWithType.vb: TelemetrySender(Of T)
+  fullName.vb: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender(Of T)
+  name.vb: TelemetrySender(Of T)
+  spec.csharp:
+  - uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender`1
+    name: TelemetrySender
+    href: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender`1
+    name: TelemetrySender
+    href: Azure.Iot.Operations.Protocol.Telemetry.TelemetrySender-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Azure.Iot.Operations.Protocol.Telemetry
+  commentId: N:Azure.Iot.Operations.Protocol.Telemetry
+  href: Azure.html
+  name: Azure.Iot.Operations.Protocol.Telemetry
+  nameWithType: Azure.Iot.Operations.Protocol.Telemetry
+  fullName: Azure.Iot.Operations.Protocol.Telemetry
+  spec.csharp:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Telemetry
+    name: Telemetry
+    href: Azure.Iot.Operations.Protocol.Telemetry.html
+  spec.vb:
+  - uid: Azure
+    name: Azure
+    href: Azure.html
+  - name: .
+  - uid: Azure.Iot
+    name: Iot
+    href: Azure.Iot.html
+  - name: .
+  - uid: Azure.Iot.Operations
+    name: Operations
+    href: Azure.Iot.Operations.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol
+    name: Protocol
+    href: Azure.Iot.Operations.Protocol.html
+  - name: .
+  - uid: Azure.Iot.Operations.Protocol.Telemetry
+    name: Telemetry
+    href: Azure.Iot.Operations.Protocol.Telemetry.html
