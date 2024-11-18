@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The serialized payload containing the sampled dataset.</returns>
         /// <remarks>
-        /// This method will be invoked by the <see cref="ConnectorAppWorker"/> each time that a dataset needs to be sampled. The worker service
+        /// This method will be invoked by the <see cref="ConnectorWorker"/> each time that a dataset needs to be sampled. The worker service
         /// will then forward the returned serialized payload to the MQTT broker stamped with cloud event headers.
         /// </remarks>
         public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default);

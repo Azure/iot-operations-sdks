@@ -11,9 +11,9 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class ConnectorAppWorker : BackgroundService
+    public class ConnectorWorker : BackgroundService
     {
-        private readonly ILogger<ConnectorAppWorker> _logger;
+        private readonly ILogger<ConnectorWorker> _logger;
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.Connector
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
 
-        public ConnectorAppWorker(
-            ILogger<ConnectorAppWorker> logger, 
+        public ConnectorWorker(
+            ILogger<ConnectorWorker> logger, 
             MqttSessionClient mqttSessionClient, 
             IDatasetSamplerFactory datasetSamplerFactory,
             string leadershipPositionId)
