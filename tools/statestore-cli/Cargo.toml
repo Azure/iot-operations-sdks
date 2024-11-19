@@ -20,6 +20,11 @@ tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 clap = { version = "4.0", features = ["derive"] }
 env_logger = "0.11.3"
 
-[dev-dependencies]
+[lints.rust]
+rust_2018_idioms = { level = "deny", priority = -1 }
 
-[lints]
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+too_many_lines = "allow"
+module_name_repetitions = "allow"

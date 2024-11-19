@@ -84,8 +84,6 @@ enum Commands {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    let exit_code : i32;
-
     let args = Cli::parse();
 
     let logging_level : log::LevelFilter =
@@ -95,7 +93,6 @@ async fn main() {
     Builder::new()
         .filter_level(logging_level)
         .format_timestamp(None)
-        .filter_module("rumqttc", logging_level)
         .init();
 
     // Create a session
@@ -117,7 +114,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
     
-    match args.cmd {
+    let exit_code : i32 = match args.cmd {
         Commands::Get { key, valuefile } => {
             let get_join_handle = tokio::task::spawn(state_store_get_value(
                 session.create_managed_client(),
@@ -128,7 +125,7 @@ async fn main() {
 
             session.run().await.unwrap();
 
-            exit_code = get_join_handle.await.unwrap();
+            get_join_handle.await.unwrap()
         },
         Commands::Set { key, value , valuefile } => {
             let actual_value = match value {
@@ -145,7 +142,7 @@ async fn main() {
 
             session.run().await.unwrap();
 
-            exit_code = set_join_handle.await.unwrap();
+            set_join_handle.await.unwrap()
         },
         Commands::Delete { key } => {
             let delete_join_handle = tokio::task::spawn(state_store_delete_key(
@@ -156,9 +153,9 @@ async fn main() {
 
             session.run().await.unwrap();
 
-            exit_code = delete_join_handle.await.unwrap();
+            delete_join_handle.await.unwrap()
         }
-    }
+    };
 
     std::process::exit(exit_code);
 }
@@ -236,9 +233,9 @@ async fn state_store_set_value(client: SessionManagedClient,
         .await
         .unwrap();
 
-    match set_response.response {
-      true => { result = 0; },  
-      false => { result = 1; } 
+    result = match set_response.response {
+      true => { 0 },  
+      false => { 1 } 
     };
 
     match exit_handle.try_exit().await {
