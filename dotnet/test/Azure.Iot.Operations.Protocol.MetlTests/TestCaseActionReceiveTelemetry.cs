@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public static int? DefaultFormatIndicator;
         public static int? DefaultQos;
         public static TestCaseDuration? DefaultMessageExpiry;
-        public static int? DefaultSenderIndex;
+        public static int? DefaultSourceIndex;
 
         public string? Topic { get; set; } = DefaultTopic;
 
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public TestCaseDuration? MessageExpiry { get; set; } = DefaultMessageExpiry;
 
-        public int? SenderIndex { get; set; } = DefaultSenderIndex;
+        public int? SourceIndex { get; set; } = DefaultSourceIndex;
 
         public int? PacketIndex { get; set; }
     }

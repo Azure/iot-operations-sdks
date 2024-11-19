@@ -164,7 +164,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             AsyncQueue<Task> sendTasks = new();
-            ConcurrentDictionary<int, ushort> packetIds = new();
 
             foreach (TestCaseAction action in testCase.Actions)
             {
@@ -174,7 +173,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         SendTelemetryAsync(actionSendTelemetry, telemetrySenders, sendTasks);
                         break;
                     case TestCaseActionAwaitSend actionAwaitSend:
-                        await AwaitSendAsync(actionAwaitSend, sendTasks);
+                        await AwaitSendAsync(actionAwaitSend, sendTasks).ConfigureAwait(false);
                         break;
                     case TestCaseActionAwaitPublish:
                         await AwaitPublishAsync(stubMqttClient).ConfigureAwait(false);

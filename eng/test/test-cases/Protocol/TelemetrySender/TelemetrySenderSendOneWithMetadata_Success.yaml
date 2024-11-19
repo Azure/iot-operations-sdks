@@ -15,6 +15,7 @@ actions:
   metadata:
     "telemHeader": "telemValue"
 - action: await publish
+- action: await send
 
 epilogue:
   published-messages:

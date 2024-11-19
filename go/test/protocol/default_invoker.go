@@ -6,11 +6,12 @@ type DefaultInvoker struct {
 	CommandName         *string `toml:"command-name"`
 	RequestTopic        *string `toml:"request-topic"`
 	ModelID             *string `toml:"model-id"`
+	TopicNamespace      *string `toml:"topic-namespace"`
 	ResponseTopicPrefix *string `toml:"response-topic-prefix"`
 	ResponseTopicSuffix *string `toml:"response-topic-suffix"`
 }
 
-func (invoker DefaultInvoker) GetCommandName() *string {
+func (invoker *DefaultInvoker) GetCommandName() *string {
 	if invoker.CommandName == nil {
 		return nil
 	}
@@ -19,7 +20,7 @@ func (invoker DefaultInvoker) GetCommandName() *string {
 	return &commandName
 }
 
-func (invoker DefaultInvoker) GetRequestTopic() *string {
+func (invoker *DefaultInvoker) GetRequestTopic() *string {
 	if invoker.RequestTopic == nil {
 		return nil
 	}
@@ -28,7 +29,7 @@ func (invoker DefaultInvoker) GetRequestTopic() *string {
 	return &requestTopic
 }
 
-func (invoker DefaultInvoker) GetModelID() *string {
+func (invoker *DefaultInvoker) GetModelID() *string {
 	if invoker.ModelID == nil {
 		return nil
 	}
@@ -37,7 +38,16 @@ func (invoker DefaultInvoker) GetModelID() *string {
 	return &modelID
 }
 
-func (invoker DefaultInvoker) GetResponseTopicPrefix() *string {
+func (invoker *DefaultInvoker) GetTopicNamespace() *string {
+	if invoker.TopicNamespace == nil {
+		return nil
+	}
+
+	topicNamespace := *invoker.TopicNamespace
+	return &topicNamespace
+}
+
+func (invoker *DefaultInvoker) GetResponseTopicPrefix() *string {
 	if invoker.ResponseTopicPrefix == nil {
 		return nil
 	}
@@ -46,7 +56,7 @@ func (invoker DefaultInvoker) GetResponseTopicPrefix() *string {
 	return &responseTopicPrefix
 }
 
-func (invoker DefaultInvoker) GetResponseTopicSuffix() *string {
+func (invoker *DefaultInvoker) GetResponseTopicSuffix() *string {
 	if invoker.ResponseTopicSuffix == nil {
 		return nil
 	}
