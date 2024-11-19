@@ -34,9 +34,21 @@ if [ "$deploy_type" = "nightly" ]; then
     # install trust-manager
     helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --wait
 
-    # install AIO Broker
+    # install MQTT broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
     helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
+
+    # add ADR
+    helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
+
+    # add Akri service, port 38884
+    helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
+        --set agent.extensionService.mqttBroker.useTls=true \
+        --set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
+        --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
+        --set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
+        --set agent.extensionService.mqttBroker.port=38884 \
+        -n azure-iot-operations --wait
 fi
 
 # create root & intermediate CA
