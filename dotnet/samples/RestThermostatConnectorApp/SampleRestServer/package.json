@@ -1,5 +1,5 @@
 {
-    "name": "http-server",
+    "name": "rest-server",
     "version": "1.0.0",
     "description": "Test REST Service",
     "main": "server.js",

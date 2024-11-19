@@ -75,7 +75,7 @@ jobs:
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
 
     - name: Deploy HTTP server connector sample
-      run: (cd dotnet/samples/HttpServerConnectorApp; ./deploy-connector-and-asset.sh)
+      run: (cd dotnet/samples/RestThermostatConnectorApp; ./deploy-connector-and-asset.sh)
 
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &

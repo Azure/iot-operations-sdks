@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HttpServerConnectorApp
+namespace RestThermostatConnector
 {
     internal class ThermostatStatus
     {
