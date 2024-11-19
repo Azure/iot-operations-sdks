@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # create some environment variables to simplify deployment
-echo 'export CLUSTER_NAME=${CODESPACE_NAME%-*}' >> ~/.bashrc
-echo 'export STORAGE_ACCOUNT=${CLUSTER_NAME}-sa' >> ~/.bashrc
-echo 'export SCHEMA_REGISTRY=${CLUSTER_NAME}-sr' >> ~/.bashrc
-echo 'export SCHEMA_REGISTRY_NAMESPACE=${CLUSTER_NAME}-srn' >> ~/.bashrc
+export BASE_NAME=${CODESPACE_NAME//-} | head -c 12
+echo 'export CLUSTER_NAME=${BASE_NAME}' >> ~/.bashrc
+echo 'export STORAGE_ACCOUNT=${BASE_NAME}-sa' >> ~/.bashrc
+echo 'export SCHEMA_REGISTRY=${BASE_NAME}-sr' >> ~/.bashrc
+echo 'export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}-srn' >> ~/.bashrc
 source ~/.bashrc
 
 echo "Environment:
