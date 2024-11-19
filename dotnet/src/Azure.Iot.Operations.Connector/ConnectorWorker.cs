@@ -17,7 +17,6 @@ namespace Azure.Iot.Operations.Connector
         private MqttSessionClient _sessionClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
-        private string _leadershipPositionId;
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
@@ -25,13 +24,11 @@ namespace Azure.Iot.Operations.Connector
         public ConnectorWorker(
             ILogger<ConnectorWorker> logger, 
             MqttSessionClient mqttSessionClient, 
-            IDatasetSamplerFactory datasetSamplerFactory,
-            string leadershipPositionId)
+            IDatasetSamplerFactory datasetSamplerFactory)
         {
             _logger = logger;
             _sessionClient = mqttSessionClient;
             _datasetSamplerFactory = datasetSamplerFactory;
-            _leadershipPositionId = leadershipPositionId;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -50,38 +47,14 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
-            await using LeaderElectionClient leaderElectionClient = new(_sessionClient, _leadershipPositionId, candidateName);
-
+            bool doingLeaderElection = false;
             TimeSpan leaderElectionTermLength = TimeSpan.FromSeconds(5);
-            leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
-            {
-                AutomaticRenewal = true,
-                ElectionTerm = leaderElectionTermLength,
-                RenewalPeriod = leaderElectionTermLength.Subtract(TimeSpan.FromSeconds(1))
-            };
-
-            leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
-            {
-                isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
-                if (isLeader)
-                {
-                    _logger.LogInformation("Received notification that this pod is the leader");
-                }
-
-                return Task.CompletedTask;
-            };
-
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
-                        //TODO how does this work when the DSS store shouldn't be touched? There is no way to know for sure if you are still leader without
-                        //polling. Maybe it is fine if there is some overlap with 2 pods active for (campaign-length) amount of time?
-                        _logger.LogInformation("This pod is waiting to be elected leader.");
-                        await leaderElectionClient.CampaignAsync(leaderElectionTermLength);
-
                         _logger.LogInformation("This pod was elected leader.");
 
                         AssetMonitor assetMonitor = new AssetMonitor();
@@ -113,9 +86,42 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation("Waiting for asset endpoint profile to be discovered");
                         AssetEndpointProfile assetEndpointProfile = await aepCreatedTcs.Task.WaitAsync(cancellationToken);
-                        
 
                         _logger.LogInformation("Successfully discovered the asset endpoint profile");
+
+                        if (assetEndpointProfile.AdditionalConfiguration != null
+                            && assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value)
+                            && value.ValueKind == JsonValueKind.String
+                            && value.GetString() != null)
+                        {
+                            doingLeaderElection = true;
+                            string leadershipPositionId = value.GetString()!;
+
+                            await using LeaderElectionClient leaderElectionClient = new(_sessionClient, leadershipPositionId, candidateName);
+
+                            leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
+                            {
+                                AutomaticRenewal = true,
+                                ElectionTerm = leaderElectionTermLength,
+                                RenewalPeriod = leaderElectionTermLength.Subtract(TimeSpan.FromSeconds(1))
+                            };
+
+                            leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
+                            {
+                                isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
+                                if (isLeader)
+                                {
+                                    _logger.LogInformation("Received notification that this pod is the leader");
+                                }
+
+                                return Task.CompletedTask;
+                            };
+
+                            //TODO how does this work when the DSS store shouldn't be touched? There is no way to know for sure if you are still leader without
+                            //polling. Maybe it is fine if there is some overlap with 2 pods active for (campaign-length) amount of time?
+                            _logger.LogInformation("This pod is waiting to be elected leader.");
+                            await leaderElectionClient.CampaignAsync(leaderElectionTermLength);
+                        }
 
                         assetMonitor.AssetChanged += (sender, args) =>
                         {
@@ -147,9 +153,18 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                await Task.WhenAny(
-                                    aepDeletedOrUpdatedTcs.Task,
-                                    Task.Delay(leaderElectionTermLength)).WaitAsync(cancellationToken);
+                                if (doingLeaderElection)
+                                {
+                                    await Task.WhenAny(
+                                        aepDeletedOrUpdatedTcs.Task,
+                                        Task.Delay(leaderElectionTermLength)).WaitAsync(cancellationToken);
+                                }
+                                else
+                                {
+                                    await Task.WhenAny(
+                                        aepDeletedOrUpdatedTcs.Task).WaitAsync(cancellationToken);
+
+                                }
                             }
                             catch (OperationCanceledException)
                             { 

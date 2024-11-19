@@ -1,10 +1,10 @@
 apiVersion: deviceregistry.microsoft.com/v1
 kind: Asset
 metadata:
-  name: my-rest-thermostat-asset
+  name: my-rest-thermostat-asset1
   namespace: azure-iot-operations
 spec:
-  displayName: My REST Thermostat Asset
+  displayName: My REST Thermostat Asset 1
   description: A sample for an Asset modeling a device with REST endpoint
   assetEndpointProfileRef: azure-iot-operations/my-rest-thermostat-profile # <namespace>/<assetEndpointProfile.metadata.name>
   defaultDatasetsConfiguration: |-

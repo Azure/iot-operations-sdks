@@ -1,0 +1,16 @@
+apiVersion: deviceregistry.microsoft.com/v1
+kind: AssetEndpointProfile
+metadata:
+  name: my-rest-thermostat-profile1
+  namespace: azure-iot-operations
+spec:
+  additionalConfiguration: '{"leaderShipPositionId" : "rest-server1-position-id"}'
+  authentication:
+    method: UsernamePassword
+    usernamePasswordCredentials:
+      usernameSecretName: rest-server-auth-creds1/username
+      passwordSecretName: rest-server-auth-creds1/password
+  discoveredAssetEndpointProfileRef: my-rest-thermostat-discovered-asset-endpoint-profile1
+  endpointProfileType: rest-thermostat
+  targetAddress: http://rest-server-service1.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+  uuid: 1234-5678-9012-3456
