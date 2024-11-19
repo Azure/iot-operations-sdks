@@ -44,11 +44,11 @@ if [ "$deploy_type" = "nightly" ]; then
     # add Akri service, port 38884
     helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
         --set agent.extensionService.mqttBroker.useTls=true \
-        --set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
+        --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
         --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
-        --set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
-        --set agent.extensionService.mqttBroker.port=38884 \
-        -n azure-iot-operations --wait
+        --set agent.extensionService.mqttBroker.hostName=aio-broker \
+        --set agent.extensionService.mqttBroker.port=18884 \
+        -n azure-iot-operations
 fi
 
 # create root & intermediate CA
