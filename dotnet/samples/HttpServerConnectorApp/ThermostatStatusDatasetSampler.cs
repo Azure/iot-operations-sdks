@@ -2,6 +2,7 @@
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 namespace HttpServerConnectorApp
 {
@@ -46,10 +47,15 @@ namespace HttpServerConnectorApp
                 }
 
                 // In this sample, both the datapoints have the same datasource, so only one HTTP request is needed.
-                var response = await _httpClient.GetAsync(httpServerActualTemperatureRequestPath);
+                var actualTemperatureHttpResponse = await _httpClient.GetAsync(httpServerActualTemperatureRequestPath);
+                var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath);
+
+                ThermostatStatus thermostatStatus = new();
+                thermostatStatus.CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await actualTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature;
+                thermostatStatus.CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await actualTemperatureHttpResponse.Content.ReadAsStreamAsync())!).DesiredTemperature;
 
                 // The HTTP response payload matches the expected message schema, so return it as-is
-                return Encoding.UTF8.GetBytes(await response.Content.ReadAsStringAsync());
+                return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus));
             }
             catch (Exception ex)
             {
