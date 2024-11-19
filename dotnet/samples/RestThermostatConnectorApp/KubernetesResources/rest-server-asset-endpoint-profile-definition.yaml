@@ -1,10 +1,9 @@
 apiVersion: deviceregistry.microsoft.com/v1
 kind: AssetEndpointProfile
 metadata:
-  name: my-rest-aep
+  name: my-rest-thermostat-profile
   namespace: azure-iot-operations
 spec:
-  additionalConfiguration: '{"DataSourceType": "Http", "HttpPath": "contexts/quality", "RequestIntervalInSeconds":15, "DssKey": "quality", "MqttClientId": "myHttpDssClient"}'
   authentication:
     method: UsernamePassword
     usernamePasswordCredentials:
