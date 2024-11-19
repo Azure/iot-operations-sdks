@@ -1,12 +1,12 @@
 apiVersion: deviceregistry.microsoft.com/v1
 kind: Asset
 metadata:
-  name: my-http-thermostat-asset
+  name: my-rest-thermostat-asset
   namespace: azure-iot-operations
 spec:
-  displayName: My HTTP Thermostat Asset
+  displayName: My REST Thermostat Asset
   description: A sample for an Asset modeling a device with REST endpoint
-  assetEndpointProfileRef: azure-iot-operations/my-http-aep # <namespace>/<assetEndpointProfile.metadata.name>
+  assetEndpointProfileRef: azure-iot-operations/my-rest-aep # <namespace>/<assetEndpointProfile.metadata.name>
   defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,

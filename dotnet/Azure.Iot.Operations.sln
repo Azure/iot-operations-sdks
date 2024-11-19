@@ -71,7 +71,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project templates", "projec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectorApp", "templates\ConnectorApp\ConnectorApp.csproj", "{505012C6-43D2-4334-A137-08969CD0662B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServerConnectorApp", "samples\HttpServerConnectorApp\HttpServerConnectorApp.csproj", "{61F80B3A-B391-4EF1-BABE-DB69087AFDCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestThermostatConnectorApp", "samples\HttpServerConnectorApp\RestThermostatConnectorApp.csproj", "{61F80B3A-B391-4EF1-BABE-DB69087AFDCB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Connector", "src\Azure.Iot.Operations.Connector\Azure.Iot.Operations.Connector.csproj", "{DBD97834-3F26-427F-9BB6-AF1305D11E1F}"
 EndProject

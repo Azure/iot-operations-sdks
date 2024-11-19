@@ -1,13 +1,13 @@
 ﻿using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
 
-namespace HttpServerConnectorApp
+namespace RestThermostatConnector
 {
-    public class HttpDatasetSamplerFactory : IDatasetSamplerFactory
+    public class RestThermostatDatasetSamplerFactory : IDatasetSamplerFactory
     {
-        public static Func<IServiceProvider, IDatasetSamplerFactory> HttpDatasetSourceFactoryProvider = service =>
+        public static Func<IServiceProvider, IDatasetSamplerFactory> RestDatasetSourceFactoryProvider = service =>
         {
-            return new HttpDatasetSamplerFactory();
+            return new RestThermostatDatasetSamplerFactory();
         };
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace HttpServerConnectorApp
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            if (asset.DisplayName!.Equals("My HTTP Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
+            if (asset.DisplayName!.Equals("My REST Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {

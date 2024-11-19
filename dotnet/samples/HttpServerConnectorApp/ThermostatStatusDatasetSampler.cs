@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-namespace HttpServerConnectorApp
+namespace RestThermostatConnector
 {
     internal class ThermostatStatusDatasetSampler : IDatasetSampler
     {

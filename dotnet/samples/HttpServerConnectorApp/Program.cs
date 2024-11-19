@@ -1,11 +1,11 @@
 using Azure.Iot.Operations.Connector;
-using HttpServerConnectorApp;
+using RestThermostatConnector;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(HttpDatasetSamplerFactory.HttpDatasetSourceFactoryProvider);
+        services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddHostedService<ConnectorWorker>();
         services.AddSingleton<string>("yourLeadershipPositionId");
     })

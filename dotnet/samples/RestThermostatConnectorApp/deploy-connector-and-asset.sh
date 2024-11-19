@@ -2,17 +2,17 @@
 dotnet publish /t:PublishContainer
 k3d image import restthermostatconnectorapp:latest -c k3s-default
 
-# Build REST server docker image
-docker build -t rest-server:latest ./SampleRestServer
-docker tag rest-server:latest rest-server:latest
-k3d image import rest-server:latest -c k3s-default
+# Build HTTP server docker image
+docker build -t http-server:latest ./SampleRestServer
+docker tag http-server:latest http-server:latest
+k3d image import http-server:latest -c k3s-default
 
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-config.yaml
 
-# Deploy REST server (as an asset)
-kubectl apply -f ./KubernetesResources/rest-server.yaml
+# Deploy HTTP server (as an asset)
+kubectl apply -f ./KubernetesResources/http-server.yaml
 
-# Deploy REST server asset and AEP
+# Deploy HTTP server asset and AEP
 kubectl apply -f ./KubernetesResources/rest-server-asset-endpoint-profile-definition.yaml
 kubectl apply -f ./KubernetesResources/rest-server-asset-definition.yaml
