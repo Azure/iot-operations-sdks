@@ -14,10 +14,10 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
 
-const TOOL_NAME : &str = "aiostatestore-cli";
+const TOOL_NAME : &str = "statestore-cli";
 const TOOL_VERSION : &str = "0.0.1";
-const TOOL_ABOUT_SHORT : &str = "Azure AIO Device State Store CLI";
-const TOOL_ABOUT_LONG : &str = "Allows managing key/value pairs in the MQ State Store.";
+const TOOL_ABOUT_SHORT : &str = "Azure Device State Store CLI";
+const TOOL_ABOUT_LONG : &str = "Allows managing key/value pairs in the Azure State Store.";
 
 #[derive(Parser)]
 #[command(version = TOOL_VERSION, about = TOOL_ABOUT_SHORT, long_about = TOOL_ABOUT_LONG)]
