@@ -36,25 +36,20 @@ if [ "$deploy_type" = "nightly" ]; then
 
     # install AIO Broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 0.7.0-nightly oci://mqbuilds.azurecr.io/helm/aio-broker --wait
+    helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.0.0-hughes oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 fi
 
-# create CA for client connections. This will not be used directly by a service so many of the fields are not applicable
-echo "my-ca-password" > $session_dir/password.txt
-rm -rf ~/.step
-step ca init \
-    --deployment-type=standalone \
-    --name=my-ca \
-    --password-file=$session_dir/password.txt \
-    --address=:0 \
-    --dns=notapplicable \
-    --provisioner=notapplicable
+# create root & intermediate CA
+step certificate create --profile root-ca "my root ca" --no-password --insecure \
+    $session_dir/root_ca.crt $session_dir/root_ca.key
+step certificate create --profile intermediate-ca "my intermediate ca" --no-password --insecure \
+    $session_dir/intermediate_ca.crt $session_dir/intermediate_ca.key \
+    --ca $session_dir/root_ca.crt --ca-key $session_dir/root_ca.key --no-password --insecure
 
 # create client trust bundle used to validate x509 client connections to the broker
 kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore-not-found
-kubectl create configmap client-ca-trust-bundle \
-    -n azure-iot-operations \
-    --from-literal=client_ca.pem="$(cat ~/.step/certs/intermediate_ca.crt ~/.step/certs/root_ca.crt)"
+kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
+    --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
 # setup new Broker
 kubectl apply -f yaml/aio-$deploy_type.yaml

@@ -14,8 +14,7 @@ kubectl get secret azure-iot-operations-aio-ca-certificate -n cert-manager -o js
 step certificate create client $session_dir/client.crt $session_dir/client.key \
     -f \
     --not-after 8760h \
-    --no-password \
-    --insecure \
+    --no-password --insecure \
     --ca ~/.step/certs/intermediate_ca.crt \
     --ca-key ~/.step/secrets/intermediate_ca_key \
     --ca-password-file=$session_dir/password.txt
