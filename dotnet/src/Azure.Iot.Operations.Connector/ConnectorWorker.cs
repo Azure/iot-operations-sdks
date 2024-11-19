@@ -97,6 +97,8 @@ namespace Azure.Iot.Operations.Connector
                             doingLeaderElection = true;
                             string leadershipPositionId = value.GetString()!;
 
+                            _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
+
                             await using LeaderElectionClient leaderElectionClient = new(_sessionClient, leadershipPositionId, candidateName);
 
                             leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
