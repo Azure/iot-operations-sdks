@@ -95,7 +95,7 @@ async fn main() {
     Builder::new()
         .filter_level(logging_level)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("rumqttc", logging_level)
         .init();
 
     // Create a session
