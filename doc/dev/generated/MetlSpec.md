@@ -13,9 +13,9 @@ For example, following is a small but complete test case, which verifies only su
 test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified.
   expect: >-
-    CommandExecutor starts successfully
+    CommandExecutor starts successfully.
 prologue:
   executors:
   - request-topic: "mock/{modelId}/test"
@@ -46,23 +46,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetrySenderSendOne_Success
+test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
 description:
   condition: >-
-    TelemetrySender sends a single Telemetry.
+    TelemetryReceiver receives telemetry with no payload when one was expected.
   expect: >-
-    TelemetrySender performs send.
+    TelemetryReceiver does not relay telemetry to user code.
 prologue:
-  senders:
+  receivers:
   - { }
 actions:
-- action: send telemetry
-- action: await publish
-- action: await send
+- action: receive telemetry
+  payload:
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 epilogue:
-  published-messages:
-  - topic: "mock/test"
-    payload: "Test_Telemetry"
+  acknowledgement-count: 1
+  telemetry-count: 0
 ```
 
 ### Key/value kinds
@@ -665,16 +666,13 @@ actions:
   invocation-index: 0
 - action: await publish
   correlation-index: 0
-- action: disconnect
-- action: await publish
-  correlation-index: 0
 - action: receive response
   correlation-index: 0
-  status: "200" # OK
   packet-index: 0
 - action: await invocation
   invocation-index: 0
 - action: await acknowledgement
+  packet-index: 0
 ```
 
 #### InvokerAction
@@ -1321,7 +1319,10 @@ All test-suite prologues have keys `mqtt-config`, `push-acks`, and `catch`, whic
 
 The value of `mqtt-config` provides MQTT client configuration settings, as in the following example:
 
-> **No available example in any suite for key 'mqtt-config'**
+```yaml
+  mqtt-config:
+    client-id: "MyInvokerClientId"
+```
 
 The MQTT configuration can have the following child keys:
 
