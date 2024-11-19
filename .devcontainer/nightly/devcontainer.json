@@ -46,7 +46,7 @@
         8884
     ],
     "waitFor": "postCreateCommand",
-    "onCreateCommand": "tools/deployment/initialize-cluster.sh",
+    "onCreateCommand": ".devcontainer/onCreateCommand.sh",
     "postCreateCommand": "git pull; tools/deployment/deploy-aio.sh nightly",
-    "postStartCommand": "bash .devcontainer/postStartCommand.sh"
+    "postStartCommand": ".devcontainer/postStartCommand.sh"
 }

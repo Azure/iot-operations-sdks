@@ -59,7 +59,7 @@
         },
     },
     "waitFor": "postCreateCommand",
-    "onCreateCommand": "tools/deployment/initialize-cluster.sh",
+    "onCreateCommand": ".devcontainer/onCreateCommand.sh",
     "postCreateCommand": "git pull",
-    "postStartCommand": "bash .devcontainer/postStartCommand.sh"
+    "postStartCommand": ".devcontainer/postStartCommand.sh"
 }
