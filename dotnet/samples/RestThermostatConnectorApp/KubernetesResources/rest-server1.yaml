@@ -42,9 +42,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-server-service-a
+  name: rest-server-service1
   labels:
-    app: rest-server-deployment 1
+    app: rest-server-deployment1
 spec:
   type: ClusterIP
   ports:
