@@ -4,8 +4,8 @@
     "additionalProperties": false,
     "properties": {
         "telemetry-value": {
-            "description": "A UTF8 string expected for the Telemetry content.",
-            "type": "string",
+            "description": "A UTF8 string (or null) value expected for the Telemetry content.",
+            "type": [ "string", "null" ],
             "kind": "check"
         },
         "metadata": {
@@ -21,7 +21,7 @@
             "$ref": "ReceivedCloudEvent.schema.json",
             "kind": "check"
         },
-        "sender-index": {
+        "source-index": {
             "description": "An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry.",
             "type": "integer",
             "kind": "check"

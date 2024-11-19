@@ -57,16 +57,15 @@ See below for categorized tests.
 | CommandExecutor receives request and stalls execution, causing expiry time to be reached. | CommandExecutor does not complete execution and acknowledges request. |
 | CommandExecutor receives request with correlation data that is not a GUID string. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with invalid __ft header. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with payload format indicator not 0 or 1. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with invalid ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
 | CommandExecutor receives request with invalid __ts header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with payload that cannot deserialize. | CommandExecutor does not execute command and sends response with status BadRequest. |
 | CommandExecutor receives request with no ContentType metadata. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives request with no CorrelationData. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with no __invId header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no MessageExpiry metadata. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no payload. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
+| CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
 | CommandExecutor request topic contains a '{commandName}' token but commandName is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor request topic contains a '{commandName}' token and command name is a valid replacement. | CommandExecutor starts successfully. |
@@ -143,7 +142,6 @@ See below for categorized tests.
 | CommandInvoker response topic suffix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
 | CommandInvoker with response-topic suffix (instead of prefix) invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker receives response message with status code that is not recognized. | Invocation throws 'unknown error' exception. |
-| CommandInvoker receives response message with payload format indicator not 0 or 1. | Invocation throws 'invalid header' exception. |
 | CommandInvoker receives response message with invalid __ts header. | Invocation throws 'invalid header' exception. |
 | CommandInvoker receives response message with no content type header. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker receives response message with no message expiry header. | CommandInvoker completes command and acknowledges response. |

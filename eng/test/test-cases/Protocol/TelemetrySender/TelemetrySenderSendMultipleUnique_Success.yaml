@@ -13,13 +13,16 @@ prologue:
 actions:
 - action: send telemetry
   telemetry-value: "Telemetry_Foo"
+- action: await publish
 - action: send telemetry
   telemetry-value: "Telemetry_Bar"
+- action: await publish
 - action: send telemetry
   telemetry-value: "Telemetry_Baz"
 - action: await publish
-- action: await publish
-- action: await publish
+- action: await send
+- action: await send
+- action: await send
 
 epilogue:
   published-messages:

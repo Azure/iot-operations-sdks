@@ -3,8 +3,8 @@ module github.com/Azure/iot-operations-sdks/go/services
 go 1.23.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.1.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.2.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
 	github.com/stretchr/testify v1.9.0
 )
 
@@ -22,6 +22,6 @@ require (
 	github.com/relvacode/iso8601 v1.5.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
-	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
