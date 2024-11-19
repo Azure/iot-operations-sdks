@@ -36,7 +36,6 @@
         }
     },
     "containerEnv": {
-        "SESSION": "${localEnv:CODESPACE_VSCODE_FOLDER}/.session",
         "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "forwardPorts": [
@@ -54,9 +53,7 @@
         "LOCATION": {
             "description": "Region to use, must be one of eastus, eastus2, westus, westus2, westeurope, or northeurope.",
             "documentationUrl": "https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster"
-        },
-        "SCHEMA_REGISTRY": {
-        },
+        }
     },
     "waitFor": "postCreateCommand",
     "onCreateCommand": ".devcontainer/onCreateCommand.sh",
