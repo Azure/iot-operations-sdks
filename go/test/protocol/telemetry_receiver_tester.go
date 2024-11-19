@@ -192,7 +192,7 @@ func runOneTelemetryReceiverTest(
 	}
 
 	for _, telem := range testCase.Epilogue.ReceivedTelemetries {
-		checkReceivedTelemetry(t, telem, receivedTelemetries)
+		checkReceivedTelemetry(t, telem, receivedTelemetries, sourceIDs)
 	}
 }
 
@@ -336,6 +336,7 @@ func checkReceivedTelemetry(
 	t *testing.T,
 	telem TestCaseReceivedTelemetry,
 	receivedTelemetries chan receivedTelemetry,
+	sourceIDs map[int]string,
 ) {
 	rcvTelem := <-receivedTelemetries
 
@@ -400,6 +401,12 @@ func checkReceivedTelemetry(
 			)
 		}
 	}
+
+	if telem.SourceIndex != nil {
+		sourceID, ok := sourceIDs[*telem.SourceIndex]
+		require.True(t, ok)
+		require.Equal(t, sourceID, rcvTelem.SourceID)
+	}
 }
 
 func processTelemetry(
@@ -433,7 +440,7 @@ func processTelemetry(
 		TelemetryValue: msg.Message.Payload,
 		Metadata:       msg.Message.Metadata,
 		CloudEvent:     msg.CloudEvent,
-		SourceID:       "",
+		SourceID:       msg.ClientID,
 	}
 
 	return nil
