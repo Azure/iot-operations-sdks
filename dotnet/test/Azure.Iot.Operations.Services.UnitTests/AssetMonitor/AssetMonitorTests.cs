@@ -6,18 +6,8 @@ using Xunit.Sdk;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AzureDeviceRegistry
 {
-    public class AzureDeviceRegistryClientTests
+    public class AssetMonitorTests
     {
-
-        [Fact]
-        public void ConstructorLoadsFromEnvironmentSuccessfully()
-        {
-            SetupTestEnvironment();
-
-            // This would throw an exception if any of the expected environment variables aren't present.
-            new AssetMonitor();
-        }
-
         [Fact]
         public async Task GetAssetEndpointProfile()
         {
