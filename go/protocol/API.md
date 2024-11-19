@@ -164,7 +164,7 @@ type CloudEvent struct {
 func (ce *CloudEvent) Attrs() []slog.Attr
 ```
 
-Attrs returns additional error attributes for slog.
+Attrs returns additional attributes for slog.
 
 <a name="CommandExecutor"></a>
 ## type [CommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_executor.go#L25-L31>)

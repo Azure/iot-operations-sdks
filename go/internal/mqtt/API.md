@@ -293,7 +293,7 @@ type WithRetain bool
 <a name="WithRetainHandling"></a>
 ## type [WithRetainHandling](<https://github.com/Azure/iot-operations-sdks/blob/main/go/internal/mqtt/options.go#L70>)
 
-WithRetainHandling specifies the handling of retained messages on this subscribe.
+WithRetainHandling specifies the handling of retained messages on the subscribe.
 
 ```go
 type WithRetainHandling byte
