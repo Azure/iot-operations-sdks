@@ -14,6 +14,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public TestCaseDuration? MessageExpiry { get; set; }
 
-        public int? SenderIndex { get; set; }
+        public int? SourceIndex { get; set; }
     }
 }

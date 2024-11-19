@@ -69,8 +69,8 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "invoker-index": {
-            "description": "An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits invoker ID in header.",
+        "source-index": {
+            "description": "An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits source ID in header.",
             "type": [ "integer", "null" ],
             "kind": "drive"
         },
