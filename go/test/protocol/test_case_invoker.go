@@ -27,6 +27,7 @@ func (invoker *TestCaseInvoker) UnmarshalYAML(node *yaml.Node) error {
 	invoker.CommandName = TestCaseDefaultInfo.Prologue.Invoker.GetCommandName()
 	invoker.RequestTopic = TestCaseDefaultInfo.Prologue.Invoker.GetRequestTopic()
 	invoker.ModelID = TestCaseDefaultInfo.Prologue.Invoker.GetModelID()
+	invoker.TopicNamespace = TestCaseDefaultInfo.Prologue.Invoker.GetTopicNamespace()
 	invoker.ResponseTopicPrefix = TestCaseDefaultInfo.Prologue.Invoker.GetResponseTopicPrefix()
 	invoker.ResponseTopicSuffix = TestCaseDefaultInfo.Prologue.Invoker.GetResponseTopicSuffix()
 

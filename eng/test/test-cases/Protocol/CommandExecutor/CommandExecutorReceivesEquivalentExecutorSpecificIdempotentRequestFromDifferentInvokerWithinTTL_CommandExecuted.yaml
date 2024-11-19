@@ -24,14 +24,14 @@ actions:
   topic: "mock/someExecutor/test"
   correlation-index: 0
   response-topic: "mock/someExecutor/test/response"
-  invoker-index: 0
+  source-index: 0
 - action: await publish
   correlation-index: 0
 - action: receive request
   topic: "mock/someExecutor/test"
   correlation-index: 1
   response-topic: "mock/someExecutor/test/response"
-  invoker-index: 1
+  source-index: 1
 - action: unfreeze time
 - action: await publish
   correlation-index: 1

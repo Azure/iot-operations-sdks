@@ -26,6 +26,7 @@ type StubBroker struct {
 	publishedCorrelationIDs chan []byte
 	subscribedTopics        map[string]struct{}
 	publishedMessages       container.SyncMap[string, *packets.Publish]
+	publishedMessageSeq     container.SyncMap[int, *packets.Publish]
 	packets                 chan *packets.ControlPacket
 
 	client net.Conn
@@ -39,6 +40,7 @@ func NewStubBroker() (*StubBroker, mqtt.ConnectionProvider) {
 		publishedCorrelationIDs: make(chan []byte, 10),
 		subscribedTopics:        make(map[string]struct{}),
 		publishedMessages:       container.NewSyncMap[string, *packets.Publish](),
+		publishedMessageSeq:     container.NewSyncMap[int, *packets.Publish](),
 		packets:                 make(chan *packets.ControlPacket, 10),
 	}
 	s.Disconnect() // To spin up the initial pipe.
@@ -104,11 +106,13 @@ func (s *StubBroker) puback(ack *packets.Puback) {
 }
 
 func (s *StubBroker) publish(pub *packets.Publish) {
+	seqIx := s.PublicationCount
 	s.PublicationCount++
 	s.packetIDSequencer = pub.PacketID
 
 	s.publishedCorrelationIDs <- pub.Properties.CorrelationData
 	s.publishedMessages.Set(string(pub.Properties.CorrelationData), pub)
+	s.publishedMessageSeq.Set(seqIx, pub)
 
 	result := Success
 	if len(s.pubAckQueue) > 0 {
@@ -248,6 +252,12 @@ func (s *StubBroker) GetPublishedMessage(
 	correlationData []byte,
 ) (*packets.Publish, bool) {
 	return s.publishedMessages.Get(string(correlationData))
+}
+
+func (s *StubBroker) GetIndexedPublishedMessage(
+	sequenceIndex int,
+) (*packets.Publish, bool) {
+	return s.publishedMessageSeq.Get(sequenceIndex)
 }
 
 func (s *StubBroker) Disconnect() {
