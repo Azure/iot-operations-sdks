@@ -4,7 +4,7 @@ metadata:
   name: my-rest-thermostat-profile1
   namespace: azure-iot-operations
 spec:
-  additionalConfiguration: '{"leaderShipPositionId" : "rest-server1-position-id"}'
+  additionalConfiguration: '{"leadershipPositionId" : "rest-server1-position-id"}'
   authentication:
     method: UsernamePassword
     usernamePasswordCredentials:

@@ -90,7 +90,6 @@ namespace Azure.Iot.Operations.Connector
                         if (assetEndpointProfile.AdditionalConfiguration != null)
                         {
                             _logger.LogInformation("####1");
-                            _logger.LogInformation($"{assetEndpointProfile.AdditionalConfiguration.ToString()}");
                         }
 
                         if (assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value))
