@@ -5,13 +5,14 @@ use core::str;
 use std::time::Duration;
 use std::fs;
 
+use clap::{Subcommand, Parser};
+use env_logger::Builder;
+
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
-use env_logger::Builder;
-use clap::{Subcommand, Parser};
 
 const TOOL_NAME : &str = "aiostatestore-cli";
 const TOOL_VERSION : &str = "0.0.1";
@@ -228,7 +229,7 @@ async fn state_store_set_value(client: SessionManagedClient,
             timeout,
             None,
             SetOptions {
-                expires: Some(Duration::from_secs(60)),
+                expires: None,
                 ..SetOptions::default()
             },
         )
