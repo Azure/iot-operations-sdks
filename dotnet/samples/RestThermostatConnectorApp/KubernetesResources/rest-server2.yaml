@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-server-service2
+  name: rest-server-serviceb
   labels:
     app: rest-server-deployment2
 spec:
