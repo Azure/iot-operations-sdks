@@ -18,7 +18,7 @@ type testCaseActionReceiveRequest struct {
 	Qos                 *int              `yaml:"qos"`
 	MessageExpiry       *TestCaseDuration `yaml:"message-expiry"`
 	ResponseTopic       *string           `yaml:"response-topic"`
-	InvokerIndex        *int              `yaml:"invoker-index"`
+	SourceIndex         *int              `yaml:"source-index"`
 	PacketIndex         *int              `yaml:"packet-index"`
 }
 
@@ -38,7 +38,7 @@ func (receiveRequest *TestCaseActionReceiveRequest) UnmarshalYAML(
 	receiveRequest.CorrelationIndex = TestCaseDefaultInfo.Actions.ReceiveRequest.GetCorrelationIndex()
 	receiveRequest.Qos = TestCaseDefaultInfo.Actions.ReceiveRequest.GetQos()
 	receiveRequest.ResponseTopic = TestCaseDefaultInfo.Actions.ReceiveRequest.GetResponseTopic()
-	receiveRequest.InvokerIndex = TestCaseDefaultInfo.Actions.ReceiveRequest.GetInvokerIndex()
+	receiveRequest.SourceIndex = TestCaseDefaultInfo.Actions.ReceiveRequest.GetSourceIndex()
 
 	defaultMessageExpiry := TestCaseDefaultInfo.Actions.ReceiveRequest.GetMessageExpiry()
 	receiveRequest.MessageExpiry = &defaultMessageExpiry

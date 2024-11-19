@@ -17,6 +17,7 @@ actions:
     type: "test-type"
     spec-version: "1.0"
 - action: await publish
+- action: await send
 
 epilogue:
   published-messages:

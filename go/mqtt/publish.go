@@ -110,6 +110,7 @@ func (c *SessionClient) sendOutgoingPublish(
 	return false
 }
 
+// Publish a MQTT message on the given topic.
 func (c *SessionClient) Publish(
 	ctx context.Context,
 	topic string,

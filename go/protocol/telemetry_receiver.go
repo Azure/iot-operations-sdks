@@ -74,7 +74,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 func NewTelemetryReceiver[T any](
 	client MqttClient,
 	encoding Encoding[T],
-	topic string,
+	topicPattern string,
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
@@ -105,8 +105,8 @@ func NewTelemetryReceiver[T any](
 	}
 
 	tp, err := internal.NewTopicPattern(
-		"topic",
-		topic,
+		"topicPattern",
+		topicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)

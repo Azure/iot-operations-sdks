@@ -11,7 +11,7 @@ type DefaultReceiveRequest struct {
 	Qos              *int             `toml:"qos"`
 	MessageExpiry    TestCaseDuration `toml:"message-expiry"`
 	ResponseTopic    *string          `toml:"response-topic"`
-	InvokerIndex     *int             `toml:"invoker-index"`
+	SourceIndex      *int             `toml:"source-index"`
 }
 
 func (receiveRequest *DefaultReceiveRequest) GetTopic() *string {
@@ -81,11 +81,11 @@ func (receiveRequest *DefaultReceiveRequest) GetResponseTopic() *string {
 	return &responseTopic
 }
 
-func (receiveRequest *DefaultReceiveRequest) GetInvokerIndex() *int {
-	if receiveRequest.InvokerIndex == nil {
+func (receiveRequest *DefaultReceiveRequest) GetSourceIndex() *int {
+	if receiveRequest.SourceIndex == nil {
 		return nil
 	}
 
-	invokerIndex := *receiveRequest.InvokerIndex
+	invokerIndex := *receiveRequest.SourceIndex
 	return &invokerIndex
 }
