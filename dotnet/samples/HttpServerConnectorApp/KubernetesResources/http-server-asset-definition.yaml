@@ -18,13 +18,13 @@ spec:
     - name: thermostat_status
       dataPoints:
         - dataSource: /api/thermostat/current
-          name: current_temperature
+          name: currentTemperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
         - dataSource: /api/thermostat/desired
-          name: desired_temperature
+          name: desiredTemperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
