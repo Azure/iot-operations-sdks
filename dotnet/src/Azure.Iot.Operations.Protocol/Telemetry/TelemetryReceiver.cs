@@ -97,7 +97,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 TimeSpan telemetryTimeout = args.ApplicationMessage.MessageExpiryInterval != default ? TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval) : DefaultTelemetryTimeout;
                 DateTime telemetryExpirationTime = messageReceivedTime + telemetryTimeout;
 
-                MqttTopicProcessor.TryGetFieldValue(TopicPattern, args.ApplicationMessage.Topic, MqttTopicTokens.TelemetrySenderId, out string senderId);
+                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 if ((args.ApplicationMessage.ContentType != null && args.ApplicationMessage.ContentType != this.serializer.ContentType) || OnTelemetryReceived == null)
                 {
@@ -115,7 +115,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     {
                         try
                         {
-                            await OnTelemetryReceived(senderId, serializedPayload, metadata);
+                            await OnTelemetryReceived(sourceId, serializedPayload, metadata);
                         }
                         catch (Exception innerEx)
                         {

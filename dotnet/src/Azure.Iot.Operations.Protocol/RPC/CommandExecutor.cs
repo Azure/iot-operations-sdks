@@ -392,11 +392,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            string? invokerId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
-            if (invokerId == null)
+            string? sourceId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
+            if (sourceId == null)
             {
                 status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Invoker Client ID ({AkriSystemProperties.SourceId}) property present.";
+                statusMessage = $"No Source ID ({AkriSystemProperties.SourceId}) property present.";
                 invalidPropertyName = AkriSystemProperties.SourceId;
                 invalidPropertyValue = null;
                 return false;

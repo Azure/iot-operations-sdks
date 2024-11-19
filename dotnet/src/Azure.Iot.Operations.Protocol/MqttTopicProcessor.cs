@@ -58,22 +58,6 @@
             return MqttTopicFilterComparer.Compare(topic, filter) == MqttTopicFilterCompareResult.IsMatch;
         }
 
-        public static bool TryGetFieldValue(string pattern, string topic, string token, out string value)
-        {
-            int tokenPos = pattern.IndexOf(token, StringComparison.InvariantCulture);
-            if (tokenPos < 0)
-            {
-                value = string.Empty;
-                return false;
-            }
-            else
-            {
-                int depth = pattern.Substring(0, tokenPos).Count(c => c == '/');
-                value = topic.Split('/')[depth];
-                return true;
-            }
-        }
-
         /// <summary>
         /// Validates that a topic pattern is valid for use in a Command or Telemetry.
         /// </summary>
