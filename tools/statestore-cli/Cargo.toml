@@ -28,3 +28,9 @@ all = { level = "warn", priority = -1 }
 pedantic = { level = "warn", priority = -1 }
 too_many_lines = "allow"
 module_name_repetitions = "allow"
+
+[profile.release]
+panic = "abort"
+
+[profile.dev]
+panic = "abort"

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Make sure to build with:
-# cargo build --release --config profile.release.panic=\'abort\'
-
 MQ_BROKER_HOSTNAME="localhost"
 CAFILE=~/iot-operations-sdks/.session/broker-ca.crt
 CLIENT_CERT=~/iot-operations-sdks/.session/client.crt
