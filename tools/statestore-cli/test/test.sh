@@ -80,42 +80,42 @@ assert_file_content()
 
 echo "12345" > ./value.txt
 
-./aiostatestore-cli set -n $MQ_BROKER_HOSTNAME -k "someKey1" --valuefile ./value.txt --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
+./statestore-cli set -n $MQ_BROKER_HOSTNAME -k "someKey1" --valuefile ./value.txt --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
 assert_equals "01-set-from-file-x509-tls" 0 $?
 
-./aiostatestore-cli get -n $MQ_BROKER_HOSTNAME -k "someKey1" -f "./value2.txt" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
+./statestore-cli get -n $MQ_BROKER_HOSTNAME -k "someKey1" -f "./value2.txt" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
 assert_equals "02-get-to-file-x509-tls" 0 $?
 assert_files "02-get-to-file-x509-tls" ./value.txt ./value2.txt
 
-./aiostatestore-cli delete -n $MQ_BROKER_HOSTNAME -k "someKey1" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
+./statestore-cli delete -n $MQ_BROKER_HOSTNAME -k "someKey1" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
 assert_equals "03-delete-x509-tls" 0 $?
 
-./aiostatestore-cli set -n $MQ_BROKER_HOSTNAME -k "someKey2" --value "hello" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
+./statestore-cli set -n $MQ_BROKER_HOSTNAME -k "someKey2" --value "hello" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY
 assert_equals "04-set-from-console-x509-tls" 0 $?
 
-./aiostatestore-cli get -n $MQ_BROKER_HOSTNAME -k "someKey2" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY > ./value3.txt
+./statestore-cli get -n $MQ_BROKER_HOSTNAME -k "someKey2" --cafile $CAFILE --certfile $CLIENT_CERT --keyfile $CLIENT_KEY > ./value3.txt
 assert_equals "05-get-to-console-x509-tls" 0 $?
 assert_file_content "05-get-to-console-x509-tls" ./value3.txt "hello"
 
-./aiostatestore-cli set -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls --value "no tls"
+./statestore-cli set -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls --value "no tls"
 assert_equals "06-set-console-anon-no-tls" 0 $?
 
-./aiostatestore-cli get -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls > ./value4.txt
+./statestore-cli get -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls > ./value4.txt
 assert_equals "07-get-console-anon-no-tls" 0 $?
 
-./aiostatestore-cli delete -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
+./statestore-cli delete -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
 assert_equals "08-delete-anon-no-tls" 0 $?
 
-./aiostatestore-cli delete -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
+./statestore-cli delete -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
 assert_equals "09-delete-repeated-anon-no-tls" 1 $?
 
-./aiostatestore-cli get -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
+./statestore-cli get -n $MQ_BROKER_HOSTNAME -p 1883 -k "someKey3" --notls
 assert_equals "10-get-already-deleted-anon-no-tls" 1 $?
 
-./aiostatestore-cli get -n "$MQ_BROKER_HOSTNAME-invalid" -p 1883 -k "someKey3" --notls
+./statestore-cli get -n "$MQ_BROKER_HOSTNAME-invalid" -p 1883 -k "someKey3" --notls
 assert_not_equals "11-get-invalid-hostname-anon-no-tls" 0 $?
 
-./aiostatestore-cli get -n $MQ_BROKER_HOSTNAME -p 1884 -k "someKey3" --notls
+./statestore-cli get -n $MQ_BROKER_HOSTNAME -p 1884 -k "someKey3" --notls
 assert_not_equals "12-get-invalid-port-anon-no-tls" 0 $?
 
 popd
