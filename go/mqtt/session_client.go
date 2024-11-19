@@ -15,7 +15,7 @@ import (
 )
 
 type (
-	// SessionClient implements an MQTT Session client supporting MQTT v5 with
+	// SessionClient implements an MQTT session client supporting MQTT v5 with
 	// QoS 0 and QoS 1 support.
 	SessionClient struct {
 		// Used to ensure Start() is called only once and that user operations
@@ -106,6 +106,7 @@ func NewSessionClient(
 	return client
 }
 
+// ID returns the MQTT client ID for this session client.
 func (c *SessionClient) ID() string {
 	return c.options.ClientID
 }

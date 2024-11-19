@@ -42,9 +42,9 @@ func (c *SessionClient) RegisterFatalErrorHandler(
 	return c.fatalErrorHandlers.AppendEntry(handler)
 }
 
-// Start starts the session client, spawning any necessary background
-// goroutines. In order to terminate the session client and clean up any
-// running goroutines, Stop() must be called after calling Start().
+// Start the session client, spawning any necessary background goroutines. In
+// order to terminate the session client and clean up any running goroutines,
+// Stop() must be called after calling Start().
 func (c *SessionClient) Start() error {
 	if !c.sessionStarted.CompareAndSwap(false, true) {
 		return &ClientStateError{State: Started}
@@ -68,8 +68,8 @@ func (c *SessionClient) Start() error {
 	return nil
 }
 
-// Stop stops the session client, terminating any pending operations and
-// cleaning up background goroutines.
+// Stop the session client, terminating any pending operations and cleaning up
+// background goroutines.
 func (c *SessionClient) Stop() error {
 	if !c.sessionStarted.Load() {
 		return &ClientStateError{State: NotStarted}

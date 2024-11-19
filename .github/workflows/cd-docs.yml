@@ -46,7 +46,7 @@ jobs:
       - name: Create index.html
         run: |
           mkdir _site
-          cp main/.github/index-pages.html _site/index.html
+          cp main/.github/pages/index.html _site
 
       - name: Checkout Rust
         uses: actions/checkout@v4
@@ -60,8 +60,21 @@ jobs:
           cargo doc --no-deps
           cp -a target/doc ../../_site/rust
 
+      - name: Checkout Dotnet
+        uses: actions/checkout@v4
+        with:
+          ref: ${{steps.tags.outputs.dotnet_tag}}
+          path: dotnet
+
+      - name: Build .NET docs
+        run: |
+          dotnet tool install -g docfx
+          cp main/.github/pages/docfx.json dotnet/.github/pages
+          cp main/.github/pages/filterConfig.yml dotnet/.github/pages
+          docfx dotnet/.github/pages/docfx.json
+          cp -a dotnet/.github/pages/_site _site/dotnet
+
 #      - name: Build Go docs
-#      - name: Build .NET docs
 
       - name: Upload to GitHub Pages
         id: upload

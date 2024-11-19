@@ -28,6 +28,8 @@ var (
 	ErrArgument = errors.New("invalid argument")
 )
 
+// The following are well-known error strings returned from the state store.
+//
 //nolint:gosec // False positives.
 const (
 	TimestampSkew            Service = "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"

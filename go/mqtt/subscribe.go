@@ -71,6 +71,7 @@ func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	})
 }
 
+// Subscribe to the given topic.
 func (c *SessionClient) Subscribe(
 	ctx context.Context,
 	topic string,
@@ -113,6 +114,7 @@ func (c *SessionClient) Subscribe(
 	return nil, context.Cause(ctx)
 }
 
+// Unsubscribe from the given topic.
 func (c *SessionClient) Unsubscribe(
 	ctx context.Context,
 	topic string,

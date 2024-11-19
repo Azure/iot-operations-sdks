@@ -43,11 +43,11 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 The following Azure IoT Operations packages are available:
 
-| Name | Package | Description |
-|-|-|-|
-| [**Protocol**](src/Azure.Iot.Operations.Protocol) | `Azure.Iot.Operations.Protocol` | Protocol implementations built on MQTT5 such as telemetry and RPC |
-| [**Mqtt**](src/Azure.Iot.Operations.Mqtt) | `Azure.Iot.Operations.Mqtt` | MQTT5 fundamentals such as session management including connections and authentication |
-| [**Services**](src/Azure.Iot.Operations.Services) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
+| Name | API | Package | Description |
+|-|-|-|-|
+| [**Mqtt**](src/Azure.Iot.Operations.Mqtt) | [:link:](https://azure.github.io/iot-operations-sdks/dotnet/api/Azure.Iot.Operations.Mqtt.html) | `Azure.Iot.Operations.Mqtt` | MQTT5 fundamentals such as session management including connections and authentication |
+| [**Protocol**](src/Azure.Iot.Operations.Protocol) | [:link:](https://azure.github.io/iot-operations-sdks/dotnet/api/Azure.Iot.Operations.Protocol.html) | `Azure.Iot.Operations.Protocol` | Protocol implementations built on MQTT5 such as telemetry and RPC |
+| [**Services**](src/Azure.Iot.Operations.Services) | [:link:](https://azure.github.io/iot-operations-sdks/dotnet/api/Azure.Iot.Operations.Services.html) | `Azure.Iot.Operations.Services` | Integrate with IoT Operations services such as state store, lease lock, leader election and schema registry |
 
 > [!CAUTION]
 > The prerelease versions (`--prerelease`) should be used as they are the official preview builds. Omitting this flag will default to the daily builds, which may contain unpredictable behavior and undocumented breaking changes.
