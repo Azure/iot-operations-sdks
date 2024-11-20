@@ -1,16 +1,10 @@
 ﻿
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public sealed class MqttClientCredentials : IMqttClientCredentialsProvider
+    public sealed class MqttClientCredentials(string userName, byte[]? password = null) : IMqttClientCredentialsProvider
     {
-        readonly string _userName;
-        readonly byte[]? _password;
-
-        public MqttClientCredentials(string userName, byte[]? password = null)
-        {
-            _userName = userName;
-            _password = password;
-        }
+        private readonly string _userName = userName;
+        private readonly byte[]? _password = password;
 
         public string GetUserName(MqttClientOptions clientOptions)
         {

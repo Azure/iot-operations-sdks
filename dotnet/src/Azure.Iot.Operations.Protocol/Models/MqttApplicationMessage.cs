@@ -5,13 +5,8 @@ using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttApplicationMessage
+    public class MqttApplicationMessage(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
     {
-        public MqttApplicationMessage(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
-        { 
-            Topic = topic;
-            QualityOfServiceLevel = qos;
-        }
 
         /// <summary>
         ///     Gets or sets the content type.
@@ -75,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     - At least once (1): Message gets delivered at least once (one time or more often).
         ///     - Exactly once  (2): Message gets delivered exactly once (It's ensured that the message only comes once).
         /// </summary>
-        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = MqttQualityOfServiceLevel.AtLeastOnce;
+        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = qos;
 
         /// <summary>
         ///     Gets or sets the response topic.
@@ -110,7 +105,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The topic consists of one or more topic levels. Each topic level is separated by a forward slash (topic level
         ///     separator).
         /// </summary>
-        public string Topic { get; set; }
+        public string Topic { get; set; } = topic;
 
         /// <summary>
         ///     Gets or sets the topic alias.
@@ -134,23 +129,17 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public void AddUserProperty(string key, string value)
         {
-            UserProperties ??= new List<MqttUserProperty>();
+            UserProperties ??= [];
             UserProperties.Add(new MqttUserProperty(key, value));
         }
 
         public string? ConvertPayloadToString()
         {
-            if (PayloadSegment == ArraySegment<byte>.Empty)
-            {
-                return null;
-            }
-
-            if (PayloadSegment.Array == null)
-            {
-                return null;
-            }
-
-            return Encoding.UTF8.GetString(PayloadSegment.Array, PayloadSegment.Offset, PayloadSegment.Count);
+            return PayloadSegment == ArraySegment<byte>.Empty
+                ? null
+                : PayloadSegment.Array == null
+                ? null
+                : Encoding.UTF8.GetString(PayloadSegment.Array, PayloadSegment.Offset, PayloadSegment.Count);
         }
 
         public void AddMetadata(OutgoingTelemetryMetadata md)
@@ -183,7 +172,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                         HeaderName = kvp.Key,
                     };
                 }
-                
+
                 AddUserProperty(kvp.Key, kvp.Value);
             }
         }

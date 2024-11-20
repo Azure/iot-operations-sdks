@@ -4,37 +4,30 @@ using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttClientSubscribeResult
+    public class MqttClientSubscribeResult(ushort packetIdentifier, IReadOnlyCollection<MqttClientSubscribeResultItem> items, string reasonString, IReadOnlyCollection<MqttUserProperty> userProperties)
     {
-        public MqttClientSubscribeResult(ushort packetIdentifier, IReadOnlyCollection<MqttClientSubscribeResultItem> items, string reasonString, IReadOnlyCollection<MqttUserProperty> userProperties)
-        {
-            PacketIdentifier = packetIdentifier;
-            Items = items ?? throw new ArgumentNullException(nameof(items));
-            ReasonString = reasonString;
-            UserProperties = userProperties ?? throw new ArgumentNullException(nameof(userProperties));
-        }
 
         /// <summary>
         /// Gets the result for every topic filter item.
         /// </summary>
-        public IReadOnlyCollection<MqttClientSubscribeResultItem> Items { get; }
-        
+        public IReadOnlyCollection<MqttClientSubscribeResultItem> Items { get; } = items ?? throw new ArgumentNullException(nameof(items));
+
         /// <summary>
         /// Gets the user properties which were part of the SUBACK packet.
         /// <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public IReadOnlyCollection<MqttUserProperty> UserProperties { get; }
-        
+        public IReadOnlyCollection<MqttUserProperty> UserProperties { get; } = userProperties ?? throw new ArgumentNullException(nameof(userProperties));
+
         /// <summary>
         /// Gets the reason string.
         /// <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public string ReasonString { get; }
+        public string ReasonString { get; } = reasonString;
 
         /// <summary>
         /// Gets the packet identifier which was used.
         /// </summary>
-        public ushort PacketIdentifier { get; }
+        public ushort PacketIdentifier { get; } = packetIdentifier;
 
         public void ThrowIfNotSuccessSubAck(MqttQualityOfServiceLevel requestedQos, string? commandName = default)
         {
@@ -86,7 +79,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         private static bool IsSubscriptionSuccessful(MqttClientSubscribeResultItem subscribeResultItem, MqttQualityOfServiceLevel requestedQos)
         {
-            var resultCode = subscribeResultItem.ReasonCode;
+            MqttClientSubscribeReasonCode resultCode = subscribeResultItem.ReasonCode;
 
             // The granted QoS level is different from the requested QoS level
             if (((Int32)resultCode).CompareTo((Int32)requestedQos) != 0)
@@ -94,9 +87,9 @@ namespace Azure.Iot.Operations.Protocol.Models
                 Trace.TraceWarning($"The granted QoS level [{resultCode}] is different from the requested QoS level [{requestedQos}].");
             }
 
-            return resultCode == MqttClientSubscribeReasonCode.GrantedQoS0
-                || resultCode == MqttClientSubscribeReasonCode.GrantedQoS1
-                || resultCode == MqttClientSubscribeReasonCode.GrantedQoS2;
+            return resultCode is MqttClientSubscribeReasonCode.GrantedQoS0
+                or MqttClientSubscribeReasonCode.GrantedQoS1
+                or MqttClientSubscribeReasonCode.GrantedQoS2;
         }
     }
 }

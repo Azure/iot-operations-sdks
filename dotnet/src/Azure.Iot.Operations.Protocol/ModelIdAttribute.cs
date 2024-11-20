@@ -1,12 +1,10 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿using System;
+
+namespace Azure.Iot.Operations.Protocol
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Class)]
-    public class ModelIdAttribute : Attribute
+    public class ModelIdAttribute(string id) : Attribute
     {
-        public string Id { get; set; }
-
-        public ModelIdAttribute(string id) => Id = id;
+        public string Id { get; set; } = id;
     }
 }

@@ -1,17 +1,17 @@
-﻿namespace Azure.Iot.Operations.Protocol
-{
-    using Azure.Iot.Operations.Protocol.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text.RegularExpressions;
+﻿using Azure.Iot.Operations.Protocol.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
+namespace Azure.Iot.Operations.Protocol
+{
     /// <summary>
     /// Static class holding methods for processing MQTT topics, filters, and patterns.
     /// </summary>
-    internal static class MqttTopicProcessor
+    internal static partial class MqttTopicProcessor
     {
-        private static readonly Regex replaceableTokenRegex = new Regex("{([^}]+)}");
+        private static readonly Regex replaceableTokenRegex = MyRegex();
 
         /// <summary>
         /// Determine whether a string is valid for use as a replacement string in a custom replacement map or a topic namespace.
@@ -20,22 +20,7 @@
         /// <returns>True if and only if the replacement string is valid.</returns>
         internal static bool IsValidReplacement(string? replacement)
         {
-            if (string.IsNullOrEmpty(replacement))
-            {
-                return false;
-            }
-
-            if (ContainsInvalidChar(replacement))
-            {
-                return false;
-            }
-
-            if (replacement.StartsWith('/') || replacement.EndsWith('/') || replacement.Contains("//"))
-            {
-                return false;
-            }
-
-            return true;
+            return !string.IsNullOrEmpty(replacement) && !ContainsInvalidChar(replacement) && !replacement.StartsWith('/') && !replacement.EndsWith('/') && !replacement.Contains("//");
         }
 
         /// <summary>
@@ -68,7 +53,7 @@
             }
             else
             {
-                int depth = pattern.Substring(0, tokenPos).Count(c => c == '/');
+                int depth = pattern[..tokenPos].Count(c => c == '/');
                 value = topic.Split('/')[depth];
                 return true;
             }
@@ -120,7 +105,7 @@
                 bool isToken = level.StartsWith('{') && level.EndsWith('}');
                 if (isToken)
                 {
-                    string token = level.Substring(1, level.Length - 2);
+                    string token = level[1..^1];
                     if (token.Length == 0)
                     {
                         errMsg = "Token in MQTT topic pattern is empty";
@@ -189,7 +174,7 @@
         {
             foreach (char c in s)
             {
-                if (c < '!' || c > '~' || c == '+' || c == '#' || c == '{' || c == '}')
+                if (c is < '!' or > '~' or '+' or '#' or '{' or '}')
                 {
                     return true;
                 }
@@ -200,12 +185,12 @@
 
         private static string MapReplace(this string pattern, IReadOnlyDictionary<string, string>? tokenMap)
         {
-            if (tokenMap == null || !pattern.Contains('{'))
-            {
-                return pattern;
-            }
-
-            return replaceableTokenRegex.Replace(pattern, (Match match) => tokenMap.TryGetValue(match.Groups[1].Captures[0].Value, out string? value) ? value : match.Groups[0].Captures[0].Value);
+            return tokenMap == null || !pattern.Contains('{')
+                ? pattern
+                : replaceableTokenRegex.Replace(pattern, (Match match) => tokenMap.TryGetValue(match.Groups[1].Captures[0].Value, out string? value) ? value : match.Groups[0].Captures[0].Value);
         }
+
+        [GeneratedRegex("{([^}]+)}")]
+        private static partial Regex MyRegex();
     }
 }

@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; }
 
 
-        
-        public CloudEvent? CloudEvent  { get; set; }
+
+        public CloudEvent? CloudEvent { get; set; }
 
         /// <summary>
         /// Construct an instance with the default values.
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             HybridLogicalClock localClock = HybridLogicalClock.GetInstance();
             localClock.Update();
             Timestamp = new HybridLogicalClock(localClock);
-            UserData = new();
+            UserData = [];
         }
     }
 }

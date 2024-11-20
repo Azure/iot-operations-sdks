@@ -1,12 +1,10 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿using System;
+
+namespace Azure.Iot.Operations.Protocol
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Class)]
-    public class CommandTopicAttribute : Attribute
+    public class CommandTopicAttribute(string topic) : Attribute
     {
-        public string RequestTopic { get; set; }
-
-        public CommandTopicAttribute(string topic) => RequestTopic = topic;
+        public string RequestTopic { get; set; } = topic;
     }
 }
