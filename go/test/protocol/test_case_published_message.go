@@ -13,7 +13,7 @@ type testCasePublishedMessage struct {
 	Metadata           map[string]string `yaml:"metadata"`
 	CommandStatus      any               `yaml:"command-status"`
 	IsApplicationError *bool             `yaml:"is-application-error"`
-	SourceID           *string           `yaml:"sender-id"`
+	SourceID           *string           `yaml:"source-id"`
 	Expiry             *uint32           `yaml:"expiry"`
 }
 
