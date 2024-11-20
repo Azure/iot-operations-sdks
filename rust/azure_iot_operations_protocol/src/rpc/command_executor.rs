@@ -426,7 +426,7 @@ where
                 }
             }
         }
-        log::info!("[{}] Stopped", self.command_name);
+        log::info!("[{}] Shutdown", self.command_name);
         Ok(())
     }
 
