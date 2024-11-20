@@ -9,8 +9,8 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use envoy::common_types::common_options::CommonOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::client::{
-    IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker,
-    ReadCounterRequestBuilder,
+    IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
+    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
 };
 
 #[tokio::main(flavor = "current_thread")]
@@ -33,6 +33,12 @@ async fn main() {
 
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(increment_and_check(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
+
+    // Use the managed client to receive telemetry in another task
+    tokio::task::spawn(receive_telemetry(
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
@@ -73,6 +79,13 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         let increment_request = IncrementRequestBuilder::default()
             .timeout(Duration::from_secs(10))
             .executor_id(target_executor_id.clone())
+            .payload(
+                &IncrementRequestPayloadBuilder::default()
+                    .increment_value(1)
+                    .build()
+                    .unwrap(),
+            )
+            .unwrap()
             .build()
             .unwrap();
         let increment_response = increment_invoker.invoke(increment_request).await.unwrap();
@@ -100,4 +113,21 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
+}
+
+async fn receive_telemetry(client: SessionManagedClient, _exit_handle: SessionExitHandle) {
+    // Create receiver
+    let mut receiver =
+        TelemetryCollectionReceiver::new(client, &CommonOptionsBuilder::default().build().unwrap());
+
+    // Receive indefinitely
+    while let Some(message) = receiver.recv().await {
+        let (message, ack_token) = message.unwrap();
+        log::info!("Telemetry reported counter value: {:?}", message.payload);
+
+        // Acknowledge the message if ack_token is present
+        if let Some(ack_token) = ack_token {
+            ack_token.ack();
+        }
+    }
 }
