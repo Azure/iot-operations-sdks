@@ -1,0 +1,36 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "statestore-cli"
+version = "0.0.1"
+edition = "2021"
+license = "MIT"
+description = "Azure IoT Operations State Store Command-Line-Interface Tool"
+repository = "https://github.com/Azure/iot-operations-sdks"
+readme = "readme.md"
+publish = true
+
+[dependencies]
+azure_iot_operations_protocol = { version = "0.5", path = "../../rust/azure_iot_operations_protocol", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "0.5", path = "../../rust/azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_iot_operations_services = { version = "0.4", path = "../../rust/azure_iot_operations_services", registry = "aio-sdks" }
+log = "0.4.21"
+tokio = { version = "1.41", features = ["rt", "time", "sync"] }
+clap = { version = "4.0", features = ["derive"] }
+env_logger = "0.11.3"
+
+[lints.rust]
+rust_2018_idioms = { level = "deny", priority = -1 }
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+too_many_lines = "allow"
+module_name_repetitions = "allow"
+
+[profile.release]
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
