@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.6.0-operator1" />
-    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.6.0-operator1" />
-    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.6.0-operator1" />
+    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.6.0-operator2" />
+    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.6.0-operator2" />
+    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.6.0-operator2" />
   </ItemGroup>
 </Project>
