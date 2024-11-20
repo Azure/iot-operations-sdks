@@ -19,7 +19,7 @@ namespace RestThermostatConnector
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            if (asset.DisplayName!.Equals("My REST Thermostat Asset") && dataset.Name.Equals("thermostat_status"))
+            if (dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {
