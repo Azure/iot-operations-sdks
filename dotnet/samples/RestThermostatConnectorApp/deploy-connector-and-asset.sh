@@ -11,12 +11,8 @@ k3d image import rest-server:latest -c k3s-default
 kubectl apply -f ./KubernetesResources/connector-config.yaml
 
 # Deploy REST server (as an asset)
-kubectl apply -f ./KubernetesResources/rest-server1.yaml
-kubectl apply -f ./KubernetesResources/rest-server2.yaml
+kubectl apply -f ./KubernetesResources/rest-server.yaml
 
 # Deploy REST server asset and AEP
-kubectl apply -f ./KubernetesResources/rest-server1-asset-endpoint-profile-definition.yaml
-kubectl apply -f ./KubernetesResources/rest-server1-asset-definition.yaml
-
-kubectl apply -f ./KubernetesResources/rest-server2-asset-endpoint-profile-definition.yaml
-kubectl apply -f ./KubernetesResources/rest-server2-asset-definition.yaml
+kubectl apply -f ./KubernetesResources/rest-server-asset-endpoint-profile-definition.yaml
+kubectl apply -f ./KubernetesResources/rest-server-asset-definition.yaml
