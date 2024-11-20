@@ -394,10 +394,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (publishedMessage.SenderId != null)
+            if (publishedMessage.SourceId != null)
             {
                 Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.SourceId, out string? sourceId));
-                Assert.Equal(publishedMessage.SenderId, sourceId);
+                Assert.Equal(publishedMessage.SourceId, sourceId);
             }
 
             if (publishedMessage.Expiry != null)

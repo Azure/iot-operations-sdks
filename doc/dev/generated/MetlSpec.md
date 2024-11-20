@@ -490,7 +490,7 @@ When the value of the `action` key is `receive request`, the following sibling k
 | source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `correlation-index`, `invoker-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `correlation-index`, `source-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 #### ActionAwaitPublishResponse
@@ -649,7 +649,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| invoker-id | check | no | string | The invoker ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
@@ -1014,7 +1014,7 @@ When the value of the `action` key is `receive telemetry`, the following sibling
 | source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `sender-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `source-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 ## TelemetrySender test suite
@@ -1132,7 +1132,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string | The Telemetry payload UTF8 string. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| sender-id | check | no | string | The sender ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
