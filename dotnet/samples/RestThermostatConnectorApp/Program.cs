@@ -7,7 +7,6 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddHostedService<ConnectorWorker>();
-        services.AddSingleton<string>("yourLeadershipPositionId");
     })
     .Build();
 

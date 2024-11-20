@@ -44,7 +44,7 @@ kind: Service
 metadata:
   name: rest-server-service
   labels:
-    app: rest-server-deployment 
+    app: rest-server-deployment
 spec:
   type: ClusterIP
   ports:
