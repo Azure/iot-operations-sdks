@@ -42,7 +42,10 @@ async fn main() {
         session.create_managed_client(),
         counter.clone(),
     ));
-    tokio::spawn(increment_executor(session.create_managed_client(), counter));
+    tokio::spawn(increment_counter_and_publish(
+        session.create_managed_client(),
+        counter,
+    ));
     tokio::spawn(exit_timer(
         session.create_exit_handle(),
         Duration::from_secs(120),
@@ -73,8 +76,9 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
     }
 }
 
-/// Run an executor that responds to requests to increment the counter value.
-async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
+/// Run an executor that responds to requests to increment the counter value and a sender that sends
+/// telemetry messages with the new counter value.
+async fn increment_counter_and_publish(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
     // Create executor
     let options = CommonOptionsBuilder::default().build().unwrap();
     let mut increment_executor = IncrementCommandExecutor::new(client.clone(), &options);
@@ -94,6 +98,7 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32
             counter_response: *counter_guard,
         };
 
+        // Create telemetry message using the new counter value
         let telemetry_message = TelemetryCollectionMessageBuilder::default()
             .payload(
                 &TelemetryCollectionBuilder::default()
@@ -105,6 +110,7 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32
             .build()
             .unwrap();
 
+        // Respond to the increment request
         let response = IncrementResponseBuilder::default()
             .payload(&response_payload)
             .unwrap()
@@ -112,7 +118,7 @@ async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32
             .unwrap();
         request.complete(response).unwrap();
 
-        // Send telemetry
+        // Send associated telemetry
         counter_sender.send(telemetry_message).await.unwrap();
     }
 }

@@ -37,22 +37,20 @@ async fn main() {
         session.create_exit_handle(),
     ));
 
-    // Use the managed client to receive telemetry in another task
-    tokio::task::spawn(receive_telemetry(
-        session.create_managed_client(),
-        session.create_exit_handle(),
-    ));
-
     // Run the session
     session.run().await.unwrap();
 }
 
-/// Send a read request, 15 increment requests, and another read request and wait for their responses, then disconnect
+/// Send a read request, 15 increment requests, and another read request and wait for their responses and associated telemetry, then disconnect
 async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create invokers
     let options = CommonOptionsBuilder::default().build().unwrap();
     let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
-    let read_counter_invoker = ReadCounterCommandInvoker::new(client, &options);
+    let read_counter_invoker = ReadCounterCommandInvoker::new(client.clone(), &options);
+
+    // Create receiver
+    let mut counter_value_receiver =
+        TelemetryCollectionReceiver::new(client, &CommonOptionsBuilder::default().build().unwrap());
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();
@@ -93,6 +91,17 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             "Counter value after increment:: {:?}",
             increment_response.payload.counter_response
         );
+
+        log::info!("Waiting for telemetry");
+
+        let (message, ack_token) = counter_value_receiver.recv().await.unwrap().unwrap();
+
+        log::info!("Telemetry reported counter value: {:?}", message.payload);
+
+        // Acknowledge the message
+        if let Some(ack_token) = ack_token {
+            ack_token.ack();
+        }
     }
 
     // Final counter read from the server
@@ -113,21 +122,4 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
-}
-
-async fn receive_telemetry(client: SessionManagedClient, _exit_handle: SessionExitHandle) {
-    // Create receiver
-    let mut receiver =
-        TelemetryCollectionReceiver::new(client, &CommonOptionsBuilder::default().build().unwrap());
-
-    // Receive indefinitely
-    while let Some(message) = receiver.recv().await {
-        let (message, ack_token) = message.unwrap();
-        log::info!("Telemetry reported counter value: {:?}", message.payload);
-
-        // Acknowledge the message if ack_token is present
-        if let Some(ack_token) = ack_token {
-            ack_token.ack();
-        }
-    }
 }

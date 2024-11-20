@@ -15,7 +15,7 @@ use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_on
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TelemetryCollection {
     // The current value of the counter.
-    #[serde(rename = "counterValue")]
+    #[serde(rename = "CounterValue")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub counter_value: Option<i32>,

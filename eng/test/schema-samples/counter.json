@@ -39,7 +39,7 @@
         },
         {
             "@type": "Telemetry",
-            "name": "counterValue",
+            "name": "CounterValue",
             "schema": "integer",
             "description": "The current value of the counter."
         }
