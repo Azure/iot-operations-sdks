@@ -334,7 +334,7 @@ where
                 }
             }
         }
-        log::info!("Stopped");
+        log::info!("Shutdown");
         Ok(())
     }
 
