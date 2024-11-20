@@ -13,6 +13,7 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::{
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::{
+        cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
         telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
         telemetry_sender::{
             CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender,
@@ -35,6 +36,12 @@ use azure_iot_operations_protocol::{
 // - Shutdown after subscribed
 // - (Shutdown before subscribed, no error  has been added in unit tests, connectivity not needed)
 // - (currently not triggerable) None returned on Recv call when expected
+
+// Possible future tests
+// - message received on a different topic ignored
+// - invalid message ignored
+// - topic token scenarios
+// - different protocol versions?
 
 /// Create a session, telemetry sender, telemetry receiver, and exit handle for testing
 #[allow(clippy::type_complexity)]
@@ -315,8 +322,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(message.timestamp.is_some());
                         let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(cloud_event.spec_version, "1.0");
-                        assert_eq!(cloud_event.event_type, "ms.aio.telemetry");
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
+                        assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
@@ -339,8 +346,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(message.timestamp.is_some());
                         let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(cloud_event.spec_version, "1.0");
-                        assert_eq!(cloud_event.event_type, "ms.aio.telemetry");
+                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
+                        assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
