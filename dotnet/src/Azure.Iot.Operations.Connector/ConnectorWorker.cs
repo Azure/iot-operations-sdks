@@ -87,29 +87,8 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation("Successfully discovered the asset endpoint profile");
 
-                        if (assetEndpointProfile.AdditionalConfiguration != null)
-                        {
-                            _logger.LogInformation("####1");
-                        }
-
-                        if (assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value))
-                        {
-                            _logger.LogInformation("####2");
-                        }
-
-                        if (value.ValueKind == JsonValueKind.String)
-                        {
-                            _logger.LogInformation("####3");
-                        }
-
-                        if (value.GetString() != null)
-                        {
-                            _logger.LogInformation("####4");
-                        }
-
-
                         if (assetEndpointProfile.AdditionalConfiguration != null
-                            && assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out value)
+                            && assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value)
                             && value.ValueKind == JsonValueKind.String
                             && value.GetString() != null)
                         {
