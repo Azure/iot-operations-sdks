@@ -19,12 +19,12 @@ actions:
 - action: freeze time
 - action: receive request
   correlation-index: 0
-  invoker-index: 0
+  source-index: 0
 - action: await publish
   correlation-index: 0
 - action: receive request
   correlation-index: 0
-  invoker-index: 1
+  source-index: 1
 - action: unfreeze time
 - action: await publish
   correlation-index: 0

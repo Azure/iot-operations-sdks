@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 TestCaseActionReceiveTelemetry.DefaultFormatIndicator = defaultTestCase.Actions.ReceiveTelemetry.FormatIndicator;
                 TestCaseActionReceiveTelemetry.DefaultQos = defaultTestCase.Actions.ReceiveTelemetry.Qos;
                 TestCaseActionReceiveTelemetry.DefaultMessageExpiry = defaultTestCase.Actions.ReceiveTelemetry.MessageExpiry;
-                TestCaseActionReceiveTelemetry.DefaultSenderIndex = defaultTestCase.Actions.ReceiveTelemetry.SenderIndex;
+                TestCaseActionReceiveTelemetry.DefaultSourceIndex = defaultTestCase.Actions.ReceiveTelemetry.SourceIndex;
             }
 
             freezableWallClock = new FreezableWallClock();
@@ -180,7 +180,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 telemetryReceivers.Add(telemetryReceiver);
             }
 
-            ConcurrentDictionary<int, string> senderIds = new();
+            ConcurrentDictionary<int, string> sourceIds = new();
             ConcurrentDictionary<int, ushort> packetIds = new();
             int freezeTicket = -1;
 
@@ -191,7 +191,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     switch (action)
                     {
                         case TestCaseActionReceiveTelemetry actionReceiveTelemetry:
-                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, senderIds, packetIds, testCaseIndex).ConfigureAwait(false);
+                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, sourceIds, packetIds, testCaseIndex).ConfigureAwait(false);
                             break;
                         case TestCaseActionAwaitAck actionAwaitAck:
                             await AwaitAcknowledgementAsync(actionAwaitAck, stubMqttClient, packetIds).ConfigureAwait(false);
@@ -247,7 +247,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 foreach (TestCaseReceivedTelemetry receivedTelemetry in testCase.Epilogue.ReceivedTelemetries)
                 {
-                    CheckReceivedTelemetry(receivedTelemetry, stubMqttClient, testCaseIndex, receivedTelemetries, senderIds);
+                    CheckReceivedTelemetry(receivedTelemetry, testCaseIndex, receivedTelemetries, sourceIds);
                 }
 
                 try
@@ -319,10 +319,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     }
                 }
 
-                telemetryReceiver.OnTelemetryReceived = async (senderId, telemetry, metadata) =>
+                telemetryReceiver.OnTelemetryReceived = async (sourceId, telemetry, metadata) =>
                 {
                     await telemetryReceiver.Track().ConfigureAwait(false);
-                    ProcessTelemetry(senderId, telemetry, metadata, testCaseReceiver, receivedTelemetries);
+                    ProcessTelemetry(sourceId, telemetry, metadata, testCaseReceiver, receivedTelemetries);
                 };
 
                 await telemetryReceiver.StartAsync().WaitAsync(TestTimeout).ConfigureAwait(false);
@@ -347,15 +347,15 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> senderIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
+        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> sourceIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
         {
-            string? senderId = null;
-            if (actionReceiveTelemetry.SenderIndex != null)
+            string? sourceId = null;
+            if (actionReceiveTelemetry.SourceIndex != null)
             {
-                if (!senderIds.TryGetValue((int)actionReceiveTelemetry.SenderIndex, out senderId))
+                if (!sourceIds.TryGetValue((int)actionReceiveTelemetry.SourceIndex, out sourceId))
                 {
-                    senderId = Guid.NewGuid().ToString();
-                    senderIds[(int)actionReceiveTelemetry.SenderIndex] = senderId;
+                    sourceId = Guid.NewGuid().ToString();
+                    sourceIds[(int)actionReceiveTelemetry.SourceIndex] = sourceId;
                 }
             }
 
@@ -388,9 +388,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 requestAppMsgBuilder.WithPayload(payload);
             }
 
-            if (senderId != null)
+            if (sourceId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.TelemetrySenderId, senderId);
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.TelemetrySenderId, sourceId);
             }
 
             if (actionReceiveTelemetry.Qos != null)
@@ -448,14 +448,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return freezableWallClock.UnfreezeTimeAsync(freezeTicket);
         }
 
-        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, StubMqttClient stubMqttClient, int testCaseIndex, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> senderIds)
+        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, int testCaseIndex, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> sourceIds)
         {
             Assert.True(receivedTelemetries.TryDequeue(out ReceivedTelemetry? actualReceivedTelemetry));
             Assert.NotNull(actualReceivedTelemetry);
 
-            if (receivedTelemetry.TelemetryValue != null)
+            if (receivedTelemetry.TelemetryValue == null)
             {
-                Assert.Equal(receivedTelemetry.TelemetryValue, actualReceivedTelemetry.TelemetryValue);
+                Assert.Null(actualReceivedTelemetry.TelemetryValue);
+            }
+            else if (receivedTelemetry.TelemetryValue is string telemetry)
+            {
+                Assert.Equal(telemetry, actualReceivedTelemetry.TelemetryValue);
             }
 
             foreach (KeyValuePair<string, string?> kvp in receivedTelemetry.Metadata)
@@ -506,14 +510,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (receivedTelemetry.SenderIndex != null)
+            if (receivedTelemetry.SourceIndex != null)
             {
-                Assert.True(senderIds.TryGetValue((int)receivedTelemetry.SenderIndex, out string? senderId));
-                Assert.Equal(senderId, actualReceivedTelemetry.SenderId);
+                Assert.True(sourceIds.TryGetValue((int)receivedTelemetry.SourceIndex, out string? sourceId));
+                Assert.Equal(sourceId, actualReceivedTelemetry.SourceId);
             }
         }
 
-        private static void ProcessTelemetry(string senderId, string telemetry, IncomingTelemetryMetadata metadata,TestCaseReceiver testCaseReceiver, AsyncQueue<ReceivedTelemetry> receivedTelemetries)
+        private static void ProcessTelemetry(string sourceId, string telemetry, IncomingTelemetryMetadata metadata,TestCaseReceiver testCaseReceiver, AsyncQueue<ReceivedTelemetry> receivedTelemetries)
         {
             if (testCaseReceiver.RaiseError != null && testCaseReceiver.RaiseError.Kind != TestErrorKind.None)
             {
@@ -522,16 +526,16 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     new ApplicationException(testCaseReceiver.RaiseError.Message);
             }
 
-            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, senderId));
+            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, sourceId));
         }
 
         private record ReceivedTelemetry
         {
-            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, CloudEvent? cloudEvent, string senderId)
+            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, CloudEvent? cloudEvent, string sourceId)
             {
                 TelemetryValue = telemetryValue;
                 Metadata = metadata;
-                SenderId = senderId;
+                SourceId = sourceId;
 
                 if (cloudEvent != null)
                 {
@@ -551,7 +555,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             public TestCaseCloudEvent? CloudEvent { get; }
 
-            public string SenderId { get; }
+            public string SourceId { get; }
         }
     }
 }

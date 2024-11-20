@@ -14,6 +14,8 @@ type testCasePublishedMessage struct {
 	CommandStatus      any               `yaml:"command-status"`
 	IsApplicationError *bool             `yaml:"is-application-error"`
 	InvokerID          *string           `yaml:"invoker-id"`
+	SenderID           *string           `yaml:"sender-id"`
+	Expiry             *uint32           `yaml:"expiry"`
 }
 
 type TestCasePublishedMessage struct {

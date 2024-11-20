@@ -40,19 +40,19 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Create a **codespace**, and enter your Azure details to store them as environment variables:
 
-   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
+    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
-   > :stop_sign:<code style="color:red">**Important**</code>  
-   >  
-   > Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
+    > :stop_sign:<code style="color:red">**Important**</code>  
+    >  
+    > Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
 
 1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to connect your cluster to Azure Arc and deploy Azure IoT Operations.
 
 1. Configure Azure IoT Operations for SDK development:
 
-   ```bash
-   ./tools/deployment/deploy-aio.sh release
-   ```
+    ```bash
+    ./tools/deployment/deploy-aio.sh release
+    ```
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
@@ -62,9 +62,9 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Refer to each language directory for specific instructions on using each SDK:
 
-   * **.NET** - [/dotnet](/dotnet)
-   * **Go** - [/go](/go)
-   * **Rust** - [/rust](/rust)
+    * **.NET** - [/dotnet](/dotnet)
+    * **Go** - [/go](/go)
+    * **Rust** - [/rust](/rust)
 
 ## Features
 

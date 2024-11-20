@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"os"
 
@@ -14,31 +13,34 @@ import (
 
 func main() {
 	ctx := context.Background()
-	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
+	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
+		Level: slog.LevelDebug,
+	})))
 
-	mqttClient := must(mqtt.NewSessionClientFromEnv())
+	mqttClient := must(mqtt.NewSessionClientFromEnv(
+		mqtt.WithLogger(slog.Default()),
+	))
+	counterServerID := os.Getenv("COUNTER_SERVER_ID")
+	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
-	counterServer := os.Getenv("COUNTER_SERVER_ID")
-
-	fmt.Printf("Initialized MQTT client. Connecting to MQTT broker and calling to %s\n", counterServer)
-
-	client := must(dtmi_com_example_Counter__1.NewCounterClient(mqttClient, protocol.WithResponseTopicPrefix("response")))
+	client := must(dtmi_com_example_Counter__1.NewCounterClient(
+		mqttClient,
+		protocol.WithResponseTopicPrefix("response"),
+		protocol.WithLogger(slog.Default()),
+	))
 	defer client.Close()
 
 	check(mqttClient.Start())
 	check(client.Start(ctx))
 
-	resp := must(client.ReadCounter(ctx, counterServer))
+	resp := must(client.ReadCounter(ctx, counterServerID))
 
-	fmt.Println("Counter value:", resp.Payload.CounterResponse)
+	slog.Info("read counter", "value", resp.Payload.CounterResponse)
 
 	for range 15 {
-		respIncr := must(client.Increment(ctx, counterServer))
-		fmt.Println("Counter value after increment:", respIncr.Payload.CounterResponse)
+		respIncr := must(client.Increment(ctx, counterServerID))
+		slog.Info("increment", "value", respIncr.Payload.CounterResponse)
 	}
-
-	fmt.Println("Press enter to quit.")
-	must(fmt.Scanln())
 }
 
 func check(e error) {
