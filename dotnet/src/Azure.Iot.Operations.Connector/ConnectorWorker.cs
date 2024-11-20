@@ -200,12 +200,17 @@ namespace Azure.Iot.Operations.Connector
                             _logger.LogInformation("This pod is shutting down. It will now stop monitoring and sampling assets.");
                         }
                         else if (aepDeletedOrUpdatedTcs.Task.IsCompleted)
-                        { 
+                        {
                             _logger.LogInformation("Received a notification that the asset endpoint profile has changed. This pod will now cancel current asset sampling and restart monitoring assets.");
                         }
-                        else
+                        else if (doingLeaderElection)
                         {
                             _logger.LogInformation("This pod is no longer the leader. It will now stop monitoring and sampling assets.");
+                        }
+                        else
+                        { 
+                            // Shouldn't happen. The pod should either be cancelled, the AEP should have changed, or this pod should have lost its position as leader
+                            _logger.LogInformation("This pod will now cancel current asset sampling and restart monitoring assets.");
                         }
 
                         foreach (Dictionary<string, Timer> datasetSamplers in _samplers.Values)
