@@ -402,11 +402,7 @@ where
             match unsubscribe_result {
                 Ok(unsub_ct) => {
                     match unsub_ct.await {
-                        Ok(()) => {
-                            /* Success */
-                            // TODO: Should we do this, or does this then make shutdown recoverable, which we don't want?
-                            self.is_subscribed = false;
-                        }
+                        Ok(()) => { /* Success */ }
                         Err(e) => {
                             log::error!("[{}] Unsuback error: {e}", self.command_name);
                             return Err(AIOProtocolError::new_mqtt_error(
