@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -18,15 +17,23 @@ var counterValue int = 0
 
 func main() {
 	ctx := context.Background()
-	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
+	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
+		Level: slog.LevelDebug,
+	})))
 
-	clientID := os.Getenv("AIO_MQTT_CLIENT_ID")
-	fmt.Printf("Starting counter server with clientId %s\n", clientID)
-	mqttClient := must(mqtt.NewSessionClientFromEnv())
+	mqttClient := must(mqtt.NewSessionClientFromEnv(
+		mqtt.WithLogger(slog.Default()),
+	))
+	counterServerID := os.Getenv("AIO_MQTT_CLIENT_ID")
+	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
-	fmt.Println("Initialized MQTT client.")
-
-	server := must(dtmi_com_example_Counter__1.NewCounterService(mqttClient, ReadCounter, Increment, Reset))
+	server := must(dtmi_com_example_Counter__1.NewCounterService(
+		mqttClient,
+		ReadCounter,
+		Increment,
+		Reset,
+		protocol.WithLogger(slog.Default()),
+	))
 	defer server.Close()
 
 	check(mqttClient.Start())

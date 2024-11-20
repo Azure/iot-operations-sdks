@@ -190,7 +190,7 @@ func runOneCommandInvokerTest(
 	}
 
 	for _, publishedMessage := range testCase.Epilogue.PublishedMessages {
-		checkPublishedRequest(t, publishedMessage, stubBroker, correlationIDs)
+		checkPublishedRequest(t, &publishedMessage, stubBroker, correlationIDs)
 	}
 
 	if testCase.Epilogue.AcknowledgementCount != nil {
@@ -463,7 +463,7 @@ func receiveResponse(
 
 func checkPublishedRequest(
 	t *testing.T,
-	publishedMessage TestCasePublishedMessage,
+	publishedMessage *TestCasePublishedMessage,
 	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 ) {
@@ -497,5 +497,13 @@ func checkPublishedRequest(
 		invokerID, ok := getUserProperty(t, msg, SourceID)
 		require.True(t, ok)
 		require.Equal(t, *publishedMessage.InvokerID, invokerID)
+	}
+
+	if publishedMessage.Expiry != nil {
+		require.Equal(
+			t,
+			*publishedMessage.Expiry,
+			*msg.Properties.MessageExpiry,
+		)
 	}
 }

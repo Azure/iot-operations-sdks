@@ -2,10 +2,10 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envo
 
 go 1.23.0
 
-require github.com/Azure/iot-operations-sdks/go/protocol v0.2.0
+require github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.1.0 // indirect
+	github.com/Azure/iot-operations-sdks/go/internal v0.2.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.5 // indirect
 	github.com/fatih/color v1.18.0 // indirect
@@ -17,5 +17,5 @@ require (
 	github.com/relvacode/iso8601 v1.5.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
-	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
 )
