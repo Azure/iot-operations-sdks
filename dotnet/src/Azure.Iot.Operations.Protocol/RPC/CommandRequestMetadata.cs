@@ -68,25 +68,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = new HybridLogicalClock(localClock);
             FencingToken = null;
-            UserData = new();
+            UserData = [];
         }
 
         internal CommandRequestMetadata(MqttApplicationMessage message)
         {
-            if (message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId))
-            {
-                CorrelationId = correlationId!.Value;
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid property -- CorrelationData in request message is null or not parseable as a GUID", nameof(message));
-            }
+            CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
+                ? correlationId!.Value
+                : throw new ArgumentException($"Invalid property -- CorrelationData in request message is null or not parseable as a GUID", nameof(message));
 
             InvokerClientId = null;
 
             Timestamp = null;
             FencingToken = null;
-            UserData = new();
+            UserData = [];
 
             if (message.UserProperties != null)
             {

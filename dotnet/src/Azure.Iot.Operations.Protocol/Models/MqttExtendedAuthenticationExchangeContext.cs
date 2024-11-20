@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttExtendedAuthenticationExchangeContext
+    public class MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode reasonCode)
     {
-        public MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode reasonCode)
-        {
-            ReasonCode = reasonCode;
-        }
 
         /// <summary>
         /// Gets the reason code.
         /// Hint: MQTT 5 feature only.
         /// </summary>
-        public MqttAuthenticateReasonCode ReasonCode { get; init; }
+        public MqttAuthenticateReasonCode ReasonCode { get; init; } = reasonCode;
 
         /// <summary>
         /// Gets the reason string.
@@ -41,6 +36,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// The feature is very similar to the HTTP header concept.
         /// Hint: MQTT 5 feature only.
         /// </summary>
-        public List<MqttUserProperty> UserProperties { get; init; } = new();
+        public List<MqttUserProperty> UserProperties { get; init; } = [];
     }
 }

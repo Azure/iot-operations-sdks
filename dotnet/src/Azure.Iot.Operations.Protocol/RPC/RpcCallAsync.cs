@@ -6,22 +6,21 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public struct RpcCallAsync<TResp>
+    public readonly struct RpcCallAsync<TResp>(Task<ExtendedResponse<TResp>> task, Guid requestCorrelationData)
         where TResp : class
     {
-        public Task<ExtendedResponse<TResp>> WithMetadata() => ExtendedAsync;
-
-        public Task<ExtendedResponse<TResp>> ExtendedAsync { get; }
-
-        public Guid RequestCorrelationData { get; }
-
-        public RpcCallAsync(Task<ExtendedResponse<TResp>> task, Guid requestCorrelationData)
+        public Task<ExtendedResponse<TResp>> WithMetadata()
         {
-            ExtendedAsync = task;
-            RequestCorrelationData = requestCorrelationData;
+            return ExtendedAsync;
         }
 
-        public TaskAwaiter<TResp> GetAwaiter() => ExtendedAsync
+        public Task<ExtendedResponse<TResp>> ExtendedAsync { get; } = task;
+
+        public Guid RequestCorrelationData { get; } = requestCorrelationData;
+
+        public TaskAwaiter<TResp> GetAwaiter()
+        {
+            return ExtendedAsync
             .ContinueWith(
                 (exTask) =>
                 {
@@ -32,5 +31,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                     return exTask.Result.Response;
                 }).GetAwaiter();
+        }
     }
 }

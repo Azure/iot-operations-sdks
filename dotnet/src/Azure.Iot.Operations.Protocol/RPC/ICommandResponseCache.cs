@@ -1,9 +1,9 @@
-﻿namespace Azure.Iot.Operations.Protocol.RPC
-{
-    using Azure.Iot.Operations.Protocol.Models;
-    using System;
-    using System.Threading.Tasks;
+﻿using Azure.Iot.Operations.Protocol.Models;
+using System;
+using System.Threading.Tasks;
 
+namespace Azure.Iot.Operations.Protocol.RPC
+{
     /// <summary>
     /// Interface for a cache of command responses that may be used for two purposes.
     /// 

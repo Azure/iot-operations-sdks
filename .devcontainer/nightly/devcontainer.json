@@ -36,9 +36,7 @@
         }
     },
     "containerEnv": {
-        "CLUSTER_NAME": "${localEnv:CODESPACE_NAME}",
-        "SESSION": "${localEnv:CODESPACE_VSCODE_FOLDER}/.session",
-        "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
+         "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "forwardPorts": [
         1883,
@@ -46,7 +44,7 @@
         8884
     ],
     "waitFor": "postCreateCommand",
-    "onCreateCommand": "tools/deployment/initialize-cluster.sh",
+    "onCreateCommand": ".devcontainer/onCreateCommand.sh",
     "postCreateCommand": "git pull; tools/deployment/deploy-aio.sh nightly",
-    "postStartCommand": "sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'"
+    "postStartCommand": ".devcontainer/postStartCommand.sh"
 }

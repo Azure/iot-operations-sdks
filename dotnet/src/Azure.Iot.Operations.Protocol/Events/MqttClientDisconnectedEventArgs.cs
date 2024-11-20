@@ -4,42 +4,32 @@ using Azure.Iot.Operations.Protocol.Models;
 
 namespace Azure.Iot.Operations.Protocol.Events
 {
-    public sealed class MqttClientDisconnectedEventArgs : EventArgs
+    public sealed class MqttClientDisconnectedEventArgs(
+        bool clientWasConnected,
+        MqttClientConnectResult? connectResult,
+        MqttClientDisconnectReason reason,
+        string? reasonString,
+        List<MqttUserProperty>? userProperties,
+        Exception? exception) : EventArgs
     {
-        public MqttClientDisconnectedEventArgs(
-            bool clientWasConnected,
-            MqttClientConnectResult? connectResult,
-            MqttClientDisconnectReason reason,
-            string? reasonString,
-            List<MqttUserProperty>? userProperties,
-            Exception? exception)
-        {
-            ClientWasConnected = clientWasConnected;
-            ConnectResult = connectResult;
-            Exception = exception;
-            Reason = reason;
-            ReasonString = reasonString;
-            UserProperties = userProperties;
-        }
-
-        public bool ClientWasConnected { get; }
+        public bool ClientWasConnected { get; } = clientWasConnected;
 
         /// <summary>
         ///     Gets the authentication result.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public MqttClientConnectResult? ConnectResult { get; }
+        public MqttClientConnectResult? ConnectResult { get; } = connectResult;
 
-        public Exception? Exception { get; }
+        public Exception? Exception { get; } = exception;
 
         /// <summary>
         ///     Gets or sets the reason.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public MqttClientDisconnectReason Reason { get; }
+        public MqttClientDisconnectReason Reason { get; } = reason;
 
-        public string? ReasonString { get; }
+        public string? ReasonString { get; } = reasonString;
 
-        public List<MqttUserProperty>? UserProperties { get; }
+        public List<MqttUserProperty>? UserProperties { get; } = userProperties;
     }
 }

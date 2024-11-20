@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         GrantedQoS1 = 0x01,
         GrantedQoS2 = 0x02,
         UnspecifiedError = 0x80,
-        
+
         ImplementationSpecificError = 131,
         NotAuthorized = 135,
         TopicFilterInvalid = 143,

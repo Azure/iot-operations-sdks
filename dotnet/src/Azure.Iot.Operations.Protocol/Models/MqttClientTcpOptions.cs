@@ -3,14 +3,8 @@ using System.Net;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public sealed class MqttClientTcpOptions : IMqttClientChannelOptions
+    public sealed class MqttClientTcpOptions(string host, int port) : IMqttClientChannelOptions
     {
-        public MqttClientTcpOptions(string host, int port)
-        {
-            Host = host;
-            Port = port;
-        }
-
         public AddressFamily AddressFamily { get; set; } = AddressFamily.Unspecified;
 
         public int BufferSize { get; set; } = 8192;
@@ -44,9 +38,9 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// </summary>
         public ProtocolType ProtocolType { get; set; } = ProtocolType.Tcp;
 
-        public string Host { get; set; }
+        public string Host { get; set; } = host;
 
-        public int Port { get; set; }
+        public int Port { get; set; } = port;
 
         public MqttClientTlsOptions TlsOptions { get; set; } = new MqttClientTlsOptions();
     }

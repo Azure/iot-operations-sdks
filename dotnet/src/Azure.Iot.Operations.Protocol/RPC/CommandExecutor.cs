@@ -29,10 +29,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly string commandName;
         private readonly IPayloadSerializer serializer;
 
-        private readonly Dictionary<string, string> topicTokenMap = new();
+        private readonly Dictionary<string, string> topicTokenMap = [];
 
-        private HybridLogicalClock hybridLogicalClock;
-        private ICommandResponseCache commandResponseCache;
+        private readonly HybridLogicalClock hybridLogicalClock;
+        private readonly ICommandResponseCache commandResponseCache;
         private Dispatcher? dispatcher;
         private bool isRunning;
         private bool hasSubscribed;
@@ -72,13 +72,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap { get => topicTokenMap; }
+        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in request and response topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => topicTokenMap; }
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
         public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
@@ -152,7 +152,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         this.commandName,
                         sourceId,
                         args.ApplicationMessage.CorrelationData,
-                        args.ApplicationMessage.PayloadSegment.Array ?? Array.Empty<byte>(),
+                        args.ApplicationMessage.PayloadSegment.Array ?? [],
                         isCacheable: CacheTtl > TimeSpan.Zero,
                         canReuseAcrossInvokers: !isExecutorSpecific)
                     .ConfigureAwait(false);
@@ -190,9 +190,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     return;
                 }
 
-                ExtendedRequest<TReq> extendedRequest = new ExtendedRequest<TReq> { Request = request, RequestMetadata = requestMetadata };
+                ExtendedRequest<TReq> extendedRequest = new() { Request = request, RequestMetadata = requestMetadata };
 
-                Func<Task> cmdFunc = async () =>
+                async Task cmdFunc()
                 {
                     DateTime executionStartTime = WallClock.UtcNow;
                     TimeSpan startupDelay = executionStartTime - messageReceivedTime;
@@ -264,7 +264,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         commandCts.Dispose();
                     }
-                };
+                }
 
                 await GetDispatcher()(cmdFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
             }
@@ -314,7 +314,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (isRunning && hasSubscribed)
             {
-                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new MqttClientUnsubscribeOptions(subscriptionTopic);
+                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new(subscriptionTopic);
 
                 MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(mqttUnsubscribeOptions, cancellationToken).ConfigureAwait(false);
 
@@ -328,8 +328,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(transientTopicTokenMap)}" : GetCommandTopic(transientTopicTokenMap);
 
-            var qos = MqttQualityOfServiceLevel.AtLeastOnce;
-            MqttClientSubscribeOptions mqttSubscribeOptions = new MqttClientSubscribeOptions(new MqttTopicFilter(requestTopicFilter, qos));
+            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce;
+            MqttClientSubscribeOptions mqttSubscribeOptions = new(new MqttTopicFilter(requestTopicFilter, qos));
 
             MqttClientSubscribeResult subAck = await mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
             subAck.ThrowIfNotSuccessSubAck(qos, this.commandName);
@@ -441,7 +441,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
         {
-            var message = new MqttApplicationMessage(topic, MqttQualityOfServiceLevel.AtLeastOnce)
+            MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
                 CorrelationData = correlationData,
             };
@@ -518,7 +518,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             ArraySegment<byte> payloadSegment,
             List<MqttUserProperty>? userProperties)
         {
-            var message = new MqttApplicationMessage(topic, MqttQualityOfServiceLevel.AtLeastOnce)
+            MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
                 CorrelationData = correlationData,
             };
@@ -532,7 +532,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (userProperties != null)
             {
-                foreach (var property in userProperties)
+                foreach (MqttUserProperty property in userProperties)
                 {
                     message.AddUserProperty(property.Name, property.Value);
                 }
@@ -560,9 +560,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             try
-            { 
+            {
                 MqttClientPublishResult pubAck = await mqttClient.PublishAsync(responseMessage, CancellationToken.None).ConfigureAwait(false);
-                var pubReasonCode = pubAck.ReasonCode;
+                MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                 if (pubReasonCode != MqttClientPublishReasonCode.Success)
                 {
                     string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";

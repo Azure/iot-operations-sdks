@@ -4,22 +4,14 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public sealed class MqttClientCertificateValidationEventArgs : EventArgs
+    public sealed class MqttClientCertificateValidationEventArgs(X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors, IMqttClientChannelOptions clientOptions) : EventArgs
     {
-        public MqttClientCertificateValidationEventArgs(X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors, IMqttClientChannelOptions clientOptions)
-        {
-            Certificate = certificate;
-            Chain = chain;
-            SslPolicyErrors = sslPolicyErrors;
-            ClientOptions = clientOptions ?? throw new ArgumentNullException(nameof(clientOptions));
-        }
+        public X509Certificate Certificate { get; } = certificate;
 
-        public X509Certificate Certificate { get; }
+        public X509Chain Chain { get; } = chain;
 
-        public X509Chain Chain { get; }
+        public IMqttClientChannelOptions ClientOptions { get; } = clientOptions ?? throw new ArgumentNullException(nameof(clientOptions));
 
-        public IMqttClientChannelOptions ClientOptions { get; }
-
-        public SslPolicyErrors SslPolicyErrors { get; }
+        public SslPolicyErrors SslPolicyErrors { get; } = sslPolicyErrors;
     }
 }

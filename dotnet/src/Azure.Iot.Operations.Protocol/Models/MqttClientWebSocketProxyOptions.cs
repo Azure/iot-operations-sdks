@@ -1,8 +1,8 @@
 ﻿namespace Azure.Iot.Operations.Protocol.Models
 {
-    public sealed class MqttClientWebSocketProxyOptions
+    public sealed class MqttClientWebSocketProxyOptions(string address)
     {
-        public string Address { get; set; }
+        public string Address { get; set; } = address;
 
         public string? Username { get; set; }
 
@@ -15,10 +15,5 @@
         public bool UseDefaultCredentials { get; set; }
 
         public string[]? BypassList { get; set; }
-
-        public MqttClientWebSocketProxyOptions(string address) 
-        { 
-            Address = address;
-        }
     }
 }

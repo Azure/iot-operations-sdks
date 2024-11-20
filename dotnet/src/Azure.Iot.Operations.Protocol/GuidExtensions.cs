@@ -1,26 +1,27 @@
 using System;
 using System.Diagnostics;
 
-namespace Azure.Iot.Operations.Protocol;
-
-public static class GuidExtensions
+namespace Azure.Iot.Operations.Protocol
 {
-    public static bool TryParseBytes(byte[] bytes, out Guid? result)
+    public static class GuidExtensions
     {
-        result = null!;
-        if (bytes == null || bytes.Length != 16)
+        public static bool TryParseBytes(byte[] bytes, out Guid? result)
         {
-            return false;
-        }
-        try
-        {
-            result = new Guid(bytes);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Trace.TraceInformation(ex.Message);
-            return false;
+            result = null!;
+            if (bytes == null || bytes.Length != 16)
+            {
+                return false;
+            }
+            try
+            {
+                result = new Guid(bytes);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceInformation(ex.Message);
+                return false;
+            }
         }
     }
 }
