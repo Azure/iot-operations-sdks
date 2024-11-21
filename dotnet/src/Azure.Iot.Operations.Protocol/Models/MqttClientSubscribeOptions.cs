@@ -9,12 +9,12 @@ namespace Azure.Iot.Operations.Protocol.Models
         }
 
         public MqttClientSubscribeOptions(MqttTopicFilter mqttTopicFilter)
-        { 
+        {
             TopicFilters.Add(mqttTopicFilter);
         }
 
         public MqttClientSubscribeOptions(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
-        { 
+        {
             TopicFilters.Add(new MqttTopicFilter(topic, qos));
         }
 
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     Gets or sets a list of topic filters the client wants to subscribe to.
         ///     Topic filters can include regular topics or wild cards.
         /// </summary>
-        public List<MqttTopicFilter> TopicFilters { get; set; } = new List<MqttTopicFilter>();
+        public List<MqttTopicFilter> TopicFilters { get; set; } = [];
 
         /// <summary>
         ///     Gets or sets the user properties.
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public void AddUserProperty(string key, string value)
         {
-            UserProperties ??= new List<MqttUserProperty>();
+            UserProperties ??= [];
             UserProperties.Add(new MqttUserProperty(key, value));
         }
     }

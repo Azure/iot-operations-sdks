@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the UserData is initialized with an empty dictionary.
         /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the UserData is set from the resonse message.
         /// </summary>
-        public Dictionary<string, string> UserData { get; set; } = new();
+        public Dictionary<string, string> UserData { get; set; } = [];
 
         /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
@@ -43,22 +43,17 @@ namespace Azure.Iot.Operations.Protocol.RPC
             CorrelationId = null;
 
             Timestamp = new HybridLogicalClock(HybridLogicalClock.GetInstance());
-            UserData = new();
+            UserData = [];
         }
 
         internal CommandResponseMetadata(MqttApplicationMessage message)
         {
-            if (message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId))
-            {
-                CorrelationId = correlationId!.Value;
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid property -- CorrelationData in response message is null or not parseable as a GUID", nameof(message));
-            }
+            CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
+                ? (Guid?)correlationId!.Value
+                : throw new ArgumentException($"Invalid property -- CorrelationData in response message is null or not parseable as a GUID", nameof(message));
 
             Timestamp = null;
-            UserData = new();
+            UserData = [];
 
             if (message.UserProperties != null)
             {

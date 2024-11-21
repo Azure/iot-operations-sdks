@@ -109,6 +109,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// The feature is very similar to the HTTP header concept.
         /// MQTTv5 only.
         /// </summary>
-        public List<MqttUserProperty> UserProperties { get; init; } = new();
+        public List<MqttUserProperty> UserProperties { get; init; } = [];
     }
 }

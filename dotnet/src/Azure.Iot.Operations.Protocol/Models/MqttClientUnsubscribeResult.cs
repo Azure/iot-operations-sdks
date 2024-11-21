@@ -4,41 +4,34 @@ using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttClientUnsubscribeResult
+    public class MqttClientUnsubscribeResult(
+        ushort packetIdentifier,
+        IReadOnlyCollection<MqttClientUnsubscribeResultItem> items,
+        string reasonString,
+        IReadOnlyCollection<MqttUserProperty> userProperties)
     {
-        public MqttClientUnsubscribeResult(
-            ushort packetIdentifier,
-            IReadOnlyCollection<MqttClientUnsubscribeResultItem> items,
-            string reasonString,
-            IReadOnlyCollection<MqttUserProperty> userProperties)
-        {
-            PacketIdentifier = packetIdentifier;
-            Items = items ?? throw new ArgumentNullException(nameof(items));
-            ReasonString = reasonString;
-            UserProperties = userProperties ?? throw new ArgumentNullException(nameof(userProperties));
-        }
 
         /// <summary>
         ///     Gets the result for every topic filter item.
         /// </summary>
-        public IReadOnlyCollection<MqttClientUnsubscribeResultItem> Items { get; }
+        public IReadOnlyCollection<MqttClientUnsubscribeResultItem> Items { get; } = items ?? throw new ArgumentNullException(nameof(items));
 
         /// <summary>
         ///     Gets the packet identifier which was used.
         /// </summary>
-        public ushort PacketIdentifier { get; }
+        public ushort PacketIdentifier { get; } = packetIdentifier;
 
         /// <summary>
         ///     Gets the reason string.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public string ReasonString { get; }
+        public string ReasonString { get; } = reasonString;
 
         /// <summary>
         ///     Gets the user properties which were part of the UNSUBACK packet.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public IReadOnlyCollection<MqttUserProperty> UserProperties { get; set; }
+        public IReadOnlyCollection<MqttUserProperty> UserProperties { get; set; } = userProperties ?? throw new ArgumentNullException(nameof(userProperties));
 
         public void ThrowIfNotSuccessUnsubAck(string? commandName = default)
         {

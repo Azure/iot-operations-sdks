@@ -1,0 +1,24 @@
+---
+test-name: TelemetryReceiverReceivesUnsupportedProtocolVersion_NotRelayed
+description:
+  condition: >-
+    TelemetryReceiver receives telemetry with a protocol version that it does not support.
+  expect: >-
+    TelemetryReceiver does not relay telemetry to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+  metadata:
+    "__protVer": "123456.0"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  telemetry-count: 0
+...

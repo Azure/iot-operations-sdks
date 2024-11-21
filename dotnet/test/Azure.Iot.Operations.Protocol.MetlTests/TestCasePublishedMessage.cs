@@ -14,9 +14,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public bool? IsApplicationError { get; set; }
 
-        public string? InvokerId { get; set; }
-
-        public string? SenderId { get; set; }
+        public string? SourceId { get; set; }
 
         public int? Expiry { get; set; }
     }

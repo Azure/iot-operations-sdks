@@ -1,0 +1,26 @@
+---
+test-name: TelemetrySenderWithClientSourceId_Success
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry.
+  expect: >-
+    TelemetrySender performs send that includes source ID header with value of client ID.
+
+prologue:
+  mqtt-config:
+    client-id: "MySenderClientId"
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "__srcId": "MySenderClientId"
+...
