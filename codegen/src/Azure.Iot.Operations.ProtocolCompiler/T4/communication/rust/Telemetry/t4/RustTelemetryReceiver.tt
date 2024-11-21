@@ -58,6 +58,7 @@ where
         let receiver_options = receiver_options_builder
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
             .topic_token_map(topic_token_map)
+            .auto_ack(options.auto_ack_telemetry)
 <# if (this.useSharedSubscription) { #>
             .service_group_id(TELEMETRY_SERVICE_GROUP_ID.to_string())
 <# } #>

@@ -13,4 +13,7 @@ pub struct CommonOptions {
     /// Topic token keys/values to be replaced in the topic pattern
     #[builder(default)]
     pub topic_token_map: HashMap<String, String>,
+    /// If true, telemetry messages are auto-acknowledged when received
+    #[builder(default = "true")]
+    pub auto_ack_telemetry: bool,
 }
