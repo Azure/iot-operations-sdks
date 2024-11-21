@@ -26,4 +26,6 @@ epilogue:
     topic: "response/mock/test"
     command-status: 200 # OK
     payload: "Test_Response"
+    metadata:
+      "__protVer": "0.1"
 ...

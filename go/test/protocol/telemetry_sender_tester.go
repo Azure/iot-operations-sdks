@@ -330,10 +330,10 @@ func checkPublishedTelemetry(
 		require.Equal(t, val, propVal)
 	}
 
-	if publishedMessage.SenderID != nil {
-		senderID, ok := getUserProperty(t, msg, SourceID)
+	if publishedMessage.SourceID != nil {
+		sourceID, ok := getUserProperty(t, msg, SourceID)
 		require.True(t, ok)
-		require.Equal(t, *publishedMessage.SenderID, senderID)
+		require.Equal(t, *publishedMessage.SourceID, sourceID)
 	}
 
 	if publishedMessage.Expiry != nil {

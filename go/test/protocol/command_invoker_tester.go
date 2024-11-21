@@ -493,10 +493,10 @@ func checkPublishedRequest(
 		require.Equal(t, val, propVal)
 	}
 
-	if publishedMessage.InvokerID != nil {
-		invokerID, ok := getUserProperty(t, msg, SourceID)
+	if publishedMessage.SourceID != nil {
+		sourceID, ok := getUserProperty(t, msg, SourceID)
 		require.True(t, ok)
-		require.Equal(t, *publishedMessage.InvokerID, invokerID)
+		require.Equal(t, *publishedMessage.SourceID, sourceID)
 	}
 
 	if publishedMessage.Expiry != nil {

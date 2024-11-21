@@ -21,8 +21,8 @@
             },
             "kind": "check"
         },
-        "sender-id": {
-            "description": "The sender ID header property in the message.",
+        "source-id": {
+            "description": "The source ID header property in the message.",
             "type": "string",
             "kind": "check"
         },

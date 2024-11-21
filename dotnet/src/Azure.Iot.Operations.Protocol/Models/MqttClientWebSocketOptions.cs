@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public IDictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
 
-        public ICollection<string> SubProtocols { get; set; } = new List<string> { "mqtt" };
+        public ICollection<string> SubProtocols { get; set; } = ["mqtt"];
 
         public MqttClientTlsOptions TlsOptions { get; set; } = new MqttClientTlsOptions();
 

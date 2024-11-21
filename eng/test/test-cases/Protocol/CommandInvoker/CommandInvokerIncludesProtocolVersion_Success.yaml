@@ -1,0 +1,33 @@
+---
+test-name: CommandInvokerIncludesProtocolVersion_Success
+description:
+  condition: >-
+    CommandInvoker invokes command and receives response.
+  expect: >-
+    CommandInvoker publication includes protocol version header with expected version value.
+
+prologue:
+  invokers:
+  - {}
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    payload: "Test_Request"
+    metadata:
+      "__protVer": "0.1"
+...

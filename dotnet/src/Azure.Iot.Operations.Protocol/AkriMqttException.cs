@@ -96,9 +96,18 @@ namespace Azure.Iot.Operations.Protocol
             Exception? innerException = default,
             string? commandName = default)
         {
-            if (innerException is null)
-            {
-                return new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}")
+            return innerException is null
+                ? new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}")
+                {
+                    Kind = AkriMqttErrorKind.ConfigurationInvalid,
+                    InApplication = false,
+                    IsShallow = true,
+                    IsRemote = false,
+                    PropertyName = configurationName,
+                    PropertyValue = configurationValue,
+                    CommandName = commandName,
+                }
+                : new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}", innerException)
                 {
                     Kind = AkriMqttErrorKind.ConfigurationInvalid,
                     InApplication = false,
@@ -108,28 +117,13 @@ namespace Azure.Iot.Operations.Protocol
                     PropertyValue = configurationValue,
                     CommandName = commandName,
                 };
-            }
-            else
-            {
-                return new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}", innerException)
-                {
-                    Kind = AkriMqttErrorKind.ConfigurationInvalid,
-                    InApplication = false,
-                    IsShallow = true,
-                    IsRemote = false,
-                    PropertyName = configurationName,
-                    PropertyValue = configurationValue,
-                    CommandName = commandName,
-                };
-            }
         }
 
         internal static AkriMqttException GetArgumentInvalidException(string? commandName, string argumentName, object? arguentValue, string? message = default)
         {
             string errMsg =
-                message != null ? message :
-                arguentValue != null ? $"argument {argumentName} has invalid value {arguentValue}" :
-                $"argument {argumentName} has no value";
+                message ?? (arguentValue != null ? $"argument {argumentName} has invalid value {arguentValue}" :
+                $"argument {argumentName} has no value");
 
             return new AkriMqttException(errMsg)
             {

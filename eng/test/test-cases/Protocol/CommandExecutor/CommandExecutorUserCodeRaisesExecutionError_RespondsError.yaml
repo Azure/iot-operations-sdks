@@ -2,9 +2,9 @@
 test-name: CommandExecutorUserCodeRaisesExecutionError_RespondsError
 description:
   condition: >-
-    CommandExecutor user code raises error indicating problem with request execution
+    CommandExecutor user code raises error indicating problem with request execution.
   expect: >-
-    CommandExecutor sends error response
+    CommandExecutor sends error response.
 
 prologue:
   executors:

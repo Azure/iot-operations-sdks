@@ -2,16 +2,10 @@ using System;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttUserProperty
+    public class MqttUserProperty(string name, string value)
     {
-        public MqttUserProperty(string name, string value)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Value = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public string Name { get; } = name ?? throw new ArgumentNullException(nameof(name));
 
-        public string Name { get; }
-
-        public string Value { get; }
+        public string Value { get; } = value ?? throw new ArgumentNullException(nameof(value));
     }
 }

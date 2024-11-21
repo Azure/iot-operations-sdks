@@ -390,7 +390,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (sourceId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.TelemetrySenderId, sourceId);
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, sourceId);
             }
 
             if (actionReceiveTelemetry.Qos != null)

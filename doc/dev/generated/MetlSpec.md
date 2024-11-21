@@ -13,9 +13,9 @@ For example, following is a small but complete test case, which verifies only su
 test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified.
   expect: >-
-    CommandExecutor starts successfully
+    CommandExecutor starts successfully.
 prologue:
   executors:
   - request-topic: "mock/{modelId}/test"
@@ -46,23 +46,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetrySenderSendOne_Success
+test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
 description:
   condition: >-
-    TelemetrySender sends a single Telemetry.
+    TelemetryReceiver receives telemetry with no payload when one was expected.
   expect: >-
-    TelemetrySender performs send.
+    TelemetryReceiver does not relay telemetry to user code.
 prologue:
-  senders:
+  receivers:
   - { }
 actions:
-- action: send telemetry
-- action: await publish
-- action: await send
+- action: receive telemetry
+  payload:
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 epilogue:
-  published-messages:
-  - topic: "mock/test"
-    payload: "Test_Telemetry"
+  acknowledgement-count: 1
+  telemetry-count: 0
 ```
 
 ### Key/value kinds
@@ -489,7 +490,7 @@ When the value of the `action` key is `receive request`, the following sibling k
 | source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `correlation-index`, `invoker-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `correlation-index`, `source-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 #### ActionAwaitPublishResponse
@@ -648,7 +649,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| invoker-id | check | no | string | The invoker ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
@@ -665,16 +666,13 @@ actions:
   invocation-index: 0
 - action: await publish
   correlation-index: 0
-- action: disconnect
-- action: await publish
-  correlation-index: 0
 - action: receive response
   correlation-index: 0
-  status: "200" # OK
   packet-index: 0
 - action: await invocation
   invocation-index: 0
 - action: await acknowledgement
+  packet-index: 0
 ```
 
 #### InvokerAction
@@ -1016,7 +1014,7 @@ When the value of the `action` key is `receive telemetry`, the following sibling
 | source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `sender-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `source-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 ## TelemetrySender test suite
@@ -1134,7 +1132,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string | The Telemetry payload UTF8 string. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| sender-id | check | no | string | The sender ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
@@ -1321,7 +1319,10 @@ All test-suite prologues have keys `mqtt-config`, `push-acks`, and `catch`, whic
 
 The value of `mqtt-config` provides MQTT client configuration settings, as in the following example:
 
-> **No available example in any suite for key 'mqtt-config'**
+```yaml
+  mqtt-config:
+    client-id: "MyInvokerClientId"
+```
 
 The MQTT configuration can have the following child keys:
 

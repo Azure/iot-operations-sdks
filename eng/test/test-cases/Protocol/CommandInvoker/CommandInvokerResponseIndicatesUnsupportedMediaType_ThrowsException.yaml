@@ -2,7 +2,7 @@
 test-name: CommandInvokerResponseIndicatesUnsupportedMediaType_ThrowsException
 description:
   condition: >-
-    CommandInvoker receives response message with status indicating Unsupported Media Type
+    CommandInvoker receives response message with status indicating Unsupported Media Type.
   expect: >-
     Invocation throws 'invalid header' exception.
 
