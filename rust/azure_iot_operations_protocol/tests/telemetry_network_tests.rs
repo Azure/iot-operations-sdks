@@ -220,11 +220,11 @@ async fn telemetry_basic_send_receive_network_tests() {
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct ComplexPayload {
+pub struct DataPayload {
     pub external_temperature: f64,
     pub internal_temperature: f64,
 }
-impl PayloadSerialize for ComplexPayload {
+impl PayloadSerialize for DataPayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/json"
@@ -239,7 +239,7 @@ impl PayloadSerialize for ComplexPayload {
         )
         .into())
     }
-    fn deserialize(payload: &[u8]) -> Result<ComplexPayload, String> {
+    fn deserialize(payload: &[u8]) -> Result<DataPayload, String> {
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
             Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
@@ -262,7 +262,7 @@ impl PayloadSerialize for ComplexPayload {
             Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
         };
 
-        Ok(ComplexPayload {
+        Ok(DataPayload {
             external_temperature,
             internal_temperature,
         })
@@ -277,18 +277,18 @@ async fn telemetry_complex_send_receive_network_tests() {
     let topic = "protocol/tests/complex/telemetry";
     let client_id = "telemetry_complex_send_receive_network_tests-rust";
     let Ok((mut session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
-        setup_test::<ComplexPayload>(client_id, topic, false)
+        setup_test::<DataPayload>(client_id, topic, false)
     else {
         // Network tests disabled, skipping tests
         return;
     };
     let monitor = session.create_connection_monitor();
 
-    let test_payload1 = ComplexPayload {
+    let test_payload1 = DataPayload {
         external_temperature: 100.0,
         internal_temperature: 200.0,
     };
-    let test_payload2 = ComplexPayload {
+    let test_payload2 = DataPayload {
         external_temperature: 300.0,
         internal_temperature: 400.0,
     };
@@ -327,7 +327,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            ComplexPayload::content_type()
+                            DataPayload::content_type()
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
@@ -351,7 +351,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            ComplexPayload::content_type()
+                            DataPayload::content_type()
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
