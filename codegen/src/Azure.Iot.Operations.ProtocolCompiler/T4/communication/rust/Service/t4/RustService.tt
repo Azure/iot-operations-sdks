@@ -9,7 +9,7 @@ mod <#=Path.GetFileNameWithoutExtension(module)#>;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-pub use crate::common_types::common_options::CommonOptions;
+pub use crate::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "<#=this.modelId#>";
 <# if (this.commandTopic != null) { #>
