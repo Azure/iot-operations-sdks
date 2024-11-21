@@ -305,13 +305,15 @@ namespace Azure.Iot.Operations.Connector
 
             var puback = await _sessionClient.PublishAsync(mqttMessage);
 
-            if (puback.ReasonCode == MqttClientPublishReasonCode.Success)
+            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
             {
-                _logger.LogInformation($"Received successful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
             }
             else
             {
-                // There is no consumer of these messages yet, so NoMatchingSubscribers error is expected here
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
         }
