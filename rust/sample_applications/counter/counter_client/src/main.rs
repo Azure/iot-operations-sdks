@@ -127,7 +127,7 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             ack_token.ack();
         }
 
-        // TODO: Timer to allow for ack task to run and send the ack
+        // Timer to allow for the ack to be processed
         sleep(Duration::from_secs(1)).await;
 
         telemetry_count += 1;

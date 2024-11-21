@@ -3,7 +3,6 @@
 
 use std::sync::Arc;
 use std::time::Duration;
-use tokio::sync::Mutex;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -15,6 +14,8 @@ use envoy::dtmi_com_example_Counter__1::service::{
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
     TelemetryCollectionBuilder, TelemetryCollectionMessageBuilder, TelemetryCollectionSender,
 };
+
+use tokio::sync::Mutex;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
