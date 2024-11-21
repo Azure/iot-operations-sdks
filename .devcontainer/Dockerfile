@@ -6,5 +6,5 @@ RUN apt-get update && \
     chmod +x /usr/local/bin/k3d && \
     wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb && \
     sudo dpkg -i k9s_linux_amd64.deb && \
-    wget https://github.com/smallstep/cli/releases/latest/download/step-cli_amd64.deb && \
+    wget https://github.com/smallstep/cli/releases/download/v0.28.0/step-cli_amd64.deb && \
     sudo dpkg -i step-cli_amd64.deb

@@ -19,4 +19,6 @@ epilogue:
   published-messages:
   - topic: "mock/test"
     payload: "Test_Telemetry"
+    metadata:
+      "__protVer": "0.1"
 ...

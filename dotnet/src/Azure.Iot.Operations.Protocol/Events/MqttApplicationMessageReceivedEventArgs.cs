@@ -6,25 +6,17 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.Events
 {
-    public sealed class MqttApplicationMessageReceivedEventArgs : EventArgs
+    public sealed class MqttApplicationMessageReceivedEventArgs(
+        string clientId,
+        MqttApplicationMessage applicationMessage,
+        ushort packetId,
+        Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgeHandler) : EventArgs
     {
-        internal Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> AcknowledgeHandler { get; set; }
+        internal Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> AcknowledgeHandler { get; set; } = acknowledgeHandler;
 
-        int _isAcknowledged;
+        private int _isAcknowledged;
 
-        public MqttApplicationMessageReceivedEventArgs(
-            string clientId,
-            MqttApplicationMessage applicationMessage,
-            ushort packetId,
-            Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgeHandler)
-        {
-            ClientId = clientId;
-            ApplicationMessage = applicationMessage ?? throw new ArgumentNullException(nameof(applicationMessage));
-            PacketIdentifier = packetId;
-            AcknowledgeHandler = acknowledgeHandler;
-        }
-
-        public MqttApplicationMessage ApplicationMessage { get; }
+        public MqttApplicationMessage ApplicationMessage { get; } = applicationMessage ?? throw new ArgumentNullException(nameof(applicationMessage));
 
         /// <summary>
         ///     Gets or sets whether the library should send MQTT ACK packets automatically if required.
@@ -35,7 +27,7 @@ namespace Azure.Iot.Operations.Protocol.Events
         ///     Gets the client identifier.
         ///     Hint: This identifier needs to be unique over all used clients / devices on the broker to avoid connection issues.
         /// </summary>
-        public string ClientId { get; }
+        public string ClientId { get; } = clientId;
 
         /// <summary>
         ///     Gets or sets whether this message was handled.
@@ -46,7 +38,7 @@ namespace Azure.Iot.Operations.Protocol.Events
         /// <summary>
         ///     Gets the identifier of the MQTT packet
         /// </summary>
-        public ushort PacketIdentifier { get; set; }
+        public ushort PacketIdentifier { get; set; } = packetId;
 
         /// <summary>
         ///     Gets or sets the reason code which will be sent to the server.
@@ -61,18 +53,15 @@ namespace Azure.Iot.Operations.Protocol.Events
         /// <summary>
         ///     Gets or sets the user properties which will be sent to the server in the ACK packet etc.
         /// </summary>
-        public List<MqttUserProperty> ResponseUserProperties { get; } = new List<MqttUserProperty>();
+        public List<MqttUserProperty> ResponseUserProperties { get; } = [];
 
         public object? Tag { get; set; }
 
         public Task AcknowledgeAsync(CancellationToken cancellationToken)
         {
-            if (Interlocked.CompareExchange(ref _isAcknowledged, 1, 0) == 0)
-            {
-                return AcknowledgeHandler(this, cancellationToken);
-            }
-
-            throw new InvalidOperationException("The application message is already acknowledged.");
+            return Interlocked.CompareExchange(ref _isAcknowledged, 1, 0) == 0
+                ? AcknowledgeHandler(this, cancellationToken)
+                : throw new InvalidOperationException("The application message is already acknowledged.");
         }
     }
 }

@@ -2,9 +2,9 @@
 test-name: CommandExecutorZeroTimeout_ThrowsException
 description:
   condition: >-
-    CommandExecutor initialized with an execution timeout of zero
+    CommandExecutor initialized with an execution timeout of zero.
   expect: >-
-    CommandExecutor throws 'invalid configuration' exception
+    CommandExecutor throws 'invalid configuration' exception.
 
 requires:
 - dispatch

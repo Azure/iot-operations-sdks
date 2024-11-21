@@ -18,7 +18,7 @@ fi
 # install step
 if [ ! $(which step) ]
 then
-    wget https://dl.smallstep.com/cli/docs-cli-install/latest/step-cli_amd64.deb -P /tmp
+    wget https://github.com/smallstep/cli/releases/download/v0.28.0/step-cli_amd64.deb -P /tmp
     sudo dpkg -i /tmp/step-cli_amd64.deb
 fi
 
