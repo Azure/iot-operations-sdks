@@ -20,7 +20,7 @@ mod telemetry_collection_serialization;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-pub use crate::common_types::common_options::CommonOptions;
+pub use crate::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "dtmi:com:example:Counter;1";
 pub const REQUEST_TOPIC_PATTERN: &str = "rpc/command-samples/{executorId}/{commandName}";

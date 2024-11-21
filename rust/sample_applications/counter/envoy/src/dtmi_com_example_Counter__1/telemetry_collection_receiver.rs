@@ -11,7 +11,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
 use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::TelemetryOptions;
 
 pub type TelemetryCollectionMessage = TelemetryMessage<TelemetryCollection>;
 
@@ -30,7 +30,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &TelemetryOptions) -> Self {
         let mut receiver_options_builder = TelemetryReceiverOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
@@ -48,6 +48,7 @@ where
         let receiver_options = receiver_options_builder
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)
             .topic_token_map(topic_token_map)
+            .auto_ack(options.auto_ack)
             .build()
             .expect("DTDL schema generated invalid arguments");
 

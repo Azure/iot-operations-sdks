@@ -3,6 +3,7 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
+use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -14,7 +15,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
 use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::TelemetryOptions;
 
 pub type TelemetryCollectionMessage = TelemetryMessage<TelemetryCollection>;
 pub type TelemetryCollectionMessageBuilderError = TelemetryMessageBuilderError;
@@ -26,6 +27,12 @@ pub struct TelemetryCollectionMessageBuilder {
 }
 
 impl TelemetryCollectionMessageBuilder {
+    /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
+    pub fn qos(&mut self, qos: QoS) -> &mut Self {
+        self.inner_builder.qos(qos);
+        self
+    }
+
     /// Custom user data to set on the message
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
@@ -80,7 +87,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &TelemetryOptions) -> Self {
         let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
