@@ -1,12 +1,12 @@
 {
-    "name": "Empty cluster",
+    "name": "Empty k3s cluster",
     "build": {
         "dockerfile": "Dockerfile"
     },
     "hostRequirements": {
-        "cpus": 4,
-        "memory": "16gb",
-        "storage": "32gb"
+        "cpus": 2,
+        "memory": "8gb",
+        "storage": "24gb"
     },
     "features": {
         "ghcr.io/devcontainers/features/dotnet:2": {},
@@ -55,8 +55,7 @@
             "documentationUrl": "https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster"
         }
     },
-    "waitFor": "postCreateCommand",
     "onCreateCommand": ".devcontainer/onCreateCommand.sh",
-    "postCreateCommand": "git pull",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh"
 }
