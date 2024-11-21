@@ -2,19 +2,27 @@
 
 set -o errexit # fail if any command fails
 
-# arc
+# check if the required environment variables are set
+if [ -z $LOCATION ]; then echo "LOCATION is not set"; exit 1; fi
+if [ -z $RESOURCE_GROUP ]; then echo "RESOURCE_GROUP is not set"; exit 1; fi
+if [ -z $CLUSTER_NAME ]; then echo "CLUSTER_NAME is not set"; exit 1; fi
+if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
+if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
+if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
+
+# install arc
 echo ===Installing Azure Arc===
 az connectedk8s connect --name $CLUSTER_NAME --location $LOCATION --resource-group $RESOURCE_GROUP
 echo ===Enabling Azure Arc Features===
 az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --features cluster-connect custom-locations
 
-# schema registry
+# install schema registry
 echo ===Creating Storage Account===
 az storage account create --name $STORAGE_ACCOUNT --location $LOCATION --resource-group $RESOURCE_GROUP --enable-hierarchical-namespace
 echo ===Creating Schema Registry===
 az iot ops schema registry create --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP --registry-namespace $SCHEMA_REGISTRY_NAMESPACE --sa-resource-id $(az storage account show --name $STORAGE_ACCOUNT -o tsv --query id)
 
-# azure iot operations
+# install azure iot operations
 echo ===Initializing Azure IoT Operations===
 az iot ops init --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP
 echo ===Creating Azure IoT Operations===
