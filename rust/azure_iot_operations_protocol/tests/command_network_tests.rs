@@ -215,11 +215,11 @@ async fn command_basic_invoke_response_network_tests() {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct ComplexRequestPayload {
+pub struct DataRequestPayload {
     pub requested_temperature: f64,
     pub requested_color: String,
 }
-impl PayloadSerialize for ComplexRequestPayload {
+impl PayloadSerialize for DataRequestPayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/json"
@@ -234,7 +234,7 @@ impl PayloadSerialize for ComplexRequestPayload {
         )
         .into())
     }
-    fn deserialize(payload: &[u8]) -> Result<ComplexRequestPayload, String> {
+    fn deserialize(payload: &[u8]) -> Result<DataRequestPayload, String> {
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
             Err(e) => return Err(format!("Error while deserializing request: {e}")),
@@ -253,7 +253,7 @@ impl PayloadSerialize for ComplexRequestPayload {
             .trim_end_matches('}')
             .to_string();
 
-        Ok(ComplexRequestPayload {
+        Ok(DataRequestPayload {
             requested_temperature,
             requested_color,
         })
@@ -261,12 +261,12 @@ impl PayloadSerialize for ComplexRequestPayload {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct ComplexResponsePayload {
+pub struct DataResponsePayload {
     pub old_temperature: f64,
     pub old_color: String,
     pub minutes_to_change: u32,
 }
-impl PayloadSerialize for ComplexResponsePayload {
+impl PayloadSerialize for DataResponsePayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/something"
@@ -281,7 +281,7 @@ impl PayloadSerialize for ComplexResponsePayload {
         )
         .into())
     }
-    fn deserialize(payload: &[u8]) -> Result<ComplexResponsePayload, String> {
+    fn deserialize(payload: &[u8]) -> Result<DataResponsePayload, String> {
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
             Err(e) => return Err(format!("Error while deserializing response: {e}")),
@@ -306,7 +306,7 @@ impl PayloadSerialize for ComplexResponsePayload {
             Err(e) => return Err(format!("Error while deserializing response: {e}")),
         };
 
-        Ok(ComplexResponsePayload {
+        Ok(DataResponsePayload {
             old_temperature,
             old_color,
             minutes_to_change,
@@ -320,7 +320,7 @@ impl PayloadSerialize for ComplexResponsePayload {
 async fn command_complex_invoke_response_network_tests() {
     let invoker_id = "command_complex_invoke_response_network_tests-rust";
     let Ok((mut session, invoker, mut executor, exit_handle)) =
-        setup_test::<ComplexRequestPayload, ComplexResponsePayload>(
+        setup_test::<DataRequestPayload, DataResponsePayload>(
             invoker_id,
             "protocol/tests/complex/command",
         )
@@ -330,11 +330,11 @@ async fn command_complex_invoke_response_network_tests() {
     };
     let monitor = session.create_connection_monitor();
 
-    let test_request_payload = ComplexRequestPayload {
+    let test_request_payload = DataRequestPayload {
         requested_temperature: 78.0,
         requested_color: "blue".to_string(),
     };
-    let test_response_payload = ComplexResponsePayload {
+    let test_response_payload = DataResponsePayload {
         old_temperature: 72.0,
         old_color: "red".to_string(),
         minutes_to_change: 30,
@@ -352,7 +352,7 @@ async fn command_complex_invoke_response_network_tests() {
         let test_request_custom_user_data_clone = test_request_custom_user_data.clone();
         let test_response_custom_user_data_clone = test_response_custom_user_data.clone();
         let test_request_payload_clone = test_request_payload.clone();
-        let test_response_payload_clone: ComplexResponsePayload = test_response_payload.clone();
+        let test_response_payload_clone: DataResponsePayload = test_response_payload.clone();
         async move {
             // async task to receive command requests on executor
             let receive_requests_task = tokio::task::spawn({
