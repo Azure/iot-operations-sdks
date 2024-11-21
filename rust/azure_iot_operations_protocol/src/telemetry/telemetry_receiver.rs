@@ -301,38 +301,40 @@ where
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic.
+    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        if self.is_subscribed {
+            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
-        match unsubscribe_result {
-            Ok(unsub_ct) => {
-                match unsub_ct.await {
-                    Ok(()) => { /* Success */ }
-                    Err(e) => {
-                        log::error!("Unsuback error: {e}");
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on telemetry receiver unsuback".to_string()),
-                            Box::new(e),
-                            None,
-                        ));
+            match unsubscribe_result {
+                Ok(unsub_ct) => {
+                    match unsub_ct.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("Unsuback error: {e}");
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Box::new(e),
+                                None,
+                            ));
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                log::error!("Client error while unsubscribing: {e}");
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on telemetry receiver unsubscribe".to_string()),
-                    Box::new(e),
-                    None,
-                ));
+                Err(e) => {
+                    log::error!("Client error while unsubscribing: {e}");
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on telemetry receiver unsubscribe".to_string()),
+                        Box::new(e),
+                        None,
+                    ));
+                }
             }
         }
-        log::info!("Stopped");
+        log::info!("Shutdown");
         Ok(())
     }
 
@@ -808,18 +810,29 @@ mod tests {
             }
         }
     }
+
+    #[tokio::test]
+    async fn test_shutdown_without_subscribe() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+        let session = get_session();
+        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern("test/receiver")
+            .build()
+            .unwrap();
+
+        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
+            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        assert!(telemetry_receiver.shutdown().await.is_ok());
+    }
 }
 
 // Test cases for recv telemetry
-// Tests success:
-//   recv() is called and a telemetry message is received by the application with sender_id
-//   if cloud event properties are present, they are successfully parsed
-//   if user properties are present, they don't start with reserved prefix
-//   if timestamp is present, it is successfully parsed
-//   if telemetry message is ackable (QoS 1) and auto-ack is disabled, an ack token is returned
-//   if telemetry message is ackable (QoS 1) and auto-ack is enabled, no ack token is returned
-//   if telemetry message is not ackable (QoS 0) and auto-ack is disabled, no ack token is returned
-//   if telemetry message is not ackable (QoS 0) and auto-ack is enabled, no ack token is returned
 // Tests failure:
 //   if properties are missing, the message is not processed and is acked
 //   if content type is not supported by the payload type, the message is not processed and is acked
