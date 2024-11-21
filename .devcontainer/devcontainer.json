@@ -5,8 +5,8 @@
     },
     "hostRequirements": {
         "cpus": 2,
-        "memory": "8gb",
-        "storage": "24gb"
+        "memory": "16gb",
+        "storage": "48gb"
     },
     "features": {
         "ghcr.io/devcontainers/features/dotnet:2": {},
