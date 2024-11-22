@@ -14,7 +14,6 @@ use envoy::dtmi_com_example_Counter__1::service::{
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
     TelemetryCollectionBuilder, TelemetryCollectionMessageBuilder, TelemetryCollectionSender,
 };
-
 use tokio::sync::Mutex;
 
 #[tokio::main(flavor = "current_thread")]
