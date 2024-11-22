@@ -393,38 +393,40 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self
-            .mqtt_client
-            .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
-            .await;
+        if self.is_subscribed {
+            let unsubscribe_result = self
+                .mqtt_client
+                .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                .await;
 
-        match unsubscribe_result {
-            Ok(unsub_ct) => {
-                match unsub_ct.await {
-                    Ok(()) => { /* Success */ }
-                    Err(e) => {
-                        log::error!("[{}] Unsuback error: {e}", self.command_name);
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on command executor unsuback".to_string()),
-                            Box::new(e),
-                            Some(self.command_name.clone()),
-                        ));
+            match unsubscribe_result {
+                Ok(unsub_ct) => {
+                    match unsub_ct.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("[{}] Unsuback error: {e}", self.command_name);
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command executor unsuback".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                log::error!(
-                    "[{}] Client error while unsubscribing: {e}",
-                    self.command_name
-                );
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on command executor unsubscribe".to_string()),
-                    Box::new(e),
-                    Some(self.command_name.clone()),
-                ));
+                Err(e) => {
+                    log::error!(
+                        "[{}] Client error while unsubscribing: {e}",
+                        self.command_name
+                    );
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on command executor unsubscribe".to_string()),
+                        Box::new(e),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
         }
-        log::info!("[{}] Stopped", self.command_name);
+        log::info!("[{}] Shutdown", self.command_name);
         Ok(())
     }
 
@@ -878,6 +880,11 @@ where
         user_properties.push((
             UserProperty::ProtocolVersion.to_string(),
             AIO_PROTOCOL_VERSION.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::Timestamp.to_string(),
+            HybridLogicalClock::new().to_string(),
         ));
 
         if let Some(status_message) = response_arguments.status_message {
@@ -1405,6 +1412,26 @@ mod tests {
                 panic!("Expected error");
             }
         }
+    }
+
+    #[tokio::test]
+    async fn test_shutdown_without_subscribe() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+        let session = create_session();
+        let executor_options = CommandExecutorOptionsBuilder::default()
+            .request_topic_pattern("test/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+        let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
+            CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
+        assert!(command_executor.shutdown().await.is_ok());
     }
 
     // CommandResponse tests

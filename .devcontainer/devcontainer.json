@@ -1,12 +1,12 @@
 {
-    "name": "Empty cluster",
+    "name": "Empty k3s cluster",
     "build": {
         "dockerfile": "Dockerfile"
     },
     "hostRequirements": {
-        "cpus": 4,
+        "cpus": 2,
         "memory": "16gb",
-        "storage": "32gb"
+        "storage": "48gb"
     },
     "features": {
         "ghcr.io/devcontainers/features/dotnet:2": {},
@@ -51,12 +51,11 @@
             "description": "Your Azure resource group"
         },
         "LOCATION": {
-            "description": "Region to use, must be one of eastus, eastus2, westus, westus2, westeurope, or northeurope.",
+            "description": "Region to use, must be one of eastus, eastus2, westus, westus2, westus3, westeurope, or northeurope.",
             "documentationUrl": "https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-prepare-cluster"
         }
     },
-    "waitFor": "postCreateCommand",
     "onCreateCommand": ".devcontainer/onCreateCommand.sh",
-    "postCreateCommand": "git pull",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh"
 }
