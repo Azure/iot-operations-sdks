@@ -101,6 +101,14 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
             counter_response: *counter_guard,
         };
 
+        // Respond to the increment request
+        let response = IncrementResponseBuilder::default()
+            .payload(&response_payload)
+            .unwrap()
+            .build()
+            .unwrap();
+        request.complete(response).unwrap();
+
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryCollectionMessageBuilder::default()
             .payload(
@@ -112,14 +120,6 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
             .unwrap()
             .build()
             .unwrap();
-
-        // Respond to the increment request
-        let response = IncrementResponseBuilder::default()
-            .payload(&response_payload)
-            .unwrap()
-            .build()
-            .unwrap();
-        request.complete(response).unwrap();
 
         // Send associated telemetry
         counter_sender.send(telemetry_message).await.unwrap();
