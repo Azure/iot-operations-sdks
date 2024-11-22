@@ -4,9 +4,9 @@
         "dockerfile": "../Dockerfile"
     },
     "hostRequirements": {
-        "cpus": 4,
+        "cpus": 2,
         "memory": "16gb",
-        "storage": "32gb"
+        "storage": "48gb"
     },
     "features": {
         "ghcr.io/devcontainers/features/dotnet:2": {},
@@ -36,15 +36,15 @@
         }
     },
     "containerEnv": {
-         "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
+        "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "forwardPorts": [
         1883,
         8883,
         8884
     ],
-    "waitFor": "postCreateCommand",
+
     "onCreateCommand": ".devcontainer/onCreateCommand.sh",
-    "postCreateCommand": "git pull; tools/deployment/deploy-aio.sh nightly",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh; tools/deployment/deploy-aio.sh nightly",
     "postStartCommand": ".devcontainer/postStartCommand.sh"
 }
