@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
@@ -14,7 +14,6 @@ use envoy::dtmi_com_example_Counter__1::service::{
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
     TelemetryCollectionBuilder, TelemetryCollectionMessageBuilder, TelemetryCollectionSender,
 };
-use tokio::sync::Mutex;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -65,7 +64,7 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
     loop {
         let request = read_counter_executor.recv().await.unwrap();
         let response_payload = ReadCounterResponsePayload {
-            counter_response: *counter.lock().await,
+            counter_response: *counter.lock().unwrap(),
         };
         let response = ReadCounterResponseBuilder::default()
             .payload(&response_payload)
@@ -92,12 +91,17 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
     // Respond to each increment request by incrementing the counter value and responding with the new value
     loop {
         let request = increment_executor.recv().await.unwrap();
-        // Increment
-        let mut counter_guard = counter.lock().await;
-        *counter_guard += request.payload.increment_value;
+
+        let updated_counter = {
+            // Increment
+            let mut counter_guard = counter.lock().unwrap();
+            *counter_guard += request.payload.increment_value;
+            *counter_guard
+        };
+
         // Respond
         let response_payload = IncrementResponsePayload {
-            counter_response: *counter_guard,
+            counter_response: updated_counter,
         };
 
         // Respond to the increment request
@@ -112,7 +116,7 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
         let telemetry_message = TelemetryCollectionMessageBuilder::default()
             .payload(
                 &TelemetryCollectionBuilder::default()
-                    .counter_value(Some(*counter_guard))
+                    .counter_value(Some(updated_counter))
                     .build()
                     .unwrap(),
             )
