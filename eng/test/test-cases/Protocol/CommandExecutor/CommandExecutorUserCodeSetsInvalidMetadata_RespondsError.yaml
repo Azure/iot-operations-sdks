@@ -2,9 +2,9 @@
 test-name: CommandExecutorUserCodeSetsInvalidMetadata_RespondsError
 description:
   condition: >-
-    CommandExecutor user code sets metadata header with reserved prefix
+    CommandExecutor user code sets metadata header with reserved prefix.
   expect: >-
-    CommandExecutor sends error response
+    CommandExecutor sends error response.
 
 prologue:
   executors:

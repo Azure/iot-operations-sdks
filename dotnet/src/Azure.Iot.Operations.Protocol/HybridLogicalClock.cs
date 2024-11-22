@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol
 
         private DateTime _timestamp;
 
-        private static HybridLogicalClock _instance;
+        private static readonly HybridLogicalClock _instance;
 
         static HybridLogicalClock()
         {
@@ -45,12 +45,12 @@ namespace Azure.Iot.Operations.Protocol
         /// be rounded down to the nearest millisecond.
         /// </para>
         /// </remarks>
-        public DateTime Timestamp 
+        public DateTime Timestamp
         {
-            get { return _timestamp; }
+            get => _timestamp;
 
             // take the floor of the total milliseconds to avoid sub-millisecond precision
-            set { _timestamp = FloorToMillisecondPrecision(value); }
+            set => _timestamp = FloorToMillisecondPrecision(value);
         }
 
         /// <summary>
@@ -79,25 +79,11 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="nodeId">The node identifier for this clock.</param>
         public HybridLogicalClock(DateTime? timestamp = null, int counter = 0, string? nodeId = null)
         {
-            if (timestamp == null)
-            {
-                Timestamp = DateTime.UtcNow;
-            }
-            else
-            {
-                Timestamp = timestamp.Value;
-            }
+            Timestamp = timestamp == null ? DateTime.UtcNow : timestamp.Value;
 
             Counter = counter;
 
-            if (string.IsNullOrWhiteSpace(nodeId))
-            {
-                NodeId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                NodeId = nodeId;
-            }
+            NodeId = string.IsNullOrWhiteSpace(nodeId) ? Guid.NewGuid().ToString() : nodeId;
         }
 
         /// <summary>
@@ -202,26 +188,16 @@ namespace Azure.Iot.Operations.Protocol
 
         public override bool Equals(object? obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            if (obj is HybridLogicalClock otherHlc)
-            {
-                return NodeId.Equals(otherHlc.NodeId, StringComparison.Ordinal) 
+            return obj != null
+&& obj is HybridLogicalClock otherHlc
+&& NodeId.Equals(otherHlc.NodeId, StringComparison.Ordinal)
                     && Counter == otherHlc.Counter
                     && Timestamp.Equals(otherHlc.Timestamp);
-            }
-            else
-            {
-                return false;
-            }
         }
 
         internal string EncodeToString()
         {
-            var millisecondsSinceUnixEpoch = (Timestamp - DateTime.UnixEpoch).TotalMilliseconds;
+            double millisecondsSinceUnixEpoch = (Timestamp - DateTime.UnixEpoch).TotalMilliseconds;
             return $"{millisecondsSinceUnixEpoch.ToString(CultureInfo.InvariantCulture).PadLeft(15, '0')}:{Convert.ToString(Counter, _encodingBase).PadLeft(5, '0')}:{NodeId}";
         }
 
@@ -242,14 +218,10 @@ namespace Azure.Iot.Operations.Protocol
                 };
             }
 
-            var timestamp = DateTime.UnixEpoch;
-            if (double.TryParse(parts[0], out double result))
-            {
-                timestamp = timestamp.AddMilliseconds(result);
-            }
-            else
-            {
-                throw new AkriMqttException("Malformed HLC. Could not parse first segment as an integer")
+            DateTime timestamp = DateTime.UnixEpoch;
+            timestamp = double.TryParse(parts[0], out double result)
+                ? timestamp.AddMilliseconds(result)
+                : throw new AkriMqttException("Malformed HLC. Could not parse first segment as an integer")
                 {
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     InApplication = false,
@@ -258,7 +230,6 @@ namespace Azure.Iot.Operations.Protocol
                     HeaderName = propertyName,
                     HeaderValue = encoded,
                 };
-            }
 
             int counter;
             try

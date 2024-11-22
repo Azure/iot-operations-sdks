@@ -14,24 +14,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
     {
         private static readonly TimeSpan MaxWaitDuration = TimeSpan.FromHours(1);
 
-        private static CommandResponseCache instance;
+        private static readonly CommandResponseCache instance;
 
         internal static IWallClock WallClock = new WallClock();
 
-        private SemaphoreSlim semaphore;
-        private AutoResetEvent expireEvent;
-        private AutoResetEvent refreshEvent;
+        private readonly SemaphoreSlim semaphore;
+        private readonly AutoResetEvent expireEvent;
+        private readonly AutoResetEvent refreshEvent;
 
         private Task expiryTask;
         private Task refreshTask;
         private bool isMaintenanceActive;
 
         private int aggregateStorageSize;
-        private Dictionary<FullCorrelationId, RequestResponse> requestResponseCache;
-        private Dictionary<FullRequest, ReuseReference> reuseReferenceMap;
-        private PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry or refresh
-        private PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via refresh or eviction
-        private PriorityQueue<FullCorrelationId, DateTime> reuseQueue; // may refer to entries that have already been removed via expiry or eviction
+        private readonly Dictionary<FullCorrelationId, RequestResponse> requestResponseCache;
+        private readonly Dictionary<FullRequest, ReuseReference> reuseReferenceMap;
+        private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry or refresh
+        private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via refresh or eviction
+        private readonly PriorityQueue<FullCorrelationId, DateTime> reuseQueue; // may refer to entries that have already been removed via expiry or eviction
 
         static CommandResponseCache()
         {
@@ -53,8 +53,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             isMaintenanceActive = false;
 
             aggregateStorageSize = 0;
-            requestResponseCache = new();
-            reuseReferenceMap = new();
+            requestResponseCache = [];
+            reuseReferenceMap = [];
             costBenefitQueue = new();
             dedupQueue = new();
             reuseQueue = new();
@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            FullCorrelationId fullCorrelationId = new FullCorrelationId(invokerId, correlationData);
+            FullCorrelationId fullCorrelationId = new(invokerId, correlationData);
 
             await semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -173,7 +173,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Task<MqttApplicationMessage>? responseTask = null;
             await semaphore.WaitAsync().ConfigureAwait(false);
 
-            FullCorrelationId fullCorrelationId = new FullCorrelationId(invokerId, correlationData);
+            FullCorrelationId fullCorrelationId = new(invokerId, correlationData);
             FullRequest? fullRequest = isCacheable ? new FullRequest(commandName, canReuseAcrossInvokers ? string.Empty : invokerId, requestPayload) : null;
 
             if (requestResponseCache.TryGetValue(fullCorrelationId, out RequestResponse? dedupRequestResponse))
@@ -375,32 +375,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private class FullCorrelationId
+        private class FullCorrelationId(string invokerId, byte[] correlationData)
         {
-            public FullCorrelationId(string invokerId, byte[] correlationData)
-            {
-                InvokerId = invokerId;
-                CorrelationData = correlationData ?? Array.Empty<byte>();
-            }
+            public string InvokerId { get; } = invokerId;
 
-            public string InvokerId { get; }
-
-            public byte[] CorrelationData { get; }
+            public byte[] CorrelationData { get; } = correlationData ?? [];
 
             public override bool Equals(object? obj)
             {
-                if (obj == null)
-                {
-                    return false;
-                }
-
-                var other = obj as FullCorrelationId;
-                if (other == null)
-                {
-                    return false;
-                }
-
-                return InvokerId == other.InvokerId && CorrelationData.SequenceEqual(other.CorrelationData);
+                return obj != null
+&& obj is FullCorrelationId other && InvokerId == other.InvokerId && CorrelationData.SequenceEqual(other.CorrelationData);
             }
 
             public override int GetHashCode()
@@ -415,35 +399,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private class FullRequest
+        private class FullRequest(string commandName, string invokerId, byte[] payload)
         {
-            public string CommandName;
+            public string CommandName = commandName;
 
-            public string InvokerId;
+            public string InvokerId = invokerId;
 
-            public byte[] Payload;
-
-            public FullRequest(string commandName, string invokerId, byte[] payload)
-            {
-                CommandName = commandName;
-                InvokerId = invokerId;
-                Payload = payload ?? Array.Empty<byte>();
-            }
+            public byte[] Payload = payload ?? [];
 
             public override bool Equals(object? obj)
             {
-                if (obj == null)
-                {
-                    return false;
-                }
-
-                var other = obj as FullRequest;
-                if (other == null)
-                {
-                    return false;
-                }
-
-                return CommandName == other.CommandName && InvokerId == other.InvokerId && Payload.SequenceEqual(other.Payload);
+                return obj != null
+&& obj is FullRequest other
+&& CommandName == other.CommandName && InvokerId == other.InvokerId && Payload.SequenceEqual(other.Payload);
             }
 
             public override int GetHashCode()
@@ -458,7 +426,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            public int Size { get => CommandName.Length + InvokerId.Length + Payload.Length; }
+            public int Size => CommandName.Length + InvokerId.Length + Payload.Length;
         }
 
         private record RequestResponse
@@ -479,7 +447,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             public double DeferredBenefit { get; set; }
 
-            public int Size { get => Response.Task.Status == TaskStatus.RanToCompletion ? (FullRequest?.Size ?? 0) + (Response.Task.Result.PayloadSegment.Array?.Length ?? 0) : 0; }
+            public int Size => Response.Task.Status == TaskStatus.RanToCompletion ? (FullRequest?.Size ?? 0) + (Response.Task.Result.PayloadSegment.Array?.Length ?? 0) : 0;
         }
 
         private record ReuseReference

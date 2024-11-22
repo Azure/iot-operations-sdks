@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
-        private int[] supportedMajorProtocolVersions = [0];
+        private readonly int[] supportedMajorProtocolVersions = [0];
 
         private static readonly int PreferredDispatchConcurrency = 10;
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -21,10 +21,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         internal static IWallClock WallClock = new WallClock();
 
         private readonly IMqttPubSubClient mqttClient;
-        private readonly string? telemetryName;
         private readonly IPayloadSerializer serializer;
 
-        private readonly Dictionary<string, string> topicTokenMap = new();
+        private readonly Dictionary<string, string> topicTokenMap = [];
 
         private Dispatcher? dispatcher;
 
@@ -44,18 +43,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap { get => topicTokenMap; }
+        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => topicTokenMap; }
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
         public TelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
             this.mqttClient = mqttClient;
-            this.telemetryName = telemetryName;
             this.serializer = serializer;
 
             isRunning = false;
@@ -97,7 +95,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 TimeSpan telemetryTimeout = args.ApplicationMessage.MessageExpiryInterval != default ? TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval) : DefaultTelemetryTimeout;
                 DateTime telemetryExpirationTime = messageReceivedTime + telemetryTimeout;
 
-                MqttTopicProcessor.TryGetFieldValue(TopicPattern, args.ApplicationMessage.Topic, MqttTopicTokens.TelemetrySenderId, out string senderId);
+                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 if ((args.ApplicationMessage.ContentType != null && args.ApplicationMessage.ContentType != this.serializer.ContentType) || OnTelemetryReceived == null)
                 {
@@ -107,21 +105,21 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 try
                 {
-                    var serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array);
+                    T serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array);
 
-                    var metadata = new IncomingTelemetryMetadata(args.ApplicationMessage, args.PacketIdentifier);
+                    IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
 
-                    Func<Task> telemFunc = async () =>
+                    async Task telemFunc()
                     {
                         try
                         {
-                            await OnTelemetryReceived(senderId, serializedPayload, metadata);
+                            await OnTelemetryReceived(sourceId, serializedPayload, metadata);
                         }
                         catch (Exception innerEx)
                         {
                             Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
                         }
-                    };
+                    }
 
                     await GetDispatcher()(telemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                 }
@@ -173,9 +171,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 string telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();
 
-                var topicFilter = new MqttTopicFilter(telemTopicFilter, MqttQualityOfServiceLevel.AtLeastOnce);
+                MqttTopicFilter topicFilter = new(telemTopicFilter, MqttQualityOfServiceLevel.AtLeastOnce);
 
-                MqttClientSubscribeOptions mqttSubscribeOptions = new MqttClientSubscribeOptions(topicFilter);
+                MqttClientSubscribeOptions mqttSubscribeOptions = new(topicFilter);
 
                 MqttClientSubscribeResult subAck = await mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
                 subAck.ThrowIfNotSuccessSubAck(topicFilter.QualityOfServiceLevel);
@@ -192,7 +190,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             {
                 string telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();
 
-                MqttClientUnsubscribeOptions unsubscribeOptions = new MqttClientUnsubscribeOptions(telemTopicFilter);
+                MqttClientUnsubscribeOptions unsubscribeOptions = new(telemTopicFilter);
 
                 MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                 unsubAck.ThrowIfNotSuccessUnsubAck();

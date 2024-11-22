@@ -13,9 +13,9 @@ For example, following is a small but complete test case, which verifies only su
 test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified.
   expect: >-
-    CommandExecutor starts successfully
+    CommandExecutor starts successfully.
 prologue:
   executors:
   - request-topic: "mock/{modelId}/test"
@@ -46,22 +46,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetrySenderSendOne_Success
+test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
 description:
   condition: >-
-    TelemetrySender sends a single Telemetry.
+    TelemetryReceiver receives telemetry with no payload when one was expected.
   expect: >-
-    TelemetrySender performs send.
+    TelemetryReceiver does not relay telemetry to user code.
 prologue:
-  senders:
+  receivers:
   - { }
 actions:
-- action: send telemetry
-- action: await publish
+- action: receive telemetry
+  payload:
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 epilogue:
-  published-messages:
-  - topic: "mock/test"
-    payload: "Test_Telemetry"
+  acknowledgement-count: 1
+  telemetry-count: 0
 ```
 
 ### Key/value kinds
@@ -381,9 +383,9 @@ epilogue:
     command-status: 505 # Not Supported Version
     is-application-error: false
     metadata:
-      "__supProtMajVer": "1"
+      "__supProtMajVer": "0"
       "__requestProtVer": "this is not a valid protocol version"
-      "__protVer": "1.0"
+      "__protVer": "0.1"
 ```
 
 #### ExecutorEpilogue
@@ -485,10 +487,10 @@ When the value of the `action` key is `receive request`, the following sibling k
 | qos | drive | no | integer |  | 1 | MQTT QoS level. |
 | message-expiry | drive | no | [Duration](#duration) or null |  | { "seconds": 10 } | Maximum duration for which a response remains desired by the requester. |
 | response-topic | drive | no | string or null |  | "response/mock/test" | The MQTT topic pattern to which the Command response should be published. |
-| invoker-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits invoker ID in header. |
+| source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the CommandInvoker that sent the request; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `correlation-index`, `invoker-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `correlation-index`, `source-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 #### ActionAwaitPublishResponse
@@ -647,7 +649,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| invoker-id | check | no | string | The invoker ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The value for `correlation-index` is an arbitrary number that will be given a replacement values by the test engine.
@@ -664,16 +666,13 @@ actions:
   invocation-index: 0
 - action: await publish
   correlation-index: 0
-- action: disconnect
-- action: await publish
-  correlation-index: 0
 - action: receive response
   correlation-index: 0
-  status: "200" # OK
   packet-index: 0
 - action: await invocation
   invocation-index: 0
 - action: await acknowledgement
+  packet-index: 0
 ```
 
 #### InvokerAction
@@ -784,8 +783,8 @@ A `receive response` action causes the CommandInvoker to receive a response mess
   is-application-error: "false"
   metadata:
     "__supProtMajVer": "2 3 4"
-    "__requestProtVer": "1.0"
-    "__protVer": "1.0"
+    "__requestProtVer": "0.1"
+    "__protVer": "0.1"
     "__stMsg": "This is a not supported version exception"
 ```
 
@@ -928,10 +927,10 @@ Each element of the `received-telemetries` array can have the following child ke
 
 | Key | Test Kind | Required | Value Type | Description |
 | --- | --- | --- | --- | --- |
-| telemetry-value | check | no | string | A UTF8 string expected for the Telemetry content. |
+| telemetry-value | check | no | string or null | A UTF8 string (or null) value expected for the Telemetry content. |
 | metadata | check | no | map from string to string or null | Keys and values of expected metadata; a null value indicates key should not be present. |
 | cloud-event | check | no | [ReceivedCloudEvent](#receivedcloudevent) | A CloudEvent expected to be associated with the Telemetry. |
-| sender-index | check | no | integer | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry. |
+| source-index | check | no | integer | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry. |
 
 The order of messasges in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
 The value type for `cloud-event` is defined in the next subsection.
@@ -1012,10 +1011,10 @@ When the value of the `action` key is `receive telemetry`, the following sibling
 | metadata | drive | no | map from string to string |  | { } | Keys and values for header fields in the message. |
 | qos | drive | no | integer |  | 1 | MQTT QoS level. |
 | message-expiry | drive | no | [Duration](#duration) or null |  | { "seconds": 10 } | Maximum duration for which a response remains desired by the sender. |
-| sender-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry; null omits sender ID in header. |
+| source-index | drive | no | integer or null |  | 0 | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry; null omits source ID in header. |
 | packet-index | match | no | integer |  |  | An arbitrary numeric value used to identify the packet ID in the message. |
 
-Values for `sender-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+Values for `source-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
 The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
 
 ## TelemetrySender test suite
@@ -1133,7 +1132,7 @@ Each element of the `published-messages` array can have the following child keys
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string | The Telemetry payload UTF8 string. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
-| sender-id | check | no | string | The sender ID header property in the message. |
+| source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
 The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
@@ -1146,14 +1145,13 @@ Following is an example TelemetrySender actions array:
 ```yaml
 actions:
 - action: send telemetry
-  telemetry-value: "Telemetry_Foo"
-- action: send telemetry
-  telemetry-value: "Telemetry_Bar"
-- action: send telemetry
-  telemetry-value: "Telemetry_Baz"
 - action: await publish
-- action: await publish
-- action: await publish
+- action: await send
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false
 ```
 
 #### SenderAction
@@ -1321,7 +1319,10 @@ All test-suite prologues have keys `mqtt-config`, `push-acks`, and `catch`, whic
 
 The value of `mqtt-config` provides MQTT client configuration settings, as in the following example:
 
-> **No available example in any suite for key 'mqtt-config'**
+```yaml
+  mqtt-config:
+    client-id: "MyInvokerClientId"
+```
 
 The MQTT configuration can have the following child keys:
 

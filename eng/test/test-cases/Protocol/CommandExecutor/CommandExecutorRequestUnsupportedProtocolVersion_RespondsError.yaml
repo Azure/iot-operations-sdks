@@ -2,7 +2,7 @@
 test-name: CommandExecutorRequestUnsupportedProtocolVersion_RespondsError
 description:
   condition: >-
-    CommandExecutor receives request with a protocol version that it does not support
+    CommandExecutor receives request with a protocol version that it does not support.
   expect: >-
     CommandExecutor sends response with status NotSupportedVersion.
 prologue:

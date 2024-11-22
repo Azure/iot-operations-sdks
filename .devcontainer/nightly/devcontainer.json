@@ -4,9 +4,9 @@
         "dockerfile": "../Dockerfile"
     },
     "hostRequirements": {
-        "cpus": 4,
+        "cpus": 2,
         "memory": "16gb",
-        "storage": "32gb"
+        "storage": "48gb"
     },
     "features": {
         "ghcr.io/devcontainers/features/dotnet:2": {},
@@ -36,8 +36,6 @@
         }
     },
     "containerEnv": {
-        "CLUSTER_NAME": "${localEnv:CODESPACE_NAME}",
-        "SESSION": "${localEnv:CODESPACE_VSCODE_FOLDER}/.session",
         "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "forwardPorts": [
@@ -45,8 +43,8 @@
         8883,
         8884
     ],
-    "waitFor": "postCreateCommand",
-    "onCreateCommand": "tools/deployment/initialize-cluster.sh",
-    "postCreateCommand": "git pull; tools/deployment/deploy-aio.sh nightly",
-    "postStartCommand": "sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'"
+
+    "onCreateCommand": ".devcontainer/onCreateCommand.sh",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh; tools/deployment/deploy-aio.sh nightly",
+    "postStartCommand": ".devcontainer/postStartCommand.sh"
 }

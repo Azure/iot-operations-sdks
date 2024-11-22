@@ -6,11 +6,11 @@ namespace Azure.Iot.Operations.Protocol
 {
     internal class ExecutionDispatcherCollection : IDisposable
     {
-        private SemaphoreSlim mapSemaphore;
-        private Dictionary<string, Dispatcher> clientIdCommandDispatcherMap;
-        private Func<int?, Dispatcher> commandDispatcherFactory;
+        private readonly SemaphoreSlim mapSemaphore;
+        private readonly Dictionary<string, Dispatcher> clientIdCommandDispatcherMap;
+        private readonly Func<int?, Dispatcher> commandDispatcherFactory;
 
-        private static ExecutionDispatcherCollection instance;
+        private static readonly ExecutionDispatcherCollection instance;
 
         public static int DefaultDispatchConcurrency { get; set; } = 10;
 
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Protocol
         internal ExecutionDispatcherCollection()
         {
             mapSemaphore = new SemaphoreSlim(1);
-            clientIdCommandDispatcherMap = new();
+            clientIdCommandDispatcherMap = [];
             commandDispatcherFactory = (int? preferredDispatchConcurrency) => new ExecutionDispatcher(preferredDispatchConcurrency ?? DefaultDispatchConcurrency).SubmitAsync;
         }
 

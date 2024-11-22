@@ -12,6 +12,7 @@ type testCaseExecutor struct {
 	ModelID              *string             `yaml:"model-id"`
 	ExecutorID           *string             `yaml:"executor-id"`
 	TopicNamespace       *string             `yaml:"topic-namespace"`
+	CustomTokenMap       map[string]string   `yaml:"custom-token-map"`
 	Idempotent           bool                `yaml:"idempotent"`
 	CacheTTL             *TestCaseDuration   `yaml:"cache-ttl"`
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`

@@ -18,6 +18,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? ResponseTopic { get; set; }
 
-        public int? InvokerIndex { get; set; }
+        public int? SourceIndex { get; set; }
     }
 }

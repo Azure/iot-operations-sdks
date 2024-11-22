@@ -2,7 +2,7 @@
 test-name: CommandExecutorRequestUnparsableProtocolVersion_RespondsError
 description:
   condition: >-
-    CommandExecutor receives request with a protocol version that it cannot parse
+    CommandExecutor receives request with a protocol version that it cannot parse.
   expect: >-
     CommandExecutor sends response with status NotSupportedVersion.
 prologue:

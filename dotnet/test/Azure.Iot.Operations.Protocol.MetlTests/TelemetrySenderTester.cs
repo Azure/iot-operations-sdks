@@ -164,7 +164,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             AsyncQueue<Task> sendTasks = new();
-            ConcurrentDictionary<int, ushort> packetIds = new();
 
             foreach (TestCaseAction action in testCase.Actions)
             {
@@ -174,7 +173,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         SendTelemetryAsync(actionSendTelemetry, telemetrySenders, sendTasks);
                         break;
                     case TestCaseActionAwaitSend actionAwaitSend:
-                        await AwaitSendAsync(actionAwaitSend, sendTasks);
+                        await AwaitSendAsync(actionAwaitSend, sendTasks).ConfigureAwait(false);
                         break;
                     case TestCaseActionAwaitPublish:
                         await AwaitPublishAsync(stubMqttClient).ConfigureAwait(false);
@@ -395,10 +394,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (publishedMessage.SenderId != null)
+            if (publishedMessage.SourceId != null)
             {
-                Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.TelemetrySenderId, out string? cmdSenderId));
-                Assert.Equal(publishedMessage.SenderId, cmdSenderId);
+                Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(AkriSystemProperties.SourceId, out string? sourceId));
+                Assert.Equal(publishedMessage.SourceId, sourceId);
             }
 
             if (publishedMessage.Expiry != null)

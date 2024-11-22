@@ -13,9 +13,12 @@ prologue:
 actions:
 - action: send telemetry
 - action: await publish
+- action: await send
 
 epilogue:
   published-messages:
   - topic: "mock/test"
     payload: "Test_Telemetry"
+    metadata:
+      "__protVer": "0.1"
 ...

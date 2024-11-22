@@ -11,6 +11,8 @@ type testCasePrologue struct {
 	PushAcks        TestCasePushAcks   `yaml:"push-acks"`
 	Executors       []TestCaseExecutor `yaml:"executors"`
 	Invokers        []TestCaseInvoker  `yaml:"invokers"`
+	Receivers       []TestCaseReceiver `yaml:"receivers"`
+	Senders         []TestCaseSender   `yaml:"senders"`
 	Catch           *TestCaseCatch     `yaml:"catch"`
 	CountdownEvents map[string]int     `yaml:"countdown-events"`
 }
