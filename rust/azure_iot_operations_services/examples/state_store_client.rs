@@ -103,5 +103,7 @@ async fn state_store_operations(client: SessionManagedClient, exit_handle: Sessi
         .unwrap();
     log::info!("Delete response: {:?}", delete_response);
 
+    state_store_client.shutdown().await.unwrap();
+
     exit_handle.try_exit().await.unwrap();
 }
