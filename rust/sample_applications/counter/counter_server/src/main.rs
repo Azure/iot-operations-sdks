@@ -95,7 +95,7 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
         let request = increment_executor.recv().await.unwrap();
         // Increment
         let mut counter_guard = counter.lock().await;
-        *counter_guard += 1;
+        *counter_guard += request.payload.increment_value;
         // Respond
         let response_payload = IncrementResponsePayload {
             counter_response: *counter_guard,
