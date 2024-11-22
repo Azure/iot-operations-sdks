@@ -18,6 +18,8 @@ base64 = "0.21"
 bytes.workspace = true
 derive_builder.workspace = true
 log.workspace = true
+notify = "6.1.1"
+notify-debouncer-mini = "0.4"
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
 rumqttc = { version = "0.24.0-fork.3", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}

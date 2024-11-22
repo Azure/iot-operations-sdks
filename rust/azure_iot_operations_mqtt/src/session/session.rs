@@ -3,10 +3,13 @@
 
 //! Internal implementation of [`Session`] and [`SessionExitHandle`].
 
+use std::fs;
 use std::sync::{Arc, Mutex};
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::Duration;
 
 use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
+use notify::ErrorKind;
+use notify_debouncer_mini::new_debouncer;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
@@ -150,13 +153,62 @@ where
         // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
         // original setting during the operation of .run(), and thus, the original setting is lost.
 
+        // Must be maintained for the lifetime of the session, used for SAT token renewal
+        let mut _sat_file_watcher = None;
+
+        let mut sat_file_monitoring_data = None;
+        if let Some(sat_file) = &self.sat_file {
+            // Set the authentication method and data
+            self.event_loop
+                .set_authentication_method(Some("K8S-SAT".to_string()));
+
+            // Read the SAT auth file
+            match fs::read(sat_file) {
+                Ok(sat_auth) => {
+                    self.event_loop
+                        .set_authentication_data(Some(sat_auth.into()));
+                }
+                Err(e) => {
+                    log::error!("Cannot read SAT auth file: {sat_file}");
+                    return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                    // PR: is this the correct way to do it?
+                }
+            }
+
+            // Create a channel for SAT file watching notifications
+            let (file_watch_tx, file_watch_rx) = tokio::sync::mpsc::unbounded_channel();
+
+            sat_file_monitoring_data = Some((sat_file.clone(), file_watch_rx));
+
+            // Create a SAT file watcher
+            _sat_file_watcher = match new_debouncer(Duration::from_secs(10), move |res| match res {
+                Ok(_) => file_watch_tx.send(()).expect("receiver dropped"),
+                Err(err) => log::warn!("Error watching SAT file: {err:?}"),
+            }) {
+                Ok(watcher) => Some(watcher),
+                Err(e) => {
+                    log::error!("Error creating SAT file watcher: {e:?}");
+                    match e.kind {
+                        ErrorKind::Io(e) => {
+                            return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                        }
+                        _ => {
+                            return Err(std::convert::Into::into(SessionErrorKind::InternalError(
+                                e.to_string(),
+                            )));
+                        }
+                    }
+                }
+            };
+        }
+
         // Background tasks
         let cancel_token = CancellationToken::new();
         tokio::spawn({
             let cancel_token = cancel_token.clone();
             let client = self.client.clone();
             let unacked_pubs = self.unacked_pubs.clone();
-            run_background(client, unacked_pubs, self.sat_file.clone(), cancel_token)
+            run_background(client, unacked_pubs, sat_file_monitoring_data, cancel_token)
         });
 
         // Indicates whether this session has been previously connected
@@ -367,7 +419,7 @@ where
 async fn run_background(
     client: impl MqttClient + Clone,
     unacked_pubs: Arc<PubTracker>,
-    sat_file: Option<String>,
+    sat_file_monitoring_data: Option<(String, tokio::sync::mpsc::UnboundedReceiver<()>)>,
     cancel_token: CancellationToken,
 ) {
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
@@ -385,15 +437,19 @@ async fn run_background(
     }
 
     /// Maintain the SAT token authentication by renewing it before it expires
-    async fn maintain_sat_auth(sat_file: String, client: impl MqttClient) -> ! {
-        let mut first_pass = true;
-        let mut sleep_time = 5;
+    async fn maintain_sat_auth(
+        sat_file: String,
+        mut sat_file_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<()>,
+        client: impl MqttClient,
+    ) -> ! {
         loop {
-            if !first_pass {
-                tokio::time::sleep(tokio::time::Duration::from_secs(sleep_time)).await;
+            // Wait for the SAT file to change
+            if (sat_file_watcher_rx.recv().await).is_some() {
+                // SAT file changed
+            } else {
+                log::error!("SAT file watcher dropped");
+                continue;
             }
-
-            sleep_time = 5;
 
             // Get SAT token
             let sat_token = match std::fs::read_to_string(&sat_file) {
@@ -404,52 +460,26 @@ async fn run_background(
                 }
             };
 
-            // Get the expiry time of the SAT token
-            let expiry = match get_sat_expiry(&sat_token) {
-                Ok(expiry) => expiry,
+            let props = AuthProperties {
+                method: Some("K8S-SAT".to_string()),
+                data: Some(sat_token.into()),
+                reason: None,
+                user_properties: Vec::new(),
+            };
+
+            // Re-authenticate the client
+            match client.reauth(props).await {
+                Ok(()) => log::debug!("SAT token renewed"),
                 Err(e) => {
-                    log::error!("Invalid SAT token provided: {e:?}");
+                    log::error!("Error renewing SAT token: {e:?}");
                     continue;
                 }
-            };
-
-            if !first_pass {
-                let props = AuthProperties {
-                    method: Some("K8S-SAT".to_string()),
-                    data: Some(sat_token.into()),
-                    reason: None,
-                    user_properties: Vec::new(),
-                };
-
-                // Re-authenticate the client
-                match client.reauth(props).await {
-                    Ok(()) => log::debug!("SAT token renewed"),
-                    Err(e) => {
-                        log::error!("Error renewing SAT token: {e:?}");
-                        continue;
-                    }
-                }
             }
-
-            // Sleep until 5 seconds prior to the token expiry
-            let target_time = UNIX_EPOCH + Duration::from_secs(expiry);
-            let Ok(time_until_expiry) = target_time.duration_since(SystemTime::now()) else {
-                log::error!("SAT token expiry time has already passed");
-                // Sleep for 1 second before trying again
-                sleep_time = 1;
-                first_pass = false;
-                continue;
-            };
-            let time_until_expiry = time_until_expiry.as_secs();
-            if time_until_expiry > 5 {
-                sleep_time = time_until_expiry - 5;
-            }
-            first_pass = false;
         }
     }
 
     // Run the background tasks
-    if let Some(sat_file) = sat_file {
+    if let Some((sat_file, sat_file_watcher_rx)) = sat_file_monitoring_data {
         tokio::select! {
             () = cancel_token.cancelled() => {
                 log::debug!("Session background task cancelled");
@@ -457,7 +487,7 @@ async fn run_background(
             () = ack_ready_publishes(unacked_pubs, client.clone()) => {
                 log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
-            () = maintain_sat_auth(sat_file, client) => {
+            () = maintain_sat_auth(sat_file, sat_file_watcher_rx, client) => {
                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
             }
         }

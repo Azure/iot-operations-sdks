@@ -38,6 +38,7 @@ impl SessionError {
 pub enum SessionErrorKind {
     /// Invalid configuration options provided to the [`Session`].
     // TODO: Revisit how this config err is designed. Matching is strange due to the adapter error not being exposed (must use _ in match).
+    // TODO: Should this be an adapter error? Would it be better to generalize it for more config errors other than just the MqttAdapterError?
     // Ideally, inner value should not be accessible, although this might not be the worst thing either, it's not uncommon for libraries to do this.
     // Also arguably, should be on a different error type entirely since it's pre-run validation.
     #[error("invalid configuration: {0}")]
@@ -57,6 +58,12 @@ pub enum SessionErrorKind {
     /// The [`Session`] ended up in an invalid state.
     #[error("{0}")]
     InvalidState(String),
+    /// The [`Session`] was ended by an IO error.
+    #[error("{0}")]
+    IoError(#[from] std::io::Error),
+    /// The [`Session`] was ended by an internal error.
+    #[error("internal error: {0}")]
+    InternalError(String),
 }
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
