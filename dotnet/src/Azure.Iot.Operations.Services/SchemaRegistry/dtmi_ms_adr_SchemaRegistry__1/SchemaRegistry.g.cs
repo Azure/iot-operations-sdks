@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     [CommandTopic("adr/{modelId}/{commandName}")]
     public static partial class SchemaRegistry
     {
+        [ServiceGroupId("MyServiceGroup")]
         public abstract partial class Service : IAsyncDisposable
         {
             private IMqttPubSubClient mqttClient;
