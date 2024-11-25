@@ -54,8 +54,8 @@ jobs:
         run: |
           set -e
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
-          (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
-          (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
+          (pushd dotnet/samples/TestEnvoys; $codegen --lang=csharp --modelFile ../../../eng/test/schema-samples/counter.json; popd)
+          (pushd go/samples/protocol/counter/envoy; $codegen --lang go --modelFile ../../../../../eng/test/schema-samples/counter.json; popd)
           (pushd rust/sample_applications/counter/envoy; $codegen --lang=rust --modelFile ../../../../eng/test/schema-samples/counter.json; popd)
 
       - name: Build dotnet
