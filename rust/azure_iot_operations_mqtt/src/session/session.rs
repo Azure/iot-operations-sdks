@@ -178,12 +178,13 @@ where
             // Create a channel to notify the background task when the SAT file changes
             let (file_watch_tx, file_watch_rx) = tokio::sync::mpsc::unbounded_channel();
 
-            // Store the SAT file and the file watcher receiver
+            // Store the SAT file location and the file watcher receiver
             sat_file_monitoring_data = Some((sat_file.clone(), file_watch_rx));
 
             // Create a SAT file watcher
             _sat_file_watcher = match new_debouncer(Duration::from_secs(10), move |res| match res {
                 Ok(_) => {
+                    // Notify the background task that the SAT file has changed
                     if file_watch_tx.send(()).is_err() {
                         log::warn!("Error watching SAT file, receiver dropped");
                     }
