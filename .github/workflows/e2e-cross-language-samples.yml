@@ -52,20 +52,23 @@ jobs:
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
       - name: CodeGen all Counter samples
         run: |
+          set -e
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
           (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
-          (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
+          (pushd rust/sample_applications/counter/envoy; $codegen --lang=rust --modelFile ../../../../eng/test/schema-samples/counter.json; popd)
 
       - name: Build dotnet
         if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
         run: |
+          set -e
           cd dotnet
           dotnet build -c Release
 
       - name: Build go
         if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
         run: |
+          set -e
           cd go
           go build -o server samples/protocol/counter/server/main.go
           go build -o client samples/protocol/counter/client/main.go
@@ -73,6 +76,7 @@ jobs:
       - name: Build rust
         if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
         run: |
+          set -e
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
 
