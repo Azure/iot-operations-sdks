@@ -38,6 +38,7 @@ if [ "$deploy_type" = "nightly" ]; then
     helm uninstall broker -n azure-iot-operations --ignore-not-found
     helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 
+    helm list -A
     # add ADR
     # helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
 
