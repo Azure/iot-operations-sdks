@@ -8,7 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use envoy::common_types::common_options::CommonOptionsBuilder;
+use envoy::common_types::common_options::CommandOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
@@ -56,7 +56,7 @@ async fn main() {
 /// Run an executor that responds to requests to read the counter value.
 async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
     // Create executor
-    let options = CommonOptionsBuilder::default().build().unwrap();
+    let options = CommandOptionsBuilder::default().build().unwrap();
     let mut read_counter_executor = ReadCounterCommandExecutor::new(client, &options);
 
     // Respond to each read request with the current counter value
@@ -77,7 +77,7 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
 /// Run an executor that responds to requests to increment the counter value.
 async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
     // Create executor
-    let options = CommonOptionsBuilder::default().build().unwrap();
+    let options = CommandOptionsBuilder::default().build().unwrap();
     let mut increment_executor = IncrementCommandExecutor::new(client, &options);
 
     // Respond to each increment request by incrementing the counter value and responding with the new value
