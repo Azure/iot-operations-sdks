@@ -46,17 +46,17 @@ jobs:
           go-version: 1.22.4
 
       - name: Build codegen
-        run: dotnet build -c Release codegen/codegen.sln
+        run: dotnet build -c Debug codegen/codegen.sln
 
       # - name: Install Codegen tool from dev feed
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
       - name: CodeGen all Counter samples
         run: |
           set -e
-          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
-          (pushd dotnet/samples/TestEnvoys; $codegen --lang=csharp --modelFile ../../../eng/test/schema-samples/counter.json; popd)
-          (pushd go/samples/protocol/counter/envoy; $codegen --lang go --modelFile ../../../../../eng/test/schema-samples/counter.json; popd)
-          (pushd rust/sample_applications/counter/envoy; $codegen --lang=rust --modelFile ../../../../eng/test/schema-samples/counter.json; popd)
+          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler)
+          (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
+          (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd)
+          (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
           if ! git diff-files --quiet
           then
               echo "codegen'd envoy updates not checked in"
