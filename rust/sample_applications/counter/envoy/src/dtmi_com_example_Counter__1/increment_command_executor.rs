@@ -10,13 +10,13 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandResponseBuilder, CommandResponseBuilderError,
 };
 
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
-use crate::common_types::empty_json::EmptyJson;
+use crate::common_types::common_options::CommandOptions;
 
-pub type IncrementRequest = CommandRequest<EmptyJson, IncrementResponsePayload>;
+pub type IncrementRequest = CommandRequest<IncrementRequestPayload, IncrementResponsePayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
 pub type IncrementResponseBuilderError = CommandResponseBuilderError;
 
@@ -56,7 +56,9 @@ impl IncrementResponseBuilder {
 }
 
 /// Command Executor for `Increment`
-pub struct IncrementCommandExecutor<C>(CommandExecutor<EmptyJson, IncrementResponsePayload, C>)
+pub struct IncrementCommandExecutor<C>(
+    CommandExecutor<IncrementRequestPayload, IncrementResponsePayload, C>,
+)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -70,7 +72,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

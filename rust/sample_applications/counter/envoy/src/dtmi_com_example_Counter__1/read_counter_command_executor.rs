@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::CommandOptions;
 use crate::common_types::empty_json::EmptyJson;
 
 pub type ReadCounterRequest = CommandRequest<EmptyJson, ReadCounterResponsePayload>;
@@ -70,7 +70,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

@@ -13,8 +13,10 @@ use uuid::Uuid;
 use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct IncrementResponsePayload {
-    // The Command response argument.
-    #[serde(rename = "CounterResponse")]
-    pub counter_response: i32,
+pub struct TelemetryCollection {
+    // The current value of the counter.
+    #[serde(rename = "CounterValue")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub counter_value: Option<i32>,
 }

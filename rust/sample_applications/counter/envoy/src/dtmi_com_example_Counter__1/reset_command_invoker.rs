@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::CommandOptions;
 use crate::common_types::empty_json::EmptyJson;
 
 pub type ResetRequest = CommandRequest<EmptyJson>;
@@ -85,7 +85,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());

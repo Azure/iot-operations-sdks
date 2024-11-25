@@ -6,25 +6,26 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
+use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
 
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
-use crate::common_types::empty_json::EmptyJson;
+use crate::common_types::common_options::CommandOptions;
 
-pub type IncrementRequest = CommandRequest<EmptyJson>;
+pub type IncrementRequest = CommandRequest<IncrementRequestPayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
 pub type IncrementRequestBuilderError = CommandRequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`IncrementRequest`]
 pub struct IncrementRequestBuilder {
-    inner_builder: CommandRequestBuilder<EmptyJson>,
+    inner_builder: CommandRequestBuilder<IncrementRequestPayload>,
     set_executor_id: bool,
 }
 
@@ -55,6 +56,18 @@ impl IncrementRequestBuilder {
         self
     }
 
+    /// Payload of the request
+    ///
+    /// # Errors
+    /// If the payload cannot be serialized
+    pub fn payload(
+        &mut self,
+        payload: &IncrementRequestPayload,
+    ) -> Result<&mut Self, <IncrementRequestPayload as PayloadSerialize>::Error> {
+        self.inner_builder.payload(payload)?;
+        Ok(self)
+    }
+
     /// Builds a new `IncrementRequest`
     ///
     /// # Errors
@@ -67,14 +80,14 @@ impl IncrementRequestBuilder {
             ));
         }
 
-        self.inner_builder.payload(&EmptyJson {}).unwrap();
-
         self.inner_builder.build()
     }
 }
 
 /// Command Invoker for `Increment`
-pub struct IncrementCommandInvoker<C>(CommandInvoker<EmptyJson, IncrementResponsePayload, C>)
+pub struct IncrementCommandInvoker<C>(
+    CommandInvoker<IncrementRequestPayload, IncrementResponsePayload, C>,
+)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -88,7 +101,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
