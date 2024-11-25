@@ -57,6 +57,12 @@ jobs:
           (pushd dotnet/samples/TestEnvoys; $codegen --lang=csharp --modelFile ../../../eng/test/schema-samples/counter.json; popd)
           (pushd go/samples/protocol/counter/envoy; $codegen --lang go --modelFile ../../../../../eng/test/schema-samples/counter.json; popd)
           (pushd rust/sample_applications/counter/envoy; $codegen --lang=rust --modelFile ../../../../eng/test/schema-samples/counter.json; popd)
+          if ! git diff-files --quiet
+          then
+              echo "codegen'd envoy updates not checked in"
+              git diff-files
+              exit 1
+          fi
 
       - name: Build dotnet
         if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
