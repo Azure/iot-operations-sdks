@@ -9,7 +9,6 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
-use notify::ErrorKind;
 use notify_debouncer_mini::new_debouncer;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
@@ -154,20 +153,21 @@ where
         // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
         // original setting during the operation of .run(), and thus, the original setting is lost.
 
-        // Must be maintained for the lifetime of the session, used for SAT token renewal
+        // Must be maintained for the lifetime of the session, monitors the SAT file for changes
         let mut _sat_file_watcher = None;
 
         let mut sat_file_monitoring_data = None;
         if let Some(sat_file) = &self.sat_file {
-            // Set the authentication method and data
+            // Set the authentication method
             self.event_loop
                 .set_authentication_method(Some("K8S-SAT".to_string()));
 
             // Read the SAT auth file
             match fs::read(sat_file) {
-                Ok(sat_auth) => {
+                Ok(sat_auth_data) => {
+                    // Set the authentication data
                     self.event_loop
-                        .set_authentication_data(Some(sat_auth.into()));
+                        .set_authentication_data(Some(sat_auth_data.into()));
                 }
                 Err(e) => {
                     log::error!("Cannot read SAT auth file: {sat_file}");
@@ -175,28 +175,44 @@ where
                 }
             }
 
-            // Create a channel for SAT file watching notifications
+            // Create a channel to notify the background task when the SAT file changes
             let (file_watch_tx, file_watch_rx) = tokio::sync::mpsc::unbounded_channel();
 
+            // Store the SAT file and the file watcher receiver
             sat_file_monitoring_data = Some((sat_file.clone(), file_watch_rx));
 
             // Create a SAT file watcher
             _sat_file_watcher = match new_debouncer(Duration::from_secs(10), move |res| match res {
-                Ok(_) => file_watch_tx.send(()).expect("receiver dropped"),
+                Ok(_) => {
+                    if file_watch_tx.send(()).is_err() {
+                        log::warn!("Error watching SAT file, receiver dropped");
+                    }
+                }
                 Err(err) => log::warn!("Error watching SAT file: {err:?}"),
             }) {
                 Ok(mut watcher) => {
                     // Start watching the SAT file
-                    watcher
+                    match watcher
                         .watcher()
                         .watch(Path::new(sat_file), notify::RecursiveMode::NonRecursive)
-                        .unwrap();
-                    Some(watcher)
+                    {
+                        Ok(_) => Some(watcher),
+                        Err(e) => match e.kind {
+                            notify::ErrorKind::Io(e) => {
+                                return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                            }
+                            _ => {
+                                return Err(std::convert::Into::into(
+                                    SessionErrorKind::InternalError(e.to_string()),
+                                ));
+                            }
+                        },
+                    }
                 }
                 Err(e) => {
                     log::error!("Error creating SAT file watcher: {e:?}");
                     match e.kind {
-                        ErrorKind::Io(e) => {
+                        notify::ErrorKind::Io(e) => {
                             return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
                         }
                         _ => {
