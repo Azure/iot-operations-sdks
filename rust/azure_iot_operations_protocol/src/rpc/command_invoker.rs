@@ -714,7 +714,11 @@ where
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
+    /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors

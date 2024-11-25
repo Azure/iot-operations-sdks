@@ -159,7 +159,11 @@ where
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
+    /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Note: If this method is called, the [`state_store::Client`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
     /// # Errors
