@@ -4,6 +4,7 @@
 //! Internal implementation of [`Session`] and [`SessionExitHandle`].
 
 use std::fs;
+use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
@@ -171,7 +172,6 @@ where
                 Err(e) => {
                     log::error!("Cannot read SAT auth file: {sat_file}");
                     return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
-                    // PR: is this the correct way to do it?
                 }
             }
 
@@ -185,7 +185,14 @@ where
                 Ok(_) => file_watch_tx.send(()).expect("receiver dropped"),
                 Err(err) => log::warn!("Error watching SAT file: {err:?}"),
             }) {
-                Ok(watcher) => Some(watcher),
+                Ok(mut watcher) => {
+                    // Start watching the SAT file
+                    watcher
+                        .watcher()
+                        .watch(Path::new(sat_file), notify::RecursiveMode::NonRecursive)
+                        .unwrap();
+                    Some(watcher)
+                }
                 Err(e) => {
                     log::error!("Error creating SAT file watcher: {e:?}");
                     match e.kind {
@@ -444,8 +451,7 @@ async fn run_background(
     ) -> ! {
         loop {
             // Wait for the SAT file to change
-            if (sat_file_watcher_rx.recv().await).is_some() {
-                // SAT file changed
+            if (sat_file_watcher_rx.recv().await).is_some() { /* SAT file changed */
             } else {
                 log::error!("SAT file watcher dropped");
                 continue;
