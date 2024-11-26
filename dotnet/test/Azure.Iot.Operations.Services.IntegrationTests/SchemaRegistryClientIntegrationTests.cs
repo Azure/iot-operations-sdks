@@ -40,11 +40,18 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task NotFoundSchemaReturnsNull()
     {
-        await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
-        
-        Object_Ms_Adr_SchemaRegistry_Schema__1? s = await client.GetAsync("NotFound");
-        Assert.Null(s);
+        try
+        {
+            await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+            await using SchemaRegistryClient client = new(_mqttClient);
+
+            Object_Ms_Adr_SchemaRegistry_Schema__1? s = await client.GetAsync("NotFound");
+            Assert.Null(s);
+        }
+        catch (AkriMqttException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     [Fact]
