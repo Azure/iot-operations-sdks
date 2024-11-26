@@ -196,7 +196,7 @@ where
                         .watcher()
                         .watch(Path::new(sat_file), notify::RecursiveMode::NonRecursive)
                     {
-                        Ok(_) => Some(watcher),
+                        Ok(()) => Some(watcher),
                         Err(e) => match e.kind {
                             notify::ErrorKind::Io(e) => {
                                 return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
