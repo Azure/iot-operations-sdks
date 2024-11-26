@@ -8,7 +8,6 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use base64::{engine::general_purpose::STANDARD_NO_PAD, Engine};
 use notify_debouncer_mini::new_debouncer;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
@@ -523,31 +522,6 @@ async fn run_background(
                 log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
         }
-    }
-}
-
-pub(crate) fn get_sat_expiry(token: &str) -> Result<u64, String> {
-    let parts: Vec<_> = token.split('.').collect();
-
-    if parts.len() != 3 {
-        return Err("Invalid JWT token".to_string());
-    }
-
-    match STANDARD_NO_PAD.decode(parts[1]) {
-        Ok(payload) => match std::str::from_utf8(&payload) {
-            Ok(payload) => match serde_json::from_str::<serde_json::Value>(payload) {
-                Ok(payload_json) => match payload_json.get("exp") {
-                    Some(exp_time) => match exp_time.as_u64() {
-                        Some(exp_time) => Ok(exp_time),
-                        None => Err("Unable to parse SAT token expiry time".to_string()),
-                    },
-                    None => Err("SAT token does not contain expiry time".to_string()),
-                },
-                Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
-            },
-            Err(e) => Err(format!("Unable to parse SAT token: {e:?}")),
-        },
-        Err(e) => Err(format!("Unable to decode SAT token: {e:?}")),
     }
 }
 
