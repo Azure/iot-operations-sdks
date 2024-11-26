@@ -40,16 +40,16 @@ if [ "$deploy_type" = "nightly" ]; then
 
     helm list -A
     # add ADR
-    # helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
+    helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
 
     # add Akri service, port 18884
-    # helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 1.0.0 \
-        #--set agent.extensionService.mqttBroker.useTls=true \
-        #--set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
-        #--set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
-        #--set agent.extensionService.mqttBroker.hostName=aio-broker \
-        #--set agent.extensionService.mqttBroker.port=18884 \
-        #-n azure-iot-operations
+    helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
+        --set agent.extensionService.mqttBroker.useTls=true \
+        --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
+        --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
+        --set agent.extensionService.mqttBroker.hostName=aio-broker \
+        --set agent.extensionService.mqttBroker.port=18884 \
+        -n azure-iot-operations
 fi
 
 # create root & intermediate CA
