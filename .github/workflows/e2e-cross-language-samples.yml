@@ -1,4 +1,4 @@
-name: Cross languages
+name: Cross language
 on:
   workflow_dispatch:
   pull_request:
