@@ -74,8 +74,6 @@ jobs:
           docfx dotnet/.github/pages/docfx.json
           cp -a dotnet/.github/pages/_site _site/dotnet
 
-#      - name: Build Go docs
-
       - name: Upload to GitHub Pages
         id: upload
         uses: actions/upload-pages-artifact@v3
