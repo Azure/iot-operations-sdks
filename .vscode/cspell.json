@@ -44,7 +44,7 @@
         {
             // markdown is case sensative and ignore comment blocks
             "languageId": "markdown",
-            "ignoreRegExpList": [ "/^```[\\s\\S]*?```/gm" ],
+            "ignoreRegExpList": [ "/```[\\s\\S]*?```/gm" ],
             "caseSensitive": true
         },
         {

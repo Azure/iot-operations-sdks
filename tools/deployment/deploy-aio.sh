@@ -41,13 +41,13 @@ if [ "$deploy_type" = "nightly" ]; then
     # add ADR
     helm install adr --version 0.2.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
 
-    # add Akri service, port 18884
+    # add Akri service, port 18883
     helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.5.8 \
         --set agent.extensionService.mqttBroker.useTls=true \
         --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
         --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
         --set agent.extensionService.mqttBroker.hostName=aio-broker \
-        --set agent.extensionService.mqttBroker.port=18884 \
+        --set agent.extensionService.mqttBroker.port=18883 \
         -n azure-iot-operations
 fi
 
