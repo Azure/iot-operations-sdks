@@ -8,11 +8,16 @@ on:
   schedule:
     - cron: "0 11 * * *" # Nightly at 4am PST
 
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   broker_port: 1883
 
 jobs:
-  tests:
+  cross-language:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -24,7 +29,7 @@ jobs:
         client:
           [dotnet, rust, go]
 
-    name: ${{ matrix.server }} server | ${{ matrix.client }} client
+    name: ${{ matrix.server }} server - ${{ matrix.client }} client
 
     steps:
       - uses: actions/checkout@v4
