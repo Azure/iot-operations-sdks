@@ -13,13 +13,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  broker_port: 1883
-
 jobs:
   cross-language:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    env:
+      broker_port: "1883"
 
     strategy:
       fail-fast: false
