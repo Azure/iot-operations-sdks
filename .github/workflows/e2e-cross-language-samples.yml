@@ -86,15 +86,15 @@ jobs:
 
       - name: Run Counter Server dotnet
         if: matrix.server == 'dotnet'
-        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${broker_port};UseTls=false;ClientId=${{ matrix.server }}" &
+        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
 
       - name: Run Counter Server go
         if: matrix.server == 'go'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${broker_port} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} go/server &
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} go/server &
 
       - name: Run Counter Server rust
         if: matrix.server == 'rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${broker_port} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }}  rust/target/release/counter_server &
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }}  rust/target/release/counter_server &
 
       - name: Run Counter Client dotnet
         if: matrix.client == 'dotnet'
@@ -102,8 +102,8 @@ jobs:
 
       - name: Run Counter Client go
         if: matrix.client == 'go'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${broker_port} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go COUNTER_SERVER_ID=${{ matrix.server }} go/client
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go COUNTER_SERVER_ID=${{ matrix.server }} go/client
 
       - name: Run Counter Client rust
         if: matrix.client == 'rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${broker_port} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust COUNTER_SERVER_ID=${{ matrix.server }} rust/target/release/counter_client
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust COUNTER_SERVER_ID=${{ matrix.server }} rust/target/release/counter_client
