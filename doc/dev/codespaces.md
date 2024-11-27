@@ -156,3 +156,4 @@ Some popular shortcuts:
 
     ```bash
     crictl images
+    ```
