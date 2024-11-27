@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - '.devcontainer/**'
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'codegen/src/**'
@@ -14,6 +15,8 @@ on:
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
       - 'eng/test/faultablemqttbroker/**'
+      - 'tools/deployment/**'
+
   push:
     branches:
     - main  

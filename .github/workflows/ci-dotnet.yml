@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - '.devcontainer/**'
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
-      - 'eng/test/faultablemqttbroker/**'      
+      - 'eng/test/faultablemqttbroker/**'
+      - 'tools/deployment/**'
       - 'tools/dsscli/**'
       - 'codegen/**'
   push:

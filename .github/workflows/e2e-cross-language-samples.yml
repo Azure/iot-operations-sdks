@@ -2,7 +2,7 @@ name: e2e-cross-language-samples
 
 on:
   workflow_dispatch:
-  pull_request:  
+  pull_request:
   push:
     branches:
       - main
