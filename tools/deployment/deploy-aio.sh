@@ -38,29 +38,21 @@ if [ "$deploy_type" = "nightly" ]; then
     helm uninstall broker -n azure-iot-operations --ignore-not-found
     helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 
-    helm list -A
-    # add ADR
-    #helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension -n azure-iot-operations --wait
-
-    # add Akri service, port 18884
-    #helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
-        #--set agent.extensionService.mqttBroker.useTls=true \
-        #--set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
-        #--set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
-        #--set agent.extensionService.mqttBroker.hostName=aio-broker-external \
-        #--set agent.extensionService.mqttBroker.port=18884 \
-        #-n azure-iot-operations
-
     # add ADR
     helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
 
-    # Add AKRI Service for 38884
+    # add Akri service, port 18883
     helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
-    --set agent.extensionService.mqttBroker.useTls=true \
-    --set agent.extensionService.mqttBroker.caCertConfigMapRef="azure-iot-operations-aio-ca-trust-bundle" \
-    --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
-    --set agent.extensionService.mqttBroker.hostName=aio-broker-external.azure-iot-operations.svc.cluster.local \
-    --set agent.extensionService.mqttBroker.port=38884
+        --set agent.extensionService.mqttBroker.useTls=true \
+        --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
+        --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
+        --set agent.extensionService.mqttBroker.hostName=aio-broker \
+        --set agent.extensionService.mqttBroker.port=18883 \
+        -n azure-iot-operations
+
+    # deploy the Akri Operator
+    helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
+
 fi
 
 # create root & intermediate CA
@@ -82,8 +74,5 @@ kubectl apply -f yaml/aio-$deploy_type.yaml
 
 # Update the credentials locally for connecting to MQTT Broker
 ./update-credentials.sh
-
-# Deploy the Akri Operator
-helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
 
 echo Setup complete, session related files are in the '.session' directory

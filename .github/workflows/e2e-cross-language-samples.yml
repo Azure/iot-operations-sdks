@@ -1,27 +1,35 @@
-name: e2e-cross-language-samples
-
+name: Cross language
 on:
   workflow_dispatch:
-  pull_request:  
+  pull_request:
   push:
     branches:
       - main
   schedule:
     - cron: "0 11 * * *" # Nightly at 4am PST
 
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  broker_port: 1883
+
 jobs:
-  interop-tests:
+  cross-language:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     strategy:
       fail-fast: false
       matrix:
-        broker_port: [1883]
-        counter_server:
-          [counter-server-dotnet, counter-server-rust, counter-server-go]
-        counter_client:
-          [counter-client-dotnet, counter-client-rust, counter-client-go]
+        server:
+          [dotnet, rust, go]
+        client:
+          [dotnet, rust, go]
+
+    name: ${{ matrix.server }} server - ${{ matrix.client }} client
 
     steps:
       - uses: actions/checkout@v4
@@ -34,13 +42,13 @@ jobs:
           tools/deployment/deploy-aio.sh nightly
 
       - name: Setup .NET
-        if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
+        if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.301
 
       - name: Setup GO
-        if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
+        if: matrix.server == 'go' || matrix.client == 'go'
         uses: actions/setup-go@v5
         with:
           go-version: 1.22.4
@@ -58,44 +66,44 @@ jobs:
           (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
 
       - name: Build dotnet
-        if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
+        if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
         run: |
           cd dotnet
           dotnet build -c Release
 
       - name: Build go
-        if: matrix.counter_server == 'counter-server-go' || matrix.counter_client == 'counter-client-go'
+        if: matrix.server == 'go' || matrix.client == 'go'
         run: |
           cd go
           go build -o server samples/protocol/counter/server/main.go
           go build -o client samples/protocol/counter/client/main.go
 
       - name: Build rust
-        if: matrix.counter_server == 'counter-server-rust' || matrix.counter_client == 'counter-client-rust'
+        if: matrix.server == 'rust' || matrix.client == 'rust'
         run: |
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
 
       - name: Run Counter Server dotnet
-        if: matrix.counter_server == 'counter-server-dotnet'
-        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ matrix.broker_port}};UseTls=false;ClientId=${{ matrix.counter_server }}" &
+        if: matrix.server == 'dotnet'
+        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
 
       - name: Run Counter Server go
-        if: matrix.counter_server == 'counter-server-go'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }} go/server &
+        if: matrix.server == 'go'
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} go/server &
 
       - name: Run Counter Server rust
-        if: matrix.counter_server == 'counter-server-rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.counter_server }}  rust/target/release/counter_server &
+        if: matrix.server == 'rust'
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} rust/target/release/counter_server &
 
       - name: Run Counter Client dotnet
-        if: matrix.counter_client == 'counter-client-dotnet'
-        run: dotnet/samples/CounterClient/bin/Release/net8.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ matrix.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.counter_server }}
+        if: matrix.client == 'dotnet'
+        run: dotnet/samples/CounterClient/bin/Release/net8.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
 
       - name: Run Counter Client go
-        if: matrix.counter_client == 'counter-client-go'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-go COUNTER_SERVER_ID=${{ matrix.counter_server }} go/client
+        if: matrix.client == 'go'
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=${{ matrix.server }} go/client
 
       - name: Run Counter Client rust
-        if: matrix.counter_client == 'counter-client-rust'
-        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ matrix.broker_port}} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=counter-client-rust COUNTER_SERVER_ID=${{ matrix.counter_server }} rust/target/release/counter_client
+        if: matrix.client == 'rust'
+        run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=${{ matrix.server }} rust/target/release/counter_client
