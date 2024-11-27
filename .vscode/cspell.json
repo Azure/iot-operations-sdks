@@ -64,8 +64,8 @@
         },
         {
             // only process comments from shell scripts
-            "languageId": "shell",
-            "includeRegExpList": [ "/#.*$/g" ]
+            "languageId": "shellscript",
+            "includeRegExpList": [ "/#.*/g" ]
         }
     ],
     "words": [
