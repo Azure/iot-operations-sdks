@@ -49,6 +49,9 @@ if [ "$deploy_type" = "nightly" ]; then
         --set agent.extensionService.mqttBroker.hostName=aio-broker \
         --set agent.extensionService.mqttBroker.port=18883 \
         -n azure-iot-operations
+
+    # deploy the Akri Operator
+    helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
 fi
 
 # create root & intermediate CA
@@ -70,8 +73,5 @@ kubectl apply -f yaml/aio-$deploy_type.yaml
 
 # Update the credentials locally for connecting to MQTT Broker
 ./update-credentials.sh
-
-# Deploy the Akri Operator
-helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
 
 echo Setup complete, session related files are in the '.session' directory

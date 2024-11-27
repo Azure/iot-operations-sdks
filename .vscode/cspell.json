@@ -61,6 +61,11 @@
             // csharp specific words
             "languageId": "csharp",
             "dictionaries": ["dotnetsdk"]
+        },
+        {
+            // only process comments from shell scripts
+            "languageId": "shell",
+            "includeRegExpList": [ "/#.*$/g" ]
         }
     ],
     "words": [
