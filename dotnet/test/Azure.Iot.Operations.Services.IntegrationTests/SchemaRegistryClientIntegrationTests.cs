@@ -43,6 +43,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         try
         {
             output.WriteLine("Starting NotFoundSchemaReturnsNull");
+            Console.WriteLine("Starting NotFoundSchemaReturnsNull");
             await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
             await using SchemaRegistryClient client = new(_mqttClient);
 
@@ -51,7 +52,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         }
         catch (AkriMqttException ex)
         {
-            output.WriteLine(ex.Message);
+            output.WriteLine($"{ex}");
+            Console.WriteLine($"{ex}");
         }
     }
 
