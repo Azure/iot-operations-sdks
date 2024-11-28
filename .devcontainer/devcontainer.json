@@ -9,6 +9,7 @@
         "storage": "48gb"
     },
     "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
         "ghcr.io/devcontainers/features/dotnet:2": {},
         "ghcr.io/devcontainers/features/rust:1": {},
         "ghcr.io/devcontainers/features/go:1": {},
