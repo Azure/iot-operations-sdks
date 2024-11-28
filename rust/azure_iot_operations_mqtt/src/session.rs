@@ -4,7 +4,7 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 
 mod dispatcher;
-mod managed_client;
+pub mod managed_client;
 mod pub_tracker;
 pub mod reconnect_policy;
 #[doc(hidden)]

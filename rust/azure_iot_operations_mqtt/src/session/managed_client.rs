@@ -145,7 +145,9 @@ pub struct SessionPubReceiver {
     unacked_pkids: Mutex<HashSet<u16>>,
 }
 
+/// Receive and acknowledge incoming MQTT messages.
 impl SessionPubReceiver {
+    /// Create a new [`SessionPubReceiver`].
     pub fn new(
         pub_rx: UnboundedReceiver<Publish>,
         unacked_pubs: Arc<PubTracker>,
