@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - '.devcontainer/**'
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
-      - 'eng/test/faultablemqttbroker/**'      
+      - 'eng/test/faultablemqttbroker/**'
+      - 'tools/deployment/**'
       - 'tools/dsscli/**'
       - 'codegen/**'
   push:
@@ -14,6 +16,11 @@ on:
     - main  
   schedule:
   - cron: '0 11 * * *'  # Nightly at 4am PST
+
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
