@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 TestCaseActionReceiveRequest.DefaultQos = defaultTestCase.Actions.ReceiveRequest.Qos;
                 TestCaseActionReceiveRequest.DefaultMessageExpiry = defaultTestCase.Actions.ReceiveRequest.MessageExpiry;
                 TestCaseActionReceiveRequest.DefaultResponseTopic = defaultTestCase.Actions.ReceiveRequest.ResponseTopic;
-                TestCaseActionReceiveRequest.DefaultInvokerIndex = defaultTestCase.Actions.ReceiveRequest.InvokerIndex;
+                TestCaseActionReceiveRequest.DefaultSourceIndex = defaultTestCase.Actions.ReceiveRequest.SourceIndex;
             }
 
             freezableWallClock = new FreezableWallClock();
@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 commandExecutors.Add(commandExecutor);
             }
 
-            ConcurrentDictionary<int, Guid?> invokerIds = new();
+            ConcurrentDictionary<int, Guid?> sourceIds = new();
             ConcurrentDictionary<int, string?> correlationIds = new();
             ConcurrentDictionary<int, ushort> packetIds = new();
             int freezeTicket = -1;
@@ -216,7 +216,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     switch (action)
                     {
                         case TestCaseActionReceiveRequest actionReceiveRequest:
-                            await ReceiveRequestAsync(actionReceiveRequest, stubMqttClient, invokerIds, correlationIds, packetIds, testCaseIndex).ConfigureAwait(false);
+                            await ReceiveRequestAsync(actionReceiveRequest, stubMqttClient, sourceIds, correlationIds, packetIds, testCaseIndex).ConfigureAwait(false);
                             break;
                         case TestCaseActionAwaitAck actionAwaitAck:
                             await AwaitAcknowledgementAsync(actionAwaitAck, stubMqttClient, packetIds).ConfigureAwait(false);
@@ -430,15 +430,15 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private async Task ReceiveRequestAsync(TestCaseActionReceiveRequest actionReceiveRequest, StubMqttClient stubMqttClient, ConcurrentDictionary<int, Guid?> invokerIds, ConcurrentDictionary<int, string?> correlationIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
+        private async Task ReceiveRequestAsync(TestCaseActionReceiveRequest actionReceiveRequest, StubMqttClient stubMqttClient, ConcurrentDictionary<int, Guid?> sourceIds, ConcurrentDictionary<int, string?> correlationIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
         {
-            Guid? invokerId = null;
-            if (actionReceiveRequest.InvokerIndex != null)
+            Guid? sourceId = null;
+            if (actionReceiveRequest.SourceIndex != null)
             {
-                if (!invokerIds.TryGetValue((int)actionReceiveRequest.InvokerIndex, out invokerId))
+                if (!sourceIds.TryGetValue((int)actionReceiveRequest.SourceIndex, out sourceId))
                 {
-                    invokerId = Guid.NewGuid();
-                    invokerIds[(int)actionReceiveRequest.InvokerIndex] = invokerId;
+                    sourceId = Guid.NewGuid();
+                    sourceIds[(int)actionReceiveRequest.SourceIndex] = sourceId;
                 }
             }
 
@@ -482,9 +482,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 requestAppMsgBuilder.WithPayload(payload);
             }
 
-            if (invokerId != null)
+            if (sourceId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, ((Guid)invokerId!).ToString());
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, ((Guid)sourceId!).ToString());
             }
 
             if (correlationId != null)

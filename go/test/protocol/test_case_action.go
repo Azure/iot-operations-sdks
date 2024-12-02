@@ -14,11 +14,14 @@ const (
 	AwaitAck ActionKind = iota
 	AwaitInvocation
 	AwaitPublish
+	AwaitSend
 	Disconnect
 	FreezeTime
 	InvokeCommand
 	ReceiveRequest
 	ReceiveResponse
+	ReceiveTelemetry
+	SendTelemetry
 	Sleep
 	Sync
 	UnfreezeTime
@@ -52,6 +55,13 @@ func (action *TestCaseAction) AsAwaitPublish() *TestCaseActionAwaitPublish {
 	return nil
 }
 
+func (action *TestCaseAction) AsAwaitSend() *TestCaseActionAwaitSend {
+	if actionAwaitSend, ok := (action.Action).(TestCaseActionAwaitSend); ok {
+		return &actionAwaitSend
+	}
+	return nil
+}
+
 func (action *TestCaseAction) AsInvokeCommand() *TestCaseActionInvokeCommand {
 	if actionInvokeCommand, ok := (action.Action).(testCaseActionInvokeCommand); ok {
 		return &TestCaseActionInvokeCommand{
@@ -74,6 +84,24 @@ func (action *TestCaseAction) AsReceiveResponse() *TestCaseActionReceiveResponse
 	if actionReceiveResponse, ok := (action.Action).(testCaseActionReceiveResponse); ok {
 		return &TestCaseActionReceiveResponse{
 			testCaseActionReceiveResponse: actionReceiveResponse,
+		}
+	}
+	return nil
+}
+
+func (action *TestCaseAction) AsReceiveTelemetry() *TestCaseActionReceiveTelemetry {
+	if actionReceiveTelemetry, ok := (action.Action).(testCaseActionReceiveTelemetry); ok {
+		return &TestCaseActionReceiveTelemetry{
+			testCaseActionReceiveTelemetry: actionReceiveTelemetry,
+		}
+	}
+	return nil
+}
+
+func (action *TestCaseAction) AsSendTelemetry() *TestCaseActionSendTelemetry {
+	if actionSendTelemetry, ok := (action.Action).(testCaseActionSendTelemetry); ok {
+		return &TestCaseActionSendTelemetry{
+			testCaseActionSendTelemetry: actionSendTelemetry,
 		}
 	}
 	return nil
@@ -124,6 +152,11 @@ func (action *TestCaseAction) UnmarshalYAML(node *yaml.Node) error {
 		var awaitPublish TestCaseActionAwaitPublish
 		err = node.Decode(&awaitPublish)
 		action.Action = awaitPublish
+	case "await send":
+		action.Kind = AwaitSend
+		var awaitSend TestCaseActionAwaitSend
+		err = node.Decode(&awaitSend)
+		action.Action = awaitSend
 	case "disconnect":
 		action.Kind = Disconnect
 		return nil
@@ -145,6 +178,16 @@ func (action *TestCaseAction) UnmarshalYAML(node *yaml.Node) error {
 		var receiveResponse TestCaseActionReceiveResponse
 		err = node.Decode(&receiveResponse)
 		action.Action = receiveResponse.testCaseActionReceiveResponse
+	case "receive telemetry":
+		action.Kind = ReceiveTelemetry
+		var receiveTelemetry TestCaseActionReceiveTelemetry
+		err = node.Decode(&receiveTelemetry)
+		action.Action = receiveTelemetry.testCaseActionReceiveTelemetry
+	case "send telemetry":
+		action.Kind = SendTelemetry
+		var sendTelemetry TestCaseActionSendTelemetry
+		err = node.Decode(&sendTelemetry)
+		action.Action = sendTelemetry.testCaseActionSendTelemetry
 	case "sleep":
 		action.Kind = Sleep
 		var sleep TestCaseActionSleep

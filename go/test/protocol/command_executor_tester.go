@@ -136,7 +136,7 @@ func runOneCommandExecutorTest(
 		}
 	}
 
-	invokerIDs := make(map[int]string)
+	sourceIDs := make(map[int]string)
 	correlationIDs := make(map[int][]byte)
 	packetIDs := make(map[int]uint16)
 
@@ -154,7 +154,7 @@ func runOneCommandExecutorTest(
 				t,
 				action.AsReceiveRequest(),
 				stubBroker,
-				invokerIDs,
+				sourceIDs,
 				correlationIDs,
 				packetIDs,
 			)
@@ -194,7 +194,7 @@ func runOneCommandExecutorTest(
 	}
 
 	for _, publishedMessage := range testCase.Epilogue.PublishedMessages {
-		checkPublishedResponse(t, publishedMessage, stubBroker, correlationIDs)
+		checkPublishedResponse(t, &publishedMessage, stubBroker, correlationIDs)
 	}
 
 	if testCase.Epilogue.AcknowledgementCount != nil {
@@ -228,6 +228,8 @@ func getCommandExecutor(
 	catch *TestCaseCatch,
 ) *TestingCommandExecutor {
 	options := []protocol.CommandExecutorOption{
+		protocol.WithTopicTokens(tce.CustomTokenMap),
+		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithIdempotent(tce.Idempotent),
 		protocol.WithCacheTTL(tce.CacheTTL.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
@@ -285,22 +287,22 @@ func receiveRequest(
 	t *testing.T,
 	actionReceiveRequest *TestCaseActionReceiveRequest,
 	stubBroker *StubBroker,
-	invokerIDs map[int]string,
+	sourceIDs map[int]string,
 	correlationIDs map[int][]byte,
 	packetIDs map[int]uint16,
 ) {
 	var props packets.Properties
 
-	if actionReceiveRequest.InvokerIndex != nil {
-		invokerID, ok := invokerIDs[*actionReceiveRequest.InvokerIndex]
+	if actionReceiveRequest.SourceIndex != nil {
+		sourceID, ok := sourceIDs[*actionReceiveRequest.SourceIndex]
 		if !ok {
 			guid, _ := uuid.NewV7()
-			invokerID = guid.String()
-			invokerIDs[*actionReceiveRequest.InvokerIndex] = invokerID
+			sourceID = guid.String()
+			sourceIDs[*actionReceiveRequest.SourceIndex] = sourceID
 		}
 		props.User = append(props.User, packets.User{
 			Key:   SourceID,
-			Value: invokerID,
+			Value: sourceID,
 		})
 	}
 
@@ -404,7 +406,7 @@ func syncEvent(
 
 func checkPublishedResponse(
 	t *testing.T,
-	publishedMessage TestCasePublishedMessage,
+	publishedMessage *TestCasePublishedMessage,
 	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 ) {
@@ -454,6 +456,14 @@ func checkPublishedResponse(
 		} else {
 			require.True(t, !ok || strings.EqualFold(isAppErr, "false"))
 		}
+	}
+
+	if publishedMessage.Expiry != nil {
+		require.Equal(
+			t,
+			*publishedMessage.Expiry,
+			*msg.Properties.MessageExpiry,
+		)
 	}
 }
 

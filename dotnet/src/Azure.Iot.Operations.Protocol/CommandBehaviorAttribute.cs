@@ -1,18 +1,12 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿using System;
+
+namespace Azure.Iot.Operations.Protocol
 {
-    using System;
-
     [AttributeUsage(AttributeTargets.Class)]
-    public class CommandBehaviorAttribute : Attribute
+    public class CommandBehaviorAttribute(bool idempotent = false, string cacheTtl = "PT0H0M0S") : Attribute
     {
-        public bool IsIdempotent { get; set; }
+        public bool IsIdempotent { get; set; } = idempotent;
 
-        public string CacheTtl { get; set; }
-
-        public CommandBehaviorAttribute(bool idempotent = false, string cacheTtl = "PT0H0M0S")
-        {
-            this.IsIdempotent = idempotent;
-            this.CacheTtl = cacheTtl;
-        }
+        public string CacheTtl { get; set; } = cacheTtl;
     }
 }

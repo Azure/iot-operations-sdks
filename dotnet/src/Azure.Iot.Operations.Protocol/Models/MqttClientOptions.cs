@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
     public sealed class MqttClientOptions
     {
         public MqttClientOptions(MqttClientTcpOptions tcpOptions)
-        { 
+        {
             ChannelOptions = tcpOptions;
         }
 
@@ -24,7 +23,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         public MqttClientOptions(MqttConnectionSettings cs)
         {
             if (cs.ClientId != null)
-            { 
+            {
                 ClientId = cs.ClientId;
             }
 
@@ -35,14 +34,9 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (!string.IsNullOrEmpty(cs.Username))
             {
-                if (!string.IsNullOrEmpty(cs.PasswordFile))
-                {
-                    Credentials = new MqttClientCredentials(cs.Username, File.ReadAllBytes(cs.PasswordFile));
-                }
-                else
-                {
-                    Credentials = new MqttClientCredentials(cs.Username);
-                }
+                Credentials = !string.IsNullOrEmpty(cs.PasswordFile)
+                    ? new MqttClientCredentials(cs.Username, File.ReadAllBytes(cs.PasswordFile))
+                    : (IMqttClientCredentialsProvider)new MqttClientCredentials(cs.Username);
             }
 
             if (!string.IsNullOrEmpty(cs.SatAuthFile))
@@ -66,10 +60,12 @@ namespace Azure.Iot.Operations.Protocol.Models
             {
                 try
                 {
-                    MqttClientTlsOptions tlsParams = new();
-                    tlsParams.SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
+                    MqttClientTlsOptions tlsParams = new()
+                    {
+                        SslProtocol = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13
+                    };
 
-                    X509Certificate2Collection caCerts = new();
+                    X509Certificate2Collection caCerts = [];
                     if (cs.TrustChain != null)
                     {
                         tlsParams.TrustChain = cs.TrustChain;
@@ -81,7 +77,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                         tlsParams.RevocationMode = X509RevocationMode.NoCheck;
                     }
 
-                    List<X509Certificate2> certs = new();
+                    List<X509Certificate2> certs = [];
                     if (!string.IsNullOrEmpty(cs.CertFile) && !string.IsNullOrEmpty(cs.KeyFile))
                     {
                         X509Certificate2 cert = X509ClientCertificateLocator.Load(cs.CertFile, cs.KeyFile, cs.KeyPasswordFile);
@@ -251,7 +247,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The feature is very similar to the HTTP header concept.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public List<MqttUserProperty> UserProperties { get; set; } = new();
+        public List<MqttUserProperty> UserProperties { get; set; } = [];
 
         /// <summary>
         ///     When this feature is enabled the client will check if used properties are supported in the selected protocol
@@ -323,7 +319,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     Gets or sets the user properties of the will message.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public List<MqttUserProperty> WillUserProperties { get; set; } = new();
+        public List<MqttUserProperty> WillUserProperties { get; set; } = [];
 
         /// <summary>
         ///     Gets or sets the default and initial size of the packet write buffer.
@@ -340,7 +336,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         public int WriterBufferSizeMax { get; set; } = 65535;
 
         public void AddUserProperty(string name, string value)
-        { 
+        {
             UserProperties.Add(new MqttUserProperty(name, value));
         }
     }

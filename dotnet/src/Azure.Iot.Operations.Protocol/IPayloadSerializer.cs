@@ -4,7 +4,7 @@
     {
         string ContentType { get; }
 
-        int CharacterDataFormatIndicator { get; } 
+        int CharacterDataFormatIndicator { get; }
 
         byte[]? ToBytes<T>(T? payload) where T : class;
 

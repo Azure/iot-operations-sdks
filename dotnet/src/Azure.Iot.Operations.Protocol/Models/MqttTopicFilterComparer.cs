@@ -19,11 +19,11 @@
                 return MqttTopicFilterCompareResult.FilterInvalid;
             }
 
-            var filterOffset = 0;
-            var filterLength = filter.Length;
+            int filterOffset = 0;
+            int filterLength = filter.Length;
 
-            var topicOffset = 0;
-            var topicLength = topic.Length;
+            int topicOffset = 0;
+            int topicLength = topic.Length;
 
             fixed (char* topicPointer = topic)
             fixed (char* filterPointer = filter)
@@ -36,15 +36,15 @@
                     // sensor/+/temperature >> sensor/7/temperature = Equal
                     // sensor/7/+           >> sensor/7/temperature = Shorter
                     // sensor/#             >> sensor/7/temperature = Shorter
-                    var lastFilterChar = filterPointer[filterLength - 1];
-                    if (lastFilterChar != MultiLevelWildcard && lastFilterChar != SingleLevelWildcard)
+                    char lastFilterChar = filterPointer[filterLength - 1];
+                    if (lastFilterChar is not MultiLevelWildcard and not SingleLevelWildcard)
                     {
                         return MqttTopicFilterCompareResult.NoMatch;
                     }
                 }
 
-                var isMultiLevelFilter = filterPointer[filterLength - 1] == MultiLevelWildcard;
-                var isReservedTopic = topicPointer[0] == ReservedTopicPrefix;
+                bool isMultiLevelFilter = filterPointer[filterLength - 1] == MultiLevelWildcard;
+                bool isReservedTopic = topicPointer[0] == ReservedTopicPrefix;
 
                 if (isReservedTopic && filterLength == 1 && isMultiLevelFilter)
                 {
@@ -100,16 +100,13 @@
                             return MqttTopicFilterCompareResult.IsMatch;
                         }
 
-                        var endOfTopic = topicOffset == topicLength;
+                        bool endOfTopic = topicOffset == topicLength;
 
                         if (endOfTopic && filterOffset == filterLength - 1 && filterPointer[filterOffset] == SingleLevelWildcard)
                         {
-                            if (filterOffset > 0 && filterPointer[filterOffset - 1] != LevelSeparator)
-                            {
-                                return MqttTopicFilterCompareResult.FilterInvalid;
-                            }
-
-                            return MqttTopicFilterCompareResult.IsMatch;
+                            return filterOffset > 0 && filterPointer[filterOffset - 1] != LevelSeparator
+                                ? MqttTopicFilterCompareResult.FilterInvalid
+                                : MqttTopicFilterCompareResult.IsMatch;
                         }
                     }
                     else
@@ -141,28 +138,17 @@
                         }
                         else if (filterPointer[filterOffset] == MultiLevelWildcard)
                         {
-                            if (filterOffset > 0 && filterPointer[filterOffset - 1] != LevelSeparator)
-                            {
-                                return MqttTopicFilterCompareResult.FilterInvalid;
-                            }
-
-                            if (filterOffset + 1 != filterLength)
-                            {
-                                return MqttTopicFilterCompareResult.FilterInvalid;
-                            }
-
-                            return MqttTopicFilterCompareResult.IsMatch;
+                            return filterOffset > 0 && filterPointer[filterOffset - 1] != LevelSeparator
+                                ? MqttTopicFilterCompareResult.FilterInvalid
+                                : filterOffset + 1 != filterLength ? MqttTopicFilterCompareResult.FilterInvalid : MqttTopicFilterCompareResult.IsMatch;
                         }
                         else
                         {
                             // Check for e.g. "foo/bar" matching "foo/+/#".
-                            if (filterOffset > 0 && filterOffset + 2 == filterLength && topicOffset == topicLength && filterPointer[filterOffset - 1] == SingleLevelWildcard &&
-                                filterPointer[filterOffset] == LevelSeparator && isMultiLevelFilter)
-                            {
-                                return MqttTopicFilterCompareResult.IsMatch;
-                            }
-
-                            return MqttTopicFilterCompareResult.NoMatch;
+                            return filterOffset > 0 && filterOffset + 2 == filterLength && topicOffset == topicLength && filterPointer[filterOffset - 1] == SingleLevelWildcard &&
+                                filterPointer[filterOffset] == LevelSeparator && isMultiLevelFilter
+                                ? MqttTopicFilterCompareResult.IsMatch
+                                : MqttTopicFilterCompareResult.NoMatch;
                         }
                     }
                 }

@@ -67,9 +67,9 @@ var (
 ```
 
 <a name="ArgumentError"></a>
-## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L62>)
+## type [ArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L66>)
 
-
+ArgumentError indicates an invalid argument.
 
 ```go
 type ArgumentError = errors.Argument
@@ -98,7 +98,7 @@ type Client[K, V Bytes] struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L79-L82>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L83-L86>)
 
 ```go
 func New[K, V Bytes](client MqttClient, opt ...ClientOption) (*Client[K, V], error)
@@ -107,7 +107,7 @@ func New[K, V Bytes](client MqttClient, opt ...ClientOption) (*Client[K, V], err
 New creates a new state store client. It takes the key and value types as parameters to avoid unnecessary casting; both may be string, \[\]byte, or equivalent types.
 
 <a name="Client[K, V].Close"></a>
-### func \(\*Client\[K, V\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L146>)
+### func \(\*Client\[K, V\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L150>)
 
 ```go
 func (c *Client[K, V]) Close()
@@ -134,7 +134,7 @@ func (c *Client[K, V]) Get(ctx context.Context, key K, opt ...GetOption) (*Respo
 Get the value and version of the given key. If the key is not present, it returns a fully zero response struct; if the key is present but empty, it returns an empty value and the stored version.
 
 <a name="Client[K, V].ID"></a>
-### func \(\*Client\[K, V\]\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L152>)
+### func \(\*Client\[K, V\]\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L156>)
 
 ```go
 func (c *Client[K, V]) ID() string
@@ -179,7 +179,7 @@ func (c *Client[K, V]) Set(ctx context.Context, key K, val V, opt ...SetOption) 
 Set the value of the given key. If the key is successfully set, it returns true and the new or updated version; if the key is not set due to the specified condition, it returns false and the stored version.
 
 <a name="Client[K, V].Start"></a>
-### func \(\*Client\[K, V\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L141>)
+### func \(\*Client\[K, V\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L145>)
 
 ```go
 func (c *Client[K, V]) Start(ctx context.Context) error
@@ -230,7 +230,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L209-L212>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L213-L216>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -360,7 +360,7 @@ func (o *KeyNotifyOptions) Apply(opts []KeyNotifyOption, rest ...KeyNotifyOption
 Apply resolves the provided list of options.
 
 <a name="MqttClient"></a>
-## type [MqttClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L64-L67>)
+## type [MqttClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L68-L71>)
 
 
 
@@ -390,9 +390,9 @@ type Notify[K, V Bytes] struct {
 ```
 
 <a name="PayloadError"></a>
-## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L61>)
+## type [PayloadError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L64>)
 
-
+PayloadError indicates a malformed or unexpected payload returned from the state store.
 
 ```go
 type PayloadError = errors.Payload
@@ -411,9 +411,9 @@ type Response[T any] struct {
 ```
 
 <a name="ServiceError"></a>
-## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L60>)
+## type [ServiceError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L61>)
 
-
+ServiceError indicates an error returned from the state store.
 
 ```go
 type ServiceError = errors.Service

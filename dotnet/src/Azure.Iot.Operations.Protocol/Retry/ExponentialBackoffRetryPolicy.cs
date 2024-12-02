@@ -2,7 +2,13 @@
 
 namespace Azure.Iot.Operations.Protocol.Retry
 {
-    public class ExponentialBackoffRetryPolicy : IRetryPolicy
+    /// <summary>
+    /// Creates an instance of this class.
+    /// </summary>
+    /// <param name="maxRetries">The maximum number of retry attempts</param>
+    /// <param name="maxWait">The maximum amount of time to wait between retries.</param>
+    /// <param name="useJitter">Whether to add a small, random adjustment to the retry delay to avoid synchronicity in clients retrying.</param>
+    public class ExponentialBackoffRetryPolicy(uint maxRetries, TimeSpan maxWait, bool useJitter = true) : IRetryPolicy
     {
         private readonly Random _rng = new();
         private readonly object _rngLock = new();
@@ -17,23 +23,10 @@ namespace Azure.Iot.Operations.Protocol.Retry
         /// <summary>
         /// The maximum number of retries
         /// </summary>
-        private uint _maxRetries;
+        private readonly uint _maxRetries = maxRetries;
 
-        private readonly TimeSpan _maxDelay;
-        private readonly bool _useJitter;
-
-        /// <summary>
-        /// Creates an instance of this class.
-        /// </summary>
-        /// <param name="maxRetries">The maximum number of retry attempts</param>
-        /// <param name="maxWait">The maximum amount of time to wait between retries.</param>
-        /// <param name="useJitter">Whether to add a small, random adjustment to the retry delay to avoid synchronicity in clients retrying.</param>
-        public ExponentialBackoffRetryPolicy(uint maxRetries, TimeSpan maxWait, bool useJitter = true)
-        {
-            _maxRetries = maxRetries;
-            _maxDelay = maxWait;
-            _useJitter = useJitter;
-        }
+        private readonly TimeSpan _maxDelay = maxWait;
+        private readonly bool _useJitter = useJitter;
 
         /// <inheritdoc/>
         public bool ShouldRetry(uint currentRetryCount, Exception lastException, out TimeSpan retryDelay)

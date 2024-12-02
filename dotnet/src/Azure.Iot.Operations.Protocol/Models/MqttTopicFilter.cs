@@ -1,12 +1,7 @@
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttTopicFilter
+    public class MqttTopicFilter(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
     {
-        public MqttTopicFilter(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
-        { 
-            Topic = topic;
-            QualityOfServiceLevel = qos;
-        }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the sender will not receive its own published application messages.
@@ -23,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     - At least once (1): Message gets delivered at least once (one time or more often).
         ///     - Exactly once  (2): Message gets delivered exactly once (It's ensured that the message only comes once).
         /// </summary>
-        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = MqttQualityOfServiceLevel.AtLeastOnce;
+        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = qos;
 
         /// <summary>
         ///     Gets or sets a value indicating whether messages are retained as published or not.
@@ -44,6 +39,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The topic consists of one or more topic levels. Each topic level is separated by a forward slash (topic level
         ///     separator).
         /// </summary>
-        public string Topic { get; set; }
+        public string Topic { get; set; } = topic;
     }
 }

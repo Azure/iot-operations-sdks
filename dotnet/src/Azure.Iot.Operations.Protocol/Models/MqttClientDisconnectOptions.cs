@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public void AddUserProperty(string name, string value)
         {
-            UserProperties ??= new List<MqttUserProperty>();
+            UserProperties ??= [];
             UserProperties.Add(new MqttUserProperty(name, value));
         }
     }

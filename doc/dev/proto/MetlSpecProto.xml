@@ -408,7 +408,7 @@
         <ObjectPropertyTable defaults="actions.receive-request" consts="include" kinds="include" />
 
         <Paragraph>
-          Values for `correlation-index`, `invoker-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+          Values for `correlation-index`, `source-index`, and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
           The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
         </Paragraph>
 
@@ -872,7 +872,7 @@
         <ObjectPropertyTable defaults="actions.receive-telemetry" consts="include" kinds="include" />
 
         <Paragraph>
-          Values for `sender-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
+          Values for `source-index` and `packet-index` are arbitrary numbers that will be given replacement values by the test engine.
           The index values can be used in multiple actions and in the epilogue, and each value will maintain a consistent replacement for the entirety of the test.
         </Paragraph>
 
