@@ -44,7 +44,7 @@
         {
             // markdown is case sensative and ignore comment blocks
             "languageId": "markdown",
-            "ignoreRegExpList": [ "/^```[\\s\\S]*?```/gm" ],
+            "ignoreRegExpList": [ "/```[\\s\\S]*?```/gm" ],
             "caseSensitive": true
         },
         {
@@ -61,6 +61,11 @@
             // csharp specific words
             "languageId": "csharp",
             "dictionaries": ["dotnetsdk"]
+        },
+        {
+            // only process comments from shell scripts
+            "languageId": "shellscript",
+            "includeRegExpList": [ "/#.*/g" ]
         }
     ],
     "words": [
