@@ -179,4 +179,9 @@ pub trait PubReceiver {
     ///
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
+
+    /// Close the receiver, preventing further incoming publishes.
+    ///
+    /// To guarantee no publish loss, `recv()` must be called until `None` is returned.
+    fn close(&mut self);
 }

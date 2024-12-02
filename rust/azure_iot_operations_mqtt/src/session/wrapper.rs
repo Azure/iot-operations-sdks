@@ -190,6 +190,10 @@ impl PubReceiver for SessionPubReceiver {
     async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
     }
+
+    fn close(&mut self) {
+        self.0.close();
+    }
 }
 
 #[async_trait]

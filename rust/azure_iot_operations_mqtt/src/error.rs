@@ -54,9 +54,6 @@ pub enum AckError {
     /// The publish has already been sufficiently acknowledged
     #[error("publish already acknowledged")]
     AlreadyAcked,
-    /// Auto-ack setting causes automatic acknowledgement, cannot manually ack
-    #[error("cannot manually ack when auto_ack enabled")]
-    AutoAckEnabled,
 }
 
 /// Error executing an MQTT disconnect

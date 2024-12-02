@@ -203,12 +203,10 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
     async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
-        // NOTE: It would be nice if this could return AckError::AutoAckEnabled if
-        // manual_ack == false, but there's not a good way to do that without a complex wrapper.
-        // There's also no (easy) way to have this return AckError::AlreadyAcked if the publish
-        // in question has already been acked - doing so would require adding a wrapper, and
-        // moving significant portions of the pub_tracker behind the adapter layer.
-        // These would need to be implemented before any non-Session MQTT client gets exposed in API.
+        // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
+        // if the publish in question has already been acked - doing so would require adding a
+        // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
+        // This would need to be implemented before any non-Session MQTT client gets exposed in API.
         let mut manual_ack = self.get_manual_ack(publish);
         manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
         // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
