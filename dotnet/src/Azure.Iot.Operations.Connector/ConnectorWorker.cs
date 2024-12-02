@@ -32,6 +32,11 @@ namespace Azure.Iot.Operations.Connector
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    	{
+    		await RunAsync(cancellationToken);
+    	}
+        
+        protected virtual async Task RunAsync(CancellationToken cancellationToken)
         {
             //TODO do active passive LE in the template level. Check replica count > 1 in connector config works as expected
             string candidateName = Guid.NewGuid().ToString();
