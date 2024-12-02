@@ -14,11 +14,19 @@ use tokio::sync::mpsc::UnboundedReceiver;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::ClientError;
+use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
 use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::session::dispatcher::IncomingPublishDispatcher;
-use crate::session::pub_tracker::PubTracker;
+use crate::session::pub_tracker::{self, PubTracker};
 use crate::topic::{TopicFilter, TopicParseError};
+
+impl From<pub_tracker::AckError> for AckError {
+    fn from(e: pub_tracker::AckError) -> Self {
+        match e {
+            pub_tracker::AckError::AckOverflow => AckError::AlreadyAcked,
+        }
+    }
+}
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
 /// Can be used to send messages and create receivers for incoming messages.
@@ -77,7 +85,7 @@ where
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.pub_sub.publish(topic, qos, retain, payload).await
     }
 
@@ -88,7 +96,7 @@ where
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.pub_sub
             .publish_with_properties(topic, qos, retain, payload, properties)
             .await
@@ -98,7 +106,7 @@ where
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.pub_sub.subscribe(topic, qos).await
     }
 
@@ -107,7 +115,7 @@ where
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.pub_sub
             .subscribe_with_properties(topic, qos, properties)
             .await
@@ -116,7 +124,7 @@ where
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.pub_sub.unsubscribe(topic).await
     }
 
@@ -124,7 +132,7 @@ where
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.pub_sub
             .unsubscribe_with_properties(topic, properties)
             .await
@@ -182,15 +190,20 @@ impl PubReceiver for SessionPubReceiver {
 
 #[async_trait]
 impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
         {
             let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
-            // TODO: don't panic here. This is bad.
-            assert!(!self.auto_ack, "Auto-ack is enabled. Cannot manually ack.");
-            assert!(unacked_pkids_g.contains(&publish.pkid), "");
+            if self.auto_ack {
+                // Not able to manually ack when auto-ack is enabled
+                return Err(AckError::AutoAckEnabled);
+            }
+            if !unacked_pkids_g.contains(&publish.pkid) {
+                // Publish has already been acked
+                return Err(AckError::AlreadyAcked);
+            }
             unacked_pkids_g.remove(&publish.pkid);
         }
-        self.unacked_pubs.ack(publish).await.unwrap();
+        self.unacked_pubs.ack(publish).await?;
         Ok(())
     }
 }
