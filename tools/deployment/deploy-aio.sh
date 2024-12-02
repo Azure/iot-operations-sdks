@@ -39,7 +39,7 @@ if [ "$deploy_type" = "nightly" ]; then
     helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 
     # add ADR
-    helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
+    helm install adr --version 2.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
 
     # add Akri service, port 18883
     helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
