@@ -7,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Xml;
 
 namespace Azure.Iot.Operations.Protocol.Connection
 {
@@ -16,11 +15,9 @@ namespace Azure.Iot.Operations.Protocol.Connection
         private const int DefaultTcpPort = 8883;
         private const bool DefaultUseTls = true;
         private const bool DefaultCleanStart = true;
-        private const bool DefaultCaRequireRevocationCheck = false;
 
         private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
         private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
-        private static readonly TimeSpan s_defaultConnectionTimeout = TimeSpan.FromSeconds(30);
 
         public string HostName { get; set; }
 
@@ -146,83 +143,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
             }
         }
 
-        /// <summary>
-        /// This method is used to read the broker connection configuration files from CONFIGMAP_MOUNT_PATH.
-        /// Files used: MQ_TARGET_ADDRESS, MQ_USE_TLS, MQ_SAT_MOUNT_PATH, MQ_TLS_CACERT_MOUNT_PATH
-        /// MqttConnectionSettings are created from these settings to construct a session client.
-        /// This is intended to integrate MQ connection information for Akri connectors and should only be used in the context of an operator deployment.
-        /// </summary>
-        public static MqttConnectionSettings FromFileMount()
-        {
-            string configMapPath = Environment.GetEnvironmentVariable("CONFIGMAP_MOUNT_PATH")
-                ?? throw new InvalidOperationException("CONFIGMAP_MOUNT_PATH is not set.");
-
-            string targetAddress;
-            bool useTls = false;
-            string satMountPath = string.Empty;
-            string tlsCaCertMountPath = string.Empty;
-
-            try
-            {
-                targetAddress = File.ReadAllText(Path.Combine(configMapPath, "MQ_TARGET_ADDRESS")).Trim();
-            }
-            catch (Exception ex)
-            {
-                throw AkriMqttException.GetConfigurationInvalidException("MQ_TARGET_ADDRESS", string.Empty, "Missing target address configuration file", ex);
-            }
-
-            try
-            {
-                useTls = bool.Parse(File.ReadAllText(Path.Combine(configMapPath, "MQ_USE_TLS")).Trim());
-            }
-            catch
-            {
-                throw AkriMqttException.GetConfigurationInvalidException("MQ_USE_TLS", string.Empty, "MQ_USE_TLS not set.");
-            }
-
-            try
-            {
-                satMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_SAT_MOUNT_PATH")).Trim();
-            }
-            catch
-            {
-                Trace.TraceInformation("MQ_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
-            }
-
-            try
-            {
-                tlsCaCertMountPath = File.ReadAllText(Path.Combine(configMapPath, "MQ_TLS_CACERT_MOUNT_PATH")).Trim();
-            }
-            catch
-            {
-                Trace.TraceInformation("MQ_TLS_CACERT_MOUNT_PATH is not set. No CA certificate will be used for authentication when connecting.");
-            }
-
-            try
-            {
-                return new MqttConnectionSettings(targetAddress)
-                {
-                    UseTls = useTls,
-                    SatAuthFile = satMountPath,
-                    CaFile = tlsCaCertMountPath,
-                    CleanStart = false
-                };
-            }
-            catch (ArgumentException ex)
-            {
-                string paramValue = ex.ParamName switch
-                {
-                    nameof(targetAddress) => targetAddress,
-                    nameof(useTls) => useTls.ToString(),
-                    nameof(satMountPath) => satMountPath,
-                    nameof(tlsCaCertMountPath) => tlsCaCertMountPath,
-                    _ => string.Empty
-                };
-
-                throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue, "Invalid settings in provided configuration files: " + ex.Message, ex);
-            }
-        }
-
         public static MqttConnectionSettings FromConnectionString(string connectionString)
         {
             IDictionary<string, string> map = connectionString.ToDictionary(';', '=');
@@ -241,7 +161,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 ?? throw new InvalidOperationException("AEP_CONFIGMAP_MOUNT_PATH is not set.");
 
             string? targetAddress;
-            bool useTls = true;
+            bool useTls;
             bool cleanStart = true;
             string? satMountPath = string.Empty;
             string? tlsCaCertMountPath = string.Empty;
@@ -249,7 +169,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
             try
             {
-                var targetAddressAndPort = File.ReadAllText(configMapPath + "/BROKER_TARGET_ADDRESS");
+                string targetAddressAndPort = File.ReadAllText(configMapPath + "/BROKER_TARGET_ADDRESS");
                 if (string.IsNullOrEmpty(targetAddressAndPort))
                 {
                     throw new ArgumentException("BROKER_TARGET_ADDRESS is missing.");
@@ -257,7 +177,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
                 try
                 {
-                    var targetAddressParts = targetAddressAndPort.Split(":");
+                    string[] targetAddressParts = targetAddressAndPort.Split(":");
                     targetAddress = targetAddressParts[0];
                     port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture);
                 }
@@ -293,7 +213,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 Trace.TraceInformation("BROKER_SAT_MOUNT_PATH is not set. No SAT will be used for authentication when connecting.");
             }
 
-            X509Certificate2Collection chain = new();
+            X509Certificate2Collection chain = [];
             try
             {
                 tlsCaCertMountPath = Environment.GetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") ?? throw new InvalidOperationException("No configured MQ TLS CA cert mount path");
@@ -502,18 +422,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
             AppendIfNotNullOrEmpty(result, nameof(UseTls), UseTls.ToString());
             result.Remove(result.Length - 1, 1);
             return result.ToString();
-        }
-
-        private static TimeSpan XmlConvertHelper(string paramName, string paramValue)
-        {
-            try
-            {
-                return XmlConvert.ToTimeSpan(paramValue);
-            }
-            catch (FormatException ex) // re-throw ex to ArgumentException in order to include the paramName
-            {
-                throw new ArgumentException(ex.Message, paramName, ex);
-            }
         }
     }
 }
