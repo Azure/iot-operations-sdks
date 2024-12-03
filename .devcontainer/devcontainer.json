@@ -1,8 +1,6 @@
 {
     "name": "Empty k3s cluster",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "hostRequirements": {
         "cpus": 2,
         "memory": "8gb",
