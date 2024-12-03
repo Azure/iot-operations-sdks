@@ -82,7 +82,7 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> {
@@ -96,7 +96,7 @@ pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> 
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
@@ -110,7 +110,7 @@ pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_executor_id<T: DefaultsType + Default>() -> Option<String> {
@@ -124,7 +124,7 @@ pub fn get_default_executor_id<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String> {
@@ -138,7 +138,7 @@ pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_idempotent<T: DefaultsType + Default>() -> bool {
@@ -152,7 +152,7 @@ pub fn get_default_idempotent<T: DefaultsType + Default>() -> bool {
         }
     }
 
-    return false;
+    false
 }
 
 pub fn get_default_cache_ttl<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
@@ -166,7 +166,7 @@ pub fn get_default_cache_ttl<T: DefaultsType + Default>() -> Option<TestCaseDura
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_execution_timeout<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
@@ -181,7 +181,7 @@ pub fn get_default_execution_timeout<T: DefaultsType + Default>() -> Option<Test
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_request_responses_map<T: DefaultsType + Default>() -> HashMap<String, Vec<String>>
@@ -198,7 +198,7 @@ pub fn get_default_request_responses_map<T: DefaultsType + Default>() -> HashMap
         }
     }
 
-    return HashMap::new();
+    HashMap::new()
 }
 
 pub fn get_default_execution_concurrency<T: DefaultsType + Default>() -> Option<i32> {
@@ -213,5 +213,5 @@ pub fn get_default_execution_concurrency<T: DefaultsType + Default>() -> Option<
         }
     }
 
-    return None;
+    None
 }

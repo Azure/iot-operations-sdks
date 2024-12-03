@@ -15,7 +15,7 @@ pub fn get_default_topic<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_payload<T: DefaultsType + Default>() -> Option<String> {
@@ -29,7 +29,7 @@ pub fn get_default_payload<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_content_type<T: DefaultsType + Default>() -> Option<String> {
@@ -43,7 +43,7 @@ pub fn get_default_content_type<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_format_indicator<T: DefaultsType + Default>() -> Option<u8> {
@@ -57,7 +57,7 @@ pub fn get_default_format_indicator<T: DefaultsType + Default>() -> Option<u8> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_correlation_index<T: DefaultsType + Default>() -> Option<i32> {
@@ -71,7 +71,7 @@ pub fn get_default_correlation_index<T: DefaultsType + Default>() -> Option<i32>
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_qos<T: DefaultsType + Default>() -> Option<i32> {
@@ -85,7 +85,7 @@ pub fn get_default_qos<T: DefaultsType + Default>() -> Option<i32> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_message_expiry<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
@@ -101,7 +101,7 @@ pub fn get_default_message_expiry<T: DefaultsType + Default>() -> Option<TestCas
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_response_topic<T: DefaultsType + Default>() -> Option<String> {
@@ -117,7 +117,7 @@ pub fn get_default_response_topic<T: DefaultsType + Default>() -> Option<String>
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_source_index<T: DefaultsType + Default>() -> Option<i32> {
@@ -131,5 +131,5 @@ pub fn get_default_source_index<T: DefaultsType + Default>() -> Option<i32> {
         }
     }
 
-    return None;
+    None
 }

@@ -15,7 +15,7 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_executor_id<T: DefaultsType + Default>() -> Option<String> {
@@ -29,7 +29,7 @@ pub fn get_default_executor_id<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_request_value<T: DefaultsType + Default>() -> Option<String> {
@@ -43,7 +43,7 @@ pub fn get_default_request_value<T: DefaultsType + Default>() -> Option<String> 
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_timeout<T: DefaultsType + Default>() -> Option<TestCaseDuration> {
@@ -57,5 +57,5 @@ pub fn get_default_timeout<T: DefaultsType + Default>() -> Option<TestCaseDurati
         }
     }
 
-    return None;
+    None
 }

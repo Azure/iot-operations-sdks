@@ -103,7 +103,7 @@ pub async fn test_command_invoker(test_case: &TestCase<InvokerDefaults>, use_ses
                 unfreeze_time(action_unfreeze_time);
             }
             _ => {
-                assert!(false, "unexpected action kind");
+                panic!("unexpected action kind");
             }
         }
     }
@@ -146,7 +146,7 @@ fn invoke_command(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
@@ -160,7 +160,7 @@ fn await_invocation(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
@@ -185,7 +185,7 @@ fn receive_response(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
@@ -196,7 +196,7 @@ fn await_acknowledgement(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
@@ -207,7 +207,7 @@ fn await_publish(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
@@ -218,27 +218,27 @@ fn sleep(action: &TestCaseAction<InvokerDefaults>) {
     } = action
     {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
 fn disconnect(action: &TestCaseAction<InvokerDefaults>) {
     if let TestCaseAction::Disconnect { defaults_type: _ } = action {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
 fn freeze_time(action: &TestCaseAction<InvokerDefaults>) {
     if let TestCaseAction::FreezeTime { defaults_type: _ } = action {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }
 
 fn unfreeze_time(action: &TestCaseAction<InvokerDefaults>) {
     if let TestCaseAction::UnfreezeTime { defaults_type: _ } = action {
     } else {
-        assert!(false, "internal logic error");
+        panic!("internal logic error");
     }
 }

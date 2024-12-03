@@ -18,6 +18,7 @@ pub struct TestCasePublishedMessage {
     #[serde(rename = "payload")]
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_optional_field")]
+    #[allow(clippy::option_option)]
     pub payload: Option<Option<String>>,
 
     #[serde(rename = "metadata")]
@@ -27,6 +28,7 @@ pub struct TestCasePublishedMessage {
     #[serde(rename = "command-status")]
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_optional_field")]
+    #[allow(clippy::option_option)]
     pub command_status: Option<Option<i32>>,
 
     #[serde(rename = "is-application-error")]

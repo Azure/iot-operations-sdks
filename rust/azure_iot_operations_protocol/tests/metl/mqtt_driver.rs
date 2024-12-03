@@ -41,7 +41,7 @@ impl MqttDriver {
         }
     }
 
-    async fn publish_with_optional_properties(
+    fn publish_with_optional_properties(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
@@ -71,7 +71,7 @@ impl MqttDriver {
         ))))
     }
 
-    async fn subscribe_with_optional_properties(
+    fn subscribe_with_optional_properties(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
@@ -95,7 +95,7 @@ impl MqttDriver {
         ))))
     }
 
-    async fn unsubscribe_with_optional_properties(
+    fn unsubscribe_with_optional_properties(
         &self,
         topic: impl Into<String> + Send,
         properties: Option<UnsubscribeProperties>,
@@ -124,6 +124,7 @@ impl MqttDriver {
 
 #[async_trait]
 impl MqttPubSub for MqttDriver {
+    #[allow(clippy::unused_async)]
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
@@ -132,9 +133,9 @@ impl MqttPubSub for MqttDriver {
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, ClientError> {
         self.publish_with_optional_properties(topic, qos, retain, payload, None)
-            .await
     }
 
+    #[allow(clippy::unused_async)]
     async fn publish_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -144,18 +145,18 @@ impl MqttPubSub for MqttDriver {
         properties: PublishProperties,
     ) -> Result<CompletionToken, ClientError> {
         self.publish_with_optional_properties(topic, qos, retain, payload, Some(properties))
-            .await
     }
 
+    #[allow(clippy::unused_async)]
     async fn subscribe(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, ClientError> {
         self.subscribe_with_optional_properties(topic, qos, None)
-            .await
     }
 
+    #[allow(clippy::unused_async)]
     async fn subscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
@@ -163,23 +164,23 @@ impl MqttPubSub for MqttDriver {
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
         self.subscribe_with_optional_properties(topic, qos, Some(properties))
-            .await
     }
 
+    #[allow(clippy::unused_async)]
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        self.unsubscribe_with_optional_properties(topic, None).await
+        self.unsubscribe_with_optional_properties(topic, None)
     }
 
+    #[allow(clippy::unused_async)]
     async fn unsubscribe_with_properties(
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
         self.unsubscribe_with_optional_properties(topic, Some(properties))
-            .await
     }
 }
 

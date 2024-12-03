@@ -12,6 +12,6 @@ pub struct TestCaseMqttConfig {
 
 impl TestCaseMqttConfig {
     pub fn get_default() -> Self {
-        return Self { client_id: None };
+        Self { client_id: None }
     }
 }

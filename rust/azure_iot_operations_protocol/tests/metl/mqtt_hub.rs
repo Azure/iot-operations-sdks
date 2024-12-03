@@ -45,14 +45,14 @@ impl MqttHub {
                 let (event_tx, event_rx) = mpsc::unbounded_channel();
                 (Some(event_tx), Some(event_rx))
             }
-            _ => (None, None),
+            MqttEmulationLevel::Message => (None, None),
         };
         let message_tx = match emulation_level {
             MqttEmulationLevel::Message => {
                 let (message_tx, _) = broadcast::channel(MAX_PENDING_MESSAGES);
                 Some(message_tx)
             }
-            _ => None,
+            MqttEmulationLevel::Event => None,
         };
         let (operation_tx, operation_rx) = mpsc::unbounded_channel();
         Self {
@@ -177,7 +177,7 @@ impl MqttHub {
                         topic: Bytes::copy_from_slice(&topic.into_bytes()),
                         pkid: 1,
                         payload,
-                        properties: properties,
+                        properties,
                     };
                     self.published_messages.insert(correlation_data, publish);
 

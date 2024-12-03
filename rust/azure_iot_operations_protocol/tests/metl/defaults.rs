@@ -46,12 +46,12 @@ pub struct ExecutorDefaults {}
 
 impl DefaultsType for InvokerDefaults {
     fn get_defaults() -> Option<&'static DefaultTestCase> {
-        return get_invoker_defaults();
+        get_invoker_defaults()
     }
 }
 
 impl DefaultsType for ExecutorDefaults {
     fn get_defaults() -> Option<&'static DefaultTestCase> {
-        return get_executor_defaults();
+        get_executor_defaults()
     }
 }

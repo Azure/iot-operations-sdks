@@ -24,7 +24,7 @@ use metl::test_feature_kind::TestFeatureKind;
 
 static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
-const PROBLEMATIC_TEST_CASES: &'static [&'static str] = &[
+const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder",
     "CommandExecutorRequestWrongTopic_NoResponse",
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
@@ -35,6 +35,7 @@ const PROBLEMATIC_TEST_CASES: &'static [&'static str] = &[
 ];
 
 /*
+#[allow(clippy::unnecessary_wraps)]
 fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<InvokerDefaults>> =
         serde_yaml::from_str(contents.as_str());
@@ -54,6 +55,7 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
 }
 */
 
+#[allow(clippy::unnecessary_wraps)]
 fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<ExecutorDefaults>> =
         serde_yaml::from_str(contents.as_str());
@@ -86,6 +88,7 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
     Ok(())
 }
 
+#[allow(clippy::unnecessary_wraps)]
 fn test_command_executor_session(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<ExecutorDefaults>> =
         serde_yaml::from_str(contents.as_str());
@@ -131,18 +134,18 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
     Ok(())
 }
 
-fn does_standalone_support(requirements: &Vec<TestFeatureKind>) -> bool {
-    return !requirements.contains(&TestFeatureKind::Unobtanium)
+fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
+    !requirements.contains(&TestFeatureKind::Unobtanium)
         && !requirements.contains(&TestFeatureKind::AckOrdering)
         && !requirements.contains(&TestFeatureKind::Reconnection)
         && !requirements.contains(&TestFeatureKind::Caching)
-        && !requirements.contains(&TestFeatureKind::Dispatch);
+        && !requirements.contains(&TestFeatureKind::Dispatch)
 }
 
-fn does_session_support(requirements: &Vec<TestFeatureKind>) -> bool {
-    return !requirements.contains(&TestFeatureKind::Unobtanium)
+fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
+    !requirements.contains(&TestFeatureKind::Unobtanium)
         && !requirements.contains(&TestFeatureKind::Caching)
-        && !requirements.contains(&TestFeatureKind::Dispatch);
+        && !requirements.contains(&TestFeatureKind::Dispatch)
 }
 
 fn get_client_id<T: DefaultsType + Default>(

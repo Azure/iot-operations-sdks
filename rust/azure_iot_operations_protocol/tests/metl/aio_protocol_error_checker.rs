@@ -73,17 +73,17 @@ pub fn check_error(
                     expected_property_name,
                     &actual_property_name
                         .chars()
-                        .skip(if let Some(ix) = actual_property_name.rfind(".") {
+                        .skip(if let Some(ix) = actual_property_name.rfind('.') {
                             ix + 1
                         } else {
                             0
                         })
                         .collect::<String>()
-                        .replace("_", "")
+                        .replace('_', "")
                         .to_lowercase()
                 );
             } else {
-                assert!(false, "no property_name value in AIOProtocolError");
+                panic!("no property_name value in AIOProtocolError");
             }
         } else {
             assert_eq!(None, aio_protocol_error.property_name);
@@ -98,18 +98,18 @@ pub fn check_error(
             if let Some(actual_value) = aio_protocol_error.property_value.as_ref() {
                 match actual_value {
                     Value::Integer(int_value) => {
-                        assert_eq!(expected_value_string, &int_value.to_string())
+                        assert_eq!(expected_value_string, &int_value.to_string());
                     }
                     Value::Float(float_value) => {
-                        assert_eq!(expected_value_string, &float_value.to_string())
+                        assert_eq!(expected_value_string, &float_value.to_string());
                     }
                     Value::String(string_value) => assert_eq!(expected_value_string, string_value),
                     Value::Boolean(bool_value) => {
-                        assert_eq!(expected_value_string, &bool_value.to_string())
+                        assert_eq!(expected_value_string, &bool_value.to_string());
                     }
                 };
             } else {
-                assert!(false, "no property_value value in AIOProtocolError");
+                panic!("no property_value value in AIOProtocolError");
             }
         } else {
             assert_eq!(None, aio_protocol_error.property_value);

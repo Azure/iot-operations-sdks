@@ -72,7 +72,7 @@ where
         }
 
         let mut countdown_events = CountdownEventMap::new();
-        for (&ref event_name, &init_count) in &test_case.prologue.countdown_events {
+        for (event_name, &init_count) in &test_case.prologue.countdown_events {
             countdown_events.insert(event_name.clone(), init_count);
         }
 
@@ -147,7 +147,7 @@ where
                     Self::unfreeze_time();
                 }
                 _ => {
-                    assert!(false, "unexpected action kind");
+                    panic!("unexpected action kind");
                 }
             }
         }
@@ -170,7 +170,7 @@ where
 
             for published_message in &test_case_epilogue.published_messages {
                 Self::check_published_message(
-                    &published_message,
+                    published_message,
                     &mqtt_hub,
                     &correlation_ids,
                     test_case_index,
@@ -186,14 +186,14 @@ where
             }
 
             if let Some(execution_count) = test_case_epilogue.execution_count {
-                assert_eq!(execution_count, *execution_counts[0].lock().unwrap())
+                assert_eq!(execution_count, *execution_counts[0].lock().unwrap());
             }
 
             for (executor_index, execution_count) in &test_case_epilogue.execution_counts {
                 assert_eq!(
                     *execution_count,
                     *execution_counts[*executor_index].lock().unwrap()
-                )
+                );
             }
         }
     }
@@ -205,7 +205,7 @@ where
         execution_count: Arc<Mutex<i32>>,
     ) {
         let mut sequencers = HashMap::new();
-        for (req, _) in test_case_executor.request_responses_map.iter() {
+        for (req, _) in &test_case_executor.request_responses_map {
             sequencers.insert(req.clone(), 0);
         }
 
@@ -257,7 +257,7 @@ where
                 };
 
                 let mut metadata = Vec::with_capacity(test_case_executor.response_metadata.len());
-                for (key, value) in test_case_executor.response_metadata.iter() {
+                for (key, value) in &test_case_executor.response_metadata {
                     if let Some(val) = value {
                         metadata.push((key.clone(), val.clone()));
                     } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
@@ -333,11 +333,7 @@ where
                     &Self::from_executor_options_builder_error(error),
                 );
             } else {
-                assert!(
-                    false,
-                    "Unexpected error when building CommandExecutor options: {}",
-                    error
-                );
+                panic!("Unexpected error when building CommandExecutor options: {error}");
             }
 
             return None;
@@ -349,12 +345,11 @@ where
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.
-                    let (recv_result, _) =
+                    let (recv_result, ()) =
                         tokio::join!(executor.recv(), mqtt_hub.await_operation());
                     match recv_result {
                         Ok(_) => {
-                            assert!(
-                                false,
+                            panic!(
                                 "Expected {} error when constructing CommandExecutor but no error returned",
                                 catch.error_kind
                             );
@@ -373,12 +368,10 @@ where
                     aio_protocol_error_checker::check_error(catch, &error);
                     None
                 } else {
-                    assert!(
-                        false,
+                    panic!(
                         "Unexpected error when constructing CommandExecutor: {}",
                         error
                     );
-                    None
                 }
             }
         }
@@ -442,14 +435,10 @@ where
                 None
             };
 
-            let message_expiry_interval = if let Some(message_expiry) = message_expiry {
-                Some(u32::try_from(message_expiry.to_duration().as_secs()).unwrap())
-            } else {
-                None
-            };
+            let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| u32::try_from(message_expiry.to_duration().as_secs()).unwrap());
 
             let packet_id = if let Some(packet_index) = packet_index {
-                packet_ids.get(packet_index).clone()
+                packet_ids.get(packet_index)
             } else {
                 None
             };
@@ -459,7 +448,7 @@ where
                 mqtt_hub.get_new_packet_id()
             };
             if let Some(packet_index) = packet_index {
-                packet_ids.insert(*packet_index, packet_id.clone());
+                packet_ids.insert(*packet_index, packet_id);
             }
 
             let topic = if let Some(topic) = topic {
@@ -497,7 +486,7 @@ where
             };
 
             let publish = Publish {
-                qos: qos::to_enum(qos),
+                qos: qos::to_enum(*qos),
                 topic,
                 pkid: packet_id,
                 payload,
@@ -507,7 +496,7 @@ where
 
             mqtt_hub.receive_message(publish);
         } else {
-            assert!(false, "internal logic error");
+            panic!("internal logic error");
         }
     }
 
@@ -534,7 +523,7 @@ where
                 );
             }
         } else {
-            assert!(false, "internal logic error");
+            panic!("internal logic error");
         }
     }
 
@@ -561,7 +550,7 @@ where
                 );
             }
         } else {
-            assert!(false, "internal logic error");
+            panic!("internal logic error");
         }
     }
 
@@ -582,7 +571,7 @@ where
                 countdown_events.signal(signal_event.as_str());
             }
         } else {
-            assert!(false, "internal logic error");
+            panic!("internal logic error");
         }
     }
 
@@ -594,7 +583,7 @@ where
         {
             time::sleep(duration.to_duration()).await;
         } else {
-            assert!(false, "internal logic error");
+            panic!("internal logic error");
         }
     }
 
@@ -615,24 +604,21 @@ where
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {
                 if let Some(correlation_id) = correlation_ids.get(&correlation_index) {
-                    let publish = mqtt_hub.get_published_message(&correlation_id);
+                    let publish = mqtt_hub.get_published_message(correlation_id);
                     if publish.is_some() {
                         publish
                     } else {
-                        assert!(false, "no message published with correlation data corresponding to index {correlation_index}");
-                        None
+                        panic!("no message published with correlation data corresponding to index {correlation_index}");
                     }
                 } else {
-                    assert!(false, "no correlation data recorded for correlation index {correlation_index}");
-                    None
+                    panic!("no correlation data recorded for correlation index {correlation_index}");
                 }
             } else {
                 let publish = mqtt_hub.get_published_message(&None);
                 if publish.is_some() {
                     publish
                 } else {
-                    assert!(false, "no message published with empty correlation data");
-                    None
+                    panic!("no message published with empty correlation data");
                 }
             }.unwrap();
 
@@ -664,7 +650,7 @@ where
 
         if !expected_message.metadata.is_empty() {
             if let Some(properties) = published_message.properties.as_ref() {
-                for (key, value) in expected_message.metadata.iter() {
+                for (key, value) in &expected_message.metadata {
                     let found = properties.user_properties.iter().find(|&k| &k.0 == key);
                     if let Some(value) = value {
                         assert_eq!(
@@ -677,10 +663,7 @@ where
                     }
                 }
             } else {
-                assert!(
-                    false,
-                    "expected metadata but found no properties in published message"
-                );
+                panic!("expected metadata but found no properties in published message");
             }
         }
 
@@ -694,8 +677,7 @@ where
                     assert_eq!(
                         command_status.to_string(),
                         found.unwrap().1,
-                        "status property expected {}",
-                        command_status.to_string()
+                        "status property expected {command_status}"                        
                     );
                 } else {
                     assert_eq!(None, found, "status property not expected");
@@ -721,12 +703,12 @@ where
                     );
                 } else {
                     assert!(
-                        found == None || found.unwrap().1.to_lowercase() == "false",
+                        found.is_none() || found.unwrap().1.to_lowercase() == "false",
                         "is application error"
                     );
                 }
             } else if is_application_error {
-                assert!(false, "expected is application error property but found no properties in published message");
+                panic!("expected is application error property but found no properties in published message");
             }
         }
     }

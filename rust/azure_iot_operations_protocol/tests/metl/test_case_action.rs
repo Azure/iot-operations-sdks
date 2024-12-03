@@ -37,6 +37,7 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(rename = "response-value")]
         #[serde(default)]
         #[serde(deserialize_with = "deserialize_optional_field")]
+        #[allow(clippy::option_option)]
         response_value: Option<Option<String>>,
 
         #[serde(rename = "metadata")]

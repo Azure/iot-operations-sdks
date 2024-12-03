@@ -34,6 +34,7 @@ pub struct TestCaseCatch {
     #[serde(rename = "status-code")]
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_optional_field")]
+    #[allow(clippy::option_option)]
     pub status_code: Option<Option<u16>>,
 
     #[serde(rename = "message")]

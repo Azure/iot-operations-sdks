@@ -55,7 +55,7 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> {
@@ -69,7 +69,7 @@ pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> 
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
@@ -83,7 +83,7 @@ pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String> {
@@ -97,7 +97,7 @@ pub fn get_default_topic_namespace<T: DefaultsType + Default>() -> Option<String
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_response_topic_prefix<T: DefaultsType + Default>() -> Option<String> {
@@ -113,7 +113,7 @@ pub fn get_default_response_topic_prefix<T: DefaultsType + Default>() -> Option<
         }
     }
 
-    return None;
+    None
 }
 
 pub fn get_default_response_topic_suffix<T: DefaultsType + Default>() -> Option<String> {
@@ -129,5 +129,5 @@ pub fn get_default_response_topic_suffix<T: DefaultsType + Default>() -> Option<
         }
     }
 
-    return None;
+    None
 }
