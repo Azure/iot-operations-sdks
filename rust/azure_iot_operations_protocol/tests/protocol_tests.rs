@@ -36,6 +36,7 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
 
 /*
 #[allow(clippy::unnecessary_wraps)]
+#[allow(clippy::needless_pass_by_value)]
 fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<InvokerDefaults>> =
         serde_yaml::from_str(contents.as_str());
@@ -56,6 +57,7 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
 */
 
 #[allow(clippy::unnecessary_wraps)]
+#[allow(clippy::needless_pass_by_value)]
 fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<ExecutorDefaults>> =
         serde_yaml::from_str(contents.as_str());
@@ -89,6 +91,7 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
 }
 
 #[allow(clippy::unnecessary_wraps)]
+#[allow(clippy::needless_pass_by_value)]
 fn test_command_executor_session(_path: &Path, contents: String) -> datatest_stable::Result<()> {
     let wrapped_test_case: serde_yaml::Result<TestCase<ExecutorDefaults>> =
         serde_yaml::from_str(contents.as_str());
