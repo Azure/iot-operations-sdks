@@ -48,7 +48,7 @@ impl MqttDriver {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: Option<PublishProperties>,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> CompletionToken {
         let (ack_tx, ack_rx) = oneshot::channel();
         self.operation_tx
             .send(MqttOperation::Publish {
@@ -61,14 +61,14 @@ impl MqttDriver {
             })
             .unwrap();
 
-        Ok(CompletionToken(Box::new(ack_rx.map_ok_or_else(
+        CompletionToken(Box::new(ack_rx.map_ok_or_else(
             |_: oneshot::error::RecvError| Err(NoticeError::Recv),
             |x: TestAckKind| match x {
                 TestAckKind::Success => Ok(()),
                 TestAckKind::Fail => Err(NoticeError::V5PubAck(PubAckReason::UnspecifiedError)),
                 TestAckKind::Drop => Err(NoticeError::SessionReset),
             },
-        ))))
+        )))
     }
 
     fn subscribe_with_optional_properties(
@@ -76,7 +76,7 @@ impl MqttDriver {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: Option<SubscribeProperties>,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> CompletionToken {
         let (ack_tx, ack_rx) = oneshot::channel();
         let _ = self.operation_tx.send(MqttOperation::Subscribe {
             topic: topic.into(),
@@ -85,21 +85,21 @@ impl MqttDriver {
             ack_tx,
         });
 
-        Ok(CompletionToken(Box::new(ack_rx.map_ok_or_else(
+        CompletionToken(Box::new(ack_rx.map_ok_or_else(
             |_: oneshot::error::RecvError| Err(NoticeError::Recv),
             |x: TestAckKind| match x {
                 TestAckKind::Success => Ok(()),
                 TestAckKind::Fail => Err(NoticeError::V5Subscribe(SubscribeReasonCode::Failure)),
                 TestAckKind::Drop => Err(NoticeError::SessionReset),
             },
-        ))))
+        )))
     }
 
     fn unsubscribe_with_optional_properties(
         &self,
         topic: impl Into<String> + Send,
         properties: Option<UnsubscribeProperties>,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> CompletionToken {
         let (ack_tx, ack_rx) = oneshot::channel();
         self.operation_tx
             .send(MqttOperation::Unsubscribe {
@@ -109,7 +109,7 @@ impl MqttDriver {
             })
             .unwrap();
 
-        Ok(CompletionToken(Box::new(ack_rx.map_ok_or_else(
+        CompletionToken(Box::new(ack_rx.map_ok_or_else(
             |_: oneshot::error::RecvError| Err(NoticeError::Recv),
             |x: TestAckKind| match x {
                 TestAckKind::Success => Ok(()),
@@ -118,7 +118,7 @@ impl MqttDriver {
                 }
                 TestAckKind::Drop => Err(NoticeError::SessionReset),
             },
-        ))))
+        )))
     }
 }
 
@@ -132,7 +132,7 @@ impl MqttPubSub for MqttDriver {
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        self.publish_with_optional_properties(topic, qos, retain, payload, None)
+        Ok(self.publish_with_optional_properties(topic, qos, retain, payload, None))
     }
 
     #[allow(clippy::unused_async)]
@@ -144,7 +144,7 @@ impl MqttPubSub for MqttDriver {
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, ClientError> {
-        self.publish_with_optional_properties(topic, qos, retain, payload, Some(properties))
+        Ok(self.publish_with_optional_properties(topic, qos, retain, payload, Some(properties)))
     }
 
     #[allow(clippy::unused_async)]
@@ -153,7 +153,7 @@ impl MqttPubSub for MqttDriver {
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, ClientError> {
-        self.subscribe_with_optional_properties(topic, qos, None)
+        Ok(self.subscribe_with_optional_properties(topic, qos, None))
     }
 
     #[allow(clippy::unused_async)]
@@ -163,7 +163,7 @@ impl MqttPubSub for MqttDriver {
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        self.subscribe_with_optional_properties(topic, qos, Some(properties))
+        Ok(self.subscribe_with_optional_properties(topic, qos, Some(properties)))
     }
 
     #[allow(clippy::unused_async)]
@@ -171,7 +171,7 @@ impl MqttPubSub for MqttDriver {
         &self,
         topic: impl Into<String> + Send,
     ) -> Result<CompletionToken, ClientError> {
-        self.unsubscribe_with_optional_properties(topic, None)
+        Ok(self.unsubscribe_with_optional_properties(topic, None))
     }
 
     #[allow(clippy::unused_async)]
@@ -180,7 +180,7 @@ impl MqttPubSub for MqttDriver {
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, ClientError> {
-        self.unsubscribe_with_optional_properties(topic, Some(properties))
+        Ok(self.unsubscribe_with_optional_properties(topic, Some(properties)))
     }
 }
 

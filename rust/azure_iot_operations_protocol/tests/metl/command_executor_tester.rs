@@ -205,7 +205,7 @@ where
         execution_count: Arc<Mutex<i32>>,
     ) {
         let mut sequencers = HashMap::new();
-        for (req, _) in &test_case_executor.request_responses_map {
+        for req in test_case_executor.request_responses_map.keys() {
             sequencers.insert(req.clone(), 0);
         }
 
@@ -368,10 +368,7 @@ where
                     aio_protocol_error_checker::check_error(catch, &error);
                     None
                 } else {
-                    panic!(
-                        "Unexpected error when constructing CommandExecutor: {}",
-                        error
-                    );
+                    panic!("Unexpected error when constructing CommandExecutor: {error}");
                 }
             }
         }
@@ -685,10 +682,7 @@ where
                     assert_eq!(None, found, "status property not expected");
                 }
             } else {
-                assert!(
-                    false,
-                    "expected status property but found no properties in published message"
-                );
+                panic!("expected status property but found no properties in published message");
             }
         }
 
