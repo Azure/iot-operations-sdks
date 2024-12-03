@@ -186,6 +186,9 @@ async fn command_basic_invoke_response_network_tests() {
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());
 
+            // cleanup should be successful
+            assert!(invoker.shutdown().await.is_ok());
+
             // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
             match exit_handle.try_exit().await {
                 Ok(()) => Ok(()),
@@ -412,6 +415,9 @@ async fn command_complex_invoke_response_network_tests() {
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());
+
+            // cleanup should be successful
+            assert!(invoker.shutdown().await.is_ok());
 
             // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
             match exit_handle.try_exit().await {
