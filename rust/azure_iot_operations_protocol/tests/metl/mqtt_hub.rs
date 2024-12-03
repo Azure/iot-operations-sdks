@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use std::collections::{hash_map::HashMap, hash_set::HashSet, VecDeque};
 
 use bytes::Bytes;

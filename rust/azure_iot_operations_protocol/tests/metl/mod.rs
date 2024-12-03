@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 pub mod aio_protocol_error_checker;
 pub mod command_executor_tester;
 //pub mod command_invoker_tester;

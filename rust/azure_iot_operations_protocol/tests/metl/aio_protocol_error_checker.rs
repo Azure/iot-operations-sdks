@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use iso8601_duration::Duration;
 
 use azure_iot_operations_protocol::common::aio_protocol_error::{AIOProtocolError, Value};

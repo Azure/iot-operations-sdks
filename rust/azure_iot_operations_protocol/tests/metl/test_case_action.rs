@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::marker::PhantomData;

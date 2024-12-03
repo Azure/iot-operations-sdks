@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use bytes::Bytes;
 use tokio::sync::oneshot;
 

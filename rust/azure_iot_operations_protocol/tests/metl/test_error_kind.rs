@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #[allow(dead_code)]
 use serde::Deserialize;
 

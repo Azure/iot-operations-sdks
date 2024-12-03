@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use serde::Deserialize;
 
 use crate::metl::test_error_kind::TestErrorKind;

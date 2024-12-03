@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use std::collections::HashMap;
 use std::convert::TryFrom;
 use std::marker::PhantomData;

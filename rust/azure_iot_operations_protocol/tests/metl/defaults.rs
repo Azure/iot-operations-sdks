@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use serde::Deserialize;
 use std::fs;
 use std::sync::OnceLock;

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use async_trait::async_trait;
 use bytes::Bytes;
 use futures::future::TryFutureExt;
