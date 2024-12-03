@@ -7,7 +7,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use envoy::common_types::common_options::CommonOptionsBuilder;
+use envoy::common_types::common_options::CommandOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker,
     ReadCounterRequestBuilder,
@@ -44,7 +44,7 @@ async fn main() {
 /// Send a read request, 15 increment requests, and another read request and wait for their responses, then disconnect
 async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create invokers
-    let options = CommonOptionsBuilder::default().build().unwrap();
+    let options = CommandOptionsBuilder::default().build().unwrap();
     let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
     let read_counter_invoker = ReadCounterCommandInvoker::new(client, &options);
 
@@ -97,6 +97,9 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         "Counter value: {:?}",
         read_counter_response.payload.counter_response
     );
+
+    read_counter_invoker.shutdown().await.unwrap();
+    increment_invoker.shutdown().await.unwrap();
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
