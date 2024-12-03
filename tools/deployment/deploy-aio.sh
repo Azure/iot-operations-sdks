@@ -32,7 +32,7 @@ if [ "$deploy_type" = "nightly" ]; then
     helm upgrade cert-manager jetstack/cert-manager --install --create-namespace -n cert-manager --version v1.16 --set crds.enabled=true --set fullnameOverride=aio-cert-manager --set extraArgs={--enable-certificate-owner-ref=true} --wait
 
     # install trust-manager
-    helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --wait
+    helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --set nameOverride=aio-trust-manager --wait
 
     # install MQTT broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
