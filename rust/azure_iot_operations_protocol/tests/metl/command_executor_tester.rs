@@ -435,7 +435,9 @@ where
                 None
             };
 
-            let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| u32::try_from(message_expiry.to_duration().as_secs()).unwrap());
+            let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| {
+                u32::try_from(message_expiry.to_duration().as_secs()).unwrap()
+            });
 
             let packet_id = if let Some(packet_index) = packet_index {
                 packet_ids.get(packet_index)
@@ -677,7 +679,7 @@ where
                     assert_eq!(
                         command_status.to_string(),
                         found.unwrap().1,
-                        "status property expected {command_status}"                        
+                        "status property expected {command_status}"
                     );
                 } else {
                     assert_eq!(None, found, "status property not expected");
