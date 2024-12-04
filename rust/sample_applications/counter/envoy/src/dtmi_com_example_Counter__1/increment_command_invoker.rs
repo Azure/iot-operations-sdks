@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::CommandOptions;
 use crate::common_types::empty_json::EmptyJson;
 
 pub type IncrementRequest = CommandRequest<EmptyJson>;
@@ -88,7 +88,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -130,5 +130,14 @@ where
         request: IncrementRequest,
     ) -> Result<IncrementResponse, AIOProtocolError> {
         self.0.invoke(request).await
+    }
+
+    /// Shutdown the [`IncrementCommandInvoker`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    /// # Errors
+    /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
+        self.0.shutdown().await
     }
 }
