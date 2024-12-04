@@ -1,0 +1,14 @@
+---
+test-name: TelemetryReceiverWithInappropriateCatch0
+description:
+  condition: >-
+    TelemetryReceiver initialized with a topic namespace that is valid.
+  expect: >-
+    Erroneous test case inappropriately expects that TelemetryReceiver throws 'invalid configuration' exception.
+
+prologue:
+  receivers:
+  - topic-namespace: "this/is/a/namespace"
+  catch:
+    error-kind: invalid configuration
+...

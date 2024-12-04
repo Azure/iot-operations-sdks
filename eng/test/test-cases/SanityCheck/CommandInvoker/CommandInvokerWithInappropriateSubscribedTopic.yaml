@@ -1,0 +1,29 @@
+---
+test-name: CommandInvokerWithInappropriateSubscribedTopic
+description:
+  condition: >-
+    CommandInvoker invokes command and receives response.
+  expect: >-
+    Erroneous test case expects a subscription to a topic that will not be subscribed.
+
+prologue:
+  invokers:
+  - {}
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "incorrect/subscription"
+...

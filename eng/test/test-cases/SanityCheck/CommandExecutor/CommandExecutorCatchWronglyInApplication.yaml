@@ -1,0 +1,15 @@
+---
+test-name: CommandExecutorCatchWronglyInApplication
+description:
+  condition: >-
+    CommandExecutor initialized with a topic namespace that is invalid.
+  expect: >-
+    Erroneous test case expects CommandExecutor to throw exception incorrectly indicating error in application.
+
+prologue:
+  executors:
+  - topic-namespace: "invalid/{modelId}"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool true
+...
