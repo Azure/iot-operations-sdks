@@ -6,16 +6,20 @@
         "editor.insertSpaces": true
     },
     "schemas/ExecutorTestCase.schema.json": [
-        "Protocol/CommandExecutor/*.yaml"
+        "Protocol/CommandExecutor/*.yaml",
+        "SanityCheck/CommandExecutor/*.yaml"
     ],
     "schemas/InvokerTestCase.schema.json": [
-        "Protocol/CommandInvoker/*.yaml"
+        "Protocol/CommandInvoker/*.yaml",
+        "SanityCheck/CommandInvoker/*.yaml"
     ],
     "schemas/ReceiverTestCase.schema.json": [
-        "Protocol/TelemetryReceiver/*.yaml"
+        "Protocol/TelemetryReceiver/*.yaml",
+        "SanityCheck/TelemetryReceiver/*.yaml"
     ],
     "schemas/SenderTestCase.schema.json": [
-        "Protocol/TelemetrySender/*.yaml"
+        "Protocol/TelemetrySender/*.yaml",
+        "SanityCheck/TelemetrySender/*.yaml"
     ]
 }
 }

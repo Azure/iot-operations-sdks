@@ -1,0 +1,12 @@
+---
+test-name: TelemetryReceiverWithoutNeededCatch
+description:
+  condition: >-
+    TelemetryReceiver initialized with a topic namespace that is invalid.
+  expect: >-
+    Erroneous test case fails to expect that TelemetryReceiver throws 'invalid configuration' exception.
+
+prologue:
+  receivers:
+  - topic-namespace: "invalid/{modelId}"
+...

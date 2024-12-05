@@ -54,6 +54,14 @@ internal class Program
             description: "Programming language for generated code")
             { ArgumentHelpName = string.Join('|', CommandHandler.SupportedLanguages) };
 
+        var clientOnlyOption = new Option<bool>(
+            name: "--clientOnly",
+            description: "Generate only client-side code");
+
+        var serverOnlyOption = new Option<bool>(
+            name: "--serverOnly",
+            description: "Generate only server-side code");
+
         var rootCommand = new RootCommand("Akri MQTT code generation tool for DTDL models")
         {
             modelFileOption,
@@ -66,14 +74,12 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
+            clientOnlyOption,
+            serverOnlyOption,
         };
 
-        rootCommand.SetHandler(
-#if DEBUG
-            async (modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language); },
-#else
-            async (modelFiles, modelId, dmrRoot, workingDir, outDir, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, null, language); },
-#endif
+
+        ArgBinder argBinder = new ArgBinder(
             modelFileOption,
             modelIdOption,
             dmrRootOption,
@@ -83,7 +89,13 @@ internal class Program
             syncOption,
             sdkPathOption,
 #endif
-            langOption);
+            langOption,
+            clientOnlyOption,
+            serverOnlyOption);
+
+        rootCommand.SetHandler(
+            async (OptionContainer options) => { await CommandHandler.GenerateCode(options); },
+            argBinder);
 
         return await rootCommand.InvokeAsync(args);
     }

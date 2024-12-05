@@ -11,7 +11,10 @@ use tokio::sync::mpsc::{error::SendError, unbounded_channel, UnboundedReceiver, 
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, CompletionError, ConnectionError};
+use crate::error::{
+    AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
+    SubscribeError, UnsubscribeError,
+};
 use crate::interface::{
     CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
@@ -63,7 +66,7 @@ impl MqttPubSub for MockClient {
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -74,7 +77,7 @@ impl MqttPubSub for MockClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -82,7 +85,7 @@ impl MqttPubSub for MockClient {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -91,14 +94,14 @@ impl MqttPubSub for MockClient {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -106,28 +109,28 @@ impl MqttPubSub for MockClient {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 }
 
 #[async_trait]
 impl MqttAck for MockClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
         Ok(())
     }
 }
 
 #[async_trait]
 impl MqttDisconnect for MockClient {
-    async fn disconnect(&self) -> Result<(), ClientError> {
+    async fn disconnect(&self) -> Result<(), DisconnectError> {
         Ok(())
     }
 }
 
 #[async_trait]
 impl MqttClient for MockClient {
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError> {
         Ok(())
     }
 }
