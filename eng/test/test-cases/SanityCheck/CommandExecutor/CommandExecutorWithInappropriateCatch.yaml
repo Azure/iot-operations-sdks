@@ -1,0 +1,14 @@
+---
+test-name: CommandExecutorWithInappropriateCatch
+description:
+  condition: >-
+    CommandExecutor initialized with a topic namespace that is valid.
+  expect: >-
+    Erroneous test case inappropriately expects that CommandExecutor throws 'invalid configuration' exception.
+
+prologue:
+  executors:
+  - topic-namespace: "valid/namespace"
+  catch:
+    error-kind: invalid configuration
+...

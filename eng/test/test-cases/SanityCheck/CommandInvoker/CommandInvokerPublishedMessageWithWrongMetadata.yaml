@@ -1,0 +1,33 @@
+---
+test-name: CommandInvokerPublishedMessageWithInappropriateMetadata
+description:
+  condition: >-
+    CommandInvoker invokes command with metadata and receives response.
+  expect: >-
+    Erroneous test case expects a request with wrong metadata value.
+
+prologue:
+  invokers:
+  - {}
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  metadata:
+    "requestHeader": "requestValue"
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    metadata:
+      "requestHeader": "incorrectValue"
+...
