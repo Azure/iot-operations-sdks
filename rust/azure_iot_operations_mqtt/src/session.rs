@@ -61,9 +61,9 @@ pub enum SessionErrorKind {
     /// The [`Session`] was ended by an IO error.
     #[error("{0}")]
     IoError(#[from] std::io::Error),
-    /// The [`Session`] was ended by an internal error.
+    /// The [`Session`] was ended by an error in the SAT token watcher.
     #[error("internal error: {0}")]
-    InternalError(String),
+    SatTokenWatcherError(String),
 }
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
