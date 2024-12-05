@@ -40,11 +40,13 @@ jobs:
         run: |
           tools/deployment/initialize-cluster.sh
           tools/deployment/deploy-aio.sh nightly
-
-      - name: Setup Rust
-        run: |
-          cd rust
-          cargo build --release --config profile.release.panic=\'abort\'
+      
+      # # This isn't actually any setup, but Rust needs to get all of it's dependencies setup before the next steps, and this is an easy way
+      # - name: Setup Rust
+      #   if: matrix.server == 'rust' || matrix.client == 'rust'
+      #   run: |
+      #     cd rust
+      #     cargo build --release --config profile.release.panic=\'abort\'
 
       - name: Setup .NET
         if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
@@ -66,10 +68,10 @@ jobs:
       - name: CodeGen all Counter samples
         run: |
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler)
-          (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
-          (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
-          (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd)
-          if ! git diff-files --quiet
+          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
+          if ! git diff
           then
               echo "codegen'd envoy updates not checked in"
               git diff-files
