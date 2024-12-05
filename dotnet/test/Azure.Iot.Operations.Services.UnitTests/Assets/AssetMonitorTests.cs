@@ -44,13 +44,112 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         [Fact]
         public async Task GetAsset()
         {
-            throw new NotImplementedException();
+            SetupTestEnvironment();
+
+            try
+            {
+                Asset expectedAsset = new Asset()
+                {
+                    Datasets =
+                    [
+                        new Dataset()
+                        {
+                            DataPoints =
+                            [
+                                new DataPoint()
+                                {
+                                    DataSource = "someDatasource",
+                                    Name = "someDatapoint"
+                                },
+                                new DataPoint()
+                                {
+                                    DataSource = "someOtherDatasource",
+                                    Name = "someOtherDatapoint"
+                                }
+                            ],
+                            Name = "someDataset"
+                        }
+                    ],
+                    DefaultTopic = new Topic()
+                    {
+                        Path = "somePath",
+                        Retain = RetainHandling.Never,
+                    },
+                };
+
+                string testAssetName = Guid.NewGuid().ToString();
+                AddOrUpdateAssetToEnvironment(testAssetName, expectedAsset);
+
+                var assetMonitor = new AssetMonitor();
+                var actualAsset = await assetMonitor.GetAssetAsync(testAssetName);
+
+                Assert.NotNull(actualAsset);
+                Assert.NotNull(actualAsset.Datasets);
+                Assert.Equal(expectedAsset.Datasets.Length, actualAsset.Datasets.Length);
+
+                for (int i = 0; i < expectedAsset.Datasets.Length; i++)
+                {
+                    Assert.NotNull(expectedAsset.Datasets[i].DataPoints);
+                    Assert.NotNull(actualAsset.Datasets[i].DataPoints);
+                    Assert.Equal(expectedAsset.Datasets[i].DataPoints!.Length, actualAsset.Datasets[0].DataPoints!.Length);
+                    Assert.NotNull(expectedAsset.Datasets[i].DataPoints);
+                    Assert.Equal(expectedAsset.Datasets[i].Name, actualAsset.Datasets[i].Name);
+                    for (int j = 0; j < expectedAsset.Datasets[i].DataPoints!.Length; j++)
+                    {
+                        Assert.NotNull(expectedAsset.Datasets[i].DataPoints![j]);
+                        Assert.NotNull(actualAsset.Datasets[i].DataPoints![j]);
+                        Assert.Equal(expectedAsset.Datasets[i].DataPoints![j]!.Name, actualAsset.Datasets[i].DataPoints![j].Name);
+                        Assert.Equal(expectedAsset.Datasets[i].DataPoints![j]!.DataSource, actualAsset.Datasets[i].DataPoints![j].DataSource);
+                    }
+                }
+            }
+            finally
+            {
+                CleanupTestEnvironment();
+            }
         }
 
         [Fact]
         public async Task GetAssetNames()
         {
-            throw new NotImplementedException();
+            SetupTestEnvironment();
+
+            try
+            {
+                Asset expectedAsset1 = new Asset()
+                {
+                    DefaultTopic = new Topic()
+                    {
+                        Path = "somePath",
+                        Retain = RetainHandling.Never,
+                    },
+                };
+
+                Asset expectedAsset2 = new Asset()
+                {
+                    DefaultTopic = new Topic()
+                    {
+                        Path = "someOtherPath",
+                        Retain = RetainHandling.Never,
+                    },
+                };
+
+                string expectedAssetName1 = Guid.NewGuid().ToString();
+                string expectedAssetName2 = Guid.NewGuid().ToString();
+                AddOrUpdateAssetToEnvironment(expectedAssetName1, expectedAsset1);
+                AddOrUpdateAssetToEnvironment(expectedAssetName2, expectedAsset2);
+
+                var assetMonitor = new AssetMonitor();
+                List<string> actualAssetNames = await assetMonitor.GetAssetNamesAsync();
+
+                Assert.Equal(2, actualAssetNames.Count);
+                Assert.True((string.Equals(expectedAssetName1, actualAssetNames[0]) && string.Equals(expectedAssetName2, actualAssetNames[1]))
+                    || (string.Equals(expectedAssetName2, actualAssetNames[0]) && string.Equals(expectedAssetName1, actualAssetNames[1])));
+            }
+            finally
+            {
+                CleanupTestEnvironment();
+            }
         }
 
         [Fact]
@@ -258,7 +357,96 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         [Fact]
         public async Task ObserveAssetEndpointProfile_NoStartingAssetEndpointProfile()
         {
-            throw new NotImplementedException();
+            var assetMonitor = new AssetMonitor();
+            try
+            {
+                AssetEndpointProfileChangedEventArgs? latestAssetEndpointProfileState = null;
+                assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
+                {
+                    latestAssetEndpointProfileState = args;
+                };
+
+                assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
+
+                SetupTestEnvironment();
+
+                // Wait until the assetMonitor notifies this thread that the AEP has been created
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                while (latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewTargetAddress = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+ 
+                string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+
+                assetEndpointProfileTcs = new();
+                string expectedNewDataSourceType = Guid.NewGuid().ToString();
+                string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
+                JsonElement property;
+                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                Assert.Equal(JsonValueKind.String, property.ValueKind);
+                Assert.Equal(expectedNewDataSourceType, property.GetString());
+
+                string expectedNewCertValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+
+                string expectedNewUsernameValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewPasswordValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password, expectedNewPasswordValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+            }
+            finally
+            {
+                assetMonitor.UnobserveAssets();
+                CleanupTestEnvironment();
+            }
         }
 
         [Fact]
