@@ -64,14 +64,12 @@ jobs:
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
       - name: Build codegen
         run: |
-          dotnet build -c Release codegen/codegen.sln
-          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+          dotnet build -c Debug codegen/codegen.sln
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
 
       - name: CodeGen Rust Counter samples
         if: matrix.server == 'rust' || matrix.client == 'rust'
         run: |
-          set -e
-          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
       
       - name: CodeGen .NET Counter samples
@@ -82,7 +80,6 @@ jobs:
       - name: CodeGen Go Counter samples
         if: matrix.server == 'go' || matrix.client == 'go'
         run: |
-          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
 
       - name: Verify Generated Code Matches Repo
