@@ -345,17 +345,24 @@ where
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.
-                    let (recv_result, ()) =
-                        tokio::join!(executor.recv(), mqtt_hub.await_operation());
+                    let (recv_result, _) = tokio::join!(
+                        time::timeout(TEST_TIMEOUT, executor.recv()),
+                        time::timeout(TEST_TIMEOUT, mqtt_hub.await_operation())
+                    );
                     match recv_result {
-                        Ok(_) => {
+                        Ok(Ok(_)) => {
                             panic!(
                                 "Expected {} error when constructing CommandExecutor but no error returned",
                                 catch.error_kind
                             );
                         }
-                        Err(error) => {
+                        Ok(Err(error)) => {
                             aio_protocol_error_checker::check_error(catch, &error);
+                        }
+                        Err(_) => {
+                            panic!(
+                                "Expected {} error when calling recv() on CommandExecutor but got timeout instead",
+                                catch.error_kind);
                         }
                     };
                     None
@@ -705,6 +712,16 @@ where
                 }
             } else if is_application_error {
                 panic!("expected is application error property but found no properties in published message");
+            }
+        }
+
+        if expected_message.expiry.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(expected_message.expiry, properties.message_expiry_interval);
+            } else {
+                panic!(
+                    "expected message expiry interval but found no properties in published message"
+                );
             }
         }
     }

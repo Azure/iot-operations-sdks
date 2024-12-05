@@ -23,13 +23,13 @@ pub struct TestCaseCatch {
     pub error_kind: String,
 
     #[serde(rename = "in-application")]
-    pub in_application: bool,
+    pub in_application: Option<bool>,
 
     #[serde(rename = "is-shallow")]
-    pub is_shallow: bool,
+    pub is_shallow: Option<bool>,
 
     #[serde(rename = "is-remote")]
-    pub is_remote: bool,
+    pub is_remote: Option<bool>,
 
     #[serde(rename = "status-code")]
     #[serde(default)]

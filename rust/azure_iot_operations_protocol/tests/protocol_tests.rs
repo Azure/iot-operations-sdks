@@ -32,6 +32,7 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorUserCodeRaisesContentError_RespondsError",
     "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
     "CommandExecutorUserCodeSetsInvalidMetadata_RespondsError",
+    "CommandExecutorRequest_TimeoutPropagated",
 ];
 
 /*
