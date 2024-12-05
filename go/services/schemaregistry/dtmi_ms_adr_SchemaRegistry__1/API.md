@@ -15,8 +15,6 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_
   - [func \(v Enum\_Ms\_Adr\_SchemaRegistry\_SchemaType\_\_1\) MarshalJSON\(\) \(\[\]byte, error\)](<#Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MarshalJSON>)
   - [func \(v Enum\_Ms\_Adr\_SchemaRegistry\_SchemaType\_\_1\) String\(\) string](<#Enum_Ms_Adr_SchemaRegistry_SchemaType__1.String>)
   - [func \(v \*Enum\_Ms\_Adr\_SchemaRegistry\_SchemaType\_\_1\) UnmarshalJSON\(b \[\]byte\) error](<#Enum_Ms_Adr_SchemaRegistry_SchemaType__1.UnmarshalJSON>)
-- [type GetCommandExecutor](<#GetCommandExecutor>)
-  - [func NewGetCommandExecutor\(client protocol.MqttClient, requestTopic string, handler protocol.CommandHandler\[GetRequestPayload, GetResponsePayload\], opt ...protocol.CommandExecutorOption\) \(\*GetCommandExecutor, error\)](<#NewGetCommandExecutor>)
 - [type GetCommandInvoker](<#GetCommandInvoker>)
   - [func NewGetCommandInvoker\(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*GetCommandInvoker, error\)](<#NewGetCommandInvoker>)
   - [func \(invoker GetCommandInvoker\) Get\(ctx context.Context, request GetRequestPayload, opt ...protocol.InvokeOption\) \(\*protocol.CommandResponse\[GetResponsePayload\], error\)](<#GetCommandInvoker.Get>)
@@ -25,8 +23,6 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_
 - [type Object\_Get\_Request](<#Object_Get_Request>)
 - [type Object\_Ms\_Adr\_SchemaRegistry\_Schema\_\_1](<#Object_Ms_Adr_SchemaRegistry_Schema__1>)
 - [type Object\_Put\_Request](<#Object_Put_Request>)
-- [type PutCommandExecutor](<#PutCommandExecutor>)
-  - [func NewPutCommandExecutor\(client protocol.MqttClient, requestTopic string, handler protocol.CommandHandler\[PutRequestPayload, PutResponsePayload\], opt ...protocol.CommandExecutorOption\) \(\*PutCommandExecutor, error\)](<#NewPutCommandExecutor>)
 - [type PutCommandInvoker](<#PutCommandInvoker>)
   - [func NewPutCommandInvoker\(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*PutCommandInvoker, error\)](<#NewPutCommandInvoker>)
   - [func \(invoker PutCommandInvoker\) Put\(ctx context.Context, request PutRequestPayload, opt ...protocol.InvokeOption\) \(\*protocol.CommandResponse\[PutResponsePayload\], error\)](<#PutCommandInvoker.Put>)
@@ -34,8 +30,6 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_
 - [type PutResponsePayload](<#PutResponsePayload>)
 - [type SchemaRegistryClient](<#SchemaRegistryClient>)
   - [func NewSchemaRegistryClient\(client protocol.MqttClient, opts ...protocol.Option\) \(\*SchemaRegistryClient, error\)](<#NewSchemaRegistryClient>)
-- [type SchemaRegistryService](<#SchemaRegistryService>)
-  - [func NewSchemaRegistryService\(client protocol.MqttClient, putHandler protocol.CommandHandler\[PutRequestPayload, PutResponsePayload\], getHandler protocol.CommandHandler\[GetRequestPayload, GetResponsePayload\], opts ...protocol.Option\) \(\*SchemaRegistryService, error\)](<#NewSchemaRegistryService>)
 
 
 ## Constants
@@ -134,26 +128,6 @@ func (v Enum_Ms_Adr_SchemaRegistry_SchemaType__1) String() string
 
 ```go
 func (v *Enum_Ms_Adr_SchemaRegistry_SchemaType__1) UnmarshalJSON(b []byte) error
-```
-
-
-
-<a name="GetCommandExecutor"></a>
-## type [GetCommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_executor.go#L9-L11>)
-
-
-
-```go
-type GetCommandExecutor struct {
-    // contains filtered or unexported fields
-}
-```
-
-<a name="NewGetCommandExecutor"></a>
-### func [NewGetCommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_executor.go#L13-L18>)
-
-```go
-func NewGetCommandExecutor(client protocol.MqttClient, requestTopic string, handler protocol.CommandHandler[GetRequestPayload, GetResponsePayload], opt ...protocol.CommandExecutorOption) (*GetCommandExecutor, error)
 ```
 
 
@@ -258,26 +232,6 @@ type Object_Put_Request struct {
 }
 ```
 
-<a name="PutCommandExecutor"></a>
-## type [PutCommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_executor.go#L8-L10>)
-
-
-
-```go
-type PutCommandExecutor struct {
-    // contains filtered or unexported fields
-}
-```
-
-<a name="NewPutCommandExecutor"></a>
-### func [NewPutCommandExecutor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_executor.go#L12-L17>)
-
-```go
-func NewPutCommandExecutor(client protocol.MqttClient, requestTopic string, handler protocol.CommandHandler[PutRequestPayload, PutResponsePayload], opt ...protocol.CommandExecutorOption) (*PutCommandExecutor, error)
-```
-
-
-
 <a name="PutCommandInvoker"></a>
 ## type [PutCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_invoker.go#L10-L12>)
 
@@ -330,7 +284,7 @@ type PutResponsePayload struct {
 ```
 
 <a name="SchemaRegistryClient"></a>
-## type [SchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L14-L18>)
+## type [SchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L8-L12>)
 
 
 
@@ -343,32 +297,10 @@ type SchemaRegistryClient struct {
 ```
 
 <a name="NewSchemaRegistryClient"></a>
-### func [NewSchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L73-L76>)
+### func [NewSchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L19-L22>)
 
 ```go
 func NewSchemaRegistryClient(client protocol.MqttClient, opts ...protocol.Option) (*SchemaRegistryClient, error)
-```
-
-
-
-<a name="SchemaRegistryService"></a>
-## type [SchemaRegistryService](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L8-L12>)
-
-
-
-```go
-type SchemaRegistryService struct {
-    protocol.Listeners
-    *PutCommandExecutor
-    *GetCommandExecutor
-}
-```
-
-<a name="NewSchemaRegistryService"></a>
-### func [NewSchemaRegistryService](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L25-L30>)
-
-```go
-func NewSchemaRegistryService(client protocol.MqttClient, putHandler protocol.CommandHandler[PutRequestPayload, PutResponsePayload], getHandler protocol.CommandHandler[GetRequestPayload, GetResponsePayload], opts ...protocol.Option) (*SchemaRegistryService, error)
 ```
 
 

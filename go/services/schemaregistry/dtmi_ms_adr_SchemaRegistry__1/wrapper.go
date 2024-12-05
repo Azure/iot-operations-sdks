@@ -5,12 +5,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-type SchemaRegistryService struct {
-	protocol.Listeners
-	*PutCommandExecutor
-	*GetCommandExecutor
-}
-
 type SchemaRegistryClient struct {
 	protocol.Listeners
 	*PutCommandInvoker
@@ -21,54 +15,6 @@ const (
 	ModelID = "dtmi:ms:adr:SchemaRegistry;1"
 	CommandTopic = "adr/{modelId}/{commandName}"
 )
-
-func NewSchemaRegistryService(
-	client protocol.MqttClient,
-	putHandler protocol.CommandHandler[PutRequestPayload, PutResponsePayload],
-	getHandler protocol.CommandHandler[GetRequestPayload, GetResponsePayload],
-	opts ...protocol.Option,
-) (*SchemaRegistryService, error) {
-	var err error
-
-	serverOpts := []protocol.Option{
-		protocol.WithTopicTokenNamespace("ex:"),
-		protocol.WithTopicTokens{
-			"modelId":    ModelID,
-			"executorId": client.ID(),
-		},
-	}
-
-	var executorOpts protocol.CommandExecutorOptions
-	executorOpts.ApplyOptions(opts, serverOpts...)
-
-	schemaRegistryService := &SchemaRegistryService{}
-
-	schemaRegistryService.PutCommandExecutor, err = NewPutCommandExecutor(
-		client,
-		CommandTopic,
-		putHandler,
-		&executorOpts,
-	)
-	if err != nil {
-		schemaRegistryService.Close()
-		return nil, err
-	}
-	schemaRegistryService.Listeners = append(schemaRegistryService.Listeners, schemaRegistryService.PutCommandExecutor)
-
-	schemaRegistryService.GetCommandExecutor, err = NewGetCommandExecutor(
-		client,
-		CommandTopic,
-		getHandler,
-		&executorOpts,
-	)
-	if err != nil {
-		schemaRegistryService.Close()
-		return nil, err
-	}
-	schemaRegistryService.Listeners = append(schemaRegistryService.Listeners, schemaRegistryService.GetCommandExecutor)
-
-	return schemaRegistryService, nil
-}
 
 func NewSchemaRegistryClient(
 	client protocol.MqttClient,
