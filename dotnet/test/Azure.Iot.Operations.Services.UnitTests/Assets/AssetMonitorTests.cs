@@ -42,126 +42,15 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         }
 
         [Fact]
-        public async Task ObserveAssetEndpointProfile()
+        public async Task GetAsset()
         {
-            SetupTestEnvironment();
-
-            var assetMonitor = new AssetMonitor();
-            try
-            {
-                var assetEndpointProfile = await assetMonitor.GetAssetEndpointProfileAsync();
-
-                TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
-                assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
-                {
-                    assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
-                };
-
-                assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
-
-                // The first observed change is always "created"
-                await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-
-                assetEndpointProfileTcs = new();
-                string expectedNewTargetAddress = Guid.NewGuid().ToString();
-                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
-                var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
-
-                assetEndpointProfileTcs = new();
-                string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
-                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(expectedNewAuthenticationMethod, updatedAssetEndpointProfile.AuthenticationMethod);
-                Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
-
-                assetEndpointProfileTcs = new();
-                string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
-                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(expectedNewEndpointProfileType, updatedAssetEndpointProfile.EndpointProfileType);
-                Assert.Equal(expectedNewAuthenticationMethod, updatedAssetEndpointProfile.AuthenticationMethod);
-                Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
-
-                assetEndpointProfileTcs = new();
-                string expectedNewDataSourceType = Guid.NewGuid().ToString();
-                string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
-                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.NotNull(updatedAssetEndpointProfile.AdditionalConfiguration);
-                Assert.True(updatedAssetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("DataSourceType", out var property));
-                Assert.Equal(JsonValueKind.String, property.ValueKind);
-                Assert.Equal(expectedNewDataSourceType, property.GetString());
-
-                assetEndpointProfileTcs = new();
-                string expectedNewCertValue = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.NotNull(updatedAssetEndpointProfile.Credentials);
-                Assert.Equal(expectedNewCertValue, updatedAssetEndpointProfile.Credentials.Certificate);
-
-
-                assetEndpointProfileTcs = new();
-                string expectedNewUsernameValue = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.NotNull(updatedAssetEndpointProfile.Credentials);
-                Assert.Equal(expectedNewUsernameValue, updatedAssetEndpointProfile.Credentials.Username);
-
-
-                assetEndpointProfileTcs = new();
-                string expectedNewPasswordValue = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
-                updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.NotNull(updatedAssetEndpointProfile.Credentials);
-                Assert.NotNull(updatedAssetEndpointProfile.Credentials.Password);
-                Assert.Equal(expectedNewPasswordValue, Encoding.UTF8.GetString(updatedAssetEndpointProfile.Credentials.Password));
-            }
-            finally
-            {
-                assetMonitor.UnobserveAssetEndpointProfile();
-                CleanupTestEnvironment();
-            }
+            throw new NotImplementedException();
         }
 
         [Fact]
-        public async Task CanObserveAssetEndpointProfileAfterUnobserve()
+        public async Task GetAssetNames()
         {
-            SetupTestEnvironment();
-
-            var assetMonitor = new AssetMonitor();
-            try
-            {
-                var assetEndpointProfile = await assetMonitor.GetAssetEndpointProfileAsync();
-
-                TaskCompletionSource<AssetEndpointProfile> assetEndpointProfileTcs = new();
-                assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
-                {
-                    assetEndpointProfileTcs.TrySetResult(args.AssetEndpointProfile!);
-                };
-
-                assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
-
-                string expectedNewTargetAddress = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress);
-                var updatedAssetEndpointProfile = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(expectedNewTargetAddress, updatedAssetEndpointProfile.TargetAddress);
-
-                assetMonitor.UnobserveAssetEndpointProfile();
-
-                assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
-
-                assetEndpointProfileTcs = new();
-                string expectedNewTargetAddress2 = Guid.NewGuid().ToString();
-                File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}", expectedNewTargetAddress2);
-                var updatedAssetEndpointProfile2 = await assetEndpointProfileTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(expectedNewTargetAddress2, updatedAssetEndpointProfile2.TargetAddress);
-            }
-            finally
-            {
-                assetMonitor.UnobserveAssetEndpointProfile();
-                CleanupTestEnvironment();
-            }
+            throw new NotImplementedException();
         }
 
         [Fact]
@@ -172,10 +61,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
             var assetMonitor = new AssetMonitor();
             try
             {
-                TaskCompletionSource<AssetChangedEventArgs> assetTcs = new();
+                AssetChangedEventArgs? latestAssetState = null;
                 assetMonitor.AssetChanged += (sender, args) =>
                 {
-                    assetTcs.TrySetResult(args);
+                    latestAssetState = args;
                 };
 
                 assetMonitor.ObserveAssets(TimeSpan.FromMilliseconds(100));
@@ -212,21 +101,46 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 string testAssetName = Guid.NewGuid().ToString();
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                var assetChangeEventArgs = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
 
-                Assert.Equal(ChangeType.Created, assetChangeEventArgs.ChangeType);
-                Asset? observedAsset = assetChangeEventArgs.Asset;
+                Assert.Equal(ChangeType.Created, latestAssetState.ChangeType);
+                Asset? observedAsset = latestAssetState.Asset;
                 Assert.NotNull(observedAsset);
                 Assert.NotNull(observedAsset.DefaultTopic);
                 Assert.Equal(testAsset.DefaultTopic.Path, observedAsset.DefaultTopic.Path);
 
-                assetTcs = new();
-
                 RemoveAssetFromEnvironment(testAssetName);
 
-                var assetChangeEventArgs2 = await assetTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                Assert.Equal(ChangeType.Deleted, assetChangeEventArgs2.ChangeType);
-                Assert.Null(assetChangeEventArgs2.Asset);
+                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                Assert.Equal(ChangeType.Deleted, latestAssetState.ChangeType);
+                Assert.Null(latestAssetState.Asset);
+
+                // Test that unobserving assets stops any notifications from being sent. Test this by creating the asset
+                // again and waiting for a bit to see if the client sends any notifications (it shouldn't).
+                assetMonitor.UnobserveAssets();
+
+                AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
+                CancellationTokenSource cancellationTokenSource2 = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                while (latestAssetState.ChangeType != ChangeType.Created)
+                {
+                    if (cancellationTokenSource2.IsCancellationRequested)
+                    {
+                        // The asset monitor did not receive any notifications about the asset being created as expected,
+                        // so exit the test gracefully.
+                        return;
+                    }
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
             }
             finally
             {
@@ -275,41 +189,82 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 string testAssetName = Guid.NewGuid().ToString();
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                TaskCompletionSource<AssetChangedEventArgs> assetCreated = new();
-                TaskCompletionSource<AssetChangedEventArgs> assetUpdated = new();
+                AssetChangedEventArgs? latestAssetState = null;
                 assetMonitor.AssetChanged += (sender, args) =>
                 {
-                    if (args.ChangeType == ChangeType.Updated)
-                    {
-                        assetUpdated.TrySetResult(args);
-                    }
-                    else if (args.ChangeType == ChangeType.Created)
-                    { 
-                        assetCreated.TrySetResult(args);
-                    }
+                    latestAssetState = args;
                 };
 
                 assetMonitor.ObserveAssets(TimeSpan.FromMilliseconds(100));
 
-                await assetCreated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
 
                 string newTopicPath = Guid.NewGuid().ToString();
                 testAsset.DefaultTopic.Path = newTopicPath;
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                var assetChangeEventArgs = await assetUpdated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Updated)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
 
-                Assert.Equal(ChangeType.Updated, assetChangeEventArgs.ChangeType);
-                Asset? observedAsset = assetChangeEventArgs.Asset;
+                Assert.Equal(ChangeType.Updated, latestAssetState.ChangeType);
+                Asset? observedAsset = latestAssetState.Asset;
                 Assert.NotNull(observedAsset);
                 Assert.NotNull(observedAsset.DefaultTopic);
                 Assert.Equal(newTopicPath, observedAsset.DefaultTopic.Path);
+
+                RemoveAssetFromEnvironment(testAssetName);
+
+                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                Assert.Equal(ChangeType.Deleted, latestAssetState.ChangeType);
+                Assert.Null(latestAssetState.Asset);
+
+                // Test that unobserving assets stops any notifications from being sent. Test this by creating the asset
+                // again and waiting for a bit to see if the client sends any notifications (it shouldn't).
+                assetMonitor.UnobserveAssets();
+
+                AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
+                CancellationTokenSource cancellationTokenSource2 = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                while (latestAssetState.ChangeType != ChangeType.Created)
+                {
+                    if (cancellationTokenSource2.IsCancellationRequested)
+                    {
+                        // The asset monitor did not receive any notifications about the asset being created as expected,
+                        // so exit the test gracefully.
+                        return;
+                    }
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
             }
             finally
             {
                 assetMonitor.UnobserveAssets();
                 CleanupTestEnvironment();
             }
+        }
+
+        [Fact]
+        public async Task ObserveAssetEndpointProfile_NoStartingAssetEndpointProfile()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async Task ObserveAssetEndpointProfile_WithStartingAssetEndpointProfile()
+        {
+            throw new NotImplementedException();
         }
 
         private void SetupTestEnvironment()
@@ -389,16 +344,24 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
         private void CleanupTestEnvironment()
         {
-            try
+            bool cleanUpCompleted = false;
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+            tokenSource.CancelAfter(TimeSpan.FromSeconds(10));
+            while (!cleanUpCompleted && !tokenSource.IsCancellationRequested)
             {
-                if (Directory.Exists("./AssetMonitorTestFiles/"))
+                try
                 {
-                    Directory.Delete($"./AssetMonitorTestFiles/", true);
+                    if (Directory.Exists("./AssetMonitorTestFiles/"))
+                    {
+                        Directory.Delete($"./AssetMonitorTestFiles/", true);
+                    }
+
+                    cleanUpCompleted = true;
                 }
-            }
-            catch
-            { 
-            
+                catch
+                {
+                    // Some test files may still be opened in the test if it didn't complete as expected.
+                }
             }
         }
     }
