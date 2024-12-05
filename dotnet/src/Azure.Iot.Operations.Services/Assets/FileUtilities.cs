@@ -5,8 +5,8 @@ namespace Azure.Iot.Operations.Services.Assets
 {
     internal class FileUtilities
     {
-        // There is some risk that the AssetMonitor will try to read a file while it is being written to,
-        // so this utility function provides some basic retry logic to mitigate that risk.
+        // There is some risk that the AssetMonitor will try to read a file while it is being written to
+        // by the Akri operator, so this utility function provides some basic retry logic to mitigate that risk.
         internal static async Task<byte[]> ReadFileWithRetryAsync(string path, int maxRetryCount = 10, TimeSpan? delayBetweenAttempts = null)
         {
             TimeSpan delay = delayBetweenAttempts ?? TimeSpan.FromMilliseconds(100);
