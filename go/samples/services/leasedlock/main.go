@@ -52,6 +52,14 @@ func main() {
 
 	get := must(client.Get(ctx, key))
 	log.Info("value after edit", "key", key, "value", get.Value)
+
+	// Sample of automatically-renewing hold.
+	hold := lock.Hold(time.Minute, 2*time.Second)
+	defer hold.Close()
+	for range 10 {
+		log.Info("held token", "token", must(hold.Token(ctx)))
+		time.Sleep(time.Second)
+	}
 }
 
 func tryEdit[K, V statestore.Bytes](
