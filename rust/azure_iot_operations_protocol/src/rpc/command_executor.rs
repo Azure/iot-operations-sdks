@@ -389,6 +389,9 @@ where
     // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
     ///
+    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.

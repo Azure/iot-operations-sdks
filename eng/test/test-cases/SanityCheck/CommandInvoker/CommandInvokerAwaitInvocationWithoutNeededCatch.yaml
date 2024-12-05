@@ -1,0 +1,24 @@
+---
+test-name: CommandInvokerAwaitInvocationWithoutNeededCatch
+description:
+  condition: >-
+    CommandInvoker receives response with no payload.
+  expect: >-
+    Erroneous test case fails to expect that invocation throws 'invalid payload' exception.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  payload:
+  status: "200" # OK
+- action: await invocation
+  invocation-index: 0
+...
