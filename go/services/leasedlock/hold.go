@@ -84,7 +84,5 @@ func (h *Hold[K, V]) Token(
 
 // Close stops renewing the lock.
 func (h *Hold[K, V]) Close() {
-	if h.close != nil {
-		h.close()
-	}
+	h.close()
 }
