@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
+    /// <summary>
+    /// JsonConverter that allows for deserialization of Json values in Assets and related classes.
+    /// </summary>
     internal class JsonDocumentConverter : JsonConverter<JsonDocument>
     {
         public override JsonDocument Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
