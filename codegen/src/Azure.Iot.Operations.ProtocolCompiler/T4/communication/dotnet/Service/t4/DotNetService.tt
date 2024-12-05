@@ -26,6 +26,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
     public static partial class <#=this.serviceName#>
     {
+<# if (this.generateServer) { #>
 <# if (this.cmdServiceGroupId != null) { #>
         [ServiceGroupId("<#=this.cmdServiceGroupId#>")]
 <# } #>
@@ -133,7 +134,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
             }
         }
+<# } #>
+<# if (this.generateServer && this.generateClient) { #>
 
+<# } #>
+<# if (this.generateClient) { #>
 <# if (this.telemServiceGroupId != null) { #>
         [ServiceGroupId("<#=this.telemServiceGroupId#>")]
 <# } #>
@@ -235,6 +240,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
             }
         }
+<# } #>
     }
 }
 <#+
