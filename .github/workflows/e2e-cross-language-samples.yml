@@ -85,7 +85,7 @@ jobs:
           codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
           pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
 
-       - name: Verify Generated Code Matches Repo
+      - name: Verify Generated Code Matches Repo
         run: |
           if ! git diff
           then
