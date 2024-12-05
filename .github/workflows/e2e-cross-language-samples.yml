@@ -33,6 +33,11 @@ jobs:
           tools/deployment/initialize-cluster.sh
           tools/deployment/deploy-aio.sh nightly
 
+      - name: Setup Rust
+        run: |
+          cd rust
+          cargo build --release --config profile.release.panic=\'abort\'
+
       - name: Setup .NET
         if: matrix.counter_server == 'counter-server-dotnet' || matrix.counter_client == 'counter-client-dotnet'
         uses: actions/setup-dotnet@v4
