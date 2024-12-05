@@ -42,7 +42,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using SchemaRegistryClient client = new(_mqttClient);
-        
+
         Object_Ms_Adr_SchemaRegistry_Schema__1? s = await client.GetAsync("NotFound");
         Assert.Null(s);
     }

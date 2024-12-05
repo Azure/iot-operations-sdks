@@ -98,6 +98,9 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
         read_counter_response.payload.counter_response
     );
 
+    read_counter_invoker.shutdown().await.unwrap();
+    increment_invoker.shutdown().await.unwrap();
+
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
 }

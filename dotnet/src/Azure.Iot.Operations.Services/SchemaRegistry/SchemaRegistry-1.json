@@ -138,8 +138,7 @@
       },
       "response": {
         "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
-        "nullable": true
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
       }
     },
     {
@@ -164,8 +163,8 @@
       },
       "response": {
         "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
-        "nullable": true
+        "nullable": true,
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
       }
     }
   ]

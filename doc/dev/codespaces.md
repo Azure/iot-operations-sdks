@@ -143,3 +143,17 @@ Some popular shortcuts:
 * `:configmap:` : show cluster config maps
 * `:Broker` : list the MQTT brokers
 * `:BrokerListeners` : Show the BrokerListeners
+
+## K3s cluster details
+
+1. Open a shell in the k3d container:
+
+    ```bash
+    docker exec -it k3d-k3s-default-server-0 sh
+    ```
+
+1. List the images:
+
+    ```bash
+    crictl images
+    ```
