@@ -93,10 +93,17 @@ internal class Program
             clientOnlyOption,
             serverOnlyOption);
 
+
+        int returnCode = 0;
         rootCommand.SetHandler(
-            async (OptionContainer options) => { await CommandHandler.GenerateCode(options); },
+            async (OptionContainer options) => 
+            {
+                returnCode = await CommandHandler.GenerateCode(options); 
+            },
             argBinder);
 
-        return await rootCommand.InvokeAsync(args);
+        await rootCommand.InvokeAsync(args);
+
+        return returnCode;
     }
 }
