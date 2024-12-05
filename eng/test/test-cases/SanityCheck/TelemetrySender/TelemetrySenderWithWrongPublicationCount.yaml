@@ -1,0 +1,20 @@
+---
+test-name: TelemetrySenderWithWrongPublicationCount
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry.
+  expect: >-
+    Erroneous test case expects an incorrect publication count.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+
+epilogue:
+  publication-count: 2
+...

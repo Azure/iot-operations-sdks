@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         private const string testCasesPath = "../../../../../../eng/test/test-cases";
         private const string invokerCasesPath = $"{testCasesPath}/Protocol/CommandInvoker";
-        private const string defaultsFileName = "defaults.toml";
+        private const string defaultsFilePath = $"{testCasesPath}/Protocol/CommandInvoker/defaults.toml";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
@@ -48,7 +48,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 })
                 .Build();
 
-            string defaultsFilePath = Path.Combine(invokerCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
