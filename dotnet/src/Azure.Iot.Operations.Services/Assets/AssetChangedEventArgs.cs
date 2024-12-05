@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Azure.Iot.Operations.Services.Assets
 {
+    /// <summary>
+    /// EventArgs with context about which Asset changed and what kind of change happened to it.
+    /// </summary>
     public class AssetChangedEventArgs : EventArgs
     {
         /// <summary>
@@ -13,6 +13,9 @@ namespace Azure.Iot.Operations.Services.Assets
         /// </summary>
         public ChangeType ChangeType { get; set; }
 
+        /// <summary>
+        /// The name of the asset that changed. This value is provided even if the asset was deleted.
+        /// </summary>
         public string AssetName { get; set; }
 
         /// <summary>
@@ -23,7 +26,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// </remarks>
         public Asset? Asset { get; set; }
 
-        public AssetChangedEventArgs(string assetName, ChangeType changeType, Asset? asset)
+        internal AssetChangedEventArgs(string assetName, ChangeType changeType, Asset? asset)
         {
             AssetName = assetName;
             ChangeType = changeType;

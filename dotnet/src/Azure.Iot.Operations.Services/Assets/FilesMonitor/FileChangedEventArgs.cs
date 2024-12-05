@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace Azure.Iot.Operations.Services.Assets
+namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 {
     /// <summary>
     /// EventArgs that contains context on what change happened to which file
@@ -12,10 +12,10 @@ namespace Azure.Iot.Operations.Services.Assets
 
         internal string FilePath { get; init; }
 
-        internal string FileName 
+        internal string FileName
         {
             get
-            { 
+            {
                 return Path.GetFileName(FilePath);
             }
         }

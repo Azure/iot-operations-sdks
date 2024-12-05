@@ -4,18 +4,18 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 
-namespace Azure.Iot.Operations.Services.Assets
+namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 {
     /// <summary>
     /// A utility for monitoring for changes in any of a set of files.
     /// </summary>
-    internal class FilesObserver
+    internal class FilesMonitor
     {
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
         // The set of file paths and their last known contents hash
         private Dictionary<string, byte[]> _lastKnownDirectoryState = new();
-        
+
         private Func<string> _directoryRetriever;
 
         private TimeSpan _pollingInterval;
@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.Assets
 
         private bool _startedObserving = false;
 
-        internal FilesObserver(Func<string> directoryRetriever, TimeSpan? pollingInterval = null)
+        internal FilesMonitor(Func<string> directoryRetriever, TimeSpan? pollingInterval = null)
         {
             _directoryRetriever = directoryRetriever;
             _pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(10);
@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Services.Assets
 
                                             byte[] contentsHash = SHA1.HashData(contents);
 
-                                            if (!Enumerable.SequenceEqual(_lastKnownDirectoryState[filePath], contentsHash))
+                                            if (!_lastKnownDirectoryState[filePath].SequenceEqual(contentsHash))
                                             {
                                                 _lastKnownDirectoryState[filePath] = contentsHash;
                                                 OnFileChanged?.Invoke(this, new FileChangedEventArgs(filePath, ChangeType.Updated));
@@ -115,7 +115,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                     }
                     catch (ObjectDisposedException)
-                    { 
+                    {
                         // The cancellation token used to control this thread has been disposed. End this thread gracefully
                     }
                     finally

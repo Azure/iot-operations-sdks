@@ -1,11 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.Assets.FileMonitor;
 using System.Text;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
+    /// <summary>
+    /// This class allows for getting and monitor changes to assets and asset endpoint profiles.
+    /// </summary>
+    /// <remarks>
+    /// This class is only applicable for connector applications that have been deployed by the Akri operator.
+    /// </remarks>
     public class AssetMonitor
     {
         // The operator will deploy the connector pod with these environment variables set.
@@ -27,11 +34,11 @@ namespace Azure.Iot.Operations.Services.Assets
         internal const string AepDiscoveredAssetEndpointProfileRefRelativeMountPath = "AEP_DISCOVERED_ASSET_ENDPOINT_PROFILE_REF";
         internal const string AepUuidRelativeMountPath = "AEP_UUID";
 
-        private FilesObserver? _assetEndpointProfileConfigFilesObserver;
-        private FilesObserver? _assetEndpointProfileUsernameSecretFilesObserver;
-        private FilesObserver? _assetEndpointProfilePasswordSecretFilesObserver;
-        private FilesObserver? _assetEndpointProfileCertificateSecretFilesObserver;
-        private FilesObserver? _assetFilesObserver;
+        private FilesMonitor? _assetEndpointProfileConfigFilesObserver;
+        private FilesMonitor? _assetEndpointProfileUsernameSecretFilesObserver;
+        private FilesMonitor? _assetEndpointProfilePasswordSecretFilesObserver;
+        private FilesMonitor? _assetEndpointProfileCertificateSecretFilesObserver;
+        private FilesMonitor? _assetFilesObserver;
 
         /// <summary>
         /// The callback that executes when an asset has changed once you start observing an asset with 
@@ -47,7 +54,6 @@ namespace Azure.Iot.Operations.Services.Assets
 
         public AssetMonitor()
         {
-            //TODO safe to assume at least one asset endpoint? Assets are optional apparently
         }
 
         /// <summary>
@@ -71,7 +77,7 @@ namespace Azure.Iot.Operations.Services.Assets
             };
 
             byte[] assetContents = await FileUtilities.ReadFileWithRetryAsync($"{GetAssetDirectory()}/{assetName}");
-            Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("TODO when is this possible?");
+            Asset asset = JsonSerializer.Deserialize<Asset>(assetContents, options) ?? throw new InvalidOperationException("Malformed asset definition. Could not deserialize into Asset type.");
 
             return asset;
         }
@@ -95,9 +101,9 @@ namespace Azure.Iot.Operations.Services.Assets
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
-            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
-            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("TODO");
+            string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP target address file");
+            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP authentication method file");
+            string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP type file");
             string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAdditionalConfigurationRelativeMountPath}");
 
             JsonDocument? aepAdditionalConfigurationJson = null;
@@ -246,8 +252,6 @@ namespace Azure.Iot.Operations.Services.Assets
         private void OnAssetEndpointProfileFileChanged(object? sender, FileChangedEventArgs e)
         {
             string fileName = e.FileName;
-
-            //TODO do we care about filtering out changes to unrelated files?
 
             _ = Task.Run(async () =>
             {

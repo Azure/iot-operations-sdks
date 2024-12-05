@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Azure.Iot.Operations.Services.Assets
 {
+    /// <summary>
+    /// EventArgs with context about which AssetEndpointProfile changed and what kind of change happened to it.
+    /// </summary>
     public class AssetEndpointProfileChangedEventArgs : EventArgs
     {
         /// <summary>
@@ -13,9 +13,12 @@ namespace Azure.Iot.Operations.Services.Assets
         /// </summary>
         public ChangeType ChangeType { get; set; }
 
+        /// <summary>
+        /// The 
+        /// </summary>
         public AssetEndpointProfile? AssetEndpointProfile { get; set; }
 
-        public AssetEndpointProfileChangedEventArgs(ChangeType changeType, AssetEndpointProfile? assetEndpointProfile)
+        internal AssetEndpointProfileChangedEventArgs(ChangeType changeType, AssetEndpointProfile? assetEndpointProfile)
         {
             ChangeType = changeType;
             AssetEndpointProfile = assetEndpointProfile;
