@@ -81,9 +81,6 @@ jobs:
     - name: Build SDK (Release)
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
 
-    - name: Deploy HTTP server connector sample
-      run: (cd dotnet/samples/RestThermostatConnectorApp; ./deploy-connector-and-asset.sh)
-
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
@@ -140,16 +137,6 @@ jobs:
 
     - name: Build DSS CLI (Release)
       run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
-
-    - name: Output Connector App Logs
-      run:  |
-        for pod in $(kubectl get pods -o name);
-        do
-            echo ${pod}
-            if [[ ${pod} == pod/my-http-* ]]; then
-                kubectl logs ${pod} 
-            fi
-        done
 
     - uses: dorny/test-reporter@v1
       id: test-reporter
