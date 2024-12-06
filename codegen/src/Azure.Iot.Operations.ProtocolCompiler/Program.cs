@@ -9,7 +9,7 @@ internal class Program
     private static readonly string DefaultOutDir = ".";
     private static readonly string DefaultLanguage = "csharp";
 
-    static async Task<int> Main(string[] args)
+    static async Task Main(string[] args)
     {
         var modelFileOption = new Option<FileInfo[]>(
             name: "--modelFile",
@@ -70,9 +70,9 @@ internal class Program
 
         rootCommand.SetHandler(
 #if DEBUG
-            async (modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language); },
+            async (modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language) => { Environment.ExitCode = await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language); },
 #else
-            async (modelFiles, modelId, dmrRoot, workingDir, outDir, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, null, language); },
+            async (modelFiles, modelId, dmrRoot, workingDir, outDir, language) => { Environment.ExitCode = await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, null, language); },
 #endif
             modelFileOption,
             modelIdOption,
@@ -85,6 +85,6 @@ internal class Program
 #endif
             langOption);
 
-        return await rootCommand.InvokeAsync(args);
+        await rootCommand.InvokeAsync(args);
     }
 }
