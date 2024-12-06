@@ -11,10 +11,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::object_ms_adr_schema_registry_schema__1::Object_Ms_Adr_SchemaRegistry_Schema__1;
-use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use crate::libsgen::common_types::{
+    b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time,
+};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetResponsePayload {
+pub struct PutResponsePayload {
     // The Command response argument.
     pub schema: Object_Ms_Adr_SchemaRegistry_Schema__1,
 }

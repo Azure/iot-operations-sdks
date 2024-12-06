@@ -11,7 +11,9 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::object_get_request::Object_Get_Request;
-use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use crate::libsgen::common_types::{
+    b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time,
+};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetRequestPayload {

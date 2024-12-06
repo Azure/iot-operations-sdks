@@ -16,7 +16,7 @@ use super::get_request_payload::GetRequestPayload;
 use super::get_response_payload::GetResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
+use crate::libsgen::common_types::common_options::CommandOptions;
 
 pub type GetRequest = CommandRequest<GetRequestPayload>;
 pub type GetResponse = CommandResponse<GetResponsePayload>;

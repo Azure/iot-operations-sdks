@@ -19,7 +19,7 @@ mod put_response_payload_serialization;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-pub use crate::common_types::common_options::{CommandOptions, TelemetryOptions};
+pub use super::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "dtmi:ms:adr:SchemaRegistry;1";
 pub const REQUEST_TOPIC_PATTERN: &str = "adr/{modelId}/{commandName}";

@@ -12,7 +12,9 @@ use uuid::Uuid;
 
 use super::enum_ms_adr_schema_registry_format__1::Enum_Ms_Adr_SchemaRegistry_Format__1;
 use super::enum_ms_adr_schema_registry_schema_type__1::Enum_Ms_Adr_SchemaRegistry_SchemaType__1;
-use crate::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use crate::libsgen::common_types::{
+    b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time,
+};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Object_Put_Request {

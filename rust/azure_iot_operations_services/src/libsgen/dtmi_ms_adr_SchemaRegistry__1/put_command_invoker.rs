@@ -16,7 +16,7 @@ use super::put_request_payload::PutRequestPayload;
 use super::put_response_payload::PutResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
+use crate::libsgen::common_types::common_options::CommandOptions;
 
 pub type PutRequest = CommandRequest<PutRequestPayload>;
 pub type PutResponse = CommandResponse<PutResponsePayload>;
