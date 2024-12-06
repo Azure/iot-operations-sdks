@@ -359,7 +359,7 @@ where
                         Ok(Err(error)) => {
                             aio_protocol_error_checker::check_error(catch, &error);
                         }
-                        Err(_) => {
+                        _ => {
                             panic!(
                                 "Expected {} error when calling recv() on CommandExecutor but got timeout instead",
                                 catch.error_kind);
