@@ -7,7 +7,7 @@ use async_trait::async_trait;
 use tokio::sync::{broadcast, mpsc};
 
 use azure_iot_operations_mqtt::control_packet::Publish;
-use azure_iot_operations_mqtt::error::ClientError;
+use azure_iot_operations_mqtt::error::AckError;
 use azure_iot_operations_mqtt::interface::{MqttAck, PubReceiver};
 use azure_iot_operations_mqtt::topic::{TopicFilter, TopicName};
 
@@ -38,7 +38,7 @@ impl MqttListener {
 
 #[async_trait]
 impl MqttAck for MqttListener {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
         self.operation_tx
             .send(MqttOperation::Ack { pkid: publish.pkid })
             .unwrap();
@@ -65,4 +65,6 @@ impl PubReceiver for MqttListener {
             }
         }
     }
+
+    fn close(&mut self) {}
 }

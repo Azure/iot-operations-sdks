@@ -11,7 +11,9 @@ use tokio::sync::{broadcast, mpsc, oneshot};
 use azure_iot_operations_mqtt::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use azure_iot_operations_mqtt::error::ClientError;
+use azure_iot_operations_mqtt::error::{
+    AckError, DisconnectError, PublishError, ReauthError, SubscribeError, UnsubscribeError,
+};
 use azure_iot_operations_mqtt::interface::{
     CompletionToken, ManagedClient, MqttAck, MqttClient, MqttDisconnect, MqttPubSub,
 };
@@ -131,7 +133,7 @@ impl MqttPubSub for MqttDriver {
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         Ok(self.publish_with_optional_properties(topic, qos, retain, payload, None))
     }
 
@@ -143,7 +145,7 @@ impl MqttPubSub for MqttDriver {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         Ok(self.publish_with_optional_properties(topic, qos, retain, payload, Some(properties)))
     }
 
@@ -152,7 +154,7 @@ impl MqttPubSub for MqttDriver {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         Ok(self.subscribe_with_optional_properties(topic, qos, None))
     }
 
@@ -162,7 +164,7 @@ impl MqttPubSub for MqttDriver {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         Ok(self.subscribe_with_optional_properties(topic, qos, Some(properties)))
     }
 
@@ -170,7 +172,7 @@ impl MqttPubSub for MqttDriver {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         Ok(self.unsubscribe_with_optional_properties(topic, None))
     }
 
@@ -179,14 +181,14 @@ impl MqttPubSub for MqttDriver {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         Ok(self.unsubscribe_with_optional_properties(topic, Some(properties)))
     }
 }
 
 #[async_trait]
 impl MqttAck for MqttDriver {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
         self.operation_tx
             .send(MqttOperation::Ack { pkid: publish.pkid })
             .unwrap();
@@ -196,7 +198,7 @@ impl MqttAck for MqttDriver {
 
 #[async_trait]
 impl MqttDisconnect for MqttDriver {
-    async fn disconnect(&self) -> Result<(), ClientError> {
+    async fn disconnect(&self) -> Result<(), DisconnectError> {
         let _ = self.operation_tx.send(MqttOperation::Disconnect);
         Ok(())
     }
@@ -204,7 +206,7 @@ impl MqttDisconnect for MqttDriver {
 
 #[async_trait]
 impl MqttClient for MqttDriver {
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError> {
         self.operation_tx
             .send(MqttOperation::Auth {
                 _auth_props: auth_props,
