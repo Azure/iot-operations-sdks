@@ -402,20 +402,17 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }
 
-
-                assetEndpointProfileTcs = new();
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
                 string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
                 JsonElement property;
-                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property))
+                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType))
                 {
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }
 
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
-                Assert.Equal(expectedNewDataSourceType, property.GetString());
 
                 string expectedNewCertValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
@@ -424,7 +421,6 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }
-
 
                 string expectedNewUsernameValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
@@ -436,7 +432,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
                 string expectedNewPasswordValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password, expectedNewPasswordValue))
+                while (!string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue))
                 {
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     await Task.Delay(TimeSpan.FromMilliseconds(10));
@@ -452,7 +448,92 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         [Fact]
         public async Task ObserveAssetEndpointProfile_WithStartingAssetEndpointProfile()
         {
-            throw new NotImplementedException();
+            SetupTestEnvironment();
+            var assetMonitor = new AssetMonitor();
+            
+            try
+            {
+                AssetEndpointProfileChangedEventArgs? latestAssetEndpointProfileState = null;
+                assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
+                {
+                    latestAssetEndpointProfileState = args;
+                };
+
+                assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
+
+                // Wait until the assetMonitor notifies this thread that the AEP has been created
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                while (latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created)
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewTargetAddress = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewDataSourceType = Guid.NewGuid().ToString();
+                string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
+                File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
+                JsonElement property;
+                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                Assert.Equal(JsonValueKind.String, property.ValueKind);
+
+                string expectedNewCertValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewUsernameValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
+                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+
+                string expectedNewPasswordValue = Guid.NewGuid().ToString();
+                File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
+                while (!string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue))
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                }
+            }
+            finally
+            {
+                assetMonitor.UnobserveAssets();
+                CleanupTestEnvironment();
+            }
         }
 
         private void SetupTestEnvironment()
