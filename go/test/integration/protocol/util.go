@@ -3,9 +3,14 @@
 package protocol
 
 import (
+	"context"
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,4 +29,38 @@ func sessionClients(
 		require.NoError(t, client.Stop())
 		require.NoError(t, server.Stop())
 	}
+}
+
+type GreeterService struct {
+	client *protocol.MqttClient
+}
+
+func NewGreeterService(client *protocol.MqttClient) *GreeterService {
+	return &GreeterService{client: client}
+}
+
+func (s *GreeterService) SayHello(ctx context.Context, req *protocol.CommandRequest[envoy.HelloRequest]) (*protocol.CommandResponse[envoy.HelloResponse], error) {
+	fmt.Printf("--> Executing Greeter.SayHello with id %s for %s\n", req.CorrelationData, req.ClientID)
+	fmt.Printf("--> Executed Greeter.SayHello with id %s for %s\n", req.CorrelationData, req.ClientID)
+	return protocol.Respond(
+		envoy.HelloResponse{
+			Message: "Hello " + req.Payload.Name,
+		},
+		protocol.WithMetadata(req.TopicTokens),
+	)
+}
+
+func (s *GreeterService) SayHelloWithDelay(ctx context.Context, req *protocol.CommandRequest[envoy.HelloWithDelayRequest]) (*protocol.CommandResponse[envoy.HelloResponse], error) {
+	fmt.Printf("--> Executing Greeter.SayHelloWithDelay with id %s for %s\n", req.CorrelationData, req.ClientID)
+	if req.Payload.Delay == 0 {
+		return nil, fmt.Errorf("Delay cannot be Zero")
+	}
+	time.Sleep(time.Duration(req.Payload.Delay))
+	fmt.Printf("--> Executed Greeter.SayHelloWithDelay with id %s for %s\n", req.CorrelationData, req.ClientID)
+	return protocol.Respond(
+		envoy.HelloResponse{
+			Message: fmt.Sprintf("Hello %s after %s", req.Payload.Name, req.Payload.Delay),
+		},
+		protocol.WithMetadata(req.TopicTokens),
+	)
 }
