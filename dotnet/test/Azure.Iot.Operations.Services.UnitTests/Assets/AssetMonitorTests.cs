@@ -3,6 +3,7 @@
 
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.Assets.UnitTests
@@ -201,11 +202,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
                 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created;
+                });
 
                 Assert.Equal(ChangeType.Created, latestAssetState.ChangeType);
                 Asset? observedAsset = latestAssetState.Asset;
@@ -215,11 +215,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
                 RemoveAssetFromEnvironment(testAssetName);
 
-                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted;
+                });
 
                 Assert.Equal(ChangeType.Deleted, latestAssetState.ChangeType);
                 Assert.Null(latestAssetState.Asset);
@@ -297,21 +296,19 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 assetMonitor.ObserveAssets(TimeSpan.FromMilliseconds(100));
 
                 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created;
+                });
 
                 string newTopicPath = Guid.NewGuid().ToString();
                 testAsset.DefaultTopic.Path = newTopicPath;
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Updated)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Updated;
+                });
 
                 Assert.Equal(ChangeType.Updated, latestAssetState.ChangeType);
                 Asset? observedAsset = latestAssetState.Asset;
@@ -321,11 +318,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
                 RemoveAssetFromEnvironment(testAssetName);
 
-                while (latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Deleted;
+                });
 
                 Assert.Equal(ChangeType.Deleted, latestAssetState.ChangeType);
                 Assert.Null(latestAssetState.Asset);
@@ -371,72 +367,63 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 SetupTestEnvironment();
 
                 // Wait until the assetMonitor notifies this thread that the AEP has been created
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                while (latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created;
+                });
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
+                });
 
                 string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
- 
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
+                });
+
                 string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
+                });
 
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
                 string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
-                JsonElement property;
-                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType))
+                JsonElement property = new();
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
+                });
 
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
 
                 string expectedNewCertValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue);
+                });
 
                 string expectedNewUsernameValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue);
+                });
 
                 string expectedNewPasswordValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
-                while (!string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue);
+                });
             }
             finally
             {
@@ -462,77 +449,78 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 assetMonitor.ObserveAssetEndpointProfile(TimeSpan.FromMilliseconds(100));
 
                 // Wait until the assetMonitor notifies this thread that the AEP has been created
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                while (latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created)
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return latestAssetEndpointProfileState == null || latestAssetEndpointProfileState.ChangeType != ChangeType.Created;
+                });
 
                 string expectedNewTargetAddress = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
+                });
 
                 string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
+                });
 
                 string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
+                });
 
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
                 string expectedNewAdditionalConfiguration = "{ \"DataSourceType\": \"" + expectedNewDataSourceType + "\" }";
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_ADDITIONAL_CONFIGURATION", expectedNewAdditionalConfiguration);
-                JsonElement property;
-                while (!latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType))
+                JsonElement property = new();
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
+                });
 
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
 
                 string expectedNewCertValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue);
+                });
 
                 string expectedNewUsernameValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
-                while (!string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue);
+                });
 
                 string expectedNewPasswordValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
-                while (!string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue))
+                await WaitUntilAsync(() =>
                 {
-                    if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
-                }
+                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue);
+                });
             }
             finally
             {
                 assetMonitor.UnobserveAssets();
                 CleanupTestEnvironment();
+            }
+        }
+
+        private async Task WaitUntilAsync(Func<bool> waitUntil)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            while (waitUntil.Invoke())
+            {
+                if (cancellationTokenSource.IsCancellationRequested) Assert.Fail("Timed out waiting for observe callback");
+                await Task.Delay(TimeSpan.FromMilliseconds(10));
             }
         }
 
