@@ -705,5 +705,47 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Equal(SslProtocols.Tls12 | SslProtocols.Tls13, options.ChannelOptions.TlsOptions.SslProtocol);
             Assert.Equal(expectedTrustChain, options.ChannelOptions.TlsOptions.TrustChain);
         }
+
+        [Fact]
+        public void CreateFromFileMount()
+        {
+            var expected = new MqttConnectionSettings("somehostname")
+            {
+                SatAuthFile = "sat.txt",
+                TcpPort = 1234,
+                UseTls = true,
+                CaFile = "./Connection/ca.txt",
+            };
+
+            // This makes the connection settings read the CaFile and build the trust chain for later comparison
+            expected.ValidateMqttSettings(true);
+
+            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFiles");
+            Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
+            Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", Directory.GetCurrentDirectory() + "\\Connection\\testMountTrustedCerts\\");
+            var actual = MqttConnectionSettings.FromFileMount();
+
+            Assert.Equal(expected.HostName, actual.HostName);
+            Assert.Equal(expected.UseTls, actual.UseTls);
+            Assert.Equal(expected.TcpPort, actual.TcpPort);
+            Assert.Equal(expected.SatAuthFile, actual.SatAuthFile);
+            Assert.NotNull(expected.TrustChain);
+            Assert.NotNull(actual.TrustChain);
+            Assert.Equal(expected.TrustChain.Count, actual.TrustChain.Count);
+            var expectedFirstCert = expected.TrustChain.FirstOrDefault();
+            var actualFirstCert = actual.TrustChain.FirstOrDefault();
+            Assert.NotNull(expectedFirstCert);
+            Assert.NotNull(actualFirstCert);
+            Assert.Equal(expectedFirstCert.Issuer, actualFirstCert.Issuer);
+        }
+
+        [Fact]
+        public void CreateFromFileMount_ThrowsIfMisconfiguredTrustedCertsDirectory()
+        {
+            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFiles");
+            Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
+            Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", "thisDirectory/does/not/exist");
+            Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromFileMount());
+        }
     }
 }

@@ -157,7 +157,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
             string? targetAddress;
             bool useTls;
-            bool cleanStart = true;
             string? satMountPath = string.Empty;
             string? tlsCaCertMountPath = string.Empty;
             int port;
@@ -198,8 +197,13 @@ namespace Azure.Iot.Operations.Protocol.Connection
             X509Certificate2Collection chain = [];
             tlsCaCertMountPath = Environment.GetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH");
 
-            if (!string.IsNullOrWhiteSpace(tlsCaCertMountPath) && Directory.Exists(tlsCaCertMountPath))
+            if (!string.IsNullOrWhiteSpace(tlsCaCertMountPath))
             {
+                if (!Directory.Exists(tlsCaCertMountPath))
+                {
+                    throw AkriMqttException.GetConfigurationInvalidException("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", string.Empty, "A TLS cert mount path was provided, but the provided path does not exist. Path: " + tlsCaCertMountPath);
+                }
+
                 foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
                 {
                     chain.ImportFromPemFile(caFilePath);
@@ -213,7 +217,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
                     UseTls = useTls,
                     SatAuthFile = satMountPath,
                     TrustChain = chain,
-                    CleanStart = cleanStart,
                     TcpPort = port
                 };
             }
