@@ -16,7 +16,7 @@ mod wrapper;
 
 use thiserror::Error;
 
-use crate::error::{ClientError, ConnectionError};
+use crate::error::{ConnectionError, DisconnectError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
 
@@ -64,7 +64,7 @@ pub enum SessionErrorKind {
 pub enum SessionExitError {
     /// Session was dropped before it could be exited.
     #[error("session dropped")]
-    Dropped(#[from] ClientError),
+    Dropped(#[from] DisconnectError),
     /// Session is not currently able to contact the broker for graceful exit.
     #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
     BrokerUnavailable {
