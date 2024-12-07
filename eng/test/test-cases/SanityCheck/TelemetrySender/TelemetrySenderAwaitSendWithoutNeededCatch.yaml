@@ -1,0 +1,19 @@
+---
+test-name: TelemetrySenderAwaitSendWithoutNeededCatch
+description:
+  condition: >-
+    TelemetrySenders sends Telemetry but ACK fails when publishing request.
+  expect: >-
+    Erroneous test case fails to expect that CommandInvoker throws 'mqtt error' exception.
+
+prologue:
+  senders:
+  - { }
+  push-acks:
+    publish: [ fail ]
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+...

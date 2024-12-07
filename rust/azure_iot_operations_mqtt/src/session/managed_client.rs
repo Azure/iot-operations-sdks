@@ -3,7 +3,6 @@
 
 //! Internal implementation of [`SessionManagedClient`] and [`SessionPubReceiver`].
 
-use std::collections::HashSet;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
@@ -14,11 +13,19 @@ use tokio::sync::mpsc::UnboundedReceiver;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::ClientError;
+use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
 use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::session::dispatcher::IncomingPublishDispatcher;
-use crate::session::pub_tracker::PubTracker;
+use crate::session::pub_tracker::{self, PubTracker};
 use crate::topic::{TopicFilter, TopicParseError};
+
+impl From<pub_tracker::AckError> for AckError {
+    fn from(e: pub_tracker::AckError) -> Self {
+        match e {
+            pub_tracker::AckError::AckOverflow => AckError::AlreadyAcked,
+        }
+    }
+}
 
 /// An MQTT client that has it's connection state externally managed by a [`Session`](super::Session).
 /// Can be used to send messages and create receivers for incoming messages.
@@ -34,7 +41,7 @@ where
     /// Dispatcher for incoming publishes
     pub(crate) incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Tracker for unacked incoming publishes
-    pub(crate) unacked_pubs: Arc<PubTracker>,
+    pub(crate) pub_tracker: Arc<PubTracker>,
 }
 
 impl<PS> ManagedClient for SessionManagedClient<PS>
@@ -60,7 +67,7 @@ where
             .register_filter(&topic_filter);
         Ok(SessionPubReceiver::new(
             rx,
-            self.unacked_pubs.clone(),
+            self.pub_tracker.clone(),
             auto_ack,
         ))
     }
@@ -77,7 +84,7 @@ where
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.pub_sub.publish(topic, qos, retain, payload).await
     }
 
@@ -88,7 +95,7 @@ where
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.pub_sub
             .publish_with_properties(topic, qos, retain, payload, properties)
             .await
@@ -98,7 +105,7 @@ where
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.pub_sub.subscribe(topic, qos).await
     }
 
@@ -107,7 +114,7 @@ where
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.pub_sub
             .subscribe_with_properties(topic, qos, properties)
             .await
@@ -116,7 +123,7 @@ where
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.pub_sub.unsubscribe(topic).await
     }
 
@@ -124,7 +131,7 @@ where
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.pub_sub
             .unsubscribe_with_properties(topic, properties)
             .await
@@ -136,26 +143,21 @@ pub struct SessionPubReceiver {
     /// Receiver for incoming publishes
     pub_rx: UnboundedReceiver<Publish>,
     /// Tracker for acks of incoming publishes
-    unacked_pubs: Arc<PubTracker>,
+    pub_tracker: Arc<PubTracker>,
     /// Controls whether incoming publishes are auto-acked
     auto_ack: bool,
-    /// Set of PKIDs for incoming publishes that have not yet been acked.
-    /// Ensures publishes cannot be acked twice.
-    /// (only used if `auto_ack` == false)
-    unacked_pkids: Mutex<HashSet<u16>>,
 }
 
 impl SessionPubReceiver {
     pub fn new(
         pub_rx: UnboundedReceiver<Publish>,
-        unacked_pubs: Arc<PubTracker>,
+        pub_tracker: Arc<PubTracker>,
         auto_ack: bool,
     ) -> Self {
         Self {
             pub_rx,
-            unacked_pubs,
+            pub_tracker,
             auto_ack,
-            unacked_pkids: Mutex::new(HashSet::new()),
         }
     }
 }
@@ -167,30 +169,35 @@ impl PubReceiver for SessionPubReceiver {
         if let Some(publish) = &result {
             if self.auto_ack {
                 // Ack immediately if auto-ack is enabled
-                // TODO: This ack failure should probably be unreachable and cause panic.
-                // Reconsider in error PR.
-                self.unacked_pubs.ack(publish).await.unwrap();
-            } else {
-                // Otherwise, track the PKID for manual acking
-                self.unacked_pkids.lock().unwrap().insert(publish.pkid);
+                // NOTE: It is safe to assume that ack does not fail because failure is caused
+                // exclusively by ack overflows (i.e. acking a publish more times than it was distributed).
+                // By virtue of using auto-ack, this should not happen.
+                self.pub_tracker
+                    .ack(publish)
+                    .await
+                    .expect("Auto-ack failed");
+                // TODO: Technically, there is an edge case where this panic could still occur.
+                // If the incoming publish was distributed to multiple receivers, and one of them
+                // was NOT using auto-ack, and somehow was able to get the publish and ack it
+                // multiple times before this receiver was able to do an auto-ack, this would make
+                // failure possible. Extremely unlikely, but theoretically possible.
+                // In order to prevent this (and to make acks more generally portable), we need to
+                // redefine Publish to have an internal unique identifier for the receiver it was
+                // dispatched to. Out of scope for now.
             }
         }
-
         result
+    }
+
+    fn close(&mut self) {
+        self.pub_rx.close();
     }
 }
 
 #[async_trait]
 impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        {
-            let mut unacked_pkids_g = self.unacked_pkids.lock().unwrap();
-            // TODO: don't panic here. This is bad.
-            assert!(!self.auto_ack, "Auto-ack is enabled. Cannot manually ack.");
-            assert!(unacked_pkids_g.contains(&publish.pkid), "");
-            unacked_pkids_g.remove(&publish.pkid);
-        }
-        self.unacked_pubs.ack(publish).await.unwrap();
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+        self.pub_tracker.ack(publish).await?;
         Ok(())
     }
 }
@@ -219,17 +226,21 @@ impl Drop for SessionPubReceiver {
                 publish.pkid
             );
             tokio::task::spawn({
-                let unacked_pubs = self.unacked_pubs.clone();
+                let pub_tracker = self.pub_tracker.clone();
                 let publish = publish;
                 async move {
-                    match unacked_pubs.ack(&publish).await {
+                    match pub_tracker.ack(&publish).await {
                         Ok(()) => log::debug!("Auto-ack of PKID {} successful", publish.pkid),
                         Err(e) => log::error!(
                             "Auto-ack failed for {}. Publish may be redelivered. Reason: {e:?}",
                             publish.pkid
                         ),
-                        // TODO: if this ack failed, the Session is now in a broken state. Consider adding an
-                        // emergency mechanism of some kind to get us out of it.
+                        // TODO: Similar to the comment in `recv`, this error can only happen
+                        // if another receiver received the same message and acked it multiple
+                        // times. Unlike that case, there's no tight race condition here, so this
+                        // one is a much more likely scenario. Thus, there's no .expect() here.
+                        // Again, this logic would become unnecessary if Publish had a unique
+                        // identifier per dispatched receiver.
                     };
                 }
             });

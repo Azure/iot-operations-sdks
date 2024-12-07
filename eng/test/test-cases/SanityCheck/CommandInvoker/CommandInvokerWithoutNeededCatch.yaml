@@ -1,0 +1,18 @@
+---
+test-name: CommandInvokerWithoutNeededCatch
+description:
+  condition: >-
+    CommandInvoker initialized with a topic namespace that is invalid.
+  expect: >-
+    Erroneous test case fails to expect that CommandInvoker throws 'invalid configuration' exception.
+
+prologue:
+  invokers:
+  - topic-namespace: "invalid/{modelId}"
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await invocation
+  invocation-index: 0
+...

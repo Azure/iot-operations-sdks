@@ -24,15 +24,19 @@ pub const COMMAND_SERVICE_GROUP_ID: &str = "<#=this.cmdServiceGroupId#>";
 <# if (this.telemServiceGroupId != null) { #>
 pub const TELEMETRY_SERVICE_GROUP_ID: &str = "<#=this.telemServiceGroupId#>";
 <# } #>
+<# if (this.generateClient) { #>
 
 pub mod client {
 <# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_sender") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
+<# } #>
+<# if (this.generateServer) { #>
 
 pub mod service {
 <# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_receiver") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
+<# } #>

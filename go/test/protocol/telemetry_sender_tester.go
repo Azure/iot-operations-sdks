@@ -157,10 +157,6 @@ func runOneTelemetrySenderTest(
 		)
 	}
 
-	for _, topic := range testCase.Epilogue.SubscribedTopics {
-		require.True(t, stubBroker.HasSubscribed(topic))
-	}
-
 	if testCase.Epilogue.PublicationCount != nil {
 		require.Equal(
 			t,
@@ -171,14 +167,6 @@ func runOneTelemetrySenderTest(
 
 	for ix, publishedMessage := range testCase.Epilogue.PublishedMessages {
 		checkPublishedTelemetry(t, ix, &publishedMessage, stubBroker)
-	}
-
-	if testCase.Epilogue.AcknowledgementCount != nil {
-		require.Equal(
-			t,
-			*testCase.Epilogue.AcknowledgementCount,
-			stubBroker.AcknowledgementCount,
-		)
 	}
 }
 
@@ -192,6 +180,23 @@ func getTelemetrySender(
 	options := []protocol.TelemetrySenderOption{
 		protocol.WithTopicTokens(tcs.CustomTokenMap),
 		protocol.WithTopicTokenNamespace("ex:"),
+	}
+
+	if tcs.DataSchema != nil {
+		dataSchema, err := url.Parse(*tcs.DataSchema)
+		require.NoErrorf(
+			t,
+			err,
+			"Unable to parse DataSchema as a URL: %s",
+			*tcs.DataSchema,
+		)
+
+		dataSchemaOption := protocol.WithDataSchema(*dataSchema)
+
+		options = append(
+			options,
+			&dataSchemaOption,
+		)
 	}
 
 	if tcs.TopicNamespace != nil {
@@ -242,7 +247,7 @@ func sendTelemetry(
 		protocol.WithTimeout(actionSendTelemetry.Timeout.ToDuration()),
 	)
 
-	if actionSendTelemetry.Qos != nil {
+	if actionSendTelemetry.Qos != nil && *actionSendTelemetry.Qos != 1 {
 		t.Skipf(
 			"Skipping test because TelemetrySender does not support settable QoS",
 		)
@@ -326,8 +331,12 @@ func checkPublishedTelemetry(
 
 	for key, val := range publishedMessage.Metadata {
 		propVal, ok := getUserProperty(t, msg, key)
-		require.True(t, ok)
-		require.Equal(t, val, propVal)
+		if val != nil {
+			require.True(t, ok)
+			require.Equal(t, *val, propVal)
+		} else {
+			require.False(t, ok)
+		}
 	}
 
 	if publishedMessage.SourceID != nil {
