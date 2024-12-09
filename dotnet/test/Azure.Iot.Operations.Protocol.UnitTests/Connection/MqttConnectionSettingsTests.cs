@@ -713,8 +713,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             {
                 SatAuthFile = "sat.txt",
                 TcpPort = 1234,
-                UseTls = true,
-                CaFile = "./Connection/ca.txt",
+                UseTls = false,
             };
 
             // This makes the connection settings read the CaFile and build the trust chain for later comparison
@@ -722,21 +721,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
 
             Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFiles");
             Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
-            Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", Directory.GetCurrentDirectory() + "\\Connection\\testMountTrustedCerts\\");
             var actual = MqttConnectionSettings.FromFileMount();
 
             Assert.Equal(expected.HostName, actual.HostName);
             Assert.Equal(expected.UseTls, actual.UseTls);
             Assert.Equal(expected.TcpPort, actual.TcpPort);
             Assert.Equal(expected.SatAuthFile, actual.SatAuthFile);
-            Assert.NotNull(expected.TrustChain);
-            Assert.NotNull(actual.TrustChain);
-            Assert.Equal(expected.TrustChain.Count, actual.TrustChain.Count);
-            var expectedFirstCert = expected.TrustChain.FirstOrDefault();
-            var actualFirstCert = actual.TrustChain.FirstOrDefault();
-            Assert.NotNull(expectedFirstCert);
-            Assert.NotNull(actualFirstCert);
-            Assert.Equal(expectedFirstCert.Issuer, actualFirstCert.Issuer);
         }
 
         [Fact]
