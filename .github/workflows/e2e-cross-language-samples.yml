@@ -80,7 +80,7 @@ jobs:
       - name: CodeGen Go Counter samples
         if: matrix.server == 'go' || matrix.client == 'go'
         run: |
-          pushd go/samples/protocol/counter/envoy; $codegen --modelFile /../../../eng/test/schema-samples/counter.json --lang go; popd
+          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
 
       - name: Verify Generated Code Matches Repo
         run: |
