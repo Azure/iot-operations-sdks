@@ -5,6 +5,7 @@ package protocol
 import (
 	"context"
 	"fmt"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -63,4 +64,18 @@ func (s *GreeterService) SayHelloWithDelay(ctx context.Context, req *protocol.Co
 		},
 		protocol.WithMetadata(req.TopicTokens),
 	)
+}
+
+var counter int32
+
+func IncrementCounter() int32 {
+	return atomic.AddInt32(&counter, 1)
+}
+
+func ReadCounter() int32 {
+	return atomic.LoadInt32(&counter)
+}
+
+func ResetCounter() {
+	atomic.StoreInt32(&counter, 0)
 }

@@ -11,6 +11,7 @@ import (
 )
 
 func TestExecutorCanBeInitializedWithoutAValidConnection(t *testing.T) {
+	ctx := context.Background()
 	client, server, done := sessionClients(t)
 	defer done()
 
@@ -43,6 +44,9 @@ func TestExecutorCanBeInitializedWithoutAValidConnection(t *testing.T) {
 	)
 	require.NoError(t, err)
 	listeners = append(listeners, invoker)
+
+	err = listeners.Start(ctx)
+	require.NoError(t, err)
 
 	require.NotNil(t, executor)
 }
