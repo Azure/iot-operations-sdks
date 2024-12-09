@@ -15,13 +15,87 @@ use crate::connection_settings::MqttConnectionSettings;
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, ConnectionError};
+use crate::error::{
+    AckError, ConnectionError, DisconnectError, PublishError, ReauthError, SubscribeError,
+    UnsubscribeError,
+};
 use crate::interface::{
     CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
 };
+use crate::topic::{TopicFilter, TopicName};
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
 pub type EventLoopAlias = rumqttc::v5::EventLoop;
+
+impl From<rumqttc::v5::ClientError> for PublishError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        // NOTE: Technically, the rumqttc ClientError can also include some input validation for
+        // publish topics but since there's no way to identify those, we will need to check for them
+        // ourselves anyway ahead of invoking rumqttc, thus preventing that case from happening.
+        // As such, we can assume that all rumqttc ClientErrors on publish are due to the client
+        // being detached from the event loop
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                PublishError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for SubscribeError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        // NOTE: Technically, the rumqttc ClientError can also include some input validation for
+        // subscribe topics but since there's no way to identify those, we will need to check for them
+        // ourselves anyway ahead of invoking rumqttc, thus preventing that case from happening.
+        // As such, we can assume that all rumqttc ClientErrors on subscribe are due to the client
+        // being detached from the event loop
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                SubscribeError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for UnsubscribeError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                UnsubscribeError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for AckError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                AckError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for DisconnectError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                DisconnectError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for ReauthError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                ReauthError::DetachedClient(r)
+            }
+        }
+    }
+}
 
 #[async_trait]
 impl MqttPubSub for rumqttc::v5::AsyncClient {
@@ -29,13 +103,26 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     // without the intermediate step of calling .wait_async(), but the rumqttc NoticeFuture does
     // not actually implement Future despite the name.
 
+    // NOTE: Validating the topic name here does unfortunately require an additional allocation.
+    // This is only true because rumqttc will always reallocate, even if it's being given an owned
+    // string.
+
+    // NOTE: It also might be nice to be able to provide the exact reason the topic is invalid here,
+    // but the current topic parsing API doesn't have a way to do this without yet another allocation.
+    // This may be worth reconsidering in the future, but for now, this is already more information
+    // than was previously available.
+
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
+        let topic = topic.into();
+        if !TopicName::is_valid_topic_name(&topic) {
+            return Err(PublishError::InvalidTopicName);
+        }
         let nf = self.publish(topic, qos, retain, payload).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -47,7 +134,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
+        let topic = topic.into();
+        if !TopicName::is_valid_topic_name(&topic) {
+            return Err(PublishError::InvalidTopicName);
+        }
         let nf = self
             .publish_with_properties(topic, qos, retain, payload, properties)
             .await?;
@@ -58,7 +149,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(SubscribeError::InvalidTopicFilter);
+        }
         let nf = self.subscribe(topic, qos).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -68,7 +163,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(SubscribeError::InvalidTopicFilter);
+        }
         let nf = self
             .subscribe_with_properties(topic, qos, properties)
             .await?;
@@ -78,7 +177,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(UnsubscribeError::InvalidTopicFilter);
+        }
         let nf = self.unsubscribe(topic).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -87,7 +190,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(UnsubscribeError::InvalidTopicFilter);
+        }
         let nf = self.unsubscribe_with_properties(topic, properties).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -95,25 +202,29 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        // NOTE: Technically we could achieve this same behavior by just calling .ack() on the
-        // rumqttc client which assumes rc=0, but I prefer to be explicit here.
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+        // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
+        // if the publish in question has already been acked - doing so would require adding a
+        // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
+        // This would need to be implemented before any non-Session MQTT client gets exposed in API.
         let mut manual_ack = self.get_manual_ack(publish);
         manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
-        self.manual_ack(manual_ack).await
+        // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
+        // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
+        Ok(self.manual_ack(manual_ack).await?)
     }
 }
 
 #[async_trait]
 impl MqttClient for rumqttc::v5::AsyncClient {
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
-        self.reauth(Some(auth_props)).await
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError> {
+        Ok(self.reauth(Some(auth_props)).await?)
     }
 }
 
 #[async_trait]
 impl MqttDisconnect for rumqttc::v5::AsyncClient {
-    async fn disconnect(&self) -> Result<(), ClientError> {
+    async fn disconnect(&self) -> Result<(), DisconnectError> {
         Ok(self.disconnect().await?)
     }
 }
@@ -129,6 +240,8 @@ impl MqttEventLoop for rumqttc::v5::EventLoop {
     }
 }
 
+/// Client constructors + TLS
+/// -------------------------------------------
 pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,

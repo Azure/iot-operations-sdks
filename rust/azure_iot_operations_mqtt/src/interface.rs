@@ -9,7 +9,10 @@ use bytes::Bytes;
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, CompletionError, ConnectionError};
+use crate::error::{
+    AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
+    SubscribeError, UnsubscribeError,
+};
 use crate::topic::TopicParseError;
 
 // ---------- Concrete Types ----------
@@ -57,7 +60,7 @@ pub trait MqttPubSub {
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, PublishError>;
 
     /// MQTT Publish
     ///
@@ -70,7 +73,7 @@ pub trait MqttPubSub {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, PublishError>;
 
     /// MQTT Subscribe
     ///
@@ -80,7 +83,7 @@ pub trait MqttPubSub {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, SubscribeError>;
 
     /// MQTT Subscribe
     ///
@@ -91,7 +94,7 @@ pub trait MqttPubSub {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, SubscribeError>;
 
     /// MQTT Unsubscribe
     ///
@@ -100,7 +103,7 @@ pub trait MqttPubSub {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, UnsubscribeError>;
 
     /// MQTT Unsubscribe
     ///
@@ -110,14 +113,14 @@ pub trait MqttPubSub {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, UnsubscribeError>;
 }
 
 /// Provides functionality for acknowledging a received Publish message (QoS 1)
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError>;
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
@@ -126,7 +129,7 @@ pub trait MqttAck {
 #[async_trait]
 pub trait MqttDisconnect {
     /// Disconnect from the MQTT broker.
-    async fn disconnect(&self) -> Result<(), ClientError>;
+    async fn disconnect(&self) -> Result<(), DisconnectError>;
 }
 
 /// Internally-facing APIs for the underlying client.
@@ -134,7 +137,7 @@ pub trait MqttDisconnect {
 #[async_trait]
 pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     /// Reauthenticate with the MQTT broker
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError>;
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError>;
 }
 
 /// MQTT Event Loop manipulation
@@ -176,4 +179,9 @@ pub trait PubReceiver {
     ///
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
+
+    /// Close the receiver, preventing further incoming publishes.
+    ///
+    /// To guarantee no publish loss, `recv()` must be called until `None` is returned.
+    fn close(&mut self);
 }
