@@ -33,12 +33,6 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // This method can be extended by users who wish to add other logic.
-            await ExtendableExecuteAsync(cancellationToken);
-        }
-
-        protected virtual async Task ExtendableExecuteAsync(CancellationToken cancellationToken)
-        {
             string candidateName = Guid.NewGuid().ToString();
             bool isLeader = false;
 
