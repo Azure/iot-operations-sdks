@@ -11,7 +11,6 @@
     <ProjectReference Include="..\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    <!--Do we really want to ship this dep-->
   </ItemGroup>
 
 </Project>

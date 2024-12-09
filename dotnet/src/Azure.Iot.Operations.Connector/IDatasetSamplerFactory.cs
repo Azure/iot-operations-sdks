@@ -3,7 +3,7 @@
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// Factory interface for creating <see cref="IDatasetSampler"/> instances. For an example, see the HttpServerConnectorApp sample code.
+    /// Factory interface for creating <see cref="IDatasetSampler"/> instances.
     /// </summary>
     public interface IDatasetSamplerFactory
     {

@@ -3,7 +3,7 @@
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// A sampler of a single dataset within an asset. For an example, see the HttpServerConnectorApp sample code.
+    /// A sampler of a single dataset within an asset.
     /// </summary>
     public interface IDatasetSampler
     {
