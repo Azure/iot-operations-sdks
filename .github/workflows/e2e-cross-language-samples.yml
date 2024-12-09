@@ -88,6 +88,7 @@ jobs:
           then
               echo "codegen'd envoy updates not checked in"
               git diff-files
+              echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
               exit 1
           fi
 
