@@ -12,11 +12,11 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandRequestBuilderError, CommandResponse,
 };
 
+use super::super::common_types::common_options::CommandOptions;
 use super::put_request_payload::PutRequestPayload;
 use super::put_response_payload::PutResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::libsgen::common_types::common_options::CommandOptions;
 
 pub type PutRequest = CommandRequest<PutRequestPayload>;
 pub type PutResponse = CommandResponse<PutResponsePayload>;

@@ -10,14 +10,11 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::object_get_request::Object_Get_Request;
-use crate::libsgen::common_types::{
-    b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time,
-};
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::object_ms_adr_schema_registry_schema__1::Object_Ms_Adr_SchemaRegistry_Schema__1;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetRequestPayload {
-    // The Command request argument.
-    #[serde(rename = "getSchemaRequest")]
-    pub get_schema_request: Object_Get_Request,
+pub struct GetResponsePayload {
+    // The Command response argument.
+    pub schema: Object_Ms_Adr_SchemaRegistry_Schema__1,
 }

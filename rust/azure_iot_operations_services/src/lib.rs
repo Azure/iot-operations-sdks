@@ -7,6 +7,3 @@
 #![allow(clippy::result_large_err)]
 pub mod schema_registry;
 pub mod state_store;
-
-/// Generated code for Azure IoT Operations Services
-pub mod libsgen;
