@@ -86,22 +86,20 @@ impl SatAuthContext {
         ) {
             Ok(mut debouncer) => {
                 // Start watching the SAT file
-                match debouncer.watch(
-                    Path::new(&file_location),
-                    notify::RecursiveMode::NonRecursive,
-                ) {
-                    Ok(()) => Some(debouncer),
-                    Err(e) => match e.kind {
+                debouncer
+                    .watch(
+                        Path::new(&file_location),
+                        notify::RecursiveMode::NonRecursive,
+                    )
+                    .map_err(|e| match e.kind {
                         notify::ErrorKind::Io(e) => {
-                            return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                            SessionError::from(SessionErrorKind::IoError(e))
                         }
-                        _ => {
-                            return Err(std::convert::Into::into(
-                                SessionErrorKind::SatTokenWatcherError(e.to_string()),
-                            ));
-                        }
-                    },
-                }
+                        _ => std::convert::Into::into(SessionErrorKind::SatTokenWatcherError(
+                            e.to_string(),
+                        )),
+                    })?;
+                Some(debouncer)
             }
             Err(e) => {
                 log::error!("Error creating SAT file watcher: {e:?}");
