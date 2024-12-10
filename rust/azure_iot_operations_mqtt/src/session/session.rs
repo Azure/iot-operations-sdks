@@ -10,7 +10,7 @@ use std::time::Duration;
 
 use notify::RecommendedWatcher;
 use notify_debouncer_full::{new_debouncer, RecommendedCache};
-use rumqttc::v5::mqttbytes::v5::{Auth, AuthReasonCode};
+use rumqttc::v5::mqttbytes::v5::AuthReasonCode;
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
@@ -308,7 +308,7 @@ where
         // original setting during the operation of .run(), and thus, the original setting is lost.
 
         let mut sat_auth_context = None;
-        let (auth_watch_channel_tx, auth_watch_channel_rx) = tokio::sync::mpsc::unbounded_channel();
+        let mut sat_auth_tx = None;
 
         if let Some(sat_file) = &self.sat_file {
             // Set the authentication method
@@ -327,6 +327,10 @@ where
                     return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
                 }
             }
+
+            let (auth_watch_channel_tx, auth_watch_channel_rx) =
+                tokio::sync::mpsc::unbounded_channel();
+            sat_auth_tx = Some(auth_watch_channel_tx);
 
             sat_auth_context = Some(SatAuthContext::new(
                 sat_file.clone(),
@@ -395,8 +399,22 @@ where
                 }
                 Ok(Event::Incoming(Incoming::Auth(auth))) => {
                     log::debug!("Incoming AUTH: {auth:?}");
-                    // Notify the background task that the auth data has changed
-                    auth_watch_channel_tx.send(auth.code).unwrap();
+
+                    if let Some(sat_auth_tx) = &sat_auth_tx {
+                        // Notify the background task that the auth data has changed
+                        // TODO: This is a bit of a hack, but it works for now. Ideally, the reauth
+                        // method on rumqttc would return a completion token and we could use that
+                        // in the background task to know when the reauth is complete.
+                        match sat_auth_tx.send(auth.code) {
+                            Ok(()) => {}
+                            Err(e) => {
+                                // This should never happen unless the background task has exited
+                                // in which case the session is already in a bad state and we should
+                                // have already exited.
+                                log::error!("Error sending auth code to SAT auth task: {e:?}");
+                            }
+                        }
+                    }
                 }
                 Ok(Event::Incoming(Incoming::Publish(publish))) => {
                     log::debug!("Incoming PUB: {publish:?}");
