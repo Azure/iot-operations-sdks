@@ -4,11 +4,14 @@
 //! Internal implementation of [`Session`] and [`SessionExitHandle`].
 
 use std::fs;
+use std::io::Read;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
+use notify::RecommendedWatcher;
 use notify_debouncer_mini::new_debouncer;
+use rumqttc::v5::mqttbytes::v5::{Auth, AuthReasonCode};
 use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
@@ -24,6 +27,130 @@ use crate::session::{SessionError, SessionErrorKind, SessionExitError};
 
 /// Used as the authentication method for the MQTT client when using SAT.
 const SAT_AUTHENTICATION_METHOD: &str = "K8S-SAT";
+
+struct SatAuthContext {
+    file_location: String,
+    watcher: Option<notify_debouncer_mini::Debouncer<RecommendedWatcher>>,
+    file_watcher_notify: Arc<Notify>,
+    auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
+}
+
+enum ReauthResult {
+    Auth(AuthReasonCode),
+    Timeout,
+    // FIN: better name for this
+    IoError,
+}
+
+impl SatAuthContext {
+    fn new(
+        file_location: String,
+        auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
+    ) -> Result<Self, SessionError> {
+        let file_watcher_notify = Arc::new(Notify::new());
+        let file_watcher_notify_clone = file_watcher_notify.clone();
+
+        // Create a SAT file watcher
+        let watcher = match new_debouncer(
+            Duration::from_secs(10),
+            move |res: Result<Vec<notify_debouncer_mini::DebouncedEvent>, notify::Error>| {
+                match res {
+                    Ok(e) => {
+                        // e.iter()
+                        //     .for_each(|e| log::debug!("SAT file changed: {e:?}"));
+                        // Notify the background task that the SAT file has changed
+                        file_watcher_notify_clone.notify_one();
+                    }
+                    Err(err) => log::warn!("Error watching SAT file: {err:?}"),
+                }
+            },
+        ) {
+            Ok(mut debouncer) => {
+                // Start watching the SAT file
+                match debouncer.watcher().watch(
+                    Path::new(&file_location),
+                    notify::RecursiveMode::NonRecursive,
+                ) {
+                    Ok(()) => Some(debouncer),
+                    Err(e) => match e.kind {
+                        notify::ErrorKind::Io(e) => {
+                            return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                        }
+                        _ => {
+                            return Err(std::convert::Into::into(
+                                SessionErrorKind::SatTokenWatcherError(e.to_string()),
+                            ));
+                        }
+                    },
+                }
+            }
+            Err(e) => {
+                log::error!("Error creating SAT file watcher: {e:?}");
+                match e.kind {
+                    notify::ErrorKind::Io(e) => {
+                        return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                    }
+                    _ => {
+                        return Err(std::convert::Into::into(
+                            SessionErrorKind::SatTokenWatcherError(e.to_string()),
+                        ));
+                    }
+                }
+            }
+        };
+
+        Ok(Self {
+            file_location,
+            watcher,
+            file_watcher_notify,
+            auth_watcher_rx,
+        })
+    }
+
+    pub async fn notified(&self) {
+        self.file_watcher_notify.notified().await
+    }
+
+    pub async fn reauth(&mut self, timeout: Duration, client: &impl MqttClient) -> ReauthResult {
+        // Get SAT token
+        let sat_token = match std::fs::read_to_string(&self.file_location) {
+            Ok(token) => token,
+            Err(e) => {
+                log::error!("Error reading SAT token from file: {e:?}");
+                return ReauthResult::IoError;
+            }
+        };
+
+        let props = AuthProperties {
+            method: Some(SAT_AUTHENTICATION_METHOD.to_string()),
+            data: Some(sat_token.into()),
+            reason: None,
+            user_properties: Vec::new(),
+        };
+
+        // Re-authenticate the client
+        match client.reauth(props).await {
+            Ok(()) => log::debug!("SAT token renewed"),
+            Err(e) => {
+                log::error!("Error renewing SAT token: {e:?}");
+                return ReauthResult::IoError;
+            }
+        }
+
+        // Wait for next auth change
+        tokio::select! {
+            auth = self.auth_watcher_rx.recv() => {
+                if let Some(auth) = auth {
+                    log::debug!("Received new AUTH: {auth:?}");
+                    return ReauthResult::Auth(auth);
+                }
+                log::error!("Auth watcher channel closed");
+                ReauthResult::IoError
+            }
+            _ = tokio::time::sleep(timeout) => ReauthResult::Timeout,
+        }
+    }
+}
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -155,10 +282,9 @@ where
         // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
         // original setting during the operation of .run(), and thus, the original setting is lost.
 
-        // Must be maintained for the lifetime of the session, monitors the SAT file for changes
-        let mut _sat_file_watcher = None;
+        let mut sat_auth_context = None;
+        let (auth_watch_channel_tx, auth_watch_channel_rx) = tokio::sync::mpsc::unbounded_channel();
 
-        let mut sat_file_monitoring_data = None;
         if let Some(sat_file) = &self.sat_file {
             // Set the authentication method
             self.event_loop
@@ -177,53 +303,10 @@ where
                 }
             }
 
-            let file_watch_notify = Arc::new(Notify::new());
-            let file_watch_notify_clone = file_watch_notify.clone();
-
-            // Store the SAT file location and the file watcher notify handle
-            sat_file_monitoring_data = Some((sat_file.clone(), file_watch_notify_clone));
-
-            // Create a SAT file watcher
-            _sat_file_watcher = match new_debouncer(Duration::from_secs(10), move |res| match res {
-                Ok(_) => {
-                    // Notify the background task that the SAT file has changed
-                    file_watch_notify.notify_one();
-                }
-                Err(err) => log::warn!("Error watching SAT file: {err:?}"),
-            }) {
-                Ok(mut debouncer) => {
-                    // Start watching the SAT file
-                    match debouncer
-                        .watcher()
-                        .watch(Path::new(sat_file), notify::RecursiveMode::NonRecursive)
-                    {
-                        Ok(()) => Some(debouncer),
-                        Err(e) => match e.kind {
-                            notify::ErrorKind::Io(e) => {
-                                return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
-                            }
-                            _ => {
-                                return Err(std::convert::Into::into(
-                                    SessionErrorKind::SatTokenWatcherError(e.to_string()),
-                                ));
-                            }
-                        },
-                    }
-                }
-                Err(e) => {
-                    log::error!("Error creating SAT file watcher: {e:?}");
-                    match e.kind {
-                        notify::ErrorKind::Io(e) => {
-                            return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
-                        }
-                        _ => {
-                            return Err(std::convert::Into::into(
-                                SessionErrorKind::SatTokenWatcherError(e.to_string()),
-                            ));
-                        }
-                    }
-                }
-            };
+            sat_auth_context = Some(SatAuthContext::new(
+                sat_file.clone(),
+                auth_watch_channel_rx,
+            )?);
         }
 
         // Background tasks
@@ -232,7 +315,7 @@ where
             let cancel_token = cancel_token.clone();
             let client = self.client.clone();
             let unacked_pubs = self.unacked_pubs.clone();
-            run_background(client, unacked_pubs, sat_file_monitoring_data, cancel_token)
+            run_background(client, unacked_pubs, sat_auth_context, cancel_token)
         });
 
         // Indicates whether this session has been previously connected
@@ -284,6 +367,11 @@ where
                         // Set clean start to false for subsequent connections
                         self.event_loop.set_clean_start(false);
                     }
+                }
+                Ok(Event::Incoming(Incoming::Auth(auth))) => {
+                    log::debug!("Incoming AUTH: {auth:?}");
+                    // Notify the background task that the auth data has changed
+                    auth_watch_channel_tx.send(auth.code).unwrap();
                 }
                 Ok(Event::Incoming(Incoming::Publish(publish))) => {
                     log::debug!("Incoming PUB: {publish:?}");
@@ -443,7 +531,7 @@ where
 async fn run_background(
     client: impl MqttClient + Clone,
     unacked_pubs: Arc<PubTracker>,
-    sat_file_monitoring_data: Option<(String, Arc<Notify>)>,
+    sat_auth_context: Option<SatAuthContext>,
     cancel_token: CancellationToken,
 ) {
     /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
@@ -461,44 +549,30 @@ async fn run_background(
     }
 
     /// Maintain the SAT token authentication by renewing it before it expires
-    async fn maintain_sat_auth(
-        sat_file: String,
-        sat_file_watcher_notify: Arc<Notify>,
-        client: impl MqttClient,
-    ) -> ! {
+    async fn maintain_sat_auth(mut sat_auth_context: SatAuthContext, client: impl MqttClient) -> ! {
         loop {
             // Wait for the SAT file to change
-            sat_file_watcher_notify.notified().await;
+            sat_auth_context.notified().await;
 
-            // Get SAT token
-            let sat_token = match std::fs::read_to_string(&sat_file) {
-                Ok(token) => token,
-                Err(e) => {
-                    log::error!("Error reading SAT token from file: {e:?}");
-                    continue;
+            match sat_auth_context
+                .reauth(Duration::from_secs(10), &client)
+                .await
+            {
+                ReauthResult::Auth(auth) => {
+                    log::debug!("Received new AUTH: {auth:?}");
                 }
-            };
-
-            let props = AuthProperties {
-                method: Some(SAT_AUTHENTICATION_METHOD.to_string()),
-                data: Some(sat_token.into()),
-                reason: None,
-                user_properties: Vec::new(),
-            };
-
-            // Re-authenticate the client
-            match client.reauth(props).await {
-                Ok(()) => log::debug!("SAT token renewed"),
-                Err(e) => {
-                    log::error!("Error renewing SAT token: {e:?}");
-                    continue;
+                ReauthResult::Timeout => {
+                    log::error!("Reauth timed out");
+                }
+                ReauthResult::IoError => {
+                    log::error!("Reauth failed due to IO error");
                 }
             }
         }
     }
 
     // Run the background tasks
-    if let Some((sat_file, sat_file_watcher_notify)) = sat_file_monitoring_data {
+    if let Some(sat_auth_context) = sat_auth_context {
         tokio::select! {
             () = cancel_token.cancelled() => {
                 log::debug!("Session background task cancelled");
@@ -506,7 +580,7 @@ async fn run_background(
             () = ack_ready_publishes(unacked_pubs, client.clone()) => {
                 log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
-            () = maintain_sat_auth(sat_file, sat_file_watcher_notify, client) => {
+            () = maintain_sat_auth(sat_auth_context, client) => {
                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
             }
         }
