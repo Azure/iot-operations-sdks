@@ -3,6 +3,8 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
+using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -227,7 +229,7 @@ namespace Azure.Iot.Operations.Connector
             _samplers.Remove(assetName);
         }
 
-        private void StartSamplingAsset(AssetEndpointProfile assetEndpointProfile, Asset asset, CancellationToken cancellationToken = default)
+        private async void StartSamplingAsset(AssetEndpointProfile assetEndpointProfile, Asset asset, CancellationToken cancellationToken = default)
         {
             string assetName = asset.DisplayName!;
 
@@ -261,6 +263,22 @@ namespace Azure.Iot.Operations.Connector
                     _logger.LogInformation(mqttMessageSchema);
 
                     //TODO register the message schema with the schema registry service
+                    await using SchemaRegistryClient schemaClient = new(_sessionClient);
+                    Dictionary<string, string> testTags = new() { { "key1", "value1" } };
+
+                    // PUT Schema
+                    _logger.LogInformation($"Uploading the schema for dataset with name {datasetName} in asset with name {assetName}");
+                    var putSchemaResponse = await schemaClient.PutAsync(
+                        mqttMessageSchema,
+                        Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
+                        Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
+                        "1",
+                        testTags,
+                        TimeSpan.FromSeconds(300),
+                        CancellationToken.None
+                    );
+
+                    _logger.LogInformation($"Schema uploaded for dataset with name {datasetName} in asset with name {assetName}. ID: {putSchemaResponse.Name}");
                 }
             }
         }
