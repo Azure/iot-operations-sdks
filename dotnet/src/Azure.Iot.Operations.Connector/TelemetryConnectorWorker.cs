@@ -3,11 +3,13 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
+using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -253,8 +255,6 @@ namespace Azure.Iot.Operations.Connector
                     _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
                     Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
                     _samplers[assetName][datasetName] = datasetSamplingTimer;
-
-                    //TODO register the message schema with the schema registry service
                 }
             }
         }
@@ -275,12 +275,21 @@ namespace Azure.Iot.Operations.Connector
 
             Dataset dataset = assetDatasets[datasetName];
 
+            IDatasetSampler? datasetSampler;
             if (!_datasetSamplers.ContainsKey(datasetName))
             {
-                _datasetSamplers.TryAdd(datasetName, _datasetSamplerFactory.CreateDatasetSampler(samplerContext.AssetEndpointProfile, asset, dataset));
+                datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(samplerContext.AssetEndpointProfile, asset, dataset);
+                _datasetSamplers.TryAdd(datasetName, datasetSampler);
+
+                //TODO what if message schema changes, but name stays the same?
+                //TODO pass cancellation token into this method
+                SchemaInfo messageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
+                await using SchemaRegistryClient schemaRegistryClient = new(_sessionClient);
+                await schemaRegistryClient.PutAsync(messageSchema.SchemaContent, messageSchema.Format, messageSchema.Version, messageSchema.Tags, null, cancellationToken);
+
             }
 
-            if (!_datasetSamplers.TryGetValue(datasetName, out IDatasetSampler? datasetSampler))
+            if (!_datasetSamplers.TryGetValue(datasetName, out datasetSampler))
             {
                 _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.Asset.DisplayName} was deleted. This sample won't sample this dataset anymore.");
                 return;

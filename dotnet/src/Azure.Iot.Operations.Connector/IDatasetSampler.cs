@@ -1,4 +1,5 @@
 ﻿using Azure.Iot.Operations.Services.Assets;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -7,6 +8,8 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public interface IDatasetSampler
     {
+        public Task<SchemaInfo> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Sample the datapoints from the asset and return the full serialized dataset.
         /// </summary>
