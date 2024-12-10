@@ -1,0 +1,24 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: schema-e2e-pod
+  labels:
+    app: schema-e2e
+spec:
+  containers:
+    - name: schema-e2e-container
+      image: <your-docker-image> # Replace with your Docker image name
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: MQTT_TEST_BROKER_CS
+          value: "<your-mqtt-connection-string>" # Replace with your actual connection string
+      ports:
+        - containerPort: 1883 # Example port; adjust based on the application needs
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+      restartPolicy: Never # Adjust as necessary (e.g., Always, OnFailure)
