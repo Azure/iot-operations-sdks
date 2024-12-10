@@ -14,8 +14,9 @@ public class ClientFactory
             clientId = Guid.NewGuid().ToString();
         }
 
-        Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-        string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")};ClientId={clientId}";
+        // Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
+        // string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")};ClientId={clientId}";
+        string cs = "HostName=48.214.65.114;TcpPort=1883;UseTls=false;ClientId=schemaclient";
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
         MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
         {

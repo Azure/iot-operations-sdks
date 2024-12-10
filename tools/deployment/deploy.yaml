@@ -1,0 +1,55 @@
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: listener
+  namespace: azure-iot-operations
+spec:
+  brokerRef: edgy
+  ports:
+  - port: 1883
+  serviceType: loadBalancer
+ 
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: Broker
+metadata:
+  name: edgy
+  namespace: azure-iot-operations
+spec:
+  advanced:
+  ## Set to true to enable internal TSL.
+  ## See: https://learn.microsoft.com/azure/iot-operations/manage-mqtt-connectivity/howto-configure-availability-scale#configure-encryption-of-internal-traffic
+    encryptInternalTraffic: Disabled # Enabled/Disabled
+  cardinality:
+    frontend:
+      replicas: 5 # 1-16
+      workers: 4 # 1-16
+    backendChain:
+      redundancyFactor: 2 # 1-5
+      partitions: 5 # 1-16
+      workers: 2 # 1-16
+  diagnostics:
+    selfCheck:
+      mode: Disabled
+    traces:
+      mode: Disabled
+      selfTracing:
+        mode: Disabled
+    logs:
+      level: "info"
+  generateResourceLimits:
+    ## Set to false for single-node clusters.
+    cpu: Disabled # Enabled/Disabled
+  ## Possible values
+  ## - Tiny
+  ## - Low
+  ## - Medium (default)
+  ## - High
+  #memoryProfile: "Medium"
+  #diskBackedMessageBuffer:
+  #  maxSize: '1G'
+  #  persistentVolumeClaimSpec:
+  #    ## Default storage class `rancher.io/local-path` on k3d
+  #    ## storageClassName: 'foo'
+  #    accessModes:
+  #    - 'ReadWriteOnce'

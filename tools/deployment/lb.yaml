@@ -1,0 +1,11 @@
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: default-external
+  namespace: azure-iot-operations
+spec:
+  brokerRef: default
+  serviceName: aio-broker-external
+  serviceType: loadBalancer
+  ports:
+    - port: 1883
