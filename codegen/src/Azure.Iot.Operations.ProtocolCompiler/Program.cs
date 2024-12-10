@@ -9,7 +9,7 @@ internal class Program
     private static readonly string DefaultOutDir = ".";
     private static readonly string DefaultLanguage = "csharp";
 
-    static async Task<int> Main(string[] args)
+    static async Task Main(string[] args)
     {
         var modelFileOption = new Option<FileInfo[]>(
             name: "--modelFile",
@@ -78,7 +78,6 @@ internal class Program
             serverOnlyOption,
         };
 
-
         ArgBinder argBinder = new ArgBinder(
             modelFileOption,
             modelIdOption,
@@ -94,9 +93,9 @@ internal class Program
             serverOnlyOption);
 
         rootCommand.SetHandler(
-            async (OptionContainer options) => { await CommandHandler.GenerateCode(options); },
+            async (OptionContainer options) => { Environment.ExitCode = await CommandHandler.GenerateCode(options); },
             argBinder);
 
-        return await rootCommand.InvokeAsync(args);
+        await rootCommand.InvokeAsync(args);
     }
 }
