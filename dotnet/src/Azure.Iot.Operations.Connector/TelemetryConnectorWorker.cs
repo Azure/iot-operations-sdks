@@ -1,4 +1,5 @@
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
@@ -13,24 +14,27 @@ using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_Sche
 
 namespace Azure.Iot.Operations.Connector
 {
-    public abstract class TelemetryConnectorWorker : BackgroundService
+    public class TelemetryConnectorWorker : BackgroundService
     {
         private readonly ILogger<TelemetryConnectorWorker> _logger;
-        private MqttSessionClient _sessionClient;
+        private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
+        private AssetMonitor _assetMonitor;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
 
         public TelemetryConnectorWorker(
-            ILogger<TelemetryConnectorWorker> logger, 
-            MqttSessionClient mqttSessionClient, 
-            IDatasetSamplerFactory datasetSamplerFactory)
+            ILogger<TelemetryConnectorWorker> logger,
+            IMqttClient mqttClient, 
+            IDatasetSamplerFactory datasetSamplerFactory,
+            AssetMonitor assetMonitor)
         {
             _logger = logger;
-            _sessionClient = mqttSessionClient;
+            _mqttClient = mqttClient;
             _datasetSamplerFactory = datasetSamplerFactory;
+            _assetMonitor = assetMonitor;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -43,7 +47,8 @@ namespace Azure.Iot.Operations.Connector
             _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
             //TODO retry if it fails, but wait until what to try again? Just rely on retry policy?
-            await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
+            //TODO can't rely on retry if user isn't using session client? Just force session client here?
+            await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
@@ -55,11 +60,9 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        AssetMonitor assetMonitor = new AssetMonitor();
-
                         TaskCompletionSource aepDeletedOrUpdatedTcs = new();
                         TaskCompletionSource<AssetEndpointProfile> aepCreatedTcs = new();
-                        assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
+                        _assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
                         {
                             // Each connector should have one AEP deployed to the pod. It shouldn't ever be deleted, but it may be updated.
                             if (args.ChangeType == ChangeType.Created)
@@ -80,7 +83,7 @@ namespace Azure.Iot.Operations.Connector
                             }
                         };
 
-                        assetMonitor.ObserveAssetEndpointProfile(null, cancellationToken);
+                        _assetMonitor.ObserveAssetEndpointProfile(null, cancellationToken);
 
                         _logger.LogInformation("Waiting for asset endpoint profile to be discovered");
                         AssetEndpointProfile assetEndpointProfile = await aepCreatedTcs.Task.WaitAsync(cancellationToken);
@@ -97,7 +100,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                            await using LeaderElectionClient leaderElectionClient = new(_sessionClient, leadershipPositionId, candidateName);
+                            await using LeaderElectionClient leaderElectionClient = new(_mqttClient, leadershipPositionId, candidateName);
 
                             leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -125,7 +128,7 @@ namespace Azure.Iot.Operations.Connector
                             _logger.LogInformation("This pod was elected leader.");
                         }
 
-                        assetMonitor.AssetChanged += (sender, args) =>
+                        _assetMonitor.AssetChanged += (sender, args) =>
                         {
                             _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been {args.ChangeType.ToString().ToLower()}.");
 
@@ -148,7 +151,7 @@ namespace Azure.Iot.Operations.Connector
                         };
 
                         _logger.LogInformation("Now monitoring for asset creation/deletion/updates");
-                        assetMonitor.ObserveAssets(null, cancellationToken);
+                        _assetMonitor.ObserveAssets(null, cancellationToken);
 
                         // Wait until the worker is cancelled or it is no longer the leader
                         while (!cancellationToken.IsCancellationRequested && (isLeader || !doingLeaderElection) && !aepDeletedOrUpdatedTcs.Task.IsCompleted)
@@ -201,8 +204,8 @@ namespace Azure.Iot.Operations.Connector
                         }
 
                         _samplers.Clear();
-                        assetMonitor.UnobserveAssets();
-                        assetMonitor.UnobserveAssetEndpointProfile();
+                        _assetMonitor.UnobserveAssets();
+                        _assetMonitor.UnobserveAssetEndpointProfile();
                     }
                     catch (Exception ex)
                     {
@@ -253,7 +256,7 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, datasetName), 0, (int)samplingInterval.TotalMilliseconds);
+                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
                     _samplers[assetName][datasetName] = datasetSamplingTimer;
                 }
             }
@@ -282,10 +285,8 @@ namespace Azure.Iot.Operations.Connector
                 _datasetSamplers.TryAdd(datasetName, datasetSampler);
 
                 //TODO what if message schema changes, but name stays the same?
-                //TODO pass cancellation token into this method
                 SchemaInfo messageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
-                await using SchemaRegistryClient schemaRegistryClient = new(_sessionClient);
-                await schemaRegistryClient.PutAsync(messageSchema.SchemaContent, messageSchema.Format, messageSchema.Version, messageSchema.Tags, null, cancellationToken);
+                await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
 
             }
 
@@ -306,7 +307,7 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            var puback = await _sessionClient.PublishAsync(mqttMessage);
+            var puback = await _mqttClient.PublishAsync(mqttMessage);
 
             if (puback.ReasonCode == MqttClientPublishReasonCode.Success
                 || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
-    internal class MockMqttPubSubClient : IMqttPubSubClient
+    public class MockMqttPubSubClient : IMqttPubSubClient
     {
         private static int ClientIdIndex;
 

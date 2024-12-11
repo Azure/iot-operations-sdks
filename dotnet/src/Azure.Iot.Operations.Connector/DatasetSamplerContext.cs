@@ -14,11 +14,14 @@ namespace Azure.Iot.Operations.Connector
 
         internal string DatasetName { get; set; }
 
-        internal DatasetSamplerContext(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName)
+        internal CancellationToken CancellationToken { get; set; }
+
+        internal DatasetSamplerContext(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName, CancellationToken cancellationToken)
         {
             AssetEndpointProfile = assetEndpointProfile;
             Asset = asset;
             DatasetName = datasetName;
+            CancellationToken = cancellationToken;
         }
     }
 }
