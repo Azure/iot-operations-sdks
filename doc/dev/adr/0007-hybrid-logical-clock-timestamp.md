@@ -29,6 +29,7 @@ Rust has an "implementation" of the HLC (Hybrid Logical Clock) in that it suppor
 
 1. Have the application maintain full ownership of the global HLC - they could update it on any timestamps received (and not update it on State Store timestamps received), and create timestamps from it for outgoing messages. Cons: Adds a lot of overhead for applications for something that most would want us to provide the functionality of updates and creating timestamps for messages. Additionally, this change would be motivated by one service handling the `__ts` value incorrectly, and requiring the application to do more of this work would likely introduce more errors for the value than reduce them.
 1. Don't update the global HLC on received command responses and telemetry messages. The current dotnet and Go implementations already do this, but from our conversation this was a gap in the implementation rather than a desired feature.
+1. We could add an additional user property that is an optional boolean determining whether we should use the timestamp to update the local HLC or not. This would resolve the issue from the State Store Service as it would not include this new user property, so we wouldn't update the global HLC when we receive messages from the State Store. Since updating the global HLC from state store messages that may have older `__ts` values won't make the global HLC less accurate though, adding this work-around felt like it added minimal value for additional complication.
 
 
 ## Consequences:
