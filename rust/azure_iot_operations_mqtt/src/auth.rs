@@ -12,6 +12,7 @@ use rumqttc::v5::mqttbytes::v5::{AuthProperties, AuthReasonCode};
 use thiserror::Error;
 use tokio::sync::Notify;
 
+use crate::error::ReauthError;
 use crate::interface::MqttClient;
 
 /// Used as the authentication method for the MQTT client when using SAT.
@@ -42,7 +43,7 @@ pub enum SatReauthError {
     ReauthUnsuccessful(AuthReasonCode),
     /// Error occurred while reauthenticating the client.
     #[error("{0}")]
-    ClientError(#[from] rumqttc::v5::ClientError),
+    ClientReauthError(#[from] ReauthError),
     /// Reauth channel closed.
     #[error("Auth watcher channel closed")]
     AuthWatcherClosed,

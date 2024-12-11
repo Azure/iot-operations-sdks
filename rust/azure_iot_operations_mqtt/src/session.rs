@@ -17,7 +17,7 @@ mod wrapper;
 use thiserror::Error;
 
 use crate::auth::SatAuthContextInitError;
-use crate::error::{ClientError, ConnectionError, DisconnectError};
+use crate::error::{ConnectionError, DisconnectError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
 
