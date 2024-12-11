@@ -108,7 +108,7 @@ where
             client_id: self.client_id.clone(),
             pub_sub: self.client.clone(),
             incoming_pub_dispatcher: self.incoming_pub_dispatcher.clone(),
-            unacked_pubs: self.unacked_pubs.clone(),
+            pub_tracker: self.unacked_pubs.clone(),
         }
     }
 

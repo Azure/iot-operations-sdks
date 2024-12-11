@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
+<# if (this.generateServer) { #>
 type <#=this.serviceName#>Service struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -16,6 +17,8 @@ type <#=this.serviceName#>Service struct {
 <# } #>
 }
 
+<# } #>
+<# if (this.generateClient) { #>
 type <#=this.serviceName#>Client struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -26,6 +29,7 @@ type <#=this.serviceName#>Client struct {
 <# } #>
 }
 
+<# } #>
 const (
 <# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
 	ModelID = "<#=this.modelId#>"
@@ -37,6 +41,7 @@ const (
 	TelemetryTopic = "<#=this.telemetryTopic#>"
 <# } #>
 )
+<# if (this.generateServer) { #>
 
 func New<#=this.serviceName#>Service(
 	client protocol.MqttClient,
@@ -105,6 +110,8 @@ func New<#=this.serviceName#>Service(
 
 	return <#=this.AsLower(this.serviceName)#>Service, nil
 }
+<# } #>
+<# if (this.generateClient) { #>
 
 func New<#=this.serviceName#>Client(
 	client protocol.MqttClient,
@@ -171,6 +178,7 @@ func New<#=this.serviceName#>Client(
 
 	return <#=this.AsLower(this.serviceName)#>Client, nil
 }
+<# } #>
 <#+
     private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
 

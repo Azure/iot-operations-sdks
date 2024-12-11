@@ -616,44 +616,62 @@ where
         // Wait for a response where the correlation id matches
         loop {
             // wait for incoming pub
-            match response_rx.recv().await {
-                Ok(rsp_pub) => {
-                    // check correlation id for match, otherwise loop again
-                    if let Some(ref rsp_properties) = rsp_pub.properties {
-                        if let Some(ref response_correlation_data) = rsp_properties.correlation_data
-                        {
-                            if *response_correlation_data == correlation_data {
-                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                // This is the response for this request, validate and parse it and send it back to the application
-                                return validate_and_parse_response(
-                                    self.command_name.clone(),
-                                    &rsp_pub.payload,
-                                    rsp_properties.clone(),
-                                );
-                            }
-                        }
-                    }
-                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                }
-                Err(RecvError::Lagged(e)) => {
-                    log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
-                    // Keep waiting for response even though it may have gotten overwritten.
-                    continue;
-                }
-                Err(RecvError::Closed) => {
-                    log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
+            tokio::select! {
+                  // on drop, this cancellation token will be called so this loop can exit
+                  () = self.recv_cancellation_token.cancelled() => {
+                    log::error!("Command Invoker has been shutdown and will no longer receive a response");
                     return Err(AIOProtocolError::new_cancellation_error(
-                        false,
-                        None,
-                        None,
-                        Some(
-                            "MQTT Receiver has been cleaned up and will no longer send a response"
-                                .to_string(),
-                        ),
-                        Some(self.command_name.clone()),
-                    ));
-                }
-            };
+                          false,
+                          None,
+                          None,
+                          Some(
+                              "Command Invoker has been shutdown and will no longer receive a response"
+                                  .to_string(),
+                          ),
+                          Some(self.command_name.clone()),
+                      ));
+                  },
+                  resp = response_rx.recv() => {
+                      match resp {
+                          Ok(rsp_pub) => {
+                              // check correlation id for match, otherwise loop again
+                              if let Some(ref rsp_properties) = rsp_pub.properties {
+                                  if let Some(ref response_correlation_data) = rsp_properties.correlation_data
+                                  {
+                                      if *response_correlation_data == correlation_data {
+                                          // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                          // This is the response for this request, validate and parse it and send it back to the application
+                                          return validate_and_parse_response(
+                                              self.command_name.clone(),
+                                              &rsp_pub.payload,
+                                              rsp_properties.clone(),
+                                          );
+                                      }
+                                  }
+                              }
+                              // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+                          }
+                          Err(RecvError::Lagged(e)) => {
+                              log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
+                              // Keep waiting for response even though it may have gotten overwritten.
+                              continue;
+                          }
+                          Err(RecvError::Closed) => {
+                              log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
+                              return Err(AIOProtocolError::new_cancellation_error(
+                                  false,
+                                  None,
+                                  None,
+                                  Some(
+                                      "MQTT Receiver has been cleaned up and will no longer send a response"
+                                          .to_string(),
+                                  ),
+                                  Some(self.command_name.clone()),
+                              ));
+                          }
+                      }
+                  }
+            }
         }
     }
 
@@ -693,6 +711,59 @@ where
                 }
             }
         }
+    }
+
+    // TODO: Finish implementing shutdown logic
+    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
+    /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    /// # Errors
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
+        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
+        self.recv_cancellation_token.cancel();
+
+        // If we didn't call subscribe, we shouldn't unsubscribe
+        if *self.is_subscribed_mutex.lock().await {
+            let unsubscribe_result = self
+                .mqtt_client
+                .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                .await;
+
+            match unsubscribe_result {
+                Ok(unsub_completion_token) => {
+                    match unsub_completion_token.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("[{}] Unsuback error: {e}", self.command_name);
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command invoker unsuback".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
+                    }
+                }
+                Err(e) => {
+                    log::error!(
+                        "[{}] Client error while unsubscribing: {e}",
+                        self.command_name
+                    );
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on command invoker unsubscribe".to_string()),
+                        Box::new(e),
+                        Some(self.command_name.clone()),
+                    ));
+                }
+            }
+        }
+
+        log::info!("[{}] Shutdown", self.command_name);
+        Ok(())
     }
 }
 
