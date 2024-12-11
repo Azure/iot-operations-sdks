@@ -30,7 +30,9 @@ func TestIncrement(t *testing.T) {
 			response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
 				CounterResponse: ReadCounter(),
 			}
-			resp, err := protocol.Respond[dtmi_com_example_Counter__1.ReadCounterResponsePayload](response)
+			resp, err := protocol.Respond[dtmi_com_example_Counter__1.ReadCounterResponsePayload](
+				response,
+			)
 			if err != nil {
 				return nil, err
 			}
@@ -44,7 +46,9 @@ func TestIncrement(t *testing.T) {
 			response := dtmi_com_example_Counter__1.IncrementResponsePayload{
 				CounterResponse: newValue,
 			}
-			resp, err := protocol.Respond[dtmi_com_example_Counter__1.IncrementResponsePayload](response)
+			resp, err := protocol.Respond[dtmi_com_example_Counter__1.IncrementResponsePayload](
+				response,
+			)
 			if err != nil {
 				return nil, err
 			}
