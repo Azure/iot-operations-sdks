@@ -28,9 +28,14 @@ As a general rule, this is what defines what log level a log should be categoriz
 
 ## Specific Cases To Be Logged:
 ### MQTT
-TODO
+
+Since different languages have very different implementations here, the only suggestions are as follows:
+- The underlying MQTT Client's logs should be exposable, even though the log levels may not align exactly with our guidelines
+- Any logs added in each language in the MQTT Package should follow the logging level guidelines defined above.
 
 ### Protocols
+  > [!Note] Any logs that could be confused with MQTT logs (such as an info log that the Telemetry Receiver has initiated a Subscribe) should be clear that they are coming from the protocol package.
+
   - ### Telemetry
     - **Error**
       - Any errors that are returned to the application should get logged (errors creating the envoy, sending the message, acking, subscribing, etc)
@@ -85,8 +90,26 @@ TODO
         - Response acked?
   
 ### Services
-TODO
-
+- ### State Store.
+    - **Error**
+      - Any errors that are returned to the application should get logged (errors creating the Client, sending requests, acking, etc)
+      - Critical receive error (that ends use of the Client)
+    - **Warn**
+      - Errors on subscribe/unsubscribe/shutdown/receive that aren't returned
+        - Error forwarding key notification to application because the application has closed the receiver.
+      - Responses that don't indicate success but aren't errors?
+      - Errors on parsing received key notifications that cause the message to be ignored, such as missing key name or version (application developer can't act on these, should not be logged as error)
+      - Key Notification received that the Client isn't aware that it is observing that key (warn or debug?)
+    - **Info**
+      - Shutdown
+      - Key Notification Receiver Started
+      - Key Notification Receiver Stopped
+    - **Debug**
+      - Request sent (Set/Get/Del/Observe/Etc)
+      - Response received
+      - Key added to internally maintained list of observed keys (if relevant in language)
+      - Key removed from internally maintained list of observed keys (if relevant in language)
+      - Unexpected events around adding/removing a key from the internally maintained list of observed keys that don't affect the application. (if relevant in language)
 
 ## Consequences
 
@@ -94,4 +117,4 @@ TODO
 
 ## Open Questions
 
--   Should errors returned to the application get logged, or should it be the responsibility of the application to log errors that it receives?
+-   ~~Should errors returned to the application get logged, or should it be the responsibility of the application to log errors that it receives?~~ Resolved, we will log all of our errors so that they are always present in logs.
