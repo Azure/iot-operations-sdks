@@ -16,6 +16,7 @@ mod wrapper;
 
 use thiserror::Error;
 
+use crate::auth::SatAuthContextInitError;
 use crate::error::{ClientError, ConnectionError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
@@ -61,9 +62,9 @@ pub enum SessionErrorKind {
     /// The [`Session`] was ended by an IO error.
     #[error("{0}")]
     IoError(#[from] std::io::Error),
-    /// The [`Session`] was ended by an error in the SAT token watcher.
-    #[error("internal error: {0}")]
-    SatTokenWatcherError(String),
+    /// The [`Session`] was ended by an error in the SAT auth context.
+    #[error("{0}")]
+    SatAuthError(#[from] SatAuthContextInitError),
 }
 
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
