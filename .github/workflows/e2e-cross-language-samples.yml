@@ -40,6 +40,13 @@ jobs:
         run: |
           tools/deployment/initialize-cluster.sh
           tools/deployment/deploy-aio.sh nightly
+      
+      # This isn't actually any setup, but Rust needs to get all of it's dependencies setup before the next steps, and this is an easy way
+      - name: Setup Rust
+        if: matrix.server == 'rust' || matrix.client == 'rust'
+        run: |
+          cd rust
+          cargo build --release --config profile.release.panic=\'abort\'
 
       - name: Setup .NET
         if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
@@ -52,18 +59,38 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: 1.22.4
-
-      - name: Build codegen
-        run: dotnet build -c Release codegen/codegen.sln
-
+      
       # - name: Install Codegen tool from dev feed
       #   run: (pushd /; dotnet tool install -g Azure.Iot.Operations.ProtocolCompiler --add-source https://pkgs.dev.azure.com/e4k-sdk/SdkLite/_packaging/sdklite-previews/nuget/v3/index.json --prerelease; popd)
-      - name: CodeGen all Counter samples
+      - name: Build codegen
         run: |
-          codegen=$(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Release/net8.0/Azure.Iot.Operations.ProtocolCompiler)
-          (pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd)
-          (pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../counter.json --lang go; popd)
-          (pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd)
+          dotnet build -c Debug codegen/codegen.sln
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+
+      - name: CodeGen Rust Counter samples
+        if: matrix.server == 'rust' || matrix.client == 'rust'
+        run: |
+          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+      
+      - name: CodeGen .NET Counter samples
+        if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
+        run: |
+          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+
+      - name: CodeGen Go Counter samples
+        if: matrix.server == 'go' || matrix.client == 'go'
+        run: |
+          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
+
+      - name: Verify Generated Code Matches Repo
+        run: |
+          if ! git diff
+          then
+              echo "codegen'd envoy updates not checked in"
+              git diff-files
+              echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
+              exit 1
+          fi
 
       - name: Build dotnet
         if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
