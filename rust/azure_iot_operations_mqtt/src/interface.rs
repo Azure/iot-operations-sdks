@@ -3,6 +3,8 @@
 
 //! Traits and types for defining sets and subsets of MQTT client functionality.
 
+use std::sync::Arc;
+
 use async_trait::async_trait;
 use bytes::Bytes;
 
@@ -13,7 +15,17 @@ use crate::error::{
     AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
     SubscribeError, UnsubscribeError,
 };
+use crate::session::pub_tracker;
 use crate::topic::TopicParseError;
+
+// //
+// impl From<pub_tracker::AckError> for AckError {
+//     fn from(e: pub_tracker::AckError) -> Self {
+//         match e {
+//             pub_tracker::AckError::AckOverflow => AckError::AlreadyAcked,
+//         }
+//     }
+// }
 
 // ---------- Concrete Types ----------
 
@@ -31,6 +43,36 @@ impl std::future::Future for CompletionToken {
     ) -> std::task::Poll<Self::Output> {
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
+    }
+}
+
+/// Awaitable token indicating completion of MQTT message acknowledgement.
+pub struct AckToken {
+// TODO: AckToken design should not be here. It depends on the pub tracking implementation, which
+// should be out of scope for this module. This is a stopgap measure for now. In the longer term,
+// ManagedClient should be concretized and not be defined in this module at all, thus there would
+// be no need for AckToken to be here either.
+
+    /// Tracker for unacked incoming publishes
+    pub_tracker: Arc<pub_tracker::PubTracker>,
+    /// Publish to be acknowledged
+    publish: Publish,
+}
+
+// TODO: Finish doc along with implementation
+impl AckToken {
+    /// Acknowledge the received Publish message
+    pub async fn ack(self) -> Result<CompletionToken, AckError> {
+        self.pub_tracker.ack(&self.publish).await?;
+        // TODO: This CompletionToken is spurious. We don't (yet) have a way to
+        // generate a CompletionToken at MQTT client level for the ack.
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
+    }
+}
+
+impl Drop for AckToken {
+    fn drop(&mut self) {
+        tokio::task::spawn(self.ack());
     }
 }
 
@@ -156,7 +198,7 @@ pub trait MqttEventLoop {
 /// Can be used to send messages and create receivers for incoming messages.
 pub trait ManagedClient: MqttPubSub {
     /// The type of receiver used by this client
-    type PubReceiver: PubReceiver + MqttAck;
+    type PubReceiver: PubReceiver;
 
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
@@ -175,10 +217,15 @@ pub trait ManagedClient: MqttPubSub {
 #[async_trait]
 /// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
+    // /// Receives the next incoming publish.
+    // ///
+    // /// Return None if there will be no more incoming publishes.
+    // async fn recv(&mut self) -> Option<Publish>;
+
     /// Receives the next incoming publish.
     ///
     /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<Publish>;
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>;
 
     /// Close the receiver, preventing further incoming publishes.
     ///

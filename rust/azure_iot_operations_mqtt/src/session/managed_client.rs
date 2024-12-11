@@ -14,7 +14,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver, AckToken};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{self, PubTracker};
 use crate::topic::{TopicFilter, TopicParseError};
@@ -194,13 +194,13 @@ impl PubReceiver for SessionPubReceiver {
     }
 }
 
-#[async_trait]
-impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
-        self.pub_tracker.ack(publish).await?;
-        Ok(())
-    }
-}
+// #[async_trait]
+// impl MqttAck for SessionPubReceiver {
+//     async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+//         self.pub_tracker.ack(publish).await?;
+//         Ok(())
+//     }
+// }
 
 impl Drop for SessionPubReceiver {
     fn drop(&mut self) {
