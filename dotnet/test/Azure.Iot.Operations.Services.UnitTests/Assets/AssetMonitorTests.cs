@@ -207,6 +207,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                     return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Created;
                 });
 
+                Assert.NotNull(latestAssetState);
                 Assert.Equal(ChangeType.Created, latestAssetState.ChangeType);
                 Asset? observedAsset = latestAssetState.Asset;
                 Assert.NotNull(observedAsset);
@@ -310,6 +311,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                     return latestAssetState == null || latestAssetState.ChangeType != ChangeType.Updated;
                 });
 
+                Assert.NotNull(latestAssetState); 
                 Assert.Equal(ChangeType.Updated, latestAssetState.ChangeType);
                 Asset? observedAsset = latestAssetState.Asset;
                 Assert.NotNull(observedAsset);
