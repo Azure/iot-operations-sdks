@@ -29,4 +29,9 @@
     <ProjectReference Include="..\Azure.Iot.Operations.Services.UnitTests\Azure.Iot.Operations.Services.UnitTests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestMountFiles\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

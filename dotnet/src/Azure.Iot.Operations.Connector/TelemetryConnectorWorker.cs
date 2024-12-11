@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly ILogger<TelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
-        private AssetMonitor _assetMonitor;
+        private IAssetMonitor _assetMonitor;
         private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Connector
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient, 
             IDatasetSamplerFactory datasetSamplerFactory,
-            AssetMonitor assetMonitor)
+            IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _mqttClient = mqttClient;
@@ -138,7 +138,7 @@ namespace Azure.Iot.Operations.Connector
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
-                                StartSamplingAsset(assetEndpointProfile, args.Asset!, cancellationToken);
+                                StartSamplingAsset(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                             else
                             {
@@ -146,7 +146,7 @@ namespace Azure.Iot.Operations.Connector
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
                                 StopSamplingAsset(args.AssetName);
-                                StartSamplingAsset(assetEndpointProfile, args.Asset!, cancellationToken);
+                                StartSamplingAsset(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                         };
 
@@ -230,10 +230,8 @@ namespace Azure.Iot.Operations.Connector
             _samplers.Remove(assetName);
         }
 
-        private void StartSamplingAsset(AssetEndpointProfile assetEndpointProfile, Asset asset, CancellationToken cancellationToken = default)
+        private void StartSamplingAsset(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
-            string assetName = asset.DisplayName!;
-
             _samplers[assetName] = new();
             if (asset.DatasetsDictionary == null)
             {
@@ -246,17 +244,27 @@ namespace Azure.Iot.Operations.Connector
                 {
                     Dataset dataset = asset.DatasetsDictionary![datasetName];
 
-                    TimeSpan defaultSamplingInterval = TimeSpan.FromMilliseconds(asset.DefaultDatasetsConfiguration!.RootElement.GetProperty("samplingInterval").GetInt16());
-
-                    TimeSpan samplingInterval = defaultSamplingInterval;
+                    TimeSpan samplingInterval;
                     if (dataset.DatasetConfiguration != null
-                        && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval))
+                        && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
+                        && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
                     {
-                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingInterval.GetInt16());
+                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
+                    }
+                    else if (asset.DefaultDatasetsConfiguration != null
+                        && asset.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
+                        && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
+                    {
+                        samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);
+                    }
+                    else
+                    {
+                        _logger.LogError($"Dataset with name {datasetName} in Asset with name {assetName} has no configured sampling interval. This dataset will not be sampled.");
+                        return;
                     }
 
                     _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
+                    Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerContext(assetEndpointProfile, asset, assetName, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
                     _samplers[assetName][datasetName] = datasetSamplingTimer;
                 }
             }
@@ -268,11 +276,12 @@ namespace Azure.Iot.Operations.Connector
 
             Asset asset = samplerContext.Asset;
             string datasetName = samplerContext.DatasetName;
+            string assetName = samplerContext.AssetName;
 
             Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
             if (assetDatasets == null || !assetDatasets.ContainsKey(datasetName))
             {
-                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.Asset.DisplayName} was deleted. This sample won't sample this dataset anymore.");
+                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} was deleted. This sample won't sample this dataset anymore.");
                 return;
             }
 
@@ -285,23 +294,37 @@ namespace Azure.Iot.Operations.Connector
                 _datasetSamplers.TryAdd(datasetName, datasetSampler);
 
                 //TODO what if message schema changes, but name stays the same?
-                SchemaInfo messageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
-                await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                //SchemaInfo messageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
+                //await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
 
             }
 
             if (!_datasetSamplers.TryGetValue(datasetName, out datasetSampler))
             {
-                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {samplerContext.Asset.DisplayName} was deleted. This sample won't sample this dataset anymore.");
+                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} was deleted. This sample won't sample this dataset anymore.");
                 return;
             }
             
             byte[] serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
 
-            _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
-            var topic = dataset.Topic != null ? dataset.Topic! : asset.DefaultTopic!;
-            var mqttMessage = new MqttApplicationMessage(topic.Path!)
+            Topic topic;
+            if (dataset.Topic != null)
+            {
+                topic = dataset.Topic;
+            }
+            else if (asset.DefaultTopic != null)
+            {
+                topic = asset.DefaultTopic;
+            }
+            else
+            {
+                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} has no configured MQTT topic to publish to. This sample won't publish the data sampled from the asset.");
+                return;
+            }
+
+            var mqttMessage = new MqttApplicationMessage(topic.Path)
             {
                 PayloadSegment = serializedPayload,
                 Retain = topic.Retain == RetainHandling.Keep,
