@@ -22,7 +22,20 @@ namespace Azure.Iot.Operations.Connector
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
-
+        private const string _jsonSchema1 = """
+        {
+            "$schema": "https://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "humidity": {
+                    "type": "string"
+                },
+                "temperature": {
+                    "type": "number"
+                }
+            }
+        }
+        """;
         public ConnectorWorker(
             ILogger<ConnectorWorker> logger, 
             MqttSessionClient mqttSessionClient, 
@@ -268,17 +281,36 @@ namespace Azure.Iot.Operations.Connector
 
                     // PUT Schema
                     _logger.LogInformation($"Uploading the schema for dataset with name {datasetName} in asset with name {assetName}");
-                    var putSchemaResponse = await schemaClient.PutAsync(
-                        mqttMessageSchema,
-                        Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07,
-                        Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema,
-                        "1",
-                        testTags,
-                        TimeSpan.FromSeconds(300),
-                        CancellationToken.None
-                    );
+                    try
+                    {
+                        Object_Ms_Adr_SchemaRegistry_Schema__1 putSchemaResponse = await schemaClient.PutAsync(_jsonSchema1, Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, "1", testTags, TimeSpan.FromSeconds(300), CancellationToken.None);
+                        //Assert.Contains("temperature", putSchemaResponse.SchemaContent);
+                        //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, putSchemaResponse.Format);
+                        //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, putSchemaResponse.SchemaType);
+                        //Assert.Equal(_jsonSchema1, putSchemaResponse.SchemaContent);
+                        //Assert.NotNull(putSchemaResponse.Tags);
+                        //Assert.Equal("value1", putSchemaResponse.Tags.GetValueOrDefault("key1"));
+                        _logger.LogCritical($"Schema uploaded for dataset with name {datasetName} in asset with name {assetName}. ID: {putSchemaResponse.Name}");
 
-                    _logger.LogInformation($"Schema uploaded for dataset with name {datasetName} in asset with name {assetName}. ID: {putSchemaResponse.Name}");
+                        string schemaId = putSchemaResponse.Name!;
+                        Object_Ms_Adr_SchemaRegistry_Schema__1 getSchemaResponse = await schemaClient.GetAsync(schemaId, "1", TimeSpan.FromSeconds(300), CancellationToken.None);
+
+                        // Console.WriteLine($"getRes {putSchemaResponse.Version}");
+                        //Assert.Contains("temperature", getSchemaResponse.SchemaContent);
+                        //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, getSchemaResponse.Format);
+                        //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, getSchemaResponse.SchemaType);
+                        //Assert.Equal(_jsonSchema1, getSchemaResponse.SchemaContent);
+                        //Assert.NotNull(getSchemaResponse.Tags);
+                        //Assert.Equal("value1", getSchemaResponse.Tags.GetValueOrDefault("key1"));
+                        
+                        _logger.LogCritical($"Schema retrieved for dataset with name {datasetName} in asset with name {assetName}. ID: {getSchemaResponse.Name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Failed to upload schema for dataset with name {datasetName} in asset with name {assetName}: {ex}");
+                    }
+
+                    
                 }
             }
         }
