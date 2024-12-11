@@ -72,7 +72,15 @@ impl AckToken {
 
 impl Drop for AckToken {
     fn drop(&mut self) {
-        tokio::task::spawn(self.ack());
+        tokio::task::spawn({
+            let pub_tracker = self.pub_tracker.clone();
+            let publish = self.publish.clone();
+            async move {
+                if let Err(e) = pub_tracker.ack(&publish).await {
+                    log::error!("Failed to ack incoming publish: {:?}", e);
+                }
+            }
+        });
     }
 }
 
