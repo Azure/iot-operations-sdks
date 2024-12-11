@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Azure.Iot.Operations.Services.UnitTests" />
+    <InternalsVisibleTo Include="Azure.Iot.Operations.Connector.UnitTests" />
   </ItemGroup>
 	
 </Project>
