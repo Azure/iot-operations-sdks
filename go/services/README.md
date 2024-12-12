@@ -15,6 +15,8 @@ This module provides clients for the services provided by Azure IoT Operations.
     details.
 -   [Leased Lock](leasedlock/API.md) - A distributed locking mechanism using
     [fencing tokens][2] based on (and for use with) the state store.
+-   [Schema Registry](schemaregistry/API.md) - A client for the schema registry
+    to fetch and store asset schemas.
 
 Note that, unlike the other modules in this repo, this module is specific to the
 Azure IoT Operations and will not work with other MQTTv5 brokers.
