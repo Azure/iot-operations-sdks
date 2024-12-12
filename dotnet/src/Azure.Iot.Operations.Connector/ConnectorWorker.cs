@@ -62,6 +62,7 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogError($"Successfully connected to MQTT broker");
 
+            _logger.LogError($"Trial 1");
             await using SchemaRegistryClient schemaClient = new(_sessionClient);
             Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
