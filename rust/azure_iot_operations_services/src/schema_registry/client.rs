@@ -9,15 +9,15 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
+use derive_builder::Builder;
 use tokio::sync::Mutex;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
 use super::schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
-    Enum_Ms_Adr_SchemaRegistry_Format__1, Enum_Ms_Adr_SchemaRegistry_SchemaType__1,
     GetCommandInvoker, GetRequestPayloadBuilder, Object_Get_RequestBuilder,
-    Object_Ms_Adr_SchemaRegistry_Schema__1, Object_Put_RequestBuilder, PutCommandInvoker,
-    PutRequestPayloadBuilder,
+    Object_Put_RequestBuilder, PutCommandInvoker, PutRequestPayloadBuilder,
 };
+use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};
 
 /// The default schema version to use if not provided.
@@ -31,6 +31,53 @@ struct ShutdownHandle {
     get_shutdown: bool,
 }
 
+/// Request to get a schema from the schema registry.
+#[derive(Builder, Clone, Debug)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct GetRequest {
+    /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
+    id: String,
+    /// The version of the schema to fetch.
+    #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
+    version: Option<String>,
+}
+
+impl GetRequestBuilder {
+    /// Validate the [`GetRequest`].
+    ///
+    /// # Errors
+    /// Returns a `String` describing the errors if `id` is empty or not provided.
+    fn validate(&self) -> Result<(), String> {
+        if let Some(id) = &self.id {
+            if id.is_empty() {
+                return Err("id cannot be empty".to_string());
+            }
+        } else {
+            return Err("id is required".to_string());
+        }
+
+        Ok(())
+    }
+}
+
+/// Request to put a schema in the schema registry.
+#[derive(Builder, Clone, Debug)]
+#[builder(setter(into))]
+pub struct PutRequest {
+    /// The content of the schema to be added or updated in the registry.
+    content: String,
+    /// The format of the schema. Specifies how the schema content should be interpreted.
+    format: Format,
+    /// The type of the schema, such as message schema or data schema.
+    schema_type: SchemaType,
+    /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
+    #[builder(default)]
+    tags: HashMap<String, String>,
+    /// The version of the schema to add or update.
+    #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
+    version: Option<String>,
+}
+
 /// Schema registry client implementation.
 #[derive(Clone)]
 pub struct Client<C>
@@ -38,8 +85,8 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    get_command_invoker: Arc<Mutex<GetCommandInvoker<C>>>,
-    put_command_invoker: Arc<Mutex<PutCommandInvoker<C>>>,
+    get_command_invoker: Arc<GetCommandInvoker<C>>,
+    put_command_invoker: Arc<PutCommandInvoker<C>>,
     shutdown_handle: Arc<Mutex<ShutdownHandle>>,
 }
 
@@ -63,14 +110,8 @@ where
             .expect("Statically generated options should not fail.");
 
         Self {
-            get_command_invoker: Arc::new(Mutex::new(GetCommandInvoker::new(
-                client.clone(),
-                &options,
-            ))),
-            put_command_invoker: Arc::new(Mutex::new(PutCommandInvoker::new(
-                client.clone(),
-                &options,
-            ))),
+            get_command_invoker: Arc::new(GetCommandInvoker::new(client.clone(), &options)),
+            put_command_invoker: Arc::new(PutCommandInvoker::new(client.clone(), &options)),
             shutdown_handle: Arc::new(Mutex::new(ShutdownHandle {
                 put_shutdown: false,
                 get_shutdown: false,
@@ -78,18 +119,18 @@ where
         }
     }
 
-    /// Get a schema by its ID from the Schema Registry service.
+    /// Retrieves schema information from a schema registry service based on the provided schema ID
+    /// and version.
     ///
     /// # Arguments
-    /// * `id` - The ID of the schema to get.
-    /// * `version` - The version of the schema to get. If not provided, the default version is used.
+    /// * `get_request` - The request to get a schema from the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
     ///
-    /// Returns a [`client::Object_Ms_Adr_SchemaRegistry_Schema__1`] if the request was successful.
+    /// Returns a [`Schema`] if the request was successful.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if the `id` is empty, the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
+    /// if there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
@@ -98,25 +139,14 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(
         &self,
-        id: String,
-        mut version: Option<String>,
+        get_request: GetRequest,
         timeout: Duration,
-    ) -> Result<Object_Ms_Adr_SchemaRegistry_Schema__1, SchemaRegistryError> {
-        if id.is_empty() {
-            return Err(SchemaRegistryError(
-                SchemaRegistryErrorKind::InvalidArgument("id cannot be empty".to_string()),
-            ));
-        }
-
-        if version.is_none() {
-            version = Some(DEFAULT_SCHEMA_VERSION.to_string());
-        }
-
+    ) -> Result<Schema, SchemaRegistryError> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
                 Object_Get_RequestBuilder::default()
-                    .name(Some(id))
-                    .version(version)
+                    .name(Some(get_request.id))
+                    .version(get_request.version)
                     .build()
                     .map_err(|e| {
                         SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
@@ -140,8 +170,6 @@ where
 
         Ok(self
             .get_command_invoker
-            .lock()
-            .await
             .invoke(command_request)
             .await
             .map_err(SchemaRegistryErrorKind::from)?
@@ -149,17 +177,13 @@ where
             .schema)
     }
 
-    /// Put a schema into the Schema Registry service.
+    /// Adds or updates a schema in the schema registry service with the specified content, format, type, and metadata.
     ///
     /// # Arguments
-    /// * `content` - The content of the schema to put.
-    /// * `format` - The format of the schema to put.
-    /// * `schema_type` - The type of the schema to put.
-    /// * `tags` - The tags of the schema to put.
-    /// * `version` - The version of the schema to put. If not provided, the default version is used.
+    /// * `put_request` - The request to put a schema in the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
     ///
-    /// Returns the [`client::Object_Ms_Adr_SchemaRegistry_Schema__1`] that was put if the request was successful.
+    /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
@@ -172,25 +196,17 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn put(
         &self,
-        content: String,
-        format: Enum_Ms_Adr_SchemaRegistry_Format__1,
-        schema_type: Enum_Ms_Adr_SchemaRegistry_SchemaType__1,
-        tags: HashMap<String, String>,
-        mut version: Option<String>,
+        put_request: PutRequest,
         timeout: Duration,
-    ) -> Result<Object_Ms_Adr_SchemaRegistry_Schema__1, SchemaRegistryError> {
-        if version.is_none() {
-            version = Some(DEFAULT_SCHEMA_VERSION.to_string());
-        }
-
+    ) -> Result<Schema, SchemaRegistryError> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
                 Object_Put_RequestBuilder::default()
-                    .format(Some(format))
-                    .schema_content(Some(content))
-                    .version(version)
-                    .tags(Some(tags))
-                    .schema_type(Some(schema_type))
+                    .format(Some(put_request.format))
+                    .schema_content(Some(put_request.content))
+                    .version(put_request.version)
+                    .tags(Some(put_request.tags))
+                    .schema_type(Some(put_request.schema_type))
                     .build()
                     .map_err(|e| {
                         SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
@@ -214,8 +230,6 @@ where
 
         Ok(self
             .put_command_invoker
-            .lock()
-            .await
             .invoke(command_request)
             .await
             .map_err(SchemaRegistryErrorKind::from)?
@@ -242,13 +256,9 @@ where
             return Ok(());
         }
 
-        // Obtain locks on the command invokers to shut them down.
-        let get_command_invoker_ref = self.get_command_invoker.lock().await;
-        let put_command_invoker_ref = self.put_command_invoker.lock().await;
-
         // If the get command invoker has not been shut down, shut it down.
         if !shutdown_handle.get_shutdown {
-            get_command_invoker_ref
+            self.get_command_invoker
                 .shutdown()
                 .await
                 .map_err(SchemaRegistryErrorKind::from)?;
@@ -257,7 +267,7 @@ where
 
         // If the put command invoker has not been shut down, shut it down.
         if !shutdown_handle.put_shutdown {
-            put_command_invoker_ref
+            self.put_command_invoker
                 .shutdown()
                 .await
                 .map_err(SchemaRegistryErrorKind::from)?;

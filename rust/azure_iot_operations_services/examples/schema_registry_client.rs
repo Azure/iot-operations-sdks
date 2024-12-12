@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
@@ -9,7 +8,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_services::schema_registry::{
-    self, Enum_Ms_Adr_SchemaRegistry_Format__1, Enum_Ms_Adr_SchemaRegistry_SchemaType__1,
+    self, Format, GetRequestBuilder, PutRequestBuilder, SchemaType,
 };
 use env_logger::Builder;
 use tokio::sync::oneshot;
@@ -76,11 +75,12 @@ async fn schema_registry_put(
 ) {
     let schema = client
         .put(
-            JSON_SCHEMA1.to_string(),
-            Enum_Ms_Adr_SchemaRegistry_Format__1::JsonSchemaDraft07,
-            Enum_Ms_Adr_SchemaRegistry_SchemaType__1::MessageSchema,
-            HashMap::new(),
-            None,
+            PutRequestBuilder::default()
+                .content(JSON_SCHEMA1.to_string())
+                .format(Format::JsonSchemaDraft07)
+                .schema_type(SchemaType::MessageSchema)
+                .build()
+                .unwrap(),
             Duration::from_secs(10),
         )
         .await
@@ -98,7 +98,10 @@ async fn schema_registry_get(
     // Wait for the schema ID
     let schema_id = schema_id_rx.await.unwrap();
     let schema = client
-        .get(schema_id, None, Duration::from_secs(10))
+        .get(
+            GetRequestBuilder::default().id(schema_id).build().unwrap(),
+            Duration::from_secs(10),
+        )
         .await
         .unwrap();
 
