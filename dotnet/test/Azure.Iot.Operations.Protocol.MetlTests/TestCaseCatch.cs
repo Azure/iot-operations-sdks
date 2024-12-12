@@ -14,11 +14,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? ErrorKind { get; set; }
 
-        public bool InApplication { get; set; }
+        public bool? InApplication { get; set; }
 
-        public bool IsShallow { get; set; }
+        public bool? IsShallow { get; set; }
 
-        public bool IsRemote { get; set; }
+        public bool? IsRemote { get; set; }
 
         public object StatusCode { get; set; } = false;
 

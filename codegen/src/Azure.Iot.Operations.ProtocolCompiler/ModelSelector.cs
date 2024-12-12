@@ -20,6 +20,8 @@
             ModelsRepositoryClient? dmrClient = null;
             ParsingOptions parsingOptions = new();
 
+            parsingOptions.ExtensionLimitContexts = new List<Dtmi> { new Dtmi("dtmi:dtdl:limits:onvif") };
+
             if (dmrUri != null)
             {
                 dmrClient = new ModelsRepositoryClient(dmrUri);

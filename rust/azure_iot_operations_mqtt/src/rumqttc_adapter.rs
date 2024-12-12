@@ -238,6 +238,15 @@ impl MqttEventLoop for rumqttc::v5::EventLoop {
     fn set_clean_start(&mut self, clean_start: bool) {
         self.options.set_clean_start(clean_start);
     }
+
+    fn set_authentication_method(&mut self, authentication_method: Option<String>) {
+        self.options
+            .set_authentication_method(authentication_method);
+    }
+
+    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>) {
+        self.options.set_authentication_data(authentication_data);
+    }
 }
 
 /// Client constructors + TLS
