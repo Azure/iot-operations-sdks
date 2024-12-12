@@ -144,7 +144,7 @@ where
             .await
             .invoke(command_request)
             .await
-            .map_err(|e| SchemaRegistryError(SchemaRegistryErrorKind::AIOProtocolError(e)))?
+            .map_err(SchemaRegistryErrorKind::from)?
             .payload
             .schema)
     }
@@ -218,7 +218,7 @@ where
             .await
             .invoke(command_request)
             .await
-            .map_err(|e| SchemaRegistryError(SchemaRegistryErrorKind::AIOProtocolError(e)))?
+            .map_err(SchemaRegistryErrorKind::from)?
             .payload
             .schema)
     }
@@ -251,7 +251,7 @@ where
             get_command_invoker_ref
                 .shutdown()
                 .await
-                .map_err(|e| SchemaRegistryError(SchemaRegistryErrorKind::AIOProtocolError(e)))?;
+                .map_err(SchemaRegistryErrorKind::from)?;
             shutdown_handle.get_shutdown = true;
         }
 
@@ -260,7 +260,7 @@ where
             put_command_invoker_ref
                 .shutdown()
                 .await
-                .map_err(|e| SchemaRegistryError(SchemaRegistryErrorKind::AIOProtocolError(e)))?;
+                .map_err(SchemaRegistryErrorKind::from)?;
             shutdown_handle.put_shutdown = true;
         }
 
