@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private const int majorProtocolVersion = 1;
         private const int minorProtocolVersion = 0;
 
-        private readonly int[] supportedMajorProtocolVersions = [0];
+        private readonly int[] supportedMajorProtocolVersions = [1];
 
         private const string? DefaultResponseTopicPrefix = null;
         private const string? DefaultResponseTopicSuffix = null;
@@ -227,23 +227,23 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         return Task.CompletedTask;
                     }
 
-                    //if (!supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
-                    //{
-                    //    AkriMqttException akriException = new($"Received a response with an unsupported protocol version number: {responseProtocolVersion}")
-                    //    {
-                    //        Kind = AkriMqttErrorKind.UnsupportedResponseVersion,
-                    //        InApplication = false,
-                    //        IsShallow = false,
-                    //        IsRemote = false,
-                    //        CommandName = commandName,
-                    //        CorrelationId = requestGuid,
-                    //        SupportedMajorProtocolVersions = supportedMajorProtocolVersions,
-                    //        ProtocolVersion = responseProtocolVersion,
-                    //    };
+                    if (!supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
+                    {
+                        AkriMqttException akriException = new($"Received a response with an unsupported protocol version number: {responseProtocolVersion}")
+                        {
+                            Kind = AkriMqttErrorKind.UnsupportedResponseVersion,
+                            InApplication = false,
+                            IsShallow = false,
+                            IsRemote = false,
+                            CommandName = commandName,
+                            CorrelationId = requestGuid,
+                            SupportedMajorProtocolVersions = supportedMajorProtocolVersions,
+                            ProtocolVersion = responseProtocolVersion,
+                        };
 
-                    //    SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                    //    return Task.CompletedTask;
-                    //}
+                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
+                        return Task.CompletedTask;
+                    }
 
                     MqttUserProperty? statusProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
 

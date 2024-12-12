@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-    <VersionPrefix>0.6.0-dec1212</VersionPrefix>
+    <VersionPrefix>0.6.0-decem1212</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
