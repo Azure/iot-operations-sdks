@@ -16,10 +16,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 0;
-        private const int minorProtocolVersion = 1;
+        private const int majorProtocolVersion = 1;
+        private const int minorProtocolVersion = 0;
 
-        private readonly int[] supportedMajorProtocolVersions = [0];
+        private readonly int[] supportedMajorProtocolVersions = [1];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
