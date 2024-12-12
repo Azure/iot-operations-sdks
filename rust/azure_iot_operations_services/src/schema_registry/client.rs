@@ -52,7 +52,7 @@ where
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if there is an error building the options.
+    /// if there is an error building the underlying command invokers.
     ///
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since

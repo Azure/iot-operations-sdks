@@ -14,7 +14,6 @@ use azure_iot_operations_services::schema_registry::{
 use env_logger::Builder;
 use tokio::sync::oneshot;
 
-// FIN: Make sure this is the same one as Go and Dotnet samples.
 const JSON_SCHEMA1: &str = r#"
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -52,6 +51,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    // Create a channel to send the schema ID from the put task to the get task
     let (schema_id_tx, schema_id_rx) = oneshot::channel();
 
     let schema_registry_client = schema_registry::Client::new(&session.create_managed_client());

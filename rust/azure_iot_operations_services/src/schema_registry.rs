@@ -17,7 +17,7 @@ pub use schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
     Object_Ms_Adr_SchemaRegistry_Schema__1,
 };
 
-/// Represents an error that occurred in the Azure IoT Operations Schema Registry implementation.
+/// Represents an error that occurred in the Azure IoT Operations Schema Registry Client implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct SchemaRegistryError(#[from] SchemaRegistryErrorKind);
