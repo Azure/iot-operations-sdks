@@ -215,7 +215,7 @@ namespace Azure.Iot.Operations.Connector
             }
             finally
             {
-                _logger.LogInformation("Shutting down sample...");
+                _logger.LogInformation("Shutting down the connector");
             }
         }
 
@@ -304,8 +304,17 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} was deleted. This sample won't sample this dataset anymore.");
                 return;
             }
-            
-            byte[] serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
+
+            byte[] serializedPayload;
+            try
+            {
+                serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
+            }
+            catch (Exception e)
+            { 
+                _logger.LogError(e, $"Error sampling dataset with name {datasetName} in asset with name {assetName}");
+                return;
+            }
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 

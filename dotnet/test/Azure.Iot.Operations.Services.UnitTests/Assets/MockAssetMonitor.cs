@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             }
         }
 
-        public void DeleteMockAssetEndpointProfile(string assetName)
+        public void DeleteMockAssetEndpointProfile()
         {
             if (_assetEndpointProfile != null)
             {

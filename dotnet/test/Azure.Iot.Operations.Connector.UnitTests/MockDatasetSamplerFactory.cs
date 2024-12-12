@@ -9,9 +9,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     internal class MockDatasetSamplerFactory : IDatasetSamplerFactory
     {
+        private bool _isFaulty;
+        public MockDatasetSamplerFactory(bool isFaulty = false)
+        {
+            _isFaulty = isFaulty;
+        }
+
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            return new MockDatasetSampler();
+            return new MockDatasetSampler(_isFaulty);
         }
     }
 }
