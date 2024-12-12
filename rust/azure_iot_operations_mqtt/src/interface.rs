@@ -18,15 +18,6 @@ use crate::error::{
 use crate::session::pub_tracker;
 use crate::topic::TopicParseError;
 
-// //
-// impl From<pub_tracker::AckError> for AckError {
-//     fn from(e: pub_tracker::AckError) -> Self {
-//         match e {
-//             pub_tracker::AckError::AckOverflow => AckError::AlreadyAcked,
-//         }
-//     }
-// }
-
 // ---------- Concrete Types ----------
 
 /// Awaitable token indicating completion of MQTT message delivery.
@@ -52,11 +43,12 @@ pub struct AckToken {
 // should be out of scope for this module. This is a stopgap measure for now. In the longer term,
 // ManagedClient should be concretized and not be defined in this module at all, thus there would
 // be no need for AckToken to be here either.
+// TODO: if this were implemented correctly, we could likely get rid of the pub(crate) declarations
 
     /// Tracker for unacked incoming publishes
-    pub_tracker: Arc<pub_tracker::PubTracker>,
+    pub(crate) pub_tracker: Arc<pub_tracker::PubTracker>,
     /// Publish to be acknowledged
-    publish: Publish,
+    pub(crate) publish: Publish,
 }
 
 // TODO: Finish doc along with implementation
@@ -225,15 +217,10 @@ pub trait ManagedClient: MqttPubSub {
 #[async_trait]
 /// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
-    // /// Receives the next incoming publish.
-    // ///
-    // /// Return None if there will be no more incoming publishes.
-    // async fn recv(&mut self) -> Option<Publish>;
-
-    /// Receives the next incoming publish.
+    /// Receives the next incoming publish, and an optional token for acknowledging it.
     ///
     /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>;
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>;    //TODO: this should be `recv_manual_ack` instead
 
     /// Close the receiver, preventing further incoming publishes.
     ///
