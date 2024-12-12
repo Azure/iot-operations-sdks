@@ -55,12 +55,12 @@ namespace Azure.Iot.Operations.Connector
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
             mqttConnectionSettings.ClientId = Guid.NewGuid().ToString(); //TODO get from config
-            _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
+            _logger.LogError($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
             //TODO retry if it fails, but wait until what to try again? Just rely on retry policy?
             await _sessionClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
-            _logger.LogInformation($"Successfully connected to MQTT broker");
+            _logger.LogError($"Successfully connected to MQTT broker");
 
             await using SchemaRegistryClient schemaClient = new(_sessionClient);
             Dictionary<string, string> testTags = new() { { "key1", "value1" } };
@@ -69,7 +69,10 @@ namespace Azure.Iot.Operations.Connector
             _logger.LogError($"Uploading the schema");
             try
             {
-                Object_Ms_Adr_SchemaRegistry_Schema__1 putSchemaResponse = await schemaClient.PutAsync(_jsonSchema1, Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, "1", testTags, TimeSpan.FromSeconds(300), CancellationToken.None);
+                Object_Ms_Adr_SchemaRegistry_Schema__1 putSchemaResponse = await schemaClient.PutAsync(_jsonSchema1, 
+                    Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, 
+                    Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, 
+                    "1", testTags, TimeSpan.FromSeconds(300), CancellationToken.None);
                 //Assert.Contains("temperature", putSchemaResponse.SchemaContent);
                 //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, putSchemaResponse.Format);
                 //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, putSchemaResponse.SchemaType);

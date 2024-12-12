@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-    <VersionPrefix>0.6.0-decem10</VersionPrefix>
+    <VersionPrefix>0.6.0-decem11v2</VersionPrefix>
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
