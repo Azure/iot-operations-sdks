@@ -1,0 +1,29 @@
+﻿{
+  "assetEndpointProfileRef": "azure-iot-operations/my-rest-thermostat-profile",
+  "datasets": [
+    {
+      "dataPoints": [
+        {
+          "dataPointConfiguration": "{\n   \"HttpRequestMethod\": \"GET\",\n}",
+          "dataSource": "/api/thermostat/current",
+          "name": "currentTemperature",
+          "observabilityMode": "None"
+        },
+        {
+          "dataPointConfiguration": "{\n   \"HttpRequestMethod\": \"GET\",\n}",
+          "dataSource": "/api/thermostat/desired",
+          "name": "desiredTemperature",
+          "observabilityMode": "None"
+        }
+      ],
+      "name": "thermostat_status"
+    }
+  ],
+  "defaultDatasetsConfiguration": "{\n   \"samplingInterval\": 4000,\n}",
+  "defaultTopic": {
+    "path": "/mqtt/machine/status",
+    "retain": "Keep"
+  },
+  "description": "A sample for an Asset modeling a device with REST endpoint",
+  "displayName": "My REST Thermostat Asset"
+}

@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.Assets
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
     /// </remarks>
-    public class AssetMonitor
+    public class AssetMonitor : IAssetMonitor
     {
         // The operator will deploy the connector pod with these environment variables set.
         internal const string AssetEndpointProfileConfigMapMountPathEnvVar = "AEP_CONFIGMAP_MOUNT_PATH";
