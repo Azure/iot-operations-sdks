@@ -334,6 +334,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         return Task.CompletedTask;
                     }
 
+                    if (responseMetadata.Timestamp != null)
+                    { 
+                        HybridLogicalClock.GetInstance().Update(responseMetadata.Timestamp);
+                    }
+
                     ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
 
                     if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
