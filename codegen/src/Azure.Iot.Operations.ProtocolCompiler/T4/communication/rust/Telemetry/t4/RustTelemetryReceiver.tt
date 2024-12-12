@@ -10,30 +10,35 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     AckToken, TelemetryMessage, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
 };
 
+<# if (this.schemaClassName != "Bytes") { #>
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
+<# } #>
 use super::MODEL_ID;
 <# if (this.useSharedSubscription) { #>
 use super::TELEMETRY_SERVICE_GROUP_ID;
 <# } #>
 use super::TELEMETRY_TOPIC_PATTERN;
+<# if (this.schemaClassName == "Bytes") { #>
+use crate::common_types::bytes::Bytes;
+<# } #>
 use crate::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.schemaClassName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
+pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
 
-/// Telemetry Receiver for `<#=this.schemaClassName#>`
-pub struct <#=this.schemaClassName#>Receiver<C>(
+/// Telemetry Receiver for `<#=this.componentName#>`
+pub struct <#=this.componentName#>Receiver<C>(
     TelemetryReceiver<<#=this.schemaClassName#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-impl<C> <#=this.schemaClassName#>Receiver<C>
+impl<C> <#=this.componentName#>Receiver<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.schemaClassName#>Receiver`]
+    /// Creates a new [`<#=this.componentName#>Receiver`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
@@ -71,7 +76,7 @@ where
         )
     }
 
-    /// Shut down the [`<#=this.schemaClassName#>Receiver`]
+    /// Shut down the [`<#=this.componentName#>Receiver`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure in graceful shutdown
@@ -79,13 +84,13 @@ where
         self.0.shutdown().await
     }
 
-    /// Receive the next [`<#=this.schemaClassName#>Message`]
+    /// Receive the next [`<#=this.componentName#>Message`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a message
     pub async fn recv(
         &mut self,
-    ) -> Option<Result<(<#=this.schemaClassName#>Message, Option<AckToken>), AIOProtocolError>> {
+    ) -> Option<Result<(<#=this.componentName#>Message, Option<AckToken>), AIOProtocolError>> {
         self.0.recv().await
     }
 }
