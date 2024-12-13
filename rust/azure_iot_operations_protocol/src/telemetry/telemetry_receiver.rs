@@ -3,8 +3,8 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
-    interface::{ManagedClient, PubReceiver, self},
+    control_packet::QoS,
+    interface::{self, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};

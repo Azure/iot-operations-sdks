@@ -39,12 +39,11 @@ impl std::future::Future for CompletionToken {
 
 /// Awaitable token indicating completion of MQTT message acknowledgement.
 pub struct AckToken {
-// TODO: AckToken design should not be here. It depends on the pub tracking implementation, which
-// should be out of scope for this module. This is a stopgap measure for now. In the longer term,
-// ManagedClient should be concretized and not be defined in this module at all, thus there would
-// be no need for AckToken to be here either.
-// TODO: if this were implemented correctly, we could likely get rid of the pub(crate) declarations
-
+    // TODO: AckToken design should not be here. It depends on the pub tracking implementation, which
+    // should be out of scope for this module. This is a stopgap measure for now. In the longer term,
+    // ManagedClient should be concretized and not be defined in this module at all, thus there would
+    // be no need for AckToken to be here either.
+    // TODO: if this were implemented correctly, we could likely get rid of the pub(crate) declarations
     /// Tracker for unacked incoming publishes
     pub(crate) pub_tracker: Arc<pub_tracker::PubTracker>,
     /// Publish to be acknowledged
@@ -53,7 +52,11 @@ pub struct AckToken {
 
 // TODO: Finish doc along with implementation
 impl AckToken {
-    /// Acknowledge the received Publish message
+    /// Acknowledge the received Publish message and return a `[CompletionToken]` for the
+    /// completion of the acknowledgement process.
+    /// 
+    /// # Errors
+    /// Returns an [`AckError`] if the Publish message could not be acknowledged.
     pub async fn ack(self) -> Result<CompletionToken, AckError> {
         self.pub_tracker.ack(&self.publish).await?;
         // TODO: This CompletionToken is spurious. We don't (yet) have a way to
@@ -220,7 +223,7 @@ pub trait PubReceiver {
     /// Receives the next incoming publish, and an optional token for acknowledging it.
     ///
     /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>;    //TODO: this should be `recv_manual_ack` instead
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>; //TODO: this should be `recv_manual_ack` instead
 
     /// Close the receiver, preventing further incoming publishes.
     ///

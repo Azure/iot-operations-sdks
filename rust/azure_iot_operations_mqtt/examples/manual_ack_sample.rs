@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+use std::io::Write;
 use std::str;
 use std::time::Duration;
 
@@ -66,7 +67,6 @@ async fn receive_messages(client: SessionManagedClient) {
     loop {
         let (msg, ack_token) = receiver.recv().await.unwrap();
         tokio::spawn(store_and_acknowledge(msg, ack_token));
-        
     }
 }
 
@@ -87,16 +87,18 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
 }
 
 async fn store_and_acknowledge(publish: Publish, ack_token: Option<AckToken>) {
-    println!("Received: {}", str::from_utf8(&publish.payload).unwrap());
+    let payload = str::from_utf8(&publish.payload).unwrap();
+    println!("Received: {payload}");
     // Store the message in a file
     let mut file = std::fs::OpenOptions::new()
-        .write(true)
+        .create(true)
         .append(true)
         .open(STORAGE_FILE)
         .unwrap();
+    writeln!(file, "{payload}").unwrap();
     // Acknowledge the message once it is stored
     if let Some(ack_token) = ack_token {
-       let comp_token = ack_token.ack().await.unwrap();
-       comp_token.await.unwrap();
+        let comp_token = ack_token.ack().await.unwrap();
+        comp_token.await.unwrap();
     }
 }

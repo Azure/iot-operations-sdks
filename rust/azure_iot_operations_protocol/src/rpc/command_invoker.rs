@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -688,8 +688,8 @@ where
                     log::info!("[{command_name}] Receive response loop cancelled");
                     break;
                   },
-                  msg = mqtt_receiver.recv() => {
-                    if let Some(m) = msg {
+                  recv_result = mqtt_receiver.recv() => {
+                    if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
                         match response_tx.send(m.clone()) {
                             Ok(_) => { },
@@ -698,12 +698,15 @@ where
                             }
                         }
                         // Manually ack
-                        match mqtt_receiver.ack(&m).await {
-                            Ok(()) => { },
-                            Err(e) => {
-                                log::error!("[{command_name}] Error acking message: {e}");
+                        if let Some(ack_token) = ack_token {
+                            match ack_token.ack().await {
+                                Ok(_) => { },
+                                Err(e) => {
+                                    log::error!("[{command_name}] Error acking message: {e}");
+                                }
                             }
                         }
+
                     } else {
                         log::error!("[{command_name}] MqttReceiver closed");
                         break;

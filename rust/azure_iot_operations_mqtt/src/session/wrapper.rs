@@ -9,7 +9,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, AckToken, ManagedClient, MqttPubSub, PubReceiver};
+use crate::interface::{AckToken, CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
