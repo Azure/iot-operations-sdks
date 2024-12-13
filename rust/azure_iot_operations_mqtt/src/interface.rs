@@ -148,6 +148,12 @@ pub trait MqttEventLoop {
 
     /// Modify the clean start flag for subsequent MQTT connection attempts
     fn set_clean_start(&mut self, clean_start: bool);
+
+    /// Set the authentication method
+    fn set_authentication_method(&mut self, authentication_method: Option<String>);
+
+    /// Set the authentication data
+    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
 }
 
 // ---------- Higher level MQTT abstractions ----------
