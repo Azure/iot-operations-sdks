@@ -180,7 +180,7 @@ impl PubReceiver for SessionPubReceiver {
                 result = Some((publish, None));
             }
             // Otherwise, create an AckToken to ack with (for QoS > 0)
-            else if publish.qos != QoS::AtMostOnce{
+            else if publish.qos != QoS::AtMostOnce {
                 let ack_token = AckToken {
                     pub_tracker: self.pub_tracker.clone(),
                     publish: publish.clone(),
