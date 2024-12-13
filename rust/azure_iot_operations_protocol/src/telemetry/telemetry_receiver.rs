@@ -214,7 +214,6 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    auto_ack: bool,
     // Describes state
     is_subscribed: bool,
     // Information to manage state
@@ -294,7 +293,6 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            auto_ack: receiver_options.auto_ack,
             is_subscribed: false,
             pending_acks: JoinSet::new(),
         })
