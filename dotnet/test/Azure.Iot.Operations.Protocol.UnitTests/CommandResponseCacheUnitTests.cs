@@ -17,7 +17,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             }
         }
 
-        private const string CommonMqttTopic = "some/topic";
+        private const string MqttTopic1 = "some/topic";
+        private const string MqttTopic2 = "some/other/topic";
 
         private const string CommandName1 = "Command1";
         private const string CommandName2 = "Command2";
@@ -74,9 +75,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             this.cmdExecutionDuration = TimeSpan.FromSeconds(10);
 
-            this.responseMessage01 = new MqttApplicationMessage(CommonMqttTopic) { CorrelationData = this.correlationData01, PayloadSegment = this.responsePayload01 };
-            this.responseMessage02 = new MqttApplicationMessage(CommonMqttTopic) { CorrelationData = this.correlationData02, PayloadSegment = this.responsePayload02 };
-            this.responseMessage03 = new MqttApplicationMessage(CommonMqttTopic) { CorrelationData = this.correlationData03, PayloadSegment = this.responsePayload03 };
+            this.responseMessage01 = new MqttApplicationMessage(MqttTopic1) { CorrelationData = this.correlationData01, PayloadSegment = this.responsePayload01 };
+            this.responseMessage02 = new MqttApplicationMessage(MqttTopic1) { CorrelationData = this.correlationData02, PayloadSegment = this.responsePayload02 };
+            this.responseMessage03 = new MqttApplicationMessage(MqttTopic1) { CorrelationData = this.correlationData03, PayloadSegment = this.responsePayload03 };
         }
 
         [Fact]
@@ -85,7 +86,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandResponseCache commandResponseCache = new CommandResponseCache();
 
             bool isIdempotent = true;
-            var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration));
+            var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration));
             Assert.Equal(AkriMqttErrorKind.StateInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
@@ -97,7 +98,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             CommandResponseCache commandResponseCache = new CommandResponseCache();
 
-            await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
         }
 
         [Fact]
@@ -109,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StopAsync();
 
             bool isIdempotent = true;
-            var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration));
+            var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration));
             Assert.Equal(AkriMqttErrorKind.StateInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
@@ -124,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
             await commandResponseCache.StopAsync();
 
-            await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
         }
 
         [Fact]
@@ -136,10 +137,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), this.correlationData01.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), MqttTopic1, this.correlationData01.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), this.correlationData01.ToArray(), this.requestPayload02.ToArray(), isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), MqttTopic1, this.correlationData01.ToArray(), this.requestPayload02.ToArray(), isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage message = await cachedTask;
             Assert.True(message.PayloadSegment == responsePayload01);
@@ -156,10 +157,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), this.correlationData01.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), MqttTopic1, this.correlationData01.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), this.correlationData02.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1.ToString(), InvokerId1.ToString(), MqttTopic1, this.correlationData02.ToArray(), this.requestPayload01.ToArray(), isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -176,10 +177,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -196,10 +197,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, null!, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, null!, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -208,7 +209,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public async Task DedupBySameInvokerSucceedsWithReuseAcrossInvokersOption()
+        public async Task DedupBySameTopicSucceedsWithReuseAcrossTopicsOption()
         {
             var commandResponseCache = new TestCommandResponseCache();
             commandResponseCache.CachingBenefit = 0.3;
@@ -216,10 +217,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: true);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: true);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -228,7 +229,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public async Task DedupBySameInvokerSucceedsWithoutReuseAcrossInvokersOption()
+        public async Task DedupBySameTopicSucceedsWithoutReuseAcrossTopicsOption()
         {
             var commandResponseCache = new TestCommandResponseCache();
             commandResponseCache.CachingBenefit = 0.3;
@@ -236,10 +237,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -248,7 +249,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public async Task DedupByDifferentInvokerFailsWithReuseAcrossInvokersOption()
+        public async Task DedupByDifferentTopicFailsWithReuseAcrossTopicsOption()
         {
             var commandResponseCache = new TestCommandResponseCache();
             commandResponseCache.CachingBenefit = 0.3;
@@ -256,17 +257,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: true);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: true);
             Assert.Null(cachedTask);
 
             await commandResponseCache.StopAsync();
         }
 
         [Fact]
-        public async Task DedupByDifferentInvokerFailsWithoutReuseAcrossInvokersOption()
+        public async Task DedupByDifferentTopicFailsWithoutReuseAcrossTopicsOption()
         {
             var commandResponseCache = new TestCommandResponseCache();
             commandResponseCache.CachingBenefit = 0.3;
@@ -274,10 +275,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
             await commandResponseCache.StopAsync();
@@ -292,10 +293,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -312,10 +313,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -332,10 +333,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: true);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -352,10 +353,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, null!, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
             await commandResponseCache.StopAsync();
@@ -370,10 +371,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: false, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -390,10 +391,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
             await commandResponseCache.StopAsync();
@@ -407,9 +408,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = false;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.Null(cachedTask);
 
@@ -425,10 +426,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -445,10 +446,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
             await commandResponseCache.StopAsync();
@@ -463,10 +464,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -483,10 +484,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -502,15 +503,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await commandResponseCache.StartAsync();
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.Null(cachedTask1);
             Assert.NotNull(cachedTask2);
             Assert.True(cachedTask2.Status == TaskStatus.WaitingForActivation);
 
             bool isIdempotent = false;
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
             Assert.True(cachedTask2.Status == TaskStatus.RanToCompletion);
             MqttApplicationMessage cachedMessage2 = await cachedTask2;
@@ -527,15 +528,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await commandResponseCache.StartAsync();
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.Null(cachedTask1);
             Assert.NotNull(cachedTask2);
             Assert.True(cachedTask2.Status == TaskStatus.WaitingForActivation);
 
             bool isIdempotent = false;
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
             Assert.True(cachedTask2.Status == TaskStatus.RanToCompletion);
             MqttApplicationMessage cachedMessage2 = await cachedTask2;
@@ -552,15 +553,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await commandResponseCache.StartAsync();
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
 
             Assert.Null(cachedTask1);
             Assert.NotNull(cachedTask2);
             Assert.True(cachedTask2.Status == TaskStatus.WaitingForActivation);
 
             bool isIdempotent = false;
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
             Assert.True(cachedTask2.Status == TaskStatus.RanToCompletion);
             MqttApplicationMessage cachedMessage2 = await cachedTask2;
@@ -577,8 +578,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await commandResponseCache.StartAsync();
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: false, canReuseAcrossInvokers: false);
 
             Assert.Null(cachedTask1);
             Assert.Null(cachedTask2);
@@ -587,7 +588,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 
         [Fact]
-        public async Task RetrieveForDedupRequiresMatchingInvokerId()
+        public async Task RetrieveForDedupRequiresMatchingTopic()
         {
             var commandResponseCache = new TestCommandResponseCache();
             commandResponseCache.CachingBenefit = 0.3;
@@ -595,13 +596,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic2, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -618,10 +619,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName2, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName2, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -638,13 +639,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId2, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -661,13 +662,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await commandResponseCache.StartAsync();
 
             bool isIdempotent = true;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName2, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName2, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.Null(cachedTask);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -687,20 +688,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -729,20 +730,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -771,20 +772,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -811,20 +812,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.6;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -851,20 +852,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -891,20 +892,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.6;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -931,23 +932,23 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             await Task.Delay(this.temporalTestQuiescenceDelay);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -976,28 +977,28 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask3;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask3 != null && --loopLimit > 0);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -1024,28 +1025,28 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
             commandResponseCache.CachingBenefit = 0.6;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask3;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask3 != null && --loopLimit > 0);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -1072,28 +1073,28 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
             commandResponseCache.CachingBenefit = 0.3;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask3;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask3 != null && --loopLimit > 0);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -1120,28 +1121,28 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = false;
 
             commandResponseCache.CachingBenefit = 0.5;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             commandResponseCache.CachingBenefit = 0.4;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, this.responseMessage02, isIdempotent, this.futureExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
             commandResponseCache.CachingBenefit = 0.6;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, this.responseMessage03, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask3;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask3 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData03, this.requestPayload03, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask3 != null && --loopLimit > 0);
 
-            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
-            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask1 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask2 = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
 
             Assert.NotNull(cachedTask1);
             MqttApplicationMessage cachedMessage1 = await cachedTask1;
@@ -1166,15 +1167,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.pastStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask != null && --loopLimit > 0);
 
             Assert.Null(cachedTask);
@@ -1192,17 +1193,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
 
             await Task.Delay(this.temporalTestQuiescenceDelay);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -1220,17 +1221,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExpirationTime = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, soonExpirationTime, this.futureStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
 
             await Task.Delay(this.temporalTestQuiescenceDelay);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -1248,15 +1249,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExcessiveStaleness = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask != null && --loopLimit > 0);
 
             Assert.Null(cachedTask);
@@ -1274,15 +1275,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExcessiveStaleness = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.pastExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask != null && --loopLimit > 0);
 
             Assert.Null(cachedTask);
@@ -1300,17 +1301,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExcessiveStaleness = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
 
-            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            Task<MqttApplicationMessage>? cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             MqttApplicationMessage cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
 
             await Task.Delay(this.temporalTestQuiescenceDelay);
 
-            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
+            cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload02, isCacheable: true, canReuseAcrossInvokers: false);
             Assert.NotNull(cachedTask);
             cachedMessage = await cachedTask;
             Assert.True(cachedMessage.PayloadSegment == responsePayload01);
@@ -1328,15 +1329,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             bool isIdempotent = true;
             DateTime soonExcessiveStaleness = DateTime.UtcNow + this.temporalTestSoonDuration;
-            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
-            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
+            Assert.Null(await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false));
+            await commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData01, this.requestPayload01, this.responseMessage01, isIdempotent, this.futureExpirationTime, soonExcessiveStaleness, this.cmdExecutionDuration);
 
             int loopLimit = this.temporalTestLoopLimit;
             Task<MqttApplicationMessage>? cachedTask;
             do
             {
                 await Task.Delay(this.temporalTestLoopDelay);
-                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
+                cachedTask = await commandResponseCache.RetrieveAsync(CommandName1, InvokerId1, MqttTopic1, this.correlationData02, this.requestPayload01, isCacheable: true, canReuseAcrossInvokers: false);
             } while (cachedTask != null && --loopLimit > 0);
 
             Assert.Null(cachedTask);

@@ -1,0 +1,23 @@
+---
+test-name: CommandExecutorWithInappropriateSubscribedTopic
+description:
+  condition: >-
+    CommandExecutor receives basic valid request.
+  expect: >-
+    Erroneous test case expects a subscription to a topic that will not be subscribed.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "incorrect/subscription"
+...

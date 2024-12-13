@@ -5,6 +5,7 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"net/url"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -16,7 +17,8 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		publisher *publisher[T]
+		publisher  *publisher[T]
+		dataSchema *url.URL
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -26,6 +28,7 @@ type (
 
 	// TelemetrySenderOptions are the resolved telemetry sender options.
 	TelemetrySenderOptions struct {
+		DataSchema     *url.URL
 		TopicNamespace string
 		TopicTokens    map[string]string
 		Logger         *slog.Logger
@@ -90,6 +93,8 @@ func NewTelemetrySender[T any](
 		topic:    tp,
 	}
 
+	ts.dataSchema = opts.DataSchema
+
 	return ts, nil
 }
 
@@ -128,7 +133,7 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
-	if err := cloudEventToMessage(pub, opts.CloudEvent); err != nil {
+	if err := cloudEventToMessage(pub, opts.CloudEvent, ts.dataSchema); err != nil {
 		return err
 	}
 	pub.Retain = opts.Retain

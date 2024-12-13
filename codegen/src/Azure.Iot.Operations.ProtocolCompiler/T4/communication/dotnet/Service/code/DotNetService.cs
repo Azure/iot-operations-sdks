@@ -19,6 +19,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
         private readonly bool syncApi;
+        private readonly bool generateClient;
+        private readonly bool generateServer;
 
         public DotNetService(
             string projectName,
@@ -35,7 +37,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
-            bool syncApi)
+            bool syncApi,
+            bool generateClient,
+            bool generateServer)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -53,6 +57,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
             this.syncApi = syncApi;
+            this.generateClient = generateClient;
+            this.generateServer = generateServer;
         }
 
         public string FileName { get => $"{this.serviceName}.g.cs"; }

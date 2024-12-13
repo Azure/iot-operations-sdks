@@ -1,0 +1,23 @@
+---
+test-name: CommandExecutorPublishedMessageWithNonMatchingCorrelationIndex
+description:
+  condition: >-
+    CommandExecutor receives basic valid request.
+  expect: >-
+    Erroneous test case expects a response with no matching correlation index.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 1
+...

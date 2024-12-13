@@ -1,0 +1,22 @@
+---
+test-name: TelemetrySenderPublishedMessageWithWrongExpiry
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with an incorrect message expiry interval.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - expiry: 4
+...
