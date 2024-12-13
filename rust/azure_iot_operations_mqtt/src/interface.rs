@@ -54,7 +54,7 @@ pub struct AckToken {
 impl AckToken {
     /// Acknowledge the received Publish message and return a `[CompletionToken]` for the
     /// completion of the acknowledgement process.
-    /// 
+    ///
     /// # Errors
     /// Returns an [`AckError`] if the Publish message could not be acknowledged.
     pub async fn ack(self) -> Result<CompletionToken, AckError> {
