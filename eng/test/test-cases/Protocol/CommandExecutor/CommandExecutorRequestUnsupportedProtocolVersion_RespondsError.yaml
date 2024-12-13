@@ -24,7 +24,7 @@ epilogue:
     command-status: 505 # Not Supported Version
     is-application-error: false
     metadata:
-      "__supProtMajVer": "0"
+      "__supProtMajVer": "1"
       "__requestProtVer": "123456.0"
-      "__protVer": "0.1"
+      "__protVer": "1.0"
 ...

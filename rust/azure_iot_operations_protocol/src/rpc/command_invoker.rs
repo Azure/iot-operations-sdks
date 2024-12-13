@@ -30,7 +30,7 @@ use crate::{
     DEFAULT_AIO_PROTOCOL_VERSION,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Command Request struct.
 /// Used by the [`CommandInvoker`]
