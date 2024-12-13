@@ -18,6 +18,10 @@ impl PayloadSerialize for EmptyAvro{
         "application/avro"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }

@@ -22,6 +22,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
 
         public string ContentType => "application/protobuf";
 
+        public bool IsContentTypeSupersedable => false;
+
         public int CharacterDataFormatIndicator => 0;
 
         public T FromBytes<T>(byte[]? payload)

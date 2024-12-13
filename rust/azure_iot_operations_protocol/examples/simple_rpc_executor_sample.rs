@@ -95,6 +95,10 @@ impl PayloadSerialize for IncrRequestPayload {
         "application/json"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
@@ -113,6 +117,10 @@ impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
     fn content_type() -> &'static str {
         "application/json"
+    }
+
+    fn is_content_type_supersedable() -> bool {
+        false
     }
 
     fn format_indicator() -> FormatIndicator {

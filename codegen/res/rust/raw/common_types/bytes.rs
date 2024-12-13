@@ -29,6 +29,10 @@ impl PayloadSerialize for Bytes {
         "application/octet-stream"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        true
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }

@@ -67,6 +67,10 @@ impl PayloadSerialize for Request {
         "application/octet-stream"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
@@ -265,6 +269,10 @@ impl PayloadSerialize for Response {
         "application/octet-stream"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
@@ -318,6 +326,10 @@ impl PayloadSerialize for Operation {
     type Error = String;
     fn content_type() -> &'static str {
         "application/octet-stream"
+    }
+
+    fn is_content_type_supersedable() -> bool {
+        false
     }
 
     fn format_indicator() -> FormatIndicator {

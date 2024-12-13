@@ -9,6 +9,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
     {
         public string ContentType => "application/octet-stream";
 
+        public bool IsContentTypeSupersedable => true;
+
         public int CharacterDataFormatIndicator => 0;
 
         public T FromBytes<T>(byte[]? payload)

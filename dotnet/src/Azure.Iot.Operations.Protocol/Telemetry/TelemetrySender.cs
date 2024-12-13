@@ -65,12 +65,12 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
         }
 
-        public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, string? contentType = null, CancellationToken cancellationToken = default)
         {
-            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), qos, telemetryTimeout, cancellationToken);
+            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), qos, messageExpiryInterval, contentType, cancellationToken);
         }
 
-        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, string? contentType = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
             ValidateAsNeeded();
@@ -92,6 +92,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             if (verifiedMessageExpiryInterval.TotalSeconds > uint.MaxValue)
             {
                 throw AkriMqttException.GetConfigurationInvalidException("messageExpiryInterval", verifiedMessageExpiryInterval, $"message expiry interval cannot be larger than {uint.MaxValue} seconds");
+            }
+
+            if (contentType != null && !_serializer.IsContentTypeSupersedable)
+            {
+                throw AkriMqttException.GetArgumentInvalidException(null, nameof(contentType), contentType, $"Configured serialization format does not permit superseding {nameof(contentType)}");
             }
 
             StringBuilder telemTopic = new();
@@ -116,14 +121,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.Id = Guid.NewGuid().ToString();
                     metadata.CloudEvent.Time = DateTime.UtcNow;
                     metadata.CloudEvent.Subject = telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = _serializer.ContentType;
+                    metadata.CloudEvent.DataContentType = contentType ?? _serializer.ContentType;
                     metadata.CloudEvent.DataSchema = DataSchema;
                 }
 
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
                     PayloadFormatIndicator = (MqttPayloadFormatIndicator)_serializer.CharacterDataFormatIndicator,
-                    ContentType = _serializer.ContentType,
+                    ContentType = contentType ?? _serializer.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
                     PayloadSegment = _serializer.ToBytes(telemetry) ?? [],
                 };

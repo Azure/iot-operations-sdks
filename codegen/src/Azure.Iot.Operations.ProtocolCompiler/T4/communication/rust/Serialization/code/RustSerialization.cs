@@ -79,6 +79,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly List<string> extHeaders;
         private readonly string? schemaCode;
         private readonly string? contentType;
+        private readonly bool isContentTypeSupersedable;
         private readonly string? formatIndicator;
         private readonly List<string> serializeCode;
         private readonly List<string> deserializeCode;
@@ -95,6 +96,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.extHeaders = formatExtHeaders.GetValueOrDefault(genFormat) ?? new List<string>();
             this.schemaCode = formatSchemaCode.GetValueOrDefault(genFormat);
             this.contentType = formatContentType.GetValueOrDefault(genFormat);
+            this.isContentTypeSupersedable = genFormat == PayloadFormat.Raw;
             this.formatIndicator = formatFormatIndicator.GetValueOrDefault(genFormat);
             this.serializeCode = formatSerializeCode.GetValueOrDefault(genFormat) ?? new List<string>();
             this.deserializeCode = formatDeserializeCode.GetValueOrDefault(genFormat) ?? new List<string>();

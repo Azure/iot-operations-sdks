@@ -18,7 +18,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         private int _numSubscriptions;
         private int _numPublishes;
         private int _ackCount;
-        
+        private string? _contentType;
+
         public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -178,6 +179,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MessagePublished = applicationMessage;
             MessagesPublished.Add(applicationMessage);
             Interlocked.Increment(ref _numPublishes);
+            _contentType = applicationMessage.ContentType;
 
             if (applicationMessage.CorrelationData != null)
             {
@@ -232,6 +234,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public int GetNumberOfPublishes()
         {
             return _numPublishes;
+        }
+
+        public string? GetPublishedContentType()
+        {
+            return _contentType;
         }
 
         public ValueTask DisposeAsync(bool disposing)

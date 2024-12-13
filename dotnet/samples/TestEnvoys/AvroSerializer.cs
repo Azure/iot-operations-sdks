@@ -32,6 +32,8 @@ namespace TestEnvoys
 
         public string ContentType => "application/avro";
 
+        public bool IsContentTypeSupersedable => false;
+
         public int CharacterDataFormatIndicator => 0;
 
         public T FromBytes<T>(byte[]? payload)

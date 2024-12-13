@@ -155,6 +155,7 @@ pub struct CommandInvokerOptions {
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
+/// #   fn is_content_type_supersedable() -> bool { false }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -1092,6 +1093,9 @@ mod tests {
         type Error = String;
         fn content_type() -> &'static str {
             "application/json\u{0000}"
+        }
+        fn is_content_type_supersedable() -> bool {
+            unimplemented!()
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()

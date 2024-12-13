@@ -120,6 +120,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 
 	msg.ClientID = msg.Mqtt.UserProperties[constants.SourceID]
 
+	msg.ContentType = msg.Mqtt.ContentType
+
 	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
 		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:    "correlation data missing",
@@ -164,7 +166,8 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	var zero T
 
 	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
-		pub.ContentType != l.encoding.ContentType() {
+		pub.ContentType != l.encoding.ContentType() &&
+		!l.encoding.IsContentTypeSupersedable(){
 		return zero, &errors.Error{
 			Message:     "content type mismatch",
 			Kind:        errors.HeaderInvalid,

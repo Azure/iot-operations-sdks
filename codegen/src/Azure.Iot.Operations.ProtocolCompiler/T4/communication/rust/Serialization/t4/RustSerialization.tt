@@ -27,6 +27,10 @@ impl PayloadSerialize for <#=this.schemaClassName#> {
         "<#=this.contentType#>"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        <#=this.isContentTypeSupersedable ? "true" : "false"#>
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::<#=this.formatIndicator#>
     }

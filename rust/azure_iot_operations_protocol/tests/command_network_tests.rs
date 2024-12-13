@@ -108,6 +108,9 @@ impl PayloadSerialize for EmptyPayload {
     fn content_type() -> &'static str {
         "application/octet-stream"
     }
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
@@ -227,6 +230,9 @@ impl PayloadSerialize for DataRequestPayload {
     fn content_type() -> &'static str {
         "application/json"
     }
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
@@ -273,6 +279,9 @@ impl PayloadSerialize for DataResponsePayload {
     type Error = String;
     fn content_type() -> &'static str {
         "application/something"
+    }
+    fn is_content_type_supersedable() -> bool {
+        false
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes

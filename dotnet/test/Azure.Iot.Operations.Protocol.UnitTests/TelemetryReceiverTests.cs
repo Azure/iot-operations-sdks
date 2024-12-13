@@ -1,12 +1,18 @@
 ﻿using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
+using Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class StringTelemetryReceiver : TelemetryReceiver<string>
     {
         public StringTelemetryReceiver(IMqttPubSubClient mqttClient) : base(mqttClient, "test", new Utf8JsonSerializer()) { }
+    }
+
+    public class RawTelemetryReceiver : TelemetryReceiver<string>
+    {
+        public RawTelemetryReceiver(IMqttPubSubClient mqttClient) : base(mqttClient, "test", new PassthroughSerializer()) { }
     }
 
     public class TelemetryReceiverTests
@@ -100,7 +106,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             // Arrange
             var mockClient = new MockMqttPubSubClient();
-            var serializer = new Utf8JsonSerializer();
             await using var receiver = new StringTelemetryReceiver(mockClient)
             {
                 TopicPattern = "someTopicPattern",
@@ -123,7 +128,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task ReceiveTelemetry_ThrowsIfCancellationRequested()
         {
             var mockClient = new MockMqttPubSubClient();
-            var serializer = new Utf8JsonSerializer();
             await using var receiver = new StringTelemetryReceiver(mockClient)
             {
                 TopicPattern = "someTopicPattern",
@@ -139,6 +143,69 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await Assert.ThrowsAsync<OperationCanceledException>(() => receiver.StartAsync(cancellationToken: cts.Token));
             await Assert.ThrowsAsync<OperationCanceledException>(() => receiver.StopAsync(cancellationToken: cts.Token));
+        }
+
+        [Fact]
+        public async Task ReceiveTelemetry_JsonWithCustomContentTypeRejected()
+        {
+            var mockClient = new MockMqttPubSubClient();
+
+            bool telemetryReceived = false;
+            var receiver = new StringTelemetryReceiver(mockClient)
+            {
+                TopicPattern = "someTopicPattern",
+                OnTelemetryReceived = (string _, string _, IncomingTelemetryMetadata metadata) =>
+                {
+                    telemetryReceived = true;
+                    return Task.CompletedTask;
+                }
+            };
+
+            await receiver.StartAsync();
+
+            var message = new MqttApplicationMessage("someTopicPattern")
+            {
+                PayloadSegment = Array.Empty<byte>(),
+                ContentType = "text/csv",
+            };
+
+            await mockClient.SimulateNewMessage(message);
+            await mockClient.SimulatedMessageAcknowledged();
+
+            Assert.False(telemetryReceived);
+        }
+
+        [Fact]
+        public async Task ReceiveTelemetry_RawWithCustomContentTypeAccepted()
+        {
+            var mockClient = new MockMqttPubSubClient();
+
+            bool telemetryReceived = false;
+            string contentType = string.Empty;
+            var receiver = new RawTelemetryReceiver(mockClient)
+            {
+                TopicPattern = "someTopicPattern",
+                OnTelemetryReceived = (string _, string _, IncomingTelemetryMetadata metadata) =>
+                {
+                    telemetryReceived = true;
+                    contentType = metadata.ContentType;
+                    return Task.CompletedTask;
+                }
+            };
+
+            await receiver.StartAsync();
+
+            var message = new MqttApplicationMessage("someTopicPattern")
+            {
+                PayloadSegment = Array.Empty<byte>(),
+                ContentType = "text/csv",
+            };
+
+            await mockClient.SimulateNewMessage(message);
+            await mockClient.SimulatedMessageAcknowledged();
+
+            Assert.True(telemetryReceived);
+            Assert.Equal("text/csv", contentType);
         }
     }
 }

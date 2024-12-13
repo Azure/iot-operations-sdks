@@ -40,6 +40,9 @@ type (
 		// The ID of the calling MQTT client.
 		ClientID string
 
+		// The MIME type in the message.
+		ContentType string
+
 		// The data that identifies a single unique request.
 		CorrelationData string
 

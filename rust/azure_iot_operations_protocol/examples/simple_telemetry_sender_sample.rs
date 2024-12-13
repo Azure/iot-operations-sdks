@@ -104,6 +104,10 @@ impl PayloadSerialize for SampleTelemetry {
         "application/json"
     }
 
+    fn is_content_type_supersedable() -> bool {
+        false
+    }
+
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }

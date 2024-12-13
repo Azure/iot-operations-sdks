@@ -28,6 +28,9 @@ pub enum FormatIndicator {
 ///   fn content_type() -> &'static str {
 ///     "application/json"
 ///   }
+///   fn is_content_type_supersedable() -> bool {
+///     false
+///   }
 ///   fn format_indicator() -> FormatIndicator {
 ///    FormatIndicator::Utf8EncodedCharacterData
 ///   }
@@ -49,6 +52,9 @@ pub trait PayloadSerialize: Clone {
     /// Return content type
     /// Returns a String value to specify the binary format used in the payload, e.g., application/json, application/protobuf, or application/avro.
     fn content_type() -> &'static str;
+
+    /// Indicates whether the content type type is supersedable
+    fn is_content_type_supersedable() -> bool;
 
     /// Return format indicator
     /// [`FormatIndicator::Utf8EncodedCharacterData`] for character data (as JSON), [`FormatIndicator::UnspecifiedBytes`] for unspecified.
@@ -78,6 +84,7 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn content_type() -> &'static str;
+        fn is_content_type_supersedable() -> bool;
         fn format_indicator() -> FormatIndicator;
         fn serialize(&self) -> Result<Vec<u8>, String>;
         fn deserialize(payload: &[u8]) -> Result<Self, String>;

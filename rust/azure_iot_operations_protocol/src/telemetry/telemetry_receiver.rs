@@ -140,6 +140,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub custom_user_data: Vec<(String, String)>,
     /// If present, contains the client ID of the sender of the telemetry message.
     pub sender_id: Option<String>,
+    /// Content type of the telemetry message.
+    pub content_type: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
@@ -183,6 +185,7 @@ pub struct TelemetryReceiverOptions {
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
+/// #   fn is_content_type_supersedable() -> bool { false }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -439,16 +442,18 @@ where
                             let mut timestamp = None;
                             let mut cloud_event = None;
                             let mut sender_id = None;
+                            let mut content_type = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
-                                if let Some(content_type) = &properties.content_type {
-                                    if T::content_type() != content_type {
+                                if let Some(prop_content_type) = &properties.content_type {
+                                    if T::content_type() != prop_content_type && !T::is_content_type_supersedable() {
                                         log::error!(
-                                            "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
+                                            "[pkid: {}] Content type {prop_content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
                                         );
                                         break 'process_message;
                                     }
+                                    content_type = Some(prop_content_type.clone());
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
@@ -590,6 +595,7 @@ where
                                 payload,
                                 custom_user_data,
                                 sender_id,
+                                content_type,
                                 timestamp,
                                 cloud_event,
                                 topic_tokens,
@@ -674,6 +680,9 @@ mod tests {
         type Error = String;
         fn content_type() -> &'static str {
             "application/json\u{0000}"
+        }
+        fn is_content_type_supersedable() -> bool {
+            unimplemented!()
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()

@@ -45,6 +45,7 @@ type (
 		Timeout     time.Duration
 		TopicTokens map[string]string
 		Metadata    map[string]string
+		ContentType string
 	}
 
 	// WithRetain indicates that the telemetry event should be retained by the
@@ -128,7 +129,7 @@ func (ts *TelemetrySender[T]) Send(
 		Payload:  val,
 		Metadata: opts.Metadata,
 	}
-	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry)
+	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry, opts.ContentType)
 	if err != nil {
 		return err
 	}

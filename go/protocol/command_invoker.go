@@ -219,7 +219,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Payload:         req,
 		Metadata:        opts.Metadata,
 	}
-	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
+	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry, "")
 	if err != nil {
 		return nil, err
 	}

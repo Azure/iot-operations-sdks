@@ -67,9 +67,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
 <# foreach (string telemSchema in this.telemSchemas) { #>
 
-            public async Task SendTelemetryAsync(<#=telemSchema#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(<#=telemSchema#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, string? contentType = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=this.AsLower(telemSchema)#>Sender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.<#=this.AsLower(telemSchema)#>Sender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, contentType, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>

@@ -1,5 +1,6 @@
 ﻿using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
+using Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.UnitTests.TestSerializers;
 using System.Runtime.Serialization;
@@ -10,12 +11,11 @@ public class StringTelemetrySender(IMqttPubSubClient mqttClient)
     : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
 { }
 
-public class FaultyTelemetrySender(IMqttPubSubClient mqttClient) : TelemetrySender<string>(mqttClient, "test", new FaultySerializer()) { }
-
-
-public class TelemetrySenderWithCE(IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
+public class RawTelemetrySender(IMqttPubSubClient mqttClient)
+    : TelemetrySender<byte[]>(mqttClient, "test", new PassthroughSerializer())
 { }
+
+public class FaultyTelemetrySender(IMqttPubSubClient mqttClient) : TelemetrySender<string>(mqttClient, "test", new FaultySerializer()) { }
 
 public class TelemetrySenderTests
 {
@@ -99,5 +99,44 @@ public class TelemetrySenderTests
         cts.Cancel();
         string telemetry = "someTelemetry";
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await sender.SendTelemetryAsync(telemetry, cancellationToken: cts.Token));
+    }
+
+    [Fact]
+    public async Task SendTelemetry_JsonWithContentTypeThrowsException()
+    {
+        MockMqttPubSubClient mockClient = new();
+        StringTelemetrySender sender = new(mockClient)
+        {
+            TopicPattern = "someTopicPattern"
+        };
+
+        string telemetry = "someTelemetry";
+        Task sendTelemetry = sender.SendTelemetryAsync(telemetry, contentType: "text/csv");
+
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
+        Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, ex.Kind);
+        Assert.False(ex.InApplication);
+        Assert.True(ex.IsShallow);
+        Assert.False(ex.IsRemote);
+        Assert.Equal("contentType", ex.PropertyName);
+        Assert.Equal("text/csv", ex.PropertyValue);
+    }
+
+    [Fact]
+    public async Task SendTelemetry_RawWithContentTypeSetsContentType()
+    {
+        MockMqttPubSubClient mockClient = new();
+        RawTelemetrySender sender = new(mockClient)
+        {
+            TopicPattern = "someTopicPattern"
+        };
+
+        byte[] telemetry = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55 };
+
+        await sender.SendTelemetryAsync(telemetry);
+        Assert.Equal("application/octet-stream", mockClient.GetPublishedContentType());
+
+        await sender.SendTelemetryAsync(telemetry, contentType: "text/csv");
+        Assert.Equal("text/csv", mockClient.GetPublishedContentType());
     }
 }

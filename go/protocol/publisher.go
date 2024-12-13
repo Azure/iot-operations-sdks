@@ -30,6 +30,7 @@ func (p *publisher[T]) build(
 	msg *Message[T],
 	topicTokens map[string]string,
 	timeout *internal.Timeout,
+	contentType string,
 ) (*mqtt.Message, error) {
 	pub := &mqtt.Message{}
 	var err error
@@ -38,6 +39,15 @@ func (p *publisher[T]) build(
 		pub.Topic, err = p.topic.Topic(topicTokens)
 		if err != nil {
 			return nil, err
+		}
+	}
+
+	if contentType != "" && !p.encoding.IsContentTypeSupersedable() {
+		return nil, &errors.Error{
+			Message:       "configured serialization format does not permit superseding contentType",
+			Kind:          errors.ArgumentInvalid,
+			PropertyName:  "contentType",
+			PropertyValue: contentType,
 		}
 	}
 
@@ -52,7 +62,12 @@ func (p *publisher[T]) build(
 			return nil, err
 		}
 
-		pub.ContentType = p.encoding.ContentType()
+		if contentType != "" {
+			pub.ContentType = contentType
+		} else {
+			pub.ContentType = p.encoding.ContentType()
+		}
+
 		pub.PayloadFormat = p.encoding.PayloadFormat()
 
 		if msg.CorrelationData != "" {

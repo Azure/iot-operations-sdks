@@ -363,7 +363,7 @@ func (ce *CommandExecutor[Req, Res]) build(
 	if res != nil {
 		msg = &res.Message
 	}
-	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
+	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub), "")
 	if err != nil {
 		return nil, err
 	}

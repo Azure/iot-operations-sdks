@@ -50,6 +50,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         public string? SenderId { get; internal set; }
 
+        /// <summary>
+        /// The MIME type in the message.
+        /// </summary>
+        public string ContentType { get; }
+
         internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId)
         {
             UserData = [];
@@ -78,6 +83,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
 
             PacketId = packetId;
+
+            ContentType = message.ContentType ?? string.Empty;
         }
 
         private CloudEvent? ParseCloudEventsFromMessageProperties(List<MqttUserProperty> userProperties)

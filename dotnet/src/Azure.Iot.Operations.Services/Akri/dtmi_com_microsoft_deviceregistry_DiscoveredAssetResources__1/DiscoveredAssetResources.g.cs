@@ -16,9 +16,9 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using Azure.Iot.Operations.Services.Akri;
 
     [CommandTopic("akri/discovery/{modelId}/{invokerClientId}/command/{commandName}")]
-    [ServiceGroupId("MyServiceGroup")]
     public static partial class DiscoveredAssetResources
     {
+        [ServiceGroupId("MyServiceGroup")]
         public abstract partial class Service : IAsyncDisposable
         {
             private IMqttPubSubClient mqttClient;

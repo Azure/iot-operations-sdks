@@ -31,6 +31,9 @@ type (
 	// WithMetadata specifies user-provided metadata values.
 	WithMetadata map[string]string
 
+	// WithContentType supersedes the content type of the message.
+	WithContentType string
+
 	// WithDataSchema specifies a data schema that will be used for CloudEvents.
 	WithDataSchema url.URL
 
@@ -199,6 +202,12 @@ func (o WithMetadata) send(opt *SendOptions) {
 
 func (o WithMetadata) respond(opt *RespondOptions) {
 	opt.Metadata = o.apply(opt.Metadata)
+}
+
+func (WithContentType) option() {}
+
+func (o WithContentType) send(opt *SendOptions) {
+	opt.ContentType = string(o)
 }
 
 // WithLogger enables logging with the provided slog logger.

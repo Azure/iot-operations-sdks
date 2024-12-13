@@ -29,6 +29,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
         public string ContentType => "application/cbor";
 
+        public bool IsContentTypeSupersedable => false;
+
         public int CharacterDataFormatIndicator => 0;
 
         public T FromBytes<T>(byte[]? payload)

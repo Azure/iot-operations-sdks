@@ -20,6 +20,8 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
     public string ContentType => "application/json";
 
+    public bool IsContentTypeSupersedable => false;
+
     public int CharacterDataFormatIndicator => 1;
 
     public T FromBytes<T>(byte[]? payload)
