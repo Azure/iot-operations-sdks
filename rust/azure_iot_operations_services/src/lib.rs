@@ -5,5 +5,6 @@
 
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
+
 pub mod schema_registry;
 pub mod state_store;
