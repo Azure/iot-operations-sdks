@@ -25,7 +25,7 @@ use crate::{
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Cloud Event struct
 ///
@@ -302,6 +302,9 @@ where
 
     // TODO: Finish implementing shutdown logic
     /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
+    ///
+    /// Note: If this method is called, the [`TelemetryReceiver`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors

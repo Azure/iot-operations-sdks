@@ -1,0 +1,18 @@
+---
+test-name: CommandExecutorAwaitPublishWithWrongCorrelationIndex
+description:
+  condition: >-
+    CommandExecutor receives basic valid request.
+  expect: >-
+    Erroneous test case awaits publish expecting an incorrect correlation index.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+- action: await publish
+  correlation-index: 1
+...

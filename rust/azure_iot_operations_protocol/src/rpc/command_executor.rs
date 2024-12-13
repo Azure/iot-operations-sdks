@@ -32,7 +32,7 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -388,6 +388,9 @@ where
 
     // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
+    ///
+    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors

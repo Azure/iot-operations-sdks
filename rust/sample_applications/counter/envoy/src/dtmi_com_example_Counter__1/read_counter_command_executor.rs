@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommonOptions;
+use crate::common_types::common_options::CommandOptions;
 use crate::common_types::empty_json::EmptyJson;
 
 pub type ReadCounterRequest = CommandRequest<EmptyJson, ReadCounterResponsePayload>;
@@ -70,7 +70,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommonOptions) -> Self {
+    pub fn new(client: C, options: &CommandOptions) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -107,5 +107,14 @@ where
     /// [`AIOProtocolError`] if there is a failure receiving a request
     pub async fn recv(&mut self) -> Result<ReadCounterRequest, AIOProtocolError> {
         self.0.recv().await
+    }
+
+    /// Shutdown the [`ReadCounterCommandExecutor`]. Unsubscribes from the request topic.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    /// # Errors
+    /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
+        self.0.shutdown().await
     }
 }

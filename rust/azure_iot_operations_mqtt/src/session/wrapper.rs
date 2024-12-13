@@ -8,7 +8,7 @@ use bytes::Bytes;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::ClientError;
+use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
 use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
@@ -133,7 +133,7 @@ impl MqttPubSub for SessionManagedClient {
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.0.publish(topic, qos, retain, payload).await
     }
 
@@ -144,7 +144,7 @@ impl MqttPubSub for SessionManagedClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
         self.0
             .publish_with_properties(topic, qos, retain, payload, properties)
             .await
@@ -154,7 +154,7 @@ impl MqttPubSub for SessionManagedClient {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.0.subscribe(topic, qos).await
     }
 
@@ -163,7 +163,7 @@ impl MqttPubSub for SessionManagedClient {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
         self.0
             .subscribe_with_properties(topic, qos, properties)
             .await
@@ -172,7 +172,7 @@ impl MqttPubSub for SessionManagedClient {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.0.unsubscribe(topic).await
     }
 
@@ -180,7 +180,7 @@ impl MqttPubSub for SessionManagedClient {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
         self.0.unsubscribe_with_properties(topic, properties).await
     }
 }
@@ -190,11 +190,15 @@ impl PubReceiver for SessionPubReceiver {
     async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
     }
+
+    fn close(&mut self) {
+        self.0.close();
+    }
 }
 
 #[async_trait]
 impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, msg: &Publish) -> Result<(), ClientError> {
+    async fn ack(&self, msg: &Publish) -> Result<(), AckError> {
         self.0.ack(msg).await
     }
 }
