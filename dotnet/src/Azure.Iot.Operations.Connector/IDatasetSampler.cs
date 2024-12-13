@@ -8,6 +8,14 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public interface IDatasetSampler : IAsyncDisposable
     {
+        /// <summary>
+        /// Get the MQTT message schema that telemetry published for this dataset will use.
+        /// </summary>
+        /// <param name="dataset">The dataset whose telemetry will be published.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>
+        /// The MQTT message schema associated with this dataset. If no message schema needs to be registered, return null.
+        /// </returns>
         public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default);
 
         /// <summary>
