@@ -13,7 +13,7 @@ use azure_iot_operations_services::schema_registry::{
 use env_logger::Builder;
 use tokio::sync::oneshot;
 
-const JSON_SCHEMA1: &str = r#"
+const JSON_SCHEMA: &str = r#"
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -76,7 +76,7 @@ async fn schema_registry_put(
     let schema = client
         .put(
             PutRequestBuilder::default()
-                .content(JSON_SCHEMA1.to_string())
+                .content(JSON_SCHEMA.to_string())
                 .format(Format::JsonSchemaDraft07)
                 .schema_type(SchemaType::MessageSchema)
                 .build()

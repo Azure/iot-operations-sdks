@@ -69,6 +69,7 @@ pub struct PutRequest {
     /// The format of the schema. Specifies how the schema content should be interpreted.
     format: Format,
     /// The type of the schema, such as message schema or data schema.
+    #[builder(default = "SchemaType::MessageSchema")]
     schema_type: SchemaType,
     /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
     #[builder(default)]
@@ -97,10 +98,6 @@ where
 {
     /// Create a new Schema Registry Client.
     ///
-    /// # Errors
-    /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if there is an error building the underlying command invokers.
-    ///
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
@@ -119,8 +116,7 @@ where
         }
     }
 
-    /// Retrieves schema information from a schema registry service based on the provided schema ID
-    /// and version.
+    /// Retrieves schema information from a schema registry service.
     ///
     /// # Arguments
     /// * `get_request` - The request to get a schema from the schema registry.
@@ -130,7 +126,7 @@ where
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if there is an error building the request.
+    /// if the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
@@ -177,7 +173,7 @@ where
             .schema)
     }
 
-    /// Adds or updates a schema in the schema registry service with the specified content, format, type, and metadata.
+    /// Adds or updates a schema in the schema registry service.
     ///
     /// # Arguments
     /// * `put_request` - The request to put a schema in the schema registry.
@@ -241,7 +237,7 @@ where
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt unsubscribing again.
+    /// If the method returns an error, it may be called again to re-attempt unsubscribing.
     ///
     /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].'
     /// # Errors
@@ -275,5 +271,174 @@ where
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashMap;
+
+    use azure_iot_operations_mqtt::{
+        session::{Session, SessionOptionsBuilder},
+        MqttConnectionSettingsBuilder,
+    };
+
+    use crate::schema_registry::{
+        client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
+        Client, Format, GetRequestBuilder, PutRequestBuilder, SchemaRegistryError,
+        SchemaRegistryErrorKind, SchemaType,
+    };
+
+    // TODO: This should return a mock ManagedClient instead.
+    // Until that's possible, need to return a Session so that the Session doesn't go out of
+    // scope and render the ManagedClient unable to to be used correctly.
+    fn create_session() -> Session {
+        // TODO: Make a real mock that implements MqttProvider
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .hostname("localhost")
+            .client_id("test_client")
+            .build()
+            .unwrap();
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()
+            .unwrap();
+        Session::new(session_options).unwrap()
+    }
+
+    const TEST_SCHEMA_ID: &str = "test_schema_id";
+    const TEST_SCHEMA_CONTENT: &str = r#"
+    {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+            "test": {
+                "type": "integer"
+            },
+        }
+    }
+    "#;
+
+    #[tokio::test]
+    async fn test_get_request_valid() {
+        let get_request = GetRequestBuilder::default()
+            .id(TEST_SCHEMA_ID.to_string())
+            .build()
+            .unwrap();
+
+        assert_eq!(get_request.id, TEST_SCHEMA_ID);
+        assert_eq!(
+            get_request.version,
+            Some(DEFAULT_SCHEMA_VERSION.to_string())
+        );
+    }
+
+    #[tokio::test]
+    async fn test_get_request_invalid_id() {
+        let get_request = GetRequestBuilder::default().build();
+
+        assert!(matches!(
+            get_request.unwrap_err(),
+            GetRequestBuilderError::ValidationError(_)
+        ));
+
+        let get_request = GetRequestBuilder::default().id(String::new()).build();
+
+        assert!(matches!(
+            get_request.unwrap_err(),
+            GetRequestBuilderError::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_put_request_valid() {
+        let put_request = PutRequestBuilder::default()
+            .content(TEST_SCHEMA_CONTENT.to_string())
+            .format(Format::JsonSchemaDraft07)
+            .build()
+            .unwrap();
+
+        assert_eq!(put_request.content, TEST_SCHEMA_CONTENT);
+        assert!(matches!(put_request.format, Format::JsonSchemaDraft07));
+        assert!(matches!(put_request.schema_type, SchemaType::MessageSchema));
+        assert_eq!(put_request.tags, HashMap::new());
+        assert_eq!(
+            put_request.version,
+            Some(DEFAULT_SCHEMA_VERSION.to_string())
+        );
+    }
+
+    #[tokio::test]
+    async fn test_get_timeout_invalid() {
+        let session = create_session();
+        let client = Client::new(&session.create_managed_client());
+
+        let get_result = client
+            .get(
+                GetRequestBuilder::default()
+                    .id(TEST_SCHEMA_ID.to_string())
+                    .build()
+                    .unwrap(),
+                std::time::Duration::from_millis(0),
+            )
+            .await;
+
+        assert!(matches!(
+            get_result.unwrap_err(),
+            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+        ));
+
+        let get_result = client
+            .get(
+                GetRequestBuilder::default()
+                    .id(TEST_SCHEMA_ID.to_string())
+                    .build()
+                    .unwrap(),
+                std::time::Duration::from_secs(u64::from(u32::MAX) + 1),
+            )
+            .await;
+
+        assert!(matches!(
+            get_result.unwrap_err(),
+            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_put_timeout_invalid() {
+        let session = create_session();
+        let client = Client::new(&session.create_managed_client());
+
+        let put_result = client
+            .put(
+                PutRequestBuilder::default()
+                    .content(TEST_SCHEMA_CONTENT.to_string())
+                    .format(Format::JsonSchemaDraft07)
+                    .build()
+                    .unwrap(),
+                std::time::Duration::from_millis(0),
+            )
+            .await;
+
+        assert!(matches!(
+            put_result.unwrap_err(),
+            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+        ));
+
+        let put_result = client
+            .put(
+                PutRequestBuilder::default()
+                    .content(TEST_SCHEMA_CONTENT.to_string())
+                    .format(Format::JsonSchemaDraft07)
+                    .build()
+                    .unwrap(),
+                std::time::Duration::from_secs(u64::from(u32::MAX) + 1),
+            )
+            .await;
+
+        assert!(matches!(
+            put_result.unwrap_err(),
+            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+        ));
     }
 }
