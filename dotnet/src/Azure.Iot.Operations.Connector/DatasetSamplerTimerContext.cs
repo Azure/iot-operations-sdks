@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A bundle of asset name + dataset name in one class to fit how <see cref="Timer"/> passes around context
     /// </summary>
-    internal class DatasetSamplerContext
+    internal class DatasetSamplerTimerContext
     {
         internal AssetEndpointProfile AssetEndpointProfile { get; set; }
 
@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Connector
 
         internal CancellationToken CancellationToken { get; set; }
 
-        internal DatasetSamplerContext(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, string datasetName, CancellationToken cancellationToken)
+        internal DatasetSamplerTimerContext(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, string datasetName, CancellationToken cancellationToken)
         {
             AssetEndpointProfile = assetEndpointProfile;
             Asset = asset;

@@ -646,7 +646,105 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // No more telemetry should be flowing
             assetTelemetryForwardedToBrokerTcs = new();
             await Assert.ThrowsAsync<TimeoutException>(async () => await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
+        }
 
+        [Fact]
+        public async Task DeletingSingleAssetDoesNotStopSamplingOfOtherAsset()
+        {
+            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
+
+            MockMqttClient mockMqttClient = new MockMqttClient();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
+            IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
+            Mock<ILogger<TelemetryConnectorWorker>> mockLogger = new Mock<ILogger<TelemetryConnectorWorker>>();
+            TelemetryConnectorWorker worker = new TelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            _ = worker.StartAsync(CancellationToken.None);
+            var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
+            mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
+            string expectedMqttTopic1 = "some/asset/telemetry/topic1";
+            string expectedMqttTopic2 = "some/asset/telemetry/topic2";
+            var asset1 = new Asset()
+            {
+                Datasets =
+                [
+                    new Dataset()
+                    {
+                        Name = "someDataset1",
+                        DataPoints =
+                        [
+                            new DataPoint()
+                            {
+                                Name = "someDataPoint1",
+                            }
+                        ],
+                        Topic = new()
+                        {
+                            Path = expectedMqttTopic1,
+                        },
+                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 100}")
+                    }
+                ]
+            };
+
+            var asset2 = new Asset()
+            {
+                Datasets =
+                [
+                    new Dataset()
+                    {
+                        Name = "someDataset2",
+                        DataPoints =
+                        [
+                            new DataPoint()
+                            {
+                                Name = "someDataPoint2",
+                            }
+                        ],
+                        Topic = new()
+                        {
+                            Path = expectedMqttTopic2,
+                        },
+                        DatasetConfiguration = JsonDocument.Parse("{\"samplingInterval\": 100}")
+                    }
+                ]
+            };
+
+            TaskCompletionSource asset1TelemetryForwardedToBrokerTcs = new();
+            TaskCompletionSource asset2TelemetryForwardedToBrokerTcs = new();
+            mockMqttClient.OnPublishAttempt += (msg) =>
+            {
+                if (string.Equals(msg.Topic, expectedMqttTopic1))
+                {
+                    asset1TelemetryForwardedToBrokerTcs.TrySetResult();
+                }
+                else if (string.Equals(msg.Topic, expectedMqttTopic2))
+                {
+                    asset2TelemetryForwardedToBrokerTcs.TrySetResult();
+                }
+                return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, "", new List<MqttUserProperty>()));
+            };
+
+            mockAssetMonitor.AddOrUpdateMockAsset("someAsset1", asset1);
+            mockAssetMonitor.AddOrUpdateMockAsset("someAsset2", asset2);
+
+            await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+
+            // At this point, the connector app is actively sampling both assets. Deleting one asset should
+            // cause the connector to stop sampling that asset, but the other asset should continue to be sampled.
+
+            mockAssetMonitor.DeleteMockAsset("someAsset1");
+
+            asset1TelemetryForwardedToBrokerTcs = new();
+
+            // Wait a bit for the asset deletion to take effect since sampling may have been in progress.
+            await Task.Delay(TimeSpan.FromSeconds(1));
+
+            await Assert.ThrowsAsync<TimeoutException>(async () => await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
+
+            // The remaining asset should still be publishing telemetry
+            asset2TelemetryForwardedToBrokerTcs = new();
+            await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
         }
     }
 }

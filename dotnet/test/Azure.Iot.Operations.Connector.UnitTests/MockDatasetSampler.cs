@@ -18,6 +18,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         
         }
 
+        public ValueTask DisposeAsync()
+        {
+            // nothing to dispose
+            return ValueTask.CompletedTask;
+        }
+
         public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             _sampleAttemptCount++;
@@ -32,9 +38,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return Task.FromResult(Encoding.UTF8.GetBytes("someData"));
         }
 
-        Task<DatasetMessageSchema> IDatasetSampler.GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken)
+        Task<DatasetMessageSchema?> IDatasetSampler.GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult((DatasetMessageSchema?)null);
         }
     }
 }
