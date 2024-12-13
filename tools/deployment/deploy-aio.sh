@@ -75,7 +75,7 @@ kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
 # This temporary fix deploys just the cluster issuer, waits a bit, then deploys the broker listener
 if [ "$deploy_type" = "nightly" ]; then
     kubectl apply -f yaml/aio-nightly-cluster-issuer.yaml
-    sleep 5
+    kubectl wait --for=condition=Ready clusterIssuer/azure-iot-operations-aio-certificate-issuer
 fi
 
 kubectl apply -f yaml/aio-$deploy_type.yaml
