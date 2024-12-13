@@ -129,7 +129,12 @@ func (ts *TelemetrySender[T]) Send(
 		Payload:  val,
 		Metadata: opts.Metadata,
 	}
-	pub, err := ts.publisher.build(msg, opts.TopicTokens, expiry, opts.ContentType)
+	pub, err := ts.publisher.build(
+		msg,
+		opts.TopicTokens,
+		expiry,
+		opts.ContentType,
+	)
 	if err != nil {
 		return err
 	}

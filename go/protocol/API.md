@@ -40,6 +40,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Empty](<#Empty>)
   - [func \(Empty\) ContentType\(\) string](<#Empty.ContentType>)
   - [func \(Empty\) Deserialize\(data \[\]byte\) \(any, error\)](<#Empty.Deserialize>)
+  - [func \(Empty\) IsContentTypeSupersedable\(\) bool](<#Empty.IsContentTypeSupersedable>)
   - [func \(Empty\) PayloadFormat\(\) byte](<#Empty.PayloadFormat>)
   - [func \(Empty\) Serialize\(t any\) \(\[\]byte, error\)](<#Empty.Serialize>)
 - [type Encoding](<#Encoding>)
@@ -51,6 +52,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type JSON](<#JSON>)
   - [func \(JSON\[T\]\) ContentType\(\) string](<#JSON[T].ContentType>)
   - [func \(JSON\[T\]\) Deserialize\(data \[\]byte\) \(T, error\)](<#JSON[T].Deserialize>)
+  - [func \(JSON\[T\]\) IsContentTypeSupersedable\(\) bool](<#JSON[T].IsContentTypeSupersedable>)
   - [func \(JSON\[T\]\) PayloadFormat\(\) byte](<#JSON[T].PayloadFormat>)
   - [func \(JSON\[T\]\) Serialize\(t T\) \(\[\]byte, error\)](<#JSON[T].Serialize>)
 - [type Listener](<#Listener>)
@@ -63,6 +65,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type Raw](<#Raw>)
   - [func \(Raw\) ContentType\(\) string](<#Raw.ContentType>)
   - [func \(Raw\) Deserialize\(data \[\]byte\) \(\[\]byte, error\)](<#Raw.Deserialize>)
+  - [func \(Raw\) IsContentTypeSupersedable\(\) bool](<#Raw.IsContentTypeSupersedable>)
   - [func \(Raw\) PayloadFormat\(\) byte](<#Raw.PayloadFormat>)
   - [func \(Raw\) Serialize\(t \[\]byte\) \(\[\]byte, error\)](<#Raw.Serialize>)
 - [type RespondOption](<#RespondOption>)
@@ -91,6 +94,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
   - [func \(o \*TelemetrySenderOptions\) ApplyOptions\(opts \[\]Option, rest ...Option\)](<#TelemetrySenderOptions.ApplyOptions>)
 - [type WithCacheTTL](<#WithCacheTTL>)
 - [type WithConcurrency](<#WithConcurrency>)
+- [type WithContentType](<#WithContentType>)
 - [type WithDataSchema](<#WithDataSchema>)
 - [type WithFencingToken](<#WithFencingToken>)
 - [type WithIdempotent](<#WithIdempotent>)
@@ -125,7 +129,7 @@ const DefaultTimeout = 10 * time.Second
 ```
 
 <a name="WithLogger"></a>
-## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L205-L211>)
+## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L214-L220>)
 
 ```go
 func WithLogger(logger *slog.Logger) interface {
@@ -392,7 +396,7 @@ func Respond[Res any](payload Res, opt ...RespondOption) (*CommandResponse[Res],
 Respond is a shorthand to create a command response with required values and options set appropriately. Note that the response may be incomplete and will be filled out by the library after being returned.
 
 <a name="Empty"></a>
-## type [Empty](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L25>)
+## type [Empty](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L26>)
 
 Empty represents an encoding that contains no value.
 
@@ -401,7 +405,7 @@ type Empty struct{}
 ```
 
 <a name="Empty.ContentType"></a>
-### func \(Empty\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L84>)
+### func \(Empty\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L90>)
 
 ```go
 func (Empty) ContentType() string
@@ -410,7 +414,7 @@ func (Empty) ContentType() string
 ContentType returns the empty MIME type.
 
 <a name="Empty.Deserialize"></a>
-### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L105>)
+### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L116>)
 
 ```go
 func (Empty) Deserialize(data []byte) (any, error)
@@ -418,8 +422,17 @@ func (Empty) Deserialize(data []byte) (any, error)
 
 Deserialize validates that the payload is empty.
 
+<a name="Empty.IsContentTypeSupersedable"></a>
+### func \(Empty\) [IsContentTypeSupersedable](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L95>)
+
+```go
+func (Empty) IsContentTypeSupersedable() bool
+```
+
+IsContentTypeSupersedable indicates that empty MIME type is not supersedable.
+
 <a name="Empty.PayloadFormat"></a>
-### func \(Empty\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L89>)
+### func \(Empty\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L100>)
 
 ```go
 func (Empty) PayloadFormat() byte
@@ -428,7 +441,7 @@ func (Empty) PayloadFormat() byte
 PayloadFormat indicates that empty is not \(meaningfully\) valid UTF8.
 
 <a name="Empty.Serialize"></a>
-### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L94>)
+### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L105>)
 
 ```go
 func (Empty) Serialize(t any) ([]byte, error)
@@ -437,13 +450,14 @@ func (Empty) Serialize(t any) ([]byte, error)
 Serialize validates that the payload is empty.
 
 <a name="Encoding"></a>
-## type [Encoding](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L14-L19>)
+## type [Encoding](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L14-L20>)
 
 Encoding is a translation between a concrete Go type T and byte data. All methods \*must\* be thread\-safe.
 
 ```go
 type Encoding[T any] interface {
     ContentType() string
+    IsContentTypeSupersedable() bool
     PayloadFormat() byte
     Serialize(T) ([]byte, error)
     Deserialize([]byte) (T, error)
@@ -451,7 +465,7 @@ type Encoding[T any] interface {
 ```
 
 <a name="InvocationError"></a>
-## type [InvocationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L58-L62>)
+## type [InvocationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L61-L65>)
 
 InvocationError represents an error intentionally returned by a handler to indicate incorrect invocation.
 
@@ -464,7 +478,7 @@ type InvocationError struct {
 ```
 
 <a name="InvocationError.Error"></a>
-### func \(InvocationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L70>)
+### func \(InvocationError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L73>)
 
 ```go
 func (e InvocationError) Error() string
@@ -508,7 +522,7 @@ func (o *InvokeOptions) Apply(opts []InvokeOption, rest ...InvokeOption)
 Apply resolves the provided list of options.
 
 <a name="JSON"></a>
-## type [JSON](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L22>)
+## type [JSON](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L23>)
 
 JSON is a simple implementation of a JSON encoding.
 
@@ -517,7 +531,7 @@ type JSON[T any] struct{}
 ```
 
 <a name="JSON[T].ContentType"></a>
-### func \(JSON\[T\]\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L62>)
+### func \(JSON\[T\]\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L63>)
 
 ```go
 func (JSON[T]) ContentType() string
@@ -526,7 +540,7 @@ func (JSON[T]) ContentType() string
 ContentType returns the JSON MIME type.
 
 <a name="JSON[T].Deserialize"></a>
-### func \(JSON\[T\]\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L77>)
+### func \(JSON\[T\]\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L83>)
 
 ```go
 func (JSON[T]) Deserialize(data []byte) (T, error)
@@ -534,8 +548,17 @@ func (JSON[T]) Deserialize(data []byte) (T, error)
 
 Deserialize translates JSON bytes into the Go type T.
 
+<a name="JSON[T].IsContentTypeSupersedable"></a>
+### func \(JSON\[T\]\) [IsContentTypeSupersedable](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L68>)
+
+```go
+func (JSON[T]) IsContentTypeSupersedable() bool
+```
+
+IsContentTypeSupersedable indicates that JSON MIME type is not supersedable.
+
 <a name="JSON[T].PayloadFormat"></a>
-### func \(JSON\[T\]\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L67>)
+### func \(JSON\[T\]\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L73>)
 
 ```go
 func (JSON[T]) PayloadFormat() byte
@@ -544,7 +567,7 @@ func (JSON[T]) PayloadFormat() byte
 PayloadFormat indicates that JSON is valid UTF8.
 
 <a name="JSON[T].Serialize"></a>
-### func \(JSON\[T\]\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L72>)
+### func \(JSON\[T\]\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L78>)
 
 ```go
 func (JSON[T]) Serialize(t T) ([]byte, error)
@@ -574,7 +597,7 @@ type Listeners []Listener
 ```
 
 <a name="Listeners.Close"></a>
-### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L201>)
+### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L204>)
 
 ```go
 func (ls Listeners) Close()
@@ -583,7 +606,7 @@ func (ls Listeners) Close()
 Close all underlying MQTT topics and free resources.
 
 <a name="Listeners.Start"></a>
-### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L191>)
+### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L194>)
 
 ```go
 func (ls Listeners) Start(ctx context.Context) error
@@ -592,7 +615,7 @@ func (ls Listeners) Start(ctx context.Context) error
 Start listening to all underlying MQTT topics.
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L36-L54>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L36-L57>)
 
 Message contains common message data that is exposed to message handlers.
 
@@ -603,6 +626,9 @@ type Message[T any] struct {
 
     // The ID of the calling MQTT client.
     ClientID string
+
+    // The MIME type in the message.
+    ContentType string
 
     // The data that identifies a single unique request.
     CorrelationData string
@@ -647,7 +673,7 @@ type MqttClient interface {
 ```
 
 <a name="Option"></a>
-## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L66>)
+## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L69>)
 
 Option represents any of the option types, and can be filtered and applied by the ApplyOptions methods on the option structs.
 
@@ -658,7 +684,7 @@ type Option interface {
 ```
 
 <a name="Raw"></a>
-## type [Raw](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L28>)
+## type [Raw](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L29>)
 
 Raw represents no encoding.
 
@@ -667,7 +693,7 @@ type Raw struct{}
 ```
 
 <a name="Raw.ContentType"></a>
-### func \(Raw\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L116>)
+### func \(Raw\) [ContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L127>)
 
 ```go
 func (Raw) ContentType() string
@@ -676,7 +702,7 @@ func (Raw) ContentType() string
 ContentType returns the raw MIME type.
 
 <a name="Raw.Deserialize"></a>
-### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L131>)
+### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L147>)
 
 ```go
 func (Raw) Deserialize(data []byte) ([]byte, error)
@@ -684,8 +710,17 @@ func (Raw) Deserialize(data []byte) ([]byte, error)
 
 Deserialize returns the bytes unchanged.
 
+<a name="Raw.IsContentTypeSupersedable"></a>
+### func \(Raw\) [IsContentTypeSupersedable](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L132>)
+
+```go
+func (Raw) IsContentTypeSupersedable() bool
+```
+
+IsContentTypeSupersedable indicates that raw MIME type is supersedable.
+
 <a name="Raw.PayloadFormat"></a>
-### func \(Raw\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L121>)
+### func \(Raw\) [PayloadFormat](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L137>)
 
 ```go
 func (Raw) PayloadFormat() byte
@@ -694,7 +729,7 @@ func (Raw) PayloadFormat() byte
 PayloadFormat indicates that raw is not known to be valid UTF8.
 
 <a name="Raw.Serialize"></a>
-### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L126>)
+### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L142>)
 
 ```go
 func (Raw) Serialize(t []byte) ([]byte, error)
@@ -745,7 +780,7 @@ type SendOption interface {
 ```
 
 <a name="WithCloudEvent"></a>
-### func [WithCloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L191>)
+### func [WithCloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L197>)
 
 ```go
 func WithCloudEvent(ce *CloudEvent) SendOption
@@ -754,7 +789,7 @@ func WithCloudEvent(ce *CloudEvent) SendOption
 WithCloudEvent adds a cloud event payload to the telemetry message.
 
 <a name="SendOptions"></a>
-## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L41-L48>)
+## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L41-L49>)
 
 SendOptions are the resolved per\-send options.
 
@@ -766,11 +801,12 @@ type SendOptions struct {
     Timeout     time.Duration
     TopicTokens map[string]string
     Metadata    map[string]string
+    ContentType string
 }
 ```
 
 <a name="SendOptions.Apply"></a>
-### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L171-L174>)
+### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L177-L180>)
 
 ```go
 func (o *SendOptions) Apply(opts []SendOption, rest ...SendOption)
@@ -904,7 +940,7 @@ type TelemetrySender[T any] struct {
 ```
 
 <a name="NewTelemetrySender"></a>
-### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L61-L66>)
+### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L62-L67>)
 
 ```go
 func NewTelemetrySender[T any](client MqttClient, encoding Encoding[T], topicPattern string, opt ...TelemetrySenderOption) (ts *TelemetrySender[T], err error)
@@ -913,7 +949,7 @@ func NewTelemetrySender[T any](client MqttClient, encoding Encoding[T], topicPat
 NewTelemetrySender creates a new telemetry sender.
 
 <a name="TelemetrySender[T].Send"></a>
-### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L102-L106>)
+### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L103-L107>)
 
 ```go
 func (ts *TelemetrySender[T]) Send(ctx context.Context, val T, opt ...SendOption) (err error)
@@ -947,7 +983,7 @@ type TelemetrySenderOptions struct {
 ```
 
 <a name="TelemetrySenderOptions.Apply"></a>
-### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L146-L149>)
+### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L152-L155>)
 
 ```go
 func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...TelemetrySenderOption)
@@ -956,7 +992,7 @@ func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...Tel
 Apply resolves the provided list of options.
 
 <a name="TelemetrySenderOptions.ApplyOptions"></a>
-### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L156>)
+### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L162>)
 
 ```go
 func (o *TelemetrySenderOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -982,8 +1018,17 @@ WithConcurrency indicates how many handlers can execute in parallel.
 type WithConcurrency uint
 ```
 
+<a name="WithContentType"></a>
+## type [WithContentType](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L35>)
+
+WithContentType supersedes the content type of the message.
+
+```go
+type WithContentType string
+```
+
 <a name="WithDataSchema"></a>
-## type [WithDataSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L35>)
+## type [WithDataSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L38>)
 
 WithDataSchema specifies a data schema that will be used for CloudEvents.
 
@@ -1055,7 +1100,7 @@ type WithResponseTopicSuffix string
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L52>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L53>)
 
 WithRetain indicates that the telemetry event should be retained by the broker.
 
@@ -1082,7 +1127,7 @@ type WithTimeout time.Duration
 ```
 
 <a name="WithTopicNamespace"></a>
-## type [WithTopicNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L39>)
+## type [WithTopicNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L42>)
 
 WithTopicNamespace specifies a namespace that will be prepended to the topic.
 

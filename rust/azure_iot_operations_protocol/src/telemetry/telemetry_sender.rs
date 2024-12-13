@@ -191,10 +191,14 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
         }
         if let Some(Some(content_type)) = &self.content_type {
             if !T::is_content_type_supersedable() {
-                return Err("Serialization format does not permit superseding content type".to_string());
+                return Err(
+                    "Serialization format does not permit superseding content type".to_string(),
+                );
             }
             if is_invalid_utf8(content_type.as_str()) {
-                return Err(format!("Superseding content type '{content_type}' is not valid UTF-8"));
+                return Err(format!(
+                    "Superseding content type '{content_type}' is not valid UTF-8"
+                ));
             }
         }
         Ok(())
