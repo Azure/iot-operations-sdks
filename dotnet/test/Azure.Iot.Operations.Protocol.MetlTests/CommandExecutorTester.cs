@@ -25,11 +25,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
-        {
-            "CommandExecutorReceivesPseudoDuplicateIdempotentRequest_CommandExecuted",
-            "CommandExecutorReceivesPseudoDuplicateNonIdempotentRequest_CommandExecuted",
-        };
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
