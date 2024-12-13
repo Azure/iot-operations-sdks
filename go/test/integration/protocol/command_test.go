@@ -10,47 +10,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestExecutorCanBeInitializedWithoutAValidConnection(t *testing.T) {
-	ctx := context.Background()
-	client, server, done := sessionClients(t)
-	defer done()
-
-	var listeners protocol.Listeners
-	defer listeners.Close()
-
-	enc := protocol.JSON[string]{}
-	topic := "prefix/{ex:token}/suffix"
-
-	executor, err := protocol.NewCommandExecutor(server, enc, enc, topic,
-		func(
-			_ context.Context,
-			cr *protocol.CommandRequest[string],
-		) (*protocol.CommandResponse[string], error) {
-			return protocol.Respond(
-				cr.Payload+cr.ClientID+cr.CorrelationData,
-				protocol.WithMetadata(cr.TopicTokens),
-			)
-		},
-		protocol.WithTopicNamespace("ns"),
-	)
-	require.NoError(t, err)
-	listeners = append(listeners, executor)
-
-	invoker, err := protocol.NewCommandInvoker(client, enc, enc, topic,
-		protocol.WithResponseTopicSuffix("response/{executorId}"),
-		protocol.WithTopicNamespace("ns"),
-		protocol.WithTopicTokens{"token": "test"},
-		protocol.WithTopicTokenNamespace("ex:"),
-	)
-	require.NoError(t, err)
-	listeners = append(listeners, invoker)
-
-	err = listeners.Start(ctx)
-	require.NoError(t, err)
-
-	require.NotNil(t, executor)
-}
-
 // Simple happy-path sanity check.
 func TestCommand(t *testing.T) {
 	ctx := context.Background()

@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
+	"github.com/Azure/iot-operations-sdks/go/test/integration/protocol/dtmi_com_example_Counter__1"
 	"github.com/stretchr/testify/require"
 )
 
@@ -30,13 +30,7 @@ func TestIncrement(t *testing.T) {
 			response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
 				CounterResponse: ReadCounter(),
 			}
-			resp, err := protocol.Respond[dtmi_com_example_Counter__1.ReadCounterResponsePayload](
-				response,
-			)
-			if err != nil {
-				return nil, err
-			}
-			return resp, nil
+			return protocol.Respond(response)
 		},
 		func(
 			_ context.Context,
@@ -46,24 +40,14 @@ func TestIncrement(t *testing.T) {
 			response := dtmi_com_example_Counter__1.IncrementResponsePayload{
 				CounterResponse: newValue,
 			}
-			resp, err := protocol.Respond[dtmi_com_example_Counter__1.IncrementResponsePayload](
-				response,
-			)
-			if err != nil {
-				return nil, err
-			}
-			return resp, nil
+			return protocol.Respond(response)
 		},
 		func(
 			_ context.Context,
 			_ *protocol.CommandRequest[any],
 		) (*protocol.CommandResponse[any], error) {
 			ResetCounter()
-			resp, err := protocol.Respond[any](nil)
-			if err != nil {
-				return nil, err
-			}
-			return resp, nil
+			return protocol.Respond[any](nil)
 		},
 	)
 	require.NoError(t, err)
