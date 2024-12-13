@@ -179,13 +179,17 @@ impl PubReceiver for SessionPubReceiver {
                     .expect("Auto-ack failed");
                 result = Some((publish, None));
             }
-            // Otherwise, create an AckToken to ack with
-            else {
+            // Otherwise, create an AckToken to ack with (for QoS > 0)
+            else if publish.qos != QoS::AtMostOnce{
                 let ack_token = AckToken {
                     pub_tracker: self.pub_tracker.clone(),
                     publish: publish.clone(),
                 };
                 result = Some((publish, Some(ack_token)));
+            }
+            // No acks are required for QoS 0
+            else {
+                result = Some((publish, None));
             }
         }
         result
