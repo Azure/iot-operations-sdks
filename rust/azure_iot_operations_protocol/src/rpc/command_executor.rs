@@ -5,7 +5,7 @@ use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, MqttAck, PubReceiver};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -262,7 +262,7 @@ where
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_pubs: JoinSet<Publish>, // TODO: Consider using FuturesUnordered
+    pending_pubs: JoinSet<AckToken>, // TODO: Consider using FuturesUnordered
     recv_cancellation_token: CancellationToken,
 }
 
@@ -494,13 +494,13 @@ where
         loop {
             tokio::select! {
                 // TODO: BUG, if recv() is not called, pending_pubs will never be processed
-                Some(pending_pub) = self.pending_pubs.join_next() => {
-                    match pending_pub {
-                        Ok(pending_pub) => {
-                            match self.mqtt_receiver.ack(&pending_pub).await {
-                                Ok(()) => { /* Success */ }
+                Some(join_result) = self.pending_pubs.join_next() => {
+                    match join_result {
+                        Ok(ack_token) => {
+                            match ack_token.ack().await {
+                                Ok(_) => { /* Success */ }
                                 Err(e) => {
-                                    log::error!("[{}][pkid: {}] Ack error: {e}", self.command_name, pending_pub.pkid);
+                                    log::error!("[{}] Ack error: {e}", self.command_name);
                                 }
                             }
                         }
@@ -511,9 +511,9 @@ where
                         }
                     }
                 },
-                request = self.mqtt_receiver.recv() => {
+                recv_result = self.mqtt_receiver.recv() => {
                     // Process the request
-                    if let Some(m) = request {
+                    if let Some((m, ack_token)) = recv_result {
                         log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
                         let message_received_time = Instant::now();
 
@@ -753,7 +753,7 @@ where
                                                     Some(response_rx),
                                             ) => { /* Finished processing command */},
                                         }
-                                        m
+                                        ack_token
                                     }
                                 });
                                 return Ok(command_request);

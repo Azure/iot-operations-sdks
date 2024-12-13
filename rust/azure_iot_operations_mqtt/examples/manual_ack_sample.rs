@@ -1,25 +1,14 @@
-# Azure IoT Operations - MQTT
-MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
-
-[API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt) |
-[Examples](examples) |
-[Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fmqtt&expanded=true)
-
-## Overview
-* Easily send and receive messages over MQTT from different tasks in asynchronous applications.
-* Automatic reconnect and connection management (with customizable policy)
-* Enables you to create decoupled components without the need for considering connection state.
-
-## Simple Send and Receive
-The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Operations MQ broker, but is compatible with any MQTTv5 broker, local or remote.
-
-```rust, no_run
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 use std::str;
 use std::time::Duration;
-use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttPubSub};
+
+use env_logger::Builder;
+
+use azure_iot_operations_mqtt::control_packet::{Publish, QoS};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionExitHandle, SessionOptionsBuilder,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
@@ -28,8 +17,16 @@ const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
 
+const STORAGE_FILE: &str = "[PATH TO STORAGE FILE]";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
+    Builder::new()
+        .filter_level(log::LevelFilter::Warn)
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .init();
+
     // Build the options and settings for the session.
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
@@ -49,7 +46,10 @@ async fn main() {
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.
     tokio::spawn(receive_messages(session.create_managed_client()));
-    tokio::spawn(send_messages(session.create_managed_client(), session.create_exit_handle()));
+    tokio::spawn(send_messages(
+        session.create_managed_client(),
+        session.create_exit_handle(),
+    ));
 
     // Run the session. This blocks until the session is exited.
     session.run().await.unwrap();
@@ -64,8 +64,9 @@ async fn receive_messages(client: SessionManagedClient) {
 
     // Receive indefinitely
     loop {
-        let (msg, _) = receiver.recv().await.unwrap();
-        println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
+        let (msg, ack_token) = receiver.recv().await.unwrap();
+        tokio::spawn(store_and_acknowledge(msg, ack_token));
+        
     }
 }
 
@@ -84,4 +85,18 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
 
     exit_handler.try_exit().await.unwrap();
 }
-```
+
+async fn store_and_acknowledge(publish: Publish, ack_token: Option<AckToken>) {
+    println!("Received: {}", str::from_utf8(&publish.payload).unwrap());
+    // Store the message in a file
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .append(true)
+        .open(STORAGE_FILE)
+        .unwrap();
+    // Acknowledge the message once it is stored
+    if let Some(ack_token) = ack_token {
+       let comp_token = ack_token.ack().await.unwrap();
+       comp_token.await.unwrap();
+    }
+}
