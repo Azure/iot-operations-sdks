@@ -18,11 +18,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         
         }
 
-        public Task<Object_Ms_Adr_SchemaRegistry_Schema__1> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             _sampleAttemptCount++;
@@ -35,6 +30,11 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             }
 
             return Task.FromResult(Encoding.UTF8.GetBytes("someData"));
+        }
+
+        Task<DatasetMessageSchema> IDatasetSampler.GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

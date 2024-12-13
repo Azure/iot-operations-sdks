@@ -1,4 +1,3 @@
-using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -20,7 +19,7 @@ namespace Azure.Iot.Operations.Connector
         private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private IAssetMonitor _assetMonitor;
-        private ConcurrentDictionary<string, IDatasetSampler> _datasetSamplers = new();
+        private ConcurrentDictionary<string, Tuple<string, IDatasetSampler>> _datasetSamplers = new();
 
         // Mapping of asset name to the dictionary that maps a dataset name to its sampler
         private Dictionary<string, Dictionary<string, Timer>> _samplers = new();
@@ -287,19 +286,27 @@ namespace Azure.Iot.Operations.Connector
 
             Dataset dataset = assetDatasets[datasetName];
 
-            IDatasetSampler? datasetSampler;
-            if (!_datasetSamplers.ContainsKey(datasetName))
+            Tuple<string, IDatasetSampler>? datasetSamplerPair;
+            if (!_datasetSamplers.ContainsKey(assetName))
             {
-                datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(samplerContext.AssetEndpointProfile, asset, dataset);
-                _datasetSamplers.TryAdd(datasetName, datasetSampler);
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(samplerContext.AssetEndpointProfile, asset, dataset);
+                _datasetSamplers.TryAdd(datasetName, new(datasetName, datasetSampler)); //TODO need to remove datasets from this dict once sampling stops!
 
                 //TODO what if message schema changes, but name stays the same?
-                //SchemaInfo messageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
-                //await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                DatasetMessageSchema datasetMessageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
+                await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                await schemaRegistryClient.PutAsync(
+                    datasetMessageSchema.SchemaContent, 
+                    datasetMessageSchema.SchemaFormat, 
+                    datasetMessageSchema.SchemaType, 
+                    datasetMessageSchema.Version ?? "1.0.0", 
+                    datasetMessageSchema.Tags, 
+                    null, 
+                    samplerContext.CancellationToken);
 
             }
 
-            if (!_datasetSamplers.TryGetValue(datasetName, out datasetSampler))
+            if (!_datasetSamplers.TryGetValue(datasetName, out datasetSamplerPair))
             {
                 _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} was deleted. This sample won't sample this dataset anymore.");
                 return;
@@ -308,7 +315,7 @@ namespace Azure.Iot.Operations.Connector
             byte[] serializedPayload;
             try
             {
-                serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
+                serializedPayload = await datasetSamplerPair.Item2.SampleDatasetAsync(dataset);
             }
             catch (Exception e)
             { 

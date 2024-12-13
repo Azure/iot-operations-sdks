@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public interface IDatasetSampler
     {
-        public Task<SchemaInfo> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default);
+        public Task<DatasetMessageSchema> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sample the datapoints from the asset and return the full serialized dataset.
