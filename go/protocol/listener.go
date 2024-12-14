@@ -161,19 +161,11 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 
 // Handle payload manually, since it may be ignored on errors.
 func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
-	var zero T
-
-	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
-		pub.ContentType != l.encoding.ContentType() {
-		return zero, &errors.Error{
-			Message:     "content type mismatch",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.ContentType,
-			HeaderValue: pub.ContentType,
-		}
-	}
-
-	return deserialize(l.encoding, pub.Payload)
+	return deserialize(l.encoding, &Data{
+		pub.Payload,
+		pub.ContentType,
+		pub.PayloadFormat,
+	})
 }
 
 func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {
