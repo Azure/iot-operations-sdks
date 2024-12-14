@@ -12,6 +12,11 @@ namespace Azure.Iot.Operations.Connector
         {
             IConfiguration? config = service.GetService<IConfiguration>();
             bool mqttDiag = config!.GetValue<bool>("mqttDiag");
+            if (mqttDiag)
+            {
+                Trace.Listeners.Add(new ConsoleTraceListener());
+            }
+
             MqttSessionClientOptions sessionClientOptions = new()
             {
                 EnableMqttLogging = mqttDiag,
