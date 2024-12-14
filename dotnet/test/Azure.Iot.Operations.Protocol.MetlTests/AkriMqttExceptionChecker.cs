@@ -9,9 +9,21 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public static void CheckException(TestCaseCatch testCaseCatch, AkriMqttException exception)
         {
             Assert.Equal(testCaseCatch.GetErrorKind(), exception.Kind);
-            Assert.Equal(testCaseCatch.InApplication, exception.InApplication);
-            Assert.Equal(testCaseCatch.IsShallow, exception.IsShallow);
-            Assert.Equal(testCaseCatch.IsRemote, exception.IsRemote);
+
+            if (testCaseCatch.InApplication != null)
+            {
+                Assert.Equal(testCaseCatch.InApplication, exception.InApplication);
+            }
+
+            if (testCaseCatch.IsShallow != null)
+            {
+                Assert.Equal(testCaseCatch.IsShallow, exception.IsShallow);
+            }
+
+            if (testCaseCatch.IsRemote != null)
+            {
+                Assert.Equal(testCaseCatch.IsRemote, exception.IsRemote);
+            }
 
             if (testCaseCatch.StatusCode == null)
             {
