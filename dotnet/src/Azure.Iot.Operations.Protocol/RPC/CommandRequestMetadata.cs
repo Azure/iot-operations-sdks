@@ -90,7 +90,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             Partition = property.Value;
                             break;
                         default:
-                            UserData[property.Name] = property.Value;
+                            if (!AkriSystemProperties.IsReservedUserProperty(property.Name))
+                            {
+                                UserData[property.Name] = property.Value;
+                            }
                             break;
                     }
                 }
