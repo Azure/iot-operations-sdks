@@ -23,6 +23,6 @@ Versioning for the wire protocol should be split into two independent versions f
 * Telemetry
     * `__protVer` property in [Telemetry messages](../../references/message-metadata.md#telemetry-message) refers to the Telemetry protocol version
 
-Both of these versions should start at the current unified version in use (`0.1`), and iterate independently from there. From here on out, each of RPC Command and Telemetry, as well as any future patterns are each considered to be an independent protocol
+Both of these versions should start at the current unified version in use (`1.0`), and iterate independently from there. From here on out, each of RPC Command and Telemetry, as well as any future patterns are each considered to be an independent protocol
 
 This does **not** affect the package versioning for the SDK, as there will still be a single package. This only affects the wire protocol version.
