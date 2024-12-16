@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? normalizedVersionSuffix = version?.Replace(".", "_");
 
             List<(string, string?, string?)> cmdNameReqResps = new();
-            List<string> telemSchemas = new();
+            List<(string?, string)> telemNameSchemas = new();
 
             List<string> schemaTypes = new();
 
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemSchemas, workingPath, schemaTypes, generateClient, generateServer, useSharedSubscription: telemServiceGroupId != null))
+                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemNameSchemas, workingPath, schemaTypes, generateClient, generateServer, useSharedSubscription: telemServiceGroupId != null))
                     {
                         yield return templateTransform;
                     }
@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, sourceFilePaths, syncApi, generateClient, generateServer))
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, sourceFilePaths, syncApi, generateClient, generateServer))
             {
                 yield return templateTransform;
             }
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<string> telemSchemas, string? workingPath, List<string> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
+        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<(string?, string)> telemNameSchemas, string? workingPath, List<string> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
@@ -170,7 +170,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            telemSchemas.Add(schemaClass);
+            telemNameSchemas.Add((telemetryName, schemaClass));
         }
 
         private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
@@ -279,7 +279,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             cmdNameReqResps.Add((commandName, reqSchemaClass, respSchemaClass));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(string, string?, string?)> cmdNameReqResps, List<string> telemSchemas, HashSet<string> sourceFilePaths, bool syncApi, bool generateClient, bool generateServer)
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(string, string?, string?)> cmdNameReqResps, List<(string?, string)> telemNameSchemas, HashSet<string> sourceFilePaths, bool syncApi, bool generateClient, bool generateServer)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
@@ -290,19 +290,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer);
+                    yield return new DotNetService(projectName, genNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer);
                     break;
                 case "go":
-                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer);
+                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer);
                     break;
                 case "java":
-                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "python":
-                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
-                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, sourceFilePaths);
+                    yield return new RustService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, sourceFilePaths);
                     break;
                 case "c":
                     break;
