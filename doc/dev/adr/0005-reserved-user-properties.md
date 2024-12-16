@@ -1,8 +1,8 @@
-# ADR5: Reserved User Properties and the Fencing Token
+# ADR4: Reserved User Properties and the Fencing Token
 
 ## Status: 
 
-PROPOSED
+APPROVED
 
 ## Context: 
 
