@@ -6,7 +6,8 @@
     public static class AkriSystemProperties
     {
         /// <summary>
-        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol; custom properties from user code may not start with this prefix.
+        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol; custom properties from user code may start with this prefix, 
+        /// but it isn't recommended since it risks collision.
         /// </summary>
         public const string ReservedPrefix = "__";
 
@@ -14,11 +15,6 @@
         /// A HybridLogicalClock timestamp associated with the request or response.
         /// </summary>
         internal const string Timestamp = ReservedPrefix + "ts";
-
-        /// <summary>
-        /// A HybridLogicalClock fencing token used to protect the object of the request from conflicting updates.
-        /// </summary>
-        internal const string FencingToken = ReservedPrefix + "ft";
 
         /// <summary>
         /// User Property indicating an HTTP status code.
@@ -71,6 +67,6 @@
         internal const string SourceId = ReservedPrefix + "srcId";
 
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
-        public const string CommandInvokerId = ReservedPrefix + "invId";
+        internal const string CommandInvokerId = ReservedPrefix + "invId";
     }
 }
