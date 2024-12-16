@@ -1,4 +1,7 @@
-﻿using MQTTnet.Client;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using MQTTnet.Client;
 using System.Collections;
 
 namespace Azure.Iot.Operations.Protocol.Session.UnitTests

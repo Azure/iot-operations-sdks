@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using SampleCloudEvents;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
