@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.SchemaRegistry;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
