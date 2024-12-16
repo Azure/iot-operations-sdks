@@ -8,8 +8,10 @@ namespace Azure.Iot.Operations.Protocol
     public static class AkriSystemProperties
     {
         /// <summary>
-        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol; custom properties from user code may start with this prefix, 
-        /// but it isn't recommended since it risks collision.
+        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol. This prefix "__" should only be 
+        /// used by Azure IoT Operations SDK's MQTT, Protocol, and Services packages, and any use of the 
+        /// reserved prefix by consumers outside of these packages could cause unexpected behavior now or 
+        /// in the future.
         /// </summary>
         public const string ReservedPrefix = "__";
 
