@@ -455,7 +455,7 @@ where
                                             break 'process_message;
                                         }
                                     }
-                                    content_type = properties.content_type.clone();
+                                    content_type.clone_from(&properties.content_type);
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.

@@ -391,7 +391,7 @@ where
             correlation_data: Some(correlation_data),
             response_topic: None,
             payload_format_indicator: Some(T::format_indicator() as u8),
-            content_type: content_type,
+            content_type,
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,
