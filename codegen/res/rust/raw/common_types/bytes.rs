@@ -25,12 +25,8 @@ impl DerefMut for Bytes {
 impl PayloadSerialize for Bytes {
     type Error = String;
 
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        true
+    fn content_type() -> Option<&'static str> {
+        None
     }
 
     fn format_indicator() -> FormatIndicator {

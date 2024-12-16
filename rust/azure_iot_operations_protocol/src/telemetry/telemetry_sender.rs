@@ -82,7 +82,7 @@ impl CloudEventBuilder {
 impl CloudEvent {
     /// Get [`CloudEvent`] as headers for an MQTT message
     #[must_use]
-    fn into_headers(self, subject: &str, content_type: &str) -> Vec<(String, String)> {
+    fn into_headers(self, subject: &str, content_type: Option<String>) -> Vec<(String, String)> {
         let mut headers = vec![
             (CloudEventFields::Id.to_string(), Uuid::new_v4().to_string()),
             (CloudEventFields::Source.to_string(), self.source),
@@ -91,7 +91,7 @@ impl CloudEvent {
             (CloudEventFields::Subject.to_string(), subject.to_string()),
             (
                 CloudEventFields::DataContentType.to_string(),
-                content_type.to_string(),
+                content_type.unwrap_or("application/octet-stream".to_string()),
             ),
             (
                 CloudEventFields::Time.to_string(),
@@ -190,7 +190,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
             }
         }
         if let Some(Some(content_type)) = &self.content_type {
-            if !T::is_content_type_supersedable() {
+            if T::content_type().is_some() {
                 return Err(
                     "Serialization format does not permit superseding content type".to_string(),
                 );
@@ -235,8 +235,7 @@ pub struct TelemetrySenderOptions {
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn is_content_type_supersedable() -> bool { false }
+/// #   fn content_type() -> Option<&'static str> { Some("application/json") }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -298,17 +297,18 @@ where
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of telemetry message is valid UTF-8
-        if is_invalid_utf8(T::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(T::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of telemetry message type is not valid UTF-8",
-                    T::content_type()
-                )),
-                None,
-            ));
+        if let Some(t_content_type) = T::content_type() {
+            if is_invalid_utf8(t_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(t_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{t_content_type}' of telemetry message type is not valid UTF-8"
+                    )),
+                    None,
+                ));
+            }
         }
         // Validate parameters
         let topic_pattern = TopicPattern::new(
@@ -356,15 +356,16 @@ where
         let correlation_id = Uuid::new_v4();
         let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
-        let content_type = if let Some(content_type) = &message.content_type {
-            content_type.as_str()
+        let content_type = if message.content_type.is_some() {
+            message.content_type
         } else {
-            T::content_type()
+            T::content_type().map(str::to_string)
         };
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(&message_topic, content_type);
+            let cloud_event_headers =
+                cloud_event.into_headers(&message_topic, content_type.clone());
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -390,7 +391,7 @@ where
             correlation_data: Some(correlation_data),
             response_topic: None,
             payload_format_indicator: Some(T::format_indicator() as u8),
-            content_type: Some(content_type.to_string()),
+            content_type: content_type,
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,
@@ -465,11 +466,8 @@ mod tests {
     }
     impl PayloadSerialize for InvalidContentTypePayload {
         type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn is_content_type_supersedable() -> bool {
-            unimplemented!()
+        fn content_type() -> Option<&'static str> {
+            Some("application/json\u{0000}")
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
@@ -505,7 +503,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
@@ -525,7 +523,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
@@ -551,7 +549,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
 
@@ -669,8 +667,8 @@ mod tests {
             .returning(|| Ok(String::new().into()))
             .times(1);
 
-        let ctx = MockPayload::is_content_type_supersedable_context();
-        ctx.expect().returning(|| true);
+        let ctx = MockPayload::content_type_context();
+        ctx.expect().returning(|| None);
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
@@ -682,15 +680,15 @@ mod tests {
     }
 
     #[test]
-    fn test_send_content_type_not_supersedable() {
+    fn test_send_content_type_fixed() {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
 
-        let ctx = MockPayload::is_content_type_supersedable_context();
-        ctx.expect().returning(|| false);
+        let ctx = MockPayload::content_type_context();
+        ctx.expect().returning(|| Some("application/json"));
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
@@ -702,15 +700,15 @@ mod tests {
     }
 
     #[test]
-    fn test_send_content_type_supersedable_valid_value() {
+    fn test_send_content_type_flexible_valid_value() {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
 
-        let ctx = MockPayload::is_content_type_supersedable_context();
-        ctx.expect().returning(|| true);
+        let ctx = MockPayload::content_type_context();
+        ctx.expect().returning(|| None);
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)

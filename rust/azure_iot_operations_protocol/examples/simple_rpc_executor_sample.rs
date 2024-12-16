@@ -91,12 +91,8 @@ pub enum IncrSerializerError {}
 
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
 
     fn format_indicator() -> FormatIndicator {
@@ -115,12 +111,8 @@ impl PayloadSerialize for IncrRequestPayload {
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
 
     fn format_indicator() -> FormatIndicator {

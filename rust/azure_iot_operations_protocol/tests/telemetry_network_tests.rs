@@ -107,11 +107,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        None
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
@@ -229,11 +226,8 @@ pub struct DataPayload {
 }
 impl PayloadSerialize for DataPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
@@ -333,7 +327,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
+                            DataPayload::content_type().unwrap()
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
@@ -357,7 +351,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
+                            DataPayload::content_type().unwrap()
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());

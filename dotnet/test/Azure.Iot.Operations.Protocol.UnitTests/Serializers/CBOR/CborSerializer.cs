@@ -27,9 +27,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
         }
 
-        public string ContentType => "application/cbor";
-
-        public bool IsContentTypeSupersedable => false;
+        public string? ContentType => "application/cbor";
 
         public int CharacterDataFormatIndicator => 0;
 

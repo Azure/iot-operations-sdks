@@ -30,9 +30,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
 
-        public string ContentType => "application/avro";
-
-        public bool IsContentTypeSupersedable => false;
+        public string? ContentType => "application/avro";
 
         public int CharacterDataFormatIndicator => 0;
 

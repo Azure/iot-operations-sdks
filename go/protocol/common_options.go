@@ -31,7 +31,7 @@ type (
 	// WithMetadata specifies user-provided metadata values.
 	WithMetadata map[string]string
 
-	// WithContentType supersedes the content type of the message.
+	// WithContentType specifies the content type of the message.
 	WithContentType string
 
 	// WithDataSchema specifies a data schema that will be used for CloudEvents.

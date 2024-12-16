@@ -166,8 +166,7 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	var zero T
 
 	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
-		pub.ContentType != l.encoding.ContentType() &&
-		!l.encoding.IsContentTypeSupersedable() {
+		pub.ContentType != l.encoding.ContentType() {
 		return zero, &errors.Error{
 			Message:     "content type mismatch",
 			Kind:        errors.HeaderInvalid,

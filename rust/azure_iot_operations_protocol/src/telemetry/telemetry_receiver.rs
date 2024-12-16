@@ -184,8 +184,7 @@ pub struct TelemetryReceiverOptions {
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn is_content_type_supersedable() -> bool { false }
+/// #   fn content_type() -> Option<&'static str> { Some("application/json") }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -253,17 +252,18 @@ where
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of telemetry message is valid UTF-8
-        if is_invalid_utf8(T::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(T::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of telemetry message type is not valid UTF-8",
-                    T::content_type()
-                )),
-                None,
-            ));
+        if let Some(t_content_type) = T::content_type() {
+            if is_invalid_utf8(t_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(t_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{t_content_type}' of telemetry message type is not valid UTF-8"
+                    )),
+                    None,
+                ));
+            }
         }
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
@@ -447,13 +447,15 @@ where
                             if let Some(properties) = properties {
                                 // Get content type
                                 if let Some(prop_content_type) = &properties.content_type {
-                                    if T::content_type() != prop_content_type && !T::is_content_type_supersedable() {
-                                        log::error!(
-                                            "[pkid: {}] Content type {prop_content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
-                                        );
-                                        break 'process_message;
+                                    if let Some(t_content_type) = &T::content_type() {
+                                        if t_content_type != prop_content_type {
+                                            log::error!(
+                                                "[pkid: {}] Content type {prop_content_type} is not supported by this implementation; only {t_content_type} is accepted", m.pkid
+                                            );
+                                            break 'process_message;
+                                        }
                                     }
-                                    content_type = Some(prop_content_type.clone());
+                                    content_type = properties.content_type.clone();
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
@@ -678,11 +680,8 @@ mod tests {
     }
     impl PayloadSerialize for InvalidContentTypePayload {
         type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn is_content_type_supersedable() -> bool {
-            unimplemented!()
+        fn content_type() -> Option<&'static str> {
+            Some("application/json\u{0000}")
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
@@ -722,7 +721,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
@@ -742,7 +741,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
@@ -796,7 +795,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
@@ -831,7 +830,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/receiver")

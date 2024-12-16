@@ -20,9 +20,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
             messageParserT2 = new MessageParser<T2>(() => new T2());
         }
 
-        public string ContentType => "application/protobuf";
-
-        public bool IsContentTypeSupersedable => false;
+        public string? ContentType => "application/protobuf";
 
         public int CharacterDataFormatIndicator => 0;
 

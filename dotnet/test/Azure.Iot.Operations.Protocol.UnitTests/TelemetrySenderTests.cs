@@ -133,9 +133,6 @@ public class TelemetrySenderTests
 
         byte[] telemetry = new byte[] { 0x11, 0x22, 0x33, 0x44, 0x55 };
 
-        await sender.SendTelemetryAsync(telemetry);
-        Assert.Equal("application/octet-stream", mockClient.GetPublishedContentType());
-
         await sender.SendTelemetryAsync(telemetry, contentType: "text/csv");
         Assert.Equal("text/csv", mockClient.GetPublishedContentType());
     }

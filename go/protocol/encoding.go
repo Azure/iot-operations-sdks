@@ -13,7 +13,6 @@ type (
 	// All methods *must* be thread-safe.
 	Encoding[T any] interface {
 		ContentType() string
-		IsContentTypeSupersedable() bool
 		PayloadFormat() byte
 		Serialize(T) ([]byte, error)
 		Deserialize([]byte) (T, error)
@@ -64,11 +63,6 @@ func (JSON[T]) ContentType() string {
 	return "application/json"
 }
 
-// IsContentTypeSupersedable indicates that JSON MIME type is not supersedable.
-func (JSON[T]) IsContentTypeSupersedable() bool {
-	return false
-}
-
 // PayloadFormat indicates that JSON is valid UTF8.
 func (JSON[T]) PayloadFormat() byte {
 	return 1
@@ -89,11 +83,6 @@ func (JSON[T]) Deserialize(data []byte) (T, error) {
 // ContentType returns the empty MIME type.
 func (Empty) ContentType() string {
 	return ""
-}
-
-// IsContentTypeSupersedable indicates that empty MIME type is not supersedable.
-func (Empty) IsContentTypeSupersedable() bool {
-	return false
 }
 
 // PayloadFormat indicates that empty is not (meaningfully) valid UTF8.
@@ -123,14 +112,9 @@ func (Empty) Deserialize(data []byte) (any, error) {
 	return nil, nil
 }
 
-// ContentType returns the raw MIME type.
+// ContentType returns an empty string, indicating that raw has no specific MIME type.
 func (Raw) ContentType() string {
-	return "application/octet-stream"
-}
-
-// IsContentTypeSupersedable indicates that raw MIME type is supersedable.
-func (Raw) IsContentTypeSupersedable() bool {
-	return true
+	return ""
 }
 
 // PayloadFormat indicates that raw is not known to be valid UTF8.

@@ -9,12 +9,8 @@ use super::increment_response_payload::IncrementResponsePayload;
 impl PayloadSerialize for IncrementResponsePayload {
     type Error = serde_json::Error;
 
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
 
     fn format_indicator() -> FormatIndicator {

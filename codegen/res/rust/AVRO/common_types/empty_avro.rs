@@ -14,12 +14,8 @@ pub struct EmptyAvro {
 impl PayloadSerialize for EmptyAvro{
     type Error = String;
 
-    fn content_type() -> &'static str {
-        "application/avro"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/avro")
     }
 
     fn format_indicator() -> FormatIndicator {

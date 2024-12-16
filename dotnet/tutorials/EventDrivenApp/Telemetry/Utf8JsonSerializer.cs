@@ -18,9 +18,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public string ContentType => "application/json";
-
-    public bool IsContentTypeSupersedable => false;
+    public string? ContentType => "application/json";
 
     public int CharacterDataFormatIndicator => 1;
 

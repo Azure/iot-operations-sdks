@@ -2,9 +2,7 @@
 {
     public interface IPayloadSerializer
     {
-        string ContentType { get; }
-
-        bool IsContentTypeSupersedable { get; }
+        string? ContentType { get; }
 
         int CharacterDataFormatIndicator { get; }
 

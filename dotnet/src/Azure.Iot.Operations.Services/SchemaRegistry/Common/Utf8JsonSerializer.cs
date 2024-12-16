@@ -23,9 +23,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
             }
         };
 
-        public string ContentType => "application/json";
-
-        public bool IsContentTypeSupersedable => false;
+        public string? ContentType => "application/json";
 
         public int CharacterDataFormatIndicator => 1;
 

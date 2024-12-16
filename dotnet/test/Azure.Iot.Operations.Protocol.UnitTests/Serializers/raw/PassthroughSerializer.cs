@@ -7,9 +7,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
 
     public class PassthroughSerializer : IPayloadSerializer
     {
-        public string ContentType => "application/octet-stream";
-
-        public bool IsContentTypeSupersedable => true;
+        public string? ContentType => null;
 
         public int CharacterDataFormatIndicator => 0;
 

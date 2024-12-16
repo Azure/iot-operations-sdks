@@ -23,9 +23,7 @@ namespace TestEnvoys
             }
         };
 
-        public string ContentType => "application/json";
-
-        public bool IsContentTypeSupersedable => false;
+        public string? ContentType => "application/json";
 
         public int CharacterDataFormatIndicator => 1;
 

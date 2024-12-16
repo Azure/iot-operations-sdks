@@ -42,9 +42,9 @@ func (p *publisher[T]) build(
 		}
 	}
 
-	if contentType != "" && !p.encoding.IsContentTypeSupersedable() {
+	if contentType != "" && p.encoding.ContentType() != "" {
 		return nil, &errors.Error{
-			Message:       "configured serialization format does not permit superseding contentType",
+			Message:       "configured serialization format has fixed content type",
 			Kind:          errors.ArgumentInvalid,
 			PropertyName:  "contentType",
 			PropertyValue: contentType,

@@ -214,8 +214,7 @@ pub struct CommandExecutorOptions {
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn is_content_type_supersedable() -> bool { false }
+/// #   fn content_type() -> Option<&'static str> { Some("application/json") }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -297,30 +296,32 @@ where
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of request is valid utf-8
-        if is_invalid_utf8(TReq::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TReq::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of request type is not valid UTF-8",
-                    TReq::content_type()
-                )),
-                Some(executor_options.command_name),
-            ));
+        if let Some(treq_content_type) = TReq::content_type() {
+            if is_invalid_utf8(treq_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(treq_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{treq_content_type}' of request type is not valid UTF-8"
+                    )),
+                    Some(executor_options.command_name),
+                ));
+            }
         }
         // Validate content type of response is valid utf-8
-        if is_invalid_utf8(TResp::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TResp::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of response type is not valid UTF-8",
-                    TResp::content_type()
-                )),
-                Some(executor_options.command_name),
-            ));
+        if let Some(tresp_content_type) = TResp::content_type() {
+            if is_invalid_utf8(tresp_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(tresp_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{tresp_content_type}' of response type is not valid UTF-8"
+                    )),
+                    Some(executor_options.command_name),
+                ));
+            }
         }
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
@@ -611,13 +612,15 @@ where
                             }
 
                             // Get content type
-                            if let Some(content_type) = properties.content_type {
-                                if TReq::content_type() != content_type {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Content type {content_type} is not supported by this implementation; only {} is accepted", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Content Type".to_string());
-                                    response_arguments.invalid_property_value = Some(content_type);
-                                    break 'process_request;
+                            if let Some(prop_content_type) = properties.content_type {
+                                if let Some(t_content_type) = TReq::content_type() {
+                                    if t_content_type != prop_content_type {
+                                        response_arguments.status_code = StatusCode::UnsupportedMediaType;
+                                        response_arguments.status_message = Some(format!("Content type {prop_content_type} is not supported by this implementation; only {t_content_type} is accepted"));
+                                        response_arguments.invalid_property_name = Some("Content Type".to_string());
+                                        response_arguments.invalid_property_value = Some(prop_content_type);
+                                        break 'process_request;
+                                    }
                                 }
                             };
 
@@ -967,7 +970,7 @@ where
             correlation_data: response_arguments.correlation_data,
             user_properties,
             subscription_identifiers: Vec::new(),
-            content_type: Some(TResp::content_type().to_string()),
+            content_type: TResp::content_type().map(str::to_string),
         };
 
         // Try to publish
@@ -1037,11 +1040,8 @@ mod tests {
     }
     impl PayloadSerialize for InvalidContentTypePayload {
         type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn is_content_type_supersedable() -> bool {
-            unimplemented!()
+        fn content_type() -> Option<&'static str> {
+            Some("application/json\u{0000}")
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
@@ -1085,7 +1085,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1117,7 +1117,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1151,7 +1151,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1193,7 +1193,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1237,7 +1237,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1279,7 +1279,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1321,7 +1321,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1361,7 +1361,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1387,7 +1387,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1429,7 +1429,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
         let session = create_session();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/request")

@@ -23,12 +23,8 @@ impl PayloadSerialize for <#=this.schemaClassName#> {
     type Error = <#=this.serdeLib#>::Error;
 
 <# } #>
-    fn content_type() -> &'static str {
-        "<#=this.contentType#>"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        <#=this.isContentTypeSupersedable ? "true" : "false"#>
+    fn content_type() -> Option<&'static str> {
+        <#=this.contentType#>
     }
 
     fn format_indicator() -> FormatIndicator {

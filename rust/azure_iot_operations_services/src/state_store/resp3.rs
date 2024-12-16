@@ -63,12 +63,8 @@ pub(crate) struct KeyNotifyOptions {
 
 impl PayloadSerialize for Request {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/octet-stream")
     }
 
     fn format_indicator() -> FormatIndicator {
@@ -265,12 +261,8 @@ impl Response {
 
 impl PayloadSerialize for Response {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/octet-stream")
     }
 
     fn format_indicator() -> FormatIndicator {
@@ -324,12 +316,8 @@ impl Operation {
 
 impl PayloadSerialize for Operation {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/octet-stream")
     }
 
     fn format_indicator() -> FormatIndicator {

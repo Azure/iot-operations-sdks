@@ -8,12 +8,8 @@ pub struct EmptyJson {}
 impl PayloadSerialize for EmptyJson {
     type Error = String;
 
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
 
     fn format_indicator() -> FormatIndicator {

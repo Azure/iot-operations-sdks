@@ -154,8 +154,7 @@ pub struct CommandInvokerOptions {
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
 /// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn is_content_type_supersedable() -> bool { false }
+/// #   fn content_type() -> Option<&'static str> { Some("application/json") }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
 /// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
@@ -246,30 +245,32 @@ where
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of request is valid utf-8
-        if is_invalid_utf8(TReq::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TReq::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of request type is not valid UTF-8",
-                    TReq::content_type()
-                )),
-                Some(invoker_options.command_name),
-            ));
+        if let Some(treq_content_type) = TReq::content_type() {
+            if is_invalid_utf8(treq_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(treq_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{treq_content_type}' of request type is not valid UTF-8"
+                    )),
+                    Some(invoker_options.command_name),
+                ));
+            }
         }
         // Validate content type of response is valid utf-8
-        if is_invalid_utf8(TResp::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TResp::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of response type is not valid UTF-8",
-                    TResp::content_type()
-                )),
-                Some(invoker_options.command_name),
-            ));
+        if let Some(tresp_content_type) = TResp::content_type() {
+            if is_invalid_utf8(tresp_content_type) {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "content_type",
+                    Value::String(tresp_content_type.to_string()),
+                    Some(format!(
+                        "Content type '{tresp_content_type}' of response type is not valid UTF-8"
+                    )),
+                    Some(invoker_options.command_name),
+                ));
+            }
         }
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
@@ -514,17 +515,19 @@ where
             .as_publish_topic(&request.topic_tokens)?;
         // Get and validate content_type
         let content_type = TReq::content_type();
-        if is_invalid_utf8(content_type) {
-            return Err(AIOProtocolError::new_payload_invalid_error(
-                true,
-                false,
-                None,
-                None,
-                Some(format!(
-                    "The payload's content type '{content_type}' isn't valid utf-8"
-                )),
-                Some(self.command_name.clone()),
-            ));
+        if let Some(content_type) = content_type {
+            if is_invalid_utf8(content_type) {
+                return Err(AIOProtocolError::new_payload_invalid_error(
+                    true,
+                    false,
+                    None,
+                    None,
+                    Some(format!(
+                        "The payload's content type '{content_type}' isn't valid utf-8"
+                    )),
+                    Some(self.command_name.clone()),
+                ));
+            }
         }
 
         // Create correlation id
@@ -556,7 +559,7 @@ where
             correlation_data: Some(correlation_data.clone()),
             response_topic: Some(response_topic),
             payload_format_indicator: Some(TReq::format_indicator() as u8),
-            content_type: Some(TReq::content_type().to_string()),
+            content_type: TReq::content_type().map(str::to_string),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,
@@ -775,20 +778,20 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
 ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
     // validate headers
     // content type matches serializer content type. Content type being None isn't an error
-    if let Some(content_type) = response_properties.content_type {
-        if content_type != TResp::content_type() {
-            return Err(AIOProtocolError::new_header_invalid_error(
-                "Content Type",
-                &content_type,
-                false,
-                None,
-                Some(format!(
-                    "Content type '{}' is not supported by this implementation; only '{}' is accepted.",
-                    content_type,
-                    TResp::content_type()
-                )),
-                Some(command_name)
-            ));
+    if let Some(prop_content_type) = response_properties.content_type {
+        if let Some(t_content_type) = TResp::content_type() {
+            if prop_content_type != t_content_type {
+                return Err(AIOProtocolError::new_header_invalid_error(
+                    "Content Type",
+                    &prop_content_type,
+                    false,
+                    None,
+                    Some(format!(
+                        "Content type '{prop_content_type}' is not supported by this implementation; only '{t_content_type}' is accepted."
+                    )),
+                    Some(command_name)
+                ));
+            }
         }
     }
 
@@ -1091,11 +1094,8 @@ mod tests {
     }
     impl PayloadSerialize for InvalidContentTypePayload {
         type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn is_content_type_supersedable() -> bool {
-            unimplemented!()
+        fn content_type() -> Option<&'static str> {
+            Some("application/json\u{0000}")
         }
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
@@ -1139,7 +1139,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1166,7 +1166,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1198,7 +1198,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1238,7 +1238,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1288,7 +1288,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1364,7 +1364,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1401,7 +1401,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1439,7 +1439,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json")
+            .returning(|| Some("application/json"))
             .once();
 
         let session = create_session();
@@ -1517,7 +1517,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1586,7 +1586,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1663,7 +1663,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1718,7 +1718,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| "application/json");
+            .returning(|| Some("application/json"));
 
         let session = create_session();
         let managed_client = session.create_managed_client();

@@ -30,12 +30,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private static readonly Dictionary<string, string> formatContentType = new()
         {
-            { PayloadFormat.Avro, "application/avro" },
-            { PayloadFormat.Cbor, "application/cbor" },
-            { PayloadFormat.Json, "application/json" },
-            { PayloadFormat.Proto2, "application/protobuf" },
-            { PayloadFormat.Proto3, "application/protobuf" },
-            { PayloadFormat.Raw, "application/octet-stream" },
+            { PayloadFormat.Avro, "Some(\"application/avro\")" },
+            { PayloadFormat.Cbor, "Some(\"application/cbor\")" },
+            { PayloadFormat.Json, "Some(\"application/json\")" },
+            { PayloadFormat.Proto2, "Some(\"application/protobuf\")" },
+            { PayloadFormat.Proto3, "Some(\"application/protobuf\")" },
+            { PayloadFormat.Raw, "None" },
         };
 
         private static readonly Dictionary<string, string> formatFormatIndicator = new()
@@ -79,7 +79,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly List<string> extHeaders;
         private readonly string? schemaCode;
         private readonly string? contentType;
-        private readonly bool isContentTypeSupersedable;
         private readonly string? formatIndicator;
         private readonly List<string> serializeCode;
         private readonly List<string> deserializeCode;
@@ -96,7 +95,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.extHeaders = formatExtHeaders.GetValueOrDefault(genFormat) ?? new List<string>();
             this.schemaCode = formatSchemaCode.GetValueOrDefault(genFormat);
             this.contentType = formatContentType.GetValueOrDefault(genFormat);
-            this.isContentTypeSupersedable = genFormat == PayloadFormat.Raw;
             this.formatIndicator = formatFormatIndicator.GetValueOrDefault(genFormat);
             this.serializeCode = formatSerializeCode.GetValueOrDefault(genFormat) ?? new List<string>();
             this.deserializeCode = formatDeserializeCode.GetValueOrDefault(genFormat) ?? new List<string>();

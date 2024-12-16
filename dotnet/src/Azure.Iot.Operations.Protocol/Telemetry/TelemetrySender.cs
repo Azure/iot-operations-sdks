@@ -94,9 +94,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw AkriMqttException.GetConfigurationInvalidException("messageExpiryInterval", verifiedMessageExpiryInterval, $"message expiry interval cannot be larger than {uint.MaxValue} seconds");
             }
 
-            if (contentType != null && !_serializer.IsContentTypeSupersedable)
+            if (contentType != null && _serializer.ContentType != null)
             {
-                throw AkriMqttException.GetArgumentInvalidException(null, nameof(contentType), contentType, $"Configured serialization format does not permit superseding {nameof(contentType)}");
+                throw AkriMqttException.GetArgumentInvalidException(null, nameof(contentType), contentType, $"Configured serialization format has fixed content type");
             }
 
             StringBuilder telemTopic = new();

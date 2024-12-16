@@ -105,11 +105,8 @@ fn setup_test<
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        None
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
@@ -227,11 +224,8 @@ pub struct DataRequestPayload {
 }
 impl PayloadSerialize for DataRequestPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/json")
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
@@ -277,11 +271,8 @@ pub struct DataResponsePayload {
 }
 impl PayloadSerialize for DataResponsePayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/something"
-    }
-    fn is_content_type_supersedable() -> bool {
-        false
+    fn content_type() -> Option<&'static str> {
+        Some("application/something")
     }
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
