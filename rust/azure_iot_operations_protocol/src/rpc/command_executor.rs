@@ -32,7 +32,7 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
