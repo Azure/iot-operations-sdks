@@ -14,21 +14,26 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     TelemetrySender, TelemetrySenderOptionsBuilder,
 };
 
+<# if (this.schemaClassName != "Bytes") { #>
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
+<# } #>
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
+<# if (this.schemaClassName == "Bytes") { #>
+use crate::common_types::bytes::Bytes;
+<# } #>
 use crate::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.schemaClassName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
-pub type <#=this.schemaClassName#>MessageBuilderError = TelemetryMessageBuilderError;
+pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
+pub type <#=this.componentName#>MessageBuilderError = TelemetryMessageBuilderError;
 
-/// Builder for [`<#=this.schemaClassName#>Message`]
+/// Builder for [`<#=this.componentName#>Message`]
 #[derive(Default)]
-pub struct <#=this.schemaClassName#>MessageBuilder {
+pub struct <#=this.componentName#>MessageBuilder {
     inner_builder: TelemetryMessageBuilder<<#=this.schemaClassName#>>,
 }
 
-impl <#=this.schemaClassName#>MessageBuilder {
+impl <#=this.componentName#>MessageBuilder {
     /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
     pub fn qos(&mut self, qos: QoS) -> &mut Self {
         self.inner_builder.qos(qos);
@@ -65,27 +70,27 @@ impl <#=this.schemaClassName#>MessageBuilder {
         Ok(self)
     }
 
-    /// Builds a new `<#=this.schemaClassName#>Message`
+    /// Builds a new `<#=this.componentName#>Message`
     ///
     /// # Errors
     /// If a required field has not been initialized
-    pub fn build(&mut self) -> Result<<#=this.schemaClassName#>Message, <#=this.schemaClassName#>MessageBuilderError> {
+    pub fn build(&mut self) -> Result<<#=this.componentName#>Message, <#=this.componentName#>MessageBuilderError> {
         self.inner_builder.build()
     }
 }
 
-/// Telemetry Sender for `<#=this.schemaClassName#>`
-pub struct <#=this.schemaClassName#>Sender<C>(
+/// Telemetry Sender for `<#=this.componentName#>`
+pub struct <#=this.componentName#>Sender<C>(
     TelemetrySender<<#=this.schemaClassName#>, C>,
 )
 where
     C: ManagedClient + Send + Sync + 'static;
 
-impl<C> <#=this.schemaClassName#>Sender<C>
+impl<C> <#=this.componentName#>Sender<C>
 where
     C: ManagedClient + Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.schemaClassName#>Sender`]
+    /// Creates a new [`<#=this.componentName#>Sender`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
@@ -121,11 +126,11 @@ where
         )
     }
 
-    /// Sends a [`<#=this.schemaClassName#>Message`]
+    /// Sends a [`<#=this.componentName#>Message`]
     ///
     /// # Error
     /// [`AIOProtocolError`] if there is a failure sending the message
-    pub async fn send(&self, message: <#=this.schemaClassName#>Message) -> Result<(), AIOProtocolError> {
+    pub async fn send(&self, message: <#=this.componentName#>Message) -> Result<(), AIOProtocolError> {
         self.0.send(message).await
     }
 }

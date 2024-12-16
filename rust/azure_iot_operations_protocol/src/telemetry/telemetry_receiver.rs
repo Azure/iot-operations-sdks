@@ -25,7 +25,7 @@ use crate::{
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Cloud Event struct
 ///

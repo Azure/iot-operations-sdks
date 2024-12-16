@@ -8,7 +8,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using System;
     using System.Collections.Generic;
     using System.Linq;
-<# if (this.cmdNameReqResps.Any() || this.telemSchemas.Any()) { #>
+<# if (this.cmdNameReqResps.Any() || this.telemNameSchemas.Any()) { #>
     using System.Threading;
 <# } #>
     using System.Threading.Tasks;
@@ -36,8 +36,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor <#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor;
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-            private readonly <#=this.AsUpper(telemSchema)#>Sender <#=this.AsLower(telemSchema)#>Sender;
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+            private readonly <#=this.TelemComp(telemNameSchema)#>Sender <#=this.TelemItem(telemNameSchema)#>Sender;
 <# } #>
 
             public Service(IMqttPubSubClient mqttClient)
@@ -48,16 +48,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor = new <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor(mqttClient) { OnCommandReceived = <#=this.AsUpper(cmdNameReqResp.Item1)#>_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                this.<#=this.AsLower(telemSchema)#>Sender = new <#=this.AsUpper(telemSchema)#>Sender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                this.<#=this.TelemItem(telemNameSchema)#>Sender = new <#=this.TelemComp(telemNameSchema)#>Sender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
             }
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             public <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor { get => this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor; }
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-            public <#=this.AsUpper(telemSchema)#>Sender <#=this.AsUpper(telemSchema)#>Sender { get => this.<#=this.AsLower(telemSchema)#>Sender; }
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+            public <#=this.TelemComp(telemNameSchema)#>Sender <#=this.TelemComp(telemNameSchema)#>Sender { get => this.<#=this.TelemItem(telemNameSchema)#>Sender; }
 <# } #>
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
@@ -65,11 +65,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
             public abstract <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=this.AsUpper(cmdNameReqResp.Item1)#><#=this.syncApi ? "" : "Async"#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public async Task SendTelemetryAsync(<#=telemSchema#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task Send<#=TelemName(telemNameSchema)#>TelemetryAsync(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=this.AsLower(telemSchema)#>Sender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.<#=this.TelemItem(telemNameSchema)#>Sender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>
@@ -119,8 +119,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync().ConfigureAwait(false);
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                await this.<#=this.TelemItem(telemNameSchema)#>Sender.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
@@ -129,8 +129,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                await this.<#=this.AsLower(telemSchema)#>Sender.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                await this.<#=this.TelemItem(telemNameSchema)#>Sender.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -148,8 +148,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker <#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker;
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-            private readonly <#=this.AsUpper(telemSchema)#>Receiver <#=this.AsLower(telemSchema)#>Receiver;
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+            private readonly <#=this.TelemComp(telemNameSchema)#>Receiver <#=this.TelemItem(telemNameSchema)#>Receiver;
 <# } #>
 
             public Client(IMqttPubSubClient mqttClient)
@@ -160,22 +160,22 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker = new <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                this.<#=this.AsLower(telemSchema)#>Receiver = new <#=this.AsUpper(telemSchema)#>Receiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                this.<#=this.TelemItem(telemNameSchema)#>Receiver = new <#=this.TelemComp(telemNameSchema)#>Receiver(mqttClient) { OnTelemetryReceived = this.Receive<#=TelemName(telemNameSchema)#>Telemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
             }
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             public <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker <#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker { get => this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker; }
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-            public <#=this.AsUpper(telemSchema)#>Receiver <#=this.AsUpper(telemSchema)#>Receiver { get => this.<#=this.AsLower(telemSchema)#>Receiver; }
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+            public <#=this.TelemComp(telemNameSchema)#>Receiver <#=this.TelemComp(telemNameSchema)#>Receiver { get => this.<#=this.TelemItem(telemNameSchema)#>Receiver; }
 <# } #>
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
-<# foreach (string telemSchema in this.telemSchemas) { #>
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public abstract Task ReceiveTelemetry(string senderId, <#=telemSchema#> telemetry, IncomingTelemetryMetadata metadata);
+            public abstract Task Receive<#=TelemName(telemNameSchema)#>Telemetry(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata);
 <# } #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
@@ -199,23 +199,23 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
                 return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.allocateEmpty #>, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
-<# if (this.telemSchemas.Any()) { #>
+<# if (this.telemNameSchemas.Any()) { #>
 
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                    this.<#=this.AsLower(telemSchema)#>Receiver.StartAsync(cancellationToken)<#=this.IsLast(telemSchema) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                    this.<#=this.TelemItem(telemNameSchema)#>Receiver.StartAsync(cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
-<# if (this.telemSchemas.Any()) { #>
+<# if (this.telemNameSchemas.Any()) { #>
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                    this.<#=this.AsLower(telemSchema)#>Receiver.StopAsync(cancellationToken)<#=this.IsLast(telemSchema) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                    this.<#=this.TelemItem(telemNameSchema)#>Receiver.StopAsync(cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
@@ -225,8 +225,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync().ConfigureAwait(false);
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                await this.<#=this.TelemItem(telemNameSchema)#>Receiver.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
@@ -235,8 +235,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
                 await this.<#=this.AsLower(cmdNameReqResp.Item1)#>CommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# foreach (string telemSchema in this.telemSchemas) { #>
-                await this.<#=this.AsLower(telemSchema)#>Receiver.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+                await this.<#=this.TelemItem(telemNameSchema)#>Receiver.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -264,9 +264,15 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 
     private bool IsLast((string, string, string) cmdNameReqResp) => cmdNameReqResp.Item1 == this.cmdNameReqResps.Last().Item1;
 
-    private bool IsLast(string telemSchema) => telemSchema == this.telemSchemas.Last();
+    private bool IsLast((string, string) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
 
-    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+    private string AsUpper(string name) => string.IsNullOrEmpty(name) ? name : char.ToUpperInvariant(name[0]) + name.Substring(1);
 
-    private string AsLower(string name) => char.ToLowerInvariant(name[0]) + name.Substring(1);
+    private string AsLower(string name) => string.IsNullOrEmpty(name) ? name : char.ToLowerInvariant(name[0]) + name.Substring(1);
+
+    private string TelemComp((string, string) telemNameSchema) => telemNameSchema.Item2 == "" ? $"{(telemNameSchema.Item1 != null ? AsUpper(telemNameSchema.Item1) : string.Empty)}Telemetry" : telemNameSchema.Item2;
+
+    private string TelemItem((string, string) telemNameSchema) => AsLower(TelemComp(telemNameSchema));
+
+    private string TelemName((string, string) telemNameSchema) => telemNameSchema.Item2 == "" ? AsUpper(telemNameSchema.Item1) ?? string.Empty : string.Empty;
 #>

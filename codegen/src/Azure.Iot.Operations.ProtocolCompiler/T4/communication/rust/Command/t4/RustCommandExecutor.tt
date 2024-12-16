@@ -160,7 +160,7 @@ where
     }
 }
 <#+
-    private string RequestType() => this.reqSchema == "Bytes" ? "Bytes" : this.reqSchema ?? this.serializerEmptyType;
+    private string RequestType() => this.reqSchema ?? this.serializerEmptyType;
 
-    private string ResponseType() => this.respSchema == "Bytes" ? "Bytes" : this.respSchema ?? this.serializerEmptyType;
+    private string ResponseType() => this.respSchema ?? this.serializerEmptyType;
 #>
