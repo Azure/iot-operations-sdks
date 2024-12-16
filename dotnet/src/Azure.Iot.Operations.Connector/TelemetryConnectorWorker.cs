@@ -7,7 +7,6 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
@@ -45,8 +44,6 @@ namespace Azure.Iot.Operations.Connector
             mqttConnectionSettings.ClientId = Guid.NewGuid().ToString();
             _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
-            //TODO retry if it fails, but wait until what to try again? Just rely on retry policy?
-            //TODO can't rely on retry if user isn't using session client? Just force session client here?
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
@@ -119,8 +116,6 @@ namespace Azure.Iot.Operations.Connector
                                 return Task.CompletedTask;
                             };
 
-                            //TODO how does this work when the DSS store shouldn't be touched? There is no way to know for sure if you are still leader without
-                            //polling. Maybe it is fine if there is some overlap with 2 pods active for (campaign-length) amount of time?
                             _logger.LogInformation("This pod is waiting to be elected leader.");
                             await leaderElectionClient.CampaignAsync(leaderElectionTermLength);
 
@@ -298,7 +293,7 @@ namespace Azure.Iot.Operations.Connector
                         }
 
                         _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        Timer datasetSamplingTimer = new(SampleDataset, new DatasetSamplerTimerContext(assetEndpointProfile, asset, assetName, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
+                        Timer datasetSamplingTimer = new(SampleDataset, new TimerContext(assetEndpointProfile, asset, assetName, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
                         assetDatasetSamplers.TryAdd(datasetName, new(datasetSampler, datasetSamplingTimer));
                     }
                 }
@@ -307,7 +302,7 @@ namespace Azure.Iot.Operations.Connector
 
         private async void SampleDataset(object? status)
         {
-            DatasetSamplerTimerContext samplerContext = (DatasetSamplerTimerContext)status!;
+            TimerContext samplerContext = (TimerContext)status!;
 
             Asset asset = samplerContext.Asset;
             string datasetName = samplerContext.DatasetName;
