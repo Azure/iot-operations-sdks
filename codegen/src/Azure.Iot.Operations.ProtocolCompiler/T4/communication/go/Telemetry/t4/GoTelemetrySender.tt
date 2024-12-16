@@ -8,17 +8,17 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-type <#=this.schemaClassName#>Sender struct {
-	*protocol.TelemetrySender[<#=this.schemaClassName#>]
+type <#=this.componentName#>Sender struct {
+	*protocol.TelemetrySender[<#=this.AsSchema(this.schemaClassName)#>]
 }
 
-func New<#=this.schemaClassName#>Sender(
+func New<#=this.componentName#>Sender(
 	client protocol.MqttClient,
 	topic string,
 	opt ...protocol.TelemetrySenderOption,
-) (*<#=this.schemaClassName#>Sender, error) {
+) (*<#=this.componentName#>Sender, error) {
 	var err error
-	sender := &<#=this.schemaClassName#>Sender{}
+	sender := &<#=this.componentName#>Sender{}
 
 	var opts protocol.TelemetrySenderOptions
 	opts.Apply(
@@ -32,7 +32,7 @@ func New<#=this.schemaClassName#>Sender(
 
 	sender.TelemetrySender, err = protocol.NewTelemetrySender(
 		client,
-		protocol.<#=this.serializerSubNamespace#>[<#=this.schemaClassName#>]{},
+		protocol.<#=this.GetSerializer(this.schemaClassName)#>{},
 		topic,
 		&opts,
 	)
@@ -40,13 +40,15 @@ func New<#=this.schemaClassName#>Sender(
 	return sender, err
 }
 
-func (sender <#=this.schemaClassName#>Sender) Send<#=this.AsUpper(this.schemaClassName)#>(
+func (sender <#=this.componentName#>Sender) Send<#=this.componentName#>(
 	ctx context.Context,
-	telemetry <#=this.AsUpper(this.schemaClassName)#>,
+	telemetry <#=this.AsSchema(this.schemaClassName)#>,
 	opt ...protocol.SendOption,
 ) error {
 	return sender.Send(ctx, telemetry, opt...)
 }
 <#+
-    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
 #>
