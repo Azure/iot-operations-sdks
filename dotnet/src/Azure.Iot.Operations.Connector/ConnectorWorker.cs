@@ -62,7 +62,7 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogError($"Successfully connected to MQTT broker");
 
-            _logger.LogError($"Trial 1");
+            _logger.LogError($"Trial Not finding");
             await using SchemaRegistryClient schemaClient = new(_sessionClient);
             Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
@@ -70,34 +70,24 @@ namespace Azure.Iot.Operations.Connector
             _logger.LogError($"Uploading the schema");
             try
             {
-                Object_Ms_Adr_SchemaRegistry_Schema__1 putSchemaResponse = await schemaClient.PutAsync(_jsonSchema1, 
-                    Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, 
-                    Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, 
-                    "1", testTags, TimeSpan.FromSeconds(300), CancellationToken.None);
-                //Assert.Contains("temperature", putSchemaResponse.SchemaContent);
-                //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, putSchemaResponse.Format);
-                //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, putSchemaResponse.SchemaType);
-                //Assert.Equal(_jsonSchema1, putSchemaResponse.SchemaContent);
-                //Assert.NotNull(putSchemaResponse.Tags);
-                //Assert.Equal("value1", putSchemaResponse.Tags.GetValueOrDefault("key1"));
-                _logger.LogError($"Schema uploaded ID: {putSchemaResponse.Name}");
+                //Object_Ms_Adr_SchemaRegistry_Schema__1 putSchemaResponse = await schemaClient.PutAsync(_jsonSchema1, 
+                //    Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, 
+                //    Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, 
+                //    "1", testTags, TimeSpan.FromSeconds(300), CancellationToken.None);
+                
+                //_logger.LogError($"Schema uploaded ID: {putSchemaResponse.Name}");
 
-                string schemaId = putSchemaResponse.Name!;
-                Object_Ms_Adr_SchemaRegistry_Schema__1 getSchemaResponse = await schemaClient.GetAsync(schemaId, "1", TimeSpan.FromSeconds(300), CancellationToken.None);
+                //string schemaId = putSchemaResponse.Name!;
+                //Object_Ms_Adr_SchemaRegistry_Schema__1 getSchemaResponse = await schemaClient.GetAsync(schemaId, "1", TimeSpan.FromSeconds(300), CancellationToken.None);
 
-                // Console.WriteLine($"getRes {putSchemaResponse.Version}");
-                //Assert.Contains("temperature", getSchemaResponse.SchemaContent);
-                //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_Format__1.JsonSchemaDraft07, getSchemaResponse.Format);
-                //Assert.Equal(Enum_Ms_Adr_SchemaRegistry_SchemaType__1.MessageSchema, getSchemaResponse.SchemaType);
-                //Assert.Equal(_jsonSchema1, getSchemaResponse.SchemaContent);
-                //Assert.NotNull(getSchemaResponse.Tags);
-                //Assert.Equal("value1", getSchemaResponse.Tags.GetValueOrDefault("key1"));
+                //_logger.LogError($"Schema retrieved ID: {getSchemaResponse.Name}");
 
-                _logger.LogError($"Schema retrieved ID: {getSchemaResponse.Name}");
+                Guid randomSchemaId = Guid.NewGuid();
+                Object_Ms_Adr_SchemaRegistry_Schema__1? getSchemaResponse2 = await schemaClient.GetAsync(randomSchemaId.ToString(), "1", TimeSpan.FromSeconds(300), CancellationToken.None);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to upload schema : {ex}");
+                _logger.LogError($"Some random schema that was not found : {ex}");
             }
 
             bool doingLeaderElection = false;
