@@ -523,7 +523,8 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| Some("application/json"));
+            .returning(|| Some("application/json"))
+            .times(2);
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
