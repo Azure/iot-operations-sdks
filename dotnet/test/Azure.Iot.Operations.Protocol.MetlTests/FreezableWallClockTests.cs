@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Protocol.MetlTests
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using Xunit;
 
