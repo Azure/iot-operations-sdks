@@ -1,4 +1,6 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿using System;
+
+namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// Static class that defines string values for MQTT User Properties.
@@ -68,5 +70,20 @@
 
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
         internal const string CommandInvokerId = ReservedPrefix + "invId";
+
+        internal static bool IsReservedUserProperty(string name)
+        { 
+            return name.Equals(Timestamp, StringComparison.Ordinal) 
+                || name.Equals(Status, StringComparison.Ordinal) 
+                || name.Equals(StatusMessage, StringComparison.Ordinal) 
+                || name.Equals(IsApplicationError, StringComparison.Ordinal) 
+                || name.Equals(InvalidPropertyName, StringComparison.Ordinal) 
+                || name.Equals(InvalidPropertyValue, StringComparison.Ordinal) 
+                || name.Equals(ProtocolVersion, StringComparison.Ordinal) 
+                || name.Equals(SupportedMajorProtocolVersions, StringComparison.Ordinal) 
+                || name.Equals(RequestedProtocolVersion, StringComparison.Ordinal) 
+                || name.Equals(SourceId, StringComparison.Ordinal) 
+                || name.Equals(CommandInvokerId, StringComparison.Ordinal);
+        }
     }
 }
