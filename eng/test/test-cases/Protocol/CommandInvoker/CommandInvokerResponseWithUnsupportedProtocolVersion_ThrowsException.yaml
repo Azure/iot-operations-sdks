@@ -32,5 +32,5 @@ actions:
     is-remote: !!bool false
     supplemental:
       protocol-version: '1234567.0'
-      supported-protocols: "0"
+      supported-protocols: "1"
 ...
