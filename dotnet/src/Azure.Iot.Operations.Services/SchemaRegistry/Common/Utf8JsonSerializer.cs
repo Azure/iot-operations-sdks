@@ -27,26 +27,30 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
 
         public int CharacterDataFormatIndicator => 1;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload1)
             where T : class
         {
             try
             {
-                if (payload == null || payload.Length == 0)
+                if (payload1 == null || payload1.Length == 0)
                 {
+                    Console.WriteLine("Payload is empty");
                     if (typeof(T) != typeof(EmptyJson))
                     {
+                        Console.WriteLine("Payload is empty but not of JSON");
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
                     return (new EmptyJson() as T)!;
                 }
 
-                Utf8JsonReader reader = new(payload);
+                Utf8JsonReader reader = new(payload1);
                 return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("Payload is invalid. Something went wrong.");
+                Console.WriteLine(ex);
                 throw AkriMqttException.GetPayloadInvalidException();
             }
         }
