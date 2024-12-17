@@ -8,8 +8,8 @@ use bytes::Bytes;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::error::{PublishError, SubscribeError, UnsubscribeError};
+use crate::interface::{AckToken, CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
@@ -187,19 +187,12 @@ impl MqttPubSub for SessionManagedClient {
 
 #[async_trait]
 impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<Publish> {
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)> {
         self.0.recv().await
     }
 
     fn close(&mut self) {
         self.0.close();
-    }
-}
-
-#[async_trait]
-impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, msg: &Publish) -> Result<(), AckError> {
-        self.0.ack(msg).await
     }
 }
 
