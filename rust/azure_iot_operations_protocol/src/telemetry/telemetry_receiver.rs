@@ -425,7 +425,6 @@ where
                         }
                     }
                 },
-                //Some((message, token)) = self.mqtt_receiver.recv() => {
                 recv_result = self.mqtt_receiver.recv() => {
                     // Process the received message
                     if let Some((m, inner_ack_token)) = recv_result {
