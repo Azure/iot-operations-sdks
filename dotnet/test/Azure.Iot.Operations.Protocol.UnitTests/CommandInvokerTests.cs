@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Text;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
