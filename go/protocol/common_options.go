@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"log/slog"
-	"net/url"
 	"time"
 )
 
@@ -30,9 +29,6 @@ type (
 
 	// WithMetadata specifies user-provided metadata values.
 	WithMetadata map[string]string
-
-	// WithDataSchema specifies a data schema that will be used for CloudEvents.
-	WithDataSchema url.URL
 
 	// WithTopicNamespace specifies a namespace that will be prepended to the
 	// topic.
@@ -78,13 +74,6 @@ func (WithShareName) option() {}
 
 func (o WithShareName) telemetryReceiver(opt *TelemetryReceiverOptions) {
 	opt.ShareName = string(o)
-}
-
-func (*WithDataSchema) option() {}
-
-func (o *WithDataSchema) telemetrySender(opt *TelemetrySenderOptions) {
-	dataSchema := url.URL(*o)
-	opt.DataSchema = &dataSchema
 }
 
 func (o WithTopicNamespace) commandExecutor(opt *CommandExecutorOptions) {

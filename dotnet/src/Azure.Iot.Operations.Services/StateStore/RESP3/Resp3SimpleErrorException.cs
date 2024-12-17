@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Services.StateStore.RESP3
+﻿namespace Azure.Iot.Operations.Services.StateStore.RESP3
 {
     /// <summary>
     /// An exception that is thrown when this client receives a RESP3 simple error from the

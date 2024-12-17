@@ -78,8 +78,6 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         log::info!("Response {}: {:?}", i, response);
     }
 
-    incr_invoker.shutdown().await.unwrap();
-
     // End the session
     exit_handle.try_exit().await.unwrap();
 }

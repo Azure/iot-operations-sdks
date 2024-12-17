@@ -9,30 +9,14 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
-    public class PutResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
+    public class PutResponsePayload
     {
         /// <summary>
         /// The Command response argument.
         /// </summary>
         [JsonPropertyName("schema")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public Object_Ms_Adr_SchemaRegistry_Schema__1 Schema { get; set; } = default!;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Object_Ms_Adr_SchemaRegistry_Schema__1? Schema { get; set; } = default;
 
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Schema is null)
-            {
-                throw new ArgumentNullException("schema field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Schema is null)
-            {
-                throw new ArgumentNullException("schema field cannot be null");
-            }
-        }
     }
 }

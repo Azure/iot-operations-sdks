@@ -3,8 +3,8 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
-    control_packet::QoS,
-    interface::{self, ManagedClient, PubReceiver},
+    control_packet::{Publish, QoS},
+    interface::{ManagedClient, MqttAck, PubReceiver},
 };
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -25,7 +25,7 @@ use crate::{
     ProtocolVersion,
 };
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Cloud Event struct
 ///
@@ -214,10 +214,11 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
+    auto_ack: bool,
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_acks: JoinSet<interface::AckToken>, // TODO: Remove need for this
+    pending_pubs: JoinSet<Publish>, // TODO: Remove need for this
 }
 
 /// Implementation of a Telemetry Sender
@@ -293,49 +294,45 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
+            auto_ack: receiver_options.auto_ack,
             is_subscribed: false,
-            pending_acks: JoinSet::new(),
+            pending_pubs: JoinSet::new(),
         })
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
-    ///
-    /// Note: If this method is called, the [`TelemetryReceiver`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if self.is_subscribed {
-            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
-                        Err(e) => {
-                            log::error!("Unsuback error: {e}");
-                            return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on telemetry receiver unsuback".to_string()),
-                                Box::new(e),
-                                None,
-                            ));
-                        }
+        match unsubscribe_result {
+            Ok(unsub_ct) => {
+                match unsub_ct.await {
+                    Ok(()) => { /* Success */ }
+                    Err(e) => {
+                        log::error!("Unsuback error: {e}");
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver unsuback".to_string()),
+                            Box::new(e),
+                            None,
+                        ));
                     }
                 }
-                Err(e) => {
-                    log::error!("Client error while unsubscribing: {e}");
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on telemetry receiver unsubscribe".to_string()),
-                        Box::new(e),
-                        None,
-                    ));
-                }
+            }
+            Err(e) => {
+                log::error!("Client error while unsubscribing: {e}");
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on telemetry receiver unsubscribe".to_string()),
+                    Box::new(e),
+                    None,
+                ));
             }
         }
-        log::info!("Shutdown");
+        log::info!("Stopped");
         Ok(())
     }
 
@@ -405,18 +402,19 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_acks will never be processed
-                Some(inner_ack_token_result) = self.pending_acks.join_next() => {
+                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
+                // Biasing towards pending_pubs to alleviate this issue
+                biased;
 
-                    match inner_ack_token_result {
-                        Ok(inner_ack_token) => {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Acked */ }
+                Some(pending_pub) = self.pending_pubs.join_next() => {
+                    match pending_pub {
+                        Ok(pending_pub) => {
+                            match self.mqtt_receiver.ack(&pending_pub).await {
+                                Ok(()) => { log::info!("[pkid: {}] Acked", pending_pub.pkid); }
                                 Err(e) => {
-                                    log::error!("Ack error: {e}");
+                                    log::error!("[pkid: {}] Ack error: {e}", pending_pub.pkid);
                                 }
                             }
-
                         }
                         Err(e) => {
                             // Unreachable: Occurs when the task failed to execute to completion by
@@ -425,9 +423,9 @@ where
                         }
                     }
                 },
-                recv_result = self.mqtt_receiver.recv() => {
+                message = self.mqtt_receiver.recv() => {
                     // Process the received message
-                    if let Some((m, inner_ack_token)) = recv_result {
+                    if let Some(m) = message {
                         log::info!("[pkid: {}] Received message", m.pkid);
 
                         'process_message: {
@@ -596,11 +594,11 @@ where
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
-                            if let Some(inner_ack_token) = inner_ack_token {
+                            if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce)  {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
 
-                                self.pending_acks.spawn({
+                                self.pending_pubs.spawn({
                                     async move {
                                         match ack_rx.await {
                                             Ok(()) => { /* Ack token used */ },
@@ -608,7 +606,7 @@ where
                                                 log::error!("[pkid: {}] Ack channel closed, acking", m.pkid);
                                             }
                                         }
-                                        inner_ack_token
+                                        m
                                     }
                                 });
 
@@ -619,9 +617,9 @@ where
                         }
 
                         // Occurs on an error processing the message, ack to prevent redelivery
-                        if let Some(inner_ack_token) = inner_ack_token {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Success */ }
+                        if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce) {
+                            match self.mqtt_receiver.ack(&m).await {
+                                Ok(()) => { /* Success */ }
                                 Err(e) => {
                                     log::error!("[pkid: {}] Ack error {e}", m.pkid);
                                 }
@@ -813,29 +811,18 @@ mod tests {
             }
         }
     }
-
-    #[tokio::test]
-    async fn test_shutdown_without_subscribe() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-        let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/receiver")
-            .build()
-            .unwrap();
-
-        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
-        assert!(telemetry_receiver.shutdown().await.is_ok());
-    }
 }
 
 // Test cases for recv telemetry
+// Tests success:
+//   recv() is called and a telemetry message is received by the application with sender_id
+//   if cloud event properties are present, they are successfully parsed
+//   if user properties are present, they don't start with reserved prefix
+//   if timestamp is present, it is successfully parsed
+//   if telemetry message is ackable (QoS 1) and auto-ack is disabled, an ack token is returned
+//   if telemetry message is ackable (QoS 1) and auto-ack is enabled, no ack token is returned
+//   if telemetry message is not ackable (QoS 0) and auto-ack is disabled, no ack token is returned
+//   if telemetry message is not ackable (QoS 0) and auto-ack is enabled, no ack token is returned
 // Tests failure:
 //   if properties are missing, the message is not processed and is acked
 //   if content type is not supported by the payload type, the message is not processed and is acked

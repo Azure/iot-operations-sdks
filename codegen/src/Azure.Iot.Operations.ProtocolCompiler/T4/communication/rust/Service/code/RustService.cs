@@ -17,8 +17,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool doesCommandTargetExecutor;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
-        private readonly bool generateClient;
-        private readonly bool generateServer;
         private readonly Regex sourceFileRegex;
         private readonly List<string> modules;
 
@@ -31,12 +29,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
-            List<(string?, string)> telemNameSchemas,
+            List<string> telemSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
-            bool generateClient,
-            bool generateServer,
             HashSet<string> sourceFilePaths)
         {
             this.genNamespace = genNamespace;
@@ -47,12 +43,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.telemServiceGroupId = telemServiceGroupId;
             this.telemetryTopic = telemetryTopic;
             this.cmdNameReqResps = cmdNameReqResps;
-            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2).ToList();
+            this.telemSchemas = telemSchemas;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
-            this.generateClient = generateClient;
-            this.generateServer = generateServer;
             this.sourceFileRegex = new($"[\\/\\\\]{genNamespace}[\\/\\\\][A-Za-z0-9_\\.]+\\.rs");
             this.modules = sourceFilePaths.Where(p => this.sourceFileRegex.IsMatch(p)).Select(p => Path.GetFileNameWithoutExtension(p)).Order().ToList();
         }

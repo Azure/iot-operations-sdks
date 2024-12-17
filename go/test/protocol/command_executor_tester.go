@@ -432,9 +432,9 @@ func checkPublishedResponse(
 
 	for key, val := range publishedMessage.Metadata {
 		propVal, ok := getUserProperty(t, msg, key)
-		if val != nil {
+		if val != "" {
 			require.True(t, ok)
-			require.Equal(t, *val, propVal)
+			require.Equal(t, val, propVal)
 		} else {
 			require.False(t, ok)
 		}

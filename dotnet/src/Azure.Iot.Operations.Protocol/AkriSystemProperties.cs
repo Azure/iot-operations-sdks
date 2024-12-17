@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Protocol
+﻿namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// Static class that defines string values for MQTT User Properties.

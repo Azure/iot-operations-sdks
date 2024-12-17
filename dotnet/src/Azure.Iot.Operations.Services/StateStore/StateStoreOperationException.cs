@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Services.StateStore
+﻿namespace Azure.Iot.Operations.Services.StateStore
 {
     // <summary>
     // Enum representing the reason for a state store implementation exception.

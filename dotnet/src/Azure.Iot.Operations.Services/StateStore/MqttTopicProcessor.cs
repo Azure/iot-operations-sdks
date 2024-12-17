@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol.Models;
+﻿using Azure.Iot.Operations.Protocol.Models;
 using System.Text.RegularExpressions;
 
 namespace Azure.Iot.Operations.Services.StateStore

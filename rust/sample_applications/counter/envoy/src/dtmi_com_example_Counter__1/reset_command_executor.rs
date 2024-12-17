@@ -96,13 +96,4 @@ where
     pub async fn recv(&mut self) -> Result<ResetRequest, AIOProtocolError> {
         self.0.recv().await
     }
-
-    /// Shutdown the [`ResetCommandExecutor`]. Unsubscribes from the request topic.
-    ///
-    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
-    /// # Errors
-    /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        self.0.shutdown().await
-    }
 }

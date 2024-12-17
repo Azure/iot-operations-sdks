@@ -11,11 +11,11 @@ pub mod rpc;
 pub mod telemetry;
 
 /// Protocol version used by all envoys in this crate.
-pub(crate) const AIO_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
+pub(crate) const AIO_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 0, minor: 1 };
 
 /// Assumed version if no version is provided.
 pub(crate) const DEFAULT_AIO_PROTOCOL_VERSION: ProtocolVersion =
-    ProtocolVersion { major: 1, minor: 0 };
+    ProtocolVersion { major: 0, minor: 1 };
 
 /// Struct containing the major and minor version of the protocol.
 pub struct ProtocolVersion {

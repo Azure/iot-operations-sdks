@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO;
+﻿using Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 {

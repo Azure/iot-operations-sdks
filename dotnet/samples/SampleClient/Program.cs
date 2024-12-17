@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using SampleClient;
+﻿using SampleClient;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

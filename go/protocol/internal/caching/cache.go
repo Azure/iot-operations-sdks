@@ -29,12 +29,9 @@ type (
 		size int       // Recorded size of the result for trimming.
 	}
 
-	// For deduplication, the correlation-data is the primary key, but we also
-	// add topic to allow enforcement of security policies. For reuse, the key
-	// just needs to be unique, so we just reuse the same type for convenience.
 	key struct {
-		c string
-		t string
+		id string
+		cd string
 	}
 
 	Cache struct {
@@ -236,7 +233,10 @@ func costWeightedBenefit(msg *mqtt.Message, exec time.Duration) float64 {
 }
 
 func getKey(msg *mqtt.Message) key {
-	return key{string(msg.CorrelationData), msg.Topic}
+	return key{
+		id: msg.UserProperties[constants.SourceID],
+		cd: string(msg.CorrelationData),
+	}
 }
 
 func (c *Cache) equivalentRequest(req, cached *mqtt.Message) bool {

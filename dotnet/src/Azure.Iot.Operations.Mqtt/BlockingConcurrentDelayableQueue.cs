@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-//  Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol;
+﻿using Azure.Iot.Operations.Protocol;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;

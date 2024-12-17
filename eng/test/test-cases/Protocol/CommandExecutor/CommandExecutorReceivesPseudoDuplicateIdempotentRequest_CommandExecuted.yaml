@@ -2,14 +2,13 @@
 test-name: CommandExecutorReceivesPseudoDuplicateIdempotentRequest_CommandExecuted
 description:
   condition: >-
-    CommandExecutor receives idempotent request that is duplicate except for different topic.
+    CommandExecutor receives idempotent request that is duplicate except for different Invoker ID.
   expect: >-
     CommandExecutor executes command and responds with value from execution not from cache.
 
 prologue:
   executors:
   - idempotent: !!bool true
-    request-topic: "mock/{invokerClientId}/test"
     request-responses-map:
       "Test_Request": [ "Test_Response0", "Test_Response1" ]
 
@@ -20,12 +19,12 @@ actions:
 - action: freeze time
 - action: receive request
   correlation-index: 0
-  topic: "mock/client1/test"
+  source-index: 0
 - action: await publish
   correlation-index: 0
 - action: receive request
   correlation-index: 0
-  topic: "mock/client2/test"
+  source-index: 1
 - action: unfreeze time
 - action: await publish
   correlation-index: 0

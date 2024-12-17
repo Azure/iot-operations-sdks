@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Services.LeaderElection
+﻿namespace Azure.Iot.Operations.Services.LeaderElection
 {
     public class ResignationResponse
     {

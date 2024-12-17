@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using MQTTnet.Client;
+﻿using MQTTnet.Client;
 using TestEnvoys.dtmi_com_example_Counter__1;
 using Azure.Iot.Operations.Protocol.RPC;
 

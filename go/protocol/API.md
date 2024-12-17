@@ -91,7 +91,6 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
   - [func \(o \*TelemetrySenderOptions\) ApplyOptions\(opts \[\]Option, rest ...Option\)](<#TelemetrySenderOptions.ApplyOptions>)
 - [type WithCacheTTL](<#WithCacheTTL>)
 - [type WithConcurrency](<#WithConcurrency>)
-- [type WithDataSchema](<#WithDataSchema>)
 - [type WithFencingToken](<#WithFencingToken>)
 - [type WithIdempotent](<#WithIdempotent>)
 - [type WithManualAck](<#WithManualAck>)
@@ -125,7 +124,7 @@ const DefaultTimeout = 10 * time.Second
 ```
 
 <a name="WithLogger"></a>
-## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L205-L211>)
+## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L194-L200>)
 
 ```go
 func WithLogger(logger *slog.Logger) interface {
@@ -734,7 +733,7 @@ func (o *RespondOptions) Apply(opts []RespondOption, rest ...RespondOption)
 Apply resolves the provided list of options.
 
 <a name="SendOption"></a>
-## type [SendOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L38>)
+## type [SendOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L35>)
 
 SendOption represent a single per\-send option.
 
@@ -745,7 +744,7 @@ type SendOption interface {
 ```
 
 <a name="WithCloudEvent"></a>
-### func [WithCloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L191>)
+### func [WithCloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L186>)
 
 ```go
 func WithCloudEvent(ce *CloudEvent) SendOption
@@ -754,7 +753,7 @@ func WithCloudEvent(ce *CloudEvent) SendOption
 WithCloudEvent adds a cloud event payload to the telemetry message.
 
 <a name="SendOptions"></a>
-## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L41-L48>)
+## type [SendOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L38-L45>)
 
 SendOptions are the resolved per\-send options.
 
@@ -770,7 +769,7 @@ type SendOptions struct {
 ```
 
 <a name="SendOptions.Apply"></a>
-### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L171-L174>)
+### func \(\*SendOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L166-L169>)
 
 ```go
 func (o *SendOptions) Apply(opts []SendOption, rest ...SendOption)
@@ -893,7 +892,7 @@ func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option)
 ApplyOptions filters and resolves the provided list of options.
 
 <a name="TelemetrySender"></a>
-## type [TelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L19-L22>)
+## type [TelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L18-L20>)
 
 TelemetrySender provides the ability to send a single telemetry.
 
@@ -904,7 +903,7 @@ type TelemetrySender[T any] struct {
 ```
 
 <a name="NewTelemetrySender"></a>
-### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L61-L66>)
+### func [NewTelemetrySender](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L58-L63>)
 
 ```go
 func NewTelemetrySender[T any](client MqttClient, encoding Encoding[T], topicPattern string, opt ...TelemetrySenderOption) (ts *TelemetrySender[T], err error)
@@ -913,7 +912,7 @@ func NewTelemetrySender[T any](client MqttClient, encoding Encoding[T], topicPat
 NewTelemetrySender creates a new telemetry sender.
 
 <a name="TelemetrySender[T].Send"></a>
-### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L102-L106>)
+### func \(\*TelemetrySender\[T\]\) [Send](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L97-L101>)
 
 ```go
 func (ts *TelemetrySender[T]) Send(ctx context.Context, val T, opt ...SendOption) (err error)
@@ -922,7 +921,7 @@ func (ts *TelemetrySender[T]) Send(ctx context.Context, val T, opt ...SendOption
 Send emits the telemetry. This will block until the message is ack'd.
 
 <a name="TelemetrySenderOption"></a>
-## type [TelemetrySenderOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L25-L27>)
+## type [TelemetrySenderOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L23-L25>)
 
 TelemetrySenderOption represents a single telemetry sender option.
 
@@ -933,13 +932,12 @@ type TelemetrySenderOption interface {
 ```
 
 <a name="TelemetrySenderOptions"></a>
-## type [TelemetrySenderOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L30-L35>)
+## type [TelemetrySenderOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L28-L32>)
 
 TelemetrySenderOptions are the resolved telemetry sender options.
 
 ```go
 type TelemetrySenderOptions struct {
-    DataSchema     *url.URL
     TopicNamespace string
     TopicTokens    map[string]string
     Logger         *slog.Logger
@@ -947,7 +945,7 @@ type TelemetrySenderOptions struct {
 ```
 
 <a name="TelemetrySenderOptions.Apply"></a>
-### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L146-L149>)
+### func \(\*TelemetrySenderOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L141-L144>)
 
 ```go
 func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...TelemetrySenderOption)
@@ -956,7 +954,7 @@ func (o *TelemetrySenderOptions) Apply(opts []TelemetrySenderOption, rest ...Tel
 Apply resolves the provided list of options.
 
 <a name="TelemetrySenderOptions.ApplyOptions"></a>
-### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L156>)
+### func \(\*TelemetrySenderOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L151>)
 
 ```go
 func (o *TelemetrySenderOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -974,21 +972,12 @@ type WithCacheTTL time.Duration
 ```
 
 <a name="WithConcurrency"></a>
-## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L13>)
+## type [WithConcurrency](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L12>)
 
 WithConcurrency indicates how many handlers can execute in parallel.
 
 ```go
 type WithConcurrency uint
-```
-
-<a name="WithDataSchema"></a>
-## type [WithDataSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L35>)
-
-WithDataSchema specifies a data schema that will be used for CloudEvents.
-
-```go
-type WithDataSchema url.URL
 ```
 
 <a name="WithFencingToken"></a>
@@ -1019,7 +1008,7 @@ type WithManualAck bool
 ```
 
 <a name="WithMetadata"></a>
-## type [WithMetadata](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L32>)
+## type [WithMetadata](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L31>)
 
 WithMetadata specifies user\-provided metadata values.
 
@@ -1055,7 +1044,7 @@ type WithResponseTopicSuffix string
 ```
 
 <a name="WithRetain"></a>
-## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L52>)
+## type [WithRetain](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_sender.go#L49>)
 
 WithRetain indicates that the telemetry event should be retained by the broker.
 
@@ -1064,7 +1053,7 @@ type WithRetain bool
 ```
 
 <a name="WithShareName"></a>
-## type [WithShareName](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L20>)
+## type [WithShareName](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L19>)
 
 WithShareName connects this listener to a shared MQTT subscription.
 
@@ -1073,7 +1062,7 @@ type WithShareName string
 ```
 
 <a name="WithTimeout"></a>
-## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L17>)
+## type [WithTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L16>)
 
 WithTimeout applies a context timeout to the message invocation or handler execution, as appropriate.
 
@@ -1082,7 +1071,7 @@ type WithTimeout time.Duration
 ```
 
 <a name="WithTopicNamespace"></a>
-## type [WithTopicNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L39>)
+## type [WithTopicNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L35>)
 
 WithTopicNamespace specifies a namespace that will be prepended to the topic.
 
@@ -1091,7 +1080,7 @@ type WithTopicNamespace string
 ```
 
 <a name="WithTopicTokenNamespace"></a>
-## type [WithTopicTokenNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L29>)
+## type [WithTopicTokenNamespace](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L28>)
 
 WithTopicTokenNamespace specifies a namespace that will be prepended to all previously\-specified topic tokens. Topic tokens specified after this option will not be namespaced, allowing this to differentiate user tokens from system tokens.
 
@@ -1100,7 +1089,7 @@ type WithTopicTokenNamespace string
 ```
 
 <a name="WithTopicTokens"></a>
-## type [WithTopicTokens](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L23>)
+## type [WithTopicTokens](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L22>)
 
 WithTopicTokens specifies topic token values.
 

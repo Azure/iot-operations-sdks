@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Text;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Protocol.Models;
@@ -20,7 +17,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         private const string testCasesPath = "../../../../../../eng/test/test-cases";
         private const string senderCasesPath = $"{testCasesPath}/Protocol/TelemetrySender";
-        private const string defaultsFilePath = $"{testCasesPath}/Protocol/TelemetrySender/defaults.toml";
+        private const string defaultsFileName = "defaults.toml";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
@@ -47,6 +44,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 })
                 .Build();
 
+            string defaultsFilePath = Path.Combine(senderCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });

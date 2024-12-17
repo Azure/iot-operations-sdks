@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Protocol.MetlTests
+﻿namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using System;
     using System.Threading.Tasks;

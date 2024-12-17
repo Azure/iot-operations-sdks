@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol.RPC;
+﻿using Azure.Iot.Operations.Protocol.RPC;
 using System.Diagnostics;
 using TestEnvoys.dtmi_rpc_samples_math__1;
 

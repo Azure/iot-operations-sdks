@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using MQTTnet.Diagnostics;
+﻿using MQTTnet.Diagnostics;
 using System;
 using System.Diagnostics;
 

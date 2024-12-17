@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Services.SchemaRegistry;
+﻿namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
@@ -18,8 +15,8 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
     public async Task<SchemaInfo?> GetAsync(
         string schemaId,
         string version = "1.0.0",
-        TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
+        TimeSpan? timeout = default,
+        CancellationToken cancellationToken = default!)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -40,9 +37,9 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,
         string version = "1.0.0", 
-        Dictionary<string, string>? tags = null, 
-        TimeSpan? timeout = null, 
-        CancellationToken cancellationToken = default)
+        Dictionary<string, string> tags = default!, 
+        TimeSpan? timeout = default!, 
+        CancellationToken cancellationToken = default!)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -60,7 +57,6 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
                 }
             }, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
     }
-
     public async ValueTask DisposeAsync()
     {
         if (_disposed)

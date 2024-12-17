@@ -8,15 +8,15 @@ import (
 )
 
 const (
-	ProtocolString  = "1.0"
-	SupportedString = "1"
+	ProtocolString  = "0.1"
+	SupportedString = "0"
 )
 
 var Supported = ParseSupported(SupportedString)
 
 func ParseProtocol(v string) (major, minor int) {
 	if v == "" {
-		return 1, 0
+		return 0, 1
 	}
 
 	parts := strings.Split(v, ".")

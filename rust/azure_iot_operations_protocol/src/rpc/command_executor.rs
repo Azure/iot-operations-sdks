@@ -4,8 +4,8 @@
 use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
+use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
+use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -32,7 +32,7 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -262,7 +262,7 @@ where
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_acks: JoinSet<AckToken>, // TODO: Consider using FuturesUnordered
+    pending_pubs: JoinSet<Publish>, // TODO: Consider using FuturesUnordered
     recv_cancellation_token: CancellationToken,
 }
 
@@ -381,7 +381,7 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             is_subscribed: false,
-            pending_acks: JoinSet::new(),
+            pending_pubs: JoinSet::new(),
             recv_cancellation_token,
         })
     }
@@ -389,47 +389,42 @@ where
     // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
     ///
-    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
-    ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if self.is_subscribed {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
-                .await;
+        let unsubscribe_result = self
+            .mqtt_client
+            .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+            .await;
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
-                        Err(e) => {
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
-                            return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor unsuback".to_string()),
-                                Box::new(e),
-                                Some(self.command_name.clone()),
-                            ));
-                        }
+        match unsubscribe_result {
+            Ok(unsub_ct) => {
+                match unsub_ct.await {
+                    Ok(()) => { /* Success */ }
+                    Err(e) => {
+                        log::error!("[{}] Unsuback error: {e}", self.command_name);
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on command executor unsuback".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
                     }
                 }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command executor unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
-                }
+            }
+            Err(e) => {
+                log::error!(
+                    "[{}] Client error while unsubscribing: {e}",
+                    self.command_name
+                );
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on command executor unsubscribe".to_string()),
+                    Box::new(e),
+                    Some(self.command_name.clone()),
+                ));
             }
         }
-        log::info!("[{}] Shutdown", self.command_name);
+        log::info!("[{}] Stopped", self.command_name);
         Ok(())
     }
 
@@ -493,14 +488,17 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_acks will never be processed
-                Some(join_result) = self.pending_acks.join_next() => {
-                    match join_result {
-                        Ok(ack_token) => {
-                            match ack_token.ack().await {
-                                Ok(_) => { /* Success */ }
+                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
+                // Biasing towards pending_pubs to alleviate this issue
+                biased;
+
+                Some(pending_pub) = self.pending_pubs.join_next() => {
+                    match pending_pub {
+                        Ok(pending_pub) => {
+                            match self.mqtt_receiver.ack(&pending_pub).await {
+                                Ok(()) => { /* Success */ }
                                 Err(e) => {
-                                    log::error!("[{}] Ack error: {e}", self.command_name);
+                                    log::error!("[{}][pkid: {}] Ack error: {e}", self.command_name, pending_pub.pkid);
                                 }
                             }
                         }
@@ -511,9 +509,9 @@ where
                         }
                     }
                 },
-                recv_result = self.mqtt_receiver.recv() => {
+                request = self.mqtt_receiver.recv() => {
                     // Process the request
-                    if let Some((m, ack_token)) = recv_result {
+                    if let Some(m) = request {
                         log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
                         let message_received_time = Instant::now();
 
@@ -522,9 +520,7 @@ where
                             Some(properties) => properties.clone(),
                             None => {
                                 log::error!("[{}][pkid: {}] Properties missing", self.command_name, m.pkid);
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn(async move { ack_token });
-                                }
+                                self.pending_pubs.spawn(async move { m });
                                 continue;
                             }
                         };
@@ -533,17 +529,13 @@ where
                         let response_topic = if let Some(rt) = properties.response_topic {
                             if !is_valid_replacement(&rt) {
                                 log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn(async move { ack_token });
-                                }
+                                self.pending_pubs.spawn(async move { m });
                                 continue;
                             }
                             rt
                         } else {
                             log::error!("[{}][pkid: {}] Response topic missing", self.command_name, m.pkid);
-                            if let Some(ack_token) = ack_token {
-                                self.pending_acks.spawn(async move { ack_token });
-                            }
+                            self.pending_pubs.spawn(async move { m });
                             continue;
                         };
 
@@ -745,25 +737,23 @@ where
 
                             // Check the command has not expired, if it has, we do not respond to the invoker.
                             if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn({
-                                        let client_clone = self.mqtt_client.clone();
-                                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                        let pkid = m.pkid;
-                                        async move {
-                                            tokio::select! {
-                                                () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                                () = Self::process_command(
-                                                        client_clone,
-                                                        pkid,
-                                                        response_arguments,
-                                                        Some(response_rx),
-                                                ) => { /* Finished processing command */},
-                                            }
-                                            ack_token
+                                self.pending_pubs.spawn({
+                                    let client_clone = self.mqtt_client.clone();
+                                    let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                                    let pkid = m.pkid;
+                                    async move {
+                                        tokio::select! {
+                                            () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                            () = Self::process_command(
+                                                    client_clone,
+                                                    pkid,
+                                                    response_arguments,
+                                                    Some(response_rx),
+                                            ) => { /* Finished processing command */},
                                         }
-                                    });
-                                }
+                                        m
+                                    }
+                                });
                                 return Ok(command_request);
                             }
                         }
@@ -776,25 +766,23 @@ where
                             }
                         }
 
-                        if let Some(ack_token) = ack_token {
-                            self.pending_acks.spawn({
-                                let client_clone = self.mqtt_client.clone();
-                                let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                let pkid = m.pkid;
-                                async move {
-                                    tokio::select! {
-                                        () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                        () = Self::process_command(
-                                            client_clone,
-                                            pkid,
-                                            response_arguments,
-                                            None,
-                                        ) => { /* Finished processing command */},
-                                    }
-                                    ack_token
+                        self.pending_pubs.spawn({
+                            let client_clone = self.mqtt_client.clone();
+                            let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                            let pkid = m.pkid;
+                            async move {
+                                tokio::select! {
+                                    () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                    () = Self::process_command(
+                                        client_clone,
+                                        pkid,
+                                        response_arguments,
+                                        None,
+                                    ) => { /* Finished processing command */},
                                 }
-                            });
-                        }
+                                m
+                            }
+                        });
 
                         if !command_expiration_time_calculated {
                             return Err(AIOProtocolError::new_internal_logic_error(
@@ -893,11 +881,6 @@ where
         user_properties.push((
             UserProperty::ProtocolVersion.to_string(),
             AIO_PROTOCOL_VERSION.to_string(),
-        ));
-
-        user_properties.push((
-            UserProperty::Timestamp.to_string(),
-            HybridLogicalClock::new().to_string(),
         ));
 
         if let Some(status_message) = response_arguments.status_message {
@@ -1425,26 +1408,6 @@ mod tests {
                 panic!("Expected error");
             }
         }
-    }
-
-    #[tokio::test]
-    async fn test_shutdown_without_subscribe() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-        let session = create_session();
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/request")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
-        let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
-        assert!(command_executor.shutdown().await.is_ok());
     }
 
     // CommandResponse tests

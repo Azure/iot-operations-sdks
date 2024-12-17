@@ -9,7 +9,6 @@ pub use crate::connection_settings::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,
 };
 
-mod auth;
 mod connection_settings;
 pub mod control_packet;
 pub mod error;

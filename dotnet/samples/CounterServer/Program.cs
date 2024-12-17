@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 using CounterServer;
 
 IHost host = Host.CreateDefaultBuilder(args)

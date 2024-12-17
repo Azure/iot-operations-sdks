@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Protocol
+﻿namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// The base interface for all elements used in a <see cref="BlockingConcurrentDelayableQueue{T}"/>.

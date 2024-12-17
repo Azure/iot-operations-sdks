@@ -6,30 +6,26 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-<# if (this.generateServer) { #>
 type <#=this.serviceName#>Service struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	*<#=this.TelemComp(telemNameSchema)#>Sender
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	*<#=this.AsUpper(telemSchema)#>Sender
 <# } #>
 }
 
-<# } #>
-<# if (this.generateClient) { #>
 type <#=this.serviceName#>Client struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 	*<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	*<#=this.TelemComp(telemNameSchema)#>Receiver
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	*<#=this.AsUpper(telemSchema)#>Receiver
 <# } #>
 }
 
-<# } #>
 const (
 <# if (this.doesCommandTargetService || this.doesTelemetryTargetService) { #>
 	ModelID = "<#=this.modelId#>"
@@ -41,7 +37,6 @@ const (
 	TelemetryTopic = "<#=this.telemetryTopic#>"
 <# } #>
 )
-<# if (this.generateServer) { #>
 
 func New<#=this.serviceName#>Service(
 	client protocol.MqttClient,
@@ -74,7 +69,7 @@ func New<#=this.serviceName#>Service(
 	var executorOpts protocol.CommandExecutorOptions
 	executorOpts.ApplyOptions(opts, serverOpts...)
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemSchemas.Any()) { #>
 
 	var senderOpts protocol.TelemetrySenderOptions
 	senderOpts.ApplyOptions(opts, serverOpts...)
@@ -95,9 +90,9 @@ func New<#=this.serviceName#>Service(
 	}
 	<#=this.AsLower(this.serviceName)#>Service.Listeners = append(<#=this.AsLower(this.serviceName)#>Service.Listeners, <#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor)
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
 
-	<#=this.AsLower(this.serviceName)#>Service.<#=this.TelemComp(telemNameSchema)#>Sender, err = New<#=this.TelemComp(telemNameSchema)#>Sender(
+	<#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(telemSchema)#>Sender, err = New<#=this.AsUpper(telemSchema)#>Sender(
 		client,
 		TelemetryTopic,
 		&senderOpts,
@@ -110,13 +105,11 @@ func New<#=this.serviceName#>Service(
 
 	return <#=this.AsLower(this.serviceName)#>Service, nil
 }
-<# } #>
-<# if (this.generateClient) { #>
 
 func New<#=this.serviceName#>Client(
 	client protocol.MqttClient,
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	<#=this.TelemItem(telemNameSchema)#>Handler protocol.TelemetryHandler[<#=this.AsSchema(telemNameSchema.Item2)#>],
+<# foreach (string telemSchema in this.telemSchemas) { #>
+	<#=this.AsLower(telemSchema)#>Handler protocol.TelemetryHandler[<#=telemSchema#>],
 <# } #>
 	opts ...protocol.Option,
 ) (*<#=this.serviceName#>Client, error) {
@@ -141,7 +134,7 @@ func New<#=this.serviceName#>Client(
 	var invokerOpts protocol.CommandInvokerOptions
 	invokerOpts.ApplyOptions(opts, clientOpts...)
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemSchemas.Any()) { #>
 
 	var receiverOpts protocol.TelemetryReceiverOptions
 	receiverOpts.ApplyOptions(opts, clientOpts...)
@@ -161,34 +154,27 @@ func New<#=this.serviceName#>Client(
 	}
 	<#=this.AsLower(this.serviceName)#>Client.Listeners = append(<#=this.AsLower(this.serviceName)#>Client.Listeners, <#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker)
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (string telemSchema in this.telemSchemas) { #>
 
-	<#=this.AsLower(this.serviceName)#>Client.<#=this.TelemComp(telemNameSchema)#>Receiver, err = New<#=this.TelemComp(telemNameSchema)#>Receiver(
+	<#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(telemSchema)#>Receiver, err = New<#=this.AsUpper(telemSchema)#>Receiver(
 		client,
 		TelemetryTopic,
-		<#=this.TelemItem(telemNameSchema)#>Handler,
+		<#=this.AsLower(telemSchema)#>Handler,
 		&receiverOpts,
 	)
 	if err != nil {
 		<#=this.AsLower(this.serviceName)#>Client.Close()
 		return nil, err
 	}
-	<#=this.AsLower(this.serviceName)#>Client.Listeners = append(<#=this.AsLower(this.serviceName)#>Client.Listeners, <#=this.AsLower(this.serviceName)#>Client.<#=this.TelemComp(telemNameSchema)#>Receiver)
+	<#=this.AsLower(this.serviceName)#>Client.Listeners = append(<#=this.AsLower(this.serviceName)#>Client.Listeners, <#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(telemSchema)#>Receiver)
 <# } #>
 
 	return <#=this.AsLower(this.serviceName)#>Client, nil
 }
-<# } #>
 <#+
-    private string AsUpper(string name) => string.IsNullOrEmpty(name) ? name : char.ToUpperInvariant(name[0]) + name.Substring(1);
+    private string AsUpper(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
 
-    private string AsLower(string name) => string.IsNullOrEmpty(name) ? name : char.ToLowerInvariant(name[0]) + name.Substring(1);
+    private string AsLower(string name) => char.ToLowerInvariant(name[0]) + name.Substring(1);
 
     private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
-
-    private string TelemComp((string, string) telemNameSchema) => telemNameSchema.Item2 == "" ? $"{(telemNameSchema.Item1 != null ? AsUpper(telemNameSchema.Item1) : string.Empty)}Telemetry" : telemNameSchema.Item2;
-
-    private string TelemItem((string, string) telemNameSchema) => AsLower(TelemComp(telemNameSchema));
-
-    private string TelemName((string, string) telemNameSchema) => telemNameSchema.Item2 == "" ? AsUpper(telemNameSchema.Item1) ?? string.Empty : string.Empty;
 #>

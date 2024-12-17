@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Text;
 using Azure.Iot.Operations.Services.StateStore.RESP3;
 using Azure.Iot.Operations.Protocol;

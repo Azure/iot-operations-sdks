@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace SampleReadCloudEvents;
+﻿namespace SampleReadCloudEvents;
 
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Mqtt.Session;

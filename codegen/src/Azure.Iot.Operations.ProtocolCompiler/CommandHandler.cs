@@ -17,37 +17,37 @@
 
         public static readonly string[] SupportedLanguages = DefaultWorkingPaths.Keys.ToArray();
 
-        public static async Task<int> GenerateCode(OptionContainer options)
+        public static async Task<int> GenerateCode(FileInfo[] modelFiles, string? modelId, string? dmrRoot, string? workingPath, DirectoryInfo outDir, bool syncApi, string? sdkPath, string language)
         {
             try
             {
-                if (options.ModelFiles.Length == 0 && (options.ModelId == null || options.DmrRoot == null))
+                if (modelFiles.Length == 0 && (modelId == null || dmrRoot == null))
                 {
                     Console.WriteLine("You must specify at least one modelFile or both a modelId and dmrRoot");
                     return 1;
                 }
 
-                if (options.ModelFiles.Any(mf => !mf.Exists))
+                if (modelFiles.Any(mf => !mf.Exists))
                 {
                     Console.WriteLine("All modelFiles must exist");
                     return 1;
                 }
 
                 Dtmi? modelDtmi = null;
-                if (options.ModelId != null && !Dtmi.TryCreateDtmi(options.ModelId, out modelDtmi))
+                if (modelId != null && !Dtmi.TryCreateDtmi(modelId, out modelDtmi))
                 {
-                    Console.WriteLine($"modelId \"{options.ModelId}\" is not a valid DTMI");
+                    Console.WriteLine($"modelId \"{modelId}\" is not a valid DTMI");
                     return 1;
                 }
 
                 Uri? dmrUri = null;
-                if (options.DmrRoot != null)
+                if (dmrRoot != null)
                 {
-                    if (!Uri.TryCreate(options.DmrRoot, UriKind.Absolute, out dmrUri))
+                    if (!Uri.TryCreate(dmrRoot, UriKind.Absolute, out dmrUri))
                     {
-                        if (Directory.Exists(options.DmrRoot))
+                        if (Directory.Exists(dmrRoot))
                         {
-                            dmrUri = new Uri(Path.GetFullPath(options.DmrRoot));
+                            dmrUri = new Uri(Path.GetFullPath(dmrRoot));
                         }
                         else
                         {
@@ -57,20 +57,14 @@
                     }
                 }
 
-                if (!SupportedLanguages.Contains(options.Lang))
+                if (!SupportedLanguages.Contains(language))
                 {
                     Console.WriteLine($"language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
                     return 1;
                 }
 
-                if (options.ClientOnly && options.ServerOnly)
-                {
-                    Console.WriteLine("options --clientOnly and --serverOnly are mutually exclusive");
-                    return 1;
-                }
-
-                string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
-                string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
+                string[] modelTexts = modelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
+                string[] modelNames = modelFiles.Select(mf => mf.Name).ToArray();
                 ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, dmrUri, Console.WriteLine);
 
                 if (contextualizedInterface.InterfaceId == null)
@@ -80,12 +74,12 @@
 
                 var modelParser = new ModelParser();
 
-                string projectName = Path.GetFileNameWithoutExtension(options.OutDir.FullName);
+                string projectName = Path.GetFileNameWithoutExtension(outDir.FullName);
 
                 string workingPathResolved =
-                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, DefaultWorkingPaths[options.Lang]) :
-                    Path.IsPathRooted(options.WorkingDir) ? options.WorkingDir :
-                    Path.Combine(options.OutDir.FullName, options.WorkingDir);
+                    workingPath == null ? Path.Combine(outDir.FullName, DefaultWorkingPaths[language]) :
+                    Path.IsPathRooted(workingPath) ? workingPath :
+                    Path.Combine(outDir.FullName, workingPath);
                 DirectoryInfo workingDir = new(workingPathResolved);
 
                 string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
@@ -97,10 +91,10 @@
 
                 foreach (string schemaFileName in schemaFiles)
                 {
-                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, options.OutDir, genNamespace, sourceFilePaths, distinctSchemaKinds);
+                    TypesGenerator.GenerateType(language, projectName, schemaFileName, workingDir, outDir, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, workingDir, options.OutDir, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, sourceFilePaths, distinctSchemaKinds);
+                EnvoyGenerator.GenerateEnvoys(language, projectName, annexFile, workingDir, outDir, genNamespace, sdkPath, syncApi, sourceFilePaths, distinctSchemaKinds);
             }
             catch (Exception ex)
             {

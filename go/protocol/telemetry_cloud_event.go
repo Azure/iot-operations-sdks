@@ -85,7 +85,7 @@ func (ce *CloudEvent) Attrs() []slog.Attr {
 }
 
 // Initialize default values in the cloud event where possible; error where not.
-func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
+func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
 	// Cloud events were not specified; just bail out.
 	if ce == nil {
 		return nil
@@ -143,8 +143,6 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
 
 	if ce.DataSchema != nil {
 		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
-	} else if ds != nil {
-		msg.UserProperties[ceDataSchema] = ds.String()
 	}
 
 	if ce.Subject != "" {

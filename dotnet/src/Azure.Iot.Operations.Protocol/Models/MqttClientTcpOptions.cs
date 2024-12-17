@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
 
 namespace Azure.Iot.Operations.Protocol.Models

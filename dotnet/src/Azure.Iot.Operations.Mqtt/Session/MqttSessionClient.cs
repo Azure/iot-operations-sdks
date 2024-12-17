@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using Azure.Iot.Operations.Protocol.Connection;

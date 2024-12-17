@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-namespace Azure.Iot.Operations.Services.LeasedLock
+﻿namespace Azure.Iot.Operations.Services.LeasedLock
 {
     public class GetLockHolderResponse
     {

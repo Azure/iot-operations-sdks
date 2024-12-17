@@ -9,7 +9,7 @@ internal class Program
     private static readonly string DefaultOutDir = ".";
     private static readonly string DefaultLanguage = "csharp";
 
-    static async Task Main(string[] args)
+    static async Task<int> Main(string[] args)
     {
         var modelFileOption = new Option<FileInfo[]>(
             name: "--modelFile",
@@ -54,14 +54,6 @@ internal class Program
             description: "Programming language for generated code")
             { ArgumentHelpName = string.Join('|', CommandHandler.SupportedLanguages) };
 
-        var clientOnlyOption = new Option<bool>(
-            name: "--clientOnly",
-            description: "Generate only client-side code");
-
-        var serverOnlyOption = new Option<bool>(
-            name: "--serverOnly",
-            description: "Generate only server-side code");
-
         var rootCommand = new RootCommand("Akri MQTT code generation tool for DTDL models")
         {
             modelFileOption,
@@ -74,11 +66,14 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
-            clientOnlyOption,
-            serverOnlyOption,
         };
 
-        ArgBinder argBinder = new ArgBinder(
+        rootCommand.SetHandler(
+#if DEBUG
+            async (modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, syncApi, sdkPath, language); },
+#else
+            async (modelFiles, modelId, dmrRoot, workingDir, outDir, language) => { await CommandHandler.GenerateCode(modelFiles, modelId, dmrRoot, workingDir, outDir, false, null, language); },
+#endif
             modelFileOption,
             modelIdOption,
             dmrRootOption,
@@ -88,14 +83,8 @@ internal class Program
             syncOption,
             sdkPathOption,
 #endif
-            langOption,
-            clientOnlyOption,
-            serverOnlyOption);
+            langOption);
 
-        rootCommand.SetHandler(
-            async (OptionContainer options) => { Environment.ExitCode = await CommandHandler.GenerateCode(options); },
-            argBinder);
-
-        await rootCommand.InvokeAsync(args);
+        return await rootCommand.InvokeAsync(args);
     }
 }

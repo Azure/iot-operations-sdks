@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using CounterClient;
+﻿using CounterClient;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

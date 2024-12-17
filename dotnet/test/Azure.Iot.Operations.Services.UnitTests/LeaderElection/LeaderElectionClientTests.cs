@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Services.LeasedLock;
+﻿using Azure.Iot.Operations.Services.LeasedLock;
 using Moq;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Xunit;

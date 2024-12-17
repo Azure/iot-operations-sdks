@@ -1,6 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
+﻿// cSpell:disable
 using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests

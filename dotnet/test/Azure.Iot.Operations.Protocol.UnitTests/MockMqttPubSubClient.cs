@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol.Events;
+﻿using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using MQTTnet.Exceptions;
 using System.Collections.Concurrent;
@@ -10,7 +7,7 @@ using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
-    public class MockMqttPubSubClient : IMqttPubSubClient
+    internal class MockMqttPubSubClient : IMqttPubSubClient
     {
         private static int ClientIdIndex;
 

@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -15,8 +12,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         where T : class
     {
 
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
+        private const int majorProtocolVersion = 0;
+        private const int minorProtocolVersion = 1;
 
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;

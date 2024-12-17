@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol.UnitTests.Support;
+﻿using Azure.Iot.Operations.Protocol.UnitTests.Support;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
