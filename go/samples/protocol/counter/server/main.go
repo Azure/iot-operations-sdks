@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -14,6 +15,7 @@ import (
 )
 
 var counterValue int = 0
+var telemetrySender *dtmi_com_example_Counter__1.TelemetryCollectionSender
 
 func main() {
 	ctx := context.Background()
@@ -38,6 +40,12 @@ func main() {
 
 	check(mqttClient.Start())
 	check(server.Start(ctx))
+
+	telemetrySender = must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
+		mqttClient,
+		fmt.Sprintf("devices/%s/messages/events/", counterServerID),
+		protocol.WithLogger(slog.Default()),
+	))
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -66,7 +74,7 @@ func ReadCounter(
 
 func Increment(
 	ctx context.Context,
-	req *protocol.CommandRequest[any],
+	req *protocol.CommandRequest[dtmi_com_example_Counter__1.IncrementRequestPayload],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
 	slog.Info(
 		"--> Counter.Increment",
@@ -78,7 +86,17 @@ func Increment(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue++
+
+	counterValue += int(req.Payload.IncrementValue)
+	value := int32(counterValue)
+	telemetry := dtmi_com_example_Counter__1.TelemetryCollection{
+		CounterValue: &value,
+	}
+	err := telemetrySender.SendTelemetryCollection(ctx, telemetry)
+	if err != nil {
+		slog.Error("failed to send telemetry", "error", err)
+	}
+
 	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
 		CounterResponse: int32(counterValue),
 	})

@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -25,6 +26,7 @@ func main() {
 
 	client := must(dtmi_com_example_Counter__1.NewCounterClient(
 		mqttClient,
+		nil,
 		protocol.WithResponseTopicPrefix("response"),
 		protocol.WithLogger(slog.Default()),
 	))
@@ -33,13 +35,41 @@ func main() {
 	check(mqttClient.Start())
 	check(client.Start(ctx))
 
-	resp := must(client.ReadCounter(ctx, counterServerID))
+	telemetryChan := make(chan *protocol.TelemetryMessage[dtmi_com_example_Counter__1.TelemetryCollection], 15)
 
+	telemetryReceiver := must(dtmi_com_example_Counter__1.NewTelemetryCollectionReceiver(
+		mqttClient,
+		dtmi_com_example_Counter__1.TelemetryTopic,
+		func(ctx context.Context, msg *protocol.TelemetryMessage[dtmi_com_example_Counter__1.TelemetryCollection]) error {
+			telemetryChan <- msg
+			return nil
+		},
+	))
+	defer telemetryReceiver.Close()
+
+	check(telemetryReceiver.Start(ctx))
+
+	resp := must(client.ReadCounter(ctx, counterServerID))
 	slog.Info("read counter", "value", resp.Payload.CounterResponse)
 
-	for range 15 {
-		respIncr := must(client.Increment(ctx, counterServerID))
+	for i := 0; i < 15; i++ {
+		respIncr := must(client.Increment(ctx, counterServerID, dtmi_com_example_Counter__1.IncrementRequestPayload{
+			IncrementValue: 1,
+		}))
 		slog.Info("increment", "value", respIncr.Payload.CounterResponse)
+	}
+
+	for i := 0; i < 15; i++ {
+		select {
+		case msg := <-telemetryChan:
+			p := msg.Payload
+			if p.CounterValue != nil {
+				slog.Info("received telemetry", "counter_value", *p.CounterValue)
+			}
+			msg.Ack()
+		case <-time.After(10 * time.Second):
+			slog.Warn("timed out waiting for telemetry")
+		}
 	}
 }
 
