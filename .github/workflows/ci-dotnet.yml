@@ -54,7 +54,6 @@ jobs:
               --node-count 1 \
               --generate-ssh-keys \
               --tier free \
-              --node-vm-size Standard_D2s_v3 \
               --location eastus
 
           az provider register -n "Microsoft.ExtendedLocation"
