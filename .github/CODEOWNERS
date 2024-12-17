@@ -1,4 +1,6 @@
 * @jrdouceur
+* @avishekpant
+
 *.md    @ryanwinter
 
 dotnet  @timtay-microsoft @lev-i @olivakar

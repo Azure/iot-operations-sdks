@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - '.devcontainer/**'
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'codegen/src/**'
@@ -14,12 +15,19 @@ on:
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
       - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
       - 'eng/test/faultablemqttbroker/**'
+      - 'tools/deployment/**'
+
   push:
     branches:
     - main  
   schedule:
   - cron: '0 11 * * *'  # Nightly at 4am PST
-  
+
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   actions: read
