@@ -9,15 +9,15 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
     using System.Text.Json.Serialization;
     using TestEnvoys;
 
-    public class ReadCounterResponsePayload
+    public class IncrementRequestPayload
     {
         /// <summary>
-        /// The Command response argument.
+        /// The Command request argument.
         /// </summary>
-        [JsonPropertyName("CounterResponse")]
+        [JsonPropertyName("incrementValue")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public int CounterResponse { get; set; } = default!;
+        public int IncrementValue { get; set; } = default!;
 
     }
 }
