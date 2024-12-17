@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.IntegrationTests;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.IntegrationTests;
 
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
