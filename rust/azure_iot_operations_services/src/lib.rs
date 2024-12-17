@@ -7,3 +7,6 @@
 #![allow(clippy::result_large_err)]
 
 pub mod state_store;
+
+/// Module of the Leased Lock Client.
+pub mod leased_lock;
