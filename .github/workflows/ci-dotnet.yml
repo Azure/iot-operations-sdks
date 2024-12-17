@@ -47,7 +47,7 @@ jobs:
           az extension add -n customlocation --upgrade
           az extension add -n stack-hci-vm --upgrade
           az extension add -n connectedk8s --upgrade
-          az aksarc create -n timtay-test-cluster -g iot-operations-sdks-github-actions-resources --custom-location westus --vnet-ids $logicnetId --aad-admin-group-object-ids $aadgroupID --generate-ssh-keys 
+          az aksarc create -n timtay-test-cluster -g iot-operations-sdks-github-actions-resources --custom-location westus --generate-ssh-keys 
 
           az provider register -n "Microsoft.ExtendedLocation"
           az provider register -n "Microsoft.Kubernetes"
