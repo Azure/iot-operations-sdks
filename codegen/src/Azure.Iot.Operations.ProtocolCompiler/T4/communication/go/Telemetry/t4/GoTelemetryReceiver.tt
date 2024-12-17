@@ -6,18 +6,18 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
-type <#=this.schemaClassName#>Receiver struct {
-	*protocol.TelemetryReceiver[<#=this.schemaClassName#>]
+type <#=this.componentName#>Receiver struct {
+	*protocol.TelemetryReceiver[<#=this.AsSchema(this.schemaClassName)#>]
 }
 
-func New<#=this.schemaClassName#>Receiver(
+func New<#=this.componentName#>Receiver(
 	client protocol.MqttClient,
 	topic string,
-	handler protocol.TelemetryHandler[<#=this.schemaClassName#>],
+	handler protocol.TelemetryHandler[<#=this.AsSchema(this.schemaClassName)#>],
 	opt ...protocol.TelemetryReceiverOption,
-) (*<#=this.schemaClassName#>Receiver, error) {
+) (*<#=this.componentName#>Receiver, error) {
 	var err error
-	receiver := &<#=this.schemaClassName#>Receiver{}
+	receiver := &<#=this.componentName#>Receiver{}
 
 	var opts protocol.TelemetryReceiverOptions
 	opts.Apply(
@@ -31,7 +31,7 @@ func New<#=this.schemaClassName#>Receiver(
 
 	receiver.TelemetryReceiver, err = protocol.NewTelemetryReceiver(
 		client,
-		protocol.<#=this.serializerSubNamespace#>[<#=this.schemaClassName#>]{},
+		protocol.<#=this.GetSerializer(this.schemaClassName)#>{},
 		topic,
 		handler,
 		&opts,
@@ -39,3 +39,8 @@ func New<#=this.schemaClassName#>Receiver(
 
 	return receiver, err
 }
+<#+
+    private string AsSchema(string schema) => schema == null ? "any" : schema == "" ? "[]byte" : schema;
+
+    private string GetSerializer(string schema) => schema == null ? "Empty" : schema == "" ? "Raw" : $"{this.serializerSubNamespace}[{schema}]";
+#>

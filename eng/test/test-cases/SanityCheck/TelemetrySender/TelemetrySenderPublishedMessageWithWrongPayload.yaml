@@ -1,0 +1,21 @@
+---
+test-name: TelemetrySenderPublishedMessageWithWrongPayload
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with wrong payload.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - payload: "Incorrect_Telemetry"
+...

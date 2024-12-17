@@ -17,7 +17,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
         /// <summary>
         /// Specializes the <c>TelemetryReceiver</c> class for type <c><#=this.schemaClassName#></c>.
         /// </summary>
-        public class <#=this.schemaClassName#>Receiver : TelemetryReceiver<<#=this.schemaClassName#>>
+        public class <#=this.componentName#>Receiver : TelemetryReceiver<<#=this.schemaClassName#>>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -38,9 +38,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="<#=this.schemaClassName#>Receiver"/> class.
+            /// Initializes a new instance of the <see cref="<#=this.componentName#>Receiver"/> class.
             /// </summary>
-            public <#=this.schemaClassName#>Receiver(IMqttPubSubClient mqttClient)
+            public <#=this.componentName#>Receiver(IMqttPubSubClient mqttClient)
                 : base(mqttClient, <#=this.telemetryName != null ? $"\"{this.telemetryName}\"" : "null"#>, new <#=this.serializerClassName#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);

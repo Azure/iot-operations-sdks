@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.StateStore
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.StateStore
 {
     /// <summary>
     /// The optional parameters for an Observe request.

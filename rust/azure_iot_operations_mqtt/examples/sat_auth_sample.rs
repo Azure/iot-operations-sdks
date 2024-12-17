@@ -74,7 +74,7 @@ async fn receive_messages(client: SessionManagedClient) {
 
     // Receive indefinitely
     loop {
-        let msg = receiver.recv().await.unwrap();
+        let (msg, _) = receiver.recv().await.unwrap();
         println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
     }
 }
