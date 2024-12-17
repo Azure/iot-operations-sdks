@@ -8,7 +8,7 @@ use core::fmt::Debug;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use thiserror::Error;
 
-use schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
+pub use schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
     Enum_Ms_Adr_SchemaRegistry_Format__1, Enum_Ms_Adr_SchemaRegistry_SchemaType__1,
     Object_Ms_Adr_SchemaRegistry_Schema__1,
 };

@@ -37,7 +37,7 @@ struct ShutdownHandle {
 pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
     id: String,
-    /// The version of the schema to fetch.
+    /// The version of the schema to fetch. If not specified, defaults to "1.0.0".
     #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
     version: Option<String>,
 }
@@ -52,8 +52,6 @@ impl GetRequestBuilder {
             if id.is_empty() {
                 return Err("id cannot be empty".to_string());
             }
-        } else {
-            return Err("id is required".to_string());
         }
 
         Ok(())
@@ -74,7 +72,7 @@ pub struct PutRequest {
     /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
     #[builder(default)]
     tags: HashMap<String, String>,
-    /// The version of the schema to add or update.
+    /// The version of the schema to add or update. If not specified, defaults to "1.0.0".
     #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
     version: Option<String>,
 }
@@ -339,7 +337,7 @@ mod tests {
 
         assert!(matches!(
             get_request.unwrap_err(),
-            GetRequestBuilderError::ValidationError(_)
+            GetRequestBuilderError::UninitializedField(_)
         ));
 
         let get_request = GetRequestBuilder::default().id(String::new()).build();

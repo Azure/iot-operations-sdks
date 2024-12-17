@@ -13,6 +13,7 @@ use azure_iot_operations_services::schema_registry::{
 use env_logger::Builder;
 use tokio::sync::oneshot;
 
+// To learn more about defining schemas see: https://learn.microsoft.com/en-us/azure/iot-operations/connect-to-cloud/concept-schema-registry
 const JSON_SCHEMA: &str = r#"
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -86,6 +87,7 @@ async fn schema_registry_put(
         .await
         .unwrap();
 
+    log::info!("Put request succeeded: {:?}", schema);
     // Send the schema ID to the other task
     schema_id_tx.send(schema.name.unwrap()).unwrap();
 }
