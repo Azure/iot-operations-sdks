@@ -29,5 +29,5 @@ epilogue:
   - correlation-index: 0
     payload: "Test_Request"
     metadata:
-      "__protVer": "0.1"
+      "__protVer": "1.0"
 ...
