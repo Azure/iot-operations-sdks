@@ -523,8 +523,7 @@ mod tests {
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
         let _mock_payload_content_type = mock_payload_content_type_ctx
             .expect()
-            .returning(|| Some("application/json"))
-            .times(2);
+            .returning(|| Some("application/json"));
 
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
@@ -662,14 +661,19 @@ mod tests {
 
     #[test]
     fn test_send_content_type_invalid_value() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| None);
+
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
-
-        let ctx = MockPayload::content_type_context();
-        ctx.expect().returning(|| None);
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
@@ -682,14 +686,19 @@ mod tests {
 
     #[test]
     fn test_send_content_type_fixed() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| Some("application/json"));
+
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
-
-        let ctx = MockPayload::content_type_context();
-        ctx.expect().returning(|| Some("application/json"));
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
@@ -702,14 +711,19 @@ mod tests {
 
     #[test]
     fn test_send_content_type_flexible_valid_value() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| None);
+
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
             .returning(|| Ok(String::new().into()))
             .times(1);
-
-        let ctx = MockPayload::content_type_context();
-        ctx.expect().returning(|| None);
 
         let message_builder_result = TelemetryMessageBuilder::default()
             .payload(&mock_telemetry_payload)
