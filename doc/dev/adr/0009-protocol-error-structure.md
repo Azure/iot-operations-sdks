@@ -12,7 +12,7 @@ However, the [error model specification](../../reference/error-model.md) still s
 
 ## Decision
 
-The specification will be updated to loosen these rigid requirements, allowing, but not requiring the following:
+The specification will be updated to loosen these rigid requirements, or clarify the intent of existing ones that were unclear, in order to allow, but not require the following:
 
 1) Multiple errors for the `protocol` package as necessary
 2) The ability to remove irrelevant fields in an error representation
