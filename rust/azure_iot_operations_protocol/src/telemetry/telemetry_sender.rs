@@ -665,9 +665,7 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| None);
+        let _mock_payload_content_type = mock_payload_content_type_ctx.expect().returning(|| None);
 
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
@@ -715,9 +713,7 @@ mod tests {
         let _content_type_mutex = CONTENT_TYPE_MTX.lock();
         // Mock context to track content_type calls
         let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| None);
+        let _mock_payload_content_type = mock_payload_content_type_ctx.expect().returning(|| None);
 
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
