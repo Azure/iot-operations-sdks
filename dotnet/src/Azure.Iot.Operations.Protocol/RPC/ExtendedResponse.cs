@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Protocol.RPC
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.RPC
 {
     public struct ExtendedResponse<TResp>
         where TResp : class

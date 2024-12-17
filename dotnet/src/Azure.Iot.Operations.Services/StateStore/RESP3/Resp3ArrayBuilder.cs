@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.StateStore.RESP3
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.StateStore.RESP3
 {
     internal class Resp3ArrayBuilder
     {
