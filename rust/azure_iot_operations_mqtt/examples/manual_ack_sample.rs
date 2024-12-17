@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+use std::io::Write;
 use std::str;
 use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
+use azure_iot_operations_mqtt::control_packet::{Publish, QoS};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
@@ -16,6 +17,8 @@ const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
+
+const STORAGE_FILE: &str = "[PATH TO STORAGE FILE]";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -62,8 +65,8 @@ async fn receive_messages(client: SessionManagedClient) {
 
     // Receive indefinitely
     loop {
-        let (msg, _) = receiver.recv().await.unwrap();
-        println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
+        let (msg, ack_token) = receiver.recv().await.unwrap();
+        tokio::spawn(store_and_acknowledge(msg, ack_token));
     }
 }
 
@@ -81,4 +84,21 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
     }
 
     exit_handler.try_exit().await.unwrap();
+}
+
+async fn store_and_acknowledge(publish: Publish, ack_token: Option<AckToken>) {
+    let payload = str::from_utf8(&publish.payload).unwrap();
+    println!("Received: {payload}");
+    // Store the message in a file
+    let mut file = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(STORAGE_FILE)
+        .unwrap();
+    writeln!(file, "{payload}").unwrap();
+    // Acknowledge the message once it is stored
+    if let Some(ack_token) = ack_token {
+        let comp_token = ack_token.ack().await.unwrap();
+        comp_token.await.unwrap();
+    }
 }

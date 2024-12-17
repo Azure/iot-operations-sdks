@@ -5,7 +5,7 @@
 
 mod dispatcher;
 mod managed_client;
-mod pub_tracker;
+pub(crate) mod pub_tracker; //TODO: This should not be pub. It's needed for a stopgap AckToken implementation currently.
 pub mod reconnect_policy;
 #[doc(hidden)]
 #[allow(clippy::module_inception)]
