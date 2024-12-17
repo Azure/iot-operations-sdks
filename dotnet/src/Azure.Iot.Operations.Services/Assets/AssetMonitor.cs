@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.Assets
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
     /// </remarks>
-    public class AssetMonitor
+    public class AssetMonitor : IAssetMonitor
     {
         // The operator will deploy the connector pod with these environment variables set.
         internal const string AssetEndpointProfileConfigMapMountPathEnvVar = "AEP_CONFIGMAP_MOUNT_PATH";
@@ -56,12 +56,7 @@ namespace Azure.Iot.Operations.Services.Assets
         {
         }
 
-        /// <summary>
-        /// Get the asset with the provided Id.
-        /// </summary>
-        /// <param name="assetName">The Id of the asset to retrieve.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The requested asset.</returns>
+        /// <inheritdoc/>
         public async Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(GetAssetDirectory()) || !File.Exists($"{GetAssetDirectory()}/{assetName}"))
@@ -82,12 +77,8 @@ namespace Azure.Iot.Operations.Services.Assets
             return asset;
         }
 
-        /// <summary>
-        /// Get the asset endpoint profile of the asset with the provided Id.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The requested asset endpoint profile.</returns>
-        public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default)
+        /// <inheritdoc/>
+        public async Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -126,11 +117,7 @@ namespace Azure.Iot.Operations.Services.Assets
             };
         }
 
-        /// <summary>
-        /// Start receiving notifications on <see cref="AssetFileChanged"/> when any asset changes.
-        /// </summary>
-        /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <inheritdoc/>
         public void ObserveAssets(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -143,10 +130,7 @@ namespace Azure.Iot.Operations.Services.Assets
             }
         }
 
-        /// <summary>
-        /// Stop receiving notifications on <see cref="AssetFileChanged"/> when an asset changes.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <inheritdoc/>
         public void UnobserveAssets(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -159,12 +143,7 @@ namespace Azure.Iot.Operations.Services.Assets
             }
         }
 
-        /// <summary>
-        /// Start receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
-        /// changes for the asset with the provided Id.
-        /// </summary>
-        /// <param name="pollingInterval">How frequently to check for changes to the asset endpoint profile.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <inheritdoc/>
         public void ObserveAssetEndpointProfile(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -191,11 +170,7 @@ namespace Azure.Iot.Operations.Services.Assets
             }
         }
 
-        /// <summary>
-        /// Stop receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
-        /// changes for the asset with the provided Id.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <inheritdoc/>
         public void UnobserveAssetEndpointProfile(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -229,11 +204,7 @@ namespace Azure.Iot.Operations.Services.Assets
             }
         }
 
-        /// <summary>
-        /// Returns the complete list of assets deployed by the operator to this pod.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The complete list of assets deployed by the operator to this pod.</returns>
+        /// <inheritdoc/>
         public Task<List<string>> GetAssetNamesAsync(CancellationToken cancellationToken = default)
         {
             List<string> assetNames = new();

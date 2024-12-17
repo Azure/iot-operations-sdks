@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Connection;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Connection;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using Azure.Iot.Operations.Protocol.UnitTests;

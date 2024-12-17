@@ -21,5 +21,9 @@
 		<ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Azure.Iot.Operations.Services.UnitTests" />
+    <InternalsVisibleTo Include="Azure.Iot.Operations.Connector.UnitTests" />
+  </ItemGroup>
 	
 </Project>
