@@ -52,7 +52,8 @@ jobs:
               --resource-group iot-operations-sdks-github-actions-resources \
               --name timtay-test-aks \
               --node-count 1 \
-              --generate-ssh-keys
+              --generate-ssh-keys \
+              --tier free
 
           az provider register -n "Microsoft.ExtendedLocation"
           az provider register -n "Microsoft.Kubernetes"
