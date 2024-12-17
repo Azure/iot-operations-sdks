@@ -43,9 +43,21 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
+          az group create --location westus --resource-group timtay-test-rg
+
+          az extension add -n aksarc --upgrade
+          az extension add -n customlocation --upgrade
+          az extension add -n stack-hci-vm --upgrade
+          az extension add -n connectedk8s --upgrade
+          az aksarc create -n timtay-test-cluster -g timtay-test-rg --custom-location westus --vnet-ids $logicnetId --aad-admin-group-object-ids $aadgroupID --generate-ssh-keys 
+
           az provider register -n "Microsoft.ExtendedLocation"
           az provider register -n "Microsoft.Kubernetes"
           az provider register -n "Microsoft.KubernetesConfiguration"
           az provider register -n "Microsoft.IoTOperations"
           az provider register -n "Microsoft.DeviceRegistry"
           az provider register -n "Microsoft.SecretSyncController"
+
+          az connectedk8s connect --name timtay-test-cluster --location westus --resource-group timtay-test-rg
+          export OBJECT_ID=$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)
+          az connectedk8s enable-features -n timtay-test-cluster -g timtay-test-rg --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations
