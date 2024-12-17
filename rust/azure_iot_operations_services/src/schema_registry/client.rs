@@ -38,8 +38,8 @@ pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
     id: String,
     /// The version of the schema to fetch. If not specified, defaults to "1.0.0".
-    #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
-    version: Option<String>,
+    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
+    version: String,
 }
 
 impl GetRequestBuilder {
@@ -73,8 +73,8 @@ pub struct PutRequest {
     #[builder(default)]
     tags: HashMap<String, String>,
     /// The version of the schema to add or update. If not specified, defaults to "1.0.0".
-    #[builder(default = "Some(DEFAULT_SCHEMA_VERSION.to_string())")]
-    version: Option<String>,
+    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
+    version: String,
 }
 
 /// Schema registry client implementation.
@@ -140,7 +140,7 @@ where
             .get_schema_request(
                 Object_Get_RequestBuilder::default()
                     .name(Some(get_request.id))
-                    .version(get_request.version)
+                    .version(Some(get_request.version))
                     .build()
                     .map_err(|e| {
                         SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
@@ -198,7 +198,7 @@ where
                 Object_Put_RequestBuilder::default()
                     .format(Some(put_request.format))
                     .schema_content(Some(put_request.content))
-                    .version(put_request.version)
+                    .version(Some(put_request.version))
                     .tags(Some(put_request.tags))
                     .schema_type(Some(put_request.schema_type))
                     .build()
@@ -325,10 +325,7 @@ mod tests {
             .unwrap();
 
         assert_eq!(get_request.id, TEST_SCHEMA_ID);
-        assert_eq!(
-            get_request.version,
-            Some(DEFAULT_SCHEMA_VERSION.to_string())
-        );
+        assert_eq!(get_request.version, DEFAULT_SCHEMA_VERSION.to_string());
     }
 
     #[tokio::test]
@@ -360,10 +357,7 @@ mod tests {
         assert!(matches!(put_request.format, Format::JsonSchemaDraft07));
         assert!(matches!(put_request.schema_type, SchemaType::MessageSchema));
         assert_eq!(put_request.tags, HashMap::new());
-        assert_eq!(
-            put_request.version,
-            Some(DEFAULT_SCHEMA_VERSION.to_string())
-        );
+        assert_eq!(put_request.version, DEFAULT_SCHEMA_VERSION.to_string());
     }
 
     #[tokio::test]

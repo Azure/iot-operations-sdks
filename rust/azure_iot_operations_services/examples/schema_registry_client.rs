@@ -13,7 +13,7 @@ use azure_iot_operations_services::schema_registry::{
 use env_logger::Builder;
 use tokio::sync::oneshot;
 
-// To learn more about defining schemas see: https://learn.microsoft.com/en-us/azure/iot-operations/connect-to-cloud/concept-schema-registry
+// To learn more about defining schemas see: https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-schema-registry
 const JSON_SCHEMA: &str = r#"
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
