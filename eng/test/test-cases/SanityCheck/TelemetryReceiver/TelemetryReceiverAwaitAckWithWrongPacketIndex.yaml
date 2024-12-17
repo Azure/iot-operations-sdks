@@ -1,0 +1,18 @@
+---
+test-name: TelemetryReceiverAwaitAckWithWrongPacketIndex
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case awaits acknowledgement expecting an incorrect packet index.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 1
+...

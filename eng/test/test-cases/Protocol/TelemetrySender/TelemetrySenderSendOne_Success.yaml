@@ -20,5 +20,5 @@ epilogue:
   - topic: "mock/test"
     payload: "Test_Telemetry"
     metadata:
-      "__protVer": "0.1"
+      "__protVer": "1.0"
 ...

@@ -341,8 +341,18 @@ func awaitInvocation(
 			"Unexpected error returned when awaiting CommandInvoker.Invoke()",
 		)
 
-		if responseValue, ok := actionAwaitInvocation.ResponseValue.(string); ok {
+		if actionAwaitInvocation.ResponseValue == nil {
+			require.Empty(t, extResp.Response.Payload)
+		} else if responseValue, ok := actionAwaitInvocation.ResponseValue.(string); ok {
 			require.Equal(t, responseValue, extResp.Response.Payload)
+		}
+
+		if actionAwaitInvocation.Metadata != nil {
+			for key, val := range *actionAwaitInvocation.Metadata {
+				propVal, ok := extResp.Response.Metadata[key]
+				require.True(t, ok)
+				require.Equal(t, val, propVal)
+			}
 		}
 	} else {
 		require.Errorf(t, extResp.Error, "Expected %s error, but no error returned when awaiting CommandInvoker.Invoke()", actionAwaitInvocation.Catch.ErrorKind)
@@ -489,8 +499,12 @@ func checkPublishedRequest(
 
 	for key, val := range publishedMessage.Metadata {
 		propVal, ok := getUserProperty(t, msg, key)
-		require.True(t, ok)
-		require.Equal(t, val, propVal)
+		if val != nil {
+			require.True(t, ok)
+			require.Equal(t, *val, propVal)
+		} else {
+			require.False(t, ok)
+		}
 	}
 
 	if publishedMessage.SourceID != nil {

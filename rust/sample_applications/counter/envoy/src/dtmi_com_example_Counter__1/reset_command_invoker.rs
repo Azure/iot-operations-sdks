@@ -125,4 +125,13 @@ where
     pub async fn invoke(&self, request: ResetRequest) -> Result<ResetResponse, AIOProtocolError> {
         self.0.invoke(request).await
     }
+
+    /// Shutdown the [`ResetCommandInvoker`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    /// # Errors
+    /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
+        self.0.shutdown().await
+    }
 }
