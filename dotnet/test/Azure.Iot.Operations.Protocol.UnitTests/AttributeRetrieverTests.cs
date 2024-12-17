@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Protocol.UnitTests
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class AttributeRetrieverTests
     {

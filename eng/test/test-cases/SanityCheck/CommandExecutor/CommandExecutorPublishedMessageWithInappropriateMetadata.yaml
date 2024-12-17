@@ -1,0 +1,25 @@
+---
+test-name: CommandExecutorPublishedMessageWithInappropriateMetadata
+description:
+  condition: >-
+    CommandExecutor receives basic valid request and responds.
+  expect: >-
+    Erroneous test case expects a response with metadata that will not be included.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    metadata:
+      "responseHeader": "responseValue"
+...

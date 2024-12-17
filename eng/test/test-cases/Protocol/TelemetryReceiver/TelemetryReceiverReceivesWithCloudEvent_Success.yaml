@@ -1,5 +1,5 @@
 ---
-test-name: TelemetryReceiverReceivesWithCloudEvent_Success.yaml
+test-name: TelemetryReceiverReceivesWithCloudEvent_Success
 description:
   condition: >-
     TelemetryReceiver receives a single valid Telemetry with attached CloudEvent info.
