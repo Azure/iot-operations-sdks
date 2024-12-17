@@ -19,9 +19,9 @@ const (
 
 type testCaseCatch struct {
 	ErrorKind     string             `yaml:"error-kind"`
-	InApplication bool               `yaml:"in-application"`
-	IsShallow     bool               `yaml:"is-shallow"`
-	IsRemote      bool               `yaml:"is-remote"`
+	InApplication *bool              `yaml:"in-application"`
+	IsShallow     *bool              `yaml:"is-shallow"`
+	IsRemote      *bool              `yaml:"is-remote"`
 	StatusCode    any                `yaml:"status-code"`
 	Message       *string            `yaml:"message"`
 	Supplemental  map[string]*string `yaml:"supplemental"`

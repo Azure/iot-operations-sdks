@@ -4,20 +4,25 @@
 use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    payload_serialize::{FormatIndicator, PayloadSerialize},
-    topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern, WILDCARD},
-    user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
+        user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+    },
+    supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -26,6 +31,8 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
+
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -38,6 +45,8 @@ struct ResponseArguments {
     invalid_property_name: Option<String>,
     invalid_property_value: Option<String>,
     command_expiration_time: Option<Instant>,
+    supported_protocol_major_versions: Option<Vec<u16>>,
+    request_protocol_version: Option<String>,
 }
 
 /// Command Request struct.
@@ -59,7 +68,8 @@ where
     pub timestamp: Option<HybridLogicalClock>,
     /// Client ID of the invoker.
     pub invoker_id: String,
-
+    /// Resolved topic tokens from the incoming request's topic.
+    pub topic_tokens: HashMap<String, String>,
     // Internal fields
     response_tx: oneshot::Sender<Result<CommandResponse<TResp>, String>>,
 }
@@ -174,18 +184,12 @@ pub struct CommandExecutorOptions {
     request_topic_pattern: String,
     /// Command name if required by the topic pattern
     command_name: String,
-    /// Executor ID if required by the topic pattern
-    #[builder(default = "None")]
-    executor_id: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// Duration to cache the command response
     #[builder(default = "Duration::from_secs(0)")]
     cacheable_duration: Duration,
@@ -217,7 +221,7 @@ pub struct CommandExecutorOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
-/// #     .host_name("mqtt://localhost")
+/// #     .hostname("localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
@@ -250,7 +254,7 @@ where
     mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
     is_idempotent: bool,
-    request_topic: String,
+    request_topic_pattern: TopicPattern,
     command_name: String,
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
@@ -258,7 +262,7 @@ where
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_pubs: JoinSet<Publish>, // TODO: Consider using FuturesUnordered
+    pending_acks: JoinSet<AckToken>, // TODO: Consider using FuturesUnordered
     recv_cancellation_token: CancellationToken,
 }
 
@@ -282,18 +286,43 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
     /// - [`command_name`](CommandExecutorOptions::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](CommandExecutorOptions::request_topic_pattern),
-    ///     [`executor_id`](CommandExecutorOptions::executor_id),
-    ///     [`model_id`](CommandExecutorOptions::model_id) or
     ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](CommandExecutorOptions::custom_topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
+    /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of request is valid utf-8
+        if is_invalid_utf8(TReq::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TReq::content_type().to_string()),
+                Some(format!(
+                    "Content type '{}' of request type is not valid UTF-8",
+                    TReq::content_type()
+                )),
+                Some(executor_options.command_name),
+            ));
+        }
+        // Validate content type of response is valid utf-8
+        if is_invalid_utf8(TResp::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(TResp::content_type().to_string()),
+                Some(format!(
+                    "Content type '{}' of response type is not valid UTF-8",
+                    TResp::content_type()
+                )),
+                Some(executor_options.command_name),
+            ));
+        }
         // Validate function parameters, validation for topic pattern and related options done in
-        // TopicPattern::new_command_pattern
+        // TopicPattern::new
         if executor_options.command_name.is_empty()
             || contains_invalid_char(&executor_options.command_name)
         {
@@ -315,25 +344,12 @@ where
             ));
         }
 
-        // If executor_id is not provided, use the client_id
-        let executor_id = executor_options
-            .executor_id
-            .as_deref()
-            .unwrap_or(client.client_id());
-
         // Create a new Command Pattern, validates topic pattern and options
-        let request_topic_pattern = TopicPattern::new_command_pattern(
+        let request_topic_pattern = TopicPattern::new(
             &executor_options.request_topic_pattern,
-            &executor_options.command_name,
-            executor_id,
-            WILDCARD,
-            executor_options.model_id.as_deref(),
             executor_options.topic_namespace.as_deref(),
-            &executor_options.custom_topic_token_map,
+            &executor_options.topic_token_map,
         )?;
-
-        // Get the request topic
-        let request_topic = request_topic_pattern.as_subscribe_topic();
 
         // Create cancellation token for the request receive loop
         let recv_cancellation_token = CancellationToken::new();
@@ -359,13 +375,13 @@ where
             mqtt_client: client,
             mqtt_receiver,
             is_idempotent: executor_options.is_idempotent,
-            request_topic,
+            request_topic_pattern,
             command_name: executor_options.command_name,
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             is_subscribed: false,
-            pending_pubs: JoinSet::new(),
+            pending_acks: JoinSet::new(),
             recv_cancellation_token,
         })
     }
@@ -373,39 +389,47 @@ where
     // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
     ///
+    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.request_topic).await;
+        if self.is_subscribed {
+            let unsubscribe_result = self
+                .mqtt_client
+                .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                .await;
 
-        match unsubscribe_result {
-            Ok(unsub_ct) => {
-                match unsub_ct.await {
-                    Ok(()) => { /* Success */ }
-                    Err(e) => {
-                        log::error!("[{}] Unsuback error: {e}", self.command_name);
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on command executor unsuback".to_string()),
-                            Box::new(e),
-                            Some(self.command_name.clone()),
-                        ));
+            match unsubscribe_result {
+                Ok(unsub_ct) => {
+                    match unsub_ct.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("[{}] Unsuback error: {e}", self.command_name);
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command executor unsuback".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                log::error!(
-                    "[{}] Client error while unsubscribing: {e}",
-                    self.command_name
-                );
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on command executor unsubscribe".to_string()),
-                    Box::new(e),
-                    Some(self.command_name.clone()),
-                ));
+                Err(e) => {
+                    log::error!(
+                        "[{}] Client error while unsubscribing: {e}",
+                        self.command_name
+                    );
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on command executor unsubscribe".to_string()),
+                        Box::new(e),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
         }
-        log::info!("[{}] Stopped", self.command_name);
+        log::info!("[{}] Shutdown", self.command_name);
         Ok(())
     }
 
@@ -418,7 +442,10 @@ where
         if !self.is_subscribed {
             let subscribe_result = self
                 .mqtt_client
-                .subscribe(&self.request_topic, QoS::AtLeastOnce)
+                .subscribe(
+                    self.request_topic_pattern.as_subscribe_topic(),
+                    QoS::AtLeastOnce,
+                )
                 .await;
 
             match subscribe_result {
@@ -466,14 +493,14 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
-                Some(pending_pub) = self.pending_pubs.join_next() => {
-                    match pending_pub {
-                        Ok(pending_pub) => {
-                            match self.mqtt_receiver.ack(&pending_pub).await {
-                                Ok(()) => { /* Success */ }
+                // TODO: BUG, if recv() is not called, pending_acks will never be processed
+                Some(join_result) = self.pending_acks.join_next() => {
+                    match join_result {
+                        Ok(ack_token) => {
+                            match ack_token.ack().await {
+                                Ok(_) => { /* Success */ }
                                 Err(e) => {
-                                    log::error!("[{}][pkid: {}] Ack error: {e}", self.command_name, pending_pub.pkid);
+                                    log::error!("[{}] Ack error: {e}", self.command_name);
                                 }
                             }
                         }
@@ -484,9 +511,9 @@ where
                         }
                     }
                 },
-                request = self.mqtt_receiver.recv() => {
+                recv_result = self.mqtt_receiver.recv() => {
                     // Process the request
-                    if let Some(m) = request {
+                    if let Some((m, ack_token)) = recv_result {
                         log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
                         let message_received_time = Instant::now();
 
@@ -495,7 +522,9 @@ where
                             Some(properties) => properties.clone(),
                             None => {
                                 log::error!("[{}][pkid: {}] Properties missing", self.command_name, m.pkid);
-                                self.pending_pubs.spawn(async move { m });
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn(async move { ack_token });
+                                }
                                 continue;
                             }
                         };
@@ -504,13 +533,17 @@ where
                         let response_topic = if let Some(rt) = properties.response_topic {
                             if !is_valid_replacement(&rt) {
                                 log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
-                                self.pending_pubs.spawn(async move { m });
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn(async move { ack_token });
+                                }
                                 continue;
                             }
                             rt
                         } else {
                             log::error!("[{}][pkid: {}] Response topic missing", self.command_name, m.pkid);
-                            self.pending_pubs.spawn(async move { m });
+                            if let Some(ack_token) = ack_token {
+                                self.pending_acks.spawn(async move { ack_token });
+                            }
                             continue;
                         };
 
@@ -525,6 +558,8 @@ where
                             invalid_property_name: None,
                             invalid_property_value: None,
                             command_expiration_time: None,
+                            supported_protocol_major_versions: None,
+                            request_protocol_version: None
                         };
 
                         // Get message expiry interval
@@ -580,17 +615,6 @@ where
                                 break 'process_request;
                             }
 
-                            // Get payload format indicator (underlying mqtt client should validate that format indicator is 0 or 1)
-                            if let Some(format_indicator) = properties.payload_format_indicator {
-                                if format_indicator != FormatIndicator::Utf8EncodedCharacterData as u8 && format_indicator != TReq::format_indicator() as u8 {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Format indicator {format_indicator} is not appropriate for {} content", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Payload Format Indicator".to_string());
-                                    response_arguments.invalid_property_value = Some(format_indicator.to_string());
-                                    break 'process_request;
-                                }
-                            };
-
                             // Get content type
                             if let Some(content_type) = properties.content_type {
                                 if TReq::content_type() != content_type {
@@ -602,9 +626,32 @@ where
                                 }
                             };
 
+                            // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+                            let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                            if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
+                                if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                    request_protocol_version = request_version;
+                                } else {
+                                    response_arguments.status_code = StatusCode::VersionNotSupported;
+                                    response_arguments.status_message = Some(format!("Unparsable protocol version value provided: {protocol_version}."));
+                                    response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                    response_arguments.request_protocol_version = Some(protocol_version.to_string());
+                                    break 'process_request;
+                                }
+                            }
+                            // Check that the version (or the default version if one isn't provided) is supported
+                            if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                response_arguments.status_code = StatusCode::VersionNotSupported;
+                                response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
+                                response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                response_arguments.request_protocol_version = Some(request_protocol_version.to_string());
+                                break 'process_request;
+                            }
+
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
+                            let mut fencing_token = None;
                             for (key,value) in properties.user_properties {
                                 match UserProperty::from_str(&key) {
                                     Ok(UserProperty::Timestamp) => {
@@ -621,9 +668,24 @@ where
                                             }
                                         }
                                     },
-                                    Ok(UserProperty::CommandInvokerId) => {
+                                    Ok(UserProperty::SourceId) => {
                                         invoker_id = Some(value);
                                     },
+                                    Ok(UserProperty::FencingToken) => {
+                                        fencing_token = match HybridLogicalClock::from_str(&value) {
+                                            Ok(ft) => Some(ft),
+                                            Err(e) => {
+                                                response_arguments.status_code = StatusCode::BadRequest;
+                                                response_arguments.status_message = Some(format!("Fencing token invalid: {e}"));
+                                                response_arguments.invalid_property_name = Some(UserProperty::FencingToken.to_string());
+                                                response_arguments.invalid_property_value = Some(value);
+                                                break 'process_request;
+                                            }
+                                        }
+                                    },
+                                    Ok(UserProperty::ProtocolVersion) => {
+                                        // skip, already processed
+                                    }
                                     Err(()) => {
                                         if key.starts_with(RESERVED_PREFIX) {
                                             // Don't return error, although these properties shouldn't be present on a request
@@ -635,7 +697,6 @@ where
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                         // Don't return error, although above properties shouldn't be in the request
-                                        // TODO: Add validation for Fencing Token
                                         log::error!("Request should not contain MQTT user property {key}. Value is {value}");
                                     }
                                 }
@@ -643,10 +704,22 @@ where
 
                             let Some(invoker_id) = invoker_id else {
                                  response_arguments.status_code = StatusCode::BadRequest;
-                                 response_arguments.status_message = Some(format!("No invoker client id ({}) property present", UserProperty::CommandInvokerId));
-                                 response_arguments.invalid_property_name = Some(UserProperty::CommandInvokerId.to_string());
+                                 response_arguments.status_message = Some(format!("No source client id ({}) property present", UserProperty::SourceId));
+                                 response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
                                  break 'process_request;
-                             };
+                            };
+
+                            let topic = match std::str::from_utf8(&m.topic) {
+                                Ok(topic) => topic,
+                                Err(e) => {
+                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                    response_arguments.status_code = StatusCode::BadRequest;
+                                    response_arguments.status_message = Some(format!("Error deserializing topic: {e:?}"));
+                                    break 'process_request;
+                                }
+                            };
+
+                            let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
                             let payload = match TReq::deserialize(&m.payload) {
@@ -663,31 +736,34 @@ where
                             let command_request = CommandRequest {
                                 payload,
                                 custom_user_data: user_data,
-                                fencing_token: None, // TODO: Add fencing token
+                                fencing_token,
                                 timestamp,
                                 invoker_id,
+                                topic_tokens,
                                 response_tx,
                             };
 
                             // Check the command has not expired, if it has, we do not respond to the invoker.
                             if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
-                                self.pending_pubs.spawn({
-                                    let client_clone = self.mqtt_client.clone();
-                                    let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                    let pkid = m.pkid;
-                                    async move {
-                                        tokio::select! {
-                                            () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                            () = Self::process_command(
-                                                    client_clone,
-                                                    pkid,
-                                                    response_arguments,
-                                                    Some(response_rx),
-                                            ) => { /* Finished processing command */},
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn({
+                                        let client_clone = self.mqtt_client.clone();
+                                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                                        let pkid = m.pkid;
+                                        async move {
+                                            tokio::select! {
+                                                () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                                () = Self::process_command(
+                                                        client_clone,
+                                                        pkid,
+                                                        response_arguments,
+                                                        Some(response_rx),
+                                                ) => { /* Finished processing command */},
+                                            }
+                                            ack_token
                                         }
-                                        m
-                                    }
-                                });
+                                    });
+                                }
                                 return Ok(command_request);
                             }
                         }
@@ -700,23 +776,25 @@ where
                             }
                         }
 
-                        self.pending_pubs.spawn({
-                            let client_clone = self.mqtt_client.clone();
-                            let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                            let pkid = m.pkid;
-                            async move {
-                                tokio::select! {
-                                    () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                    () = Self::process_command(
-                                        client_clone,
-                                        pkid,
-                                        response_arguments,
-                                        None,
-                                    ) => { /* Finished processing command */},
+                        if let Some(ack_token) = ack_token {
+                            self.pending_acks.spawn({
+                                let client_clone = self.mqtt_client.clone();
+                                let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                                let pkid = m.pkid;
+                                async move {
+                                    tokio::select! {
+                                        () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                        () = Self::process_command(
+                                            client_clone,
+                                            pkid,
+                                            response_arguments,
+                                            None,
+                                        ) => { /* Finished processing command */},
+                                    }
+                                    ack_token
                                 }
-                                m
-                            }
-                        });
+                            });
+                        }
 
                         if !command_expiration_time_calculated {
                             return Err(AIOProtocolError::new_internal_logic_error(
@@ -812,6 +890,16 @@ where
             (response_arguments.status_code as u16).to_string(),
         ));
 
+        user_properties.push((
+            UserProperty::ProtocolVersion.to_string(),
+            AIO_PROTOCOL_VERSION.to_string(),
+        ));
+
+        user_properties.push((
+            UserProperty::Timestamp.to_string(),
+            HybridLogicalClock::new().to_string(),
+        ));
+
         if let Some(status_message) = response_arguments.status_message {
             log::error!(
                 "[{}][pkid: {}] {}",
@@ -833,6 +921,22 @@ where
             user_properties.push((
                 UserProperty::InvalidPropertyValue.to_string(),
                 value.to_string(),
+            ));
+        }
+
+        if let Some(supported_protocol_major_versions) =
+            response_arguments.supported_protocol_major_versions
+        {
+            user_properties.push((
+                UserProperty::SupportedMajorVersions.to_string(),
+                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+            ));
+        }
+
+        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+            user_properties.push((
+                UserProperty::RequestProtocolVersion.to_string(),
+                request_protocol_version,
             ));
         }
 
@@ -928,14 +1032,40 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
+    use crate::common::{
+        aio_protocol_error::AIOProtocolErrorKind,
+        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
+    };
+
+    // Payload that has an invalid content type for testing
+    struct InvalidContentTypePayload {}
+    impl Clone for InvalidContentTypePayload {
+        fn clone(&self) -> Self {
+            unimplemented!()
+        }
+    }
+    impl PayloadSerialize for InvalidContentTypePayload {
+        type Error = String;
+        fn content_type() -> &'static str {
+            "application/json\u{0000}"
+        }
+        fn format_indicator() -> FormatIndicator {
+            unimplemented!()
+        }
+        fn serialize(&self) -> Result<Vec<u8>, String> {
+            unimplemented!()
+        }
+        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+            unimplemented!()
+        }
+    }
 
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
     // scope and render the ManagedClient unable to to be used correctly.
     fn create_session() -> Session {
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_server")
             .build()
             .unwrap();
@@ -946,13 +1076,29 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([
+            ("executorId".to_string(), "test_executor_id".to_string()),
+            ("commandName".to_string(), "test_command_name".to_string()),
+        ])
+    }
+
     #[tokio::test]
     async fn test_new_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -960,8 +1106,8 @@ mod tests {
             CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
-            command_executor.request_topic,
-            "test/test_command_name/test_server/request"
+            command_executor.request_topic_pattern.as_subscribe_topic(),
+            "test/test_command_name/test_executor_id/request"
         );
 
         assert!(!command_executor.is_idempotent);
@@ -971,16 +1117,22 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/{modelId}/request")
+            .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
-            .executor_id("test_executor_id")
-            .model_id("test_model_id")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(HashMap::new())
             .cacheable_duration(Duration::from_secs(10))
+            .topic_token_map(create_topic_tokens())
             .is_idempotent(true)
             .build()
             .unwrap();
@@ -989,24 +1141,117 @@ mod tests {
             CommandExecutor::new(managed_client, executor_options).unwrap();
 
         assert_eq!(
-            command_executor.request_topic,
-            "test_namespace/test/test_command_name/test_executor_id/test_model_id/request"
+            command_executor.request_topic_pattern.as_subscribe_topic(),
+            "test_namespace/test/test_command_name/test_executor_id/request"
         );
 
         assert!(command_executor.is_idempotent);
         assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
     }
 
+    #[test]
+    fn test_invalid_request_content_type() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+
+        let executor_options = CommandExecutorOptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+
+        let executor: Result<
+            CommandExecutor<InvalidContentTypePayload, MockPayload, _>,
+            AIOProtocolError,
+        > = CommandExecutor::new(managed_client, executor_options);
+
+        match executor {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+
+    #[test]
+    fn test_invalid_response_content_type() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+
+        let executor_options = CommandExecutorOptionsBuilder::default()
+            .request_topic_pattern("test/{commandName}/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+
+        let executor: Result<
+            CommandExecutor<MockPayload, InvalidContentTypePayload, _>,
+            AIOProtocolError,
+        > = CommandExecutor::new(managed_client, executor_options);
+
+        match executor {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+
     #[test_case(""; "empty command name")]
     #[test_case(" "; "whitespace command name")]
     #[tokio::test]
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name(command_name.to_string())
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1034,12 +1279,21 @@ mod tests {
     #[test_case("test/{commandName}/\u{0}/request"; "invalid request topic pattern")]
     #[tokio::test]
     async fn test_invalid_request_topic_string(request_topic: &str) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
 
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
             .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1067,12 +1321,21 @@ mod tests {
     #[test_case("test/\u{0}"; "invalid topic namespace")]
     #[tokio::test]
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .topic_namespace(topic_namespace.to_string())
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1098,6 +1361,14 @@ mod tests {
     #[test_case(Duration::from_secs(60); "cacheable duration positive")]
     #[tokio::test]
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
@@ -1105,6 +1376,7 @@ mod tests {
             .command_name("test_command_name")
             .cacheable_duration(cacheable_duration)
             .is_idempotent(true)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1115,12 +1387,22 @@ mod tests {
 
     #[tokio::test]
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = create_session();
         let managed_client = session.create_managed_client();
+
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .cacheable_duration(Duration::from_secs(10))
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
@@ -1143,6 +1425,26 @@ mod tests {
                 panic!("Expected error");
             }
         }
+    }
+
+    #[tokio::test]
+    async fn test_shutdown_without_subscribe() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+        let session = create_session();
+        let executor_options = CommandExecutorOptionsBuilder::default()
+            .request_topic_pattern("test/request")
+            .command_name("test_command_name")
+            .build()
+            .unwrap();
+        let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
+            CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
+        assert!(command_executor.shutdown().await.is_ok());
     }
 
     // CommandResponse tests

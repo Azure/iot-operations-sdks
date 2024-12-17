@@ -35,6 +35,11 @@
             "description": "In an error response, whether the error is in the application rather than in the platform.",
             "type": "boolean",
             "kind": "check"
+        },
+        "expiry": {
+            "description": "The message expiry in seconds.",
+            "type": "integer",
+            "kind": "check"
         }
     },
     "required": [ "correlation-index" ]

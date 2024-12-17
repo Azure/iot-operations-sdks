@@ -5,20 +5,20 @@ package protocol
 import (
 	"context"
 	"log/slog"
+	"net/url"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		client    MqttClient
-		publisher *publisher[T]
+		publisher  *publisher[T]
+		dataSchema *url.URL
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -28,6 +28,7 @@ type (
 
 	// TelemetrySenderOptions are the resolved telemetry sender options.
 	TelemetrySenderOptions struct {
+		DataSchema     *url.URL
 		TopicNamespace string
 		TopicTokens    map[string]string
 		Logger         *slog.Logger
@@ -60,7 +61,7 @@ const telemetrySenderErrStr = "telemetry send"
 func NewTelemetrySender[T any](
 	client MqttClient,
 	encoding Encoding[T],
-	topic string,
+	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
 	defer func() { err = errutil.Return(err, true) }()
@@ -76,8 +77,8 @@ func NewTelemetrySender[T any](
 	}
 
 	tp, err := internal.NewTopicPattern(
-		"topic",
-		topic,
+		"topicPattern",
+		topicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -85,13 +86,14 @@ func NewTelemetrySender[T any](
 		return nil, err
 	}
 
-	ts = &TelemetrySender[T]{
-		client: client,
-	}
+	ts = &TelemetrySender[T]{}
 	ts.publisher = &publisher[T]{
+		client:   client,
 		encoding: encoding,
 		topic:    tp,
 	}
+
+	ts.dataSchema = opts.DataSchema
 
 	return ts, nil
 }
@@ -131,15 +133,13 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
-	if err := cloudEventToMessage(pub, opts.CloudEvent); err != nil {
+	if err := cloudEventToMessage(pub, opts.CloudEvent, ts.dataSchema); err != nil {
 		return err
 	}
 	pub.Retain = opts.Retain
-	pub.UserProperties[constants.SenderClientID] = ts.client.ID()
 
 	shallow = false
-	_, err = ts.client.Publish(ctx, pub.Topic, pub.Payload, &pub.PublishOptions)
-	return err
+	return ts.publisher.publish(ctx, pub)
 }
 
 // Apply resolves the provided list of options.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -19,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private const int majorProtocolVersion = 1;
         private const int minorProtocolVersion = 0;
 
-        private int[] supportedMajorProtocolVersions = [1];
+        private readonly int[] supportedMajorProtocolVersions = [1];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -29,10 +32,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly string commandName;
         private readonly IPayloadSerializer serializer;
 
-        private readonly Dictionary<string, string> topicTokenMap = new();
+        private readonly Dictionary<string, string> topicTokenMap = [];
 
-        private HybridLogicalClock hybridLogicalClock;
-        private ICommandResponseCache commandResponseCache;
+        private readonly HybridLogicalClock hybridLogicalClock;
+        private readonly ICommandResponseCache commandResponseCache;
         private Dispatcher? dispatcher;
         private bool isRunning;
         private bool hasSubscribed;
@@ -66,19 +69,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Two requests are considered to be duplicate when the requests have identical correlation ID.
         /// Two requests are considered to be equivalent when they have the same payload, parameters and topic, but different correlation ID.
         /// </remarks>
-        public TimeSpan CacheableDuration { get; init; }
+        public TimeSpan CacheTtl { get; init; }
 
         /// <summary>
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap { get => topicTokenMap; }
+        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in request and response topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => topicTokenMap; }
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
         public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
@@ -107,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             ServiceGroupId = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(this)?.Id ?? string.Empty;
             RequestTopicPattern = AttributeRetriever.GetAttribute<CommandTopicAttribute>(this)?.RequestTopic ?? string.Empty;
             IsIdempotent = AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.IsIdempotent ?? false;
-            CacheableDuration = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheableDuration ?? "PT0H0M0S");
+            CacheTtl = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheTtl ?? "PT0H0M0S");
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
         }
@@ -125,9 +128,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // MessageExpiryInterval is required; if it is missing, this.ExecutionTimeout is substituted as a fail-safe value when sending the error response.
                 TimeSpan commandTimeout = args.ApplicationMessage.MessageExpiryInterval != default ? TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval) : ExecutionTimeout;
                 DateTime commandExpirationTime = messageReceivedTime + commandTimeout;
-                DateTime ttl = messageReceivedTime + CacheableDuration;
+                DateTime ttl = messageReceivedTime + CacheTtl;
 
-                string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value ?? null;
+                string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
                     await GetDispatcher()(
@@ -145,15 +148,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
-                string invokerId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.CommandInvokerId)?.Value ?? string.Empty;
+                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await commandResponseCache.RetrieveAsync(
                         this.commandName,
-                        invokerId,
+                        sourceId,
+                        args.ApplicationMessage.Topic,
                         args.ApplicationMessage.CorrelationData,
-                        args.ApplicationMessage.PayloadSegment.Array ?? Array.Empty<byte>(),
-                        isCacheable: CacheableDuration > TimeSpan.Zero,
+                        args.ApplicationMessage.PayloadSegment.Array ?? [],
+                        isCacheable: CacheTtl > TimeSpan.Zero,
                         canReuseAcrossInvokers: !isExecutorSpecific)
                     .ConfigureAwait(false);
 
@@ -190,9 +194,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     return;
                 }
 
-                ExtendedRequest<TReq> extendedRequest = new ExtendedRequest<TReq> { Request = request, RequestMetadata = requestMetadata };
+                ExtendedRequest<TReq> extendedRequest = new() { Request = request, RequestMetadata = requestMetadata };
 
-                Func<Task> cmdFunc = async () =>
+                async Task cmdFunc()
                 {
                     DateTime executionStartTime = WallClock.UtcNow;
                     TimeSpan startupDelay = executionStartTime - messageReceivedTime;
@@ -209,7 +213,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, payload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, payload, extended.ResponseMetadata);
                         await commandResponseCache.StoreAsync(
                             this.commandName,
-                            invokerId,
+                            sourceId,
+                            args.ApplicationMessage.Topic,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.PayloadSegment.Array,
                             responseMessage,
@@ -264,7 +269,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         commandCts.Dispose();
                     }
-                };
+                }
 
                 await GetDispatcher()(cmdFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
             }
@@ -314,7 +319,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (isRunning && hasSubscribed)
             {
-                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new MqttClientUnsubscribeOptions(subscriptionTopic);
+                MqttClientUnsubscribeOptions mqttUnsubscribeOptions = new(subscriptionTopic);
 
                 MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(mqttUnsubscribeOptions, cancellationToken).ConfigureAwait(false);
 
@@ -328,8 +333,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(transientTopicTokenMap)}" : GetCommandTopic(transientTopicTokenMap);
 
-            var qos = MqttQualityOfServiceLevel.AtLeastOnce;
-            MqttClientSubscribeOptions mqttSubscribeOptions = new MqttClientSubscribeOptions(new MqttTopicFilter(requestTopicFilter, qos));
+            MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce;
+            MqttClientSubscribeOptions mqttSubscribeOptions = new(new MqttTopicFilter(requestTopicFilter, qos));
 
             MqttClientSubscribeResult subAck = await mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
             subAck.ThrowIfNotSuccessSubAck(qos, this.commandName);
@@ -374,15 +379,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (requestMsg.PayloadFormatIndicator != MqttPayloadFormatIndicator.Unspecified && (int)requestMsg.PayloadFormatIndicator != this.serializer.CharacterDataFormatIndicator)
-            {
-                status = CommandStatusCode.UnsupportedMediaType;
-                statusMessage = $"Format indicator {requestMsg.PayloadFormatIndicator} is not appropriate for {this.serializer.ContentType} content.";
-                invalidPropertyName = "Payload Format Indicator";
-                invalidPropertyValue = ((int)requestMsg.PayloadFormatIndicator).ToString(CultureInfo.InvariantCulture);
-                return false;
-            }
-
             if (requestMsg.CorrelationData == null || requestMsg.CorrelationData.Length == 0)
             {
                 status = CommandStatusCode.BadRequest;
@@ -401,12 +397,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            string? invokerId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.CommandInvokerId)?.Value;
-            if (invokerId == null)
+            string? sourceId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
+            if (sourceId == null)
             {
                 status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Invoker Client ID ({AkriSystemProperties.CommandInvokerId}) property present.";
-                invalidPropertyName = AkriSystemProperties.CommandInvokerId;
+                statusMessage = $"No Source ID ({AkriSystemProperties.SourceId}) property present.";
+                invalidPropertyName = AkriSystemProperties.SourceId;
                 invalidPropertyValue = null;
                 return false;
             }
@@ -450,7 +446,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
         {
-            var message = new MqttApplicationMessage(topic, MqttQualityOfServiceLevel.AtLeastOnce)
+            MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
                 CorrelationData = correlationData,
             };
@@ -527,7 +523,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             ArraySegment<byte> payloadSegment,
             List<MqttUserProperty>? userProperties)
         {
-            var message = new MqttApplicationMessage(topic, MqttQualityOfServiceLevel.AtLeastOnce)
+            MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
                 CorrelationData = correlationData,
             };
@@ -541,7 +537,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (userProperties != null)
             {
-                foreach (var property in userProperties)
+                foreach (MqttUserProperty property in userProperties)
                 {
                     message.AddUserProperty(property.Name, property.Value);
                 }
@@ -569,9 +565,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             try
-            { 
+            {
                 MqttClientPublishResult pubAck = await mqttClient.PublishAsync(responseMessage, CancellationToken.None).ConfigureAwait(false);
-                var pubReasonCode = pubAck.ReasonCode;
+                MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                 if (pubReasonCode != MqttClientPublishReasonCode.Success)
                 {
                     string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
@@ -628,14 +624,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            if (CacheableDuration < TimeSpan.Zero)
+            if (CacheTtl < TimeSpan.Zero)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("CacheableDuration", CacheableDuration, "CacheableDuration must not have a negative value", commandName: commandName);
+                throw AkriMqttException.GetConfigurationInvalidException("CacheTtl", CacheTtl, "CacheTtl must not have a negative value", commandName: commandName);
             }
 
-            if (!IsIdempotent && CacheableDuration != TimeSpan.Zero)
+            if (!IsIdempotent && CacheTtl != TimeSpan.Zero)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("CacheableDuration", CacheableDuration, "CacheableDuration must be zero when IsIdempotent=false", commandName: commandName);
+                throw AkriMqttException.GetConfigurationInvalidException("CacheTtl", CacheTtl, "CacheTtl must be zero when IsIdempotent=false", commandName: commandName);
             }
 
             if (ExecutionTimeout <= TimeSpan.Zero)

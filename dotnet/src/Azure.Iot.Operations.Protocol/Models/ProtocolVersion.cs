@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Models
@@ -43,7 +45,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         internal static bool TryParseFromString(string majorProtocolVersionArrayString, out int[] majorProtocolVersionArray)
         {
-            var supportedMajorProtocolVersions = new List<int>();
+            List<int> supportedMajorProtocolVersions = [];
             foreach (string majorProtocolVersion in majorProtocolVersionArrayString.Split(" "))
             {
                 if (int.TryParse(majorProtocolVersion, out int value))
@@ -52,12 +54,12 @@ namespace Azure.Iot.Operations.Protocol.Models
                 }
                 else
                 {
-                    majorProtocolVersionArray = Array.Empty<int>();
+                    majorProtocolVersionArray = [];
                     return false;
                 }
             }
 
-            majorProtocolVersionArray = supportedMajorProtocolVersions.ToArray();
+            majorProtocolVersionArray = [.. supportedMajorProtocolVersions];
             return true;
         }
 

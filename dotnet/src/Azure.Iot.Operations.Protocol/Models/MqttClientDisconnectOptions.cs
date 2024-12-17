@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
@@ -30,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public void AddUserProperty(string name, string value)
         {
-            UserProperties ??= new List<MqttUserProperty>();
+            UserProperties ??= [];
             UserProperties.Add(new MqttUserProperty(name, value));
         }
     }

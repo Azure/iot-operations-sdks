@@ -65,10 +65,6 @@ func Doc() error {
 		return err
 	}
 
-	// TODO: This is a heavy-handed approach to make sure the header does not
-	// get repeated in the documentation. If we want to use package-level doc
-	// comments in the future, it will probably require an update to gomarkdoc
-	// to support this.
 	done, err := tmpFile("package.gotxt", packageDoc)
 	if err != nil {
 		return err
@@ -76,7 +72,7 @@ func Doc() error {
 	defer done()
 
 	return documenter.Command(
-		`--template-file package=package.gotxt ./...`,
+		`--template-file package=package.gotxt --output '{{.Dir}}/API.md' ./...`,
 	).Run()
 }
 

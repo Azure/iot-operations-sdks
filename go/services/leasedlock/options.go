@@ -15,11 +15,16 @@ type (
 
 	// Options are the resolved options for the lock requests.
 	Options struct {
-		Timeout time.Duration
+		Timeout   time.Duration
+		SessionID string
 	}
 
 	// WithTimeout adds a timeout to the request (with second precision).
 	WithTimeout time.Duration
+
+	// WithSessionID adds an optional session ID suffix to the lock holder to
+	// allow distinct locks on the same key with the same MQTT client.
+	WithSessionID string
 )
 
 // Apply resolves the provided list of options.
@@ -40,6 +45,10 @@ func (o *Options) request(opt *Options) {
 
 func (o WithTimeout) request(opt *Options) {
 	opt.Timeout = time.Duration(o)
+}
+
+func (o WithSessionID) request(opt *Options) {
+	opt.SessionID = string(o)
 }
 
 func (o *Options) del() *statestore.DelOptions {

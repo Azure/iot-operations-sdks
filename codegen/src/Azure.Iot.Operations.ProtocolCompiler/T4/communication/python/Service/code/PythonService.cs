@@ -8,7 +8,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string serviceName;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
-        private readonly string? serviceGroupId;
+        private readonly string? cmdServiceGroupId;
+        private readonly string? telemServiceGroupId;
         private readonly List<(string, string, string)> cmdNameReqResps;
         private readonly List<string> telemSchemas;
         private readonly bool doesCommandTargetExecutor;
@@ -21,9 +22,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string serviceName,
             string? commandTopic,
             string? telemetryTopic,
-            string? serviceGroupId,
+            string? cmdServiceGroupId,
+            string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
-            List<string> telemSchemas,
+            List<(string?, string)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService)
@@ -33,9 +35,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serviceName = serviceName;
             this.commandTopic = commandTopic;
             this.telemetryTopic = telemetryTopic;
-            this.serviceGroupId = serviceGroupId;
+            this.cmdServiceGroupId = cmdServiceGroupId;
+            this.telemServiceGroupId = telemServiceGroupId;
             this.cmdNameReqResps = cmdNameReqResps.Select(nrr => (nrr.Item1, ToPythonSchema(nrr.Item2), ToPythonSchema(nrr.Item3))).ToList();
-            this.telemSchemas = telemSchemas;
+            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2).ToList();
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;

@@ -1,0 +1,22 @@
+---
+test-name: TelemetryReceiverWithInappropriateSubscribedTopic
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case expects a subscription to a topic that will not be subscribed.
+
+prologue:
+  receivers:
+  - {}
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "incorrect/subscription"
+...

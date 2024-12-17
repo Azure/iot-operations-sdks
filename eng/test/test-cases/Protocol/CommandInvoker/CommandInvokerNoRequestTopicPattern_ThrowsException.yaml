@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerNoRequestTopicPattern_ThrowsException
-aka:
-- InvokerFailsIfTopicNotConfigured
 description:
   condition: >-
     CommandInvoker initialized with no request topic string.

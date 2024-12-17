@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.Models
 {
     public enum MqttClientSubscribeReasonCode
@@ -6,7 +9,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         GrantedQoS1 = 0x01,
         GrantedQoS2 = 0x02,
         UnspecifiedError = 0x80,
-        
+
         ImplementationSpecificError = 131,
         NotAuthorized = 135,
         TopicFilterInvalid = 143,

@@ -4,6 +4,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public class ObjectType : SchemaType
     {
+        public override SchemaKind Kind { get => SchemaKind.Object; }
+
         public ObjectType(string schemaName, string? description, Dictionary<string, FieldInfo> fieldInfos)
         {
             SchemaName = schemaName;

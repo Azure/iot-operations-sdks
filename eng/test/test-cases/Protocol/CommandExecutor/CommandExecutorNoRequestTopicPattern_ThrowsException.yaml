@@ -1,6 +1,5 @@
 ---
 test-name: CommandExecutorNoRequestTopicPattern_ThrowsException
-
 description:
   condition: >-
     CommandExecutor initialized with no request topic string.

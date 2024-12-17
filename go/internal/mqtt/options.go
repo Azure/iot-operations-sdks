@@ -65,7 +65,7 @@ type (
 	// flag for the subscribe.
 	WithRetain bool
 
-	// WithRetainHandling specifies the handling of retained messages on this
+	// WithRetainHandling specifies the handling of retained messages on the
 	// subscribe.
 	WithRetainHandling byte
 

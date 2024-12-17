@@ -83,3 +83,13 @@ mock! {
         fn deserialize(payload: &[u8]) -> Result<Self, String>;
     }
 }
+#[cfg(test)]
+use std::sync::Mutex;
+
+// Mutex needed to check mock calls of static methods `PayloadSerialize::content_type`, `PayloadSerialize::format_indicator`, and `PayloadSerialize::deserialize`,
+#[cfg(test)]
+pub static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
+#[cfg(test)]
+pub static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
+#[cfg(test)]
+pub static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());

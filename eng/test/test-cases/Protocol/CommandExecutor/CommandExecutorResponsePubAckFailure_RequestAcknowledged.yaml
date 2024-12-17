@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorResponsePubAckFailure_RequestAcknowledged
-aka:
-- ExecutorResponsePubAckFailure_NoExceptionThrownRequestAcknowledged
 description:
   condition: >-
     CommandExecutor receives valid request but ACK fails when publishing response.

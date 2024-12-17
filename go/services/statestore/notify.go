@@ -21,7 +21,7 @@ type Notify[K, V Bytes] struct {
 
 	// Ack provides a function to manually ack if enabled; it will be nil
 	// otherwise.
-	Ack func() error
+	Ack func()
 }
 
 // Notify requests a notification channel for a key. It returns the channel and

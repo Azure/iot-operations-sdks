@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerExecutorAgnosticInvocation_Success
-aka:
-- InvokeWithoutExecutorId
 description:
   condition: >-
     CommandInvoker with executor-agnostic topic pattern invokes command and receives response.

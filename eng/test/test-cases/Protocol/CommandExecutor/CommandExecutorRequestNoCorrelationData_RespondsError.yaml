@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestNoCorrelationData_RespondsError
-aka:
-- CorrelationDataMissing_RpcErrorBadRequest
 description:
   condition: >-
     CommandExecutor receives request with no CorrelationData.

@@ -1,0 +1,26 @@
+---
+test-name: TelemetryReceiverCanary
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    TelemetryReceiver relays Telemetry to user code and acknowledges message.
+
+prologue:
+  receivers:
+  - {}
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+...

@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.dtmi_com_example_Counter__1;
 

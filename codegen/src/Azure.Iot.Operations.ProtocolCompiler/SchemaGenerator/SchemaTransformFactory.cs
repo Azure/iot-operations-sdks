@@ -11,12 +11,22 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private static Dictionary<string, int> uniquifiers = new();
 
-        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
+        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, string genNamespace, Dtmi interfaceId, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, bool isSeparate)
         {
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
-                    throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' is not supported for Interfaces whose contents include Telemetry");
+                    if (nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item3.GetType() != typeof(DTBytesInfo)))
+                    {
+                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' does not support any Telemetry schema other than 'bytes'");
+                    }
+
+                    if (!isSeparate && nameDescSchemaRequiredIndices.Count > 1)
+                    {
+                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' requires multiple Telemetries to have distinct topics by name");
+                    }
+
+                    yield break;
                 case PayloadFormat.Avro:
                     yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, GetDtmiToUniqueSchemaNameDelegate(interfaceId));
                     yield break;

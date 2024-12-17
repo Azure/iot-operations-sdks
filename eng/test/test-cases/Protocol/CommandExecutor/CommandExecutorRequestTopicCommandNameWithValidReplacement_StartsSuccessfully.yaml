@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestTopicCommandNameWithValidReplacement_StartsSuccessfully
-aka:
-- RequestTopicCommandNameWithValidReplacementDoesNotThrow
 description:
   condition: >-
     CommandExecutor request topic contains a '{commandName}' token and command name is a valid replacement.

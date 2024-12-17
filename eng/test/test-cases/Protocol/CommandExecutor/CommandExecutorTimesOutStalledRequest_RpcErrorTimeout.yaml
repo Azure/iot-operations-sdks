@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorTimesOutStalledRequest_RpcErrorTimeout
-aka:
-- ExecutorRequestExpiresDuringProcessingExecutionTimeout_RpcErrorTimeout
 description:
   condition: >-
     CommandExecutor receives request that stalls during processing until execution timeout reached.

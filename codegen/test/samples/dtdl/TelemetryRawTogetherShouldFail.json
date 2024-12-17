@@ -1,0 +1,24 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:jsonTest:TelemetryRawSeparate;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "raw/0",
+    "telemetryTopic": "sample/{modelId}/{senderId}/telemetry",
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "foo",
+        "schema": "bytes"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "bar",
+        "schema": "bytes"
+      }
+    ]
+  }
+]

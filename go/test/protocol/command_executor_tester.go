@@ -18,7 +18,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
-	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/packets"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
@@ -102,18 +102,18 @@ func runOneCommandExecutorTest(
 		countdownEvents[name] = NewCountdownEvent(init)
 	}
 
-	stubClient, sessionClient := getStubAndSessionClient(t, mqttClientID)
+	stubBroker, sessionClient := getStubAndSessionClient(t, mqttClientID)
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Publish {
-		stubClient.enqueuePubAck(ackKind)
+		stubBroker.EnqueuePubAck(ackKind)
 	}
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Subscribe {
-		stubClient.enqueueSubAck(ackKind)
+		stubBroker.EnqueueSubAck(ackKind)
 	}
 
 	for _, ackKind := range testCase.Prologue.PushAcks.Unsubscribe {
-		stubClient.enqueueUnsubAck(ackKind)
+		stubBroker.EnqueueUnsubAck(ackKind)
 	}
 
 	var commandExecutors []*TestingCommandExecutor
@@ -136,7 +136,7 @@ func runOneCommandExecutorTest(
 		}
 	}
 
-	invokerIDs := make(map[int]string)
+	sourceIDs := make(map[int]string)
 	correlationIDs := make(map[int][]byte)
 	packetIDs := make(map[int]uint16)
 
@@ -153,18 +153,18 @@ func runOneCommandExecutorTest(
 			receiveRequest(
 				t,
 				action.AsReceiveRequest(),
-				stubClient,
-				invokerIDs,
+				stubBroker,
+				sourceIDs,
 				correlationIDs,
 				packetIDs,
 			)
 		case AwaitAck:
-			awaitAcknowledgement(t, action.AsAwaitAck(), stubClient, packetIDs)
+			awaitAcknowledgement(t, action.AsAwaitAck(), stubBroker, packetIDs)
 		case AwaitPublish:
 			awaitPublish(
 				t,
 				action.AsAwaitPublish(),
-				stubClient,
+				stubBroker,
 				correlationIDs,
 			)
 		case Sync:
@@ -172,10 +172,7 @@ func runOneCommandExecutorTest(
 		case Sleep:
 			sleep(action.AsSleep())
 		case Disconnect:
-			t.Skipf(
-				"Skipping test %s because action 'disconnect' not implemented",
-				testName,
-			)
+			stubBroker.Disconnect()
 		case FreezeTime:
 			freezeTicket = freezeTime()
 		case UnfreezeTime:
@@ -185,26 +182,26 @@ func runOneCommandExecutorTest(
 	}
 
 	for _, topic := range testCase.Epilogue.SubscribedTopics {
-		require.True(t, stubClient.hasSubscribed(topic))
+		require.True(t, stubBroker.HasSubscribed(topic))
 	}
 
 	if testCase.Epilogue.PublicationCount != nil {
 		require.Equal(
 			t,
 			*testCase.Epilogue.PublicationCount,
-			stubClient.PublicationCount(),
+			stubBroker.PublicationCount,
 		)
 	}
 
 	for _, publishedMessage := range testCase.Epilogue.PublishedMessages {
-		checkPublishedResponse(t, publishedMessage, stubClient, correlationIDs)
+		checkPublishedResponse(t, &publishedMessage, stubBroker, correlationIDs)
 	}
 
 	if testCase.Epilogue.AcknowledgementCount != nil {
 		require.Equal(
 			t,
 			*testCase.Epilogue.AcknowledgementCount,
-			stubClient.AcknowledgementCount(),
+			stubBroker.AcknowledgementCount,
 		)
 	}
 
@@ -231,8 +228,10 @@ func getCommandExecutor(
 	catch *TestCaseCatch,
 ) *TestingCommandExecutor {
 	options := []protocol.CommandExecutorOption{
+		protocol.WithTopicTokens(tce.CustomTokenMap),
+		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithIdempotent(tce.Idempotent),
-		protocol.WithCacheTTL(tce.CacheableDuration.ToDuration()),
+		protocol.WithCacheTTL(tce.CacheTTL.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 
@@ -287,23 +286,23 @@ func getCommandExecutor(
 func receiveRequest(
 	t *testing.T,
 	actionReceiveRequest *TestCaseActionReceiveRequest,
-	stubClient StubClient,
-	invokerIDs map[int]string,
+	stubBroker *StubBroker,
+	sourceIDs map[int]string,
 	correlationIDs map[int][]byte,
 	packetIDs map[int]uint16,
 ) {
-	var props paho.PublishProperties
+	var props packets.Properties
 
-	if actionReceiveRequest.InvokerIndex != nil {
-		invokerID, ok := invokerIDs[*actionReceiveRequest.InvokerIndex]
+	if actionReceiveRequest.SourceIndex != nil {
+		sourceID, ok := sourceIDs[*actionReceiveRequest.SourceIndex]
 		if !ok {
 			guid, _ := uuid.NewV7()
-			invokerID = guid.String()
-			invokerIDs[*actionReceiveRequest.InvokerIndex] = invokerID
+			sourceID = guid.String()
+			sourceIDs[*actionReceiveRequest.SourceIndex] = sourceID
 		}
-		props.User = append(props.User, paho.UserProperty{
-			Key:   InvokerClientID,
-			Value: invokerID,
+		props.User = append(props.User, packets.User{
+			Key:   SourceID,
+			Value: sourceID,
 		})
 	}
 
@@ -325,9 +324,13 @@ func receiveRequest(
 
 	var packetID uint16
 	if actionReceiveRequest.PacketIndex != nil {
-		packetID = packetIDs[*actionReceiveRequest.PacketIndex]
+		var ok bool
+		packetID, ok = packetIDs[*actionReceiveRequest.PacketIndex]
+		if !ok {
+			packetID = stubBroker.GetNewPacketID()
+		}
 	} else {
-		packetID = stubClient.getNewPacketID()
+		packetID = stubBroker.GetNewPacketID()
 	}
 
 	if actionReceiveRequest.ContentType != nil {
@@ -362,13 +365,13 @@ func receiveRequest(
 	}
 
 	for key, val := range actionReceiveRequest.Metadata {
-		props.User = append(props.User, paho.UserProperty{
+		props.User = append(props.User, packets.User{
 			Key:   key,
 			Value: val,
 		})
 	}
 
-	request := paho.Publish{
+	request := packets.Publish{
 		PacketID:   packetID,
 		Topic:      *actionReceiveRequest.Topic,
 		Properties: &props,
@@ -379,7 +382,7 @@ func receiveRequest(
 		request.QoS = byte(*actionReceiveRequest.Qos)
 	}
 
-	stubClient.receiveMessage(&request)
+	stubBroker.ReceiveMessage(&request)
 
 	if actionReceiveRequest.PacketIndex != nil {
 		packetIDs[*actionReceiveRequest.PacketIndex] = packetID
@@ -403,8 +406,8 @@ func syncEvent(
 
 func checkPublishedResponse(
 	t *testing.T,
-	publishedMessage TestCasePublishedMessage,
-	stubClient StubClient,
+	publishedMessage *TestCasePublishedMessage,
+	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 ) {
 	var lookupKey []byte
@@ -412,7 +415,7 @@ func checkPublishedResponse(
 		lookupKey = correlationIDs[*publishedMessage.CorrelationIndex]
 	}
 
-	msg, ok := stubClient.getPublishedMessage(lookupKey)
+	msg, ok := stubBroker.GetPublishedMessage(lookupKey)
 	require.True(t, ok)
 
 	if publishedMessage.Topic != nil {
@@ -429,9 +432,9 @@ func checkPublishedResponse(
 
 	for key, val := range publishedMessage.Metadata {
 		propVal, ok := getUserProperty(t, msg, key)
-		if val != "" {
+		if val != nil {
 			require.True(t, ok)
-			require.Equal(t, val, propVal)
+			require.Equal(t, *val, propVal)
 		} else {
 			require.False(t, ok)
 		}
@@ -453,6 +456,14 @@ func checkPublishedResponse(
 		} else {
 			require.True(t, !ok || strings.EqualFold(isAppErr, "false"))
 		}
+	}
+
+	if publishedMessage.Expiry != nil {
+		require.Equal(
+			t,
+			*publishedMessage.Expiry,
+			*msg.Properties.MessageExpiry,
+		)
 	}
 }
 

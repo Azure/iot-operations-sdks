@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseTopicPrefixModelIdWithInvalidReplacement_ThrowsException
-aka:
-- ResponseTopicPrefixModelIdWithInvalidReplacementThrowsException
 description:
   condition: >-
     CommandInvoker response topic prefix contains a '{modelId}' token but model ID is not a valid replacement.

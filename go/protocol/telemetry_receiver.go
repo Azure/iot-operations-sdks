@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 )
 
@@ -59,9 +58,9 @@ type (
 		*CloudEvent
 
 		// Ack provides a function to manually ack if enabled and if possible;
-		// it will be nil otherwise. Note that, since QoS0 messages cannot be
+		// it will be nil otherwise. Note that, since QoS 0 messages cannot be
 		// acked, this will be nil in this case even if manual ack is enabled.
-		Ack func() error
+		Ack func()
 	}
 
 	// WithManualAck indicates that the handler is responsible for manually
@@ -75,7 +74,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 func NewTelemetryReceiver[T any](
 	client MqttClient,
 	encoding Encoding[T],
-	topic string,
+	topicPattern string,
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
@@ -106,8 +105,8 @@ func NewTelemetryReceiver[T any](
 	}
 
 	tp, err := internal.NewTopicPattern(
-		"topic",
-		topic,
+		"topicPattern",
+		topicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -157,8 +156,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
 
-	message.ClientID = pub.UserProperties[constants.SenderClientID]
-
 	message.Payload, err = tr.listener.payload(pub)
 	if err != nil {
 		return err
@@ -178,18 +175,18 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	}
 
 	if !tr.manualAck && pub.QoS > 0 {
-		tr.listener.ack(ctx, pub)
+		pub.Ack()
 	}
 	return nil
 }
 
 func (tr *TelemetryReceiver[T]) onErr(
-	ctx context.Context,
+	_ context.Context,
 	pub *mqtt.Message,
 	err error,
 ) error {
 	if !tr.manualAck && pub.QoS > 0 {
-		tr.listener.ack(ctx, pub)
+		pub.Ack()
 	}
 	return errutil.Return(err, false)
 }
@@ -222,7 +219,7 @@ func (tr *TelemetryReceiver[T]) handle(
 		}()
 
 		err = tr.handler(ctx, msg)
-		if e := errors.Context(ctx, telemetryReceiverErrStr); e != nil {
+		if e := errutil.Context(ctx, telemetryReceiverErrStr); e != nil {
 			// An error from the context overrides any return value.
 			err = e
 		} else if err != nil {
@@ -248,7 +245,7 @@ func (tr *TelemetryReceiver[T]) handle(
 	case err := <-rchan:
 		return err
 	case <-ctx.Done():
-		return errors.Context(ctx, telemetryReceiverErrStr)
+		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }
 

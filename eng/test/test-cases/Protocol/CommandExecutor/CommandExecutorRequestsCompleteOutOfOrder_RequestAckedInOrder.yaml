@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder
-aka:
-- MultipleExecutors_ReceivedMessagesAreAckedInOrder
 description:
   condition: >-
     CommandExecutor receives two requests that synchronize so that they complete in reverse order.

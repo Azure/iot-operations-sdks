@@ -7,9 +7,24 @@
 
     public class ObjectPropertyRowGenerator
     {
+        private static HashSet<string> undocumentedItems = new();
+
         private readonly string suiteName;
         private readonly DefaultValues defaultValues;
         private readonly JsonDocument objectSchema;
+
+        public static void ProcessHeader(XmlElement headerElt)
+        {
+            for (int i = 0; i < headerElt.ChildNodes.Count; i++)
+            {
+                XmlNode xmlNode = headerElt.ChildNodes[i]!;
+                if (xmlNode.NodeType == XmlNodeType.Element && xmlNode.Name == "Undocumented")
+                {
+                    XmlElement xmlElement = (XmlElement)xmlNode;
+                    undocumentedItems.Add(xmlElement.GetAttribute("item"));
+                }
+            }
+        }
 
         public ObjectPropertyRowGenerator(XmlElement tableElt, JsonSchemata jsonSchemata, DefaultValues defaultValues, string suiteName, string itemName)
         {
@@ -134,7 +149,7 @@
             {
                 string refFile = refElt.GetString()!;
                 string refName = refFile.Substring(0, refFile.IndexOf('.'));
-                return $"[{refName}](#{MarkdownFile.ToReference(refName)})";
+                return undocumentedItems.Contains(refName) ? refName : $"[{refName}](#{MarkdownFile.ToReference(refName)})";
             }
             else if (elt.TryGetProperty("anyOf", out JsonElement anyOfElt))
             {

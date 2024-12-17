@@ -39,7 +39,7 @@ public class GreeterEnvoy
             : base(mqttClient, "sayHelloWithDelay", new Utf8JsonSerializer())
         {
             IsIdempotent = true;
-            CacheableDuration = TimeSpan.FromSeconds(10);
+            CacheTtl = TimeSpan.FromSeconds(10);
             ExecutionTimeout = TimeSpan.FromSeconds(30);
         }
     }
@@ -90,8 +90,8 @@ public class GreeterEnvoy
         public override string ToString()
         {
             return $"Service {nameof(GreeterEnvoy)} {Environment.NewLine}" +
-                    $"\tSayHello: Idempotent {sayHelloExecutor.IsIdempotent} CacheDuration {sayHelloExecutor.CacheableDuration} {Environment.NewLine}" +
-                    $"\tSayHelloWithDelay: Idempotent {sayHelloWithDelayExecutor.IsIdempotent} CacheDuration {sayHelloWithDelayExecutor.CacheableDuration} {Environment.NewLine}";
+                    $"\tSayHello: Idempotent {sayHelloExecutor.IsIdempotent} CacheDuration {sayHelloExecutor.CacheTtl} {Environment.NewLine}" +
+                    $"\tSayHelloWithDelay: Idempotent {sayHelloWithDelayExecutor.IsIdempotent} CacheDuration {sayHelloWithDelayExecutor.CacheTtl} {Environment.NewLine}";
 
         }
     }

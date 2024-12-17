@@ -17,7 +17,7 @@ impl PayloadSerialize for EmptyJson {
     }
 
     fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
-        Ok("{}".as_bytes().to_owned())
+        Ok("".as_bytes().to_owned())
     }
 
     fn deserialize(_payload: &[u8]) -> Result<Self, Self::Error> {

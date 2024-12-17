@@ -70,7 +70,8 @@ The following table illustrates, for each error condition, what response should 
 | HLC integer overflow | 500 | false | "Counter" | (none) | internal logic error |
 | HLC excessive clock drift | 503 | false | "MaxClockDrift" | (none) | invalid state |
 
-> Note: When an unknown error originates from a dependent component, it is recommended to include any nested error text in the status message to assist a human user in diagnosing the error condition.
+> [!NOTE]
+> When an unknown error originates from a dependent component, it is recommended to include any nested error text in the status message to assist a human user in diagnosing the error condition.
 
 ## CommandExecutor Non-Command Errors
 
@@ -106,7 +107,7 @@ In these cases, the `CommandInvoker` should log the error but not surface it to 
 
 The following table illustrates, for each error condition in a response message, which Akri.Mqtt error the `CommandInvoker` should surface.
 If a response message has multiple error conditions, the `CommandInvoker` is free to select from among the appropriate errors.
-For comprehensivess, the table includes rows illustrating conditions that are not considered to be errors; these responses should be processed as normal.
+For comprehensiveness, the table includes rows illustrating conditions that are not considered to be errors; these responses should be processed as normal.
 
 Response messages that indicate remotely detected errors in request messages should be processed liberally.
 Instead of checking for detailed consistency between status codes and which supplemental properties are included, the invoker should relay the remote error as best it can.

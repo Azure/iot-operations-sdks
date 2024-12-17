@@ -52,7 +52,7 @@ var ceReserved = []string{
 	ceTime,
 }
 
-// Attrs returns additional error attributes for slog.
+// Attrs returns additional attributes for slog.
 func (ce *CloudEvent) Attrs() []slog.Attr {
 	// Cloud events were not specified; just bail out.
 	if ce == nil {
@@ -85,7 +85,7 @@ func (ce *CloudEvent) Attrs() []slog.Attr {
 }
 
 // Initialize default values in the cloud event where possible; error where not.
-func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
+func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
 	// Cloud events were not specified; just bail out.
 	if ce == nil {
 		return nil
@@ -143,6 +143,8 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent) error {
 
 	if ce.DataSchema != nil {
 		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
+	} else if ds != nil {
+		msg.UserProperties[ceDataSchema] = ds.String()
 	}
 
 	if ce.Subject != "" {

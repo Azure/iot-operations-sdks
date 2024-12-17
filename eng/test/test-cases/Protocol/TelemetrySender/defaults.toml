@@ -1,0 +1,11 @@
+[prologue.sender]
+telemetry-name = "test"
+telemetry-topic = "mock/test"
+model-id = "dtmi:test:MyModel;1"
+data-schema = "dtmi:test:MyModel:_contents:__test;1"
+
+[actions.send-telemetry]
+telemetry-name = "test"
+telemetry-value = "Test_Telemetry"
+timeout = { minutes = 1 }
+qos = 1

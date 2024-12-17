@@ -9,40 +9,30 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/eclipse/paho.golang/paho"
+	"github.com/eclipse/paho.golang/packets"
 	"github.com/stretchr/testify/require"
 )
 
 func getStubAndSessionClient(
 	t *testing.T,
 	clientID string,
-) (StubClient, protocol.MqttClient) {
-	mqttClient := MakeStubMqttClient(clientID)
-	sessionClient, err := mqtt.NewSessionClient(
-		"tcp://localhost:1234",
-		mqtt.WithPahoClientFactory(
-			func(cfg *paho.ClientConfig) mqtt.PahoClient {
-				mqttClient.onPublishReceived = cfg.OnPublishReceived
-				return mqttClient
-			},
-		),
-		mqtt.WithPahoClientConfig(&paho.ClientConfig{}),
+) (*StubBroker, protocol.MqttClient) {
+	stubBroker, provider := NewStubBroker()
+	sessionClient := mqtt.NewSessionClient(
+		provider,
 		mqtt.WithClientID(clientID),
 	)
-	require.NoError(t, err)
-	err = sessionClient.Start()
-	require.NoError(t, err)
-
-	return mqttClient, sessionClient
+	require.NoError(t, sessionClient.Start())
+	return stubBroker, sessionClient
 }
 
 func awaitAcknowledgement(
 	t *testing.T,
 	actionAwaitAck *TestCaseActionAwaitAck,
-	mqttClient StubClient,
+	stubBroker *StubBroker,
 	packetIDs map[int]uint16,
 ) {
-	packetID := mqttClient.awaitAcknowledgement()
+	packetID := stubBroker.AwaitAcknowledgement()
 
 	if actionAwaitAck.PacketIndex != nil {
 		extantPacketID, ok := packetIDs[*actionAwaitAck.PacketIndex]
@@ -59,10 +49,10 @@ func awaitAcknowledgement(
 func awaitPublish(
 	_ *testing.T,
 	actionAwaitPublish *TestCaseActionAwaitPublish,
-	mqttClient StubClient,
+	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
 ) {
-	correlationID := mqttClient.awaitPublish()
+	correlationID := stubBroker.AwaitPublish()
 
 	if actionAwaitPublish.CorrelationIndex != nil {
 		correlationIDs[*actionAwaitPublish.CorrelationIndex] = correlationID
@@ -88,7 +78,7 @@ func unfreezeTime(ticket int) {
 
 func getUserProperty(
 	_ *testing.T,
-	msg *paho.Publish,
+	msg *packets.Publish,
 	key string,
 ) (string, bool) {
 	for _, kvp := range msg.Properties.User {

@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorReceivesEquivalentIdempotentRequestBeyondTTL_CommandExecuted
-aka:
-- EquivalentRequest_Idempotent_CacheExpired_NotRetrievedFromCache
 description:
   condition: >-
     CommandExecutor receives equivalent idempotent request beyond cacheable TTL.
@@ -11,7 +9,7 @@ description:
 prologue:
   executors:
   - idempotent: !!bool true
-    cacheable-duration: { seconds: 2 }
+    cache-ttl: { seconds: 2 }
     request-responses-map:
       "Test_Request": [ "Test_Response0", "Test_Response1" ]
 

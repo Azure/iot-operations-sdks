@@ -1,0 +1,23 @@
+---
+test-name: TelemetryReceiverReceivedTelemetryWithWrongSourceIndex
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with an incorrect source index.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  source-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  received-telemetries:
+  - source-index: 1
+...

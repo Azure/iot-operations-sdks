@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Protocol.RPC
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.RPC
 {
     public struct ExtendedResponse<TResp>
         where TResp : class
@@ -8,11 +11,14 @@
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
 #pragma warning disable CA1000 // Do not declare static members on generic types
-        public static ExtendedResponse<TResp> CreateFromResponse(TResp response) => new()
+        public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
         {
-            Response = response,
-            ResponseMetadata = null,
-        };
+            return new()
+            {
+                Response = response,
+                ResponseMetadata = null,
+            };
+        }
 #pragma warning restore CA1000 // Do not declare static members on generic types
     }
 }

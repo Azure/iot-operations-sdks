@@ -1,0 +1,24 @@
+---
+test-name: TelemetrySenderPublishedMessageWithWrongMetadata
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry containing metadata.
+  expect: >-
+    Erroneous test case expects a Telemetry with wrong metadata value.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  metadata:
+    "telemHeader": "telemValue"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - metadata:
+      "telemHeader": "incorrectValue"
+...

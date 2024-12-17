@@ -21,7 +21,7 @@
             { "rust", new RustTypeGenerator() },
         };
 
-        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, DirectoryInfo outDir, string genNamespace, HashSet<string> sourceFilePaths)
+        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, DirectoryInfo outDir, string genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
             string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace);
             string schemaFilePath = Path.Combine(schemaFileFolder, schemaFileName);
@@ -64,6 +64,7 @@
 
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
+                    distinctSchemaKinds.Add(schemaType.Kind);
                     typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, outDir.FullName, sourceFilePaths);
                 }
             }

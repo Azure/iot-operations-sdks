@@ -1,0 +1,14 @@
+---
+test-name: TelemetrySenderCatchWithWrongErrorKind
+description:
+  condition: >-
+    TelemetrySender initialized with a topic namespace that is invalid.
+  expect: >-
+    Erroneous test case expects TelemetrySender to throw incorrect 'invalid argument' exception.
+
+prologue:
+  senders:
+  - topic-namespace: "invalid/{modelId}"
+  catch:
+    error-kind: invalid argument
+...

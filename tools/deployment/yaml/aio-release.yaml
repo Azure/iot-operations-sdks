@@ -1,6 +1,6 @@
 # Setup external listener (LoadBalancer)
 ---
-apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
+apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
 metadata:
   name: default-external
@@ -42,7 +42,7 @@ spec:
             ip:
               - 127.0.0.1
 ---
-apiVersion: mqttbroker.iotoperations.azure.com/v1beta1
+apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerAuthentication
 metadata:
   name: default-x509

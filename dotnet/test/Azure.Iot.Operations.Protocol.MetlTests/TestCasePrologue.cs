@@ -1,4 +1,7 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCasePrologue
     {
@@ -9,6 +12,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public List<TestCaseExecutor> Executors { get; set; } = new();
 
         public List<TestCaseInvoker> Invokers { get; set; } = new();
+
+        public List<TestCaseReceiver> Receivers { get; set; } = new();
+
+        public List<TestCaseSender> Senders { get; set; } = new();
 
         public TestCaseCatch? Catch { get; set; }
 

@@ -19,8 +19,8 @@ Topic structure SHOULD be compatible with:
 * Each _label_ is one of:
     * A string of printable ASCII characters not including space, `"`, `+`, `#`, `{`, `}`, or `/`
     * A *recognized token* from the first column in the tables below, specifically:
-        * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry pattern](envoy-binder.md#telemetry-envoy)
-        * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, or `{commandName}` for [Command pattern](envoy-binder.md#command-envoy)
+        * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry](telemetry.md)
+        * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, or `{commandName}` for [Commands](commands.md)
     * A *custom token*, defined as string that begins with `{ex:`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{ex:customToken}`
 * The first label must not start with `$`
 
@@ -31,7 +31,7 @@ Telemetry topic patterns MAY contain the following recognized tokens.
 | Topic token | Description | Required |
 | --- | --- | --- |
 | `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface, might include the version | optional |
-| `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | required |
+| `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | optional |
 | `{telemetryName}` | The name of the Telemetry | optional |
 
 A *telemetry namespace* is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.

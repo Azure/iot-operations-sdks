@@ -3,6 +3,7 @@
 use std::time::Duration;
 
 use env_logger::Builder;
+use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -12,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 };
 
 const CLIENT_ID: &str = "aio_example_executor_client";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
@@ -27,7 +28,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -85,8 +86,11 @@ pub struct IncrResponsePayload {
     pub counter_response: i32,
 }
 
+#[derive(Debug, Error)]
+pub enum IncrSerializerError {}
+
 impl PayloadSerialize for IncrRequestPayload {
-    type Error = String;
+    type Error = IncrSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -95,18 +99,18 @@ impl PayloadSerialize for IncrRequestPayload {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
-        let payload = String::from("{}");
-        Ok(payload.into_bytes())
+    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
+        // This is a request payload, executor does not need to serialize it
+        unimplemented!()
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, String> {
+    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, IncrSerializerError> {
         Ok(IncrRequestPayload {})
     }
 }
 
 impl PayloadSerialize for IncrResponsePayload {
-    type Error = String;
+    type Error = IncrSerializerError;
     fn content_type() -> &'static str {
         "application/json"
     }
@@ -115,14 +119,13 @@ impl PayloadSerialize for IncrResponsePayload {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
         Ok(payload.into_bytes())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, String> {
-        let payload = String::from_utf8(payload.to_vec()).unwrap();
-        let counter_response = payload.parse::<i32>().unwrap();
-        Ok(IncrResponsePayload { counter_response })
+    fn deserialize(_payload: &[u8]) -> Result<IncrResponsePayload, IncrSerializerError> {
+        // This is a response payload, executor does not need to deserialize it
+        unimplemented!()
     }
 }

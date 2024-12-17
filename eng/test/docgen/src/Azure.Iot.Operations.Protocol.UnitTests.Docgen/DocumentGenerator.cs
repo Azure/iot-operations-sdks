@@ -34,6 +34,7 @@
 
             CompletenessChecker.ProcessHeader(headerElt);
             ObjectPropertyTableGenerator.ProcessHeader(headerElt);
+            ObjectPropertyRowGenerator.ProcessHeader(headerElt);
 
             XmlElement bodyElt = docElt["Body"]!;
 

@@ -1,0 +1,18 @@
+{
+    "title": "ActionAwaitSend",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "action": {
+            "description": "Wait for the least recent Telemetry send to complete.",
+            "type": "string",
+            "const": "await send"
+        },
+        "catch": {
+            "description": "An error that is expected to be caught while sending Telemetry.",
+            "$ref": "Catch.schema.json",
+            "kind": "check"
+        }
+    },
+    "required": [ "action" ]
+}

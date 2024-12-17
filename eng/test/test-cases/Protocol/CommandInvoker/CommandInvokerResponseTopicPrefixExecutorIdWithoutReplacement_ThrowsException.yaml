@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseTopicPrefixExecutorIdWithoutReplacement_ThrowsException
-aka:
-- InvalidResponseTopicPrefixThrowsException
 description:
   condition: >-
     CommandInvoker initialized with a response topic prefix that contains an '{executorId}' token but no replacement is specified.

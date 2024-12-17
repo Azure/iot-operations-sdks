@@ -11,6 +11,7 @@ use azure_iot_operations_protocol::{
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{AckToken, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
+use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
@@ -28,8 +29,8 @@ const REQUEST_TOPIC_PATTERN: &str =
 const RESPONSE_TOPIC_PREFIX: &str = "clients/{invokerClientId}/services";
 const RESPONSE_TOPIC_SUFFIX: &str = "response";
 const COMMAND_NAME: &str = "invoke";
-// where the telemetryName is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and senderId is a hex encoded representation of the key that changed
-const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{telemetryName}/command/notify/{senderId}";
+// where the encodedClientId is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and encodedKeyName is a hex encoded representation of the key that changed
+const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{encodedClientId}/command/notify/{encodedKeyName}";
 
 /// Type defined to repress clippy warning about very complex type
 type ArcMutexHashmap<K, V> = Arc<Mutex<HashMap<K, V>>>;
@@ -77,7 +78,7 @@ where
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
-        ArcMutexHashmap<Vec<u8>, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
+        ArcMutexHashmap<String, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
     recv_cancellation_token: CancellationToken,
 }
 
@@ -101,6 +102,7 @@ where
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
+            .topic_token_map(HashMap::from([("invokerClientId".to_string(), client.client_id().to_string())]))
             .command_name(COMMAND_NAME)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
@@ -113,17 +115,15 @@ where
             .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
-        let mut encoded_client_id: String = String::new();
-        client
-            .client_id()
-            .as_bytes()
-            .iter()
-            .for_each(|b| encoded_client_id.push_str(&format!("{b:X}")));
+        let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
         let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
-            .telemetry_name(encoded_client_id)
+            .topic_token_map(HashMap::from([(
+                "encodedClientId".to_string(),
+                encoded_client_id),
+                ]))
             .auto_ack(options.key_notification_auto_ack)
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
@@ -156,6 +156,29 @@ where
             observed_keys,
             recv_cancellation_token,
         })
+    }
+
+    // TODO: Finish implementing shutdown logic
+    /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
+    /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Note: If this method is called, the [`state_store::Client`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
+    /// # Errors
+    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), StateStoreError> {
+        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
+        self.recv_cancellation_token.cancel();
+
+        self.command_invoker
+            .shutdown()
+            .await
+            .map_err(StateStoreErrorKind::from)?;
+
+        log::info!("Shutdown");
+        Ok(())
     }
 
     /// Sets a key value pair in the State Store Service
@@ -382,7 +405,7 @@ where
 
     /// Starts observation of any changes on a key from the State Store Service
     ///
-    /// Returns `OK([KeyObservation])` if the key is now being observed.
+    /// Returns OK([`state_store::Response<KeyObservation>`]) if the key is now being observed.
     /// The [`KeyObservation`] can be used to receive key notifications for this key
     ///
     /// <div class="warning">
@@ -420,9 +443,7 @@ where
 
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
-        let mut encoded_key_name: Vec<u8> = Vec::new();
-        key.iter()
-            .for_each(|b| encoded_key_name.append(&mut format!("{b:X}").into_bytes()));
+        let encoded_key_name = HEXUPPER.encode(&key);
         let (tx, rx) = channel(100);
 
         {
@@ -514,9 +535,7 @@ where
         ) {
             Ok(r) => {
                 // remove key from observed_keys hashmap
-                let mut encoded_key_name: Vec<u8> = Vec::new();
-                key.iter()
-                    .for_each(|b| encoded_key_name.append(&mut format!("{b:X}").into_bytes()));
+                let encoded_key_name = HEXUPPER.encode(&key);
 
                 let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
                 if observed_keys_mutex_guard
@@ -537,7 +556,7 @@ where
         recv_cancellation_token: CancellationToken,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
-            Vec<u8>,
+            String,
             Sender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
@@ -552,17 +571,25 @@ where
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
-                                let key_name: Vec<u8> = notification.sender_id.clone().into();
+                                let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
+                                    log::error!("Key Notification missing encodedKeyName topic token.");
+                                    continue;
+                                };
+                                let decoded_key_name = HEXUPPER.decode(key_name.as_bytes()).unwrap();
+                                let Some(notification_timestamp) = notification.timestamp else {
+                                    log::error!("Received key notification with no version. Ignoring.");
+                                    continue;
+                                };
                                 let key_notification = state_store::KeyNotification {
-                                    key: key_name.clone(),
+                                    key: decoded_key_name,
                                     operation: notification.payload.clone(),
-                                    version: notification.timestamp,
+                                    version: notification_timestamp,
                                 };
 
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(&key_name) {
+                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
@@ -621,7 +648,7 @@ mod tests {
     fn create_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_client")
             .build()
             .unwrap();
@@ -863,31 +890,3 @@ mod tests {
         ));
     }
 }
-
-// TODO: Live network tests
-//     - set("somekey", "somevalue", timeout, SetOptions::default())
-//         - default setOptions
-//             - valid new key/value
-//             - valid existing key/value
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required
-//         - with expires set (wait and then validate key can no longer be gotten?)
-//         - setCondition OnlyIfDoesNotExist where key doesn't exist
-//         - setCondition OnlyIfDoesNotExist where key exists
-//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and is equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key exists and isn't equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and is equal
-//         - setCondition OnlyIfEqualOrDoesNotExist where key doesn't exist and isn't equal
-//    - get("somekey", timeout) where "somekey" exists
-//         - non-existent key
-//    - del
-//         - valid key
-//         - non-existent key
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required
-//     - vdel
-//         - valid key/value
-//         - non-existent key
-//         - value doesn't match
-//         - with/without fencing token where fencing_token required
-//         - with/without fencing token where fencing_token not required

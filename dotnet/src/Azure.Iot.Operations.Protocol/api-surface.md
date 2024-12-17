@@ -54,8 +54,8 @@ namespace Azure.Iot.Operations.Protocol {
     }
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandBehaviorAttribute : Attribute {
-        public CommandBehaviorAttribute(bool idempotent = false, string cacheableDuration = "PT0H0M0S");
-        public string CacheableDuration { get; set; }
+        public CommandBehaviorAttribute(bool idempotent = false, string cacheTtl = "PT0H0M0S");
+        public string CacheTtl { get; set; }
         public bool IsIdempotent { get; set; }
     }
     [AttributeUsage(AttributeTargets.Class)]
@@ -205,7 +205,7 @@ namespace Azure.Iot.Operations.Protocol.Retry {
 namespace Azure.Iot.Operations.Protocol.RPC {
     public abstract class CommandExecutor<TReq, TResp> where TReq : class where TResp : class : IAsyncDisposable {
         public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer);
-        public TimeSpan CacheableDuration { get; init; }
+        public TimeSpan CacheTtl { get; init; }
         public Dictionary<string, string>? CustomTopicTokenMap { get; init; }
         public TimeSpan ExecutionTimeout { get; set; }
         public string? ExecutorId { get; set; }

@@ -1,0 +1,30 @@
+---
+test-name: TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess
+description:
+  condition: >-
+    TelemetrySender sends Telemetry but ACK dropped when publishing request.
+  expect: >-
+    Connection automatically re-established, publication retried, success.
+
+requires:
+- reconnection
+
+prologue:
+  senders:
+  - { }
+  push-acks:
+    publish: [ drop ]
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: disconnect
+- action: await send
+- action: await publish
+
+epilogue:
+  publication-count: 2
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+...

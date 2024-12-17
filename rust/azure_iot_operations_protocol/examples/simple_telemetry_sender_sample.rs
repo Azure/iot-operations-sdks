@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::time::Duration;
 
 use env_logger::Builder;
@@ -18,9 +19,10 @@ use azure_iot_operations_protocol::{
 };
 
 const CLIENT_ID: &str = "myClient";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
-const TOPIC: &str = "akri/samples/dtmi:akri:samples:oven;1/{senderId}/new";
+const TOPIC: &str = "akri/samples/{modelId}/new";
+const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -32,7 +34,7 @@ async fn main() {
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -49,7 +51,6 @@ async fn main() {
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .telemetry_name("test_telemetry")
         .build()
         .unwrap();
     let telemetry_sender: TelemetrySender<SampleTelemetry, _> =
@@ -67,20 +68,24 @@ async fn telemetry_loop(
 ) {
     for i in 1..10 {
         let cloud_event = CloudEventBuilder::default()
-            .source("github.com")
+            .source("aio://oven/sample")
             .build()
             .unwrap();
-        let payload = TelemetryMessageBuilder::default()
+        let message = TelemetryMessageBuilder::default()
             .payload(&SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
             })
             .unwrap()
+            .topic_tokens(HashMap::from([(
+                "modelId".to_string(),
+                MODEL_ID.to_string(),
+            )]))
             .message_expiry(Duration::from_secs(2))
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = telemetry_sender.send(payload).await;
+        let result = telemetry_sender.send(message).await;
         log::info!("Result {}: {:?}", i, result);
     }
 

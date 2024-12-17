@@ -20,10 +20,10 @@ pub enum UserProperty {
     Status,
     /// User Property indicating a human-readable status message; used when Status != 200 (OK).
     StatusMessage,
-    /// User property indicating if a non-200 <see cref="Status"/> is an application-level error.
+    /// User property indicating if a non-200 see <cref="Status"/> is an application-level error.
     IsApplicationError,
-    /// User Property indicating the MQTT Client ID of a [`CommandInvoker`](crate::rpc::command_invoker::CommandInvoker).
-    CommandInvokerId,
+    /// User Property indicating the source ID of a request, response, or message.
+    SourceId,
     /// The name of an MQTT property in a request header that is missing or has an invalid value.
     InvalidPropertyName,
     /// The value of an MQTT property in a request header that is invalid.
@@ -33,6 +33,10 @@ pub enum UserProperty {
     /// User property indicating which major versions the command executor supports. The value of
     /// this property is a space-separated list of integers like "1 2 3".
     SupportedMajorVersions,
+    /// User property indicating what protocol version the request had.
+    /// This property is only used when a command executor rejects a command invocation because the
+    /// requested protocol version either wasn't supported or was malformed.
+    RequestProtocolVersion,
 }
 
 impl Display for UserProperty {
@@ -44,11 +48,12 @@ impl Display for UserProperty {
             UserProperty::Status => write!(f, "__stat"),
             UserProperty::StatusMessage => write!(f, "__stMsg"),
             UserProperty::IsApplicationError => write!(f, "__apErr"),
-            UserProperty::CommandInvokerId => write!(f, "__invId"),
+            UserProperty::SourceId => write!(f, "__srcId"),
             UserProperty::InvalidPropertyName => write!(f, "__propName"),
             UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
             UserProperty::ProtocolVersion => write!(f, "__protVer"),
             UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
+            UserProperty::RequestProtocolVersion => write!(f, "__requestProtVer"),
         }
     }
 }
@@ -63,11 +68,12 @@ impl FromStr for UserProperty {
             "__stat" => Ok(UserProperty::Status),
             "__stMsg" => Ok(UserProperty::StatusMessage),
             "__apErr" => Ok(UserProperty::IsApplicationError),
-            "__invId" => Ok(UserProperty::CommandInvokerId),
+            "__srcId" => Ok(UserProperty::SourceId),
             "__propName" => Ok(UserProperty::InvalidPropertyName),
             "__propVal" => Ok(UserProperty::InvalidPropertyValue),
             "__protVer" => Ok(UserProperty::ProtocolVersion),
             "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
+            "__requestProtVer" => Ok(UserProperty::RequestProtocolVersion),
             _ => Err(()),
         }
     }
@@ -109,11 +115,12 @@ mod tests {
     #[test_case(UserProperty::Status; "status")]
     #[test_case(UserProperty::StatusMessage; "status_message")]
     #[test_case(UserProperty::IsApplicationError; "is_application_error")]
-    #[test_case(UserProperty::CommandInvokerId; "command_invoker_id")]
+    #[test_case(UserProperty::SourceId; "source_id")]
     #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
     #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
     #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
     #[test_case(UserProperty::SupportedMajorVersions; "supported_major_versions")]
+    #[test_case(UserProperty::RequestProtocolVersion; "request_protocol_version")]
     fn test_to_from_string(prop: UserProperty) {
         assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
     }

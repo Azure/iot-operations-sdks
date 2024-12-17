@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseTopicSuffix_Success
-aka:
-- InvokerWithCustomPrefix
 description:
   condition: >-
     CommandInvoker with response-topic suffix (instead of prefix) invokes command and receives response.

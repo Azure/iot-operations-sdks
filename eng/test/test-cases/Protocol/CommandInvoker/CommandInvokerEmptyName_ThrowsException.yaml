@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerEmptyName_ThrowsException
-aka:
-- ConstructInvokerWithEmptyNameThrowsException
 description:
   condition: >-
     CommandInvoker initialized with empty string as command name.

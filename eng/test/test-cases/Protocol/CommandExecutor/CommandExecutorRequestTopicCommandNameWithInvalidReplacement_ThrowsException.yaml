@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestTopicCommandNameWithInvalidReplacement_ThrowsException
-aka:
-- RequestTopicCommandNameWithInvalidReplacementThrowsException
 description:
   condition: >-
     CommandExecutor request topic contains a '{commandName}' token but commandName is not a valid replacement.

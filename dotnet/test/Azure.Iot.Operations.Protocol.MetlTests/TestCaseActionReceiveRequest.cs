@@ -1,4 +1,7 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseActionReceiveRequest : TestCaseAction
     {
@@ -10,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public static int? DefaultQos;
         public static TestCaseDuration? DefaultMessageExpiry;
         public static string? DefaultResponseTopic;
-        public static int? DefaultInvokerIndex;
+        public static int? DefaultSourceIndex;
 
         public string? Topic { get; set; } = DefaultTopic;
 
@@ -34,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public string? ResponseTopic { get; set; } = DefaultResponseTopic;
 
-        public int? InvokerIndex { get; set; } = DefaultInvokerIndex;
+        public int? SourceIndex { get; set; } = DefaultSourceIndex;
 
         public int? PacketIndex { get; set; }
     }

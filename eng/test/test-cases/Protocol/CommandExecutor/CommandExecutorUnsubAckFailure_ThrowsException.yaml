@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorUnsubAckFailure_ThrowsException
-aka:
-- ExecutorStartAsync_UnsubAckFailedWithUnspecifiedError
 description:
   condition: >-
     During finalization, CommandExecutor unsubscribes but ACK fails.

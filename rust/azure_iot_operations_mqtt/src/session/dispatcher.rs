@@ -6,7 +6,7 @@
 use std::{collections::HashMap, string::FromUtf8Error};
 
 use thiserror::Error;
-use tokio::sync::mpsc::{channel, error::SendError, Receiver, Sender};
+use tokio::sync::mpsc::{error::SendError, unbounded_channel, UnboundedReceiver, UnboundedSender};
 
 use crate::control_packet::Publish;
 use crate::topic::{TopicFilter, TopicName, TopicParseError};
@@ -33,17 +33,19 @@ pub enum InvalidPublish {
 }
 
 pub struct IncomingPublishDispatcher {
-    channel_capacity: usize,
-    filtered_txs: HashMap<TopicFilter, Vec<Sender<Publish>>>,
-    unfiltered_tx: Sender<Publish>,
+    filtered_txs: HashMap<TopicFilter, Vec<UnboundedSender<Publish>>>,
+    unfiltered_tx: UnboundedSender<Publish>,
 }
 
 impl IncomingPublishDispatcher {
-    pub fn new(capacity: usize) -> (Self, Receiver<Publish>) {
-        let (tx, rx) = channel(capacity);
+    pub fn new() -> (Self, UnboundedReceiver<Publish>) {
+        // NOTE: We need to use unbounded channels, because there is no way to know how many
+        // publishes may be in-flight. The MQTT client can specify a receive_maximum, yes,
+        // but that only applies to QoS1 and QoS2. There is no limit on QoS0.
+        // See 3.1.2.11.3 in the MQTT 5.0 spec.
+        let (tx, rx) = unbounded_channel();
         (
             IncomingPublishDispatcher {
-                channel_capacity: capacity,
                 filtered_txs: HashMap::new(),
                 unfiltered_tx: tx,
             },
@@ -63,10 +65,10 @@ impl IncomingPublishDispatcher {
     ///
     /// # Arguments
     /// * `topic_filter` - The [`TopicFilter`] to listen for incoming publishes on.
-    pub fn register_filter(&mut self, topic_filter: &TopicFilter) -> Receiver<Publish> {
+    pub fn register_filter(&mut self, topic_filter: &TopicFilter) -> UnboundedReceiver<Publish> {
         self.prune();
 
-        let (tx, rx) = channel(self.channel_capacity);
+        let (tx, rx) = unbounded_channel();
         // If the topic filter is already in use, add to the associated vector
         if let Some(v) = self.filtered_txs.get_mut(topic_filter) {
             v.push(tx);
@@ -88,7 +90,7 @@ impl IncomingPublishDispatcher {
     ///
     /// # Errors
     /// Returns a [`DispatchError`] if dispatching fails.
-    pub async fn dispatch_publish(&mut self, publish: Publish) -> Result<usize, DispatchError> {
+    pub fn dispatch_publish(&mut self, publish: Publish) -> Result<usize, DispatchError> {
         let mut num_dispatches = 0;
         let mut closed = vec![]; // (Topic filter, position in vector)
 
@@ -109,13 +111,13 @@ impl IncomingPublishDispatcher {
                     continue;
                 }
                 // Otherwise, send the publish to the receiver
-                tx.send(publish.clone()).await?;
+                tx.send(publish.clone())?;
                 num_dispatches += 1;
             }
         }
         // Then, if no filters matched, dispatch to the unfiltered receiver
         if num_dispatches == 0 {
-            self.unfiltered_tx.send(publish).await?;
+            self.unfiltered_tx.send(publish)?;
             num_dispatches += 1;
         }
 
@@ -176,25 +178,22 @@ mod tests {
         )
     }
 
-    #[tokio::test]
-    async fn dispatch_no_filters() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_no_filters() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
 
         // Dispatch without registering any filters
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
         let publish = create_publish(&topic_name, "payload 1");
 
         // Received on the unfiltered receiver
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            1
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 1);
         assert_eq!(unfiltered_rx.try_recv().unwrap(), publish);
     }
 
-    #[tokio::test]
-    async fn dispatch_no_matching_filters() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_no_matching_filters() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
         // Register a filter that does not match the topic name
@@ -204,17 +203,14 @@ mod tests {
 
         // Dispatched publish goes to the unfiltered receiver only
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            1
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 1);
         assert_eq!(unfiltered_rx.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_one_matching_filter_exact() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_one_matching_filter_exact() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_s = "sport/tennis/player1";
         let topic_name = TopicName::from_str(topic_s).unwrap();
 
@@ -230,18 +226,15 @@ mod tests {
 
         // Dispatched publish goes to the matching filtered receiver only
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            1
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 1);
         assert_eq!(filtered_rx1.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx2.try_recv().unwrap_err(), TryRecvError::Empty);
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_one_matching_filter_wildcard() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_one_matching_filter_wildcard() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
         // Register a filter that matches topic name with a wildcard
@@ -256,18 +249,15 @@ mod tests {
 
         // Dispatched publish goes to the filtered receiver only
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            1
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 1);
         assert_eq!(filtered_rx1.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx2.try_recv().unwrap_err(), TryRecvError::Empty);
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_multiple_matching_filters_overlapping() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_multiple_matching_filters_overlapping() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
         // Topic name matches various different exact and wildcard filters
@@ -296,10 +286,7 @@ mod tests {
 
         // Dispatched publish goes to the matching filtered receivers only
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            3
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 3);
         assert_eq!(filtered_rx1.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx2.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx3.try_recv().unwrap(), publish);
@@ -309,9 +296,9 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn dispatch_multiple_matching_filters_duplicate() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn dispatch_multiple_matching_filters_duplicate() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
 
         // Topic name matches multiple duplicate exact and wildcard filters
@@ -346,10 +333,7 @@ mod tests {
 
         // Dispatched publish goes to the matching filtered receivers only
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            4
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 4);
         assert_eq!(filtered_rx1.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx2.try_recv().unwrap(), publish);
         assert_eq!(filtered_rx3.try_recv().unwrap(), publish);
@@ -361,9 +345,9 @@ mod tests {
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    #[tokio::test]
-    async fn register_unregister_filters() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn register_unregister_filters() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_s = "sport/tennis/player1";
         let topic_name = TopicName::from_str(topic_s).unwrap();
         let topic_filter = TopicFilter::from_str(topic_s).unwrap();
@@ -371,7 +355,7 @@ mod tests {
 
         // Publish with no filter registered goes to the unfiltered receiver
         let publish = create_publish(&topic_name, "publish #1");
-        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).unwrap();
         assert_eq!(num_dispatches, 1);
         assert_eq!(unfiltered_rx.try_recv().unwrap(), publish);
 
@@ -380,7 +364,7 @@ mod tests {
 
         // Publish goes to the filtered receiver and not the unfiltered receiver
         let publish = create_publish(&topic_name, "publish #2");
-        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).unwrap();
         assert_eq!(num_dispatches, 1);
         assert_eq!(filter_rx1.try_recv().unwrap(), publish);
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
@@ -390,7 +374,7 @@ mod tests {
 
         // Publish goes to both filtered receivers, and still not the unfiltered receiver
         let publish = create_publish(&topic_name, "publish #3");
-        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).unwrap();
         assert_eq!(num_dispatches, 2);
         assert_eq!(filter_rx1.try_recv().unwrap(), publish);
         assert_eq!(filter_rx2.try_recv().unwrap(), publish);
@@ -401,7 +385,7 @@ mod tests {
 
         // Publish goes to the remaining filtered receiver and not the unfiltered receiver
         let publish = create_publish(&topic_name, "publish #4");
-        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).unwrap();
         assert_eq!(num_dispatches, 1);
         assert_eq!(filter_rx1.try_recv().unwrap(), publish);
         assert_eq!(unfiltered_rx.try_recv().unwrap_err(), TryRecvError::Empty);
@@ -411,13 +395,13 @@ mod tests {
 
         // Publish goes to the unfiltered receiver
         let publish = create_publish(&topic_name, "publish #5");
-        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        let num_dispatches = dispatcher.dispatch_publish(publish.clone()).unwrap();
         assert_eq!(num_dispatches, 1);
     }
 
-    #[tokio::test]
-    async fn full_unregister_on_register() {
-        let (mut dispatcher, _) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn full_unregister_on_register() {
+        let (mut dispatcher, _) = IncomingPublishDispatcher::new();
 
         // Register several filters, including duplicates and wildcards
         let topic_filter1 = TopicFilter::from_str("sport/tennis/player1").unwrap(); // Type 1
@@ -552,9 +536,9 @@ mod tests {
         drop(filter_rx8);
     }
 
-    #[tokio::test]
-    async fn lazy_unregister_on_dispatch() {
-        let (mut dispatcher, _) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn lazy_unregister_on_dispatch() {
+        let (mut dispatcher, _) = IncomingPublishDispatcher::new();
 
         // Register several filters, including duplicates and wildcards
         let topic_filter1 = TopicFilter::from_str("sport/#").unwrap(); // Type 1
@@ -612,7 +596,7 @@ mod tests {
         assert!(topic_name.matches_topic_filter(&topic_filter5)); // Type 2
         assert!(topic_name.matches_topic_filter(&topic_filter6)); // Type 3
         let publish = create_publish(&topic_name, "payload 1");
-        dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        dispatcher.dispatch_publish(publish.clone()).unwrap();
 
         // The entries are now updated to remove the dropped filters if the dispatched publish topic name
         // matches the dropped filter.
@@ -663,7 +647,7 @@ mod tests {
         assert!(topic_name.matches_topic_filter(&topic_filter2)); // Type 1
         assert!(!topic_name.matches_topic_filter(&topic_filter4)); // Type 2
         let publish = create_publish(&topic_name, "payload 2");
-        dispatcher.dispatch_publish(publish.clone()).await.unwrap();
+        dispatcher.dispatch_publish(publish.clone()).unwrap();
 
         // Only the dropped receiver entries filters with a filter that was matched by the dispatched
         // publish topic name were removed.
@@ -695,16 +679,13 @@ mod tests {
         drop(filter_rx1);
     }
 
-    #[tokio::test]
-    async fn drop_unfiltered_receiver() {
-        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new(10);
+    #[test]
+    fn drop_unfiltered_receiver() {
+        let (mut dispatcher, mut unfiltered_rx) = IncomingPublishDispatcher::new();
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
         // Dispatch publish to unfiltered receiver
         let publish = create_publish(&topic_name, "payload 1");
-        assert_eq!(
-            dispatcher.dispatch_publish(publish.clone()).await.unwrap(),
-            1
-        );
+        assert_eq!(dispatcher.dispatch_publish(publish.clone()).unwrap(), 1);
         assert_eq!(unfiltered_rx.try_recv().unwrap(), publish);
         // Drop the unfiltered receiver
         drop(unfiltered_rx);
@@ -712,10 +693,7 @@ mod tests {
         // That's why you shouldn't drop the unfiltered receiver :)
         let publish = create_publish(&topic_name, "payload 2");
         assert!(matches!(
-            dispatcher
-                .dispatch_publish(publish.clone())
-                .await
-                .unwrap_err(),
+            dispatcher.dispatch_publish(publish.clone()).unwrap_err(),
             DispatchError::ClosedReceiver(_)
         ));
     }

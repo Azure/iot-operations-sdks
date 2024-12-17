@@ -1,0 +1,22 @@
+---
+test-name: TelemetryReceiverReceivedTelemetryWithWrongTelemetryValue
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with an incorrect Telemetry value.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  received-telemetries:
+  - telemetry-value: "Incorrect_Telemetry"
+...

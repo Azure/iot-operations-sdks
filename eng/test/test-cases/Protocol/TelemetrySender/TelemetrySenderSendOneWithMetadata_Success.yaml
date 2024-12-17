@@ -1,0 +1,26 @@
+---
+test-name: TelemetrySenderSendOneWithMetadata_Success
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry containing metadata.
+  expect: >-
+    TelemetrySender performs send.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  metadata:
+    "telemHeader": "telemValue"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "telemHeader": "telemValue"
+...

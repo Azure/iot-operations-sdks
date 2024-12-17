@@ -23,7 +23,6 @@ import (
 type (
 	// CommandExecutor provides the ability to execute a single command.
 	CommandExecutor[Req any, Res any] struct {
-		client    MqttClient
 		listener  *listener[Req]
 		publisher *publisher[Res]
 		handler   CommandHandler[Req, Res]
@@ -158,7 +157,6 @@ func NewCommandExecutor[Req, Res any](
 	}
 
 	ce = &CommandExecutor[Req, Res]{
-		client:  client,
 		handler: handler,
 		timeout: to,
 		cache: caching.New(
@@ -168,7 +166,7 @@ func NewCommandExecutor[Req, Res any](
 		),
 	}
 	ce.listener = &listener[Req]{
-		client:         ce.client,
+		client:         client,
 		encoding:       requestEncoding,
 		topic:          reqTF,
 		shareName:      opts.ShareName,
@@ -178,6 +176,7 @@ func NewCommandExecutor[Req, Res any](
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
+		client:   client,
 		encoding: responseEncoding,
 	}
 
@@ -216,12 +215,11 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		req := &CommandRequest[Req]{Message: *msg}
 		var err error
 
-		req.ClientID = pub.UserProperties[constants.InvokerClientID]
-		if req.ClientID == "" {
+		if msg.ClientID == "" {
 			return nil, &errors.Error{
-				Message:    "invoker client ID missing",
+				Message:    "source client ID missing",
 				Kind:       errors.HeaderMissing,
-				HeaderName: constants.InvokerClientID,
+				HeaderName: constants.SourceID,
 			}
 		}
 
@@ -260,17 +258,12 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer ce.listener.ack(ctx, pub)
+	defer pub.Ack()
 	if rpub == nil {
 		return nil
 	}
 
-	_, err = ce.client.Publish(
-		ctx,
-		rpub.Topic,
-		rpub.Payload,
-		&rpub.PublishOptions,
-	)
+	err = ce.publisher.publish(ctx, rpub)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
@@ -284,7 +277,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	defer ce.listener.ack(ctx, pub)
+	defer pub.Ack()
 
 	if e := ignoreRequest(pub); e != nil {
 		return e
@@ -299,13 +292,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	if err != nil {
 		return err
 	}
-	_, err = ce.client.Publish(
-		ctx,
-		rpub.Topic,
-		rpub.Payload,
-		&rpub.PublishOptions,
-	)
-	return err
+	return ce.publisher.publish(ctx, rpub)
 }
 
 // Call handler with panic catch.
@@ -336,7 +323,7 @@ func (ce *CommandExecutor[Req, Res]) handle(
 		}()
 
 		ret.res, ret.err = ce.handler(ctx, req)
-		if e := errors.Context(ctx, commandExecutorErrStr); e != nil {
+		if e := errutil.Context(ctx, commandExecutorErrStr); e != nil {
 			// An error from the context overrides any return value.
 			ret.err = e
 		} else if ret.err != nil {
@@ -362,7 +349,7 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case ret := <-rchan:
 		return ret.res, ret.err
 	case <-ctx.Done():
-		return nil, errors.Context(ctx, commandExecutorErrStr)
+		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
 }
 

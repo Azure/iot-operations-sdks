@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerInvalidRequestTopicPattern_ThrowsException
-aka:
-- InvalidRequestTopicPatternThrowsException
 description:
   condition: >-
     CommandInvoker initialized with an invalid request topic string.

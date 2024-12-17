@@ -1,0 +1,23 @@
+---
+test-name: TelemetrySenderSend_TimeoutPropagated
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry.
+  expect: >-
+    TelemetrySender copies Telemetry timout value into message expiry interval.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
+...

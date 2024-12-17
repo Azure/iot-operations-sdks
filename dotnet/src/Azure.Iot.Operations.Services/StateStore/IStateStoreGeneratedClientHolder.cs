@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.RPC;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.RPC;
 
 namespace Azure.Iot.Operations.Services.StateStore
 {

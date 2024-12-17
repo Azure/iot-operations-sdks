@@ -1,0 +1,37 @@
+{
+    "title": "ReceivedCloudEvent",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "source": {
+            "description": "URI that identifies the context in which an event happened.",
+            "type": "string",
+            "kind": "check"
+        },
+        "type": {
+            "description": "The type of event related to the originating occurrence.",
+            "type": "string",
+            "kind": "check"
+        },
+        "spec-version": {
+            "description": "The version of the CloudEvents specification which the event uses.",
+            "type": "string",
+            "kind": "check"
+        },
+        "data-content-type": {
+            "description": "The content type of the data value.",
+            "type": "string",
+            "kind": "check"
+        },
+        "subject": {
+            "description": "The subject of the event in the context of the event producer.",
+            "type": "string",
+            "kind": "check"
+        },
+        "data-schema": {
+            "description": "URI that identifies the schema the data adheres to.",
+            "type": "string",
+            "kind": "check"
+        }
+    }
+}

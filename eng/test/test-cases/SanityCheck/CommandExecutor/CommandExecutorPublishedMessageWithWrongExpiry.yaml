@@ -1,0 +1,27 @@
+---
+test-name: CommandExecutorPublishedMessageWithWrongExpiry
+description:
+  condition: >-
+    CommandExecutor receives request.
+  expect: >-
+    Erroneous test case expects a response with an incorrect message expiry interval.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: freeze time
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+  message-expiry: { seconds: 3 }
+- action: await acknowledgement
+  packet-index: 0
+- action: unfreeze time
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    expiry: 4
+...

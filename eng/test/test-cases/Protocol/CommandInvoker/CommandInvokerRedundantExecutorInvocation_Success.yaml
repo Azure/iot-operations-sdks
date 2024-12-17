@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerRedundantExecutorInvocation_Success
-aka:
-- InvokeWithTwoExecutorId
 description:
   condition: >-
     CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response.

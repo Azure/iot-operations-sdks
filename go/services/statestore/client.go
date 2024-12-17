@@ -57,8 +57,12 @@ type (
 		Version hlc.HybridLogicalClock
 	}
 
-	ServiceError  = errors.Service
-	PayloadError  = errors.Payload
+	// ServiceError indicates an error returned from the state store.
+	ServiceError = errors.Service
+	// PayloadError indicates a malformed or unexpected payload returned from
+	// the state store.
+	PayloadError = errors.Payload
+	// ArgumentError indicates an invalid argument.
 	ArgumentError = errors.Argument
 
 	MqttClient interface {

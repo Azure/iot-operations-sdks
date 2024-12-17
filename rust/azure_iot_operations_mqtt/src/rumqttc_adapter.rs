@@ -15,14 +15,87 @@ use crate::connection_settings::MqttConnectionSettings;
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, ConnectionError};
-use crate::interface::{
-    CompletionToken, Event, InternalClient, ManualAck, MqttAck, MqttDisconnect, MqttEventLoop,
-    MqttPubSub,
+use crate::error::{
+    AckError, ConnectionError, DisconnectError, PublishError, ReauthError, SubscribeError,
+    UnsubscribeError,
 };
+use crate::interface::{
+    CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
+};
+use crate::topic::{TopicFilter, TopicName};
 
 pub type ClientAlias = rumqttc::v5::AsyncClient;
 pub type EventLoopAlias = rumqttc::v5::EventLoop;
+
+impl From<rumqttc::v5::ClientError> for PublishError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        // NOTE: Technically, the rumqttc ClientError can also include some input validation for
+        // publish topics but since there's no way to identify those, we will need to check for them
+        // ourselves anyway ahead of invoking rumqttc, thus preventing that case from happening.
+        // As such, we can assume that all rumqttc ClientErrors on publish are due to the client
+        // being detached from the event loop
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                PublishError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for SubscribeError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        // NOTE: Technically, the rumqttc ClientError can also include some input validation for
+        // subscribe topics but since there's no way to identify those, we will need to check for them
+        // ourselves anyway ahead of invoking rumqttc, thus preventing that case from happening.
+        // As such, we can assume that all rumqttc ClientErrors on subscribe are due to the client
+        // being detached from the event loop
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                SubscribeError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for UnsubscribeError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                UnsubscribeError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for AckError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                AckError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for DisconnectError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                DisconnectError::DetachedClient(r)
+            }
+        }
+    }
+}
+
+impl From<rumqttc::v5::ClientError> for ReauthError {
+    fn from(err: rumqttc::v5::ClientError) -> Self {
+        match err {
+            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
+                ReauthError::DetachedClient(r)
+            }
+        }
+    }
+}
 
 #[async_trait]
 impl MqttPubSub for rumqttc::v5::AsyncClient {
@@ -30,13 +103,26 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     // without the intermediate step of calling .wait_async(), but the rumqttc NoticeFuture does
     // not actually implement Future despite the name.
 
+    // NOTE: Validating the topic name here does unfortunately require an additional allocation.
+    // This is only true because rumqttc will always reallocate, even if it's being given an owned
+    // string.
+
+    // NOTE: It also might be nice to be able to provide the exact reason the topic is invalid here,
+    // but the current topic parsing API doesn't have a way to do this without yet another allocation.
+    // This may be worth reconsidering in the future, but for now, this is already more information
+    // than was previously available.
+
     async fn publish(
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
+        let topic = topic.into();
+        if !TopicName::is_valid_topic_name(&topic) {
+            return Err(PublishError::InvalidTopicName);
+        }
         let nf = self.publish(topic, qos, retain, payload).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -48,7 +134,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, PublishError> {
+        let topic = topic.into();
+        if !TopicName::is_valid_topic_name(&topic) {
+            return Err(PublishError::InvalidTopicName);
+        }
         let nf = self
             .publish_with_properties(topic, qos, retain, payload, properties)
             .await?;
@@ -59,7 +149,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(SubscribeError::InvalidTopicFilter);
+        }
         let nf = self.subscribe(topic, qos).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -69,7 +163,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, SubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(SubscribeError::InvalidTopicFilter);
+        }
         let nf = self
             .subscribe_with_properties(topic, qos, properties)
             .await?;
@@ -79,7 +177,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(UnsubscribeError::InvalidTopicFilter);
+        }
         let nf = self.unsubscribe(topic).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -88,7 +190,11 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError> {
+    ) -> Result<CompletionToken, UnsubscribeError> {
+        let topic = topic.into();
+        if !TopicFilter::is_valid_topic_filter(&topic) {
+            return Err(UnsubscribeError::InvalidTopicFilter);
+        }
         let nf = self.unsubscribe_with_properties(topic, properties).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
     }
@@ -96,29 +202,29 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError> {
-        Ok(self.ack(publish).await?)
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+        // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
+        // if the publish in question has already been acked - doing so would require adding a
+        // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
+        // This would need to be implemented before any non-Session MQTT client gets exposed in API.
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
+        // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
+        // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
+        Ok(self.manual_ack(manual_ack).await?)
     }
 }
 
 #[async_trait]
-impl InternalClient for rumqttc::v5::AsyncClient {
-    fn get_manual_ack(&self, publish: &Publish) -> rumqttc::v5::ManualAck {
-        self.get_manual_ack(publish)
-    }
-
-    async fn manual_ack(&self, ack: ManualAck) -> Result<(), ClientError> {
-        self.manual_ack(ack).await
-    }
-
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError> {
-        self.reauth(Some(auth_props)).await
+impl MqttClient for rumqttc::v5::AsyncClient {
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError> {
+        Ok(self.reauth(Some(auth_props)).await?)
     }
 }
 
 #[async_trait]
 impl MqttDisconnect for rumqttc::v5::AsyncClient {
-    async fn disconnect(&self) -> Result<(), ClientError> {
+    async fn disconnect(&self) -> Result<(), DisconnectError> {
         Ok(self.disconnect().await?)
     }
 }
@@ -132,20 +238,45 @@ impl MqttEventLoop for rumqttc::v5::EventLoop {
     fn set_clean_start(&mut self, clean_start: bool) {
         self.options.set_clean_start(clean_start);
     }
+
+    fn set_authentication_method(&mut self, authentication_method: Option<String>) {
+        self.options
+            .set_authentication_method(authentication_method);
+    }
+
+    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>) {
+        self.options.set_authentication_data(authentication_data);
+    }
 }
 
+/// Client constructors + TLS
+/// -------------------------------------------
 pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
-) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), ConnectionSettingsAdapterError> {
-    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1.
+) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
+    // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
+    // It panics if you set MAX, although MAX - 1 is fine.
+    if channel_capacity == usize::MAX {
+        return Err(MqttAdapterError::Other(
+            "rumqttc does not support channel capacity of usize::MAX".to_string(),
+        ));
+    }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,
     ))
+}
+
+#[derive(Error, Debug)]
+pub enum MqttAdapterError {
+    #[error(transparent)]
+    ConnectionSettings(#[from] ConnectionSettingsAdapterError),
+    #[error("Other adapter error: {0}")]
+    Other(String),
 }
 
 // TODO: This error story needs improvement once we find out how much of this
@@ -214,9 +345,16 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
     fn try_from(value: MqttConnectionSettings) -> Result<Self, Self::Error> {
         // Client ID, Host Name, TCP Port
         let mut mqtt_options =
-            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.host_name, value.tcp_port);
+            rumqttc::v5::MqttOptions::new(value.client_id.clone(), value.hostname, value.tcp_port);
         // Keep Alive
         mqtt_options.set_keep_alive(value.keep_alive);
+        // Receive Maximum
+        mqtt_options.set_receive_maximum(Some(value.receive_max));
+        // Max Packet Size
+        // NOTE: due to a bug in rumqttc, we need to set None to u32::MAX, since rumqttc overrides
+        // None values with an arbitrary default that can't be changed. This may or may not be
+        // exactly the same thing, but it is in most circumstances.
+        mqtt_options.set_max_packet_size(value.receive_packet_size_max.or(Some(u32::MAX)));
         // Session Expiry
         match value.session_expiry.as_secs().try_into() {
             Ok(se) => {
@@ -267,10 +405,9 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         if value.use_tls {
             let transport = tls_config(
                 value.ca_file,
-                value.ca_require_revocation_check,
                 value.cert_file,
                 value.key_file,
-                value.key_file_password,
+                value.key_password_file,
             )
             .map_err(|e| ConnectionSettingsAdapterError {
                 msg: "tls config error".to_string(),
@@ -284,12 +421,12 @@ impl TryFrom<MqttConnectionSettings> for rumqttc::v5::MqttOptions {
         }
 
         // SAT Auth File
-        if let Some(sat_auth_file) = value.sat_auth_file {
+        if let Some(sat_file) = value.sat_file {
             mqtt_options.set_authentication_method(Some("K8S-SAT".to_string()));
             let sat_auth =
-                fs::read(sat_auth_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
+                fs::read(sat_file.clone()).map_err(|e| ConnectionSettingsAdapterError {
                     msg: "cannot read sat auth file".to_string(),
-                    field: ConnectionSettingsField::SatAuthFile(sat_auth_file),
+                    field: ConnectionSettingsField::SatAuthFile(sat_file),
                     source: Some(Box::new(e)),
                 })?;
             mqtt_options.set_authentication_data(Some(sat_auth.into()));
@@ -330,10 +467,9 @@ fn read_root_ca_certs(ca_file: String) -> Result<Vec<native_tls::Certificate>, a
 
 fn tls_config(
     ca_file: Option<String>,
-    _ca_require_revocation_check: bool,
     cert_file: Option<String>,
     key_file: Option<String>,
-    key_file_password: Option<String>,
+    key_password_file: Option<String>,
 ) -> Result<Transport, anyhow::Error> {
     let mut tls_connector_builder = native_tls::TlsConnector::builder();
     tls_connector_builder.min_protocol_version(Some(native_tls::Protocol::Tlsv12));
@@ -364,10 +500,11 @@ fn tls_config(
         // Key, with or without password
         let private_key_pem = {
             let key_file_contents = fs::read(key_file)?;
-            if let Some(key_file_password) = key_file_password {
+            if let Some(key_password_file) = key_password_file {
+                let key_password_file_contents = fs::read(key_password_file)?;
                 let private_key = PKey::private_key_from_pem_passphrase(
                     &key_file_contents,
-                    key_file_password.as_bytes(),
+                    &key_password_file_contents,
                 )?;
                 private_key.private_key_to_pem_pkcs8()?
             } else {
@@ -398,13 +535,14 @@ fn tls_config(
 mod tests {
     use std::path::PathBuf;
 
-    use crate::{rumqttc_adapter::ConnectionSettingsAdapterError, MqttConnectionSettingsBuilder};
+    use super::*;
+    use crate::MqttConnectionSettingsBuilder;
 
     #[test]
     fn test_mqtt_connection_settings_no_tls() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .build()
             .unwrap();
@@ -418,7 +556,7 @@ mod tests {
         // username and password
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password("test_password".to_string())
@@ -431,7 +569,7 @@ mod tests {
         // just username
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .build()
@@ -442,13 +580,11 @@ mod tests {
 
         // username and password file
         let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        password_file_path.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/mypassword.txt",
-        );
+        password_file_path.push("../../eng/test/dummy_credentials/TestMqttPasswordFile.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .use_tls(false)
             .username("test_username".to_string())
             .password_file(password_file_path.into_os_string().into_string().unwrap())
@@ -462,31 +598,12 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
+        ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file_path.into_os_string().into_string().unwrap())
-            .build()
-            .unwrap();
-        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
-            connection_settings.try_into();
-        assert!(mqtt_options_result.is_ok());
-    }
-
-    #[test]
-    fn test_mqtt_connection_settings_ca_file_revocation_check() {
-        let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        ca_file_path
-            .push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/ca.txt");
-
-        let connection_settings = MqttConnectionSettingsBuilder::default()
-            .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
-            .ca_file(ca_file_path.into_os_string().into_string().unwrap())
-            .ca_require_revocation_check(true)
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
@@ -497,17 +614,14 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
-        let mut ca_file = dir.clone();
-        ca_file.push("ca.txt");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestSdkLiteCertPem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestSdkLiteCertKey.txt");
+        dir.push("../../eng/test/dummy_credentials/");
+        let ca_file = dir.join("TestCa.txt");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .ca_file(ca_file.into_os_string().into_string().unwrap())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
@@ -521,15 +635,13 @@ mod tests {
     #[test]
     fn test_mqtt_connection_settings_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        dir.push("../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/");
-        let mut cert_file = dir.clone();
-        cert_file.push("TestSdkLiteCertPem.txt");
-        let mut key_file = dir.clone();
-        key_file.push("TestSdkLiteCertKey.txt");
+        dir.push("../../eng/test/dummy_credentials/");
+        let cert_file = dir.join("TestCert1Pem.txt");
+        let key_file = dir.join("TestCert1Key.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
             .build()
@@ -541,26 +653,39 @@ mod tests {
 
     #[test]
     fn test_mqtt_connection_settings_cert_key_file_password() {
-        let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let mut cert_file = dir.clone();
-        cert_file.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdPem.txt",
-        );
-        let mut key_file = dir.clone();
-        key_file.push(
-            "../../dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLiteCertPwdKey.txt",
-        );
+        let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        dir.push("../../eng/test/dummy_credentials/");
+        let cert_file = dir.join("TestCert2Pem.txt");
+        let key_file = dir.join("TestCert2KeyEncrypted.txt");
+        let key_password_file = dir.join("TestCert2KeyPasswordFile.txt");
 
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
-            .host_name("test_host".to_string())
+            .hostname("test_host".to_string())
             .cert_file(cert_file.into_os_string().into_string().unwrap())
             .key_file(key_file.into_os_string().into_string().unwrap())
-            .key_file_password("sdklite".to_string())
+            .key_password_file(key_password_file.into_os_string().into_string().unwrap())
             .build()
             .unwrap();
         let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
             connection_settings.try_into();
         assert!(mqtt_options_result.is_ok());
+    }
+
+    #[test]
+    fn test_receive_packet_size_max_override_none() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .client_id("test_client_id".to_string())
+            .hostname("test_host".to_string())
+            .receive_packet_size_max(None)
+            .build()
+            .unwrap();
+        let mqtt_options_result: Result<rumqttc::v5::MqttOptions, ConnectionSettingsAdapterError> =
+            connection_settings.try_into();
+        assert!(mqtt_options_result.is_ok());
+        assert_eq!(
+            mqtt_options_result.unwrap().max_packet_size(),
+            Some(u32::MAX)
+        );
     }
 }

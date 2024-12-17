@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
     public sealed class DefaultMqttCertificatesProvider : IMqttClientCertificatesProvider
     {
-        readonly X509Certificate2Collection _certificates;
+        private readonly X509Certificate2Collection _certificates;
 
         public DefaultMqttCertificatesProvider(X509Certificate2Collection certificates)
         {
@@ -14,11 +17,11 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public DefaultMqttCertificatesProvider(IEnumerable<X509Certificate> certificates)
         {
-            _certificates = new X509Certificate2Collection();
-            
+            _certificates = [];
+
             if (certificates != null)
             {
-                foreach (var certificate in certificates)
+                foreach (X509Certificate certificate in certificates)
                 {
                     _certificates.Add(certificate);
                 }

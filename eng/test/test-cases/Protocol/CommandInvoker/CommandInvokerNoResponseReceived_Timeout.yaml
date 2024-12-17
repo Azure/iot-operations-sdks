@@ -1,8 +1,5 @@
 ---
 test-name: CommandInvokerNoResponseReceived_Timeout
-aka:
-- InvokeOneRequestAndTimeOut
-- InvokeOneRequestAndDrop
 description:
   condition: >-
     CommandInvoker invokes command but receives no response message.

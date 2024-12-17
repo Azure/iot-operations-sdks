@@ -1,0 +1,14 @@
+---
+test-name: CommandInvokerWithInappropriateCatch
+description:
+  condition: >-
+    CommandInvoker initialized with a topic namespace that is valid.
+  expect: >-
+    Erroneous test case inappropriately expects that CommandInvoker throws 'invalid configuration' exception.
+
+prologue:
+  invokers:
+  - topic-namespace: "this/is/a/namespace"
+  catch:
+    error-kind: invalid configuration
+...

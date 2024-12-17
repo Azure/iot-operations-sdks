@@ -1,6 +1,6 @@
 # RPC Protocol
 
-This document contains details for implementing RPC as described here [Command API](command-api.md), when using MQTT protocol/broker as the underlying messaging plane. It lists the interactions of the RPC invokers with the RPC Executors in different scenarios.
+This document contains details for implementing RPC as described in [Commands](commands.md), when using MQTT protocol/broker as the underlying messaging plane. It lists the interactions of the RPC invokers with the RPC Executors in different scenarios.
 
 > [!NOTE] 
 > * The sequence diagrams below omit some details (like parameters such as message expiry, HLCs, etc.) and skip some steps when not relevant, for brevity. 

@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseDroppedThenReinvoke_TimeoutThenSuccess
-aka:
-- InvokerDisconnectsAfterPuback
 description:
   condition: >-
     CommandInvoker invokes command but response not received, then repeats invocation.

@@ -38,7 +38,6 @@ type (
 		Payload T
 
 		// The ID of the calling MQTT client.
-		// TODO: Rename to "source" to align to Cloud Events spec?
 		ClientID string
 
 		// The data that identifies a single unique request.

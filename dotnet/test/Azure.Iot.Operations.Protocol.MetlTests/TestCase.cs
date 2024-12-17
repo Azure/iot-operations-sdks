@@ -1,10 +1,11 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCase
     {
         public string? TestName { get; set; }
-
-        public List<string> Aka { get; set; } = new();
 
         public TestCaseDescription? Description { get; set; }
 

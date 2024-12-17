@@ -9,7 +9,7 @@ type DefaultInvokeCommand struct {
 	Timeout      TestCaseDuration `toml:"timeout"`
 }
 
-func (invokeCommand DefaultInvokeCommand) GetCommandName() *string {
+func (invokeCommand *DefaultInvokeCommand) GetCommandName() *string {
 	if invokeCommand.CommandName == nil {
 		return nil
 	}
@@ -18,7 +18,7 @@ func (invokeCommand DefaultInvokeCommand) GetCommandName() *string {
 	return &commandName
 }
 
-func (invokeCommand DefaultInvokeCommand) GetExecutorID() *string {
+func (invokeCommand *DefaultInvokeCommand) GetExecutorID() *string {
 	if invokeCommand.ExecutorID == nil {
 		return nil
 	}
@@ -27,7 +27,7 @@ func (invokeCommand DefaultInvokeCommand) GetExecutorID() *string {
 	return &executorID
 }
 
-func (invokeCommand DefaultInvokeCommand) GetRequestValue() *string {
+func (invokeCommand *DefaultInvokeCommand) GetRequestValue() *string {
 	if invokeCommand.RequestValue == nil {
 		return nil
 	}
@@ -36,6 +36,6 @@ func (invokeCommand DefaultInvokeCommand) GetRequestValue() *string {
 	return &requestValue
 }
 
-func (invokeCommand DefaultInvokeCommand) GetTimeout() TestCaseDuration {
+func (invokeCommand *DefaultInvokeCommand) GetTimeout() TestCaseDuration {
 	return invokeCommand.Timeout
 }

@@ -1,0 +1,22 @@
+---
+test-name: CommandExecutorWithWrongPublicationCount
+description:
+  condition: >-
+    CommandExecutor receives basic valid request.
+  expect: >-
+    Erroneous test case expects an incorrect publication count.
+
+prologue:
+  executors:
+  - { }
+
+actions:
+- action: receive request
+  correlation-index: 0
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  publication-count: 2
+...

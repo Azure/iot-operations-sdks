@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Text;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;

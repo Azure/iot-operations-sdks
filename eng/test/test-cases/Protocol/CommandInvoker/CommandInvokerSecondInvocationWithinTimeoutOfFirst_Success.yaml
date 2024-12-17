@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerSecondInvocationWithinTimeoutOfFirst_Success
-aka:
-- TwoEquivalentCallsWithinTimeoutWithoutExecutorId
 description:
   condition: >-
     CommandInvoker invokes and completes Command, then invokes the same Command within the timeout period of the first Command instance.

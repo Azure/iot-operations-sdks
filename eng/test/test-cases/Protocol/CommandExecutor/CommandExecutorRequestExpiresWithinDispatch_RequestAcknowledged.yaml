@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestExpiresWithinDispatch_RequestAcknowledged
-aka:
-- ExecutorRequestExpiresDuringProcessing_NoResponseSentAcknowledgedOk
 description:
   condition: >-
     CommandExecutor receives request and stalls execution, causing expiry time to be reached.

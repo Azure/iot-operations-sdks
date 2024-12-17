@@ -1,4 +1,7 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCasePublishedMessage
     {
@@ -14,6 +17,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public bool? IsApplicationError { get; set; }
 
-        public string? InvokerId { get; set; }
+        public string? SourceId { get; set; }
+
+        public int? Expiry { get; set; }
     }
 }

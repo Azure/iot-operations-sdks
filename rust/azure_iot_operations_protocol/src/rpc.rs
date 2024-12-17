@@ -40,6 +40,8 @@ pub enum StatusCode {
 
     /// Invalid service state preventing command from executing properly.
     ServiceUnavailable = 503,
+    /// The request failed because the remote party did not support the requested protocol version.
+    VersionNotSupported = 505,
 }
 
 impl FromStr for StatusCode {
@@ -63,6 +65,9 @@ impl FromStr for StatusCode {
                 }
                 x if x == StatusCode::ServiceUnavailable as u16 => {
                     Ok(StatusCode::ServiceUnavailable)
+                }
+                x if x == StatusCode::VersionNotSupported as u16 => {
+                    Ok(StatusCode::VersionNotSupported)
                 }
                 _ => Err(AIOProtocolError::new_unknown_error(
                     true,
@@ -103,6 +108,7 @@ mod tests {
     #[test_case(StatusCode::UnprocessableContent; "UnprocessableContent")]
     #[test_case(StatusCode::InternalServerError; "InternalServerError")]
     #[test_case(StatusCode::ServiceUnavailable; "ServiceUnavailable")]
+    #[test_case(StatusCode::VersionNotSupported; "VersionNotSupported")]
     fn test_to_from_string(status_code: StatusCode) {
         assert_eq!(
             status_code,

@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestWithMetadata_RespondsAndAcks
-aka:
-- ExecuteCommandWithMetadataOk_SendsAck
 description:
   condition: >-
     CommandExecutor receives valid request containing metadata.

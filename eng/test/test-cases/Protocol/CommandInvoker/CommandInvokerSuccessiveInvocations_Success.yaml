@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerSuccessiveInvocations_Success
-aka:
-- TwoCallsWithExecutorId
 description:
   condition: >-
     CommandInvoker invokes command twice in succession and receives responses.

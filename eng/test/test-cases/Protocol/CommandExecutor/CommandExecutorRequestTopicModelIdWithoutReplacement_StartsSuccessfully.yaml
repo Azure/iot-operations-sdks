@@ -2,9 +2,9 @@
 test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified
+    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified.
   expect: >-
-    CommandExecutor starts successfully
+    CommandExecutor starts successfully.
 
 prologue:
   executors:

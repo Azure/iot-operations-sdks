@@ -9,7 +9,7 @@ mod <#=Path.GetFileNameWithoutExtension(module)#>;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-pub use crate::common_types::common_options::CommonOptions;
+pub use crate::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "<#=this.modelId#>";
 <# if (this.commandTopic != null) { #>
@@ -18,15 +18,25 @@ pub const REQUEST_TOPIC_PATTERN: &str = "<#=this.commandTopic#>";
 <# if (this.telemetryTopic != null) { #>
 pub const TELEMETRY_TOPIC_PATTERN: &str = "<#=this.telemetryTopic#>";
 <# } #>
+<# if (this.cmdServiceGroupId != null) { #>
+pub const COMMAND_SERVICE_GROUP_ID: &str = "<#=this.cmdServiceGroupId#>";
+<# } #>
+<# if (this.telemServiceGroupId != null) { #>
+pub const TELEMETRY_SERVICE_GROUP_ID: &str = "<#=this.telemServiceGroupId#>";
+<# } #>
+<# if (this.generateClient) { #>
 
 pub mod client {
 <# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_sender") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
+<# } #>
+<# if (this.generateServer) { #>
 
 pub mod service {
 <# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_receiver") && !module.EndsWith("_serialization")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
+<# } #>

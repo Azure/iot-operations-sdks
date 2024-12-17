@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Connection;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Connection;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using Azure.Iot.Operations.Protocol.UnitTests;
@@ -355,7 +358,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 KeepAlive = TimeSpan.FromSeconds(5),
                 CleanStart = true,
                 ClientId = Guid.NewGuid().ToString(),
-                ConnectionTimeout = TimeSpan.FromSeconds(5),
                 SessionExpiry = TimeSpan.FromSeconds(50),
             };
 

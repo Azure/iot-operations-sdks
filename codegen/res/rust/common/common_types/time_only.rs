@@ -48,9 +48,9 @@ fn time_to_rfc3339(time: &Time) -> Result<String, &'static str> {
             0,
             1,
             1,
-            time.hour() as u32,
-            time.minute() as u32,
-            time.second() as u32,
+            u32::from(time.hour()),
+            u32::from(time.minute()),
+            u32::from(time.second()),
         )
         .unwrap();
     let date_time_string = date_time.to_rfc3339();
@@ -68,7 +68,7 @@ fn time_to_rfc3339(time: &Time) -> Result<String, &'static str> {
 
 fn rfc3339_to_time(time_str: &str) -> Result<Time, &'static str> {
     Ok(Time(
-        time::Time::parse(format!("0000-01-01T{}", time_str).as_str(), &Rfc3339)
+        time::Time::parse(format!("0000-01-01T{time_str}").as_str(), &Rfc3339)
             .map_err(|_| "error deserializing Time from RFC 3339 format")?,
     ))
 }

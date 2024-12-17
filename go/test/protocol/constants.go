@@ -4,8 +4,7 @@ package protocol
 
 // User property keys.
 const (
-	SenderClientID       = "__sndId"
-	InvokerClientID      = "__invId"
+	SourceID             = "__srcId"
 	Timestamp            = "__ts"
 	FencingToken         = "__ft"
 	Status               = "__stat"

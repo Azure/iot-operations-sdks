@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +12,7 @@ namespace Azure.Iot.Operations.Protocol
     internal class ExecutionDispatcher
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
-        private SemaphoreSlim semaphore;
+        private readonly SemaphoreSlim semaphore;
 
         public static ExecutionDispatcherCollection CollectionInstance = ExecutionDispatcherCollection.GetCollectionInstance();
 
@@ -36,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol
                     Trace.TraceError("Encountered an error while executing an RPC request: {0}", e);
                 }
 
-                try 
+                try
                 {
                     await acknowledge().ConfigureAwait(false);
                 }

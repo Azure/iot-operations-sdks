@@ -37,5 +37,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             return isRequired ? innerType : $"Option<{innerType}>";
         }
+
+        public static bool HasNativeDefault(SchemaType schemaType)
+        {
+            return schemaType switch
+            {
+                ArrayType _ => true,
+                MapType _ => true,
+                _ => false,
+            };
+        }
     }
 }

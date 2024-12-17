@@ -1,4 +1,7 @@
-﻿using TestEnvoys.dtmi_rpc_samples_math__1;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using TestEnvoys.dtmi_rpc_samples_math__1;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Session;
 

@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorRequestWrongTopic_NoResponse
-aka:
-- RequestTopicMismatch_MessageDiscarded
 description:
   condition: >-
     CommandExecutor receives request with different topic than subscribed.

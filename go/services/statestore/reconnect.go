@@ -37,9 +37,9 @@ func (c *Client[K, V]) reconnect(ctx context.Context) {
 
 		// Ack isn't actually meaningful here, but include the callback if
 		// appropriate to not break user code that is expecting it.
-		var ack func() error
+		var ack func()
 		if c.manualAck {
-			ack = func() error { return nil }
+			ack = func() {}
 		}
 
 		c.notifySend(ctx, &Notify[K, V]{key, op, res.Value, res.Version, ack})

@@ -6,8 +6,11 @@ use std::{
     str::FromStr,
 };
 
-pub(crate) const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
-pub(crate) const DEFAULT_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.telemetry";
+/// Default spec version for a `CloudEvent`. Compliant event producers MUST
+/// use a value of 1.0 when referring to this version of the specification.
+pub const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
+/// Default `CloudEvent` event type for AIO telemetry.
+pub const DEFAULT_CLOUD_EVENT_EVENT_TYPE: &str = "ms.aio.telemetry";
 
 /// Enum representing the cloud event fields.
 #[derive(Debug, Copy, Clone, PartialEq)]

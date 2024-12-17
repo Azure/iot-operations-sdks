@@ -4,7 +4,9 @@ package retry
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 )
@@ -16,9 +18,22 @@ func (l *logger) attempt(
 	task string,
 	attempt uint64,
 ) {
-	l.Log(ctx, slog.LevelInfo, "retry",
-		slog.String("task", task),
+	l.Log(ctx, slog.LevelInfo, task,
 		slog.Uint64("attempt", attempt),
+	)
+}
+
+func (l *logger) retry(
+	ctx context.Context,
+	task string,
+	attempt uint64,
+	err error,
+	interval time.Duration,
+) {
+	l.Log(ctx, slog.LevelWarn, fmt.Sprintf("%s retrying", task),
+		slog.Uint64("attempt", attempt),
+		slog.String("error", err.Error()),
+		slog.Duration("after", interval),
 	)
 }
 
@@ -29,14 +44,12 @@ func (l *logger) complete(
 	err error,
 ) {
 	if err != nil {
-		l.Log(ctx, slog.LevelInfo, "retry failed",
-			slog.String("task", task),
+		l.Log(ctx, slog.LevelWarn, fmt.Sprintf("%s failed", task),
 			slog.Uint64("attempt", attempt),
 			slog.String("error", err.Error()),
 		)
 	} else {
-		l.Log(ctx, slog.LevelInfo, "retry succeeded",
-			slog.String("task", task),
+		l.Log(ctx, slog.LevelInfo, fmt.Sprintf("%s succeeded", task),
 			slog.Uint64("attempt", attempt),
 		)
 	}

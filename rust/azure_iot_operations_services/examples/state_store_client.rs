@@ -21,7 +21,7 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("someClientId")
-        .host_name("localhost")
+        .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -102,6 +102,8 @@ async fn state_store_operations(client: SessionManagedClient, exit_handle: Sessi
         .await
         .unwrap();
     log::info!("Delete response: {:?}", delete_response);
+
+    state_store_client.shutdown().await.unwrap();
 
     exit_handle.try_exit().await.unwrap();
 }

@@ -1,0 +1,12 @@
+---
+test-name: TelemetryReceiverValidTopicNamespace_StartsSuccessfully
+description:
+  condition: >-
+    TelemetryReceiver initialized with a topic namespace that is valid.
+  expect: >-
+    TelemetryReceiver starts successfully.
+
+prologue:
+  receivers:
+  - topic-namespace: "valid/namespace"
+...

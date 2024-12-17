@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
     /// Static class that defines string values for MQTT User Properties.
@@ -36,11 +39,6 @@
         public const string IsApplicationError = ReservedPrefix + "apErr";
 
         /// <summary>
-        /// User Property indicating the MQTT Client ID of a Command invoker.
-        /// </summary>
-        public const string CommandInvokerId = ReservedPrefix + "invId";
-
-        /// <summary>
         /// The name of an MQTT property in a request header that is missing or has an invalid value.
         /// </summary>
         internal const string InvalidPropertyName = ReservedPrefix + "propName";
@@ -69,5 +67,13 @@
         /// requested protocol version either wasn't supported or was malformed.
         /// </remarks>
         internal const string RequestedProtocolVersion = ReservedPrefix + "requestProtVer";
+
+        /// <summary>
+        /// User property indicating what client sent this request.
+        /// </summary>
+        internal const string SourceId = ReservedPrefix + "srcId";
+
+        // TODO remove this once akri service is code gen'd to expect srcId instead of invId
+        public const string CommandInvokerId = ReservedPrefix + "invId";
     }
 }

@@ -18,7 +18,7 @@ namespace TestEnvoys.dtmi_rpc_samples_math__1
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'isPrime'.
         /// </summary>
-        [CommandBehavior(idempotent: true, cacheableDuration: "PT10M")]
+        [CommandBehavior(idempotent: true, cacheTtl: "PT10M")]
         public class IsPrimeCommandExecutor : CommandExecutor<IsPrimeRequestPayload, IsPrimeResponsePayload>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;

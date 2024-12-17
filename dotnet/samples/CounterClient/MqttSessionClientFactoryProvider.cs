@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Mqtt.Session;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 
 namespace CounterClient;

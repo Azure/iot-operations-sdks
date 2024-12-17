@@ -1,0 +1,31 @@
+---
+test-name: TelemetryReceiverReceivedTelemetryWithWrongCloudEventSubject
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry with attached CloudEvent info.
+  expect: >-
+    Erroneous test case expects a Telemetry with CloudEvent that has an incorrect subject.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  metadata:
+    "id": "dtmi:test:someAssignedId;1"
+    "source": "dtmi:test:myEventSource;1"
+    "type": "test-type"
+    "specversion": "1.0"
+    "datacontenttype": "application/json"
+    "subject": "mock/test"
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  received-telemetries:
+  - cloud-event:
+      subject: "incorrect/source"
+...

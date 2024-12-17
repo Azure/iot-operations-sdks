@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Events;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

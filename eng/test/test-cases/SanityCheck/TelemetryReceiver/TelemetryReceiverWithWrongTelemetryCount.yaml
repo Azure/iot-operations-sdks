@@ -1,0 +1,21 @@
+---
+test-name: TelemetryReceiverWithWrongTelemetryCount
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case expects an incorrect acknowledgement count.
+
+prologue:
+  receivers:
+  - {}
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 2
+...

@@ -3,446 +3,156 @@
 package mqtt
 
 import (
-	"crypto/tls"
 	"log/slog"
+	"maps"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
+	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 	"github.com/Azure/iot-operations-sdks/go/mqtt/retry"
-	"github.com/eclipse/paho.golang/paho"
 )
 
-type SessionClientOption func(*SessionClient)
+type (
+	// SessionClientOption represents a single option for the session client.
+	SessionClientOption interface{ sessionClient(*SessionClientOptions) }
 
-// ******TESTING******
+	// SessionClientOptions are the resolved options for the session client.
+	SessionClientOptions struct {
+		ClientID              string
+		CleanStart            bool
+		KeepAlive             uint16
+		SessionExpiry         uint32
+		ReceiveMaximum        uint16
+		ConnectUserProperties map[string]string
 
-// WithPahoClientFactory sets the pahoClientFactory for the MQTT session client.
-// Please note that this is intended for injecting a stub Paho client
-// for testing purposes and not for general use.
-func WithPahoClientFactory(
-	pahoClientFactory func(*paho.ClientConfig) PahoClient,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.pahoClientFactory = pahoClientFactory
+		ConnectionRetry   retry.Policy
+		ConnectionTimeout time.Duration
+
+		Username UsernameProvider
+		Password PasswordProvider
+		Auth     auth.Provider
+
+		Logger *slog.Logger
+	}
+
+	// WithConnectionTimeout sets the connection timeout for a single connection
+	// attempt. If a timeout is desired for the entire connection process, it
+	// should be specified via the connection retry policy.
+	WithConnectionTimeout time.Duration
+
+	// WithClientID sets the client identifier. If not provided, it will default
+	// to a random valid client ID to support session reconnection.
+	WithClientID string
+
+	// WithCleanStart sets whether the initial connection will be made without
+	// retaining any existing session state. This is by definition set to false
+	// for any reconnections.
+	WithCleanStart bool
+
+	// WithKeepAlive sets the keep-alive interval (in seconds).
+	WithKeepAlive uint16
+
+	// WithSessionExpiry sets the session expiry interval (in seconds).
+	WithSessionExpiry uint32
+
+	// WithReceiveMaximum sets the client-side receive maximum.
+	WithReceiveMaximum uint16
+
+	// WithConnectUserProperties sets the user properties for the CONNECT
+	// packet.
+	WithConnectUserProperties map[string]string
+
+	// WithUsername sets the UsernameProvider that the session client uses to
+	// get the username for each connection.
+	WithUsername UsernameProvider
+
+	// WithPassword sets the PasswordProvider that the session client uses to
+	// get the password for each connection.
+	WithPassword PasswordProvider
+
+	withConnectionRetry struct{ retry.Policy }
+	withAuth            struct{ auth.Provider }
+	withLogger          struct{ *slog.Logger }
+)
+
+// Apply resolves the provided list of options.
+func (o *SessionClientOptions) Apply(
+	opts []SessionClientOption,
+	rest ...SessionClientOption,
+) {
+	for opt := range options.Apply[SessionClientOption](opts, rest...) {
+		opt.sessionClient(o)
 	}
 }
 
-// WithPahoClientConfig set the pahoClientConfig for the pahoClientFactory.
-func WithPahoClientConfig(
-	pahoClientConfig *paho.ClientConfig,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.pahoClientConfig = pahoClientConfig
+func (o *SessionClientOptions) sessionClient(opt *SessionClientOptions) {
+	if o != nil {
+		*opt = *o
 	}
 }
 
-// WithLogger set the logger for the MQTT session client.
-func WithLogger(
-	l *slog.Logger,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.log = logger{log.Wrap(l)}
-	}
+func (o WithConnectionTimeout) sessionClient(opt *SessionClientOptions) {
+	opt.ConnectionTimeout = time.Duration(o)
 }
 
-// ******CONNECTION******
-
-// WithConnRetry sets connRetry for the MQTT session client.
-func WithConnRetry(
-	connRetry retry.Policy,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.connRetry = connRetry
-	}
+func (o WithClientID) sessionClient(opt *SessionClientOptions) {
+	opt.ClientID = string(o)
 }
 
-// withConnSettings sets connSettings for the MQTT session client.
-// Note that this is not publicly exposed to users.
-func withConnSettings(
-	connSettings *connectionSettings,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		c.connSettings = connSettings
-	}
+func (o WithCleanStart) sessionClient(opt *SessionClientOptions) {
+	opt.CleanStart = bool(o)
 }
 
-// ensureConnSettings ensures the existence of the connectionSettings.
-func ensureConnSettings(c *SessionClient) *connectionSettings {
-	if c.connSettings == nil {
-		c.connSettings = &connectionSettings{}
-	}
-	return c.connSettings
+func (o WithKeepAlive) sessionClient(opt *SessionClientOptions) {
+	opt.KeepAlive = uint16(o)
 }
 
-// WithClientID sets clientID for the connection settings.
-func WithClientID(
-	clientID string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).clientID = clientID
-	}
+func (o WithSessionExpiry) sessionClient(opt *SessionClientOptions) {
+	opt.SessionExpiry = uint32(o)
 }
 
-// WithUsername sets the username for the connection settings.
-func WithUsername(
-	username string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).username = username
-	}
+func (o WithReceiveMaximum) sessionClient(opt *SessionClientOptions) {
+	opt.ReceiveMaximum = uint16(o)
 }
 
-// WithPassword sets the password for the connection settings.
-func WithPassword(
-	password []byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).password = password
+func (o WithConnectUserProperties) sessionClient(opt *SessionClientOptions) {
+	if opt.ConnectUserProperties == nil {
+		opt.ConnectUserProperties = map[string]string{}
 	}
+	maps.Copy(opt.ConnectUserProperties, o)
 }
 
-// WithPasswordFile sets the passwordFile for the connection settings.
-func WithPasswordFile(
-	passwordFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).passwordFile = passwordFile
-	}
+func (o WithUsername) sessionClient(opt *SessionClientOptions) {
+	opt.Username = UsernameProvider(o)
 }
 
-// WithCleanStart sets the cleanStart flag for the MQTT connection.
-// It can be either true or false for the initial connection,
-// however, this option does not affect the cleanStart flag on reconnect.
-// It would be false internally for subsequent reconnections
-// so we can reuse the old session.
-func WithCleanStart(
-	cleanStart bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).cleanStart = cleanStart
-	}
+func (o WithPassword) sessionClient(opt *SessionClientOptions) {
+	opt.Password = PasswordProvider(o)
 }
 
-// WithKeepAlive sets the keepAlive interval for the MQTT connection.
-func WithKeepAlive(
-	keepAlive time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).keepAlive = keepAlive
-	}
+// WithConnectionRetry sets the connection retry policy for the session client.
+func WithConnectionRetry(policy retry.Policy) SessionClientOption {
+	return withConnectionRetry{policy}
 }
 
-// WithSessionExpiry sets the sessionExpiry for the connection settings.
-func WithSessionExpiry(
-	sessionExpiry time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c)
-		// Convert the duration to seconds and then to uint32
-		c.connSettings.sessionExpiry = sessionExpiry
-		// Provide a convenient way for user to set maximum interval,
-		// since if the sessionExpiry is 0xFFFFFFFF (UINT_MAX),
-		// the session does not expire.
-		if sessionExpiry == -1 {
-			c.connSettings.sessionExpiry = time.Duration(
-				maxSessionExpiry,
-			) * time.Second
-		}
-	}
+func (o withConnectionRetry) sessionClient(opt *SessionClientOptions) {
+	opt.ConnectionRetry = o.Policy
 }
 
-// WithReceiveMaximum sets the receive maximum for the connection settings.
-func WithReceiveMaximum(
-	receiveMaximum uint16,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).receiveMaximum = receiveMaximum
-	}
+// WithAuth sets the enhanced authentication provider for the session client.
+func WithAuth(provider auth.Provider) SessionClientOption {
+	return withAuth{provider}
 }
 
-// WithConnectionTimeout sets the connectionTimeout for the connection settings.
-// If connectionTimeout is 0, connection will have no timeout.
-// Note the connectionTimeout would work with connRetry.
-func WithConnectionTimeout(
-	connectionTimeout time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).connectionTimeout = connectionTimeout
-		if c.connRetry != nil {
-			if r, ok := c.connRetry.(*retry.ExponentialBackoff); ok {
-				r.Timeout = connectionTimeout
-			}
-		} else {
-			c.connRetry = &retry.ExponentialBackoff{
-				Timeout: connectionTimeout,
-				Logger:  c.log.Wrapped,
-			}
-		}
-	}
+func (o withAuth) sessionClient(opt *SessionClientOptions) {
+	opt.Auth = o.Provider
 }
 
-// WithConnectPropertiesUser sets the user properties for the CONNECT packet.
-func WithConnectPropertiesUser(
-	user map[string]string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).userProperties = user
-	}
+// WithLogger sets the logger for the session client.
+func WithLogger(log *slog.Logger) SessionClientOption {
+	return withLogger{log}
 }
 
-// ******LWT******
-
-// ensureWillMessage ensures the existence of the WillMessage
-// for the connectionSettings.
-func ensureWillMessage(c *SessionClient) *WillMessage {
-	ensureConnSettings(c)
-	if c.connSettings.willMessage == nil {
-		c.connSettings.willMessage = &WillMessage{}
-	}
-	return c.connSettings.willMessage
-}
-
-// WithWillMessageRetain sets the Retain for the WillMessage.
-func WithWillMessageRetain(
-	retain bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillMessage(c).Retain = retain
-	}
-}
-
-// WithWillMessageQoS sets the QoS for the WillMessage.
-func WithWillMessageQoS(
-	qos byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillMessage(c).QoS = qos
-	}
-}
-
-// WithWillMessageTopic sets the Topic for the WillMessage.
-func WithWillMessageTopic(
-	topic string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillMessage(c).Topic = topic
-	}
-}
-
-// WithWillMessagePayload sets the Payload for the WillMessage.
-func WithWillMessagePayload(
-	payload []byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillMessage(c).Payload = payload
-	}
-}
-
-// ensureWillProperties ensures the existence of the WillProperties
-// for the connectionSettings.
-func ensureWillProperties(c *SessionClient) *WillProperties {
-	ensureConnSettings(c)
-	if c.connSettings.willProperties == nil {
-		c.connSettings.willProperties = &WillProperties{}
-	}
-	return c.connSettings.willProperties
-}
-
-// WithWillPropertiesPayloadFormat sets the PayloadFormat for the WillProperties.
-func WithWillPropertiesPayloadFormat(
-	payloadFormat byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).PayloadFormat = payloadFormat
-	}
-}
-
-// WithWillPropertiesWillDelayInterval sets the WillDelayInterval
-// for the WillProperties.
-func WithWillPropertiesWillDelayInterval(
-	willDelayInterval time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).WillDelayInterval = willDelayInterval
-	}
-}
-
-// WithWillPropertiesMessageExpiry sets the MessageExpiry
-// for the WillProperties.
-func WithWillPropertiesMessageExpiry(
-	messageExpiry time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).MessageExpiry = messageExpiry
-	}
-}
-
-// WithWillPropertiesContentType sets the ContentType for the WillProperties.
-func WithWillPropertiesContentType(
-	contentType string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).ContentType = contentType
-	}
-}
-
-// WithWillPropertiesResponseTopic sets the ResponseTopic
-// for the WillProperties.
-func WithWillPropertiesResponseTopic(
-	responseTopic string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).ResponseTopic = responseTopic
-	}
-}
-
-// WithWillPropertiesCorrelationData sets the CorrelationData
-// for the WillProperties.
-func WithWillPropertiesCorrelationData(
-	correlationData []byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).CorrelationData = correlationData
-	}
-}
-
-// WithWillPropertiesUser sets the User properties for the WillProperties.
-func WithWillPropertiesUser(
-	user map[string]string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureWillProperties(c).User = user
-	}
-}
-
-// ******TLS******
-
-// WithUseTLS enables or disables the use of TLS for the connection settings.
-func WithUseTLS(
-	useTLS bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).useTLS = useTLS
-	}
-}
-
-// WithTLSConfig sets the TLS configuration for the connection settings.
-func WithTLSConfig(
-	tlsConfig *tls.Config,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).tlsConfig = tlsConfig
-	}
-}
-
-// WithCertFile sets the certFile for the connection settings.
-func WithCertFile(
-	certFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).certFile = certFile
-	}
-}
-
-// WithKeyFile sets the keyFile for the connection settings.
-func WithKeyFile(
-	keyFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).keyFile = keyFile
-	}
-}
-
-// WithKeyFilePassword sets the keyFilePassword for the connection settings.
-func WithKeyFilePassword(
-	keyFilePassword string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).keyFilePassword = keyFilePassword
-	}
-}
-
-// WithCaFile sets the caFile for the connection settings.
-func WithCaFile(
-	caFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).caFile = caFile
-	}
-}
-
-// WithCaRequireRevocationCheck sets the caRequireRevocationCheck
-// for the connection settings.
-func WithCaRequireRevocationCheck(
-	revocationCheck bool,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureConnSettings(c).caRequireRevocationCheck = revocationCheck
-	}
-}
-
-// ******AUTH******
-
-// ensureAuth ensures the existence of the AuthOptions
-// for the connectionSettings.
-func ensureAuth(c *SessionClient) *AuthOptions {
-	ensureConnSettings(c)
-	if c.connSettings.authOptions == nil {
-		c.connSettings.authOptions = &AuthOptions{}
-	}
-	return c.connSettings.authOptions
-}
-
-// WithAuthMethod sets the authMethod for the auth options.
-func WithAuthMethod(
-	authMethod string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthMethod = authMethod
-	}
-}
-
-// WithAuthData sets the authData for the auth options.
-func WithAuthData(
-	authData []byte,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthData = authData
-	}
-}
-
-// WithSatAuthFile sets the SatAuthFile for the auth options.
-func WithSatAuthFile(
-	satAuthFile string,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).SatAuthFile = satAuthFile
-	}
-}
-
-// WithAuthDataProvider sets the authDataProvider for the auth options.
-func WithAuthDataProvider(
-	authDataProvider AuthDataProvider,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthDataProvider = authDataProvider
-	}
-}
-
-// WithAuthInterval sets the authInterval for the auth options.
-func WithAuthInterval(
-	authInterval time.Duration,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthInterval = authInterval
-	}
-}
-
-// WithAuthHandler sets the authHandler for the auth options.
-func WithAuthHandler(
-	authHandler paho.Auther,
-) SessionClientOption {
-	return func(c *SessionClient) {
-		ensureAuth(c).AuthHandler = authHandler
-	}
+func (o withLogger) sessionClient(opt *SessionClientOptions) {
+	opt.Logger = o.Logger
 }

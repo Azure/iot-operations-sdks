@@ -17,9 +17,18 @@ func CheckError(t *testing.T, testCaseCatch TestCaseCatch, err error) {
 	require.True(t, ok)
 
 	require.Equal(t, testCaseCatch.GetErrorKind(), akriErr.Kind)
-	require.Equal(t, testCaseCatch.InApplication, akriErr.InApplication)
-	require.Equal(t, testCaseCatch.IsShallow, akriErr.IsShallow)
-	require.Equal(t, testCaseCatch.IsRemote, akriErr.IsRemote)
+
+	if testCaseCatch.InApplication != nil {
+		require.Equal(t, *testCaseCatch.InApplication, akriErr.InApplication)
+	}
+
+	if testCaseCatch.IsShallow != nil {
+		require.Equal(t, *testCaseCatch.IsShallow, akriErr.IsShallow)
+	}
+
+	if testCaseCatch.IsRemote != nil {
+		require.Equal(t, *testCaseCatch.IsRemote, akriErr.IsRemote)
+	}
 
 	if testCaseCatch.StatusCode == nil {
 		require.Nil(t, akriErr.HTTPStatusCode)

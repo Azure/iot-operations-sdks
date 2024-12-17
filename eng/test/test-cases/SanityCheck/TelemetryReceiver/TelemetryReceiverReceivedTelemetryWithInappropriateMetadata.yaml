@@ -1,0 +1,23 @@
+---
+test-name: TelemetryReceiverReceivedTelemetryWithInappropriateMetadata
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with metadata that will not be included.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  received-telemetries:
+  - metadata:
+      "telemHeader": "telemValue"
+...

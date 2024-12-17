@@ -1,10 +1,13 @@
-﻿namespace Azure.Iot.Operations.Protocol
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol
 {
     public interface IPayloadSerializer
     {
         string ContentType { get; }
 
-        int CharacterDataFormatIndicator { get; } 
+        int CharacterDataFormatIndicator { get; }
 
         byte[]? ToBytes<T>(T? payload) where T : class;
 

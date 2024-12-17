@@ -1,0 +1,22 @@
+---
+test-name: TelemetrySenderCanary
+description:
+  condition: >-
+    TelemetrySender sends a single Telemetry.
+  expect: >-
+    TelemetrySender performs send.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+...

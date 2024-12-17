@@ -1,0 +1,34 @@
+---
+test-name: CommandInvokerPublishedMessageWithWrongSourceId
+description:
+  condition: >-
+    CommandInvoker invokes command and receives response.
+  expect: >-
+    Erroneous test case expects a request with an incorrect source ID header.
+
+prologue:
+  mqtt-config:
+    client-id: "MyInvokerClientId"
+  invokers:
+  - {}
+
+actions:
+- action: invoke command
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    metadata:
+      "__srcId": "ADifferentInvokerClientId"
+...

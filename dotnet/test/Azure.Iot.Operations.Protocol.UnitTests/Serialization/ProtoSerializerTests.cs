@@ -1,4 +1,7 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Google.Protobuf.WellKnownTypes;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization

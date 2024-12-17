@@ -1,7 +1,5 @@
 ---
 test-name: CommandInvokerResponseTopicPrefixCommandNameWithInvalidReplacement_ThrowsException
-aka:
-- ResponseTopicPrefixCommandNameWithInvalidReplacementThrowsException
 description:
   condition: >-
     CommandInvoker response topic prefix contains a '{commandName}' token but commandName is not a valid replacement.

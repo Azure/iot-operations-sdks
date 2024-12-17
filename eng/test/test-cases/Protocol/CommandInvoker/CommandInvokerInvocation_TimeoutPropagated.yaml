@@ -1,0 +1,36 @@
+---
+test-name: CommandInvokerInvocation_TimeoutPropagated
+description:
+  condition: >-
+    CommandInvoker invokes command and receives response.
+  expect: >-
+    CommandInvoker copies Telemetry timout value into message expiry interval.
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  timeout: { seconds: 3 }
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  topic: "response/mock/test"
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/test"
+    expiry: 3
+...

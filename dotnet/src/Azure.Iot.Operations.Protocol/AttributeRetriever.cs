@@ -1,8 +1,11 @@
-﻿namespace Azure.Iot.Operations.Protocol
-{
-    using System;
-    using System.Linq;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+using System;
+using System.Linq;
+
+namespace Azure.Iot.Operations.Protocol
+{
     internal static class AttributeRetriever
     {
         internal static bool HasAttribute<T>(Object obj)

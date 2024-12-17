@@ -1,0 +1,21 @@
+---
+test-name: TelemetryReceiverUnsubAckFailure_ThrowsException
+description:
+  condition: >-
+    During finalization, TelemetryReceiver unsubscribes but ACK fails.
+  expect: >-
+    TelemetryReceiver throws 'mqtt error' exception.
+
+prologue:
+  push-acks:
+    unsubscribe: [ fail ]
+  receivers:
+  - { }
+
+epilogue:
+  catch:
+    error-kind: mqtt error
+    in-application: !!bool false
+    is-shallow: !!bool false
+    is-remote: !!bool false 
+...

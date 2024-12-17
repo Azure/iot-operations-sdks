@@ -1,4 +1,7 @@
-namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseExecutor
     {
@@ -8,7 +11,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
         public static string? DefaultExecutorId;
         public static string? DefaultTopicNamespace;
         public static bool DefaultIdempotent;
-        public static TestCaseDuration? DefaultCacheableDuration;
+        public static TestCaseDuration? DefaultCacheTtl;
         public static TestCaseDuration? DefaultExecutorTimeout;
         public static Dictionary<string, string[]>? DefaultRequestResponsesMap;
         public static int? DefaultExecutionConcurrency;
@@ -23,9 +26,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Protocol
 
         public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
 
+        public Dictionary<string, string>? CustomTokenMap { get; set; }
+
         public bool Idempotent { get; set; } = DefaultIdempotent;
 
-        public TestCaseDuration? CacheableDuration { get; set; } = DefaultCacheableDuration;
+        public TestCaseDuration? CacheTtl { get; set; } = DefaultCacheTtl;
 
         public TestCaseDuration? ExecutionTimeout { get; set; } = DefaultExecutorTimeout;
 

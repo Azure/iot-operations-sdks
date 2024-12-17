@@ -12,8 +12,9 @@ type testCaseExecutor struct {
 	ModelID              *string             `yaml:"model-id"`
 	ExecutorID           *string             `yaml:"executor-id"`
 	TopicNamespace       *string             `yaml:"topic-namespace"`
+	CustomTokenMap       map[string]string   `yaml:"custom-token-map"`
 	Idempotent           bool                `yaml:"idempotent"`
-	CacheableDuration    *TestCaseDuration   `yaml:"cacheable-duration"`
+	CacheTTL             *TestCaseDuration   `yaml:"cache-ttl"`
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
@@ -40,9 +41,9 @@ func (executor *TestCaseExecutor) UnmarshalYAML(node *yaml.Node) error {
 
 	err := node.Decode(&executor.testCaseExecutor)
 
-	if executor.CacheableDuration == nil {
-		defaultCacheableDuration := TestCaseDefaultInfo.Prologue.Executor.GetCacheableDuration()
-		executor.CacheableDuration = &defaultCacheableDuration
+	if executor.CacheTTL == nil {
+		defaultCacheTTL := TestCaseDefaultInfo.Prologue.Executor.GetCacheTTL()
+		executor.CacheTTL = &defaultCacheTTL
 	}
 
 	if executor.ExecutionTimeout == nil {

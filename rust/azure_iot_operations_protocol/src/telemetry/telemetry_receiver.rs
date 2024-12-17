@@ -1,28 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
-    interface::{ManagedClient, MqttAck, PubReceiver},
+    control_packet::QoS,
+    interface::{self, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    payload_serialize::PayloadSerialize,
-    topic_processor::{TopicPattern, WILDCARD},
-    user_properties::{UserProperty, RESERVED_PREFIX},
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::PayloadSerialize,
+        topic_processor::TopicPattern,
+        user_properties::{UserProperty, RESERVED_PREFIX},
+    },
+    DEFAULT_AIO_PROTOCOL_VERSION,
 };
-use crate::telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION};
+use crate::{
+    telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    ProtocolVersion,
+};
+
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Cloud Event struct
 ///
 /// Implements the cloud event spec 1.0 for the telemetry receiver.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct CloudEvent {
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
@@ -63,28 +72,6 @@ pub struct CloudEvent {
     /// all use the same algorithm to determine the value used.
     #[builder(default = "None")]
     pub time: Option<DateTime<Utc>>,
-}
-
-impl Display for CloudEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "id: {} \n\
-            source: {} \n\
-            event_type: {} \n\
-            subject: {:?} \n\
-            data_schema: {:?} \n\
-            data_content_type: {:?} \n\
-            time: {:?}",
-            self.id,
-            self.source,
-            self.event_type,
-            self.subject,
-            self.data_schema,
-            self.data_content_type,
-            self.time
-        )
-    }
 }
 
 impl CloudEventBuilder {
@@ -151,12 +138,14 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub payload: T,
     /// Custom user data set as custom MQTT User Properties on the telemetry message.
     pub custom_user_data: Vec<(String, String)>,
-    /// Client ID of the sender of the telemetry message.
-    pub sender_id: String,
+    /// If present, contains the client ID of the sender of the telemetry message.
+    pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
     /// Cloud event of the telemetry message.
     pub cloud_event: Option<CloudEvent>,
+    /// Resolved topic tokens from the incoming message's topic.
+    pub topic_tokens: HashMap<String, String>,
 }
 
 /// Telemetry Receiver Options struct
@@ -166,18 +155,12 @@ pub struct TelemetryReceiverOptions {
     /// Topic pattern for the telemetry message
     /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
     topic_pattern: String,
-    /// Telemetry name if required by the topic pattern
-    #[builder(default = "None")]
-    telemetry_name: Option<String>,
-    /// Model ID if required by the topic pattern
-    #[builder(default = "None")]
-    model_id: Option<String>,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
     topic_namespace: Option<String>,
-    /// Custom topic token keys/values to be replaced in the topic pattern
+    /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
-    custom_topic_token_map: HashMap<String, String>,
+    topic_token_map: HashMap<String, String>,
     /// If true, telemetry messages are auto-acknowledged
     #[builder(default = "true")]
     auto_ack: bool,
@@ -206,7 +189,7 @@ pub struct TelemetryReceiverOptions {
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
-/// #     .host_name("mqtt://localhost")
+/// #     .hostname("mqtt://localhost")
 /// #     .tcp_port(1883u16)
 /// #     .build().unwrap();
 /// # let mut session_options = SessionOptionsBuilder::default()
@@ -214,7 +197,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
-///  .topic_pattern("test/{senderId}/telemetry")
+///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
@@ -231,15 +214,13 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    auto_ack: bool,
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_pubs: JoinSet<Publish>, // TODO: Remove need for this
+    pending_acks: JoinSet<interface::AckToken>, // TODO: Remove need for this
 }
 
 /// Implementation of a Telemetry Sender
-#[allow(clippy::needless_pass_by_value)] // TODO: Remove, in other envoys, options are passed by value
 impl<T, C> TelemetryReceiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
@@ -256,26 +237,36 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`telemetry_topic_pattern`](TelemetryReceiverOptions::telemetry_topic_pattern),
-    ///   [`telemetry_name`](TelemetryReceiverOptions::telemetry_name),
-    ///   [`model_id`](TelemetryReceiverOptions::model_id),
+    /// - [`topic_pattern`](TelemetryReceiverOptions::topic_pattern),
     ///   [`topic_namespace`](TelemetryReceiverOptions::topic_namespace), are Some and and invalid
     ///   or contain a token with no valid replacement
-    /// - [`custom_topic_token_map`](TelemetryReceiverOptions::custom_topic_token_map) is not empty
+    /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
+    /// - Content type of the telemetry message is not valid utf-8
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
+        // Validate content type of telemetry message is valid UTF-8
+        if is_invalid_utf8(T::content_type()) {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "content_type",
+                Value::String(T::content_type().to_string()),
+                Some(format!(
+                    "Content type '{}' of telemetry message type is not valid UTF-8",
+                    T::content_type()
+                )),
+                None,
+            ));
+        }
         // Validation for topic pattern and related options done in
-        // [`TopicPattern::new_telemetry_pattern`]
-        let topic_pattern = TopicPattern::new_telemetry_pattern(
+        // [`TopicPattern::new`]
+        let topic_pattern = TopicPattern::new(
             &receiver_options.topic_pattern,
-            WILDCARD,
-            receiver_options.telemetry_name.as_deref(),
-            receiver_options.model_id.as_deref(),
             receiver_options.topic_namespace.as_deref(),
-            &receiver_options.custom_topic_token_map,
+            &receiver_options.topic_token_map,
         )?;
 
         // Get the telemetry topic
@@ -302,45 +293,49 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            auto_ack: receiver_options.auto_ack,
             is_subscribed: false,
-            pending_pubs: JoinSet::new(),
+            pending_acks: JoinSet::new(),
         })
     }
 
     // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic.
+    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
+    ///
+    /// Note: If this method is called, the [`TelemetryReceiver`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        if self.is_subscribed {
+            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
-        match unsubscribe_result {
-            Ok(unsub_ct) => {
-                match unsub_ct.await {
-                    Ok(()) => { /* Success */ }
-                    Err(e) => {
-                        log::error!("Unsuback error: {e}");
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on telemetry receiver unsuback".to_string()),
-                            Box::new(e),
-                            None,
-                        ));
+            match unsubscribe_result {
+                Ok(unsub_ct) => {
+                    match unsub_ct.await {
+                        Ok(()) => { /* Success */ }
+                        Err(e) => {
+                            log::error!("Unsuback error: {e}");
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on telemetry receiver unsuback".to_string()),
+                                Box::new(e),
+                                None,
+                            ));
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                log::error!("Client error while unsubscribing: {e}");
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on telemetry receiver unsubscribe".to_string()),
-                    Box::new(e),
-                    None,
-                ));
+                Err(e) => {
+                    log::error!("Client error while unsubscribing: {e}");
+                    return Err(AIOProtocolError::new_mqtt_error(
+                        Some("Client error on telemetry receiver unsubscribe".to_string()),
+                        Box::new(e),
+                        None,
+                    ));
+                }
             }
         }
-        log::info!("Stopped");
+        log::info!("Shutdown");
         Ok(())
     }
 
@@ -410,16 +405,18 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
-                Some(pending_pub) = self.pending_pubs.join_next() => {
-                    match pending_pub {
-                        Ok(pending_pub) => {
-                            match self.mqtt_receiver.ack(&pending_pub).await {
-                                Ok(()) => { log::info!("[pkid: {}] Acked", pending_pub.pkid); }
+                // TODO: BUG, if recv() is not called, pending_acks will never be processed
+                Some(inner_ack_token_result) = self.pending_acks.join_next() => {
+
+                    match inner_ack_token_result {
+                        Ok(inner_ack_token) => {
+                            match inner_ack_token.ack().await {
+                                Ok(_) => { /* Acked */ }
                                 Err(e) => {
-                                    log::error!("[pkid: {}] Ack error: {e}", pending_pub.pkid);
+                                    log::error!("Ack error: {e}");
                                 }
                             }
+
                         }
                         Err(e) => {
                             // Unreachable: Occurs when the task failed to execute to completion by
@@ -428,9 +425,9 @@ where
                         }
                     }
                 },
-                message = self.mqtt_receiver.recv() => {
+                recv_result = self.mqtt_receiver.recv() => {
                     // Process the received message
-                    if let Some(m) = message {
+                    if let Some((m, inner_ack_token)) = recv_result {
                         log::info!("[pkid: {}] Received message", m.pkid);
 
                         'process_message: {
@@ -441,6 +438,7 @@ where
                             let mut custom_user_data = Vec::new();
                             let mut timestamp = None;
                             let mut cloud_event = None;
+                            let mut sender_id = None;
 
                             if let Some(properties) = properties {
                                 // Get content type
@@ -451,6 +449,26 @@ where
                                         );
                                         break 'process_message;
                                     }
+                                }
+
+                                // unused beyond validation, but may be used in the future to determine how to handle other fields.
+                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                                if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
+                                    if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
+                                        message_protocol_version = message_version;
+                                    } else {
+                                        log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
+                                            m.pkid
+                                        );
+                                        break 'process_message;
+                                    }
+                                }
+                                // Check that the version (or the default version if one isn't provided) is supported
+                                if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                    log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
+                                        m.pkid
+                                    );
+                                    break 'process_message;
                                 }
 
                                 let mut cloud_event_present = false;
@@ -472,8 +490,11 @@ where
                                                 }
                                             }
                                         },
-                                        Ok(UserProperty::ProtocolVersion | UserProperty::SupportedMajorVersions) => {
-                                            // TODO: Implement protocol version check
+                                        Ok(UserProperty::ProtocolVersion) => {
+                                            // skip, already processed
+                                        },
+                                        Ok(UserProperty::SourceId) => {
+                                            sender_id = Some(value);
                                         },
                                         Err(()) => {
                                             match CloudEventFields::from_str(&key) {
@@ -545,16 +566,16 @@ where
                                 }
                             }
 
-                            // Parse the sender ID from the topic
-                            let Ok(received_topic) = String::from_utf8(m.topic.to_vec()) else {
-                                log::error!("[pkid: {}] Invalid telemetry topic", m.pkid);
-                                break 'process_message;
+                            let topic = match std::str::from_utf8(&m.topic) {
+                                Ok(topic) => topic,
+                                Err(e) => {
+                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                    log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
+                                    break 'process_message;
+                                }
                             };
-                            let Some(sender_id) = self.topic_pattern.parse_wildcard(&received_topic)
-                            else {
-                                log::error!("[pkid: {}] Sender ID not found in telemetry topic", m.pkid);
-                                break 'process_message;
-                            };
+
+                            let topic_tokens = self.topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
                             let payload = match T::deserialize(&m.payload) {
@@ -571,14 +592,15 @@ where
                                 sender_id,
                                 timestamp,
                                 cloud_event,
+                                topic_tokens,
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
-                            if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce)  {
+                            if let Some(inner_ack_token) = inner_ack_token {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
 
-                                self.pending_pubs.spawn({
+                                self.pending_acks.spawn({
                                     async move {
                                         match ack_rx.await {
                                             Ok(()) => { /* Ack token used */ },
@@ -586,7 +608,7 @@ where
                                                 log::error!("[pkid: {}] Ack channel closed, acking", m.pkid);
                                             }
                                         }
-                                        m
+                                        inner_ack_token
                                     }
                                 });
 
@@ -597,9 +619,9 @@ where
                         }
 
                         // Occurs on an error processing the message, ack to prevent redelivery
-                        if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce) {
-                            match self.mqtt_receiver.ack(&m).await {
-                                Ok(()) => { /* Success */ }
+                        if let Some(inner_ack_token) = inner_ack_token {
+                            match inner_ack_token.ack().await {
+                                Ok(_) => { /* Success */ }
                                 Err(e) => {
                                     log::error!("[pkid: {}] Ack error {e}", m.pkid);
                                 }
@@ -630,7 +652,10 @@ mod tests {
 
     use super::*;
     use crate::{
-        common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
+        common::{
+            aio_protocol_error::AIOProtocolErrorKind,
+            payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
+        },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
     use azure_iot_operations_mqtt::{
@@ -638,13 +663,34 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    const MODEL_ID: &str = "test_model";
+    // Payload that has an invalid content type for testing
+    struct InvalidContentTypePayload {}
+    impl Clone for InvalidContentTypePayload {
+        fn clone(&self) -> Self {
+            unimplemented!()
+        }
+    }
+    impl PayloadSerialize for InvalidContentTypePayload {
+        type Error = String;
+        fn content_type() -> &'static str {
+            "application/json\u{0000}"
+        }
+        fn format_indicator() -> FormatIndicator {
+            unimplemented!()
+        }
+        fn serialize(&self) -> Result<Vec<u8>, String> {
+            unimplemented!()
+        }
+        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+            unimplemented!()
+        }
+    }
 
     // TODO: This should return a mock Session instead
     fn get_session() -> Session {
         // TODO: Make a real mock that implements Session
         let connection_settings = MqttConnectionSettingsBuilder::default()
-            .host_name("localhost")
+            .hostname("localhost")
             .client_id("test_server")
             .build()
             .unwrap();
@@ -655,46 +701,94 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
+    fn create_topic_tokens() -> HashMap<String, String> {
+        HashMap::from([("telemetryName".to_string(), "test_telemetry".to_string())])
+    }
+
     #[test]
     fn test_new_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/receiver")
+            .topic_pattern("test/receiver")
             .build()
             .unwrap();
 
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
-
-        assert!(telemetry_receiver
-            .topic_pattern
-            .is_match("test/test_sender/receiver"));
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
     }
 
     #[test]
     fn test_new_override_defaults() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
-        let custom_token_map = HashMap::from([("customToken".to_string(), "123".to_string())]);
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/{senderId}/{telemetryName}/{ex:customToken}/{modelId}/receiver")
-            .telemetry_name("test_telemetry")
-            .model_id("test_model")
+            .topic_pattern("test/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
-            .custom_topic_token_map(custom_token_map)
+            .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
 
-        assert!(telemetry_receiver.topic_pattern.is_match(
-            format!("test_namespace/test/test_sender/test_telemetry/123/{MODEL_ID}/receiver")
-                .as_str()
-        ));
+        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
+            .unwrap();
+    }
+
+    #[test]
+    fn test_invalid_telemetry_content_type() {
+        let session = get_session();
+        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern("test/receiver")
+            .build()
+            .unwrap();
+
+        let telemetry_receiver: Result<
+            TelemetryReceiver<InvalidContentTypePayload, _>,
+            AIOProtocolError,
+        > = TelemetryReceiver::new(session.create_managed_client(), receiver_options);
+
+        match telemetry_receiver {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
     #[test_case(" "; "new_whitespace_topic_pattern")]
     fn test_new_empty_topic_pattern(topic_pattern: &str) {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern(topic_pattern)
@@ -719,18 +813,29 @@ mod tests {
             }
         }
     }
+
+    #[tokio::test]
+    async fn test_shutdown_without_subscribe() {
+        // Get mutex lock for content type
+        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
+        // Mock context to track content_type calls
+        let mock_payload_content_type_ctx = MockPayload::content_type_context();
+        let _mock_payload_content_type = mock_payload_content_type_ctx
+            .expect()
+            .returning(|| "application/json");
+        let session = get_session();
+        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+            .topic_pattern("test/receiver")
+            .build()
+            .unwrap();
+
+        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
+            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        assert!(telemetry_receiver.shutdown().await.is_ok());
+    }
 }
 
 // Test cases for recv telemetry
-// Tests success:
-//   recv() is called and a telemetry message is received by the application with sender_id
-//   if cloud event properties are present, they are successfully parsed
-//   if user properties are present, they don't start with reserved prefix
-//   if timestamp is present, it is successfully parsed
-//   if telemetry message is ackable (QoS 1) and auto-ack is disabled, an ack token is returned
-//   if telemetry message is ackable (QoS 1) and auto-ack is enabled, no ack token is returned
-//   if telemetry message is not ackable (QoS 0) and auto-ack is disabled, no ack token is returned
-//   if telemetry message is not ackable (QoS 0) and auto-ack is enabled, no ack token is returned
 // Tests failure:
 //   if properties are missing, the message is not processed and is acked
 //   if content type is not supported by the payload type, the message is not processed and is acked

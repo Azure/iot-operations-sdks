@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"fmt"
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -13,6 +12,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/google/uuid"
 )
@@ -54,14 +54,15 @@ type (
 func (l *listener[T]) register() {
 	handle, stop := internal.Concurrent(l.concurrency, l.handle)
 	done := l.client.RegisterMessageHandler(
-		func(ctx context.Context, m *mqtt.Message) bool {
+		func(ctx context.Context, m *mqtt.Message) {
 			msg := &message[T]{Mqtt: m}
 			var match bool
 			msg.TopicTokens, match = l.topic.Tokens(m.Topic)
 			if match {
 				handle(ctx, msg)
+			} else {
+				m.Ack()
 			}
-			return match
 		},
 	)
 	l.done = func() {
@@ -80,13 +81,13 @@ func (l *listener[T]) filter() string {
 
 func (l *listener[T]) listen(ctx context.Context) error {
 	if l.active.CompareAndSwap(false, true) {
-		_, err := l.client.Subscribe(
+		ack, err := l.client.Subscribe(
 			ctx,
 			l.filter(),
 			mqtt.WithQoS(1),
 			mqtt.WithNoLocal(l.shareName == ""),
 		)
-		return err
+		return errutil.Mqtt(ctx, "subscribe", ack, err)
 	}
 	return nil
 }
@@ -94,10 +95,10 @@ func (l *listener[T]) listen(ctx context.Context) error {
 func (l *listener[T]) close() {
 	if l.active.CompareAndSwap(true, false) {
 		ctx := context.Background()
-		if _, err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
+		if ack, err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
-			l.log.Error(ctx, err)
+			l.log.Error(ctx, errutil.Mqtt(ctx, "unsubscribe", ack, err))
 		}
 	}
 	l.done()
@@ -116,6 +117,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		})
 		return
 	}
+
+	msg.ClientID = msg.Mqtt.UserProperties[constants.SourceID]
 
 	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
 		l.error(ctx, msg.Mqtt, &errors.Error{
@@ -160,26 +163,6 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	var zero T
 
-	switch pub.PayloadFormat {
-	case 0: // Do nothing; always valid.
-	case 1:
-		if l.encoding.PayloadFormat() == 0 {
-			return zero, &errors.Error{
-				Message:     "payload format indicator mismatch",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  constants.FormatIndicator,
-				HeaderValue: fmt.Sprint(pub.PayloadFormat),
-			}
-		}
-	default:
-		return zero, &errors.Error{
-			Message:     "payload format indicator invalid",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.FormatIndicator,
-			HeaderValue: fmt.Sprint(pub.PayloadFormat),
-		}
-	}
-
 	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
 		pub.ContentType != l.encoding.ContentType() {
 		return zero, &errors.Error{
@@ -191,13 +174,6 @@ func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
 	}
 
 	return deserialize(l.encoding, pub.Payload)
-}
-
-func (l *listener[T]) ack(ctx context.Context, pub *mqtt.Message) {
-	// Drop rather than returning, so we don't attempt to double-ack on failure.
-	if err := pub.Ack(); err != nil {
-		l.drop(ctx, pub, err)
-	}
 }
 
 func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {

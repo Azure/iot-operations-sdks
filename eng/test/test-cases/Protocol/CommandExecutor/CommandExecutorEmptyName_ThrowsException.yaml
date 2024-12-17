@@ -1,7 +1,5 @@
 ---
 test-name: CommandExecutorEmptyName_ThrowsException
-aka:
-- ConstructExecutorWithEmptyNameThrowsException
 description:
   condition: >-
     CommandExecutor initialized with empty string as command name.

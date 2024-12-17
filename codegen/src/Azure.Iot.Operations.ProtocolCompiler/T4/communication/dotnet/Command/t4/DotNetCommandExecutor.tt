@@ -21,12 +21,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
         /// </summary>
 <# if (this.isIdempotent) { #>
 <# if (this.ttl != null) { #>
-        [CommandBehavior(idempotent: true, cacheableDuration: "<#=this.ttl#>")]
+        [CommandBehavior(idempotent: true, cacheTtl: "<#=this.ttl#>")]
 <# } else { #>
         [CommandBehavior(idempotent: true)]
 <# } #>
 <# } else if (this.ttl != null) { #>
-        [CommandBehavior(idempotent = false, cacheableDuration: "<#=this.ttl#>")]
+        [CommandBehavior(idempotent = false, cacheTtl: "<#=this.ttl#>")]
 <# } #>
         public class <#=this.capitalizedCommandName#>CommandExecutor : CommandExecutor<#=this.TypeParams()#>
         {

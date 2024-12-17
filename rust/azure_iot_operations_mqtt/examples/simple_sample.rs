@@ -13,7 +13,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-const HOST: &str = "localhost";
+const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
 
@@ -28,7 +28,7 @@ async fn main() {
     // Build the options and settings for the session.
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
-        .host_name(HOST)
+        .hostname(HOSTNAME)
         .tcp_port(PORT)
         .use_tls(false)
         .build()
@@ -62,7 +62,7 @@ async fn receive_messages(client: SessionManagedClient) {
 
     // Receive indefinitely
     loop {
-        let msg = receiver.recv().await.unwrap();
+        let (msg, _) = receiver.recv().await.unwrap();
         println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
     }
 }
