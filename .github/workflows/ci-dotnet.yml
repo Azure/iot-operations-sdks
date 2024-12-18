@@ -55,6 +55,6 @@ jobs:
           az provider register -n "Microsoft.DeviceRegistry"
           az provider register -n "Microsoft.SecretSyncController"
 
-          az connectedk8s connect --name k3s-default --location westus --resource-group iot-operations-sdks-github-actions-resources
+          az connectedk8s connect --name k3s-default --kube-config ${HOME}/.kube/config --location westus --resource-group iot-operations-sdks-github-actions-resources
           export OBJECT_ID=$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)
           az connectedk8s enable-features -n k3s-default -g iot-operations-sdks-github-actions-resources --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations
