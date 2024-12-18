@@ -214,7 +214,7 @@ enum CommandInvokerState {
     New,
     Subscribed,
     ShutdownInitiated,
-    ShutdownSuccessful,
+    ShutdownSuccessful
 }
 
 /// Implementation of Command Invoker.
@@ -577,21 +577,17 @@ where
                 CommandInvokerState::New => {
                     self.subscribe_to_response_filter().await?;
                     *invoker_state = CommandInvokerState::Subscribed;
-                }
-                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
-                CommandInvokerState::ShutdownInitiated
-                | CommandInvokerState::ShutdownSuccessful => {
+                },
+                CommandInvokerState::Subscribed => { /* No-op, already subscribed */},
+                CommandInvokerState::ShutdownInitiated | CommandInvokerState::ShutdownSuccessful => {
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
                         None,
-                        Some(
-                            "Command Invoker has been shutdown and can no longer invoke commands"
-                                .to_string(),
-                        ),
+                        Some("Command Invoker has been shutdown and can no longer invoke commands".to_string()),
                         Some(self.command_name.clone()),
                     ));
-                }
+                },
             }
             // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
@@ -672,7 +668,7 @@ where
                             Some(self.command_name.clone()),
                         ));
                     }
-
+                    
                     // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
                 }
                 Err(RecvError::Lagged(e)) => {
@@ -747,7 +743,7 @@ where
             if let Some((m, ack_token)) = mqtt_receiver.recv().await {
                 // Send to pending command listeners
                 match response_tx.send(Some(m)) {
-                    Ok(_) => {}
+                    Ok(_) => { },
                     Err(e) => {
                         log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                     }
@@ -755,15 +751,16 @@ where
                 // Manually ack
                 if let Some(ack_token) = ack_token {
                     match ack_token.ack().await {
-                        Ok(_) => {}
+                        Ok(_) => { },
                         Err(e) => {
                             log::error!("[{command_name}] Error acking message: {e}");
                         }
                     }
                 }
+
             } else {
                 match response_tx.send(None) {
-                    Ok(_) => {}
+                    Ok(_) => { },
                     Err(e) => {
                         log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                     }
@@ -790,9 +787,9 @@ where
 
         let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
         match *invoker_state_mutex_guard {
-            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => { 
                 /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
-            }
+            },
             CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
                 // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
                 *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
