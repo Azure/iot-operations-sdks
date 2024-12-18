@@ -32,6 +32,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup cluster
+      run: |
+        tools/deployment/initialize-cluster.sh
+        tools/deployment/deploy-aio.sh nightly
+
     - uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -43,19 +48,6 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          az extension add -n aksarc --upgrade
-          az extension add -n customlocation --upgrade
-          az extension add -n stack-hci-vm --upgrade
-          az extension add -n connectedk8s --upgrade
-
-          az aks create \
-              --resource-group iot-operations-sdks-github-actions-resources \
-              --name timtay-test-aks \
-              --node-count 1 \
-              --generate-ssh-keys \
-              --tier free \
-              --location eastus
-
           az provider register -n "Microsoft.ExtendedLocation"
           az provider register -n "Microsoft.Kubernetes"
           az provider register -n "Microsoft.KubernetesConfiguration"
