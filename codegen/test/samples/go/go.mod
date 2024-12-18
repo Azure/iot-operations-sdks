@@ -10,16 +10,17 @@ require (
 )
 
 require (
+	github.com/Azure/iot-operations-sdks/go/internal v0.2.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.5 // indirect
-	github.com/fatih/color v1.17.0 // indirect
+	github.com/fatih/color v1.18.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/princjef/mageutil v1.0.0 // indirect
-	github.com/relvacode/iso8601 v1.4.0 // indirect
+	github.com/relvacode/iso8601 v1.5.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
 )
 
 replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../go/protocol

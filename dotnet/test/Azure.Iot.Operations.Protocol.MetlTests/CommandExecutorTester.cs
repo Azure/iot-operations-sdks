@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
@@ -21,15 +24,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         private const string testCasesPath = "../../../../../../eng/test/test-cases";
         private const string executorCasesPath = $"{testCasesPath}/Protocol/CommandExecutor";
-        private const string defaultsFileName = "defaults.toml";
+        private const string defaultsFilePath = $"{testCasesPath}/Protocol/CommandExecutor/defaults.toml";
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
-        {
-            "CommandExecutorReceivesPseudoDuplicateIdempotentRequest_CommandExecuted",
-            "CommandExecutorReceivesPseudoDuplicateNonIdempotentRequest_CommandExecuted",
-        };
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
@@ -57,7 +56,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 })
                 .Build();
 
-            string defaultsFilePath = Path.Combine(executorCasesPath, defaultsFileName);
             if (File.Exists(defaultsFilePath))
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });

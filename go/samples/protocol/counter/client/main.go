@@ -1,15 +1,15 @@
 package main
 
 import (
-    "context"
-    "log/slog"
-    "os"
-    "time"
+	"context"
+	"log/slog"
+	"os"
+	"time"
 
-    "github.com/Azure/iot-operations-sdks/go/mqtt"
-    "github.com/Azure/iot-operations-sdks/go/protocol"
-    "github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
-    "github.com/lmittmann/tint"
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
+	"github.com/lmittmann/tint"
 )
 
 var receivedTelemetryCount int
