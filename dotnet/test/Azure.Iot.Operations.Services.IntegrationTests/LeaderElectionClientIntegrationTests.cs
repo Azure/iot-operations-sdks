@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Services.LeaderElection;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;

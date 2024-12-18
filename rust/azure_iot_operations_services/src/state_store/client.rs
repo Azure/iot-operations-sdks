@@ -158,6 +158,29 @@ where
         })
     }
 
+    // TODO: Finish implementing shutdown logic
+    /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
+    /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    ///
+    /// Note: If this method is called, the [`state_store::Client`] should not be used again.
+    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
+    /// # Errors
+    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), StateStoreError> {
+        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
+        self.recv_cancellation_token.cancel();
+
+        self.command_invoker
+            .shutdown()
+            .await
+            .map_err(StateStoreErrorKind::from)?;
+
+        log::info!("Shutdown");
+        Ok(())
+    }
+
     /// Sets a key value pair in the State Store Service
     ///
     /// Note: timeout refers to the duration until the State Store Client stops

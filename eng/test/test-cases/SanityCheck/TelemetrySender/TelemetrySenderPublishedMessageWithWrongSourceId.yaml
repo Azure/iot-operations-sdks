@@ -1,0 +1,24 @@
+---
+test-name: TelemetrySenderPublishedMessageWithWrongSourceId
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry.
+  expect: >-
+    Erroneous test case expects a Telemetry with an incorrect source ID header.
+
+prologue:
+  mqtt-config:
+    client-id: "MySenderClientId"
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - metadata:
+      "__srcId": "OtherSenderClientId"
+...
