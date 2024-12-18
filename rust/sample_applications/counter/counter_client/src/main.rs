@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use core::panic;
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
@@ -13,6 +14,7 @@ use envoy::dtmi_com_example_Counter__1::client::{
     ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
 };
 
+use tokio::sync::oneshot;
 use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
@@ -33,23 +35,30 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let (telemetry_done_tx, telemetry_done_rx) = oneshot::channel::<()>();
+
+    // Use the managed client to run telemetry checks in another task
+    tokio::task::spawn(counter_telemetry_check(
+        session.create_managed_client(),
+        telemetry_done_tx,
+    ));
+
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(increment_and_check(
         session.create_managed_client(),
         session.create_exit_handle(),
+        telemetry_done_rx,
     ));
 
     // Run the session
     session.run().await.unwrap();
 }
 
-/// Send a read request, 15 increment requests, and another read request and wait for their responses. Wait for the associated telemetry and then disconnect
-async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
-    // Create invokers
-    let options = CommandOptionsBuilder::default().build().unwrap();
-    let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
-    let read_counter_invoker = ReadCounterCommandInvoker::new(client.clone(), &options);
-
+/// Wait for the associated telemetry
+async fn counter_telemetry_check(
+    client: SessionManagedClient,
+    telemetry_done_tx: oneshot::Sender<()>,
+) {
     // Create receiver
     let mut counter_value_receiver = TelemetryCollectionReceiver::new(
         client,
@@ -58,6 +67,47 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
             .build()
             .unwrap(),
     );
+
+    log::info!("Waiting for associated telemetry");
+    let mut telemetry_count = 0;
+
+    loop {
+        tokio::select! {
+            telemetry_res = counter_value_receiver.recv() => {
+                let (message, ack_token) = telemetry_res.unwrap().unwrap();
+
+                log::info!("Telemetry reported counter value: {:?}", message.payload);
+
+                // Acknowledge the message
+                if let Some(ack_token) = ack_token {
+                    ack_token.ack();
+                }
+
+                telemetry_count += 1;
+            },
+            () = sleep(Duration::from_secs(5))=> {
+                if telemetry_count >= 14 {
+                    telemetry_done_tx.send(()).unwrap();
+                    break;
+                }
+                panic!("Telemetry not finished");
+            }
+        }
+    }
+
+    counter_value_receiver.shutdown().await.unwrap();
+}
+
+/// Send a read request, 15 increment requests, and another read request and wait for their responses. Then exit the session.
+async fn increment_and_check(
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+    telemetry_done_rx: oneshot::Receiver<()>,
+) {
+    // Create invokers
+    let options = CommandOptionsBuilder::default().build().unwrap();
+    let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
+    let read_counter_invoker = ReadCounterCommandInvoker::new(client.clone(), &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();
@@ -117,25 +167,11 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     );
 
     log::info!("Waiting for associated telemetry");
-    let mut telemetry_count = 0;
-    while telemetry_count < 15 {
-        let (message, ack_token) = counter_value_receiver.recv().await.unwrap().unwrap();
-        log::info!("Telemetry reported counter value: {:?}", message.payload);
-
-        // Acknowledge the message
-        if let Some(ack_token) = ack_token {
-            ack_token.ack();
-        }
-
-        // Timer to allow for the ack to be processed
-        sleep(Duration::from_secs(1)).await;
-
-        telemetry_count += 1;
-    }
+    telemetry_done_rx.await.unwrap();
+    log::info!("Telemetry done");
 
     read_counter_invoker.shutdown().await.unwrap();
     increment_invoker.shutdown().await.unwrap();
-    counter_value_receiver.shutdown().await.unwrap();
 
     // Exit the session now that we're done
     exit_handle.try_exit().await.unwrap();
