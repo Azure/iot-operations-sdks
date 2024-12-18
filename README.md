@@ -46,13 +46,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
     >  
     > Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
 
-1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to connect your cluster to Azure Arc and deploy Azure IoT Operations.
-
-1. Configure Azure IoT Operations for SDK development:
-
-    ```bash
-    ./tools/deployment/deploy-aio.sh release
-    ```
+1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to deploy a cluster to Azure Arc and deploy Azure IoT Operations all within codespaces. Alternatively, follow [these instructions](https://learn.microsoft.com/en-us/azure/iot-operations/deploy-iot-ops/overview-deploy) to deploy a cluster cluster with Azure IoT Operations via the Azure Portal. 
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
