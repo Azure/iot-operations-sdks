@@ -26,7 +26,7 @@ func main() {
 	mqttClient := must(mqtt.NewSessionClientFromEnv(
 		mqtt.WithLogger(slog.Default()),
 	))
-	counterServerID := os.Getenv("AIO_MQTT_CLIENT_ID")
+	counterServerID := os.Getenv("COUNTER_SERVER_ID")
 	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
