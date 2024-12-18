@@ -15,7 +15,6 @@ public class CounterService(MqttSessionClient mqttClient, ILogger<CounterService
     public async override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         logger.LogInformation($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        // Interlocked.Increment(ref counter);
         // Use the increment value from the request
         Interlocked.Add(ref counter, request.IncrementValue);
         logger.LogInformation($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
