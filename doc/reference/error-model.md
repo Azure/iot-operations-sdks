@@ -24,7 +24,7 @@ Following are requirements **(MUSTs)** and desiderata **(SHOULDs)** for the erro
 
     * This prohibits general use of standard error types, since these vary considerably from language to language.
 
-1. The error model MUST distinguish between errors in application (user) code versus errors within the SDK.
+1. The error model MUST distinguish between errors in application (user) code versus errors within the SDK library.
 
 1. Error kinds MUST NOT be excessively fine-grained but SHOULD be sufficiently granular to convey topical information.
 
