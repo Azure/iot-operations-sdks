@@ -38,7 +38,7 @@ All SDKs will be updated to enable all Cloud Events fields to be set by user cod
 
 The current default rules, which are consistently implemented in all SDKs, will be maintained:
 
-* There is no default value for `source`; if it is not set, no CloundEvent will be included
+* There is no default value for `source`; if it is not set, no CloudEvent will be included
 * The default value for `type` is "ms.aio.telemetry"
 * The default value for `specversion` is "1.0"
 * There is no default value for `dataschema`
