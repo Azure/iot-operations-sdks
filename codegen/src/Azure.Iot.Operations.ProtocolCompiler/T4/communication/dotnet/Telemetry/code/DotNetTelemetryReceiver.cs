@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string serializerSubNamespace;
         private readonly string serializerClassName;
         private readonly string schemaClassName;
+        private readonly string componentName;
 
         public DotNetTelemetryReceiver(string? telemetryName, string projectName, string genNamespace, string modelId, string serviceName, string serializerSubNamespace, string serializerClassName, string serializerEmptyType, string schemaClassName)
         {
@@ -23,9 +24,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serializerSubNamespace = serializerSubNamespace;
             this.serializerClassName = string.Format(serializerClassName, $"<{schemaClassName}, {serializerEmptyType}>");
             this.schemaClassName = schemaClassName == "" ? "byte[]" : schemaClassName;
+            this.componentName = schemaClassName == "" ? $"{(this.telemetryName != null ? NameFormatter.Capitalize(this.telemetryName) : string.Empty)}Telemetry" : schemaClassName;
         }
 
-        public string FileName { get => $"{this.schemaClassName}Receiver.g.cs"; }
+        public string FileName { get => $"{this.componentName}Receiver.g.cs"; }
 
         public string FolderPath { get => this.genNamespace; }
     }

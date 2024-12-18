@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.SchemaRegistry;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using SchemaInfo = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
 using SchemaFormat = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;

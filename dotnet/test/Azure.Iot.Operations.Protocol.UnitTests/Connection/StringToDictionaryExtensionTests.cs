@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Connection;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Connection;
 namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
 {
     public class StringToDictionaryExtensionTests

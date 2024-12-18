@@ -14,11 +14,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
         private readonly List<(string, string?, string?)> cmdNameReqResps;
-        private readonly List<string> telemSchemas;
+        private readonly List<(string?, string)> telemNameSchemas;
         private readonly bool doesCommandTargetExecutor;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
         private readonly bool syncApi;
+        private readonly bool generateClient;
+        private readonly bool generateServer;
 
         public DotNetService(
             string projectName,
@@ -31,11 +33,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
-            List<string> telemSchemas,
+            List<(string?, string)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
-            bool syncApi)
+            bool syncApi,
+            bool generateClient,
+            bool generateServer)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -48,11 +52,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdNameReqResps = cmdNameReqResps;
-            this.telemSchemas = telemSchemas;
+            this.telemNameSchemas = telemNameSchemas;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
             this.syncApi = syncApi;
+            this.generateClient = generateClient;
+            this.generateServer = generateServer;
         }
 
         public string FileName { get => $"{this.serviceName}.g.cs"; }

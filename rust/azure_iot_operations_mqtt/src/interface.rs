@@ -3,13 +3,19 @@
 
 //! Traits and types for defining sets and subsets of MQTT client functionality.
 
+use std::sync::Arc;
+
 use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{ClientError, CompletionError, ConnectionError};
+use crate::error::{
+    AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
+    SubscribeError, UnsubscribeError,
+};
+use crate::session::pub_tracker;
 use crate::topic::TopicParseError;
 
 // ---------- Concrete Types ----------
@@ -28,6 +34,48 @@ impl std::future::Future for CompletionToken {
     ) -> std::task::Poll<Self::Output> {
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
+    }
+}
+
+/// Awaitable token indicating completion of MQTT message acknowledgement.
+pub struct AckToken {
+    // TODO: AckToken design should not be here. It depends on the pub tracking implementation, which
+    // should be out of scope for this module. This is a stopgap measure for now. In the longer term,
+    // ManagedClient should be concretized and not be defined in this module at all, thus there would
+    // be no need for AckToken to be here either.
+    // TODO: if this were implemented correctly, we could likely get rid of the pub(crate) declarations
+    /// Tracker for unacked incoming publishes
+    pub(crate) pub_tracker: Arc<pub_tracker::PubTracker>,
+    /// Publish to be acknowledged
+    pub(crate) publish: Publish,
+}
+
+// TODO: Finish doc along with implementation
+impl AckToken {
+    /// Acknowledge the received Publish message and return a `[CompletionToken]` for the
+    /// completion of the acknowledgement process.
+    ///
+    /// # Errors
+    /// Returns an [`AckError`] if the Publish message could not be acknowledged.
+    pub async fn ack(self) -> Result<CompletionToken, AckError> {
+        self.pub_tracker.ack(&self.publish).await?;
+        // TODO: This CompletionToken is spurious. We don't (yet) have a way to
+        // generate a CompletionToken at MQTT client level for the ack.
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
+    }
+}
+
+impl Drop for AckToken {
+    fn drop(&mut self) {
+        tokio::task::spawn({
+            let pub_tracker = self.pub_tracker.clone();
+            let publish = self.publish.clone();
+            async move {
+                if let Err(e) = pub_tracker.ack(&publish).await {
+                    log::error!("Failed to ack incoming publish: {:?}", e);
+                }
+            }
+        });
     }
 }
 
@@ -57,7 +105,7 @@ pub trait MqttPubSub {
         qos: QoS,
         retain: bool,
         payload: impl Into<Bytes> + Send,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, PublishError>;
 
     /// MQTT Publish
     ///
@@ -70,7 +118,7 @@ pub trait MqttPubSub {
         retain: bool,
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, PublishError>;
 
     /// MQTT Subscribe
     ///
@@ -80,7 +128,7 @@ pub trait MqttPubSub {
         &self,
         topic: impl Into<String> + Send,
         qos: QoS,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, SubscribeError>;
 
     /// MQTT Subscribe
     ///
@@ -91,7 +139,7 @@ pub trait MqttPubSub {
         topic: impl Into<String> + Send,
         qos: QoS,
         properties: SubscribeProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, SubscribeError>;
 
     /// MQTT Unsubscribe
     ///
@@ -100,7 +148,7 @@ pub trait MqttPubSub {
     async fn unsubscribe(
         &self,
         topic: impl Into<String> + Send,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, UnsubscribeError>;
 
     /// MQTT Unsubscribe
     ///
@@ -110,14 +158,14 @@ pub trait MqttPubSub {
         &self,
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
-    ) -> Result<CompletionToken, ClientError>;
+    ) -> Result<CompletionToken, UnsubscribeError>;
 }
 
 /// Provides functionality for acknowledging a received Publish message (QoS 1)
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish) -> Result<(), ClientError>;
+    async fn ack(&self, publish: &Publish) -> Result<(), AckError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
@@ -126,7 +174,7 @@ pub trait MqttAck {
 #[async_trait]
 pub trait MqttDisconnect {
     /// Disconnect from the MQTT broker.
-    async fn disconnect(&self) -> Result<(), ClientError>;
+    async fn disconnect(&self) -> Result<(), DisconnectError>;
 }
 
 /// Internally-facing APIs for the underlying client.
@@ -134,7 +182,7 @@ pub trait MqttDisconnect {
 #[async_trait]
 pub trait MqttClient: MqttPubSub + MqttAck + MqttDisconnect {
     /// Reauthenticate with the MQTT broker
-    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ClientError>;
+    async fn reauth(&self, auth_props: AuthProperties) -> Result<(), ReauthError>;
 }
 
 /// MQTT Event Loop manipulation
@@ -145,6 +193,12 @@ pub trait MqttEventLoop {
 
     /// Modify the clean start flag for subsequent MQTT connection attempts
     fn set_clean_start(&mut self, clean_start: bool);
+
+    /// Set the authentication method
+    fn set_authentication_method(&mut self, authentication_method: Option<String>);
+
+    /// Set the authentication data
+    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>);
 }
 
 // ---------- Higher level MQTT abstractions ----------
@@ -153,7 +207,7 @@ pub trait MqttEventLoop {
 /// Can be used to send messages and create receivers for incoming messages.
 pub trait ManagedClient: MqttPubSub {
     /// The type of receiver used by this client
-    type PubReceiver: PubReceiver + MqttAck;
+    type PubReceiver: PubReceiver;
 
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
@@ -172,8 +226,13 @@ pub trait ManagedClient: MqttPubSub {
 #[async_trait]
 /// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
-    /// Receives the next incoming publish.
+    /// Receives the next incoming publish, and an optional token for acknowledging it.
     ///
     /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<Publish>;
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>; //TODO: this should be `recv_manual_ack` instead
+
+    /// Close the receiver, preventing further incoming publishes.
+    ///
+    /// To guarantee no publish loss, `recv()` must be called until `None` is returned.
+    fn close(&mut self);
 }
