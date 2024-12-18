@@ -115,7 +115,7 @@ Because the 'command name' field can potentially apply to any error, it is not l
 | invocation error | The command processor identified an error in the request. | true | false | true | no | yes | property name?, property value? |
 | execution error | The command processor encountered an error while executing the command. | true | false | true | no | yes | property name?, property value? |
 | mqtt error | The MQTT communication encountered an error and failed. | false | false | false | maybe | no | |
-| unsupported request version | The command executor that recieved the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
+| unsupported request version | The command executor that received the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
 | unsupported response version | The command invoker received a response that specifies a protocol version that the invoker does not support. | false | false | false | no | yes | response protocol version, supported response protocol major versions |
 
 > Note: The Akri.Mqtt libraries in all languages are expected to be consistent in their use of additional fields, with two exceptions:
