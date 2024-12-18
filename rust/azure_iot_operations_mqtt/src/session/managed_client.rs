@@ -14,7 +14,7 @@ use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::interface::{AckToken, CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
 use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::pub_tracker::{self, PubTracker};
 use crate::topic::{TopicFilter, TopicParseError};
@@ -164,26 +164,32 @@ impl SessionPubReceiver {
 
 #[async_trait]
 impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<Publish> {
-        let result = self.pub_rx.recv().await;
-        if let Some(publish) = &result {
+    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)> {
+        let pub_result = self.pub_rx.recv().await;
+        let mut result = None;
+        if let Some(publish) = pub_result {
+            // Ack immediately if auto-ack is enabled
             if self.auto_ack {
-                // Ack immediately if auto-ack is enabled
                 // NOTE: It is safe to assume that ack does not fail because failure is caused
                 // exclusively by ack overflows (i.e. acking a publish more times than it was distributed).
                 // By virtue of using auto-ack, this should not happen.
                 self.pub_tracker
-                    .ack(publish)
+                    .ack(&publish)
                     .await
                     .expect("Auto-ack failed");
-                // TODO: Technically, there is an edge case where this panic could still occur.
-                // If the incoming publish was distributed to multiple receivers, and one of them
-                // was NOT using auto-ack, and somehow was able to get the publish and ack it
-                // multiple times before this receiver was able to do an auto-ack, this would make
-                // failure possible. Extremely unlikely, but theoretically possible.
-                // In order to prevent this (and to make acks more generally portable), we need to
-                // redefine Publish to have an internal unique identifier for the receiver it was
-                // dispatched to. Out of scope for now.
+                result = Some((publish, None));
+            }
+            // Otherwise, create an AckToken to ack with (for QoS > 0)
+            else if publish.qos != QoS::AtMostOnce {
+                let ack_token = AckToken {
+                    pub_tracker: self.pub_tracker.clone(),
+                    publish: publish.clone(),
+                };
+                result = Some((publish, Some(ack_token)));
+            }
+            // No acks are required for QoS 0
+            else {
+                result = Some((publish, None));
             }
         }
         result
@@ -191,14 +197,6 @@ impl PubReceiver for SessionPubReceiver {
 
     fn close(&mut self) {
         self.pub_rx.close();
-    }
-}
-
-#[async_trait]
-impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
-        self.pub_tracker.ack(publish).await?;
-        Ok(())
     }
 }
 

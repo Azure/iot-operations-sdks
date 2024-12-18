@@ -3,8 +3,8 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
-    control_packet::{Publish, QoS},
-    interface::{ManagedClient, MqttAck, PubReceiver},
+    control_packet::QoS,
+    interface::{self, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -214,11 +214,10 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    auto_ack: bool,
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_pubs: JoinSet<Publish>, // TODO: Remove need for this
+    pending_acks: JoinSet<interface::AckToken>, // TODO: Remove need for this
 }
 
 /// Implementation of a Telemetry Sender
@@ -294,9 +293,8 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            auto_ack: receiver_options.auto_ack,
             is_subscribed: false,
-            pending_pubs: JoinSet::new(),
+            pending_acks: JoinSet::new(),
         })
     }
 
@@ -407,16 +405,18 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
-                Some(pending_pub) = self.pending_pubs.join_next() => {
-                    match pending_pub {
-                        Ok(pending_pub) => {
-                            match self.mqtt_receiver.ack(&pending_pub).await {
-                                Ok(()) => { log::info!("[pkid: {}] Acked", pending_pub.pkid); }
+                // TODO: BUG, if recv() is not called, pending_acks will never be processed
+                Some(inner_ack_token_result) = self.pending_acks.join_next() => {
+
+                    match inner_ack_token_result {
+                        Ok(inner_ack_token) => {
+                            match inner_ack_token.ack().await {
+                                Ok(_) => { /* Acked */ }
                                 Err(e) => {
-                                    log::error!("[pkid: {}] Ack error: {e}", pending_pub.pkid);
+                                    log::error!("Ack error: {e}");
                                 }
                             }
+
                         }
                         Err(e) => {
                             // Unreachable: Occurs when the task failed to execute to completion by
@@ -425,9 +425,9 @@ where
                         }
                     }
                 },
-                message = self.mqtt_receiver.recv() => {
+                recv_result = self.mqtt_receiver.recv() => {
                     // Process the received message
-                    if let Some(m) = message {
+                    if let Some((m, inner_ack_token)) = recv_result {
                         log::info!("[pkid: {}] Received message", m.pkid);
 
                         'process_message: {
@@ -596,11 +596,11 @@ where
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
-                            if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce)  {
+                            if let Some(inner_ack_token) = inner_ack_token {
                                 let (ack_tx, ack_rx) = oneshot::channel();
                                 let ack_token = AckToken { ack_tx };
 
-                                self.pending_pubs.spawn({
+                                self.pending_acks.spawn({
                                     async move {
                                         match ack_rx.await {
                                             Ok(()) => { /* Ack token used */ },
@@ -608,7 +608,7 @@ where
                                                 log::error!("[pkid: {}] Ack channel closed, acking", m.pkid);
                                             }
                                         }
-                                        m
+                                        inner_ack_token
                                     }
                                 });
 
@@ -619,9 +619,9 @@ where
                         }
 
                         // Occurs on an error processing the message, ack to prevent redelivery
-                        if !self.auto_ack && !matches!(m.qos, QoS::AtMostOnce) {
-                            match self.mqtt_receiver.ack(&m).await {
-                                Ok(()) => { /* Success */ }
+                        if let Some(inner_ack_token) = inner_ack_token {
+                            match inner_ack_token.ack().await {
+                                Ok(_) => { /* Success */ }
                                 Err(e) => {
                                     log::error!("[pkid: {}] Ack error {e}", m.pkid);
                                 }
