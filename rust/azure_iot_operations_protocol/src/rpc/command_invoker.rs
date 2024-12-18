@@ -705,7 +705,7 @@ where
     ) {
         loop {
             tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
+                  // on shutdown/drop, this cancellation token will be called so this loop can exit
                   () = recv_cancellation_token.cancelled() => {
                     mqtt_receiver.close();
                     log::info!("[{command_name}] Receive response loop cancelled");
@@ -774,7 +774,6 @@ where
         }
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
     /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
@@ -1133,7 +1132,47 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // drop can't be async, but we can spawn a task to unsubscribe
+        tokio::spawn({
+            let invoker_state_mutex = self.invoker_state_mutex.clone();
+            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let mqtt_client = self.mqtt_client.clone();
+            async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
+        });
+
+        // Cancel the receiver loop to drop the receiver
+        self.recv_cancellation_token.cancel();
+        log::info!("[{}] Invoker has been dropped", self.command_name);
+    }
+}
+
+async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
+    mqtt_client: C,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    unsubscribe_filter: String,
+) {
+    let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
+    match *invoker_state_mutex_guard {
+        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+        }
+        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+                Ok(_) => {
+                    log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
+                }
+                Err(e) => {
+                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                }
+            }
+        }
+    }
+
+    // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
 }
 
 #[cfg(test)]
