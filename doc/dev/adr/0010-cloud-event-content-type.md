@@ -47,7 +47,13 @@ The current default rules, which are consistently implemented in all SDKs, will 
 * The default value for `subject` is the Telemetry topic
 * The default value for `datacontenttype` is the content type indicated by the serializer
 
-All SDKs will be corrected to serialize `datacontenttype` to/from the MQTT PUBLISH `Content Type` field.
+All SDKs will be corrected to deserialize `datacontenttype` from the MQTT PUBLISH `Content Type` field.
+
+All SDKs will continue to use Cloud Event fields for setting only user properties (and no non-user header properties) in PUBLISH messages.
+
+All SDKs will be amended not to set any MQTT header property based on the value of the Cloud Event `datacontenttype` field.
+
+All SDKs will provide a mechanism by which user code can provide a value for the MQTT PUBLISH `Content Type` field.
 
 All SDKs will perform the following validations of Cloud Event fields, which will ensure conformance with the [CloudEvents - Version 1.0.2](https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md) specification:
 
@@ -62,27 +68,11 @@ All SDKs will perform the following validations of Cloud Event fields, which wil
 
 A set of METL test cases will be written to ensure that the above behaviors are implemented consistently across SDKs.
 
-## Consequences
-
-A key consequence of this decision is that the MQTT PUBLISH `Content Type` field will be determined by the user setting -- or the absence thereof -- for the Cloud Event `datacontenttype` field:
-
-* If the Cloud Event `datacontenttype` field has a value set by user code, this will be serialized to the MQTT PUBLISH `Content Type` field.
-* If the Cloud Event `datacontenttype` field is not set by user code, it will default to the content type indicated by the serializer, which will then be serialized to the MQTT PUBLISH `Content Type` field.
-
 ## Alternatives Considered
 
 There are no alternatives under consideration for addressing the improper serialization of the CloudEvents `datacontenttype` attribute.
 
 There are no alternatives under consideration for addressing the inconsistencies across SDK implementations.
 
-Several alternatives have been considered to address the need for Media Broker to set the `Content Type` field.
-The approaches differ by how they express the content type:
-
-1. an implicit association with a Telemetry sender/receiver pair, with one pair per media type
-2. a parameter or option on the Telemetry send method
-3. a property on an object passed into the Telemetry send method
-
-
-The first alternative requires significant development effort and would likely be awkward to use.
-The second and third approaches require changes to the SDK API that are regarded as inappropriate.
-All alternatives fail to address the other issues addressed by this ADR.
+An alternative flow was considered in which the Cloud Event would set the value of the MQTT PUBLISH `Content Type` field from the Cloud Event `datacontenttype` field.
+This approach was rejected because it prevents the Cloud Event from being decoupled from the Telemetry sender.
