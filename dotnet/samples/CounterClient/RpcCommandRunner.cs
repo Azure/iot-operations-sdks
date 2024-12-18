@@ -66,7 +66,8 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         ExtendedResponse<ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(server).WithMetadata();
         logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
 
-        if (IsTelemetryCountEqualTo(tasks.LongLength) == false)
+        if (!IsTelemetryCountEqualTo(tasks.LongLength))
+
         {
             throw new Exception("Telemetry count mismatch");
         }
