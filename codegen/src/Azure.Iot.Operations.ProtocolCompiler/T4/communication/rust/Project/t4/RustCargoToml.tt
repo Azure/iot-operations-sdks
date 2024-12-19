@@ -30,8 +30,8 @@ derive_builder = "0.20"
 azure_iot_operations_mqtt = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_mqtt")#>" }
 azure_iot_operations_protocol = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_protocol")#>" }
 <# } else { #>
-azure_iot_operations_mqtt = { version = "0.5.0", registry = "aio-sdks" }
-azure_iot_operations_protocol = { version = "0.5.0", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "0.6.0", registry = "aio-sdks" }
+azure_iot_operations_protocol = { version = "0.6.0", registry = "aio-sdks" }
 <# } #>
 <#+
 string IfLocal(string ifText, string elseText = "") => !this.sdkPath.StartsWith("http://") && !this.sdkPath.StartsWith("https://") ? ifText : elseText;

@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
@@ -25,11 +28,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
-        {
-            "CommandExecutorReceivesPseudoDuplicateIdempotentRequest_CommandExecuted",
-            "CommandExecutorReceivesPseudoDuplicateNonIdempotentRequest_CommandExecuted",
-        };
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);

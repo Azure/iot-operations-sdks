@@ -29,10 +29,10 @@ if [ "$deploy_type" = "nightly" ]; then
     helm repo add jetstack https://charts.jetstack.io --force-update
 
     # install cert-manager
-    helm upgrade cert-manager jetstack/cert-manager --install --create-namespace -n cert-manager --version v1.16 --set crds.enabled=true --set extraArgs={--enable-certificate-owner-ref=true} --wait
+    helm upgrade cert-manager jetstack/cert-manager --install --create-namespace -n cert-manager --version v1.16 --set crds.enabled=true --set fullnameOverride=aio-cert-manager --set extraArgs={--enable-certificate-owner-ref=true} --wait
 
     # install trust-manager
-    helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --wait
+    helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --set nameOverride=aio-trust-manager --wait
 
     # install MQTT broker
     helm uninstall broker -n azure-iot-operations --ignore-not-found
@@ -70,6 +70,14 @@ kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
     --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
 # setup new Broker
+#TODO this is a temporary workaround to a bug in the broker. Currently, the cluster issuer
+# takes longer to deploy than the broker listener expects and this causes the deployment to fail.
+# This temporary fix deploys just the cluster issuer, waits a bit, then deploys the broker listener
+if [ "$deploy_type" = "nightly" ]; then
+    kubectl apply -f yaml/aio-nightly-cluster-issuer.yaml
+    kubectl wait --for=condition=Ready clusterIssuer/azure-iot-operations-aio-certificate-issuer
+fi
+
 kubectl apply -f yaml/aio-$deploy_type.yaml
 
 # Update the credentials locally for connecting to MQTT Broker

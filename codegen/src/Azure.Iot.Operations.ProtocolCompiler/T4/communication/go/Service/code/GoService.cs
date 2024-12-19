@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
         private readonly List<(string, string?, string?)> cmdNameReqResps;
-        private readonly List<string> telemSchemas;
+        private readonly List<(string?, string)> telemNameSchemas;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
         private readonly bool syncApi;
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
-            List<string> telemSchemas,
+            List<(string?, string)> telemNameSchemas,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
             bool syncApi,
@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdNameReqResps = cmdNameReqResps;
-            this.telemSchemas = telemSchemas;
+            this.telemNameSchemas = telemNameSchemas;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
             this.syncApi = syncApi;
