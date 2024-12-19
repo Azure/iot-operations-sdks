@@ -167,12 +167,12 @@ fn get_client_id<T: DefaultsType + Default>(
 }
 
 datatest_stable::harness!(
-//    test_command_invoker_standalone,
-//    "../../eng/test/test-cases/Protocol/CommandInvoker",
-//    r"^.*\.yaml",
-//    test_command_executor_standalone,
-//    "../../eng/test/test-cases/Protocol/CommandExecutor",
-//    r"^.*\.yaml",
+    //    test_command_invoker_standalone,
+    //    "../../eng/test/test-cases/Protocol/CommandInvoker",
+    //    r"^.*\.yaml",
+    //    test_command_executor_standalone,
+    //    "../../eng/test/test-cases/Protocol/CommandExecutor",
+    //    r"^.*\.yaml",
     test_command_executor_session,
     "../../eng/test/test-cases/Protocol/CommandExecutor",
     r"^.*\.yaml",
