@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use async_trait::async_trait;
+use bytes::Bytes;
 use tokio::sync::mpsc;
 
 use azure_iot_operations_mqtt::error::ConnectionError;
@@ -33,4 +34,8 @@ impl MqttEventLoop for MqttLooper {
     }
 
     fn set_clean_start(&mut self, _clean_start: bool) {}
+
+    fn set_authentication_method(&mut self, _authentication_method: Option<String>) {}
+
+    fn set_authentication_data(&mut self, _authentication_data: Option<Bytes>) {}
 }

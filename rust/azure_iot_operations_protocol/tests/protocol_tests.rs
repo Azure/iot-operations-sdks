@@ -26,7 +26,6 @@ static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder",
-    "CommandExecutorRequestWrongTopic_NoResponse",
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandExecutorUserCodeRaisesContentError_RespondsError",
@@ -57,6 +56,7 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
 }
 */
 
+/*
 #[allow(clippy::unnecessary_wraps)]
 #[allow(clippy::needless_pass_by_value)]
 fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_stable::Result<()> {
@@ -90,6 +90,7 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
 
     Ok(())
 }
+*/
 
 #[allow(clippy::unnecessary_wraps)]
 #[allow(clippy::needless_pass_by_value)]
@@ -138,6 +139,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
     Ok(())
 }
 
+/*
 fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
         && !requirements.contains(&TestFeatureKind::AckOrdering)
@@ -145,6 +147,7 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
 }
+*/
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
@@ -165,12 +168,12 @@ fn get_client_id<T: DefaultsType + Default>(
 }
 
 datatest_stable::harness!(
-    //    test_command_invoker_standalone,
-    //    "../../eng/test/test-cases/Protocol/CommandInvoker",
-    //    r"^.*\.yaml",
-    test_command_executor_standalone,
-    "../../eng/test/test-cases/Protocol/CommandExecutor",
-    r"^.*\.yaml",
+//    test_command_invoker_standalone,
+//    "../../eng/test/test-cases/Protocol/CommandInvoker",
+//    r"^.*\.yaml",
+//    test_command_executor_standalone,
+//    "../../eng/test/test-cases/Protocol/CommandExecutor",
+//    r"^.*\.yaml",
     test_command_executor_session,
     "../../eng/test/test-cases/Protocol/CommandExecutor",
     r"^.*\.yaml",

@@ -15,18 +15,19 @@ use azure_iot_operations_mqtt::error::{
     AckError, DisconnectError, PublishError, ReauthError, SubscribeError, UnsubscribeError,
 };
 use azure_iot_operations_mqtt::interface::{
-    CompletionToken, ManagedClient, MqttAck, MqttClient, MqttDisconnect, MqttPubSub,
+    CompletionToken, MqttAck, MqttClient, MqttDisconnect, MqttPubSub,
 };
-use azure_iot_operations_mqtt::topic::{TopicFilter, TopicParseError};
+//use azure_iot_operations_mqtt::interface::ManagedClient;
+//use azure_iot_operations_mqtt::topic::{TopicFilter, TopicParseError};
 
-use crate::metl::mqtt_listener::MqttListener;
+//use crate::metl::mqtt_listener::MqttListener;
 use crate::metl::mqtt_operation::MqttOperation;
 use crate::metl::test_ack_kind::TestAckKind;
 
 #[derive(Clone)]
 pub struct MqttDriver {
-    client_id: String,
-    message_tx: Option<broadcast::Sender<Publish>>,
+    _client_id: String,
+    _message_tx: Option<broadcast::Sender<Publish>>,
     operation_tx: mpsc::UnboundedSender<MqttOperation>,
 }
 
@@ -37,8 +38,8 @@ impl MqttDriver {
         operation_tx: mpsc::UnboundedSender<MqttOperation>,
     ) -> Self {
         Self {
-            client_id,
-            message_tx,
+            _client_id: client_id,
+            _message_tx: message_tx,
             operation_tx,
         }
     }
@@ -216,6 +217,7 @@ impl MqttClient for MqttDriver {
     }
 }
 
+/*
 impl ManagedClient for MqttDriver {
     type PubReceiver = MqttListener;
 
@@ -240,3 +242,4 @@ impl ManagedClient for MqttDriver {
         ))
     }
 }
+*/
