@@ -18,7 +18,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
         /// <summary>
         /// Specializes a <c>CommandExecutor</c> class for Command 'increment'.
         /// </summary>
-        public class IncrementCommandExecutor : CommandExecutor<EmptyJson, IncrementResponsePayload>
+        public class IncrementCommandExecutor : CommandExecutor<IncrementRequestPayload, IncrementResponsePayload>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 

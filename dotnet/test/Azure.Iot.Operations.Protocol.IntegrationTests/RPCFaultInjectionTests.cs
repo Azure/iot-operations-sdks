@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Text;
+using TestEnvoys.dtmi_com_example_Counter__1;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
@@ -46,10 +47,13 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             
             var result = await mqttExecutor.PublishAsync(faultMessage).WaitAsync(TimeSpan.FromMinutes(1));
             Assert.True(result.IsSuccess);
-            
+
+            IncrementRequestPayload payload = new IncrementRequestPayload();
+            payload.IncrementValue = 1;
+
             // // Wait until the fault injection happens or until a timeout
             await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
-            var resp2 = await counterClient.IncrementAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+            var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(1, resp2.Response.CounterResponse);   
         }
         
@@ -109,8 +113,11 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             result = await mqttInvoker.PublishAsync(faultMessage2).WaitAsync(TimeSpan.FromMinutes(1));
             Assert.True(result.IsSuccess);
             await faultWasInjectedTcs2.Task.WaitAsync(TimeSpan.FromSeconds(30));
-            
-            var resp2 = await counterClient.IncrementAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+            IncrementRequestPayload payload = new IncrementRequestPayload();
+            payload.IncrementValue = 1;
+
+            var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(1, resp2.Response.CounterResponse);   
         }
     }
