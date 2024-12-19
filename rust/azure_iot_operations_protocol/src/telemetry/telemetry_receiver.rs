@@ -4,10 +4,10 @@ use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
-    interface::{self, ManagedClient, PubReceiver},
+    interface::{AckToken, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
-use tokio::{sync::oneshot, task::JoinSet};
+use tokio_util::sync::CancellationToken;
 
 use crate::{
     common::{
@@ -111,26 +111,6 @@ impl CloudEventBuilder {
     }
 }
 
-/// Acknowledgement token used to acknowledge a telemetry message.
-/// Used by the [`TelemetryReceiver`].
-///
-/// When dropped without calling [`AckToken::ack`], the message is automatically acknowledged.
-pub struct AckToken {
-    ack_tx: oneshot::Sender<()>,
-}
-
-impl AckToken {
-    /// Consumes the [`AckToken`] and acknowledges the telemetry message.
-    pub fn ack(self) {
-        match self.ack_tx.send(()) {
-            Ok(()) => { /* Success */ }
-            Err(()) => {
-                log::error!("Ack error");
-            }
-        }
-    }
-}
-
 /// Telemetry message struct
 /// Used by the telemetry receiver.
 pub struct TelemetryMessage<T: PayloadSerialize> {
@@ -217,7 +197,7 @@ where
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_acks: JoinSet<interface::AckToken>, // TODO: Remove need for this
+    recv_cancellation_token: CancellationToken,
 }
 
 /// Implementation of a Telemetry Sender
@@ -294,7 +274,7 @@ where
             topic_pattern,
             message_payload_type: PhantomData,
             is_subscribed: false,
-            pending_acks: JoinSet::new(),
+            recv_cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -376,7 +356,6 @@ where
         Ok(())
     }
 
-    /// Receives a telemetry message or [`None`] if there will be no more changes.
     /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
@@ -404,234 +383,207 @@ where
         }
 
         loop {
-            tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_acks will never be processed
-                Some(inner_ack_token_result) = self.pending_acks.join_next() => {
+            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+                // Process the received message
+                log::info!("[pkid: {}] Received message", m.pkid);
 
-                    match inner_ack_token_result {
-                        Ok(inner_ack_token) => {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Acked */ }
-                                Err(e) => {
-                                    log::error!("Ack error: {e}");
-                                }
-                            }
+                'process_message: {
+                    // Clone properties
 
-                        }
-                        Err(e) => {
-                            // Unreachable: Occurs when the task failed to execute to completion by
-                            // panicking or cancelling.
-                            log::error!("Failure to process ack: {e}");
-                        }
-                    }
-                },
-                recv_result = self.mqtt_receiver.recv() => {
-                    // Process the received message
-                    if let Some((m, inner_ack_token)) = recv_result {
-                        log::info!("[pkid: {}] Received message", m.pkid);
+                    let properties = m.properties.clone();
 
-                        'process_message: {
-                            // Clone properties
+                    let mut custom_user_data = Vec::new();
+                    let mut timestamp = None;
+                    let mut cloud_event = None;
+                    let mut sender_id = None;
 
-                            let properties = m.properties.clone();
-
-                            let mut custom_user_data = Vec::new();
-                            let mut timestamp = None;
-                            let mut cloud_event = None;
-                            let mut sender_id = None;
-
-                            if let Some(properties) = properties {
-                                // Get content type
-                                if let Some(content_type) = &properties.content_type {
-                                    if T::content_type() != content_type {
-                                        log::error!(
+                    if let Some(properties) = properties {
+                        // Get content type
+                        if let Some(content_type) = &properties.content_type {
+                            if T::content_type() != content_type {
+                                log::error!(
                                             "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
                                         );
-                                        break 'process_message;
-                                    }
-                                }
+                                break 'process_message;
+                            }
+                        }
 
-                                // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
-                                if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
-                                    if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
-                                        message_protocol_version = message_version;
-                                    } else {
-                                        log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
+                        // unused beyond validation, but may be used in the future to determine how to handle other fields.
+                        let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                        if let Some((_, protocol_version)) =
+                            properties.user_properties.iter().find(|(key, _)| {
+                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                            })
+                        {
+                            if let Some(message_version) =
+                                ProtocolVersion::parse_protocol_version(protocol_version)
+                            {
+                                message_protocol_version = message_version;
+                            } else {
+                                log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
                                             m.pkid
                                         );
-                                        break 'process_message;
-                                    }
-                                }
-                                // Check that the version (or the default version if one isn't provided) is supported
-                                if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                                    log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
+                                break 'process_message;
+                            }
+                        }
+                        // Check that the version (or the default version if one isn't provided) is supported
+                        if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                            log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
                                         m.pkid
                                     );
-                                    break 'process_message;
-                                }
+                            break 'process_message;
+                        }
 
-                                let mut cloud_event_present = false;
-                                let mut cloud_event_builder = CloudEventBuilder::default();
-                                let mut cloud_event_time = None;
-                                for (key, value) in properties.user_properties {
-                                    match UserProperty::from_str(&key) {
-                                        Ok(UserProperty::Timestamp) => {
-                                            match HybridLogicalClock::from_str(&value) {
-                                                Ok(ts) => {
-                                                    timestamp = Some(ts);
-                                                }
-                                                Err(e) => {
-                                                    log::error!(
-                                                        "[pkid: {}] Invalid timestamp {value}: {e}",
-                                                        m.pkid
-                                                    );
-                                                    break 'process_message;
-                                                }
-                                            }
-                                        },
-                                        Ok(UserProperty::ProtocolVersion) => {
-                                            // skip, already processed
-                                        },
-                                        Ok(UserProperty::SourceId) => {
-                                            sender_id = Some(value);
-                                        },
-                                        Err(()) => {
-                                            match CloudEventFields::from_str(&key) {
-                                                Ok(CloudEventFields::Id) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.id(value);
-                                                },
-                                                Ok(CloudEventFields::Source) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.source(value);
-                                                },
-                                                Ok(CloudEventFields::SpecVersion) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.spec_version(value);
-                                                },
-                                                Ok(CloudEventFields::EventType) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.event_type(value);
-                                                },
-                                                Ok(CloudEventFields::Subject) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.subject(value);
-                                                },
-                                                Ok(CloudEventFields::DataSchema) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.data_schema(Some(value));
-                                                },
-                                                Ok(CloudEventFields::DataContentType) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.data_content_type(value);
-                                                },
-                                                Ok(CloudEventFields::Time) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_time = Some(value);
-                                                },
-                                                Err(()) => {
-                                                    if key.starts_with(RESERVED_PREFIX) {
-                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                                    } else {
-                                                        custom_user_data.push((key, value));
-                                                    }
-                                                }
-                                            }
+                        let mut cloud_event_present = false;
+                        let mut cloud_event_builder = CloudEventBuilder::default();
+                        let mut cloud_event_time = None;
+                        for (key, value) in properties.user_properties {
+                            match UserProperty::from_str(&key) {
+                                Ok(UserProperty::Timestamp) => {
+                                    match HybridLogicalClock::from_str(&value) {
+                                        Ok(ts) => {
+                                            timestamp = Some(ts);
                                         }
-                                        _ => {
-                                            log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                        Err(e) => {
+                                            log::error!(
+                                                "[pkid: {}] Invalid timestamp {value}: {e}",
+                                                m.pkid
+                                            );
+                                            break 'process_message;
                                         }
                                     }
                                 }
-                                if cloud_event_present {
-                                    if let Ok(mut ce) = cloud_event_builder.build() {
-                                        if let Some(ce_time) = cloud_event_time {
-                                            match DateTime::parse_from_rfc3339(&ce_time) {
-                                                Ok(time) => {
-                                                    let time = time.with_timezone(&Utc);
-                                                    ce.time = Some(time);
-                                                    cloud_event = Some(ce);
-                                                },
-                                                Err(e) => {
-                                                    log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
-                                                }
-                                            }
+                                Ok(UserProperty::ProtocolVersion) => {
+                                    // skip, already processed
+                                }
+                                Ok(UserProperty::SourceId) => {
+                                    sender_id = Some(value);
+                                }
+                                Err(()) => match CloudEventFields::from_str(&key) {
+                                    Ok(CloudEventFields::Id) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.id(value);
+                                    }
+                                    Ok(CloudEventFields::Source) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.source(value);
+                                    }
+                                    Ok(CloudEventFields::SpecVersion) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.spec_version(value);
+                                    }
+                                    Ok(CloudEventFields::EventType) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.event_type(value);
+                                    }
+                                    Ok(CloudEventFields::Subject) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.subject(value);
+                                    }
+                                    Ok(CloudEventFields::DataSchema) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.data_schema(Some(value));
+                                    }
+                                    Ok(CloudEventFields::DataContentType) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.data_content_type(value);
+                                    }
+                                    Ok(CloudEventFields::Time) => {
+                                        cloud_event_present = true;
+                                        cloud_event_time = Some(value);
+                                    }
+                                    Err(()) => {
+                                        if key.starts_with(RESERVED_PREFIX) {
+                                            log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
                                         } else {
+                                            custom_user_data.push((key, value));
+                                        }
+                                    }
+                                },
+                                _ => {
+                                    log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                }
+                            }
+                        }
+                        if cloud_event_present {
+                            if let Ok(mut ce) = cloud_event_builder.build() {
+                                if let Some(ce_time) = cloud_event_time {
+                                    match DateTime::parse_from_rfc3339(&ce_time) {
+                                        Ok(time) => {
+                                            let time = time.with_timezone(&Utc);
+                                            ce.time = Some(time);
                                             cloud_event = Some(ce);
                                         }
-                                    } else {
-                                        log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
-                                    }
-                                }
-                            }
-
-                            let topic = match std::str::from_utf8(&m.topic) {
-                                Ok(topic) => topic,
-                                Err(e) => {
-                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                    log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
-                                    break 'process_message;
-                                }
-                            };
-
-                            let topic_tokens = self.topic_pattern.parse_tokens(topic);
-
-                            // Deserialize payload
-                            let payload = match T::deserialize(&m.payload) {
-                                Ok(p) => p,
-                                Err(e) => {
-                                    log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
-                                    break 'process_message;
-                                }
-                            };
-
-                            let telemetry_message = TelemetryMessage {
-                                payload,
-                                custom_user_data,
-                                sender_id,
-                                timestamp,
-                                cloud_event,
-                                topic_tokens,
-                            };
-
-                            // If the telemetry message needs ack, return telemetry message with ack token
-                            if let Some(inner_ack_token) = inner_ack_token {
-                                let (ack_tx, ack_rx) = oneshot::channel();
-                                let ack_token = AckToken { ack_tx };
-
-                                self.pending_acks.spawn({
-                                    async move {
-                                        match ack_rx.await {
-                                            Ok(()) => { /* Ack token used */ },
-                                            Err(_) => {
-                                                log::error!("[pkid: {}] Ack channel closed, acking", m.pkid);
-                                            }
+                                        Err(e) => {
+                                            log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
                                         }
-                                        inner_ack_token
                                     }
-                                });
-
-                                return Some(Ok((telemetry_message, Some(ack_token))));
-                            }
-
-                            return Some(Ok((telemetry_message, None)));
-                        }
-
-                        // Occurs on an error processing the message, ack to prevent redelivery
-                        if let Some(inner_ack_token) = inner_ack_token {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Success */ }
-                                Err(e) => {
-                                    log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                                } else {
+                                    cloud_event = Some(ce);
                                 }
-                            };
+                            } else {
+                                log::error!(
+                                    "[pkid: {}] Telemetry received invalid cloud event",
+                                    m.pkid
+                                );
+                            }
                         }
-                    } else {
-                        // There will be no more messages
-                        return None;
                     }
+
+                    let topic = match std::str::from_utf8(&m.topic) {
+                        Ok(topic) => topic,
+                        Err(e) => {
+                            // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                            log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
+                            break 'process_message;
+                        }
+                    };
+
+                    let topic_tokens = self.topic_pattern.parse_tokens(topic);
+
+                    // Deserialize payload
+                    let payload = match T::deserialize(&m.payload) {
+                        Ok(p) => p,
+                        Err(e) => {
+                            log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
+                            break 'process_message;
+                        }
+                    };
+
+                    let telemetry_message = TelemetryMessage {
+                        payload,
+                        custom_user_data,
+                        sender_id,
+                        timestamp,
+                        cloud_event,
+                        topic_tokens,
+                    };
+
+                    return Some(Ok((telemetry_message, ack_token)));
                 }
+
+                // Occurs on an error processing the message, ack to prevent redelivery
+                if let Some(ack_token) = ack_token {
+                    tokio::spawn({
+                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                        async move {
+                            tokio::select! {
+                                () = recv_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                ack_res = ack_token.ack() => {
+                                    match ack_res {
+                                        Ok(_) => { /* Success */ }
+                                        Err(e) => {
+                                            log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                // There will be no more messages
+                return None;
             }
         }
     }
@@ -643,7 +595,10 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // TODO: Finish implementing drop logic
+        self.recv_cancellation_token.cancel();
+    }
 }
 
 #[cfg(test)]

@@ -350,9 +350,6 @@ where
             &executor_options.topic_token_map,
         )?;
 
-        // Create cancellation token for the request receive loop
-        let recv_cancellation_token = CancellationToken::new();
-
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client
             .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
@@ -380,7 +377,7 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             is_subscribed: false,
-            recv_cancellation_token,
+            recv_cancellation_token: CancellationToken::new(),
         })
     }
 
