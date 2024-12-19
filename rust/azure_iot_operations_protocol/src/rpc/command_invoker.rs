@@ -203,10 +203,18 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    is_subscribed_mutex: Arc<Mutex<bool>>,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
     recv_cancellation_token: CancellationToken,
-    response_tx: Sender<Publish>,
+    response_tx: Sender<Option<Publish>>,
+}
+
+/// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
+enum CommandInvokerState {
+    New,
+    Subscribed,
+    ShutdownInitiated,
+    ShutdownSuccessful,
 }
 
 /// Implementation of Command Invoker.
@@ -312,8 +320,8 @@ where
             &invoker_options.topic_token_map,
         )?;
 
-        // Create mutex to track subscription state
-        let is_subscribed_mutex = Arc::new(Mutex::new(false));
+        // Create mutex to track invoker state
+        let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
@@ -360,7 +368,7 @@ where
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            is_subscribed_mutex,
+            invoker_state_mutex,
             recv_cancellation_token,
             response_tx,
         })
@@ -562,14 +570,30 @@ where
             subscription_identifiers: Vec::new(),
         };
 
-        // Subscribe to the response topic if we're not already subscribed
+        // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
-            let mut is_subscribed = self.is_subscribed_mutex.lock().await;
-            if !*is_subscribed {
-                self.subscribe_to_response_filter().await?;
-                *is_subscribed = true;
+            let mut invoker_state = self.invoker_state_mutex.lock().await;
+            match *invoker_state {
+                CommandInvokerState::New => {
+                    self.subscribe_to_response_filter().await?;
+                    *invoker_state = CommandInvokerState::Subscribed;
+                }
+                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
+                CommandInvokerState::ShutdownInitiated
+                | CommandInvokerState::ShutdownSuccessful => {
+                    return Err(AIOProtocolError::new_cancellation_error(
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "Command Invoker has been shutdown and can no longer invoke commands"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
-            // Allow other concurrent invoke commands to acquire the is_subscribed lock
+            // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
 
         // Create receiver for response
@@ -616,85 +640,84 @@ where
         // Wait for a response where the correlation id matches
         loop {
             // wait for incoming pub
-            tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
-                  () = self.recv_cancellation_token.cancelled() => {
-                    log::error!("Command Invoker has been shutdown and will no longer receive a response");
+            match response_rx.recv().await {
+                Ok(rsp_pub) => {
+                    if let Some(rsp_pub) = rsp_pub {
+                        // check correlation id for match, otherwise loop again
+                        if let Some(ref rsp_properties) = rsp_pub.properties {
+                            if let Some(ref response_correlation_data) =
+                                rsp_properties.correlation_data
+                            {
+                                if *response_correlation_data == correlation_data {
+                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                    // This is the response for this request, validate and parse it and send it back to the application
+                                    return validate_and_parse_response(
+                                        self.command_name.clone(),
+                                        &rsp_pub.payload,
+                                        rsp_properties.clone(),
+                                    );
+                                }
+                            }
+                        }
+                    } else {
+                        log::error!("Command Invoker has been shutdown and will no longer receive a response");
+                        return Err(AIOProtocolError::new_cancellation_error(
+                            false,
+                            None,
+                            None,
+                            Some(
+                                "Command Invoker has been shutdown and will no longer receive a response"
+                                    .to_string(),
+                            ),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
+
+                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+                }
+                Err(RecvError::Lagged(e)) => {
+                    log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
+                    // Keep waiting for response even though it may have gotten overwritten.
+                    continue;
+                }
+                Err(RecvError::Closed) => {
+                    log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
                     return Err(AIOProtocolError::new_cancellation_error(
-                          false,
-                          None,
-                          None,
-                          Some(
-                              "Command Invoker has been shutdown and will no longer receive a response"
-                                  .to_string(),
-                          ),
-                          Some(self.command_name.clone()),
-                      ));
-                  },
-                  resp = response_rx.recv() => {
-                      match resp {
-                          Ok(rsp_pub) => {
-                              // check correlation id for match, otherwise loop again
-                              if let Some(ref rsp_properties) = rsp_pub.properties {
-                                  if let Some(ref response_correlation_data) = rsp_properties.correlation_data
-                                  {
-                                      if *response_correlation_data == correlation_data {
-                                          // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                          // This is the response for this request, validate and parse it and send it back to the application
-                                          return validate_and_parse_response(
-                                              self.command_name.clone(),
-                                              &rsp_pub.payload,
-                                              rsp_properties.clone(),
-                                          );
-                                      }
-                                  }
-                              }
-                              // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                          }
-                          Err(RecvError::Lagged(e)) => {
-                              log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
-                              // Keep waiting for response even though it may have gotten overwritten.
-                              continue;
-                          }
-                          Err(RecvError::Closed) => {
-                              log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
-                              return Err(AIOProtocolError::new_cancellation_error(
-                                  false,
-                                  None,
-                                  None,
-                                  Some(
-                                      "MQTT Receiver has been cleaned up and will no longer send a response"
-                                          .to_string(),
-                                  ),
-                                  Some(self.command_name.clone()),
-                              ));
-                          }
-                      }
-                  }
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "MQTT Receiver has been cleaned up and will no longer send a response"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
         }
     }
 
     async fn receive_response_loop(
         mut mqtt_receiver: C::PubReceiver,
-        response_tx: Sender<Publish>,
+        response_tx: Sender<Option<Publish>>,
         recv_cancellation_token: CancellationToken,
         command_name: String,
     ) {
         loop {
             tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
+                  // on shutdown/drop, this cancellation token will be called so this loop can exit
                   () = recv_cancellation_token.cancelled() => {
+                    mqtt_receiver.close();
                     log::info!("[{command_name}] Receive response loop cancelled");
                     break;
                   },
                   recv_result = mqtt_receiver.recv() => {
                     if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
-                        match response_tx.send(m.clone()) {
+                        match response_tx.send(Some(m)) {
                             Ok(_) => { },
                             Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}, {:?}", m.topic);
+                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                             }
                         }
                         // Manually ack
@@ -706,17 +729,51 @@ where
                                 }
                             }
                         }
-
                     } else {
+                        match response_tx.send(None) {
+                            Ok(_) => { },
+                            Err(e) => {
+                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                            }
+                        }
                         log::error!("[{command_name}] MqttReceiver closed");
                         break;
                     }
                 }
             }
         }
+        // receive any more publishes that are in the queue
+        loop {
+            if let Some((m, ack_token)) = mqtt_receiver.recv().await {
+                // Send to pending command listeners
+                match response_tx.send(Some(m)) {
+                    Ok(_) => {}
+                    Err(e) => {
+                        log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                    }
+                }
+                // Manually ack
+                if let Some(ack_token) = ack_token {
+                    match ack_token.ack().await {
+                        Ok(_) => {}
+                        Err(e) => {
+                            log::error!("[{command_name}] Error acking message: {e}");
+                        }
+                    }
+                }
+            } else {
+                match response_tx.send(None) {
+                    Ok(_) => {}
+                    Err(e) => {
+                        log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                    }
+                }
+                log::error!("[{command_name}] MqttReceiver closed");
+                break;
+            }
+        }
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
     /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
@@ -730,42 +787,51 @@ where
         // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
         self.recv_cancellation_token.cancel();
 
-        // If we didn't call subscribe, we shouldn't unsubscribe
-        if *self.is_subscribed_mutex.lock().await {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
-                .await;
+        let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
+        match *invoker_state_mutex_guard {
+            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+                /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+            }
+            CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+                // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+                *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .await;
 
-            match unsubscribe_result {
-                Ok(unsub_completion_token) => {
-                    match unsub_completion_token.await {
-                        Ok(()) => { /* Success */ }
-                        Err(e) => {
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
-                            return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command invoker unsuback".to_string()),
-                                Box::new(e),
-                                Some(self.command_name.clone()),
-                            ));
+                match unsubscribe_result {
+                    Ok(unsub_completion_token) => {
+                        match unsub_completion_token.await {
+                            Ok(()) => { /* Success */ }
+                            Err(e) => {
+                                log::error!("[{}] Unsuback error: {e}", self.command_name);
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on command invoker unsuback".to_string()),
+                                    Box::new(e),
+                                    Some(self.command_name.clone()),
+                                ));
+                            }
                         }
                     }
-                }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command invoker unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
+                    Err(e) => {
+                        log::error!(
+                            "[{}] Client error while unsubscribing: {e}",
+                            self.command_name
+                        );
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command invoker unsubscribe".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
                 }
             }
         }
 
         log::info!("[{}] Shutdown", self.command_name);
+        // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+        *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
         Ok(())
     }
 }
@@ -1066,7 +1132,47 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // drop can't be async, but we can spawn a task to unsubscribe
+        tokio::spawn({
+            let invoker_state_mutex = self.invoker_state_mutex.clone();
+            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let mqtt_client = self.mqtt_client.clone();
+            async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
+        });
+
+        // Cancel the receiver loop to drop the receiver
+        self.recv_cancellation_token.cancel();
+        log::info!("[{}] Invoker has been dropped", self.command_name);
+    }
+}
+
+async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
+    mqtt_client: C,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    unsubscribe_filter: String,
+) {
+    let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
+    match *invoker_state_mutex_guard {
+        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+        }
+        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+                Ok(_) => {
+                    log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
+                }
+                Err(e) => {
+                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                }
+            }
+        }
+    }
+
+    // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
 }
 
 #[cfg(test)]
@@ -1488,9 +1594,9 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
@@ -1627,9 +1733,9 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
