@@ -8,10 +8,6 @@ use std::str::from_utf8;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use bytes::Bytes;
-use tokio::time;
-use uuid::Uuid;
-
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
@@ -22,6 +18,9 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
     CommandResponseBuilder,
 };
+use bytes::Bytes;
+use tokio::time;
+use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::countdown_event_map::CountdownEventMap;

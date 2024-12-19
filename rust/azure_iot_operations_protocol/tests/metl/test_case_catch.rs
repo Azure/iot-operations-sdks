@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use serde::Deserialize;
 use std::collections::HashMap;
 
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
+use serde::Deserialize;
 
 use crate::metl::optional_field::deserialize_optional_field;
 

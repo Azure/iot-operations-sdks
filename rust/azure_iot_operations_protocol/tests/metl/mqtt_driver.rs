@@ -2,12 +2,6 @@
 // Licensed under the MIT License.
 
 use async_trait::async_trait;
-use bytes::Bytes;
-use futures::future::TryFutureExt;
-use rumqttc::v5::mqttbytes::v5::{PubAckReason, SubscribeReasonCode, UnsubAckReason};
-use rumqttc::NoticeError;
-use tokio::sync::{broadcast, mpsc, oneshot};
-
 use azure_iot_operations_mqtt::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
@@ -19,6 +13,11 @@ use azure_iot_operations_mqtt::interface::{
 };
 //use azure_iot_operations_mqtt::interface::ManagedClient;
 //use azure_iot_operations_mqtt::topic::{TopicFilter, TopicParseError};
+use bytes::Bytes;
+use futures::future::TryFutureExt;
+use rumqttc::v5::mqttbytes::v5::{PubAckReason, SubscribeReasonCode, UnsubAckReason};
+use rumqttc::NoticeError;
+use tokio::sync::{broadcast, mpsc, oneshot};
 
 //use crate::metl::mqtt_listener::MqttListener;
 use crate::metl::mqtt_operation::MqttOperation;

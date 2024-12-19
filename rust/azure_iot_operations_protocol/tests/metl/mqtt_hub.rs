@@ -3,13 +3,12 @@
 
 use std::collections::{hash_map::HashMap, hash_set::HashSet, VecDeque};
 
-use bytes::Bytes;
-use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
-use tokio::sync::{broadcast, mpsc};
-
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
 use azure_iot_operations_mqtt::interface::{Event, Incoming};
+use bytes::Bytes;
+use rumqttc::v5::mqttbytes::v5::DisconnectReasonCode;
+use tokio::sync::{broadcast, mpsc};
 
 use crate::metl::mqtt_driver::MqttDriver;
 use crate::metl::mqtt_emulation_level::MqttEmulationLevel;

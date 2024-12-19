@@ -4,12 +4,11 @@
 use std::str::from_utf8;
 
 use async_trait::async_trait;
-use tokio::sync::{broadcast, mpsc};
-
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::AckError;
 use azure_iot_operations_mqtt::interface::{MqttAck, PubReceiver};
 use azure_iot_operations_mqtt::topic::{TopicFilter, TopicName};
+use tokio::sync::{broadcast, mpsc};
 
 use crate::metl::mqtt_operation::MqttOperation;
 

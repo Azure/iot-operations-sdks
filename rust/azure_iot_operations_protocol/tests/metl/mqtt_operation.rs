@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use bytes::Bytes;
-use tokio::sync::oneshot;
-
 use azure_iot_operations_mqtt::control_packet::{
     AuthProperties, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
+use bytes::Bytes;
+use tokio::sync::oneshot;
 
 use crate::metl::test_ack_kind::TestAckKind;
 

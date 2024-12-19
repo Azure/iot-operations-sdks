@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 use async_trait::async_trait;
-use bytes::Bytes;
-use tokio::sync::mpsc;
-
 use azure_iot_operations_mqtt::error::ConnectionError;
 use azure_iot_operations_mqtt::interface::{Event, MqttEventLoop};
+use bytes::Bytes;
+use tokio::sync::mpsc;
 
 pub struct MqttLooper {
     event_rx: Option<mpsc::UnboundedReceiver<Result<Event, ConnectionError>>>,

@@ -6,12 +6,11 @@ mod metl;
 use std::path::Path;
 use std::sync::atomic;
 
-use tokio::runtime::Builder;
-
 use azure_iot_operations_mqtt::session::{
     managed_client::SessionManagedClient, reconnect_policy::ExponentialBackoffWithJitter,
     session::Session,
 };
+use tokio::runtime::Builder;
 
 use metl::command_executor_tester::CommandExecutorTester;
 //use metl::command_invoker_tester::test_command_invoker;

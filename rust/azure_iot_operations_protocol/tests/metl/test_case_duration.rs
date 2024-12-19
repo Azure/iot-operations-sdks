@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 use serde::Deserialize;
-
 use tokio::time::Duration;
 
 #[derive(Clone, Deserialize, Debug)]

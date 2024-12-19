@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use serde::Deserialize;
 use std::marker::PhantomData;
+
+use serde::Deserialize;
 
 use crate::metl::defaults::DefaultsType;
 use crate::metl::test_case_action::TestCaseAction;

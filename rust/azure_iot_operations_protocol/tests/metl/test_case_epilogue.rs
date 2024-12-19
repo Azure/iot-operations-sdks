@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use serde::Deserialize;
 use std::collections::HashMap;
+
+use serde::Deserialize;
 
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;

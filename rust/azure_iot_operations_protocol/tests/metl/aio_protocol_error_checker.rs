@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use iso8601_duration::Duration;
-
 use azure_iot_operations_protocol::common::aio_protocol_error::{AIOProtocolError, Value};
+use iso8601_duration::Duration;
 
 use crate::metl::test_case_catch;
 
@@ -30,7 +29,6 @@ pub fn check_error(
     }
 
     if let Some(message) = test_case_catch.message.as_ref() {
-        assert!(aio_protocol_error.message.is_some());
         assert_eq!(message, aio_protocol_error.message.as_ref().unwrap());
     }
 
