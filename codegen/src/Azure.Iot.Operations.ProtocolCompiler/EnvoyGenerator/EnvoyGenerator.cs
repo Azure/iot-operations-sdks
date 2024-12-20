@@ -9,17 +9,17 @@
 
     internal class EnvoyGenerator
     {
-        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo workingDir, DirectoryInfo outDir, string genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo workingDir, string genRoot, string genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds, bool genOrUpdateProj)
         {
-            string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
+            string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(genRoot, sdkPath);
             using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace, annexFileName)).ReadToEnd()))
             {
-                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds))
+                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds, genRoot, genOrUpdateProj))
                 {
-                    string envoyFilePath = Path.Combine(outDir.FullName, templateTransform.FolderPath, templateTransform.FileName);
+                    string envoyFilePath = Path.Combine(genRoot, templateTransform.FolderPath, templateTransform.FileName);
                     if (templateTransform is IUpdatingTransform updatingTransform)
                     {
-                        string[] extantFiles = Directory.GetFiles(Path.Combine(outDir.FullName, templateTransform.FolderPath), updatingTransform.FilePattern);
+                        string[] extantFiles = Directory.GetFiles(Path.Combine(genRoot, templateTransform.FolderPath), updatingTransform.FilePattern);
 
                         if (extantFiles.Any())
                         {
@@ -44,12 +44,13 @@
                 }
             }
 
-            if (language == "rust")
+            if (language == "rust" && genOrUpdateProj)
             {
                 try
                 {
-                    Console.WriteLine($"cargo fmt {outDir.FullName}");
-                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+                    string cargoDir = Directory.GetParent(genRoot)!.FullName;
+                    Console.WriteLine($"cargo fmt {cargoDir}");
+                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(cargoDir, "Cargo.toml")}");
                 }
                 catch (Win32Exception)
                 {

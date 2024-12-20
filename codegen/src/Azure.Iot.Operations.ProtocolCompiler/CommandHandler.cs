@@ -1,7 +1,9 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System;
+    using System.ComponentModel;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using DTDLParser;
@@ -88,19 +90,21 @@
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
 
-                string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
+                string serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
-                SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
+                string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
+                bool genOrUpdateProj = ShouldGenerateOrUpdateProject(options.Lang, options.OutDir);
+                string genRoot = GetGenRoot(options.Lang, options.OutDir, genOrUpdateProj, serviceName);
 
                 HashSet<string> sourceFilePaths = new();
                 HashSet<SchemaKind> distinctSchemaKinds = new();
 
                 foreach (string schemaFileName in schemaFiles)
                 {
-                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, options.OutDir, genNamespace, sourceFilePaths, distinctSchemaKinds);
+                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, workingDir, options.OutDir, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, sourceFilePaths, distinctSchemaKinds);
+                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, sourceFilePaths, distinctSchemaKinds, genOrUpdateProj);
             }
             catch (Exception ex)
             {
@@ -109,6 +113,58 @@
             }
 
             return 0;
+        }
+
+        private static string GetGenRoot(string language, DirectoryInfo outDir, bool genOrUpdateProj, string serviceName)
+        {
+            return language != "rust" ? outDir.FullName : Path.Combine(outDir.FullName, $"{NamingSupport.ToSnakeCase(serviceName)}_gen", genOrUpdateProj ? "src" : string.Empty);
+        }
+
+        private static bool ShouldGenerateOrUpdateProject(string language, DirectoryInfo outDir)
+        {
+            switch (language)
+            {
+                case "csharp":
+                    return true;
+                case "go":
+                    return false;
+                case "rust":
+                    DirectoryInfo testDir = new(outDir.FullName);
+                    while (!testDir.Exists)
+                    {
+                        testDir = testDir.Parent!;
+                    }
+
+                    Directory.SetCurrentDirectory(outDir.FullName);
+
+                    try
+                    {
+                        Process cargoProcess = new Process
+                        {
+                            StartInfo = new ProcessStartInfo
+                            {
+                                FileName = "cargo",
+                                Arguments = "locate-project", // "pkgid" requires a cargo.lock file to be present
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                UseShellExecute = false,
+                                CreateNoWindow = true,
+                            },
+                        };
+
+                        cargoProcess.Start();
+                        cargoProcess.WaitForExit();
+                        return cargoProcess.ExitCode != 0;
+                    }
+                    catch (Win32Exception)
+                    {
+                        Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
+                        Environment.Exit(1);
+                        return false;
+                    }
+                default:
+                    throw new Exception($"language '{language}' not recognized");
+            }
         }
     }
 }

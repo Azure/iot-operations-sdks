@@ -15,14 +15,18 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Raw, new List<(string, string)> { } },
         };
 
+        private readonly string genRoot;
+        private readonly bool genOrUpdateProj;
         private readonly string projectName;
         private readonly string? sdkPath;
         private readonly bool usesAnySchemas;
         private readonly bool usesIntEnum;
         private readonly List<(string, string)> packageVersions;
 
-        public RustCargoToml(string projectName, string genFormat, string? sdkPath, HashSet<SchemaKind> distinctSchemaKinds)
+        public RustCargoToml(string projectName, string genFormat, string? sdkPath, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool genOrUpdateProj)
         {
+            this.genRoot = genRoot;
+            this.genOrUpdateProj = genOrUpdateProj;
             this.projectName = NamingSupport.ToSnakeCase(projectName);
             this.sdkPath = sdkPath?.Replace('\\', '/');
             this.usesAnySchemas = distinctSchemaKinds.Any();
@@ -31,8 +35,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             packageVersions = serializerPackageVersions[genFormat];
         }
 
-        public string FileName { get => "Cargo.toml"; }
+        public string FileName { get => genOrUpdateProj ? "Cargo.toml" : "dependencies.md"; }
 
-        public string FolderPath { get => string.Empty; }
+        public string FolderPath { get => this.genOrUpdateProj ? ".." : string.Empty; }
     }
 }
