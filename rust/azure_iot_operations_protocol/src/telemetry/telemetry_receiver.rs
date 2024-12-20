@@ -385,6 +385,8 @@ where
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     ///
+    /// Will also subscribe to the telemetry topic if not already subscribed.
+    ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     pub async fn recv(

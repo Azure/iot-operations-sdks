@@ -64,7 +64,7 @@ async fn executor_loop(client: SessionManagedClient) {
     // Increment the counter for each incoming request
     loop {
         // TODO: Show how to use other parameters
-        let request = incr_executor.recv().await.unwrap();
+        let request = incr_executor.recv().await.unwrap().unwrap();
         counter += 1;
         let response = IncrResponsePayload {
             counter_response: counter,

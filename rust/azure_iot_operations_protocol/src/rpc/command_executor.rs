@@ -492,18 +492,25 @@ where
         Ok(())
     }
 
-    /// Receive a command request.
+    /// Receive a command request or [`None`] if there will be no more requests.
+    ///
+    /// If there are messages:
+    /// - Returns Ok([`CommandRequest`]) on success
+    /// - Returns [`AIOProtocolError`] on error.
     ///
     /// Will also subscribe to the request topic if not already subscribed.
     ///
     /// Returns Ok([`CommandRequest`]) on success, otherwise returns [`AIOProtocolError`].
+    ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`UnknownError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::UnknownError) if an error occurs while receiving the message.
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
-    pub async fn recv(&mut self) -> Result<CommandRequest<TReq, TResp>, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        self.try_subscribe().await?;
+        if let Err(e) = self.try_subscribe().await {
+            return Some(Err(e));
+        }
 
         loop {
             if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
@@ -815,7 +822,7 @@ where
                                 }
                             }
                         });
-                        return Ok(command_request);
+                        return Some(Ok(command_request));
                     }
                 }
 
@@ -848,7 +855,7 @@ where
                 });
 
                 if !command_expiration_time_calculated {
-                    return Err(AIOProtocolError::new_internal_logic_error(
+                    return Some(Err(AIOProtocolError::new_internal_logic_error(
                         true,
                         false,
                         None,
@@ -857,19 +864,11 @@ where
                         None,
                         Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
                         Some(self.command_name.clone()),
-                    ));
+                    )));
                 }
             } else {
-                // TODO: Change the signature to return Option.
-                log::error!("MqttReceiver Closed");
-                return Err(AIOProtocolError::new_unknown_error(
-                    false,
-                    false,
-                    None,
-                    None,
-                    None,
-                    Some(self.command_name.clone()),
-                ));
+                // There will be no more requests
+                return None;
             }
         }
     }

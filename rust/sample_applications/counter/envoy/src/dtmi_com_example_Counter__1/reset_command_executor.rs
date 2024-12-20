@@ -89,11 +89,11 @@ where
         )
     }
 
-    /// Receive the next [`ResetRequest`]
+    /// Receive the next [`ResetRequest`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Result<ResetRequest, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<ResetRequest, AIOProtocolError>> {
         self.0.recv().await
     }
 
