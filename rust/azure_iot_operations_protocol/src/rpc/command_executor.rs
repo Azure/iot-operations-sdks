@@ -346,6 +346,7 @@ where
 
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
+            "executor_options.request_topic_pattern",
             &executor_options.request_topic_pattern,
             executor_options.topic_namespace.as_deref(),
             &executor_options.topic_token_map,
@@ -611,7 +612,7 @@ where
                             if properties.message_expiry_interval.is_none() {
                                 response_arguments.status_code = StatusCode::BadRequest;
                                 response_arguments.status_message = Some("Message expiry interval missing".to_string());
-                                response_arguments.invalid_property_name = Some("Message Expiry Interval".to_string());
+                                response_arguments.invalid_property_name = Some("Message Expiry".to_string());
                                 break 'process_request;
                             }
 
@@ -1307,7 +1308,10 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("pattern".to_string()));
+                assert_eq!(
+                    e.property_name,
+                    Some("executor_options.request_topic_pattern".to_string())
+                );
                 assert!(e.property_value == Some(Value::String(request_topic.to_string())));
             }
             Ok(_) => {
