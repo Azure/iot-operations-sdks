@@ -195,9 +195,17 @@ where
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
-    is_subscribed: bool,
+    receiver_state: TelemetryReceiverState,
     // Information to manage state
     recv_cancellation_token: CancellationToken,
+}
+
+/// Describes state of receiver
+enum TelemetryReceiverState {
+    New,
+    Subscribed,
+    ShutdownInitiated,
+    ShutdownSuccessful,
 }
 
 /// Implementation of a Telemetry Sender
@@ -273,28 +281,39 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            is_subscribed: false,
+            receiver_state: TelemetryReceiverState::New,
             recv_cancellation_token: CancellationToken::new(),
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
     ///
-    /// Note: If this method is called, the [`TelemetryReceiver`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    /// Note: If this method is called, the [`TelemetryReceiver`] will no longer receive telemetry messages
+    /// from the MQTT client, any messages that have not been processed can still be received by the
+    /// receiver. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if self.is_subscribed {
-            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        // Close the receier, no longer receive messages
+        self.mqtt_receiver.close();
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
+        match self.receiver_state {
+            TelemetryReceiverState::New | TelemetryReceiverState::ShutdownSuccessful => {
+                // If subscribe has not been called or shutdown was successful, do not unsubscribe
+                self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+            }
+            TelemetryReceiverState::Subscribed | TelemetryReceiverState::ShutdownInitiated => {
+                // If failure occurs here, the receiver should still be in a shutdown state
+                self.receiver_state = TelemetryReceiverState::ShutdownInitiated;
+                let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+
+                match unsubscribe_result {
+                    Ok(unsub_ct) => match unsub_ct.await {
+                        Ok(()) => {
+                            self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+                        }
                         Err(e) => {
                             log::error!("Unsuback error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -303,19 +322,19 @@ where
                                 None,
                             ));
                         }
+                    },
+                    Err(e) => {
+                        log::error!("Client error while unsubscribing: {e}");
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on telemetry receiver unsubscribe".to_string()),
+                            Box::new(e),
+                            None,
+                        ));
                     }
-                }
-                Err(e) => {
-                    log::error!("Client error while unsubscribing: {e}");
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on telemetry receiver unsubscribe".to_string()),
-                        Box::new(e),
-                        None,
-                    ));
                 }
             }
         }
-        log::info!("Shutdown");
+        log::info!("Telemetry receiver shutdown");
         Ok(())
     }
 
@@ -325,32 +344,34 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        let subscribe_result = self
-            .mqtt_client
-            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
-            .await;
+        if let TelemetryReceiverState::New = self.receiver_state {
+            let subscribe_result = self
+                .mqtt_client
+                .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
+                .await;
 
-        match subscribe_result {
-            Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => {
-                    self.is_subscribed = true;
-                }
+            match subscribe_result {
+                Ok(sub_ct) => match sub_ct.await {
+                    Ok(()) => {
+                        self.receiver_state = TelemetryReceiverState::Subscribed;
+                    }
+                    Err(e) => {
+                        log::error!("Suback error: {e}");
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on telemetry receiver suback".to_string()),
+                            Box::new(e),
+                            None,
+                        ));
+                    }
+                },
                 Err(e) => {
-                    log::error!("Suback error: {e}");
+                    log::error!("Client error while subscribing: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on telemetry receiver suback".to_string()),
+                        Some("Client error on telemetry receiver subscribe".to_string()),
                         Box::new(e),
                         None,
                     ));
                 }
-            },
-            Err(e) => {
-                log::error!("Client error while subscribing: {e}");
-                return Err(AIOProtocolError::new_mqtt_error(
-                    Some("Client error on telemetry receiver subscribe".to_string()),
-                    Box::new(e),
-                    None,
-                ));
             }
         }
         Ok(())
@@ -370,16 +391,8 @@ where
         &mut self,
     ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if !self.is_subscribed {
-            match self.try_subscribe().await {
-                Ok(()) => {
-                    /* Success */
-                    log::info!("Subscribed to telemetry topic");
-                }
-                Err(e) => {
-                    return Some(Err(e));
-                }
-            }
+        if let Err(e) = self.try_subscribe().await {
+            return Some(Err(e));
         }
 
         loop {
@@ -596,8 +609,32 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
-        // TODO: Finish implementing drop logic
+        // Cancel all tasks awaiting responses
         self.recv_cancellation_token.cancel();
+        // Close the receiver
+        self.mqtt_receiver.close();
+
+        // If the receiver has not unsubscribed, attempt to unsubscribe
+        if let TelemetryReceiverState::Subscribed | TelemetryReceiverState::ShutdownInitiated =
+            self.receiver_state
+        {
+            tokio::spawn({
+                let telemetry_topic = self.telemetry_topic.clone();
+                let mqtt_client = self.mqtt_client.clone();
+                async move {
+                    match mqtt_client.unsubscribe(telemetry_topic.clone()).await {
+                        Ok(_) => {
+                            log::debug!("Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending.");
+                        }
+                        Err(e) => {
+                            log::error!("Unsubscribe error on topic {telemetry_topic}: {e}");
+                        }
+                    }
+                }
+            });
+        }
+
+        log::info!("Telemetry receiver dropped");
     }
 }
 

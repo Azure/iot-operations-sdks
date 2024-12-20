@@ -260,9 +260,17 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    is_subscribed: bool,
+    executor_state: CommandExecutorState,
     // Information to manage state
     recv_cancellation_token: CancellationToken,
+}
+
+/// Describes state of executor
+enum CommandExecutorState {
+    New,
+    Subscribed,
+    ShutdownInitiated,
+    ShutdownSuccessful,
 }
 
 /// Implementation of Command Executor.
@@ -376,32 +384,42 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            is_subscribed: false,
+            executor_state: CommandExecutorState::New,
             recv_cancellation_token: CancellationToken::new(),
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
     ///
-    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    /// Note: If this method is called, the [`CommandExecutor`] will no longer receive commands
+    /// from the MQTT client, any command requests that have not been processed can still be received
+    /// by the executor. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        self.recv_cancellation_token.cancel();
-        if self.is_subscribed {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
-                .await;
+        // Close the receiver, no longer receive messages
+        self.mqtt_receiver.close();
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
+        match self.executor_state {
+            CommandExecutorState::New | CommandExecutorState::ShutdownSuccessful => {
+                // If subscribe has not been called or shutdown was successful, do not unsubscribe
+                self.executor_state = CommandExecutorState::ShutdownSuccessful;
+            }
+            CommandExecutorState::Subscribed | CommandExecutorState::ShutdownInitiated => {
+                // If failure occurs here, the executor should still be in a shutdown state
+                self.executor_state = CommandExecutorState::ShutdownInitiated;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                    .await;
+
+                match unsubscribe_result {
+                    Ok(unsub_ct) => match unsub_ct.await {
+                        Ok(()) => {
+                            self.executor_state = CommandExecutorState::ShutdownSuccessful;
+                        }
                         Err(e) => {
                             log::error!("[{}] Unsuback error: {e}", self.command_name);
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -410,18 +428,18 @@ where
                                 Some(self.command_name.clone()),
                             ));
                         }
+                    },
+                    Err(e) => {
+                        log::error!(
+                            "[{}] Client error while unsubscribing: {e}",
+                            self.command_name
+                        );
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command executor unsubscribe".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
                     }
-                }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command executor unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
                 }
             }
         }
@@ -435,7 +453,7 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        if !self.is_subscribed {
+        if let CommandExecutorState::New = self.executor_state {
             let subscribe_result = self
                 .mqtt_client
                 .subscribe(
@@ -447,7 +465,7 @@ where
             match subscribe_result {
                 Ok(sub_ct) => match sub_ct.await {
                     Ok(()) => {
-                        self.is_subscribed = true;
+                        self.executor_state = CommandExecutorState::Subscribed;
                     }
                     Err(e) => {
                         log::error!("[{}] Suback error: {e}", self.command_name);
@@ -1061,8 +1079,32 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
-        // TODO: Finish implementing shutdown logic
+        // Cancel all tasks awaiting responses
         self.recv_cancellation_token.cancel();
+        // Close the receiver
+        self.mqtt_receiver.close();
+
+        // If the executor has not been unsubscribed, attempt to unsubscribe
+        if let CommandExecutorState::Subscribed | CommandExecutorState::ShutdownInitiated =
+            self.executor_state
+        {
+            tokio::spawn({
+                let request_topic = self.request_topic_pattern.as_subscribe_topic();
+                let mqtt_client = self.mqtt_client.clone();
+                async move {
+                    match mqtt_client.unsubscribe(request_topic.clone()).await {
+                        Ok(_) => {
+                            log::debug!("Unsubscribe sent on topic {request_topic}. Unsuback may still be pending.");
+                        }
+                        Err(e) => {
+                            log::error!("Unsubscribe error on topic {request_topic}: {e}");
+                        }
+                    }
+                }
+            });
+        }
+
+        log::info!("[{}] Executor had been dropped", self.command_name);
     }
 }
 
