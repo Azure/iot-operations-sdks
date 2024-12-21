@@ -144,7 +144,7 @@
                             StartInfo = new ProcessStartInfo
                             {
                                 FileName = "cargo",
-                                Arguments = "locate-project", // "pkgid" requires a cargo.lock file to be present
+                                Arguments = "read-manifest",
                                 RedirectStandardOutput = true,
                                 RedirectStandardError = true,
                                 UseShellExecute = false,
