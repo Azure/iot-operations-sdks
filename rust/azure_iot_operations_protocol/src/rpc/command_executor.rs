@@ -645,7 +645,7 @@ where
                         response_arguments.status_message =
                             Some("Message expiry interval missing".to_string());
                         response_arguments.invalid_property_name =
-                            Some("Message Expiry Interval".to_string());
+                            Some("Message Expiry".to_string());
                         break 'process_request;
                     }
 
@@ -1104,7 +1104,7 @@ where
             });
         }
 
-        log::info!("[{}] Executor had been dropped", self.command_name);
+        log::info!("[{}] Executor has been dropped", self.command_name);
     }
 }
 
