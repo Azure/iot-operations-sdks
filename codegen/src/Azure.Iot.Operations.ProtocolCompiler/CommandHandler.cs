@@ -10,14 +10,14 @@
 
     internal class CommandHandler
     {
-        private static readonly Dictionary<string, string> DefaultWorkingPaths = new()
+        private static readonly Dictionary<string, Foo> LanguageInfo = new()
         {
-            { "csharp", $"obj{Path.DirectorySeparatorChar}Akri" },
-            { "go", $"akri" },
-            { "rust", $"target{Path.DirectorySeparatorChar}akri" },
+            { "csharp", new Foo($"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
+            { "go", new Foo($"akri", string.Empty) },
+            { "rust", new Foo($"target{Path.DirectorySeparatorChar}akri", "src") },
         };
 
-        public static readonly string[] SupportedLanguages = DefaultWorkingPaths.Keys.ToArray();
+        public static readonly string[] SupportedLanguages = LanguageInfo.Keys.ToArray();
 
         public static async Task<int> GenerateCode(OptionContainer options)
         {
@@ -82,10 +82,10 @@
 
                 var modelParser = new ModelParser();
 
-                string projectName = Path.GetFileNameWithoutExtension(options.OutDir.FullName);
+                string projectName = options.OutDir.Name;
 
                 string workingPathResolved =
-                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, DefaultWorkingPaths[options.Lang]) :
+                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfo[options.Lang].DefaultWorkingPath) :
                     Path.IsPathRooted(options.WorkingDir) ? options.WorkingDir :
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
@@ -93,8 +93,7 @@
                 string serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
                 string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
-                bool genOrUpdateProj = ShouldGenerateOrUpdateProject(options.Lang, options.OutDir);
-                string genRoot = GetGenRoot(options.Lang, options.OutDir, genOrUpdateProj, serviceName);
+                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfo[options.Lang].GenSubdir);
 
                 HashSet<string> sourceFilePaths = new();
                 HashSet<SchemaKind> distinctSchemaKinds = new();
@@ -104,7 +103,7 @@
                     TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, sourceFilePaths, distinctSchemaKinds, genOrUpdateProj);
+                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
             }
             catch (Exception ex)
             {
@@ -115,56 +114,6 @@
             return 0;
         }
 
-        private static string GetGenRoot(string language, DirectoryInfo outDir, bool genOrUpdateProj, string serviceName)
-        {
-            return language != "rust" ? outDir.FullName : Path.Combine(outDir.FullName, $"{NamingSupport.ToSnakeCase(serviceName)}_gen", genOrUpdateProj ? "src" : string.Empty);
-        }
-
-        private static bool ShouldGenerateOrUpdateProject(string language, DirectoryInfo outDir)
-        {
-            switch (language)
-            {
-                case "csharp":
-                    return true;
-                case "go":
-                    return false;
-                case "rust":
-                    DirectoryInfo testDir = new(outDir.FullName);
-                    while (!testDir.Exists)
-                    {
-                        testDir = testDir.Parent!;
-                    }
-
-                    Directory.SetCurrentDirectory(outDir.FullName);
-
-                    try
-                    {
-                        Process cargoProcess = new Process
-                        {
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = "cargo",
-                                Arguments = "read-manifest",
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true,
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                            },
-                        };
-
-                        cargoProcess.Start();
-                        cargoProcess.WaitForExit();
-                        return cargoProcess.ExitCode != 0;
-                    }
-                    catch (Win32Exception)
-                    {
-                        Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
-                        Environment.Exit(1);
-                        return false;
-                    }
-                default:
-                    throw new Exception($"language '{language}' not recognized");
-            }
-        }
+        private record Foo(string DefaultWorkingPath, string GenSubdir);
     }
 }

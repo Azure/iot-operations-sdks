@@ -9,12 +9,12 @@
 
     internal class EnvoyGenerator
     {
-        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo workingDir, string genRoot, string genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds, bool genOrUpdateProj)
+        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, string genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
-            string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(genRoot, sdkPath);
+            string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
             using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace, annexFileName)).ReadToEnd()))
             {
-                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds, genRoot, genOrUpdateProj))
+                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds, genRoot, generateProject))
                 {
                     string envoyFilePath = Path.Combine(genRoot, templateTransform.FolderPath, templateTransform.FileName);
                     if (templateTransform is IUpdatingTransform updatingTransform)
@@ -44,13 +44,12 @@
                 }
             }
 
-            if (language == "rust" && genOrUpdateProj)
+            if (language == "rust" && generateProject)
             {
                 try
                 {
-                    string cargoDir = Directory.GetParent(genRoot)!.FullName;
-                    Console.WriteLine($"cargo fmt {cargoDir}");
-                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(cargoDir, "Cargo.toml")}");
+                    Console.WriteLine($"cargo fmt {outDir.FullName}");
+                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
                 }
                 catch (Win32Exception)
                 {

@@ -3,19 +3,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class RustLib : ITemplateTransform
     {
         private readonly string genRoot;
-        private readonly bool genOrUpdateProj;
+        private readonly bool generateProject;
         private readonly List<string> modules;
 
-        public RustLib(string genNamespace, string genRoot, bool genOrUpdateProj)
+        public RustLib(string genNamespace, string genRoot, bool generateProject)
         {
             this.genRoot = genRoot;
-            this.genOrUpdateProj = genOrUpdateProj;
+            this.generateProject = generateProject;
             this.modules = new List<string> { "common_types", genNamespace };
             this.modules.Sort();
         }
 
-        public string FileName { get => this.genOrUpdateProj ? "lib.rs" : $"{this.genRoot}.rs"; }
+        public string FileName { get => this.generateProject ? "lib.rs" : "mod.rs"; }
 
-        public string FolderPath { get => this.genOrUpdateProj ? string.Empty : ".."; }
+        public string FolderPath { get => string.Empty; }
     }
 }
