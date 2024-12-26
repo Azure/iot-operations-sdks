@@ -19,6 +19,11 @@
                     string envoyFilePath = Path.Combine(genRoot, templateTransform.FolderPath, templateTransform.FileName);
                     if (templateTransform is IUpdatingTransform updatingTransform)
                     {
+                        if (!generateProject)
+                        {
+                            continue;
+                        }
+
                         string[] extantFiles = Directory.GetFiles(Path.Combine(genRoot, templateTransform.FolderPath), updatingTransform.FilePattern);
 
                         if (extantFiles.Any())
