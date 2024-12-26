@@ -10,14 +10,14 @@
 
     internal class CommandHandler
     {
-        private static readonly Dictionary<string, Foo> LanguageInfo = new()
+        private static readonly Dictionary<string, LanguageInfo> LanguageInfos = new()
         {
-            { "csharp", new Foo($"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
-            { "go", new Foo($"akri", string.Empty) },
-            { "rust", new Foo($"target{Path.DirectorySeparatorChar}akri", "src") },
+            { "csharp", new LanguageInfo($"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
+            { "go", new LanguageInfo($"akri", string.Empty) },
+            { "rust", new LanguageInfo($"target{Path.DirectorySeparatorChar}akri", "src") },
         };
 
-        public static readonly string[] SupportedLanguages = LanguageInfo.Keys.ToArray();
+        public static readonly string[] SupportedLanguages = LanguageInfos.Keys.ToArray();
 
         public static async Task<int> GenerateCode(OptionContainer options)
         {
@@ -85,7 +85,7 @@
                 string projectName = options.OutDir.Name;
 
                 string workingPathResolved =
-                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfo[options.Lang].DefaultWorkingPath) :
+                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfos[options.Lang].DefaultWorkingPath) :
                     Path.IsPathRooted(options.WorkingDir) ? options.WorkingDir :
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
@@ -93,7 +93,7 @@
                 string serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
                 string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
-                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfo[options.Lang].GenSubdir);
+                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
 
                 HashSet<string> sourceFilePaths = new();
                 HashSet<SchemaKind> distinctSchemaKinds = new();
@@ -114,6 +114,6 @@
             return 0;
         }
 
-        private record Foo(string DefaultWorkingPath, string GenSubdir);
+        private record LanguageInfo(string DefaultWorkingPath, string GenSubdir);
     }
 }
