@@ -3,10 +3,26 @@
 package <#=this.genNamespace#>
 
 import (
+<# if ((this.generateServer && this.cmdNameReqResps.Any()) || (this.generateClient && this.separateTelemetries && this.telemNameSchemas.Any())) { #>
+	"context"
+
+<# } #>
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
 <# if (this.generateServer) { #>
+<# if (this.cmdNameReqResps.Any()) { #>
+type <#=this.serviceName#>CommandHandlers interface {
+<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+
+	<#=this.AsUpper(cmdNameReqResp.Item1)#>(
+		context.Context,
+		*protocol.CommandRequest[<#=this.AsSchema(cmdNameReqResp.Item2)#>],
+	) (*protocol.CommandResponse[<#=this.AsSchema(cmdNameReqResp.Item3)#>], error)
+<# } #>
+}
+
+<# } #>
 type <#=this.serviceName#>Service struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -19,6 +35,18 @@ type <#=this.serviceName#>Service struct {
 
 <# } #>
 <# if (this.generateClient) { #>
+<# if (this.separateTelemetries && this.telemNameSchemas.Any()) { #>
+type <#=this.serviceName#>TelemetryHandlers interface {
+<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+
+	<#=this.TelemComp(telemNameSchema)#>(
+		context.Context,
+		*protocol.TelemetryMessage[<#=this.AsSchema(telemNameSchema.Item2)#>],
+	) error
+<# } #>
+}
+
+<# } #>
 type <#=this.serviceName#>Client struct {
 	protocol.Listeners
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
@@ -45,8 +73,8 @@ const (
 
 func New<#=this.serviceName#>Service(
 	client protocol.MqttClient,
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-	<#=this.AsLower(cmdNameReqResp.Item1)#>Handler protocol.CommandHandler[<#=this.AsSchema(cmdNameReqResp.Item2)#>, <#=this.AsSchema(cmdNameReqResp.Item3)#>],
+<# if (this.cmdNameReqResps.Any()) { #>
+	commandHandlers <#=this.serviceName#>CommandHandlers,
 <# } #>
 	opts ...protocol.Option,
 ) (*<#=this.serviceName#>Service, error) {
@@ -86,7 +114,7 @@ func New<#=this.serviceName#>Service(
 	<#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor, err = New<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor(
 		client,
 		CommandTopic,
-		<#=this.AsLower(cmdNameReqResp.Item1)#>Handler,
+		commandHandlers.<#=this.AsUpper(cmdNameReqResp.Item1)#>,
 		&executorOpts,
 	)
 	if err != nil {
@@ -115,8 +143,12 @@ func New<#=this.serviceName#>Service(
 
 func New<#=this.serviceName#>Client(
 	client protocol.MqttClient,
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	<#=this.TelemItem(telemNameSchema)#>Handler protocol.TelemetryHandler[<#=this.AsSchema(telemNameSchema.Item2)#>],
+<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.separateTelemetries) { #>
+	telemetryHandlers <#=this.serviceName#>TelemetryHandlers,
+<# } else { #>
+	telemetryHandler protocol.TelemetryHandler[<#=this.AsSchema(this.telemNameSchemas.First().Item2)#>],
+<# } #>
 <# } #>
 	opts ...protocol.Option,
 ) (*<#=this.serviceName#>Client, error) {
@@ -166,7 +198,11 @@ func New<#=this.serviceName#>Client(
 	<#=this.AsLower(this.serviceName)#>Client.<#=this.TelemComp(telemNameSchema)#>Receiver, err = New<#=this.TelemComp(telemNameSchema)#>Receiver(
 		client,
 		TelemetryTopic,
-		<#=this.TelemItem(telemNameSchema)#>Handler,
+<# if (this.separateTelemetries) { #>
+		telemetryHandlers.<#=this.TelemComp(telemNameSchema)#>,
+<# } else { #>
+		telemetryHandler,
+<# } #>
 		&receiverOpts,
 	)
 	if err != nil {
