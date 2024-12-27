@@ -5,7 +5,7 @@
 use serde::{Deserialize, Serialize};
 
 <# if (this.enumType.Description != null) { #>
-// <#=this.enumType.Description#>
+/// <#=this.enumType.Description#>
 <# } #>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum <#=this.enumType.SchemaName#> {

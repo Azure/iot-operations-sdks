@@ -5,7 +5,7 @@
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 <# if (this.enumType.Description != null) { #>
-// <#=this.enumType.Description#>
+/// <#=this.enumType.Description#>
 <# } #>
 #[derive(Serialize_repr, Deserialize_repr, Debug, Clone)]
 #[repr(i32)]
