@@ -50,7 +50,7 @@ jobs:
         
         echo "Starting postCreateCommand"
 
-        BASE_NAME=`echo ${CODESPACE_NAME//-} | head -c 12`
+        BASE_NAME=timtay-test-cluster
 
         # create environment variables to support deployment
         echo "export SESSION=$PWD/.session
@@ -61,6 +61,15 @@ jobs:
 
         export RESOURCE_GROUP=aio-${BASE_NAME}
         export LOCATION=westus3
+
+        echo "Environment:
+            SUBSCRIPTION_ID:           $SUBSCRIPTION_ID
+            RESOURCE_GROUP:            $RESOURCE_GROUP
+            LOCATION:                  $LOCATION
+            CLUSTER_NAME:              $CLUSTER_NAME
+            STORAGE_ACCOUNT:           $STORAGE_ACCOUNT
+            SCHEMA_REGISTRY:           $SCHEMA_REGISTRY
+            SCHEMA_REGISTRY_NAMESPACE: $SCHEMA_REGISTRY_NAMESPACE"
 
         echo "Ending postCreateCommand"
 
