@@ -46,7 +46,7 @@ jobs:
 
     - name: Deploy AIO
       run: |
-        .devcontainer/PostCreateCommand.sh
         tools/deployment/initialize-cluster.sh
+        .devcontainer/PostCreateCommand.sh
         tools/deployment/install-aio-extension.sh
 
