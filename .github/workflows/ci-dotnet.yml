@@ -57,7 +57,7 @@ jobs:
         export SCHEMA_REGISTRY=${BASE_NAME}schema
         export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}schemans
 
-        export RESOURCE_GROUP=aio-${BASE_NAME}
+        export RESOURCE_GROUP=iot-operations-sdks-github-actions-resources
         export LOCATION=westus3
 
         echo "Ending postCreateCommand"
