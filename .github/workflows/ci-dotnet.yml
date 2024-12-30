@@ -59,11 +59,8 @@ jobs:
         export SCHEMA_REGISTRY=${BASE_NAME}schema
         export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}schemans" >> ~/.bashrc
 
-        # create a default resource group if not defined
-        export RESOURCE_GROUP=aio-${BASE_NAME}" >> ~/.bashrc
-
-        # create a default location if not defined
-        export LOCATION=westus3" >> ~/.bashrc
+        export RESOURCE_GROUP=aio-${BASE_NAME}
+        export LOCATION=westus3
 
         echo "Ending postCreateCommand"
 
