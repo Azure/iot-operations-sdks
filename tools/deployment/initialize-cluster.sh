@@ -23,7 +23,7 @@ fi
 
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
 k3d cluster delete
-k3d cluster create \
+k3d cluster create timtay-test-cluster \
     -p '1883:31883@loadbalancer' \
     -p '8883:38883@loadbalancer' \
     -p '8884:38884@loadbalancer' \
