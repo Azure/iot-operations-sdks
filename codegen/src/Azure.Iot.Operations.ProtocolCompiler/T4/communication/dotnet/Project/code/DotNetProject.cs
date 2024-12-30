@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public DotNetProject(string projectName, string genFormat, string? sdkPath)
         {
             this.projectName = projectName;
-            this.sdkProjPath = sdkPath != null ? $"{sdkPath}\\{SdkProjectName}" : null;
+            this.sdkProjPath = sdkPath != null ? $"{sdkPath.Replace('/', '\\')}\\{SdkProjectName}" : null;
 
             Match? majorMinorMatch = MajorMinorRegex.Match(Assembly.GetExecutingAssembly().GetName().Version!.ToString());
             sdkVersion = majorMinorMatch.Success ? $"{majorMinorMatch.Groups[1].Captures[0].Value}.*-*" : null;
