@@ -51,7 +51,6 @@ jobs:
         export BASE_NAME=timtay-test-cluster
 
         # create environment variables to support deployment
-        echo "export SESSION=$PWD/.session
         export SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}
         export CLUSTER_NAME=${BASE_NAME}
         export STORAGE_ACCOUNT=${BASE_NAME}storage
