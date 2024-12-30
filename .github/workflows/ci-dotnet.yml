@@ -53,7 +53,6 @@ jobs:
         # create environment variables to support deployment
         echo "export SESSION=$PWD/.session
         export SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        export
         export CLUSTER_NAME=${BASE_NAME}
         export STORAGE_ACCOUNT=${BASE_NAME}storage
         export SCHEMA_REGISTRY=${BASE_NAME}schema
@@ -61,15 +60,6 @@ jobs:
 
         export RESOURCE_GROUP=aio-${BASE_NAME}
         export LOCATION=westus3
-
-        echo "Environment:
-            SUBSCRIPTION_ID:           $SUBSCRIPTION_ID
-            RESOURCE_GROUP:            $RESOURCE_GROUP
-            LOCATION:                  $LOCATION
-            CLUSTER_NAME:              $CLUSTER_NAME
-            STORAGE_ACCOUNT:           $STORAGE_ACCOUNT
-            SCHEMA_REGISTRY:           $SCHEMA_REGISTRY
-            SCHEMA_REGISTRY_NAMESPACE: $SCHEMA_REGISTRY_NAMESPACE"
 
         echo "Ending postCreateCommand"
 
