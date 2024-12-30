@@ -53,7 +53,7 @@ jobs:
         # create environment variables to support deployment
         export SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}
         export CLUSTER_NAME=${BASE_NAME}
-        export STORAGE_ACCOUNT=${BASE_NAME}storage
+        export STORAGE_ACCOUNT=timtaytestclusterstorage
         export SCHEMA_REGISTRY=${BASE_NAME}schema
         export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}schemans
 
