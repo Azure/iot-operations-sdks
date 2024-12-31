@@ -27,3 +27,6 @@ echo ===Initializing Azure IoT Operations===
 az iot ops init --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP
 echo ===Creating Azure IoT Operations===
 az iot ops create --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP --name ${CLUSTER_NAME}-instance  --sr-resource-id $(az iot ops schema registry show --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP -o tsv --query id) --broker-frontend-replicas 1 --broker-frontend-workers 1  --broker-backend-part 1  --broker-backend-workers 1 --broker-backend-rf 2 --broker-mem-profile Low
+
+
+az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv
