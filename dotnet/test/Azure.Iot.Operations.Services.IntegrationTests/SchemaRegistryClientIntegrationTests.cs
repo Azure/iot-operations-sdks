@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Services.IntegrationTest;
 
 using Azure.Iot.Operations.Services.SchemaRegistry;

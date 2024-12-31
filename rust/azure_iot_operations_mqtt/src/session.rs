@@ -4,8 +4,8 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 
 mod dispatcher;
-mod managed_client;
-mod pub_tracker;
+pub mod managed_client;
+pub(crate) mod pub_tracker; //TODO: This should not be pub. It's needed for a stopgap AckToken implementation currently.
 pub mod reconnect_policy;
 #[doc(hidden)]
 #[allow(clippy::module_inception)]

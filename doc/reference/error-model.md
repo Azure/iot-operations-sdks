@@ -1,10 +1,10 @@
 # Error model
 
-This document proposes a model for reporting errors detected by the SDKs.
+This document proposes a model for reporting errors detected by the "Protocol" package/library in the SDKs.
 
 ## Purpose
 
-The SDKs return an error or throws an exception whenever it is unable to proceed with the operation it has been instructed to perform.
+The protocol API returns an error or throws an exception whenever it is unable to proceed with the operation it has been instructed to perform.
 Since the circumstances that can prevent successful progress are numerous and varied, the errors represent a wide range of conditions that must be expressed to the calling application.
 There are several relevant axes potentially usable for error categorization:
 
@@ -20,11 +20,11 @@ To this end, the following section presents required and desired characteristics
 
 Following are requirements **(MUSTs)** and desiderata **(SHOULDs)** for the error model in this proposal.
 
-1. The error model MUST be consistently expressible across programming languages.
+1. The error model MUST consistently express the same information across programming languages.
 
     * This prohibits general use of standard error types, since these vary considerably from language to language.
 
-1. The error model MUST distinguish between errors in application (user) code versus errors within the SDK.
+1. The error model MUST distinguish between errors in application (user) code versus errors within the SDK library.
 
 1. Error kinds MUST NOT be excessively fine-grained but SHOULD be sufficiently granular to convey topical information.
 
@@ -65,9 +65,13 @@ Following are requirements **(MUSTs)** and desiderata **(SHOULDs)** for the erro
 
 ## Language-independent error hierarchy
 
-In this proposal, the SDK has a single error type, which is derived from the language-specific base error type.
-This type contains a field that indicates the specific *kind* of error that occurred.
-It also contains fields that express the axes of categorization itemized at the top of this document (using English phrases instead of formal type names because the specific field names may vary by language):
+In this proposal, the protocol APIs return/raise an error or errors derived from the language-specific base error implementation (where applicable).
+This error or errors should indicate the specific *kind* of error that occurred, whether by type, field, enumeration, or other idiomatic construct appropriate to the language.
+It should also represent and express the axes of categorization itemized at the top of this document (using English phrases instead of formal type names because the specific implementation and naming may vary by language).
+
+The information being communicated does not have to literally be fields in a struct as in some languages it may make more sense to encode the information in the error design itself, e.g. an enumerated error with two variants "local" and "remote" may be preferable to a single error structure with a boolean field. Similarly, non-applicable fields may or may not be included depending on the error model, e.g. if using a specific error struct for Telemetry, there may be no need for an HTTP status field.
+
+No matter how the error/errors are represented in a language, all relevant information MUST be included.
 
 | Field | Type | Description | Axis | Required |
 | --- | --- | --- | --- | --- |
@@ -75,7 +79,7 @@ It also contains fields that express the axes of categorization itemized at the 
 | in application | boolean | true if the error occurred in user-supplied code rather than the SDK or its dependent components | who | yes |
 | is shallow | boolean | true if the error was identified immediately after the API was called, prior to any attempted network communication | how | yes |
 | is remote | boolean | true if the error was detected by a remote component | where | yes |
-| nested error | language-specific base error type | an error from a dependent component that caused the Akri.Mqtt error being reported | what | no |
+| nested error | language-specific base error representation | an error from a dependent component that caused the Akri.Mqtt error being reported | what | no |
 | HTTP status code | integer | an HTTP status code received from a remote service that caused the mRPC error being reported | what | no |
 
 Additional fields provide supplementary information about the error condition.
@@ -111,7 +115,7 @@ Because the 'command name' field can potentially apply to any error, it is not l
 | invocation error | The command processor identified an error in the request. | true | false | true | no | yes | property name?, property value? |
 | execution error | The command processor encountered an error while executing the command. | true | false | true | no | yes | property name?, property value? |
 | mqtt error | The MQTT communication encountered an error and failed. | false | false | false | maybe | no | |
-| unsupported request version | The command executor that recieved the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
+| unsupported request version | The command executor that received the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
 | unsupported response version | The command invoker received a response that specifies a protocol version that the invoker does not support. | false | false | false | no | yes | response protocol version, supported response protocol major versions |
 
 > Note: The Akri.Mqtt libraries in all languages are expected to be consistent in their use of additional fields, with two exceptions:

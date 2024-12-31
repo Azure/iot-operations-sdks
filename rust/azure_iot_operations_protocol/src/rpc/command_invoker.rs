@@ -4,7 +4,7 @@
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
+use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
 use bytes::Bytes;
 use tokio::{
     sync::{
@@ -301,12 +301,14 @@ where
 
         // Generate the request and response topics
         let request_topic_pattern = TopicPattern::new(
+            "invoker_options.request_topic_pattern",
             &invoker_options.request_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
 
         let response_topic_pattern = TopicPattern::new(
+            "response_topic_pattern",
             &response_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
@@ -688,8 +690,8 @@ where
                     log::info!("[{command_name}] Receive response loop cancelled");
                     break;
                   },
-                  msg = mqtt_receiver.recv() => {
-                    if let Some(m) = msg {
+                  recv_result = mqtt_receiver.recv() => {
+                    if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
                         match response_tx.send(m.clone()) {
                             Ok(_) => { },
@@ -698,12 +700,15 @@ where
                             }
                         }
                         // Manually ack
-                        match mqtt_receiver.ack(&m).await {
-                            Ok(()) => { },
-                            Err(e) => {
-                                log::error!("[{command_name}] Error acking message: {e}");
+                        if let Some(ack_token) = ack_token {
+                            match ack_token.ack().await {
+                                Ok(_) => { },
+                                Err(e) => {
+                                    log::error!("[{command_name}] Error acking message: {e}");
+                                }
                             }
                         }
+
                     } else {
                         log::error!("[{command_name}] MqttReceiver closed");
                         break;
@@ -1295,7 +1300,7 @@ mod tests {
         let mut response_topic_prefix = "custom/prefix".to_string();
         let mut response_topic_suffix = "custom/suffix".to_string();
 
-        let mut error_property_name = "pattern";
+        let error_property_name;
         let mut error_property_value = property_value.to_string();
 
         match property_name {
@@ -1303,18 +1308,26 @@ mod tests {
                 command_name = property_value.to_string();
                 error_property_name = "command_name";
             }
-            "request_topic_pattern" => request_topic_pattern = property_value.to_string(),
-            "response_topic_pattern" => response_topic_pattern = Some(property_value.to_string()),
+            "request_topic_pattern" => {
+                request_topic_pattern = property_value.to_string();
+                error_property_name = "invoker_options.request_topic_pattern";
+            }
+            "response_topic_pattern" => {
+                response_topic_pattern = Some(property_value.to_string());
+                error_property_name = "response_topic_pattern";
+            }
             "response_topic_prefix" => {
                 response_topic_prefix = property_value.to_string();
+                error_property_name = "response_topic_pattern";
                 error_property_value.push_str("/test/req/topic/custom/suffix");
             }
             "response_topic_suffix" => {
                 response_topic_suffix = property_value.to_string();
+                error_property_name = "response_topic_pattern";
                 error_property_value = "custom/prefix/test/req/topic/".to_string();
                 error_property_value.push_str(&response_topic_suffix);
             }
-            _ => panic!("Invalid error_property_name"),
+            _ => panic!("Invalid property_name"),
         }
 
         let invoker_options = CommandInvokerOptionsBuilder::default()
