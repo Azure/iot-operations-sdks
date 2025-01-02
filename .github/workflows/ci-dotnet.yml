@@ -64,7 +64,10 @@ jobs:
         tools/deployment/install-aio-extension.sh
 
     - name: Tear Down AIO
+      if: always()
       run: |
         az storage account create --name $STORAGE_ACCOUNT --resource-group $RESOURCE_GROUP
         az iot ops schema registry delete --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP 
+        az connectedk8s delete --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
+
 
