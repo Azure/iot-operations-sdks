@@ -10,7 +10,7 @@ Cloud Events should be added for most/all MQ Telemetry Messages, and they must b
 
 ## Decision: 
 
-The proposal is to have Cloud Events be built with convenience functions into `custom_user_data` and not a part of the `telemetry_message` API. This provides flexibility for us to add more similar things in the future without breaking changes, as well as the flexibility to change/deprioritize cloud events in the future if ever needed.
+The proposal is to have Cloud Events be built (in the Protocol Library) with convenience functions into `custom_user_data` and not a part of the `telemetry_message` API. This provides flexibility for us to add more similar things in the future without breaking changes, as well as the flexibility to change/deprioritize cloud events in the future if ever needed.
 
 ## Alternatives Considered:
 
@@ -22,6 +22,6 @@ API functions needed:
 - to headers function - takes a CloudEvent object and returns an array formatted as User Properties  that can be added to `custom_user_data` that is passed in on the Telemetry Message.
 - from headers function - Telemetry Receivers will return cloud event data raw as part of `custom_user_data` and the `content_type` field. This function will take in these User Properties and the MQTT content_type and returns a CloudEvent object.
 
-Note: There is assymetry between the CloudEvent object on the sending and receiving side for the datacontenttype field. This is intentional because per the Cloud Events MQTT spec, the `datacontenttype` is not included as a User Property, but is specified as the MQTT `content_type`. To reduce confusion and errors, the MQTT `content_type` will be settable through the Serializer, as specified in [0012-content-type.md](./0012-content-type.md). On the receiving side, however, the data from the MQTT `content_type` will be copied into the CloudEvent object for clarity.
+Note: There is asymmetry between the CloudEvent object on the sending and receiving side for the `datacontenttype` field. This is intentional because per the Cloud Events MQTT spec, the `datacontenttype` is not included as a User Property, but is specified as the MQTT `content_type`. To reduce confusion and errors, the MQTT `content_type` will be settable through the Serializer, as specified in [0012-content-type.md](./0012-content-type.md). On the receiving side, however, the data from the MQTT `content_type` will be copied into the CloudEvent object for clarity.
 
 Note: These API functions are likely present in all languages already, and just need to be made public/fully functioned
