@@ -3,7 +3,7 @@
 
 pub mod aio_protocol_error_checker;
 pub mod command_executor_tester;
-//pub mod command_invoker_tester;
+pub mod command_invoker_tester;
 pub mod countdown_event_map;
 pub mod default_action;
 pub mod default_executor;
