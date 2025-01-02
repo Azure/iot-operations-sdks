@@ -12,15 +12,15 @@ Rust has an "implementation" of the HLC (Hybrid Logical Clock) in that it suppor
 - The global HLC we maintain is used for the timestamp that is sent on telemetry and command messages.
 - A current issue with this implementation is that when we receive a message from the State Store Service, the `__ts` user property doesn't actually refer to the current time that the message was sent (as we expect), but rather the version of the key
 - Some notes on current implementations (although these are gaps in the implementation rather than intentional):
-  - Currently in dotnet, the executor updates the global HLC based on incoming messages (in conjunction with the local clock), and it is not updated again before the response is sent. The invoker updates the global HLC against the local clock before a request is sent, but it is not updated based on received responses. The telemetry sender updates the global HLC against the local clock before sending messages. And the telemetry receiver does not update the global HLC.
-  - In go, all publishes update the global HLC with the local clock before attaching the timestamp to the message. Right now, it doesn't get updated from any inbound messages.
+  - Currently in dotnet, the executor updates the global HLC based on incoming publishes (in conjunction with the local clock), and it is not updated again before the response is sent. The invoker updates the global HLC against the local clock before a request is sent, but it is not updated based on received responses. The telemetry sender updates the global HLC against the local clock before sending publishes. And the telemetry receiver does not update the global HLC.
+  - In go, all publishes update the global HLC with the local clock before attaching the timestamp to the message. Right now, it doesn't get updated from any inbound publishes.
 
 
 ## Decision: 
 
-1. A (reference to a) global HLC should be created by the application and passed into all envoy new functions. This allows the application to adjust the max clock drift, as well as have read access to the global HLC. The SDK will update this value and use it on outbound messages. There is no restriction on all HLCs passed in to all envoys matching, but it is encouraged to maintain predictable behavior.
-1. All incoming messages with a `__ts` timestamp property will update the global HLC.
-1. All outbound messages will update the global HLC against the system clock and then use that value for the `__ts` property.
+1. A (reference to a) global HLC should be created by the application and passed into all envoy new functions. This allows the application to adjust the max clock drift, as well as have read access to the global HLC. The SDK will update this value and use it on outbound publishes. There is no restriction on all HLCs passed in to all envoys matching, but it is encouraged to maintain predictable behavior.
+1. All incoming publishes with a `__ts` timestamp property will update the global HLC.
+1. All outbound publishes will update the global HLC against the system clock and then use that value for the `__ts` property.
 1. The app MUST have read access to the global HLC so they can use it for ordering, creating fencing tokens, etc.
 1. `__ts` will be maintained as a user property that has meaning in the SDKs.
 1. We will push to have the State Store Service send the message timestamp on the `__ts` user property to match our convention and send the version under a different user property name. If this isn't possible, updating our global HLC with a timestamp that is far in the past will not cause any errors on Update, but it won't be doing anything to make our global HLC more accurate.
