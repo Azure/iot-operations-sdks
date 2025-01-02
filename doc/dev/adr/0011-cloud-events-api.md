@@ -12,6 +12,90 @@ Cloud Events should be added for most/all MQ Telemetry Messages, and they must b
 
 The proposal is to have Cloud Events be built (in the Protocol Library) with convenience functions into `custom_user_data` and not a part of the `telemetry_message` API. This provides flexibility for us to add more similar things in the future without breaking changes, as well as the flexibility to change/deprioritize cloud events in the future if ever needed.
 
+<details>
+<summary>Psuedo Code Examples</summary>
+<br>
+
+Current (Sending Side):
+
+```rust
+struct TelemetryMessage {
+  cloud_event: Option<CloudEvent>,
+  custom_user_data: Vec<(String, String)>,
+  payload,
+  qos,
+  ...
+}
+pub fn new(/* language specific way of creating a Telemetry Message with all options */) -> TelemetryMessage;
+
+struct CloudEvent {
+  source,
+  event_type,
+  ...
+}
+pub fn new(/* language specific way of creating a Cloud Event with all options */) -> CloudEvent;
+```
+Proposed Example Implementation (Sending Side):
+```rust
+struct TelemetryMessage {
+  custom_user_data: Vec<(String, String)>,
+  payload,
+  qos,
+  ...
+}
+pub fn new(/* language specific way of creating a Telemetry Message with all options */) -> TelemetryMessage;
+
+struct CloudEvent {
+  source,
+  event_type,
+  // NO datacontenttype field
+  ...
+}
+pub fn new(/* language specific way of creating a Cloud Event with all options */) -> CloudEvent;
+
+/// Takes in a cloud event object. Returns cloud event data as key/value pairs according to the Cloud Event MQTT spec. The returned value can be used as the `custom_user_data` field of the `TelemetryMessage`, appended to another array of key/value pairs and then used as the `custom_user_data` field of the `TelemetryMessage`, or have other key/value pairs appended to it and then used as the `custom_user_data` field of the `TelemetryMessage`
+pub fn cloud_event_to_headers(cloud_event: CloudEvent) -> Vec<(String, String)> {
+  // Converts `cloud_event` into key/value pairs with the correct data (for example, the `subject` value should be set as the telemetry topic, which this function has access to, and the `source` value should be set from the CloudEvent object)
+}
+```
+
+Current (Receiving Side):
+```rust
+struct TelemetryMessage {
+  cloud_event: Option<CloudEvent>,
+  custom_user_data: Vec<(String, String)>,
+  payload,
+  qos,
+  ...
+}
+struct CloudEvent {
+  source,
+  event_type,
+  data_content_type,
+  ...
+}
+```
+Proposed Example Implementation (Receiving Side):
+```rust
+struct TelemetryMessage {
+  custom_user_data: Vec<(String, String)>,
+  payload,
+  qos,
+  ...
+}
+
+struct CloudEvent {
+  source,
+  event_type,
+  data_content_type,
+  ...
+}
+
+/// Takes in the content_type of the message and `custom_user_data`, which is an array of key/value pairs that correlates to the MQTT user properties not defined by the SDK. Returns a complete CloudEvent object if present in the `custom_user_data` and there are no parsing errors. Ignores any irrelevant key/value pairs in `custom_user_data`
+pub fn cloud_event_from_headers(content_type: String, custom_user_data: Vec<(String, String)>) -> Result<Option<CloudEvent>, Error>;
+```
+</details>
+
 ## Alternatives Considered:
 
 1. No API change, but providing more documentation around when/how to use Cloud Events. This should still occur.
