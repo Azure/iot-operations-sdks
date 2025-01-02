@@ -14,8 +14,8 @@ if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is no
 echo ===Installing Azure Arc===
 az connectedk8s connect --name $CLUSTER_NAME --location $LOCATION --resource-group $RESOURCE_GROUP
 echo ===Enabling Azure Arc Features===
-OID="$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)"
-echo $OID
+#OID="$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)"
+#echo $OID
 az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --custom-locations-oid $OID --features cluster-connect custom-locations
 
 # install schema registry
