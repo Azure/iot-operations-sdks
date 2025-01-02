@@ -43,6 +43,9 @@ use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
+type InvokeResultReceiver =
+    oneshot::Receiver<Result<CommandResponse<TestPayload>, AIOProtocolError>>;
+
 pub struct CommandInvokerTester<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -105,10 +108,7 @@ where
             }
         }
 
-        let mut invocation_chans: HashMap<
-            i32,
-            Option<oneshot::Receiver<Result<CommandResponse<TestPayload>, AIOProtocolError>>>,
-        > = HashMap::new();
+        let mut invocation_chans: HashMap<i32, Option<InvokeResultReceiver>> = HashMap::new();
         let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
@@ -333,10 +333,7 @@ where
     fn invoke_command(
         action: &TestCaseAction<InvokerDefaults>,
         invokers: &'a HashMap<String, Arc<CommandInvoker<TestPayload, TestPayload, C>>>,
-        invocation_chans: &mut HashMap<
-            i32,
-            Option<oneshot::Receiver<Result<CommandResponse<TestPayload>, AIOProtocolError>>>,
-        >,
+        invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
         test_case_index: i32,
     ) {
         if let TestCaseAction::InvokeCommand {
@@ -404,10 +401,7 @@ where
 
     async fn await_invocation(
         action: &TestCaseAction<InvokerDefaults>,
-        invocation_chans: &mut HashMap<
-            i32,
-            Option<oneshot::Receiver<Result<CommandResponse<TestPayload>, AIOProtocolError>>>,
-        >,
+        invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
     ) {
         if let TestCaseAction::AwaitInvocation {
             defaults_type: _,
@@ -418,8 +412,7 @@ where
         } = action
         {
             let response_rx = invocation_chans.get_mut(invocation_index).unwrap();
-            let foo = response_rx.take().unwrap();
-            let response = foo.await;
+            let response = response_rx.take().unwrap().await;
 
             match response {
                 Ok(Ok(response)) => {
