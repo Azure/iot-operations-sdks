@@ -3,3 +3,18 @@ root = true
 
 [*.go]
 file_header_template = "Copyright (c) Microsoft Corporation.\nLicensed under the MIT License."
+
+[magefile.go]
+ignore = true
+
+[samples/protocol/cloudevents/envoy/dtmi_akri_samples_oven__1/*]
+ignore = true
+
+[samples/protocol/counter/envoy/dtmi_com_example_Counter__1/*]
+ignore = true
+
+[services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/*]
+ignore = true
+
+[test/integration/protocol/dtmi_com_example_Counter__1/*]
+ignore = true
