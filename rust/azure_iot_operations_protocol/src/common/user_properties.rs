@@ -113,7 +113,6 @@ mod tests {
         assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
     }
 
-    
     /// Tests failure: Custom user data key is malformed utf-8 and an error is returned
     #[test_case(&[("abc\ndef".to_string(),"abcdef".to_string())]; "custom_user_data_malformed_key")]
     /// Tests failure: Custom user data value is malformed utf-8 and an error is returned
