@@ -676,7 +676,8 @@ where
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                         // Don't return error, although above properties shouldn't be in the request
-                                        log::error!("Request should not contain MQTT user property {key}. Value is {value}");
+                                        log::warn!("Request should not contain MQTT user property {key}. Value is {value}");
+                                        user_data.push((key, value));
                                     }
                                 }
                             }
@@ -1459,25 +1460,21 @@ mod tests {
 //   recv() is called and successfully sends a command request to the application
 //   response topic, correlation data, invoker id, and payload are valid and successfully received
 //   if payload format indicator, content type, and timestamp are present, they are validated successfully
-//   if user properties are present, they don't start with reserved prefix
 //
 // Tests failure:
 //   if an error response is published, the original request is acked
 //   response topic is invalid and command response is not published and original request is acked
 //   correlation data, invoker id, or payload are missing and error response is published and original request is acked
 //   if payload format indicator, content type, and timestamp are present and invalid, error response is published and original request is acked
-//   if user properties are present and start with reserved prefix, error response is published and original request is acked
 //
 // Test cases for response processing
 // Tests success:
 //    a command response is received and successfully published, the original request is acked
-//    response user properties do not start with reserved prefix
 //    response payload is serialized and published
 //    an empty response payload has a status code of NoContent
 //
 // Tests failure:
 //    an error occurs while processing the command response, an error response is sent and the original request is acked
-//    response user properties start with reserved prefix, an error response is sent and the original request is acked
 //    response payload is not serialized and an error response is sent and the original request is acked
 //
 // Test cases for timeout

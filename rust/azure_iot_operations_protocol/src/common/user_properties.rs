@@ -75,19 +75,12 @@ impl FromStr for UserProperty {
     }
 }
 
-/// Validates a vector of custom user properties that shouldn't use the reserved prefix
+/// Validates a vector of custom user properties provided to the protocol crate.
 ///
 /// # Errors
-/// Returns a `String` describing the error if
-///     - any of `property_list`'s keys start with the [`RESERVED_PREFIX`]
-///     - any of `property_list`'s keys or values are invalid utf-8
+/// Returns a `String` describing the error if any of `property_list`'s keys or values are invalid utf-8
 pub fn validate_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
     for (key, value) in property_list {
-        if key.starts_with(RESERVED_PREFIX) {
-            log::warn!(
-                "User data property '{key}' starts with reserved prefix '{RESERVED_PREFIX}'"
-            );
-        }
         if super::is_invalid_utf8(key) || super::is_invalid_utf8(value) {
             return Err(format!(
                 "Invalid user data key '{key}' or value '{value}' isn't valid utf-8"

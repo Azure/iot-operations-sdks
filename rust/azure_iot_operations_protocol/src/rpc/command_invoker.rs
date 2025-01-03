@@ -912,11 +912,12 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(_) => {
                 // UserProperty::CommandInvokerId
                 // Don't return error, although these properties shouldn't be present on a response
-                log::error!(
+                log::warn!(
                     "Response should not contain MQTT user property '{}'. Value is '{}'",
                     key,
                     value
                 );
+                response_custom_user_data.push((key, value));
             }
             Err(()) => {
                 response_custom_user_data.push((key, value));
@@ -1810,8 +1811,6 @@ mod tests {
 //    invalid executor id when it's not in either topic pattern
 //    payload is successfully serialized
 //    invoker client id is correctly added to user properties on message
-//    fencing_token is provided and added to user properties
-//    fencing_token isn't provided and isn't added to user properties
 // Tests failure:
 //     x timeout is > u32::max (invalid value) and an `ArgumentInvalid` error is returned
 //     x custom user data property starts with __
@@ -1843,7 +1842,7 @@ mod tests {
 //     no timestamp is present
 //     status is a number and is one of StatusCode's enum values
 //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this
-//     custom user properties are correctly passed to the application. Any starting with the reserved prefix '__' that aren't ours are logged and ignored
+//     custom user properties are correctly passed to the application.
 //     status code is no content and the payload is empty
 //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
 //     response payload deserializes successfully
