@@ -6,7 +6,6 @@ package protocol
 const (
 	SourceID             = "__srcId"
 	Timestamp            = "__ts"
-	FencingToken         = "__ft"
 	Status               = "__stat"
 	StatusMessage        = "__stMsg"
 	IsApplicationError   = "__apErr"

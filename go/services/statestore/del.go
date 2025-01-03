@@ -65,6 +65,5 @@ func (o WithTimeout) del(opt *DelOptions) {
 func (o *DelOptions) invoke() *protocol.InvokeOptions {
 	return &protocol.InvokeOptions{
 		Timeout:      o.Timeout,
-		FencingToken: o.FencingToken,
 	}
 }
