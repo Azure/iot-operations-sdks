@@ -14,7 +14,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         NotAuthorized = 135,
         ServerBusy = 137,
         ServerShuttingDown = 139,
-        BadAuthenticationMethod = 140,
         KeepAliveTimeout = 141,
         SessionTakenOver = 142,
         TopicFilterInvalid = 143,
