@@ -17,6 +17,8 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
+const fencingToken = "__ft"
+
 type (
 	// Bytes represents generic byte data.
 	Bytes interface{ ~string | ~[]byte }
@@ -44,10 +46,9 @@ type (
 
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
-		Concurrency 	uint
-		ManualAck   	bool
-		Logger      	*slog.Logger
-		FencingToken	hlc.HybridLogicalClock
+		Concurrency uint
+		ManualAck   bool
+		Logger      *slog.Logger
 	}
 
 	// Response represents a state store response, which will include a value
@@ -166,9 +167,7 @@ func invoke[T any](
 	opts invokeOptions,
 	data []byte,
 ) (*Response[T], error) {
-	invokeOpts := opts.invoke()
-
-	res, err := invoker.Invoke(ctx, data, invokeOpts)
+	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
 		return nil, err
 	}
@@ -244,10 +243,6 @@ func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {
 	return &protocol.CommandInvokerOptions{
 		Logger: o.Logger,
 	}
-}
-
-func (o WithFencingToken) client(opts *ClientOptions) {
-	opts.FencingToken = hlc.HybridLogicalClock(o)
 }
 
 func (o *ClientOptions) receiver() *protocol.TelemetryReceiverOptions {

@@ -95,11 +95,8 @@ func (o *SetOptions) invoke() *protocol.InvokeOptions {
 	inv := &protocol.InvokeOptions{
 		Timeout: o.Timeout,
 	}
-	if o.FencingToken != (hlc.HybridLogicalClock{}) {
-		if inv.Metadata == nil{
-			inv.Metadata = make(map[string]string)
-		}
-		inv.Metadata["__ft"] = o.FencingToken.String()
-	}
+	inv.Metadata = map[string]string{
+        fencingToken: o.FencingToken.String(),
+    }
 	return inv
 }
