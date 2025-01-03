@@ -36,8 +36,6 @@ For comprehensiveness, the table includes rows illustrating conditions that are 
 | `MessageExpiry` missing | yes | 400 | "Message Expiry" | (none) | invalid header |
 | `Timestamp` missing | no | | | | |
 | `Timestamp` invalid | yes | 400 | "__ts" |  (property value) | invalid header |
-| `FencingToken` missing | no | | | | |
-| `FencingToken` invalid | yes | 400 | "__ft" |  (property value) | invalid header |
 | `InvokerClientId` missing | yes | 400 | "__invId" | (none) | missing header |
 | payload present when not expected | yes | 400 | (none) | | invalid payload |
 | payload absent when expected | yes | 400 | (none) | | invalid payload |
