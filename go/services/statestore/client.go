@@ -44,9 +44,10 @@ type (
 
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
-		Concurrency uint
-		ManualAck   bool
-		Logger      *slog.Logger
+		Concurrency 	uint
+		ManualAck   	bool
+		Logger      	*slog.Logger
+		FencingToken	hlc.HybridLogicalClock
 	}
 
 	// Response represents a state store response, which will include a value
@@ -165,7 +166,9 @@ func invoke[T any](
 	opts invokeOptions,
 	data []byte,
 ) (*Response[T], error) {
-	res, err := invoker.Invoke(ctx, data, opts.invoke())
+	invokeOpts := opts.invoke()
+
+	res, err := invoker.Invoke(ctx, data, invokeOpts)
 	if err != nil {
 		return nil, err
 	}
@@ -241,6 +244,10 @@ func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {
 	return &protocol.CommandInvokerOptions{
 		Logger: o.Logger,
 	}
+}
+
+func (o WithFencingToken) client(opts *ClientOptions) {
+	opts.FencingToken = hlc.HybridLogicalClock(o)
 }
 
 func (o *ClientOptions) receiver() *protocol.TelemetryReceiverOptions {
