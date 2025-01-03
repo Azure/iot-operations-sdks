@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package main
 
 import (
@@ -12,6 +15,8 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
 	"github.com/lmittmann/tint"
 )
+
+type Handlers struct{}
 
 var counterValue int = 0
 
@@ -29,9 +34,7 @@ func main() {
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
 		mqttClient,
-		ReadCounter,
-		Increment,
-		Reset,
+		&Handlers{},
 		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
@@ -44,7 +47,7 @@ func main() {
 	<-sig
 }
 
-func ReadCounter(
+func (Handlers) ReadCounter(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
@@ -64,7 +67,7 @@ func ReadCounter(
 	})
 }
 
-func Increment(
+func (Handlers) Increment(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
@@ -84,7 +87,7 @@ func Increment(
 	})
 }
 
-func Reset(
+func (Handlers) Reset(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
