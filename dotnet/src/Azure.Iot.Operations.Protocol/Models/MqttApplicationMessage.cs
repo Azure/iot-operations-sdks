@@ -164,18 +164,6 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             foreach (KeyValuePair<string, string> kvp in md.UserData)
             {
-                if (kvp.Key.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
-                {
-                    throw new AkriMqttException($"Invalid user property \"{kvp.Key}\" starts with reserved prefix {AkriSystemProperties.ReservedPrefix}")
-                    {
-                        Kind = AkriMqttErrorKind.HeaderInvalid,
-                        InApplication = true,
-                        IsShallow = false,
-                        IsRemote = false,
-                        HeaderName = kvp.Key,
-                    };
-                }
-
                 AddUserProperty(kvp.Key, kvp.Value);
             }
         }
