@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool syncApi;
         private readonly bool generateClient;
         private readonly bool generateServer;
+        private readonly bool separateTelemetries;
 
         public GoService(
             string genNamespace,
@@ -32,7 +33,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             bool doesTelemetryTargetService,
             bool syncApi,
             bool generateClient,
-            bool generateServer)
+            bool generateServer,
+            bool separateTelemetries)
         {
             this.genNamespace = genNamespace;
             this.modelId = modelId;
@@ -48,6 +50,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.syncApi = syncApi;
             this.generateClient = generateClient;
             this.generateServer = generateServer;
+            this.separateTelemetries = separateTelemetries;
         }
 
         public string FileName { get => "wrapper.go"; }
