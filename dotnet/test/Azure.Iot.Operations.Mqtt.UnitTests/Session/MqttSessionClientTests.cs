@@ -148,6 +148,13 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
         [ClassData(typeof(UnsuccessfulAndUnretriableDisconnectReasons))]
         public async Task MqttSessionClient_DisconnectHandlerDoesNotRetryOnFatalDisconnectReasons(MQTTnet.Client.MqttClientDisconnectReason disconnectReason)
         {
+            if (disconnectReason == MQTTnet.Client.MqttClientDisconnectReason.BadAuthenticationMethod)
+            {
+                // MQTTnet erroneously defines this as a disconnect code even though it is only a connect code. Our SDK
+                // doesn't handle this erroneous disconnect code, so skip this test
+                return;
+            }
+
             using MockMqttClient mockClient = new MockMqttClient();
 
             bool reconnectionAttempted = false;
