@@ -62,7 +62,3 @@ const (
 func WithLogger(logger *slog.Logger) ClientOption {
 	return withLogger{logger}
 }
-
-func (o WithFencingToken) apply(opts *DelOptions) {
-    opts.FencingToken = hlc.HybridLogicalClock(o)
-}

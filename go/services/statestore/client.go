@@ -44,10 +44,10 @@ type (
 
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
-		Concurrency uint
-		ManualAck   bool
-		Logger      *slog.Logger
-	    FencingToken hlc.HybridLogicalClock
+		Concurrency  uint
+		ManualAck    bool
+		Logger       *slog.Logger
+		FencingToken hlc.HybridLogicalClock
 	}
 
 	// Response represents a state store response, which will include a value
@@ -160,25 +160,25 @@ func (c *Client[K, V]) ID() string {
 
 // Shorthand to invoke and parse.
 func invoke[T any](
-    ctx context.Context,
-    invoker *protocol.CommandInvoker[[]byte, []byte],
-    parse func([]byte) (T, error),
-    opts *DelOptions,
-    data []byte,
+	ctx context.Context,
+	invoker *protocol.CommandInvoker[[]byte, []byte],
+	parse func([]byte) (T, error),
+	opts invokeOptions,
+	data []byte,
 ) (*Response[T], error) {
-    invokeOpts := opts.invoke()
+	invokeOpts := opts.invoke()
 
-    res, err := invoker.Invoke(ctx, data, invokeOpts)
-    if err != nil {
-        return nil, err
-    }
+	res, err := invoker.Invoke(ctx, data, invokeOpts)
+	if err != nil {
+		return nil, err
+	}
 
-    val, err := parse(res.Payload)
-    if err != nil {
-        return nil, err
-    }
+	val, err := parse(res.Payload)
+	if err != nil {
+		return nil, err
+	}
 
-    return &Response[T]{val, res.Timestamp}, nil
+	return &Response[T]{val, res.Timestamp}, nil
 }
 
 // Shorthand to check an "OK" response.
@@ -241,7 +241,7 @@ func (o withLogger) client(opt *ClientOptions) {
 }
 
 func (o WithFencingToken) client(opts *ClientOptions) {
-    opts.FencingToken = hlc.HybridLogicalClock(o)
+	opts.FencingToken = hlc.HybridLogicalClock(o)
 }
 
 func (o *ClientOptions) invoker() *protocol.CommandInvokerOptions {

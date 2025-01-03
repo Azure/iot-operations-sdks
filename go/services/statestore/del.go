@@ -63,7 +63,14 @@ func (o WithTimeout) del(opt *DelOptions) {
 }
 
 func (o *DelOptions) invoke() *protocol.InvokeOptions {
-	return &protocol.InvokeOptions{
-		Timeout:      o.Timeout,
+	inv := &protocol.InvokeOptions{
+		Timeout: o.Timeout,
 	}
+	if o.FencingToken != (hlc.HybridLogicalClock{}) {
+		if inv.Metadata == nil{
+			inv.Metadata = make(map[string]string)
+		}
+		inv.Metadata["__ft"] = o.FencingToken.String()
+	}
+	return inv
 }
