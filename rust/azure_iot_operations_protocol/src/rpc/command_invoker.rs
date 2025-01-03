@@ -24,7 +24,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, TopicPattern},
-        user_properties::{self, validate_user_properties, UserProperty},
+        user_properties::{validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
     DEFAULT_AIO_PROTOCOL_VERSION,
@@ -54,9 +54,6 @@ where
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
-    /// Optional Fencing Token of the command request.
-    #[builder(default = "None")]
-    fencing_token: Option<HybridLogicalClock>,
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
@@ -77,7 +74,6 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
@@ -543,12 +539,6 @@ where
             UserProperty::ProtocolVersion.to_string(),
             AIO_PROTOCOL_VERSION.to_string(),
         ));
-        if let Some(fencing_token) = request.fencing_token {
-            request.custom_user_data.push((
-                UserProperty::FencingToken.to_string(),
-                fencing_token.to_string(),
-            ));
-        }
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
@@ -918,7 +908,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     Some(parse_supported_protocol_major_versions(&value));
             }
             Ok(_) => {
-                // UserProperty::FencingToken or UserProperty::CommandInvokerId
+                // UserProperty::CommandInvokerId
                 // Don't return error, although these properties shouldn't be present on a response
                 log::error!(
                     "Response should not contain MQTT user property '{}'. Value is '{}'",
@@ -927,12 +917,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 );
             }
             Err(()) => {
-                if key.starts_with(user_properties::RESERVED_PREFIX) {
-                    // Don't return error, although these properties shouldn't be present on a response
-                    log::error!("Invalid response user data property '{}' starts with reserved prefix '{}'. Value is '{}'", key, user_properties::RESERVED_PREFIX, value);
-                } else {
-                    response_custom_user_data.push((key, value));
-                }
+                response_custom_user_data.push((key, value));
             }
         }
     }

@@ -19,7 +19,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+        user_properties::{validate_user_properties, UserProperty},
     },
     supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
     DEFAULT_AIO_PROTOCOL_VERSION,
@@ -62,8 +62,6 @@ where
     pub payload: TReq,
     /// Custom user data set as custom MQTT User Properties on the request message.
     pub custom_user_data: Vec<(String, String)>,
-    /// Fencing token of the command request.
-    pub fencing_token: Option<HybridLogicalClock>,
     /// Timestamp of the command request.
     pub timestamp: Option<HybridLogicalClock>,
     /// Client ID of the invoker.
@@ -163,9 +161,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     /// Validate the command response.
     ///
     /// # Errors
-    /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`]
-    ///     - any of `custom_user_data`'s keys or values are invalid utf-8
+    /// Returns a `String` describing the error if any of `custom_user_data`'s keys or values are invalid utf-8
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             return validate_user_properties(custom_user_data);
@@ -651,7 +647,6 @@ where
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
-                            let mut fencing_token = None;
                             for (key,value) in properties.user_properties {
                                 match UserProperty::from_str(&key) {
                                     Ok(UserProperty::Timestamp) => {
@@ -671,28 +666,11 @@ where
                                     Ok(UserProperty::SourceId) => {
                                         invoker_id = Some(value);
                                     },
-                                    Ok(UserProperty::FencingToken) => {
-                                        fencing_token = match HybridLogicalClock::from_str(&value) {
-                                            Ok(ft) => Some(ft),
-                                            Err(e) => {
-                                                response_arguments.status_code = StatusCode::BadRequest;
-                                                response_arguments.status_message = Some(format!("Fencing token invalid: {e}"));
-                                                response_arguments.invalid_property_name = Some(UserProperty::FencingToken.to_string());
-                                                response_arguments.invalid_property_value = Some(value);
-                                                break 'process_request;
-                                            }
-                                        }
-                                    },
                                     Ok(UserProperty::ProtocolVersion) => {
                                         // skip, already processed
                                     }
                                     Err(()) => {
-                                        if key.starts_with(RESERVED_PREFIX) {
-                                            // Don't return error, although these properties shouldn't be present on a request
-                                            log::error!("Invalid request user data property '{}' starts with reserved prefix '{}'. Value is '{}'", key, RESERVED_PREFIX, value);
-                                        } else {
-                                            user_data.push((key, value));
-                                        }
+                                        user_data.push((key, value));
                                     }
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
@@ -736,7 +714,6 @@ where
                             let command_request = CommandRequest {
                                 payload,
                                 custom_user_data: user_data,
-                                fencing_token,
                                 timestamp,
                                 invoker_id,
                                 topic_tokens,
