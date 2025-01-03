@@ -95,8 +95,10 @@ func (o *SetOptions) invoke() *protocol.InvokeOptions {
 	inv := &protocol.InvokeOptions{
 		Timeout: o.Timeout,
 	}
-	inv.Metadata = map[string]string{
-        fencingToken: o.FencingToken.String(),
-    }
+	if !o.FencingToken.IsZero() {
+		inv.Metadata = map[string]string{
+			fencingToken: o.FencingToken.String(),
+		}
+	}
 	return inv
 }
