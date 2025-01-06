@@ -5,6 +5,7 @@
   "<#=InterfaceAnnex.ModelId#>": "<#=this.modelId#>",
   "<#=InterfaceAnnex.ServiceName#>": "<#=this.serviceName#>",
   "<#=InterfaceAnnex.PayloadFormat#>": "<#=this.serializationFormat#>",
+  "<#=InterfaceAnnex.TelemSeparate#>": <#=this.separateTelemetries ? "true" : "false"#>,
 <# if (this.telemTopicPattern != null) { #>
   "<#=InterfaceAnnex.TelemetryTopic#>": "<#=this.telemTopicPattern#>",
 <# } #>

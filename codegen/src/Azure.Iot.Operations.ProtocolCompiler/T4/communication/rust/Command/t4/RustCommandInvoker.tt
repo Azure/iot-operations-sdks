@@ -102,7 +102,7 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
 
 <# } #>
 <# if (this.reqSchema == null) { #>
-        self.inner_builder.payload(&EmptyJson {}).unwrap();
+        self.inner_builder.payload(&<#=this.serializerEmptyType#> {}).unwrap();
 
 <# } #>
         self.inner_builder.build()
