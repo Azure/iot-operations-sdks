@@ -84,7 +84,7 @@ jobs:
 
       - name: Verify Generated Code Matches Repo
         run: |
-          if ! git diff
+          if ! git diff --exit-code
           then
               echo "codegen'd envoy updates not checked in"
               git diff-files
