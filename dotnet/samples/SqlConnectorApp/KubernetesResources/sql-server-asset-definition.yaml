@@ -1,0 +1,49 @@
+apiVersion: deviceregistry.microsoft.com/v1
+kind: Asset
+metadata:
+  name: my-sql-qualityanalyzer-asset
+  namespace: azure-iot-operations
+spec:
+  displayName: My SQL Quality Analyzer Asset
+  description: A sample for an Asset modeling a device with SQL endpoint
+  assetEndpointProfileRef: azure-iot-operations/my-sql-quality-analyzer-profile # <namespace>/<assetEndpointProfile.metadata.name>
+  defaultDatasetsConfiguration: |-
+   {
+      "samplingInterval": 4000,
+   }
+  defaultTopic:
+    path: /mqtt/machine/data
+    retain: Keep         
+  datasets:
+    - name: qualityanalyzer_data
+      dataPoints:
+        - dataSource: CountryMeasurements
+          name: Country
+          # dataPointConfiguration: |-
+          #  {
+          #     "SqlRequestMethod": "SELECT",
+          #  }
+        - dataSource: CountryMeasurements
+          name: Viscosity
+          # dataPointConfiguration: |-
+          #  {
+          #     "SqlRequestMethod": "SELECT",
+          #  }
+        - dataSource: CountryMeasurements
+          name: Sweetness
+          # dataPointConfiguration: |-
+          #  {
+          #     "SqlRequestMethod": "SELECT",
+          #  }
+        - dataSource: CountryMeasurements
+          name: ParticleSize
+          # dataPointConfiguration: |-
+          #  {
+          #     "SqlRequestMethod": "SELECT",
+          #  }
+        - dataSource: CountryMeasurements
+          name: Overall
+          # dataPointConfiguration: |-
+          #  {
+          #     "SqlRequestMethod": "SELECT",
+          #  }
