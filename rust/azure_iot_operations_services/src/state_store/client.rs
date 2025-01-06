@@ -15,7 +15,7 @@ use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
-        mpsc::{channel, Receiver, Sender},
+        mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
         Mutex,
     },
     task,
@@ -41,7 +41,7 @@ pub struct KeyObservation {
     /// The name of the key (for convenience)
     pub key: Vec<u8>,
     /// The internal channel for receiving notifications for this key
-    receiver: Receiver<(state_store::KeyNotification, Option<AckToken>)>,
+    receiver: UnboundedReceiver<(state_store::KeyNotification, Option<AckToken>)>,
 }
 impl KeyObservation {
     /// Receives a [`state_store::KeyNotification`] or [`None`] if there will be no more notifications.
@@ -78,7 +78,7 @@ where
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
-        ArcMutexHashmap<String, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
+        ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
     recv_cancellation_token: CancellationToken,
 }
 
@@ -444,7 +444,7 @@ where
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
         let encoded_key_name = HEXUPPER.encode(&key);
-        let (tx, rx) = channel(100);
+        let (tx, rx) = unbounded_channel();
 
         {
             let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
@@ -557,7 +557,7 @@ where
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
-            Sender<(state_store::KeyNotification, Option<AckToken>)>,
+            UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
         loop {
@@ -596,7 +596,7 @@ where
                                         }
                                         else {
                                             // Otherwise, send the notification to the receiver
-                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)).await {
+                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)) {
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }
