@@ -39,6 +39,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? CmdCacheability { get; } = AnnexFileProperties.Cacheability;
 
+        public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
+
         private readonly string projectName;
         private readonly string genNamespace;
         private readonly string modelId;
@@ -50,8 +52,21 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? cmdServiceGroupId;
         private readonly List<(string?, string)> telemNameSchemas;
         private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly bool separateTelemetries;
 
-        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, string? telemServiceGroupId, string? cmdServiceGroupId, List<(string?, string)> telemNameSchemas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
+        public InterfaceAnnex(
+            string projectName,
+            string genNamespace,
+            string modelId,
+            string serializationFormat,
+            string serviceName,
+            string? telemTopicPattern,
+            string? cmdTopicPattern,
+            string? telemServiceGroupId,
+            string? cmdServiceGroupId,
+            List<(string?, string)> telemNameSchemas,
+            List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales,
+            bool separateTelemetries)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -64,6 +79,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemNameSchemas = telemNameSchemas;
             this.cmdNameReqRespIdemStales = cmdNameReqRespIdemStales;
+            this.separateTelemetries = separateTelemetries;
         }
 
         public string FileName { get => $"{this.serviceName}.annex.json"; }

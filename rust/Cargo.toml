@@ -6,7 +6,9 @@ members = [
   "azure_iot_operations_mqtt",
   "azure_iot_operations_protocol",
   "azure_iot_operations_services",
-  "sample_applications/counter/*",
+  "sample_applications/counter/envoy",
+  "sample_applications/counter/counter_client",
+  "sample_applications/counter/counter_server",
 ]
 
 resolver = "2"

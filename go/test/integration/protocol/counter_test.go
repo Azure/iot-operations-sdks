@@ -11,6 +11,37 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+type Handlers struct{}
+
+func (Handlers) ReadCounter(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
+	response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
+		CounterResponse: ReadCounter(),
+	}
+	return protocol.Respond(response)
+}
+
+func (Handlers) Increment(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
+	newValue := IncrementCounter()
+	response := dtmi_com_example_Counter__1.IncrementResponsePayload{
+		CounterResponse: newValue,
+	}
+	return protocol.Respond(response)
+}
+
+func (Handlers) Reset(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[any], error) {
+	ResetCounter()
+	return protocol.Respond[any](nil)
+}
+
 func TestIncrement(t *testing.T) {
 	ctx := context.Background()
 	client, server, done := sessionClients(t)
@@ -23,32 +54,7 @@ func TestIncrement(t *testing.T) {
 
 	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
 		server,
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
-			response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-				CounterResponse: ReadCounter(),
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
-			newValue := IncrementCounter()
-			response := dtmi_com_example_Counter__1.IncrementResponsePayload{
-				CounterResponse: newValue,
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[any], error) {
-			ResetCounter()
-			return protocol.Respond[any](nil)
-		},
+		&Handlers{},
 	)
 	require.NoError(t, err)
 	listeners = append(listeners, counterService)
