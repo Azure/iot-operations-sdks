@@ -54,7 +54,7 @@ func NewOvenService(
 
 func NewOvenClient(
 	client protocol.MqttClient,
-	telemetryCollectionHandler protocol.TelemetryHandler[TelemetryCollection],
+	telemetryHandler protocol.TelemetryHandler[TelemetryCollection],
 	opts ...protocol.Option,
 ) (*OvenClient, error) {
 	var err error
@@ -74,7 +74,7 @@ func NewOvenClient(
 	ovenClient.TelemetryCollectionReceiver, err = NewTelemetryCollectionReceiver(
 		client,
 		TelemetryTopic,
-		telemetryCollectionHandler,
+		telemetryHandler,
 		&receiverOpts,
 	)
 	if err != nil {

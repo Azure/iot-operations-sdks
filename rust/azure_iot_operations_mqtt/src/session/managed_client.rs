@@ -148,7 +148,9 @@ pub struct SessionPubReceiver {
     auto_ack: bool,
 }
 
+/// Receive and acknowledge incoming MQTT messages.
 impl SessionPubReceiver {
+    /// Create a new [`SessionPubReceiver`].
     pub fn new(
         pub_rx: UnboundedReceiver<Publish>,
         pub_tracker: Arc<PubTracker>,
