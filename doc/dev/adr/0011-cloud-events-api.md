@@ -16,8 +16,8 @@ The proposal is to have Cloud Events be built (in the Protocol Library) with con
 <summary>Psuedo Code Examples</summary>
 <br>
 
-Current (Sending Side):
-
+### Current (Sending Side):
+APIs
 ```rust
 struct TelemetryMessage {
   cloud_event: Option<CloudEvent>,
@@ -35,12 +35,21 @@ struct CloudEvent {
 }
 pub fn new(/* language specific way of creating a Cloud Event with all options */) -> CloudEvent;
 ```
-Proposed Example Implementation (Sending Side):
+Use
+```rust
+// Create the cloud event struct
+let cloud_event = CloudEvent::new(source: "aio://oven/sample", ...);
+// Specify the cloud event on the telemetry message
+let message = TelemetryMessage::new(cloud_event: cloud_event, payload: <payload>, ...);
+```
+### Proposed Example Implementation (Sending Side):
+APIs
 ```rust
 struct TelemetryMessage {
   custom_user_data: Vec<(String, String)>,
   payload,
   qos,
+  // NO cloud_event field
   ...
 }
 pub fn new(/* language specific way of creating a Telemetry Message with all options */) -> TelemetryMessage;
@@ -58,8 +67,18 @@ pub fn cloud_event_to_headers(cloud_event: CloudEvent) -> Vec<(String, String)> 
   // Converts `cloud_event` into key/value pairs with the correct data (for example, the `subject` value should be set as the telemetry topic, which this function has access to, and the `source` value should be set from the CloudEvent object)
 }
 ```
+Use
+```rust
+// create the cloud event struct
+let cloud_event = CloudEvent::new(source: "aio://oven/sample", ...);
+// Convert the cloud event into headers
+let custom_user_data = telemetry_sender.cloud_event_to_headers(cloud_event);
+// specify only custom_user_data (with cloud event data included) on the telemetry message
+let message = TelemetryMessage::new(custom_user_data: custom_user_data, payload: <payload>, ...);
+```
 
-Current (Receiving Side):
+### Current (Receiving Side):
+APIs
 ```rust
 struct TelemetryMessage {
   cloud_event: Option<CloudEvent>,
@@ -75,12 +94,19 @@ struct CloudEvent {
   ...
 }
 ```
-Proposed Example Implementation (Receiving Side):
+Use
+```rust
+let telemetry_message = telemetry_receiver.recv().await;
+let cloud_event = telemetry_message.cloud_event;
+```
+### Proposed Example Implementation (Receiving Side):
+APIs
 ```rust
 struct TelemetryMessage {
   custom_user_data: Vec<(String, String)>,
   payload,
   qos,
+  // NO cloud_event field
   ...
 }
 
@@ -94,6 +120,11 @@ struct CloudEvent {
 /// Takes in the content_type of the message and `custom_user_data`, which is an array of key/value pairs that correlates to the MQTT user properties not defined by the SDK. Returns a complete CloudEvent object if present in the `custom_user_data` and there are no parsing errors. Ignores any irrelevant key/value pairs in `custom_user_data`
 pub fn cloud_event_from_headers(content_type: String, custom_user_data: Vec<(String, String)>) -> Result<Option<CloudEvent>, Error>;
 ```
+Use
+```rust
+let telemetry_message = telemetry_receiver.recv().await;
+let cloud_event = cloud_event_from_headers(telemetry_message.content_type, telemetry_message.custom_user_data);
+```
 </details>
 
 ## Alternatives Considered:
@@ -102,7 +133,7 @@ pub fn cloud_event_from_headers(content_type: String, custom_user_data: Vec<(Str
 
 ## Consequences:
 API functions needed:
-- Cloud Event Builder in language idiomatic way that provides default values for specified fields and validations on all fields as specified in [0010-cloud-event-content-type.md](./0010-cloud-event-content-type.md). Note that this will require knowledge of the Telemetry Sender for default values (such as the Telemetry Topic for the `subject` field). This Builder does _not_ take in or set the content_type MQTT Header. This should be managed through the serializer, as described in ADRs 10 and 12.
+- Cloud Event Factory in language idiomatic way that provides default values for specified fields and validations on all fields as specified in [0010-cloud-event-content-type.md](./0010-cloud-event-content-type.md). Note that this will require knowledge of the Telemetry Sender for default values (such as the Telemetry Topic for the `subject` field). This Factory does _not_ take in or set the content_type MQTT Header. This should be managed through the serializer, as described in ADRs 10 and 12.
 - to headers function - takes a CloudEvent object and returns an array formatted as User Properties  that can be added to `custom_user_data` that is passed in on the Telemetry Message.
 - from headers function - Telemetry Receivers will return cloud event data raw as part of `custom_user_data` and the `content_type` field. This function will take in these User Properties and the MQTT content_type and returns a CloudEvent object.
 
