@@ -14,7 +14,7 @@ actions:
 - action: invoke command
   invocation-index: 0
   metadata:
-    "__hasReservePrefix": "userValue"
+    "__hasReservedPrefix": "userValue"
 - action: await invocation
   invocation-index: 0
   catch:

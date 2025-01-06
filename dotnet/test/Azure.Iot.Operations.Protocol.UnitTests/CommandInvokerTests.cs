@@ -214,7 +214,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var invokeTask = invoker.InvokeCommandAsync("req Payload", null, commandTimeout: TimeSpan.FromSeconds(-1));
 
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
-            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
+            Assert.Equal(AkriMqttErrorKind.ArgumentInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
