@@ -2,7 +2,7 @@
 
 ## Status: 
 
-PROPOSED
+APPROVED
 
 ## Context: 
 
@@ -30,6 +30,6 @@ The data type `T` is still 1:1 with an envoy, so this does not affect the desire
 ## Open Questions:
 
 1. ~~Should the format indicator have similar flexibility?~~ Yes, captured above
-1. Should we provide a simple implementation for payloads that don't get serialized/deserialized in the SDKs? (I think this could be nice)
+1. ~~Should we provide a simple implementation for payloads that don't get serialized/deserialized in the SDKs? (I think this could be nice)~~ Yes, this will be valuable to showcase how this should be implemented and make the raw case easy.
 1. ~~Does the `content_type` need to be returned on the Telemetry Message/Command Request/Response object, or should the implementation be responsible for parsing the information into their generic data type if they want the information (this would be more symmetrical with the sending side, and reduces additional data if the application doesn't need it)~~ Decision: Yes, always return because the information may be valuable.
 
