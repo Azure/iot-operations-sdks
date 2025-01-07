@@ -2,7 +2,7 @@
 
 ## Status
 
-PROPOSED
+APPROVED
 
 ## Context
 
@@ -47,7 +47,15 @@ The two caching use-cases should be split into two distinct caches:
     -   In addition, even for SDK-provided helpers, customization/options are
         cleanly separated from the executor.
 
+For GA, the reuse cache will be removed from the SDK and will rely purely on
+user implementation in the handler.
+
 ## Open Questions
+
+> [!NOTE]  
+> With the reuse cache being removed from the SDK for GA, these open questions
+> are no longer immediately relevant. They're being left in this document for
+> future consideration when/if we elect to revisit reuse caching in the SDK.
 
 The primary open question concerns at what level the reuse cache operates. There
 are two primary options that have both advantages and disadvantages.
@@ -78,11 +86,10 @@ are two primary options that have both advantages and disadvantages.
             serialized result.
         -   This behaves largely the same as the user implementing caching in
             their own handlers, without the SDK's involvement at all.
+        -   It allows for calling the cache within the handler (instead of as a
+            wrapper of the handler), which unlocks more complex user scenarios.
     -   Disadvantages:
         -   Computing factors like byte sizes on parsed types is problematic,
             making reimplementing existing behavior (cost weighted benefit,
             etc.) difficult if not impossible without intervention by the user.
         -   Parsing and serialization will occur even on cache hits.
-
-Note that, since the reuse cache is optional, this decision can be postponed if
-we are willing to rely entirely on user implementation for the initial offering.
