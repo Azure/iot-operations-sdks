@@ -168,7 +168,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            return validate_user_properties(custom_user_data);
+            validate_user_properties(custom_user_data)?;
         }
         Ok(())
     }

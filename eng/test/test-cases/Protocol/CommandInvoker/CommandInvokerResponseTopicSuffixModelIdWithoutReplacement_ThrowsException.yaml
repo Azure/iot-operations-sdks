@@ -17,5 +17,4 @@ prologue:
     is-remote: !!bool false 
     supplemental:
       property-name: 'modelid'
-      property-value:
 ...
