@@ -8,7 +8,11 @@ PROPOSED
 
 While logging should not need to be 100% aligned between languages, it would be good to log the same events at the same logging level (to a reasonable extent) across languages.
 
-## Decision: 
+## Decision:
+
+All languages must have a way for customers to specify their minimum log level (including no logging).
+
+All languages should offer flexibility in log destinations and formats if possible. For example, Rust utilizes a popular log crate within its SDK to generate logs. These logs can then be displayed to users through various public logger crates, each offering different levels of flexibility and functionality. We provide an example of how to use a common logger to display these logs in our samples, although customers are welcome to use alternative solutions.
 
 As a general rule, this is what defines what log level a log should be categorized as:
 - Error: Something the user should see and handle
