@@ -11,11 +11,11 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandRequestBuilderError, CommandResponse,
 };
 
+use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::empty_json::EmptyJson;
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
-use crate::common_types::empty_json::EmptyJson;
 
 pub type ReadCounterRequest = CommandRequest<EmptyJson>;
 pub type ReadCounterResponse = CommandResponse<ReadCounterResponsePayload>;

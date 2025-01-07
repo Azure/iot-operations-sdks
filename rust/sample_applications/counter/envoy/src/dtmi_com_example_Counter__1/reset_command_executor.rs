@@ -9,10 +9,10 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandResponseBuilder, CommandResponseBuilderError,
 };
 
+use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::empty_json::EmptyJson;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
-use crate::common_types::empty_json::EmptyJson;
 
 pub type ResetRequest = CommandRequest<EmptyJson, EmptyJson>;
 pub type ResetResponse = CommandResponse<EmptyJson>;

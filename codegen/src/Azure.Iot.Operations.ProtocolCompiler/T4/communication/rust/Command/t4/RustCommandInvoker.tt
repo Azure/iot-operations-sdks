@@ -25,11 +25,11 @@ use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 <# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
-use crate::common_types::bytes::Bytes;
+use super::super::common_types::bytes::Bytes;
 <# } #>
-use crate::common_types::common_options::CommandOptions;
+use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use crate::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
+use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
 <# } #>
 
 pub type <#=this.capitalizedCommandName#>Request = CommandRequest<<#=this.RequestType()#>>;
