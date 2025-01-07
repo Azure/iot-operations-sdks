@@ -59,6 +59,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => $"{this.genNamespace}.rs"; }
 
-        public string FolderPath { get => SubPaths.Rust; }
+        public string FolderPath { get => string.Empty; }
     }
 }
