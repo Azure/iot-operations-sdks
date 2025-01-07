@@ -458,12 +458,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}", commandName: commandName);
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
 
             if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
             }
 
             if (requestIdMap.ContainsKey(requestGuid.ToString()))

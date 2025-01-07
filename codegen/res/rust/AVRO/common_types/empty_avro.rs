@@ -35,7 +35,7 @@ lazy_static::lazy_static! { pub static ref SCHEMA: apache_avro::Schema = apache_
 
 const RAW_SCHEMA: &str = r#"
 {
-  "namespace": "resources::AVRO::common_types::empty_avro",
+  "namespace": "resources.common_types",
   "name": "EmptyAvro",
   "type": "record",
   "fields": []

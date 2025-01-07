@@ -6,6 +6,7 @@ use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, ti
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
 use bytes::Bytes;
+use iso8601_duration;
 use tokio::{
     sync::{
         broadcast::{error::RecvError, Sender},
@@ -984,8 +985,10 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     response_error.kind = AIOProtocolErrorKind::Timeout;
                     response_error.timeout_name = invalid_property_name;
                     response_error.timeout_value =
-                        invalid_property_value.and_then(|timeout| match timeout.parse::<u64>() {
-                            Ok(val) => Some(Duration::from_secs(val)),
+                        invalid_property_value.and_then(|timeout| match timeout
+                            .parse::<iso8601_duration::Duration>(
+                        ) {
+                            Ok(val) => val.to_std(),
                             Err(_) => None,
                         });
                 }
@@ -1015,7 +1018,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 }
                 StatusCode::ServiceUnavailable => {
                     response_error.kind = AIOProtocolErrorKind::StateInvalid;
-                    response_error.is_remote = false;
+                    response_error.is_remote = true;
                     response_error.property_name = invalid_property_name;
                     response_error.property_value = invalid_property_value.map(Value::String);
                 }
@@ -1028,7 +1031,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         }
         // status is not present
         return Err(AIOProtocolError::new_header_missing_error(
-            "Status",
+            "__stat",
             false,
             None,
             Some(format!(
@@ -1708,7 +1711,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
                 assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
@@ -1761,7 +1764,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
                 assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
