@@ -44,7 +44,7 @@ For example, given the identifier "dtmi:myCompany:MyApplication;1", the label "M
 No other parts of the DTMI will affect the generated name.
 
 **Fourth**, every name in DTDL and each label within a DTMI is a non-empty string containing only letters, digits, and underscores.
-The first character may not be a digit, and the last character may not be an underscore.
+The first character must be a letter, and the last character may not be an underscore.
 There is no guarantee that these strings will adhere to any standard casing rule.
 Each such string will be canonicalized into a list of lower-casified components by breaking the string on either:
 
