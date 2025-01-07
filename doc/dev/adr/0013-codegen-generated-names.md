@@ -9,9 +9,9 @@ PROPOSED
 At present, the ProtocolCompiler generates names for types, methods, files, and folders that are not uniformly consistent with the casing conventions of the language in which the code is generated.
 Moreover, some names are not consistent with the casing conventions of any known language (e.g., "dtmi_myCompany_MyApplication__1").
 
-This situation arose in part because the original target language for the ProtocolCompiler was C#, and as other languages were added piecemeal, there was never a clean re-archtichtecting of the naming mechanisms in the codebase.
+This situation arose in part because the original target language for the ProtocolCompiler was C#, and as other languages were added piecemeal, there was never a clean re-architecting of the naming mechanisms in the codebase.
 
-Another factor driving the design was a strong emphasis on avoiding name collisions, which came at the expense of usablity and conventionality.
+Another factor driving the design was a strong emphasis on avoiding name collisions, which came at the expense of usability and conventionality.
 Some of this emphasis is no longer relevant due to changes in other aspects of the design.
 For instance, generated code now derives from a single DTDL Interface, so there is less importance in incorporating every character of the Interface's DTMI into a namespace for the generated code.
 
@@ -46,7 +46,7 @@ No other parts of the DTMI will affect the generated name.
 **Fourth**, every name in DTDL and each label within a DTMI is a non-empty string containing only letters, digits, and underscores.
 The first character must be a letter, and the last character may not be an underscore.
 There is no guarantee that these strings will adhere to any standard casing rule.
-Each such string will be canonicalized into a list of lower-casified components by breaking the string on either:
+Each such string will be canonicalized into a list of lowercase components by breaking the string on either:
 
 * a lowercase-to-uppercase transition
 * a sequence of one or more underscores
