@@ -121,7 +121,7 @@ The generated names will be as follows.
 |output folder|CSharpGen|gogen|rust_gen|
 |project file|CSharpGen.csproj|(none)|Cargo.toml|
 |codegen folder|MyApplication|myapplication|my_application|
-|container/package/module|MyApplication|myapplication|my_application|
+|class/package/module|MyApplication|myapplication|my_application|
 |wrapper file|MyApplication.g.cs|wrapper.go|(none)|
 |wrapper type|MyApplication.Client|MyApplicationClient|(none)|
 |wrapper method|SetColorAsync|(none)|(none)|
