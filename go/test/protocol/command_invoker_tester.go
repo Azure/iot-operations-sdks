@@ -159,7 +159,7 @@ func runOneCommandInvokerTest(
 		case AwaitAck:
 			awaitAcknowledgement(t, action.AsAwaitAck(), stubBroker, packetIDs)
 		case AwaitPublish:
-			awaitPublish(
+			awaitPublishRequest(
 				t,
 				action.AsAwaitPublish(),
 				stubBroker,
@@ -468,6 +468,19 @@ func receiveResponse(
 
 	if actionReceiveResponse.PacketIndex != nil {
 		packetIDs[*actionReceiveResponse.PacketIndex] = packetID
+	}
+}
+
+func awaitPublishRequest(
+	_ *testing.T,
+	actionAwaitPublish *TestCaseActionAwaitPublish,
+	stubBroker *StubBroker,
+	correlationIDs map[int][]byte,
+) {
+	correlationID := stubBroker.AwaitPublish()
+
+	if actionAwaitPublish.CorrelationIndex != nil {
+		correlationIDs[*actionAwaitPublish.CorrelationIndex] = correlationID
 	}
 }
 

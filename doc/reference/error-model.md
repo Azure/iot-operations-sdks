@@ -109,7 +109,7 @@ Because the 'command name' field can potentially apply to any error, it is not l
 | cancellation | An operation was canceled. | false | false | either | maybe | maybe | |
 | invalid configuration | A class property, configuration file, or environment variable has an invalid value. | false | true | false | maybe | no | property name, property value |
 | invalid argument | A method was called with an invalid argument value. | false | true | false | no | no | property name, property value |
-| invalid state | The current program state is invalid vis-a-vis the method that was called. | false | true | false | no | no | property name, property value? |
+| invalid state | The current program state is invalid vis-a-vis the method that was called. | false | either | either | no | no | property name, property value? |
 | internal logic error | The client or service observed a condition that was thought to be impossible. | false | either | either | maybe | maybe | property name, property value? |
 | unknown error | The client or service received an unexpected error from a dependent component. | false | either | either | yes | maybe | |
 | invocation error | The command processor identified an error in the request. | true | false | true | no | yes | property name?, property value? |
@@ -563,7 +563,7 @@ The following table maps from each currently recognized error condition to (a) t
 | --- | --- | --- |
 | mqtt client supplied is null | ArgumentNullException | invalid argument |
 | serializer supplied is null | ArgumentNullException | invalid argument |
-| invalid MQTT topic pattern | ArgumentException | invalid configuration |
+| invalid MQTT topic pattern | ArgumentException | invalid argument OR invalid configuration |
 | invalid MQTT topic namespace | ArgumentException | invalid configuration |
 | invalid value for DefaultCommandTimeout | ArgumentException | invalid configuration |
 | invalid value for CacheableDuration | ArgumentException | invalid configuration |
