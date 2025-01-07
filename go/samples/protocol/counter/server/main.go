@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
@@ -16,9 +17,9 @@ import (
 	"github.com/lmittmann/tint"
 )
 
-type Handlers struct{}
-
-var counterValue int = 0
+type Handlers struct {
+	counterValue int32
+}
 
 func main() {
 	ctx := context.Background()
@@ -47,7 +48,7 @@ func main() {
 	<-sig
 }
 
-func (Handlers) ReadCounter(
+func (h *Handlers) ReadCounter(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
@@ -63,11 +64,11 @@ func (Handlers) ReadCounter(
 	)
 
 	return protocol.Respond(dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.LoadInt32(&h.counterValue),
 	})
 }
 
-func (Handlers) Increment(
+func (h *Handlers) Increment(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
@@ -81,13 +82,13 @@ func (Handlers) Increment(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue++
+
 	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.AddInt32(&h.counterValue, 1),
 	})
 }
 
-func (Handlers) Reset(
+func (h *Handlers) Reset(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
@@ -101,7 +102,8 @@ func (Handlers) Reset(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue = 0
+
+	atomic.StoreInt32(&h.counterValue, 0)
 	return protocol.Respond[any](nil)
 }
 
