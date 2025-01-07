@@ -10,7 +10,7 @@ edition = "2021"
 <# } else { #>
 # Dependencies for the Generated Libraries
 
-Add these dependencies to your project by using:
+Add these dependencies to your project's `Cargo.toml` file:
 
 ``` toml
 <# } #>
