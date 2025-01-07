@@ -17,7 +17,9 @@ For instance, generated code now derives from a single DTDL Interface, so there 
 
 ## Decision
 
-The ProtocolCompiler will be modified to generate names that conform to language conventions.
+The decision has multiple aspects.
+
+**First**, the ProtocolCompiler will be modified to generate names that conform to language conventions.
 The relevant conventions are as follows.
 
 |Category|C#|Go|Rust|
@@ -29,15 +31,62 @@ The relevant conventions are as follows.
 |file|PascalCase|snake_case|snake_case|
 |folder|PascalCase|lowercase|snake_case|
 
-Most generated names will derive from names and identifiers in the user's model.
-An exception is the name of the output folder, which is given directly as a CLI parameter to the ProtocolCompiler.
+**Second**, although most generated names will derive from names and identifiers in the user's model, an exception is the name of the output folder, which is given directly as a CLI parameter to the ProtocolCompiler.
 This parameter value will be used as the output folder name with no modification, so if the user does not specify a language-appropriate name, it is assumed to be intentional.
 
 The output folder name may directly determine other names.
 The .NET project name and the Rust package name both conventionally match the name of the folder containing the project/package.
 This convention will be respected by the ProtocolCompiler.
 
-All other names will derive from the DTDL model.
+**Third**, all remaining names will derive from the DTDL model.
+Names derived from the model's DTMI will use only the final label.
+For example, given the identifier "dtmi:myCompany:MyApplication;1", the label "MyApplication" will be extracted and used for deriving names.
+No other parts of the DTMI will affect the generated name.
+
+**Fourth**, every name in DTDL and each label within a DTMI is a non-empty string containing only letters, digits, and underscores.
+The first character may not be a digit, and the last character may not be an underscore.
+There is no guarantee that these strings will adhere to any standard casing rule.
+Each such string will be canonicalized into a list of lower-casified components by breaking the string on either:
+
+* a lowercase-to-uppercase transition
+* a sequence of one or more underscores
+
+The list will be reassembled into the desired case via the following rules:
+
+* Lowercase: Conjoin the elements in the list
+* Pascal case: Capitalize each element, and conjoin the list
+* Camel case: Capitalize each element but the first, and conjoin the list
+* Snake case: Conjoin the elements with intervening underscores
+
+### Casing Examples
+
+The following table illustrates the application of canonicalization and reassembly for an exemplary set of strings.
+
+|DTDL Name / DTMI Label|As Snake|As Pascal|As Camel|As Lower|
+|----|----|----|----|----|
+|UPPERCASE|uppercase|Uppercase|uppercase|uppercase|
+|lowercase|lowercase|Lowercase|lowercase|lowercase|
+|Capitalized|capitalized|Capitalized|capitalized|capitalized|
+|PascalCase|pascal_case|PascalCase|pascalCase|pascalcase|
+|camelCase|camel_case|CamelCase|camelCase|camelcase|
+|snake_case|snake_case|SnakeCase|snakeCase|snakecase|
+|SCREAMING_SNAKE_CASE|screaming_snake_case|ScreamingSnakeCase|screamingSnakeCase|screamingsnakecase|
+|Capital_Snake_Case|capital_snake_case|CapitalSnakeCase|capitalSnakeCase|capitalsnakecase|
+|DigitEnd9|digit_end9|DigitEnd9|digitEnd9|digitend9|
+|Digit9Mid|digit9mid|Digit9mid|digit9mid|digit9mid|
+|snake_99|snake_99|Snake99|snake99|snake99|
+|double__lower|double_lower|DoubleLower|doubleLower|doublelower|
+|double__UPPER|double_upper|DoubleUpper|doubleUpper|doubleupper|
+|foo1_bar|foo1_bar|Foo1Bar|foo1Bar|foo1bar|
+|foo_1bar|foo_1bar|Foo1bar|foo1bar|foo1bar|
+|foo1_1bar|foo1_1bar|Foo11bar|foo11bar|foo11bar|
+|foo2__bar|foo2_bar|Foo2Bar|foo2Bar|foo2bar|
+|foo_2_bar|foo_2_bar|Foo2Bar|foo2Bar|foo2bar|
+|foo__2bar|foo_2bar|Foo2bar|foo2bar|foo2bar|
+|foo2__2bar|foo2_2bar|Foo22bar|foo22bar|foo22bar|
+
+### Generation Example
+
 For illustrative purposes, consider the following abridged (and incomplete) model.
 
 ```json
