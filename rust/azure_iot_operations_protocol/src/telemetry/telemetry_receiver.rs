@@ -16,7 +16,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::TopicPattern,
-        user_properties::{UserProperty, RESERVED_PREFIX},
+        user_properties::UserProperty,
     },
     DEFAULT_AIO_PROTOCOL_VERSION,
 };
@@ -532,16 +532,13 @@ where
                                                     cloud_event_time = Some(value);
                                                 },
                                                 Err(()) => {
-                                                    if key.starts_with(RESERVED_PREFIX) {
-                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                                    } else {
-                                                        custom_user_data.push((key, value));
-                                                    }
+                                                    custom_user_data.push((key, value));
                                                 }
                                             }
                                         }
                                         _ => {
-                                            log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            custom_user_data.push((key, value));
                                         }
                                     }
                                 }
