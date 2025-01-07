@@ -189,7 +189,7 @@ impl TopicPattern {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
                     property_name,
-                    Value::String(token_without_braces.to_string()),
+                    Value::String(pattern.to_string()),
                     Some(format!(
                         "MQTT topic pattern contains invalid characters in token '{token_without_braces}'",
                     )),
@@ -287,8 +287,7 @@ impl TopicPattern {
             // Check if the replacement is valid
             if let Some(val) = tokens.get(key) {
                 if !is_valid_replacement(val) {
-                    return Err(AIOProtocolError::new_configuration_invalid_error(
-                        None,
+                    return Err(AIOProtocolError::new_argument_invalid_error(
                         key,
                         Value::String(val.to_string()),
                         Some(format!(
@@ -299,8 +298,7 @@ impl TopicPattern {
                 }
                 publish_topic.push_str(val);
             } else {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    None,
+                return Err(AIOProtocolError::new_argument_invalid_error(
                     key,
                     Value::String(String::new()),
                     Some(format!(
@@ -466,11 +464,11 @@ mod tests {
         );
     }
 
-    #[test_case("test/{{testToken1}", "{testToken1"; "open brace")]
-    #[test_case("test/{test+Token}", "test+Token"; "plus")]
-    #[test_case("test/{test#Token}", "test#Token"; "hash")]
-    #[test_case("test/{test/Token}", "test/Token"; "slash")]
-    #[test_case("test/{test\u{0000}Token}", "test\u{0000}Token"; "non-ASCII")]
+    #[test_case("test/{{testToken1}", "test/{{testToken1}"; "open brace")]
+    #[test_case("test/{test+Token}", "test/{test+Token}"; "plus")]
+    #[test_case("test/{test#Token}", "test/{test#Token}"; "hash")]
+    #[test_case("test/{test/Token}", "test/{test/Token}"; "slash")]
+    #[test_case("test/{test\u{0000}Token}", "test/{test\u{0000}Token}"; "non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
         let err = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -562,7 +560,7 @@ mod tests {
         let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
 
         let err = pattern.as_publish_topic(tokens).unwrap_err();
-        assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+        assert_eq!(err.kind, AIOProtocolErrorKind::ArgumentInvalid);
         assert_eq!(err.property_name, Some(property_name.to_string()));
         assert_eq!(
             err.property_value,

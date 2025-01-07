@@ -13,8 +13,8 @@ use azure_iot_operations_mqtt::session::{
 use tokio::runtime::Builder;
 
 use metl::command_executor_tester::CommandExecutorTester;
-//use metl::command_invoker_tester::test_command_invoker;
-use metl::defaults::{DefaultsType, ExecutorDefaults /* InvokerDefaults */};
+use metl::command_invoker_tester::CommandInvokerTester;
+use metl::defaults::{DefaultsType, ExecutorDefaults, InvokerDefaults};
 use metl::mqtt_driver::MqttDriver;
 use metl::mqtt_emulation_level::MqttEmulationLevel;
 use metl::mqtt_hub::MqttHub;
@@ -31,6 +31,13 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
     "CommandExecutorUserCodeSetsInvalidMetadata_RespondsError",
     "CommandExecutorRequest_TimeoutPropagated",
+    "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
+    "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
+    "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
+    "CommandInvokerWithCustomResponseTopic_Success",
+    "CommandInvokerWithInvalidMetadata_ThrowsException",
+    "CommandInvokerWithSubMillisecTimeout_ThrowsException",
+    "CommandInvokerWithZeroTimeout_ThrowsException",
 ];
 
 /*
@@ -43,12 +50,26 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
     assert!(wrapped_test_case.is_ok());
     let test_case = wrapped_test_case.unwrap();
 
-    if !PROBLEMATIC_TEST_CASES.contains(&test_case.test_name.as_str()) && does_standalone_support(&test_case.requires) {
+    let test_case_index = TEST_CASE_INDEX.fetch_add(1, atomic::Ordering::Relaxed);
+
+    if !PROBLEMATIC_TEST_CASES.contains(&test_case.test_name.as_str())
+        && does_standalone_support(&test_case.requires)
+    {
+        let mqtt_client_id =
+            get_client_id(&test_case, "StandaloneInvokerTestClient", test_case_index);
+        let mqtt_hub = MqttHub::new(mqtt_client_id, MqttEmulationLevel::Message);
+        let mqtt_driver = mqtt_hub.get_driver();
+
         Builder::new_current_thread()
             .enable_all()
             .build()
             .unwrap()
-            .block_on(test_command_invoker(&test_case, false));
+            .block_on(CommandInvokerTester::<MqttDriver>::test_command_invoker(
+                test_case,
+                test_case_index,
+                mqtt_driver,
+                mqtt_hub,
+            ));
     }
 
     Ok(())
@@ -90,6 +111,52 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
     Ok(())
 }
 */
+
+#[allow(clippy::unnecessary_wraps)]
+#[allow(clippy::needless_pass_by_value)]
+fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stable::Result<()> {
+    let wrapped_test_case: serde_yaml::Result<TestCase<InvokerDefaults>> =
+        serde_yaml::from_str(contents.as_str());
+
+    assert!(wrapped_test_case.is_ok());
+    let test_case = wrapped_test_case.unwrap();
+
+    let test_case_index = TEST_CASE_INDEX.fetch_add(1, atomic::Ordering::Relaxed);
+
+    if !PROBLEMATIC_TEST_CASES.contains(&test_case.test_name.as_str())
+        && does_session_support(&test_case.requires)
+    {
+        let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
+        let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
+        let mut session = Session::new_from_injection(
+            mqtt_hub.get_driver(),
+            mqtt_hub.get_looper(),
+            Box::new(ExponentialBackoffWithJitter::default()),
+            mqtt_client_id,
+            None,
+        );
+        let managed_client = session.create_managed_client();
+
+        let current_thread = Builder::new_current_thread().enable_all().build().unwrap();
+
+        let exit_handle = session.create_exit_handle();
+
+        current_thread.block_on(async move {
+            let _ = tokio::join!(session.run(), async move {
+                CommandInvokerTester::<SessionManagedClient<MqttDriver>>::test_command_invoker(
+                    test_case,
+                    test_case_index,
+                    managed_client,
+                    mqtt_hub,
+                )
+                .await;
+                exit_handle.exit_force().await;
+            });
+        });
+    }
+
+    Ok(())
+}
 
 #[allow(clippy::unnecessary_wraps)]
 #[allow(clippy::needless_pass_by_value)]
@@ -167,12 +234,9 @@ fn get_client_id<T: DefaultsType + Default>(
 }
 
 datatest_stable::harness!(
-    //    test_command_invoker_standalone,
-    //    "../../eng/test/test-cases/Protocol/CommandInvoker",
-    //    r"^.*\.yaml",
-    //    test_command_executor_standalone,
-    //    "../../eng/test/test-cases/Protocol/CommandExecutor",
-    //    r"^.*\.yaml",
+    test_command_invoker_session,
+    "../../eng/test/test-cases/Protocol/CommandInvoker",
+    r"^.*\.yaml",
     test_command_executor_session,
     "../../eng/test/test-cases/Protocol/CommandExecutor",
     r"^.*\.yaml",

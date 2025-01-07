@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"sync/atomic"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -11,34 +12,33 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type Handlers struct{}
+type Handlers struct{ counter int32 }
 
-func (Handlers) ReadCounter(
+func (h *Handlers) ReadCounter(
 	_ context.Context,
 	_ *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
 	response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-		CounterResponse: ReadCounter(),
+		CounterResponse: atomic.LoadInt32(&h.counter),
 	}
 	return protocol.Respond(response)
 }
 
-func (Handlers) Increment(
+func (h *Handlers) Increment(
 	_ context.Context,
 	_ *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
-	newValue := IncrementCounter()
 	response := dtmi_com_example_Counter__1.IncrementResponsePayload{
-		CounterResponse: newValue,
+		CounterResponse: atomic.AddInt32(&h.counter, 1),
 	}
 	return protocol.Respond(response)
 }
 
-func (Handlers) Reset(
+func (h *Handlers) Reset(
 	_ context.Context,
 	_ *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
-	ResetCounter()
+	atomic.StoreInt32(&h.counter, 0)
 	return protocol.Respond[any](nil)
 }
 
@@ -49,8 +49,6 @@ func TestIncrement(t *testing.T) {
 
 	var listeners protocol.Listeners
 	defer listeners.Close()
-
-	ResetCounter()
 
 	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
 		server,

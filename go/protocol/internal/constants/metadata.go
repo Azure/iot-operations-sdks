@@ -8,7 +8,6 @@ const (
 
 	SourceID        = Protocol + "srcId"
 	Timestamp       = Protocol + "ts"
-	FencingToken    = Protocol + "ft"
 	ProtocolVersion = Protocol + "protVer"
 
 	Status                        = Protocol + "stat"

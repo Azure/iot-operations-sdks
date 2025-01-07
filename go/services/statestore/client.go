@@ -17,6 +17,8 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/internal/resp"
 )
 
+const fencingToken = "__ft"
+
 type (
 	// Bytes represents generic byte data.
 	Bytes interface{ ~string | ~[]byte }

@@ -136,7 +136,7 @@ func runOneTelemetrySenderTest(
 		case AwaitSend:
 			awaitSend(t, action.AsAwaitSend(), sendChan)
 		case AwaitPublish:
-			awaitPublish(
+			awaitPublishTelemetry(
 				t,
 				action.AsAwaitPublish(),
 				stubBroker,
@@ -306,6 +306,15 @@ func awaitSend(
 		require.Errorf(t, err, "Expected %s error, but no error returned when awaiting TelemetrySender.Send()", actionAwaitSend.Catch.ErrorKind)
 		CheckError(t, *actionAwaitSend.Catch, err)
 	}
+}
+
+func awaitPublishTelemetry(
+	_ *testing.T,
+	_ *TestCaseActionAwaitPublish,
+	stubBroker *StubBroker,
+	_ map[int][]byte,
+) {
+	stubBroker.AwaitPublish()
 }
 
 func checkPublishedTelemetry(
