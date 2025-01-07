@@ -1,4 +1,7 @@
-﻿using TestEnvoys.dtmi_akri_samples_memmon__1;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using TestEnvoys.dtmi_akri_samples_memmon__1;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Mqtt.Session;
 using MQTTnet.Packets;

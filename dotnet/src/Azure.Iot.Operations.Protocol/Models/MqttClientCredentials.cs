@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.Models
 {
     public sealed class MqttClientCredentials(string userName, byte[]? password = null) : IMqttClientCredentialsProvider

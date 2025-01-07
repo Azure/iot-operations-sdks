@@ -1,0 +1,8 @@
+# top-most EditorConfig file
+root = true
+
+[*.go]
+file_header_template = "Copyright (c) Microsoft Corporation.\nLicensed under the MIT License."
+
+[dtmi_*/*]
+ignore = true
