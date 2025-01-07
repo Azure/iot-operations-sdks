@@ -9,7 +9,7 @@ internal class Program
     private static readonly string DefaultOutDir = ".";
     private static readonly string DefaultLanguage = "csharp";
 
-    static async Task<int> Main(string[] args)
+    static async Task Main(string[] args)
     {
         var modelFileOption = new Option<FileInfo[]>(
             name: "--modelFile",
@@ -62,6 +62,10 @@ internal class Program
             name: "--serverOnly",
             description: "Generate only server-side code");
 
+        var noProjOption = new Option<bool>(
+            name: "--noProj",
+            description: "Do not generate code in a project");
+
         var rootCommand = new RootCommand("Akri MQTT code generation tool for DTDL models")
         {
             modelFileOption,
@@ -76,8 +80,8 @@ internal class Program
             langOption,
             clientOnlyOption,
             serverOnlyOption,
+            noProjOption,
         };
-
 
         ArgBinder argBinder = new ArgBinder(
             modelFileOption,
@@ -91,12 +95,13 @@ internal class Program
 #endif
             langOption,
             clientOnlyOption,
-            serverOnlyOption);
+            serverOnlyOption,
+            noProjOption);
 
         rootCommand.SetHandler(
-            async (OptionContainer options) => { await CommandHandler.GenerateCode(options); },
+            async (OptionContainer options) => { Environment.ExitCode = await CommandHandler.GenerateCode(options); },
             argBinder);
 
-        return await rootCommand.InvokeAsync(args);
+        await rootCommand.InvokeAsync(args);
     }
 }

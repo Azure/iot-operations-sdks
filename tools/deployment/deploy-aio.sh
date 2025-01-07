@@ -70,6 +70,14 @@ kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
     --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
 # setup new Broker
+#TODO this is a temporary workaround to a bug in the broker. Currently, the cluster issuer
+# takes longer to deploy than the broker listener expects and this causes the deployment to fail.
+# This temporary fix deploys just the cluster issuer, waits a bit, then deploys the broker listener
+if [ "$deploy_type" = "nightly" ]; then
+    kubectl apply -f yaml/aio-nightly-cluster-issuer.yaml
+    kubectl wait --for=condition=Ready clusterIssuer/azure-iot-operations-aio-certificate-issuer
+fi
+
 kubectl apply -f yaml/aio-$deploy_type.yaml
 
 # Update the credentials locally for connecting to MQTT Broker

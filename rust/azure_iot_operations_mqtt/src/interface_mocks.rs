@@ -159,6 +159,10 @@ impl MqttEventLoop for MockEventLoop {
     }
 
     fn set_clean_start(&mut self, _clean_start: bool) {}
+
+    fn set_authentication_method(&mut self, authentication_method: Option<String>) {}
+
+    fn set_authentication_data(&mut self, authentication_data: Option<Bytes>) {}
 }
 
 /// Used to inject events into the [`MockEventLoop`].

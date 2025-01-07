@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Diagnostics;
 using System.Text;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Events;

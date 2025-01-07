@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Events;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
@@ -16,10 +19,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 0;
-        private const int minorProtocolVersion = 1;
+        private const int majorProtocolVersion = 1;
+        private const int minorProtocolVersion = 0;
 
-        private readonly int[] supportedMajorProtocolVersions = [0];
+        private readonly int[] supportedMajorProtocolVersions = [1];
 
         private const string? DefaultResponseTopicPrefix = null;
         private const string? DefaultResponseTopicSuffix = null;
@@ -334,6 +337,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         return Task.CompletedTask;
                     }
 
+                    if (responseMetadata.Timestamp != null)
+                    { 
+                        HybridLogicalClock.GetInstance().Update(responseMetadata.Timestamp);
+                    }
+
                     ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
 
                     if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
@@ -450,12 +458,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}", commandName: commandName);
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
 
             if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
             }
 
             if (requestIdMap.ContainsKey(requestGuid.ToString()))

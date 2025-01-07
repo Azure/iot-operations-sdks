@@ -1,0 +1,70 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.Assets
+{
+    public interface IAssetMonitor
+    {
+        /// <summary>
+        /// The callback that executes when an asset has changed once you start observing an asset with 
+        /// <see cref="ObserveAssetAsync(string, TimeSpan?, CancellationToken)"/>.
+        /// </summary>
+        public event EventHandler<AssetChangedEventArgs>? AssetChanged;
+
+        /// <summary>
+        /// The callback that executes when the asset endpoint profile has changed once you start observing it with
+        /// <see cref="ObserveAssetEndpointProfileAsync(TimeSpan?, CancellationToken)"/>.
+        /// </summary>
+        public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
+
+        /// <summary>
+        /// Get the asset with the provided Id.
+        /// </summary>
+        /// <param name="assetName">The Id of the asset to retrieve.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The requested asset.</returns>
+        public Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get the asset endpoint profile of the asset with the provided Id.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The requested asset endpoint profile. This value may be null if no asset endpoint profile is configured yet.</returns>
+        public Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Start receiving notifications on <see cref="AssetFileChanged"/> when any asset changes.
+        /// </summary>
+        /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public void ObserveAssets(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Stop receiving notifications on <see cref="AssetFileChanged"/> when an asset changes.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public void UnobserveAssets(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Start receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
+        /// changes for the asset with the provided Id.
+        /// </summary>
+        /// <param name="pollingInterval">How frequently to check for changes to the asset endpoint profile.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public void ObserveAssetEndpointProfile(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Stop receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
+        /// changes for the asset with the provided Id.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public void UnobserveAssetEndpointProfile(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Returns the complete list of assets deployed by the operator to this pod.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The complete list of assets deployed by the operator to this pod.</returns>
+        public Task<List<string>> GetAssetNamesAsync(CancellationToken cancellationToken = default);
+    }
+}
