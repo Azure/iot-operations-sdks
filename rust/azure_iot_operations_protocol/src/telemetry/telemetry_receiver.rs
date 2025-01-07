@@ -264,6 +264,7 @@ where
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
         let topic_pattern = TopicPattern::new(
+            "receiver_options.topic_pattern",
             &receiver_options.topic_pattern,
             receiver_options.topic_namespace.as_deref(),
             &receiver_options.topic_token_map,
@@ -805,7 +806,10 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("pattern".to_string()));
+                assert_eq!(
+                    e.property_name,
+                    Some("receiver_options.topic_pattern".to_string())
+                );
                 assert_eq!(
                     e.property_value,
                     Some(Value::String(topic_pattern.to_string()))

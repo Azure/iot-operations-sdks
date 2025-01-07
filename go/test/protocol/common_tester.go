@@ -46,19 +46,6 @@ func awaitAcknowledgement(
 	}
 }
 
-func awaitPublish(
-	_ *testing.T,
-	actionAwaitPublish *TestCaseActionAwaitPublish,
-	stubBroker *StubBroker,
-	correlationIDs map[int][]byte,
-) {
-	correlationID := stubBroker.AwaitPublish()
-
-	if actionAwaitPublish.CorrelationIndex != nil {
-		correlationIDs[*actionAwaitPublish.CorrelationIndex] = correlationID
-	}
-}
-
 func sleep(actionSleep *TestCaseActionSleep) {
 	time.Sleep(actionSleep.Duration.ToDuration())
 }

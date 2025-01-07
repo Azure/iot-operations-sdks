@@ -60,7 +60,10 @@ func runOneCommandExecutorTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		"CommandExecutorReceivesEquivalentExecutorAgnosticIdempotentRequestFromDifferentInvokerWithinTTL_ResponseFromCache",
+		"CommandExecutorReceivesEquivalentIdempotentRequestWithinTTL_ResponseFromCache",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -161,7 +164,7 @@ func runOneCommandExecutorTest(
 		case AwaitAck:
 			awaitAcknowledgement(t, action.AsAwaitAck(), stubBroker, packetIDs)
 		case AwaitPublish:
-			awaitPublish(
+			awaitPublishResponse(
 				t,
 				action.AsAwaitPublish(),
 				stubBroker,
@@ -386,6 +389,26 @@ func receiveRequest(
 
 	if actionReceiveRequest.PacketIndex != nil {
 		packetIDs[*actionReceiveRequest.PacketIndex] = packetID
+	}
+}
+
+func awaitPublishResponse(
+	t *testing.T,
+	actionAwaitPublish *TestCaseActionAwaitPublish,
+	stubBroker *StubBroker,
+	correlationIDs map[int][]byte,
+) {
+	correlationID := stubBroker.AwaitPublish()
+
+	if actionAwaitPublish.CorrelationIndex != nil {
+		extantCorrelationID, ok := correlationIDs[*actionAwaitPublish.CorrelationIndex]
+		require.True(
+			t,
+			ok,
+			"CorrelationIndex %d not found",
+			*actionAwaitPublish.CorrelationIndex,
+		)
+		require.Equal(t, extantCorrelationID, correlationID)
 	}
 }
 

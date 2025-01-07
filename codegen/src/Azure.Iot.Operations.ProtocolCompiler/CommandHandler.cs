@@ -29,7 +29,11 @@
 
                 if (options.ModelFiles.Any(mf => !mf.Exists))
                 {
-                    Console.WriteLine("All modelFiles must exist");
+                    Console.WriteLine("All modelFiles must exist.  Non-existent files specified:");
+                    foreach (FileInfo f in options.ModelFiles.Where(mf => !mf.Exists))
+                    {
+                        Console.WriteLine($"  {f.FullName}");
+                    }
                     return 1;
                 }
 
@@ -51,7 +55,7 @@
                         }
                         else
                         {
-                            Console.WriteLine("The dmrRoot DIRPATH must exist");
+                            Console.WriteLine($"The dmrRoot {options.DmrRoot} must exist");
                             return 1;
                         }
                     }
@@ -59,7 +63,7 @@
 
                 if (!SupportedLanguages.Contains(options.Lang))
                 {
-                    Console.WriteLine($"language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
+                    Console.WriteLine($"language \"{options.Lang}\" not recognized.  Language must be {string.Join(" or ", SupportedLanguages.Select(l => $"'{l}'"))}");
                     return 1;
                 }
 
@@ -67,6 +71,13 @@
                 {
                     Console.WriteLine("options --clientOnly and --serverOnly are mutually exclusive");
                     return 1;
+                }
+
+                WarnOnSuspiciousOption("workingDir", options.WorkingDir);
+                WarnOnSuspiciousOption("sdkPath", options.SdkPath);
+                if (!options.OutDir.Exists)
+                {
+                    WarnOnSuspiciousOption("outDir", options.OutDir.Name);
                 }
 
                 string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
@@ -109,6 +120,14 @@
             }
 
             return 0;
+        }
+
+        private static void WarnOnSuspiciousOption(string optionName, string? pathName)
+        {
+            if (pathName != null && pathName.StartsWith("--"))
+            {
+                Console.WriteLine($"Warning: {optionName} \"{pathName}\" looks like a flag.  Did you forget to specify a value?");
+            }
         }
     }
 }

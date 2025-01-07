@@ -62,13 +62,15 @@ The following table illustrates, for each error condition, what response should 
 | Error Condition | Status | IsApplicationError | InvalidPropertyName | InvalidPropertyValue | Error Kind |
 | --- | --- | --- | --- | --- | --- |
 | message expiry exceeded | (no response) | | | | timeout |
-| execution timeout exceeded | 408 | false | "ExecutionTimeout" | (timeout duration) | timeout |
+| execution timeout exceeded | 408 | false | "ExecutionTimeout" | (timeout duration*) | timeout |
 | CommandResponseCache used incorrectly | 500 | false | "CorrelationData" | (property value) | internal logic error |
 | unknown error from dependent component | 500 | false | (none) | | unknown error |
 | app-level error in request | 422 | true | (set by user code) | (set by user code) | invocation error |
 | app-level error during command execution | 500 | true | (none) | | execution error |
 | HLC integer overflow | 500 | false | "Counter" | (none) | internal logic error |
 | HLC excessive clock drift | 503 | false | "MaxClockDrift" | (none) | invalid state |
+
+> \* timeout duration is sent on the wire in ISO 8601 format, but it is relayed in the error to the user with a duration type that is appropriate for the language.
 
 > [!NOTE]
 > When an unknown error originates from a dependent component, it is recommended to include any nested error text in the status message to assist a human user in diagnosing the error condition.
@@ -147,8 +149,8 @@ The following table illustrates, for each error condition, which Akri.Mqtt error
 
 | Error Condition | Error Kind |
 | --- | --- |
-| command timeout is less than 1ms (including negative or zero) or greater than u32 max | invalid configuration |
-| topic pattern contains {executorId} token but no executor ID supplied | invalid configuration |
+| command timeout is less than 1ms (including negative or zero) or greater than u32 max | invalid argument |
+| topic pattern contains {executorId} token but no executor ID supplied | invalid argument |
 | command times out | timeout |
 | command is canceled | cancellation |
 | unknown error from dependent component | unknown error |
@@ -161,6 +163,8 @@ The `CommandInvoker` may encounter an error condition while initializing or when
 The 'is remote' field of this error will be false.
 The invoker may defer checking one or more of these conditions until a Command is invoked.
 
+In some cases, the specific error kind is determined by whether the error condition is *transient* (i.e., caused by a value that is provided for an operation) or *resident* (i.e, caused by a configuration value that is maintained across multiple operations).
+
 The following table illustrates, for each error condition, which Akri.Mqtt error the `CommandInvoker` should surface.
 
 | Error Condition | Error Kind |
@@ -171,7 +175,9 @@ The following table illustrates, for each error condition, which Akri.Mqtt error
 | topic namespace invalid | invalid configuration |
 | topic pattern is null or empty | invalid configuration |
 | topic pattern is invalid | invalid configuration |
-| topic pattern contains token with no valid replacement | invalid configuration |
+| topic pattern contains token with invalid transient replacement | invalid argument |
+| topic pattern contains token with invalid resident replacement | invalid configuration |
+| topic pattern contains token with no replacement | invalid argument |
 | response topic prefix invalid | invalid configuration |
 | response topic suffix invalid | invalid configuration |
 | MQTT client not configured for MQTT v5 | invalid configuration |
