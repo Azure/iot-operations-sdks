@@ -19,6 +19,8 @@ type (
 	}
 
 	// Data represents encoded values along with their transmitted content type.
+	// It may also be provided as the encoding to act as a passthrough, allowing
+	// the calling code to fully specify the data manually.
 	Data struct {
 		Payload       []byte
 		ContentType   string
@@ -33,15 +35,11 @@ type (
 
 	// Raw represents no encoding.
 	Raw struct{}
-
-	// Custom represents an encoding that will be fully specified by the sender
-	// and handled by the receiver.
-	Custom struct{}
 )
 
-// UnsupportedContentTypeErr should be returned if the content type is not
+// ErrUnsupportedContentType should be returned if the content type is not
 // supported by this encoding.
-var UnsupportedContentTypeErr = stderr.New("unsupported content type")
+var ErrUnsupportedContentType = stderr.New("unsupported content type")
 
 // Utility to serialize with a protocol error.
 func serialize[T any](encoding Encoding[T], value T) (*Data, error) {
@@ -65,7 +63,7 @@ func deserialize[T any](encoding Encoding[T], data *Data) (T, error) {
 		if e, ok := err.(*errors.Error); ok {
 			return value, e
 		}
-		if stderr.Is(err, UnsupportedContentTypeErr) {
+		if stderr.Is(err, ErrUnsupportedContentType) {
 			return value, &errors.Error{
 				Message:     "content type mismatch",
 				Kind:        errors.HeaderInvalid,
@@ -94,7 +92,7 @@ func (JSON[T]) Serialize(t T) (*Data, error) {
 func (JSON[T]) Deserialize(data *Data) (T, error) {
 	var t T
 	if data.ContentType != "" && data.ContentType != "application/json" {
-		return t, UnsupportedContentTypeErr
+		return t, ErrUnsupportedContentType
 	}
 	err := json.Unmarshal(data.Payload, &t)
 	return t, err
@@ -133,11 +131,11 @@ func (Raw) Deserialize(data *Data) ([]byte, error) {
 }
 
 // Serialize returns the data unchanged.
-func (Custom) Serialize(t *Data) (*Data, error) {
+func (Data) Serialize(t *Data) (*Data, error) {
 	return t, nil
 }
 
 // Deserialize returns the data unchanged.
-func (Custom) Deserialize(data *Data) (*Data, error) {
+func (Data) Deserialize(data *Data) (*Data, error) {
 	return data, nil
 }

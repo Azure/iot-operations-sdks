@@ -17,7 +17,7 @@ func TestTelemetry(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	enc := protocol.Custom{}
+	enc := protocol.Data{}
 	topic := "prefix/{token}/suffix"
 	value := &protocol.Data{
 		Payload:     []byte("value"),
