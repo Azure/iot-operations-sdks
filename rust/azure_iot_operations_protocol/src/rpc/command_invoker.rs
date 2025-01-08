@@ -83,7 +83,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            return validate_user_properties(custom_user_data);
+            validate_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
             if timeout.as_millis() < 1 {
