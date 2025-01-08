@@ -139,15 +139,15 @@ where
                 );
             }
 
-            let mut sequence_index = 0;
-            for published_message in &test_case_epilogue.published_messages {
+            for (sequence_index, published_message) in
+                test_case_epilogue.published_messages.iter().enumerate()
+            {
                 Self::check_published_message(
-                    sequence_index,
+                    sequence_index.try_into().unwrap(),
                     published_message,
                     &mqtt_hub,
                     test_case_index,
                 );
-                sequence_index += 1;
             }
 
             if let Some(acknowledgement_count) = test_case_epilogue.acknowledgement_count {
@@ -256,7 +256,7 @@ where
                     );
 
                     match send_result {
-                        Ok(Ok(_)) => {
+                        Ok(Ok(())) => {
                             panic!(
                                 "Expected {} error when constructing TelemetrySender but no error returned",
                                 catch.error_kind
