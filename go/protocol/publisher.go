@@ -67,9 +67,10 @@ func (p *publisher[T]) build(
 			pub.CorrelationData = correlationData[:]
 		}
 
-		pub.UserProperties, err = internal.MetadataToProp(msg.Metadata)
-		if err != nil {
-			return nil, err
+		if msg.Metadata != nil {
+			pub.UserProperties = msg.Metadata
+		} else {
+			pub.UserProperties = map[string]string{}
 		}
 	} else {
 		pub.UserProperties = map[string]string{}

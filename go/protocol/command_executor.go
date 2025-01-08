@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -59,8 +58,6 @@ type (
 	// the command handlers.
 	CommandRequest[Req any] struct {
 		Message[Req]
-
-		FencingToken hlc.HybridLogicalClock
 	}
 
 	// CommandResponse contains per-message data and methods that are returned
@@ -220,14 +217,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 				Message:    "source client ID missing",
 				Kind:       errors.HeaderMissing,
 				HeaderName: constants.SourceID,
-			}
-		}
-
-		ft := pub.UserProperties[constants.FencingToken]
-		if ft != "" {
-			req.FencingToken, err = hlc.Parse(constants.FencingToken, ft)
-			if err != nil {
-				return nil, err
 			}
 		}
 

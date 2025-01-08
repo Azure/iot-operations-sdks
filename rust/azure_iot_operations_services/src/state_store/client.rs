@@ -22,7 +22,9 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 
-use crate::state_store::{self, SetOptions, StateStoreError, StateStoreErrorKind};
+use crate::state_store::{
+    self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
+};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -209,15 +211,22 @@ where
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
-        let request = CommandRequestBuilder::default()
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
             .payload(&state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
             })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
@@ -353,11 +362,18 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        let request = CommandRequestBuilder::default()
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
             .payload(&request)
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
