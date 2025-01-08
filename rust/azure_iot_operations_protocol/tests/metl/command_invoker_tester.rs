@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![allow(unused_imports)]
-
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::future::Future;
 use std::marker::PhantomData;
-use std::pin::Pin;
 use std::str::from_utf8;
-use std::sync::atomic;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
@@ -26,10 +21,8 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
-use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
-use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::{get_invoker_defaults, InvokerDefaults};
 use crate::metl::mqtt_hub::MqttHub;
 use crate::metl::qos;
@@ -38,7 +31,6 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_invoker::TestCaseInvoker;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
-use crate::metl::test_error_kind::TestErrorKind;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
