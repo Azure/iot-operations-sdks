@@ -33,7 +33,7 @@ type (
 	// Empty represents an encoding that contains no value.
 	Empty struct{}
 
-	// Raw represents no encoding.
+	// Raw represents a raw byte stream.
 	Raw struct{}
 )
 
@@ -91,11 +91,13 @@ func (JSON[T]) Serialize(t T) (*Data, error) {
 // Deserialize translates JSON bytes into the Go type T.
 func (JSON[T]) Deserialize(data *Data) (T, error) {
 	var t T
-	if data.ContentType != "" && data.ContentType != "application/json" {
+	switch data.ContentType {
+	case "", "application/json":
+		err := json.Unmarshal(data.Payload, &t)
+		return t, err
+	default:
 		return t, ErrUnsupportedContentType
 	}
-	err := json.Unmarshal(data.Payload, &t)
-	return t, err
 }
 
 // Serialize validates that the payload is empty.
@@ -122,12 +124,17 @@ func (Empty) Deserialize(data *Data) (any, error) {
 
 // Serialize returns the bytes unchanged.
 func (Raw) Serialize(t []byte) (*Data, error) {
-	return &Data{Payload: t}, nil
+	return &Data{t, "application/octet-stream", 0}, nil
 }
 
 // Deserialize returns the bytes unchanged.
 func (Raw) Deserialize(data *Data) ([]byte, error) {
-	return data.Payload, nil
+	switch data.ContentType {
+	case "", "application/octet-stream":
+		return data.Payload, nil
+	default:
+		return nil, ErrUnsupportedContentType
+	}
 }
 
 // Serialize returns the data unchanged.

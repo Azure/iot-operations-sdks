@@ -411,7 +411,7 @@ type Data struct {
 ```
 
 <a name="Data.Deserialize"></a>
-### func \(Data\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L139>)
+### func \(Data\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L146>)
 
 ```go
 func (Data) Deserialize(data *Data) (*Data, error)
@@ -420,7 +420,7 @@ func (Data) Deserialize(data *Data) (*Data, error)
 Deserialize returns the data unchanged.
 
 <a name="Data.Serialize"></a>
-### func \(Data\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L134>)
+### func \(Data\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L141>)
 
 ```go
 func (Data) Serialize(t *Data) (*Data, error)
@@ -438,7 +438,7 @@ type Empty struct{}
 ```
 
 <a name="Empty.Deserialize"></a>
-### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L113>)
+### func \(Empty\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L115>)
 
 ```go
 func (Empty) Deserialize(data *Data) (any, error)
@@ -447,7 +447,7 @@ func (Empty) Deserialize(data *Data) (any, error)
 Deserialize validates that the payload is empty.
 
 <a name="Empty.Serialize"></a>
-### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L102>)
+### func \(Empty\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L104>)
 
 ```go
 func (Empty) Serialize(t any) (*Data, error)
@@ -662,14 +662,14 @@ type Option interface {
 <a name="Raw"></a>
 ## type [Raw](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L37>)
 
-Raw represents no encoding.
+Raw represents a raw byte stream.
 
 ```go
 type Raw struct{}
 ```
 
 <a name="Raw.Deserialize"></a>
-### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L129>)
+### func \(Raw\) [Deserialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L131>)
 
 ```go
 func (Raw) Deserialize(data *Data) ([]byte, error)
@@ -678,7 +678,7 @@ func (Raw) Deserialize(data *Data) ([]byte, error)
 Deserialize returns the bytes unchanged.
 
 <a name="Raw.Serialize"></a>
-### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L124>)
+### func \(Raw\) [Serialize](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/encoding.go#L126>)
 
 ```go
 func (Raw) Serialize(t []byte) (*Data, error)
