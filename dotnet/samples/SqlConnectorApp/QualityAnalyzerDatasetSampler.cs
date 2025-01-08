@@ -19,7 +19,7 @@ namespace SqlQualityAnalyzerConnectorApp
             _connectionString = connectionString;
             _assetName = assetName;
             _credentials = credentials;
-            
+
         }
 
         public async Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
@@ -57,12 +57,17 @@ namespace SqlQualityAnalyzerConnectorApp
                 //    $"FROM {sqlServerViscosityTable} " +
                 //    $"JOIN  {sqlServerDirectionTable} ON {sqlServerViscosityTable}.Location =  {sqlServerDirectionTable}.Location " +
                 //    $"JOIN {sqlServerGustTable} ON {sqlServerViscosityTable}.Location = {sqlServerGustTable}.Location;";
-                
+
                 if (_credentials != null)
                 {
                     string sqlServerUsername = _credentials.Username!;
                     byte[] sqlServerPassword = _credentials.Password!;
-                    var byteArray = Encoding.ASCII.GetBytes($"{sqlServerUsername}:{Encoding.UTF8.GetString(sqlServerPassword)}");
+                    Console.WriteLine($"Username: {sqlServerUsername}");
+                    //Console.WriteLine($"Password: {Encoding.UTF8.GetString(sqlServerUsername)}");
+                    Console.WriteLine($"Username: {sqlServerPassword}");
+                    Console.WriteLine($"Password: {Encoding.UTF8.GetString(sqlServerPassword)}");
+                    _connectionString = _connectionString + $"User Id={sqlServerUsername};Password={sqlServerPassword};";
+                    // var byteArray = Encoding.ASCII.GetBytes($"{sqlServerUsername}:{Encoding.UTF8.GetString(sqlServerPassword)}");
                 }
 
                 // In this sample, the datapoints have the different datasource, there are 2 options to get the data
@@ -72,6 +77,7 @@ namespace SqlQualityAnalyzerConnectorApp
                 List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
+                    Console.WriteLine("Using sql connection");
                     await connection.OpenAsync();
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -104,7 +110,7 @@ namespace SqlQualityAnalyzerConnectorApp
         public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((DatasetMessageSchema?) null);
+            return Task.FromResult((DatasetMessageSchema?)null);
         }
 
         public ValueTask DisposeAsync()

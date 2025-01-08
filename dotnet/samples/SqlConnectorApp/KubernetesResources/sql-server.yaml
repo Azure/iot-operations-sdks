@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mssql-config
+  namespace: azure-iot-operations
 data:
   setup.sql: |
     PRINT 'Starting setup script';
@@ -52,15 +53,18 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mssql-secret
+  name: sql-server-auth-creds
+  namespace: azure-iot-operations
 type: Opaque
 data:
-  SA_PASSWORD: TXlFeHRyZW1lbHlTdHJvbmdwYXNzd29yZEAxMjM=  # This is the base64 encoded version of 'MyExtremelyStrongpassword@123'
+  USERNAME: c2E=
+  SA_PASSWORD: TXlFeHRyZW1lbHlTdHJvbmdwYXNzd29yZEAxMjM= # This is the base64 encoded version of 'MyExtremelyStrongpassword@123'
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mssql-data
+  namespace: azure-iot-operations
 spec:
   accessModes:
     - ReadWriteOnce
@@ -72,6 +76,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mssql-deployment
+  namespace: azure-iot-operations
 spec:
   replicas: 1
   selector:
@@ -82,50 +87,61 @@ spec:
       labels:
         app: mssql
     spec:
+      initContainers:
+        - name: init-permissions
+          image: debian:bullseye-slim
+          command: ["sh", "-c"]
+          args:
+            - |
+              chmod -R 777 /var/opt/mssql
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
       containers:
-      - name: mssql
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        ports:
-        - containerPort: 1433
-        env:
-        - name: ACCEPT_EULA
-          value: "Y"
-        - name: SA_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mssql-secret
-              key: SA_PASSWORD
-        volumeMounts:
-        - name: mssqldb
-          mountPath: /var/opt/mssql
-        - name: mssql-config
-          mountPath: /usr/config
-        command: ["/bin/bash"]
-        args: 
-        - "-c"
-        - |
-          cp /usr/config/mssql.conf /var/opt/mssql/mssql.conf
-          /opt/mssql/bin/sqlservr &
-          pid=$!
-          sleep 60
-          /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i /usr/config/setup.sql -C
-          if [ $? -ne 0 ]; then
-            echo "Setup script failed"
-            exit 1
-          fi
-          wait $pid
+        - name: mssql
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-server-auth-creds
+                  key: SA_PASSWORD
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+            - name: mssql-config
+              mountPath: /usr/config
+          command: ["/bin/bash"]
+          args:
+            - "-c"
+            - |
+              cp /usr/config/mssql.conf /var/opt/mssql/mssql.conf
+              /opt/mssql/bin/sqlservr &
+              pid=$!
+              sleep 60
+              /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i /usr/config/setup.sql -C
+              if [ $? -ne 0 ]; then
+                echo "Setup script failed"
+                exit 1
+              fi
+              wait $pid
       volumes:
-      - name: mssqldb
-        persistentVolumeClaim:
-          claimName: mssql-data
-      - name: mssql-config
-        configMap:
-          name: mssql-config
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data
+        - name: mssql-config
+          configMap:
+            name: mssql-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: sqlserver-service
+  namespace: azure-iot-operations
 spec:
   selector:
     app: mssql
