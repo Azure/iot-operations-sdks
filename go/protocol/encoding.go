@@ -43,7 +43,7 @@ var ErrUnsupportedContentType = stderr.New("unsupported content type")
 
 // Utility to serialize with a protocol error.
 func serialize[T any](encoding Encoding[T], value T) (*Data, error) {
-	bytes, err := encoding.Serialize(value)
+	data, err := encoding.Serialize(value)
 	if err != nil {
 		if e, ok := err.(*errors.Error); ok {
 			return nil, e
@@ -53,7 +53,7 @@ func serialize[T any](encoding Encoding[T], value T) (*Data, error) {
 			Kind:    errors.PayloadInvalid,
 		}
 	}
-	return bytes, nil
+	return data, nil
 }
 
 // Utility to deserialize with a protocol error.
