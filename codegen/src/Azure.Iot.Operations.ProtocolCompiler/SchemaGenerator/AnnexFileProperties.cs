@@ -37,5 +37,7 @@
         public const string CmdIsIdempotent = "idempotent";
 
         public const string Cacheability = "cacheability";
+
+        public const string TelemSeparate = "separateTelemetries";
     }
 }

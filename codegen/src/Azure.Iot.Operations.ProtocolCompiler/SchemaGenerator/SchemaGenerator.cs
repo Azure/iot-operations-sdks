@@ -20,7 +20,7 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
+        public static string GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
         {
             schemaFiles = new List<string>();
 
@@ -37,7 +37,7 @@
             string genNamespace = NameFormatter.DtmiToNamespace(dtInterface.Id);
 
             List<string> annexFiles = new List<string>();
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName, annexFiles), mqttVersion);
+            string serviceName = schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName, annexFiles), mqttVersion);
             annexFile = annexFiles.First();
 
             schemaFiles = new List<string>();
@@ -48,6 +48,8 @@
             schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName, schemaFiles));
             schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName, schemaFiles));
             schemaGenerator.CopyIncludedSchemas(GetWriter(workingDir.FullName));
+
+            return serviceName;
         }
 
         public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion)
@@ -79,19 +81,21 @@
             }
         }
 
-        public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
+        public string GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
         {
             string serviceName = NameFormatter.DtmiToServiceName(dtInterface.Id);
 
             List<(string?, string)> telemNameSchemas =
                 !dtInterface.Telemetries.Any() ? new() :
-                separateTelemetries ? dtInterface.Telemetries.Select(t => ((string?)t.Key, SchemaNames.GetTelemSchema(t.Key))).ToList() :
-                new() { (null, SchemaNames.AggregateTelemSchema) };
+                separateTelemetries ? dtInterface.Telemetries.Select(t => ((string?)t.Key, GetTelemSchema(t.Value))).ToList() :
+                new() { (null, GetAggregateTelemSchema()) };
 
             List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c, mqttVersion), GetResponseSchema(c, mqttVersion), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
 
-            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales);
+            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales, separateTelemetries);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
+
+            return serviceName;
         }
 
         public void GenerateTelemetrySchemas(Action<string, string, string> acceptor, int mqttVersion)
@@ -103,7 +107,7 @@
                     foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in dtInterface.Telemetries)
                     {
                         var nameDescSchemaRequiredIndices = new List<(string, string, DTSchemaInfo, bool, int)> { (dtTelemetry.Key, dtTelemetry.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtTelemetry.Key}' Telemetry.", dtTelemetry.Value.Schema, true, 1) };
-                        WriteTelemetrySchema(SchemaNames.GetTelemSchema(dtTelemetry.Key), nameDescSchemaRequiredIndices, acceptor);
+                        WriteTelemetrySchema(GetTelemSchema(dtTelemetry.Value), nameDescSchemaRequiredIndices, acceptor, isSeparate: true);
                     }
                 }
                 else
@@ -112,7 +116,7 @@
                     nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
                     int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                     nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
-                    WriteTelemetrySchema(SchemaNames.AggregateTelemSchema, nameDescSchemaRequiredIndices, acceptor);
+                    WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, isSeparate: false);
                 }
             }
         }
@@ -221,9 +225,9 @@
             }
         }
 
-        private void WriteTelemetrySchema(string telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor)
+        private void WriteTelemetrySchema(string telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, bool isSeparate)
         {
-            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices))
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, isSeparate))
             {
                 acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
             }
@@ -237,6 +241,16 @@
         private bool IsRequired(DTFieldInfo dtField)
         {
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+        }
+
+        private string GetTelemSchema(DTTelemetryInfo dtTelem)
+        {
+            return payloadFormat == PayloadFormat.Raw ? "" : SchemaNames.GetTelemSchema(dtTelem.Name);
+        }
+
+        private string GetAggregateTelemSchema()
+        {
+            return payloadFormat == PayloadFormat.Raw ? "" : SchemaNames.AggregateTelemSchema;
         }
 
         private string? GetRequestSchema(DTCommandInfo dtCommand, int mqttVersion)

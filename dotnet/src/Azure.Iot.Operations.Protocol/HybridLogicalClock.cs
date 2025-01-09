@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
 using System.Globalization;
 
 namespace Azure.Iot.Operations.Protocol
@@ -195,13 +198,13 @@ namespace Azure.Iot.Operations.Protocol
                     && Timestamp.Equals(otherHlc.Timestamp);
         }
 
-        internal string EncodeToString()
+        public string EncodeToString()
         {
             double millisecondsSinceUnixEpoch = (Timestamp - DateTime.UnixEpoch).TotalMilliseconds;
             return $"{millisecondsSinceUnixEpoch.ToString(CultureInfo.InvariantCulture).PadLeft(15, '0')}:{Convert.ToString(Counter, _encodingBase).PadLeft(5, '0')}:{NodeId}";
         }
 
-        internal static HybridLogicalClock DecodeFromString(string propertyName, string encoded)
+        public static HybridLogicalClock DecodeFromString(string propertyName, string encoded)
         {
             string[] parts = encoded.Split(":");
 

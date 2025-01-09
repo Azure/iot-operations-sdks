@@ -4,8 +4,8 @@
 use std::str::FromStr;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttAck, PubReceiver};
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
 use bytes::Bytes;
 use tokio::time::{timeout, Instant};
 use tokio::{sync::oneshot, task::JoinSet};
@@ -19,7 +19,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
+        user_properties::{validate_user_properties, UserProperty},
     },
     supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
     DEFAULT_AIO_PROTOCOL_VERSION,
@@ -32,7 +32,7 @@ const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
     "Internal logic error, unable to calculate command expiration time";
 
-const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[0];
+const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Struct to hold response arguments
 struct ResponseArguments {
@@ -62,8 +62,6 @@ where
     pub payload: TReq,
     /// Custom user data set as custom MQTT User Properties on the request message.
     pub custom_user_data: Vec<(String, String)>,
-    /// Fencing token of the command request.
-    pub fencing_token: Option<HybridLogicalClock>,
     /// Timestamp of the command request.
     pub timestamp: Option<HybridLogicalClock>,
     /// Client ID of the invoker.
@@ -163,12 +161,10 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     /// Validate the command response.
     ///
     /// # Errors
-    /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`]
-    ///     - any of `custom_user_data`'s keys or values are invalid utf-8
+    /// Returns a `String` describing the error if any of `custom_user_data`'s keys or values are invalid utf-8
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            return validate_user_properties(custom_user_data);
+            validate_user_properties(custom_user_data)?;
         }
         Ok(())
     }
@@ -262,7 +258,7 @@ where
     // Describes state
     is_subscribed: bool,
     // Information to manage state
-    pending_pubs: JoinSet<Publish>, // TODO: Consider using FuturesUnordered
+    pending_acks: JoinSet<AckToken>, // TODO: Consider using FuturesUnordered
     recv_cancellation_token: CancellationToken,
 }
 
@@ -346,6 +342,7 @@ where
 
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
+            "executor_options.request_topic_pattern",
             &executor_options.request_topic_pattern,
             executor_options.topic_namespace.as_deref(),
             &executor_options.topic_token_map,
@@ -381,7 +378,7 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             is_subscribed: false,
-            pending_pubs: JoinSet::new(),
+            pending_acks: JoinSet::new(),
             recv_cancellation_token,
         })
     }
@@ -493,14 +490,14 @@ where
 
         loop {
             tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_pubs will never be processed
-                Some(pending_pub) = self.pending_pubs.join_next() => {
-                    match pending_pub {
-                        Ok(pending_pub) => {
-                            match self.mqtt_receiver.ack(&pending_pub).await {
-                                Ok(()) => { /* Success */ }
+                // TODO: BUG, if recv() is not called, pending_acks will never be processed
+                Some(join_result) = self.pending_acks.join_next() => {
+                    match join_result {
+                        Ok(ack_token) => {
+                            match ack_token.ack().await {
+                                Ok(_) => { /* Success */ }
                                 Err(e) => {
-                                    log::error!("[{}][pkid: {}] Ack error: {e}", self.command_name, pending_pub.pkid);
+                                    log::error!("[{}] Ack error: {e}", self.command_name);
                                 }
                             }
                         }
@@ -511,9 +508,9 @@ where
                         }
                     }
                 },
-                request = self.mqtt_receiver.recv() => {
+                recv_result = self.mqtt_receiver.recv() => {
                     // Process the request
-                    if let Some(m) = request {
+                    if let Some((m, ack_token)) = recv_result {
                         log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
                         let message_received_time = Instant::now();
 
@@ -522,7 +519,9 @@ where
                             Some(properties) => properties.clone(),
                             None => {
                                 log::error!("[{}][pkid: {}] Properties missing", self.command_name, m.pkid);
-                                self.pending_pubs.spawn(async move { m });
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn(async move { ack_token });
+                                }
                                 continue;
                             }
                         };
@@ -531,13 +530,17 @@ where
                         let response_topic = if let Some(rt) = properties.response_topic {
                             if !is_valid_replacement(&rt) {
                                 log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
-                                self.pending_pubs.spawn(async move { m });
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn(async move { ack_token });
+                                }
                                 continue;
                             }
                             rt
                         } else {
                             log::error!("[{}][pkid: {}] Response topic missing", self.command_name, m.pkid);
-                            self.pending_pubs.spawn(async move { m });
+                            if let Some(ack_token) = ack_token {
+                                self.pending_acks.spawn(async move { ack_token });
+                            }
                             continue;
                         };
 
@@ -605,7 +608,7 @@ where
                             if properties.message_expiry_interval.is_none() {
                                 response_arguments.status_code = StatusCode::BadRequest;
                                 response_arguments.status_message = Some("Message expiry interval missing".to_string());
-                                response_arguments.invalid_property_name = Some("Message Expiry Interval".to_string());
+                                response_arguments.invalid_property_name = Some("Message Expiry".to_string());
                                 break 'process_request;
                             }
 
@@ -645,7 +648,6 @@ where
                             let mut user_data = Vec::new();
                             let mut timestamp = None;
                             let mut invoker_id = None;
-                            let mut fencing_token = None;
                             for (key,value) in properties.user_properties {
                                 match UserProperty::from_str(&key) {
                                     Ok(UserProperty::Timestamp) => {
@@ -665,33 +667,17 @@ where
                                     Ok(UserProperty::SourceId) => {
                                         invoker_id = Some(value);
                                     },
-                                    Ok(UserProperty::FencingToken) => {
-                                        fencing_token = match HybridLogicalClock::from_str(&value) {
-                                            Ok(ft) => Some(ft),
-                                            Err(e) => {
-                                                response_arguments.status_code = StatusCode::BadRequest;
-                                                response_arguments.status_message = Some(format!("Fencing token invalid: {e}"));
-                                                response_arguments.invalid_property_name = Some(UserProperty::FencingToken.to_string());
-                                                response_arguments.invalid_property_value = Some(value);
-                                                break 'process_request;
-                                            }
-                                        }
-                                    },
                                     Ok(UserProperty::ProtocolVersion) => {
                                         // skip, already processed
                                     }
                                     Err(()) => {
-                                        if key.starts_with(RESERVED_PREFIX) {
-                                            // Don't return error, although these properties shouldn't be present on a request
-                                            log::error!("Invalid request user data property '{}' starts with reserved prefix '{}'. Value is '{}'", key, RESERVED_PREFIX, value);
-                                        } else {
-                                            user_data.push((key, value));
-                                        }
+                                        user_data.push((key, value));
                                     }
                                     _ => {
                                         /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                         // Don't return error, although above properties shouldn't be in the request
-                                        log::error!("Request should not contain MQTT user property {key}. Value is {value}");
+                                        log::warn!("Request should not contain MQTT user property {key}. Value is {value}");
+                                        user_data.push((key, value));
                                     }
                                 }
                             }
@@ -730,7 +716,6 @@ where
                             let command_request = CommandRequest {
                                 payload,
                                 custom_user_data: user_data,
-                                fencing_token,
                                 timestamp,
                                 invoker_id,
                                 topic_tokens,
@@ -739,23 +724,25 @@ where
 
                             // Check the command has not expired, if it has, we do not respond to the invoker.
                             if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
-                                self.pending_pubs.spawn({
-                                    let client_clone = self.mqtt_client.clone();
-                                    let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                    let pkid = m.pkid;
-                                    async move {
-                                        tokio::select! {
-                                            () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                            () = Self::process_command(
-                                                    client_clone,
-                                                    pkid,
-                                                    response_arguments,
-                                                    Some(response_rx),
-                                            ) => { /* Finished processing command */},
+                                if let Some(ack_token) = ack_token {
+                                    self.pending_acks.spawn({
+                                        let client_clone = self.mqtt_client.clone();
+                                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                                        let pkid = m.pkid;
+                                        async move {
+                                            tokio::select! {
+                                                () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                                () = Self::process_command(
+                                                        client_clone,
+                                                        pkid,
+                                                        response_arguments,
+                                                        Some(response_rx),
+                                                ) => { /* Finished processing command */},
+                                            }
+                                            ack_token
                                         }
-                                        m
-                                    }
-                                });
+                                    });
+                                }
                                 return Ok(command_request);
                             }
                         }
@@ -768,23 +755,25 @@ where
                             }
                         }
 
-                        self.pending_pubs.spawn({
-                            let client_clone = self.mqtt_client.clone();
-                            let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                            let pkid = m.pkid;
-                            async move {
-                                tokio::select! {
-                                    () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                    () = Self::process_command(
-                                        client_clone,
-                                        pkid,
-                                        response_arguments,
-                                        None,
-                                    ) => { /* Finished processing command */},
+                        if let Some(ack_token) = ack_token {
+                            self.pending_acks.spawn({
+                                let client_clone = self.mqtt_client.clone();
+                                let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                                let pkid = m.pkid;
+                                async move {
+                                    tokio::select! {
+                                        () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                        () = Self::process_command(
+                                            client_clone,
+                                            pkid,
+                                            response_arguments,
+                                            None,
+                                        ) => { /* Finished processing command */},
+                                    }
+                                    ack_token
                                 }
-                                m
-                            }
-                        });
+                            });
+                        }
 
                         if !command_expiration_time_calculated {
                             return Err(AIOProtocolError::new_internal_logic_error(
@@ -1297,7 +1286,10 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("pattern".to_string()));
+                assert_eq!(
+                    e.property_name,
+                    Some("executor_options.request_topic_pattern".to_string())
+                );
                 assert!(e.property_value == Some(Value::String(request_topic.to_string())));
             }
             Ok(_) => {
@@ -1468,25 +1460,21 @@ mod tests {
 //   recv() is called and successfully sends a command request to the application
 //   response topic, correlation data, invoker id, and payload are valid and successfully received
 //   if payload format indicator, content type, and timestamp are present, they are validated successfully
-//   if user properties are present, they don't start with reserved prefix
 //
 // Tests failure:
 //   if an error response is published, the original request is acked
 //   response topic is invalid and command response is not published and original request is acked
 //   correlation data, invoker id, or payload are missing and error response is published and original request is acked
 //   if payload format indicator, content type, and timestamp are present and invalid, error response is published and original request is acked
-//   if user properties are present and start with reserved prefix, error response is published and original request is acked
 //
 // Test cases for response processing
 // Tests success:
 //    a command response is received and successfully published, the original request is acked
-//    response user properties do not start with reserved prefix
 //    response payload is serialized and published
 //    an empty response payload has a status code of NoContent
 //
 // Tests failure:
 //    an error occurs while processing the command response, an error response is sent and the original request is acked
-//    response user properties start with reserved prefix, an error response is sent and the original request is acked
 //    response payload is not serialized and an error response is sent and the original request is acked
 //
 // Test cases for timeout

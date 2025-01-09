@@ -153,7 +153,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - `message_expiry` is not zero and < 1 ms or > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
@@ -295,6 +294,7 @@ where
         }
         // Validate parameters
         let topic_pattern = TopicPattern::new(
+            "sender_options.topic_pattern",
             &sender_options.topic_pattern,
             sender_options.topic_namespace.as_deref(),
             &sender_options.topic_token_map,
@@ -544,7 +544,10 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("pattern".to_string()));
+                assert_eq!(
+                    e.property_name,
+                    Some("sender_options.topic_pattern".to_string())
+                );
                 assert!(e.property_value == Some(Value::String(property_value.to_string())));
             }
         }

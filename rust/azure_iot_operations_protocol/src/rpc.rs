@@ -79,7 +79,7 @@ impl FromStr for StatusCode {
                 )),
             },
             Err(e) => Err(AIOProtocolError::new_header_invalid_error(
-                "status",
+                "__stat",
                 s,
                 false,
                 None,
@@ -129,7 +129,7 @@ mod tests {
                 assert!(!e.is_remote);
                 assert!(e.nested_error.is_none());
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.header_name, Some("status".to_string()));
+                assert_eq!(e.header_name, Some("__stat".to_string()));
                 assert_eq!(e.header_value, Some(test_invalid_code.to_string()));
             }
         }
