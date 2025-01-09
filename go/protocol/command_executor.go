@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/internal/wallclock"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -59,8 +58,6 @@ type (
 	// the command handlers.
 	CommandRequest[Req any] struct {
 		Message[Req]
-
-		FencingToken hlc.HybridLogicalClock
 	}
 
 	// CommandResponse contains per-message data and methods that are returned
@@ -223,15 +220,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			}
 		}
 
-		ft := pub.UserProperties[constants.FencingToken]
-		if ft != "" {
-			req.FencingToken, err = hlc.Parse(constants.FencingToken, ft)
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		req.Payload, err = ce.listener.payload(pub)
+		req.Payload, err = ce.listener.payload(msg)
 		if err != nil {
 			return nil, err
 		}
