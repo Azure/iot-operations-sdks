@@ -490,8 +490,7 @@ where
             assert_eq!(
                 value.as_ref(),
                 received_telemetry.metadata.get(key),
-                "metadata key {key} expected {:?}",
-                value
+                "metadata key {key} expected {value:?}"
             );
         }
 
