@@ -69,17 +69,6 @@ func (p *PriorityMap[K, V, P]) Get(key K) (V, bool) {
 	return zv, false
 }
 
-// Find a value in the map with a given condition.
-func (p *PriorityMap[K, V, P]) Find(cond func(V) bool) (V, bool) {
-	for _, e := range p.m {
-		if cond(e.val) {
-			return e.val, true
-		}
-	}
-	var zv V
-	return zv, false
-}
-
 // Set an element in the map to the given value and priority.
 func (p *PriorityMap[K, V, P]) Set(key K, val V, pri P) {
 	if e, ok := p.m[key]; ok {

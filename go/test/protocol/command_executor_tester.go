@@ -60,10 +60,7 @@ func runOneCommandExecutorTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{
-		"CommandExecutorReceivesEquivalentExecutorAgnosticIdempotentRequestFromDifferentInvokerWithinTTL_ResponseFromCache",
-		"CommandExecutorReceivesEquivalentIdempotentRequestWithinTTL_ResponseFromCache",
-	}
+	pendingTestCases := []string{}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -234,7 +231,6 @@ func getCommandExecutor(
 		protocol.WithTopicTokens(tce.CustomTokenMap),
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithIdempotent(tce.Idempotent),
-		protocol.WithCacheTTL(tce.CacheTTL.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 

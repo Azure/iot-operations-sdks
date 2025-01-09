@@ -4,7 +4,6 @@ request-topic = "mock/test"
 model-id = "dtmi:test:MyModel;1"
 executor-id = "someExecutor"
 idempotent = false
-cache-ttl = { seconds = 0 }
 execution-timeout = { seconds = 10 }
 request-responses-map = { "Test_Request" = [ "Test_Response" ] }
 

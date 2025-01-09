@@ -14,7 +14,6 @@ type testCaseExecutor struct {
 	TopicNamespace       *string             `yaml:"topic-namespace"`
 	CustomTokenMap       map[string]string   `yaml:"custom-token-map"`
 	Idempotent           bool                `yaml:"idempotent"`
-	CacheTTL             *TestCaseDuration   `yaml:"cache-ttl"`
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
@@ -40,11 +39,6 @@ func (executor *TestCaseExecutor) UnmarshalYAML(node *yaml.Node) error {
 	executor.ExecutionConcurrency = TestCaseDefaultInfo.Prologue.Executor.GetExecutionConcurrency()
 
 	err := node.Decode(&executor.testCaseExecutor)
-
-	if executor.CacheTTL == nil {
-		defaultCacheTTL := TestCaseDefaultInfo.Prologue.Executor.GetCacheTTL()
-		executor.CacheTTL = &defaultCacheTTL
-	}
 
 	if executor.ExecutionTimeout == nil {
 		defaultExecutionTimeout := TestCaseDefaultInfo.Prologue.Executor.GetExecutionTimeout()
