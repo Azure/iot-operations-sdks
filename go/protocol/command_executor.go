@@ -220,7 +220,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			}
 		}
 
-		req.Payload, err = ce.listener.payload(pub)
+		req.Payload, err = ce.listener.payload(msg)
 		if err != nil {
 			return nil, err
 		}

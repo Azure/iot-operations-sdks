@@ -47,13 +47,14 @@ func (p *publisher[T]) build(
 	}
 
 	if msg != nil {
-		pub.Payload, err = serialize(p.encoding, msg.Payload)
+		data, err := serialize(p.encoding, msg.Payload)
 		if err != nil {
 			return nil, err
 		}
 
-		pub.ContentType = p.encoding.ContentType()
-		pub.PayloadFormat = p.encoding.PayloadFormat()
+		pub.Payload = data.Payload
+		pub.ContentType = data.ContentType
+		pub.PayloadFormat = data.PayloadFormat
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)

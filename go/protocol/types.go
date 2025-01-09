@@ -51,6 +51,9 @@ type (
 
 		// Any user-provided metadata values.
 		Metadata map[string]string
+
+		// The raw payload data.
+		*Data
 	}
 
 	// InvocationError represents an error intentionally returned by a handler

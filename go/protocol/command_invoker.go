@@ -309,7 +309,7 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 	var res *CommandResponse[Res]
 	err := errutil.FromUserProp(pub.UserProperties)
 	if err == nil {
-		msg.Payload, err = ci.listener.payload(pub)
+		msg.Payload, err = ci.listener.payload(msg)
 		if err == nil {
 			res = &CommandResponse[Res]{*msg}
 		}
