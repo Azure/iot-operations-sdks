@@ -14,7 +14,6 @@ use envoy::dtmi_com_example_Counter__1::client::{
     ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
 };
 
-use tokio::sync::oneshot;
 use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
@@ -35,30 +34,31 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let (telemetry_done_tx, telemetry_done_rx) = oneshot::channel::<()>();
-
     // Use the managed client to run telemetry checks in another task
-    tokio::task::spawn(counter_telemetry_check(
+    let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
         session.create_managed_client(),
-        telemetry_done_tx,
+        session.create_exit_handle(),
     ));
 
     // Use the managed client to run command invocations in another task
-    tokio::task::spawn(increment_and_check(
-        session.create_managed_client(),
-        session.create_exit_handle(),
-        telemetry_done_rx,
-    ));
+    let increment_and_check_handle =
+        tokio::task::spawn(increment_and_check(session.create_managed_client()));
 
-    // Run the session
-    session.run().await.unwrap();
+    // Wait for all tasks to finish and run the session, if any of the tasks fail, the program will panic
+    assert!(tokio::try_join!(
+        async move {
+            counter_telemetry_check_handle
+                .await
+                .map_err(|e| e.to_string())
+        },
+        async move { increment_and_check_handle.await.map_err(|e| e.to_string()) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
 }
 
-/// Wait for the associated telemetry
-async fn counter_telemetry_check(
-    client: SessionManagedClient,
-    telemetry_done_tx: oneshot::Sender<()>,
-) {
+/// Wait for the associated telemetry. Then exit the session.
+async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create receiver
     let mut counter_value_receiver = TelemetryCollectionReceiver::new(
         client,
@@ -86,8 +86,7 @@ async fn counter_telemetry_check(
                 telemetry_count += 1;
             },
             () = sleep(Duration::from_secs(5))=> {
-                if telemetry_count >= 14 {
-                    telemetry_done_tx.send(()).unwrap();
+                if telemetry_count >= 15 {
                     break;
                 }
                 panic!("Telemetry not finished");
@@ -95,15 +94,28 @@ async fn counter_telemetry_check(
         }
     }
 
+    log::info!("Telemetry finished");
     counter_value_receiver.shutdown().await.unwrap();
+
+    // Exit the session now that we're done
+    match exit_handle.try_exit().await {
+        Ok(()) => { /* Successfully exited */ }
+        Err(e) => {
+            if let azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
+                attempted,
+            } = e
+            {
+                // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                assert!(attempted, "{}", e.to_string());
+            } else {
+                panic!("{}", e.to_string())
+            }
+        }
+    }
 }
 
-/// Send a read request, 15 increment requests, and another read request and wait for their responses. Then exit the session.
-async fn increment_and_check(
-    client: SessionManagedClient,
-    exit_handle: SessionExitHandle,
-    telemetry_done_rx: oneshot::Receiver<()>,
-) {
+/// Send a read request, 15 increment requests, and another read request and wait for their responses.
+async fn increment_and_check(client: SessionManagedClient) {
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
     let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
@@ -129,7 +141,7 @@ async fn increment_and_check(
     );
 
     // Increment the counter 15 times on the server
-    for _ in 1..15 {
+    for _ in 0..15 {
         log::info!("Calling increment");
         let increment_request = IncrementRequestBuilder::default()
             .timeout(Duration::from_secs(10))
@@ -166,13 +178,6 @@ async fn increment_and_check(
         read_counter_response.payload.counter_response
     );
 
-    log::info!("Waiting for associated telemetry");
-    telemetry_done_rx.await.unwrap();
-    log::info!("Telemetry done");
-
     read_counter_invoker.shutdown().await.unwrap();
     increment_invoker.shutdown().await.unwrap();
-
-    // Exit the session now that we're done
-    exit_handle.try_exit().await.unwrap();
 }
