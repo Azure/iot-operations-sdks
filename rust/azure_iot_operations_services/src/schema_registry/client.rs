@@ -120,7 +120,7 @@ where
     /// * `get_request` - The request to get a schema from the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
     ///
-    /// Returns a [`Schema`] if the request was successful.
+    /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
@@ -135,7 +135,7 @@ where
         &self,
         get_request: GetRequest,
         timeout: Duration,
-    ) -> Result<Schema, SchemaRegistryError> {
+    ) -> Result<Option<Schema>, SchemaRegistryError> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
                 Object_Get_RequestBuilder::default()
