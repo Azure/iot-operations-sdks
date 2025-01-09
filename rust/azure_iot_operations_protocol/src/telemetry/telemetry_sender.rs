@@ -153,7 +153,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - `message_expiry` is not zero and < 1 ms or > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
