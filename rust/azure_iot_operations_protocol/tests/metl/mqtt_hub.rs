@@ -35,6 +35,7 @@ pub struct MqttHub {
     published_correlation_data: VecDeque<Option<Bytes>>,
     subscribed_topics: HashSet<String>,
     published_messages: HashMap<Option<Bytes>, Publish>,
+    published_message_seq: HashMap<i32, Publish>,
 }
 
 impl MqttHub {
@@ -71,6 +72,7 @@ impl MqttHub {
             published_correlation_data: VecDeque::new(),
             subscribed_topics: HashSet::new(),
             published_messages: HashMap::new(),
+            published_message_seq: HashMap::new(),
         }
     }
 
@@ -137,6 +139,10 @@ impl MqttHub {
         self.published_messages.get(correlation_data)
     }
 
+    pub fn get_sequentially_published_message(&self, sequence_index: i32) -> Option<&Publish> {
+        self.published_message_seq.get(&sequence_index)
+    }
+
     pub fn receive_message(&mut self, message: Publish) {
         if let Some(message_tx) = self.message_tx.as_mut() {
             message_tx.send(message).unwrap();
@@ -178,7 +184,10 @@ impl MqttHub {
                         payload,
                         properties,
                     };
-                    self.published_messages.insert(correlation_data, publish);
+                    self.published_messages
+                        .insert(correlation_data, publish.clone());
+                    self.published_message_seq
+                        .insert(self.publication_count - 1, publish);
 
                     if let Some(ack_kind) = self.puback_queue.pop_front() {
                         ack_tx.send(ack_kind).unwrap();
