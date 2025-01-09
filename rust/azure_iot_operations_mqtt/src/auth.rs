@@ -27,9 +27,9 @@ pub enum SatAuthContextInitError {
     /// Error occurred while creating the SAT auth context.
     #[error("{0}")]
     WatcherError(#[from] notify::Error),
-    /// No SAT token file found.
-    #[error("No SAT token file found")]
-    NoSatTokenFile,
+    /// No SAT file found.
+    #[error("No SAT file found")]
+    NoSatFile,
 }
 
 /// Error type for reauthenticating the client using the SAT token. The type of error is specified by the value of [`SatReauthError`].
@@ -77,12 +77,12 @@ impl SatAuthContext {
 
         // Check that the specified SAT token file exists
         if !file_location_path.is_file() {
-            return Err(SatAuthContextInitError::NoSatTokenFile);
+            return Err(SatAuthContextInitError::NoSatFile);
         }
 
         let Some(parent_path) = Path::new(&file_location).parent() else {
             // Should never happen, as we already checked that the file exists
-            return Err(SatAuthContextInitError::NoSatTokenFile);
+            return Err(SatAuthContextInitError::NoSatFile);
         };
 
         // Create a watcher notifier
