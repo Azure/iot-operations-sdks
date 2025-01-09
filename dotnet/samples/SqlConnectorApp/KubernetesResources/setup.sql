@@ -1,19 +1,19 @@
     PRINT 'Starting setup script';
     USE [master];
     GO
-    IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'MySampleDB')
-    BEGIN
-        CREATE DATABASE MySampleDB;
-        PRINT 'Created MySampleDB database';
-    END
-    ELSE
-    BEGIN
-        PRINT 'MySampleDB database already exists';
-    END
-    GO
-    USE MySampleDB;
-    PRINT 'Switched to MySampleDB database';
-    GO
+    -- IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'MySampleDB')
+    -- BEGIN
+    --     CREATE DATABASE MySampleDB;
+    --     PRINT 'Created MySampleDB database';
+    -- END
+    -- ELSE
+    -- BEGIN
+    --     PRINT 'MySampleDB database already exists';
+    -- END
+    -- GO
+    -- USE MySampleDB;
+    -- PRINT 'Switched to MySampleDB database';
+    -- GO
     IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'CountryMeasurements')
     BEGIN
         CREATE TABLE CountryMeasurements (
