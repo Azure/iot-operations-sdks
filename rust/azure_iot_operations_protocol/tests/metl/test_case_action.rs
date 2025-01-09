@@ -11,6 +11,7 @@ use crate::metl::optional_field::deserialize_optional_field;
 use crate::metl::test_case_action_invoke_command::{self};
 use crate::metl::test_case_action_receive_request::{self};
 use crate::metl::test_case_action_receive_response::{self};
+use crate::metl::test_case_action_receive_telemetry::{self};
 use crate::metl::test_case_action_send_telemetry::{self};
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_cloud_event::TestCaseCloudEvent;
@@ -230,6 +231,51 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
             default = "test_case_action_receive_response::get_default_invalid_property_value::<T>"
         )]
         invalid_property_value: Option<String>,
+
+        #[serde(rename = "packet-index")]
+        packet_index: Option<i32>,
+    },
+
+    #[serde(rename = "receive telemetry")]
+    ReceiveTelemetry {
+        #[serde(default)]
+        defaults_type: PhantomData<T>,
+
+        #[serde(rename = "topic")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_topic::<T>")]
+        topic: Option<String>,
+
+        #[serde(rename = "payload")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_payload::<T>")]
+        payload: Option<String>,
+
+        #[serde(rename = "bypass-serialization")]
+        #[serde(default)]
+        bypass_serialization: bool,
+
+        #[serde(rename = "content-type")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_content_type::<T>")]
+        content_type: Option<String>,
+
+        #[serde(rename = "format-indicator")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_format_indicator::<T>")]
+        format_indicator: Option<u8>,
+
+        #[serde(rename = "metadata")]
+        #[serde(default)]
+        metadata: HashMap<String, String>,
+
+        #[serde(rename = "qos")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_qos::<T>")]
+        qos: Option<i32>,
+
+        #[serde(rename = "message-expiry")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_message_expiry::<T>")]
+        message_expiry: Option<TestCaseDuration>,
+
+        #[serde(rename = "source-index")]
+        #[serde(default = "test_case_action_receive_telemetry::get_default_source_index::<T>")]
+        source_index: Option<i32>,
 
         #[serde(rename = "packet-index")]
         packet_index: Option<i32>,

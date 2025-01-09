@@ -9,6 +9,7 @@ use crate::metl::default_test_case::DefaultTestCase;
 
 static INVOKER_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
 static EXECUTOR_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
+static RECEIVER_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
 static SENDER_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
 
 pub fn get_invoker_defaults() -> Option<&'static DefaultTestCase> {
@@ -17,6 +18,10 @@ pub fn get_invoker_defaults() -> Option<&'static DefaultTestCase> {
 
 pub fn get_executor_defaults() -> Option<&'static DefaultTestCase> {
     return EXECUTOR_DEFAULTS.get();
+}
+
+pub fn get_receiver_defaults() -> Option<&'static DefaultTestCase> {
+    return RECEIVER_DEFAULTS.get();
 }
 
 pub fn get_sender_defaults() -> Option<&'static DefaultTestCase> {
@@ -30,6 +35,9 @@ fn init() {
         .unwrap();
     EXECUTOR_DEFAULTS
         .set(get_default_test_case("CommandExecutor"))
+        .unwrap();
+    RECEIVER_DEFAULTS
+        .set(get_default_test_case("TelemetryReceiver"))
         .unwrap();
     SENDER_DEFAULTS
         .set(get_default_test_case("TelemetrySender"))
@@ -53,6 +61,9 @@ pub struct InvokerDefaults {}
 pub struct ExecutorDefaults {}
 
 #[derive(Clone, Deserialize, Default, Debug)]
+pub struct ReceiverDefaults {}
+
+#[derive(Clone, Deserialize, Default, Debug)]
 pub struct SenderDefaults {}
 
 impl DefaultsType for InvokerDefaults {
@@ -64,6 +75,12 @@ impl DefaultsType for InvokerDefaults {
 impl DefaultsType for ExecutorDefaults {
     fn get_defaults() -> Option<&'static DefaultTestCase> {
         get_executor_defaults()
+    }
+}
+
+impl DefaultsType for ReceiverDefaults {
+    fn get_defaults() -> Option<&'static DefaultTestCase> {
+        get_receiver_defaults()
     }
 }
 

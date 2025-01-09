@@ -12,6 +12,7 @@ use crate::metl::test_case_executor::TestCaseExecutor;
 use crate::metl::test_case_invoker::TestCaseInvoker;
 use crate::metl::test_case_mqtt_config::TestCaseMqttConfig;
 use crate::metl::test_case_push_acks::TestCasePushAcks;
+use crate::metl::test_case_receiver::TestCaseReceiver;
 use crate::metl::test_case_sender::TestCaseSender;
 
 #[derive(Clone, Deserialize, Debug)]
@@ -34,6 +35,10 @@ pub struct TestCasePrologue<T: DefaultsType + Default> {
     #[serde(rename = "invokers")]
     #[serde(default)]
     pub invokers: Vec<TestCaseInvoker<T>>,
+
+    #[serde(rename = "receivers")]
+    #[serde(default)]
+    pub receivers: Vec<TestCaseReceiver<T>>,
 
     #[serde(rename = "senders")]
     #[serde(default)]
