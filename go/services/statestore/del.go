@@ -63,8 +63,13 @@ func (o WithTimeout) del(opt *DelOptions) {
 }
 
 func (o *DelOptions) invoke() *protocol.InvokeOptions {
-	return &protocol.InvokeOptions{
-		Timeout:      o.Timeout,
-		FencingToken: o.FencingToken,
+	inv := &protocol.InvokeOptions{
+		Timeout: o.Timeout,
 	}
+	if !o.FencingToken.IsZero() {
+		inv.Metadata = map[string]string{
+			fencingToken: o.FencingToken.String(),
+		}
+	}
+	return inv
 }

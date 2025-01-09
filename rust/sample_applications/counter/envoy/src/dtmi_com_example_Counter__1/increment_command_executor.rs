@@ -10,11 +10,11 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandResponseBuilder, CommandResponseBuilderError,
 };
 
+use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::empty_json::EmptyJson;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
-use crate::common_types::empty_json::EmptyJson;
 
 pub type IncrementRequest = CommandRequest<EmptyJson, IncrementResponsePayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;

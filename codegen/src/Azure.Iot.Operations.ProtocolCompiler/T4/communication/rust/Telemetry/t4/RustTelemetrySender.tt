@@ -20,9 +20,9 @@ use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaC
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
 <# if (this.schemaClassName == "Bytes") { #>
-use crate::common_types::bytes::Bytes;
+use super::super::common_types::bytes::Bytes;
 <# } #>
-use crate::common_types::common_options::TelemetryOptions;
+use super::super::common_types::common_options::TelemetryOptions;
 
 pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
 pub type <#=this.componentName#>MessageBuilderError = TelemetryMessageBuilderError;

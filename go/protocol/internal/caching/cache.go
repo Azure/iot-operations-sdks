@@ -278,7 +278,7 @@ func (c *Cache) equivalentRequest(req, cached *mqtt.Message) bool {
 // set by the user for purposes of determining equivalency.
 func (c *Cache) ignoreMetadata(key string) bool {
 	switch key {
-	case constants.Timestamp, constants.FencingToken, constants.Partition:
+	case constants.Timestamp, constants.Partition:
 		return true
 	case constants.SourceID:
 		return c.ignoreClient

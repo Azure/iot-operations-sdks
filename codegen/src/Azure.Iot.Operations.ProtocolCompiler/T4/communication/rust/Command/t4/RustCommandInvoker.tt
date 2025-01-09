@@ -7,7 +7,6 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 <# if (this.reqSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
@@ -25,11 +24,11 @@ use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 <# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
-use crate::common_types::bytes::Bytes;
+use super::super::common_types::bytes::Bytes;
 <# } #>
-use crate::common_types::common_options::CommandOptions;
+use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use crate::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
+use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
 <# } #>
 
 pub type <#=this.capitalizedCommandName#>Request = CommandRequest<<#=this.RequestType()#>>;
@@ -49,12 +48,6 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
     /// Custom user data to set on the request
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
-        self
-    }
-
-    /// Fencing token for the request
-    pub fn fencing_token(&mut self, fencing_token: Option<HybridLogicalClock>) -> &mut Self {
-        self.inner_builder.fencing_token(fencing_token);
         self
     }
 
