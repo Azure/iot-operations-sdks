@@ -448,46 +448,42 @@ where
         Ok(())
     }
 
-    /// Subscribe to the request topic if not already subscribed.
+    /// Subscribe to the request topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        if let CommandExecutorState::New = self.executor_state {
-            let subscribe_result = self
-                .mqtt_client
-                .subscribe(
-                    self.request_topic_pattern.as_subscribe_topic(),
-                    QoS::AtLeastOnce,
-                )
-                .await;
+        let subscribe_result = self
+            .mqtt_client
+            .subscribe(
+                self.request_topic_pattern.as_subscribe_topic(),
+                QoS::AtLeastOnce,
+            )
+            .await;
 
-            match subscribe_result {
-                Ok(sub_ct) => match sub_ct.await {
-                    Ok(()) => {
-                        self.executor_state = CommandExecutorState::Subscribed;
-                    }
-                    Err(e) => {
-                        log::error!("[{}] Suback error: {e}", self.command_name);
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on command executor suback".to_string()),
-                            Box::new(e),
-                            Some(self.command_name.clone()),
-                        ));
-                    }
-                },
+        match subscribe_result {
+            Ok(sub_ct) => match sub_ct.await {
+                Ok(()) => { /* Success */ }
                 Err(e) => {
-                    log::error!(
-                        "[{}] Client error while subscribing: {e}",
-                        self.command_name
-                    );
+                    log::error!("[{}] Suback error: {e}", self.command_name);
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command executor subscribe".to_string()),
+                        Some("MQTT error on command executor suback".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
                 }
+            },
+            Err(e) => {
+                log::error!(
+                    "[{}] Client error while subscribing: {e}",
+                    self.command_name
+                );
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on command executor subscribe".to_string()),
+                    Box::new(e),
+                    Some(self.command_name.clone()),
+                ));
             }
         }
         Ok(())
@@ -501,23 +497,25 @@ where
     ///
     /// Will also subscribe to the request topic if not already subscribed.
     ///
-    /// Returns Ok([`CommandRequest`]) on success, otherwise returns [`AIOProtocolError`].
-    ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`UnknownError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::UnknownError) if an error occurs while receiving the message.
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        if let Err(e) = self.try_subscribe().await {
-            return Some(Err(e));
+        if let CommandExecutorState::New = self.executor_state {
+            if let Err(e) = self.try_subscribe().await {
+                return Some(Err(e));
+            }
+            self.executor_state = CommandExecutorState::Subscribed;
         }
 
         loop {
             if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
                 let Some(ack_token) = ack_token else {
                     // No ack token, ignore the message. This should never happen as the executor
-                    // should always receive an ack token.
+                    // should always receive QoS 1 messages that have an ack token.
+                    log::warn!("[{}] Received message without ack token", self.command_name);
                     continue;
                 };
                 // Process the request

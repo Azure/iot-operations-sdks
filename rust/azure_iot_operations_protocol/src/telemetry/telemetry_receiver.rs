@@ -197,7 +197,7 @@ where
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
-    recv_cancellation_token: CancellationToken,
+    executor_cancellation_token: CancellationToken,
 }
 
 /// Describes state of receiver
@@ -283,7 +283,7 @@ where
             topic_pattern,
             message_payload_type: PhantomData,
             receiver_state: TelemetryReceiverState::New,
-            recv_cancellation_token: CancellationToken::new(),
+            executor_cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -339,40 +339,36 @@ where
         Ok(())
     }
 
-    /// Subscribe to the telemetry topic if not already subscribed.
+    /// Subscribe to the telemetry topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        if let TelemetryReceiverState::New = self.receiver_state {
-            let subscribe_result = self
-                .mqtt_client
-                .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
-                .await;
+        let subscribe_result = self
+            .mqtt_client
+            .subscribe(&self.telemetry_topic, QoS::AtLeastOnce)
+            .await;
 
-            match subscribe_result {
-                Ok(sub_ct) => match sub_ct.await {
-                    Ok(()) => {
-                        self.receiver_state = TelemetryReceiverState::Subscribed;
-                    }
-                    Err(e) => {
-                        log::error!("Suback error: {e}");
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on telemetry receiver suback".to_string()),
-                            Box::new(e),
-                            None,
-                        ));
-                    }
-                },
+        match subscribe_result {
+            Ok(sub_ct) => match sub_ct.await {
+                Ok(()) => { /* Success */ }
                 Err(e) => {
-                    log::error!("Client error while subscribing: {e}");
+                    log::error!("Suback error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on telemetry receiver subscribe".to_string()),
+                        Some("MQTT error on telemetry receiver suback".to_string()),
                         Box::new(e),
                         None,
                     ));
                 }
+            },
+            Err(e) => {
+                log::error!("Client error while subscribing: {e}");
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on telemetry receiver subscribe".to_string()),
+                    Box::new(e),
+                    None,
+                ));
             }
         }
         Ok(())
@@ -394,8 +390,11 @@ where
         &mut self,
     ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if let Err(e) = self.try_subscribe().await {
-            return Some(Err(e));
+        if let TelemetryReceiverState::New = self.receiver_state {
+            if let Err(e) = self.try_subscribe().await {
+                return Some(Err(e));
+            }
+            self.receiver_state = TelemetryReceiverState::Subscribed;
         }
 
         loop {
@@ -581,10 +580,11 @@ where
                 // Occurs on an error processing the message, ack to prevent redelivery
                 if let Some(ack_token) = ack_token {
                     tokio::spawn({
-                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                        let executor_cancellation_token_clone =
+                            self.executor_cancellation_token.clone();
                         async move {
                             tokio::select! {
-                                () = recv_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                () = executor_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
                                 ack_res = ack_token.ack() => {
                                     match ack_res {
                                         Ok(_) => { /* Success */ }
@@ -613,7 +613,7 @@ where
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.recv_cancellation_token.cancel();
+        self.executor_cancellation_token.cancel();
         // Close the receiver
         self.mqtt_receiver.close();
 
