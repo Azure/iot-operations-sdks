@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Models;
 using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
@@ -31,6 +32,12 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// Overriding the content type that the serializer would set may be useful in cloud event scenarios.
         /// </remarks>
         public string? ContentType { get; set; }
+
+        /// <summary>
+        /// The payload format indicator to publish the message with. 
+        /// If null, the payload format indicator specified by the serializer will be used instead.
+        /// </summary>
+        public int? PayloadFormatIndicator { get; set; }
 
         /// <summary>
         /// Construct an instance with the default values.

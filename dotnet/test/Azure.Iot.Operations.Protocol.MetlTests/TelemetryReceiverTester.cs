@@ -386,7 +386,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 byte[]? payload =
                     actionReceiveTelemetry.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload) :
-                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload);
+                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload, payloadSerializer.DefaultContentType, payloadSerializer.DefaultPayloadFormatIndicator).SerializedPayload;
                 requestAppMsgBuilder.WithPayload(payload);
             }
 

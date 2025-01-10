@@ -387,7 +387,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(payload), appMsg.PayloadSegment.Array);
+                Assert.Equal(payloadSerializer.ToBytes(payload, payloadSerializer.DefaultContentType, payloadSerializer.DefaultPayloadFormatIndicator).SerializedPayload, appMsg.PayloadSegment.Array);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)

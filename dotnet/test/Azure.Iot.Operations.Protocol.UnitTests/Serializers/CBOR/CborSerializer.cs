@@ -30,11 +30,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
         }
 
-        public string ContentType => "application/cbor";
+        public string DefaultContentType => "application/cbor";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int DefaultPayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -46,13 +46,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return (new EmptyCbor() as T)!;
+                    return new((new EmptyCbor() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream(payload))
                 {
                     ValueTask<T> task = Cbor.DeserializeAsync<T>(stream, cborOptions);
-                    return task.IsCompletedSuccessfully ? task.Result : default!;
+                    return new(task.IsCompletedSuccessfully ? task.Result : default!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)
@@ -61,14 +61,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyCbor))
                 {
-                    return null;
+                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream())
@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)

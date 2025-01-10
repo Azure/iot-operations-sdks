@@ -9,18 +9,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
     // Used for unit testing to simulate payload serialization/deserialization errors
     public class FaultySerializer : IPayloadSerializer
     {
-        public string ContentType => "application/json";
-        public int CharacterDataFormatIndicator => 1;
+        public string DefaultContentType => "application/json";
+        public int DefaultPayloadFormatIndicator => 1;
         public Type EmptyType { get => typeof(EmptyJson); }
-
-        public T FromBytes<T>(byte[]? payload)
-            where T : class
+        
+        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class
         {
             throw new SerializationException();
         }
 
-        public byte[]? ToBytes<T>(T? payload)
-            where T : class
+        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator) where T : class
         {
             throw new SerializationException();
         }

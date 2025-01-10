@@ -33,11 +33,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
 
-        public string ContentType => "application/avro";
+        public string DefaultContentType => "application/avro";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int DefaultPayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -49,7 +49,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return (new EmptyAvro() as T)!;
+                    return new((new EmptyAvro() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream(payload))
@@ -60,13 +60,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     {
                         T1 obj1 = new();
                         datumReader1.Read(obj1, avroDecoder);
-                        return (obj1 as T)!;
+                        return new((obj1 as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+
                     }
                     else if (typeof(T) == typeof(T2))
                     {
                         T2 obj2 = new();
                         datumReader2.Read(obj2, avroDecoder);
-                        return (obj2 as T)!;
+                        return new((obj2 as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                     }
                     else
                     {
@@ -80,14 +81,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return null;
+                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream())
@@ -104,7 +105,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     }
                     else
                     {
-                        return Array.Empty<byte>();
+                        return new(Array.Empty<byte>(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                     }
 
                     stream.Flush();
@@ -113,7 +114,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)

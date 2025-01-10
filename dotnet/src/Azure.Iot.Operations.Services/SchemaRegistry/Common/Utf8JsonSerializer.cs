@@ -26,11 +26,11 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
             }
         };
 
-        public string ContentType => "application/json";
+        public string DefaultContentType => "application/json";
 
-        public int CharacterDataFormatIndicator => 1;
+        public int DefaultPayloadFormatIndicator => 1;
 
-        public T FromBytes<T>(byte[]? payload)
+        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -42,11 +42,11 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return (new EmptyJson() as T)!;
+                    return new((new EmptyJson() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
                 Utf8JsonReader reader = new(payload);
-                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
+                return new(JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
             }
             catch (Exception)
             {
@@ -54,17 +54,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return null;
+                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
 
-                return JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions);
+                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
             }
             catch (Exception)
             {

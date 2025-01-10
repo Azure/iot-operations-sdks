@@ -23,26 +23,26 @@ namespace TestEnvoys
             messageParserT2 = new MessageParser<T2>(() => new T2());
         }
 
-        public string ContentType => "application/protobuf";
+        public string DefaultContentType => "application/protobuf";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int DefaultPayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(T1))
                 {
-                    return (messageParserT1.ParseFrom(payload ?? Array.Empty<byte>()) as T)!;
+                    return new((messageParserT1.ParseFrom(payload ?? Array.Empty<byte>()) as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return (messageParserT2.ParseFrom(payload ?? Array.Empty<byte>()) as T)!;
+                    return new((messageParserT2.ParseFrom(payload ?? Array.Empty<byte>()) as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
                 else
                 {
-                    return default!;
+                    return new(default!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)
@@ -51,26 +51,26 @@ namespace TestEnvoys
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(Empty))
                 {
-                    return null;
+                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T1))
                 {
-                    return (payload as IMessage<T1>).ToByteArray();
+                    return new((payload as IMessage<T1>).ToByteArray(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return (payload as IMessage<T2>).ToByteArray();
+                    return new((payload as IMessage<T2>).ToByteArray(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
                 else
                 {
-                    return Array.Empty<byte>();
+                    return new(Array.Empty<byte>(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)
