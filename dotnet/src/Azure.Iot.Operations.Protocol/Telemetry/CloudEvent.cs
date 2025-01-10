@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,13 +10,9 @@ using System.Text.RegularExpressions;
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
     /// <summary>
-    /// Implements the CloudEvent spec 1.0. The required fields are source, type, id and specversion.
-    /// Id is required but we want to update it in the same instance. 
+    /// Implements the CloudEvent spec 1.0.
     /// See <a href="https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md">CloudEvent Spec</a>
     /// </summary>
-    /// <param name="source"><see cref="Source"/></param>
-    /// <param name="type"><see cref="Type"/></param>
-    /// <param name="specversion"><see cref="SpecVersion"/></param>
     public class CloudEvent
     {
         /// <summary>
@@ -46,6 +41,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///  If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id. 
         ///  Consumers MAY assume that Events with identical source and id are duplicates.
         /// </summary>
+        /// <remarks>
+        /// By default, a random GUID will be used as the value.
+        /// </remarks>
         public string Id { get; internal set; } = Guid.NewGuid().ToString();
 
         /// <summary>
@@ -60,6 +58,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///  Content type of data value. This attribute enables data to carry any type of content, 
         ///  whereby format and encoding might differ from that of the chosen event format.
         /// </summary>
+        /// <remarks>
+        /// This value will be used as the content type of the MQTT message when it is published. Setting this field allows you to override 
+        /// any content type that your serializer will include by default.
+        /// </remarks>
         public string? DataContentType { get; internal set; } // Default value should be the serializer's content type, but this class isn't tied to a serializer yet.
 
         /// <summary>
@@ -84,6 +86,12 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             SpecVersion = specversion;
         }
 
+        /// <summary>
+        /// Construct a cloud event using the metadata received on an MQTT message.
+        /// </summary>
+        /// <param name="contentType">The content type of the MQTT message.</param>
+        /// <param name="userProperties">The user properties of the MQTT message.</param>
+        /// <exception cref="ArgumentException">Thrown if the provided content type or user properties cannot be used to construct a valid cloud event.</exception>
         public CloudEvent(string? contentType, Dictionary<string, string> userProperties)
         {
             string safeGetUserProperty(string name)
@@ -138,6 +146,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
+        /// <summary>
+        /// Converts the CloudEvent to a dictionary of user properties that can be used to create an MQTT message.
+        /// </summary>
+        /// <returns>The dictionary of user properties to add to your outgoing telemetry message.</returns>
         public Dictionary<string, string> ToUserProperties()
         {
             var userProperties = new Dictionary<string, string>
@@ -166,6 +178,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return userProperties;
         }
 
+        /// <summary>
+        /// Gets the MQTT message content type from the CloudEvent.
+        /// </summary>
+        /// <returns>The MQTT message content type if any content type was parsed by <see cref="CloudEvent.CloudEvent(string?, Dictionary{string, string})"/>.</returns>
         public string? ToMqttMessageContentType()
         {
             if (!string.IsNullOrWhiteSpace(DataContentType) && Regex.IsMatch(DataContentType, CloudEventsDataContentTypeRegex))

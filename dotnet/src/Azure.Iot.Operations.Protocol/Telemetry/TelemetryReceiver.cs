@@ -111,6 +111,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     T serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array);
 
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
+                    metadata.ContentType = args.ApplicationMessage.ContentType;
 
                     async Task telemFunc()
                     {
