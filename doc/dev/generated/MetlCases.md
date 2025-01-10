@@ -31,21 +31,13 @@ See below for categorized tests.
 | CommandExecutor receives basic valid request. | CommandExecutor sends response and acknowledges request. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
-| CommandExecutor initialized with empty string as command name. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with idempotent command that has a positive cache TTL. | CommandExecutor starts successfully. |
-| CommandExecutor initialized with idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
+| CommandExecutor initialized with empty string as command name. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a positive cache TTL. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor initialized with null command name. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
 | CommandExecutor receives duplicate non-idempotent request within command timeout. | CommandExecutor does not execute command and responds with value from cache. |
-| CommandExecutor receives equivalent executor-agnostic idempotent request from different Invoker ID beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent executor-agnostic idempotent request from different Invoker ID within cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives equivalent executor-agnostic non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent idempotent request beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
 | CommandExecutor receives equivalent non-idempotent request. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives non-idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |

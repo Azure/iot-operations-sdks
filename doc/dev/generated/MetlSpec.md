@@ -15,7 +15,7 @@ description:
   condition: >-
     CommandExecutor initialized with empty string as command name.
   expect: >-
-    CommandExecutor throws 'invalid configuration' exception.
+    CommandExecutor starts successfully.
 prologue:
   executors:
   - request-topic: "mock/{commandName}/test"
@@ -294,7 +294,7 @@ Each element of the `executors` array can have the following child keys:
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request MQTT topic pattern. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | idempotent | drive | no | boolean | False | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
-| cache-ttl | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
+| cache-ttl | drive | no | [Duration](#duration) or null | null | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |

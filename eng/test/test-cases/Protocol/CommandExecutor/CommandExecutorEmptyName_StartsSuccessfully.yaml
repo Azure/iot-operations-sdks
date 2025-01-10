@@ -4,7 +4,7 @@ description:
   condition: >-
     CommandExecutor initialized with empty string as command name.
   expect: >-
-    CommandExecutor throws 'invalid configuration' exception.
+    CommandExecutor starts successfully.
 
 prologue:
   executors:
