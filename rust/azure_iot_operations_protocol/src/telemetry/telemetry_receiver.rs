@@ -13,8 +13,7 @@ use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
-        is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
+        payload_serialize::{PayloadSerialize, FormatIndicator},
         topic_processor::TopicPattern,
         user_properties::{UserProperty, RESERVED_PREFIX},
     },
@@ -242,25 +241,11 @@ where
     ///   or contain a token with no valid replacement
     /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
-    /// - Content type of the telemetry message is not valid utf-8
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
-        // Validate content type of telemetry message is valid UTF-8
-        if is_invalid_utf8(T::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(T::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of telemetry message type is not valid UTF-8",
-                    T::content_type()
-                )),
-                None,
-            ));
-        }
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
         let topic_pattern = TopicPattern::new(
@@ -440,16 +425,15 @@ where
                             let mut timestamp = None;
                             let mut cloud_event = None;
                             let mut sender_id = None;
+                            let mut content_type = None;
+                            let mut format_indicator = FormatIndicator::UnspecifiedBytes;
 
                             if let Some(properties) = properties {
                                 // Get content type
-                                if let Some(content_type) = &properties.content_type {
-                                    if T::content_type() != content_type {
-                                        log::error!(
-                                            "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
-                                        );
-                                        break 'process_message;
-                                    }
+                                content_type = properties.content_type;
+                                // Get format indicator
+                                if let Some(payload_format_indicator) = properties.payload_format_indicator {
+                                    format_indicator = payload_format_indicator.into();
                                 }
 
                                 // unused beyond validation, but may be used in the future to determine how to handle other fields.
@@ -579,7 +563,7 @@ where
                             let topic_tokens = self.topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
-                            let payload = match T::deserialize(&m.payload) {
+                            let payload = match T::deserialize(&m.payload, &content_type, &format_indicator) {
                                 Ok(p) => p,
                                 Err(e) => {
                                     log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
@@ -655,7 +639,7 @@ mod tests {
     use crate::{
         common::{
             aio_protocol_error::AIOProtocolErrorKind,
-            payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
+            payload_serialize::MockPayload,
         },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
@@ -664,28 +648,28 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    // Payload that has an invalid content type for testing
-    struct InvalidContentTypePayload {}
-    impl Clone for InvalidContentTypePayload {
-        fn clone(&self) -> Self {
-            unimplemented!()
-        }
-    }
-    impl PayloadSerialize for InvalidContentTypePayload {
-        type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn format_indicator() -> FormatIndicator {
-            unimplemented!()
-        }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
-            unimplemented!()
-        }
-        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-            unimplemented!()
-        }
-    }
+    // // Payload that has an invalid content type for testing
+    // struct InvalidContentTypePayload {}
+    // impl Clone for InvalidContentTypePayload {
+    //     fn clone(&self) -> Self {
+    //         unimplemented!()
+    //     }
+    // }
+    // impl PayloadSerialize for InvalidContentTypePayload {
+    //     type Error = String;
+    //     fn content_type() -> &'static str {
+    //         "application/json\u{0000}"
+    //     }
+    //     fn format_indicator() -> FormatIndicator {
+    //         unimplemented!()
+    //     }
+    //     fn serialize(&self) -> Result<Vec<u8>, String> {
+    //         unimplemented!()
+    //     }
+    //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+    //         unimplemented!()
+    //     }
+    // }
 
     // TODO: This should return a mock Session instead
     fn get_session() -> Session {
@@ -708,14 +692,6 @@ mod tests {
 
     #[test]
     fn test_new_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/receiver")
@@ -728,14 +704,6 @@ mod tests {
 
     #[test]
     fn test_new_override_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/{telemetryName}/receiver")
@@ -748,48 +716,40 @@ mod tests {
             .unwrap();
     }
 
-    #[test]
-    fn test_invalid_telemetry_content_type() {
-        let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
-            .topic_pattern("test/receiver")
-            .build()
-            .unwrap();
+    // #[test]
+    // fn test_invalid_telemetry_content_type() {
+    //     let session = get_session();
+    //     let receiver_options = TelemetryReceiverOptionsBuilder::default()
+    //         .topic_pattern("test/receiver")
+    //         .build()
+    //         .unwrap();
 
-        let telemetry_receiver: Result<
-            TelemetryReceiver<InvalidContentTypePayload, _>,
-            AIOProtocolError,
-        > = TelemetryReceiver::new(session.create_managed_client(), receiver_options);
+    //     let telemetry_receiver: Result<
+    //         TelemetryReceiver<InvalidContentTypePayload, _>,
+    //         AIOProtocolError,
+    //     > = TelemetryReceiver::new(session.create_managed_client(), receiver_options);
 
-        match telemetry_receiver {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("content_type".to_string()));
-                assert!(
-                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-                );
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
+    //     match telemetry_receiver {
+    //         Err(e) => {
+    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+    //             assert!(!e.in_application);
+    //             assert!(e.is_shallow);
+    //             assert!(!e.is_remote);
+    //             assert_eq!(e.http_status_code, None);
+    //             assert_eq!(e.property_name, Some("content_type".to_string()));
+    //             assert!(
+    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+    //             );
+    //         }
+    //         Ok(_) => {
+    //             panic!("Expected error");
+    //         }
+    //     }
+    // }
 
     #[test_case(""; "new_empty_topic_pattern")]
     #[test_case(" "; "new_whitespace_topic_pattern")]
     fn test_new_empty_topic_pattern(topic_pattern: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern(topic_pattern)
@@ -820,14 +780,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-        let session = get_session();
+       let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/receiver")
             .build()

@@ -7,7 +7,7 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload};
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
@@ -91,40 +91,30 @@ pub enum IncrSerializerError {}
 
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
+    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
         // This is a request payload, executor does not need to serialize it
         unimplemented!()
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, IncrSerializerError> {
+    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<IncrRequestPayload, PayloadError<IncrSerializerError>> {
         Ok(IncrRequestPayload {})
     }
 }
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(&self) -> Result<Vec<u8>, IncrSerializerError> {
+    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
-        Ok(payload.into_bytes())
+        Ok(SerializedPayload {
+            payload: payload.into_bytes(),
+            content_type: "application/json",
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrResponsePayload, IncrSerializerError> {
+    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<IncrResponsePayload, PayloadError<IncrSerializerError>> {
         // This is a response payload, executor does not need to deserialize it
         unimplemented!()
     }

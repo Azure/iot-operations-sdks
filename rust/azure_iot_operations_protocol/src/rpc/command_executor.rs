@@ -17,7 +17,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
+        payload_serialize::{PayloadError, PayloadSerialize, SerializedPayload},
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
@@ -137,7 +137,7 @@ where
 {
     /// Payload of the command response.
     #[builder(setter(custom))]
-    payload: Vec<u8>,
+    serialized_payload: SerializedPayload,
     /// Strongly link `CommandResponse` with type `TResp`
     #[builder(private)]
     response_payload_type: PhantomData<TResp>,
@@ -153,11 +153,37 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::Error> {
-        let serialized_payload = payload.serialize()?;
-        self.payload = Some(serialized_payload);
-        self.response_payload_type = Some(PhantomData);
-        Ok(self)
+    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, AIOProtocolError> {
+        match payload.serialize() {
+            Err(e) => {
+                Err(AIOProtocolError::new_payload_invalid_error(
+                    true,
+                    false,
+                    Some(e.into()),
+                    None,
+                    Some("Payload serialization error".to_string()),
+                    None, // TODO: ?
+                ))
+            }
+            Ok(serialized_payload) => {
+                // Validate content type of command request is valid UTF-8
+                if is_invalid_utf8(serialized_payload.content_type) {
+                    return Err(AIOProtocolError::new_configuration_invalid_error(
+                        None,
+                        "content_type",
+                        Value::String(serialized_payload.content_type.to_string()),
+                        Some(format!(
+                            "Content type '{}' of command response is not valid UTF-8",
+                            serialized_payload.content_type
+                        )),
+                        None,
+                    ));
+                }
+                self.serialized_payload = Some(serialized_payload);
+                self.response_payload_type = Some(PhantomData);
+                Ok(self)
+            }
+        }
     }
 
     /// Validate the command response.
@@ -290,37 +316,10 @@ where
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
-    /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
-        // Validate content type of request is valid utf-8
-        if is_invalid_utf8(TReq::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TReq::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of request type is not valid UTF-8",
-                    TReq::content_type()
-                )),
-                Some(executor_options.command_name),
-            ));
-        }
-        // Validate content type of response is valid utf-8
-        if is_invalid_utf8(TResp::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TResp::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of response type is not valid UTF-8",
-                    TResp::content_type()
-                )),
-                Some(executor_options.command_name),
-            ));
-        }
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
         if executor_options.command_name.is_empty()
@@ -616,17 +615,6 @@ where
                                 break 'process_request;
                             }
 
-                            // Get content type
-                            if let Some(content_type) = properties.content_type {
-                                if TReq::content_type() != content_type {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Content type {content_type} is not supported by this implementation; only {} is accepted", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Content Type".to_string());
-                                    response_arguments.invalid_property_value = Some(content_type);
-                                    break 'process_request;
-                                }
-                            };
-
                             // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
                             let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
                             if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
@@ -723,12 +711,24 @@ where
                             let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
-                            let payload = match TReq::deserialize(&m.payload) {
+                            let payload = match TReq::deserialize(&m.payload, &properties.content_type, &properties.payload_format_indicator.into()) {
                                 Ok(payload) => payload,
                                 Err(e) => {
-                                    response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e:?}"));
-                                    break 'process_request;
+                                    match e {
+                                        PayloadError::DeserializationError(deserialization_e) => {
+                                            response_arguments.status_code = StatusCode::BadRequest;
+                                            response_arguments.status_message = Some(format!("Error deserializing payload: {deserialization_e:?}"));
+                                            break 'process_request;
+                                        }
+                                        PayloadError::UnsupportedContentType(message) => {
+                                            response_arguments.status_code = StatusCode::UnsupportedMediaType;
+                                            response_arguments.status_message = Some(message);
+                                            response_arguments.invalid_property_name = Some("Content Type".to_string());
+                                            response_arguments.invalid_property_value = Some(properties.content_type.unwrap_or("None".to_string()));
+                                            break 'process_request;
+                                        }
+                                    }
+                                    
                                 }
                             };
 
@@ -825,7 +825,7 @@ where
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
     ) {
         let mut user_properties: Vec<(String, String)> = Vec::new();
-        let mut payload = Vec::new();
+        let mut serialized_payload = SerializedPayload::default();
         'process_response: {
             let Some(command_expiration_time) = response_arguments.command_expiration_time else {
                 break 'process_response;
@@ -868,9 +868,9 @@ where
                 user_properties = response.custom_user_data;
 
                 // Serialize payload
-                payload = response.payload;
+                serialized_payload = response.serialized_payload;
 
-                if payload.is_empty() {
+                if serialized_payload.payload.is_empty() {
                     response_arguments.status_code = StatusCode::NoContent;
                 }
             } else { /* Error */
@@ -970,14 +970,14 @@ where
 
         // Create publish properties
         let publish_properties = PublishProperties {
-            payload_format_indicator: Some(TResp::format_indicator() as u8),
+            payload_format_indicator: Some(serialized_payload.format_indicator as u8),
             message_expiry_interval: Some(message_expiry_interval),
             topic_alias: None,
             response_topic: None,
             correlation_data: response_arguments.correlation_data,
             user_properties,
             subscription_identifiers: Vec::new(),
-            content_type: Some(TResp::content_type().to_string()),
+            content_type: Some(serialized_payload.content_type.to_string()),
         };
 
         // Try to publish
@@ -986,7 +986,7 @@ where
                 response_arguments.response_topic,
                 QoS::AtLeastOnce,
                 false,
-                payload,
+                serialized_payload.payload,
                 publish_properties,
             )
             .await
@@ -1035,31 +1035,31 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
+        payload_serialize::MockPayload,
     };
 
-    // Payload that has an invalid content type for testing
-    struct InvalidContentTypePayload {}
-    impl Clone for InvalidContentTypePayload {
-        fn clone(&self) -> Self {
-            unimplemented!()
-        }
-    }
-    impl PayloadSerialize for InvalidContentTypePayload {
-        type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn format_indicator() -> FormatIndicator {
-            unimplemented!()
-        }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
-            unimplemented!()
-        }
-        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-            unimplemented!()
-        }
-    }
+    // // Payload that has an invalid content type for testing
+    // struct InvalidContentTypePayload {}
+    // impl Clone for InvalidContentTypePayload {
+    //     fn clone(&self) -> Self {
+    //         unimplemented!()
+    //     }
+    // }
+    // impl PayloadSerialize for InvalidContentTypePayload {
+    //     type Error = String;
+    //     fn content_type() -> &'static str {
+    //         "application/json\u{0000}"
+    //     }
+    //     fn format_indicator() -> FormatIndicator {
+    //         unimplemented!()
+    //     }
+    //     fn serialize(&self) -> Result<Vec<u8>, String> {
+    //         unimplemented!()
+    //     }
+    //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {
+    //         unimplemented!()
+    //     }
+    // }
 
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
@@ -1086,14 +1086,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
@@ -1118,14 +1110,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
@@ -1150,102 +1134,78 @@ mod tests {
         assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
     }
 
-    #[test]
-    fn test_invalid_request_content_type() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
+    // #[test]
+    // fn test_invalid_request_content_type() {
+    //     let session = create_session();
+    //     let managed_client = session.create_managed_client();
 
-        let session = create_session();
-        let managed_client = session.create_managed_client();
+    //     let executor_options = CommandExecutorOptionsBuilder::default()
+    //         .request_topic_pattern("test/{commandName}/request")
+    //         .command_name("test_command_name")
+    //         .build()
+    //         .unwrap();
 
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/request")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
+    //     let executor: Result<
+    //         CommandExecutor<InvalidContentTypePayload, MockPayload, _>,
+    //         AIOProtocolError,
+    //     > = CommandExecutor::new(managed_client, executor_options);
 
-        let executor: Result<
-            CommandExecutor<InvalidContentTypePayload, MockPayload, _>,
-            AIOProtocolError,
-        > = CommandExecutor::new(managed_client, executor_options);
+    //     match executor {
+    //         Err(e) => {
+    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+    //             assert!(!e.in_application);
+    //             assert!(e.is_shallow);
+    //             assert!(!e.is_remote);
+    //             assert_eq!(e.http_status_code, None);
+    //             assert_eq!(e.property_name, Some("content_type".to_string()));
+    //             assert!(
+    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+    //             );
+    //         }
+    //         Ok(_) => {
+    //             panic!("Expected error");
+    //         }
+    //     }
+    // }
 
-        match executor {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("content_type".to_string()));
-                assert!(
-                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-                );
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
+    // #[test]
+    // fn test_invalid_response_content_type() {
+    //     let session = create_session();
+    //     let managed_client = session.create_managed_client();
 
-    #[test]
-    fn test_invalid_response_content_type() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
+    //     let executor_options = CommandExecutorOptionsBuilder::default()
+    //         .request_topic_pattern("test/{commandName}/request")
+    //         .command_name("test_command_name")
+    //         .build()
+    //         .unwrap();
 
-        let session = create_session();
-        let managed_client = session.create_managed_client();
+    //     let executor: Result<
+    //         CommandExecutor<MockPayload, InvalidContentTypePayload, _>,
+    //         AIOProtocolError,
+    //     > = CommandExecutor::new(managed_client, executor_options);
 
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/request")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
-
-        let executor: Result<
-            CommandExecutor<MockPayload, InvalidContentTypePayload, _>,
-            AIOProtocolError,
-        > = CommandExecutor::new(managed_client, executor_options);
-
-        match executor {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("content_type".to_string()));
-                assert!(
-                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-                );
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
+    //     match executor {
+    //         Err(e) => {
+    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+    //             assert!(!e.in_application);
+    //             assert!(e.is_shallow);
+    //             assert!(!e.is_remote);
+    //             assert_eq!(e.http_status_code, None);
+    //             assert_eq!(e.property_name, Some("content_type".to_string()));
+    //             assert!(
+    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+    //             );
+    //         }
+    //         Ok(_) => {
+    //             panic!("Expected error");
+    //         }
+    //     }
+    // }
 
     #[test_case(""; "empty command name")]
     #[test_case(" "; "whitespace command name")]
     #[tokio::test]
     async fn test_new_empty_and_whitespace_command_name(command_name: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1280,14 +1240,6 @@ mod tests {
     #[test_case("test/{commandName}/\u{0}/request"; "invalid request topic pattern")]
     #[tokio::test]
     async fn test_invalid_request_topic_string(request_topic: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1325,14 +1277,6 @@ mod tests {
     #[test_case("test/\u{0}"; "invalid topic namespace")]
     #[tokio::test]
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
@@ -1365,14 +1309,6 @@ mod tests {
     #[test_case(Duration::from_secs(60); "cacheable duration positive")]
     #[tokio::test]
     async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let executor_options = CommandExecutorOptionsBuilder::default()
@@ -1391,14 +1327,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_non_idempotent_command_with_positive_cacheable_duration() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1433,13 +1361,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
         let session = create_session();
         let executor_options = CommandExecutorOptionsBuilder::default()
             .request_topic_pattern("test/request")

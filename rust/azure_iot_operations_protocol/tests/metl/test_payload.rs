@@ -4,7 +4,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json;
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct TestPayload {
@@ -20,19 +20,22 @@ pub struct TestPayload {
 impl PayloadSerialize for TestPayload {
     type Error = serde_json::Error;
 
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(&self) -> Result<SerializedPayload, Self::Error> {
+        match serde_json::to_vec(self) {
+            Ok(payload) => Ok(SerializedPayload {
+                payload,
+                content_type: "application/json",
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            }),
+            Err(e) => Err(e),
+        }
     }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
-        serde_json::to_vec(self)
-    }
-
-    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error> {
-        serde_json::from_slice(payload)
+    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<Self, PayloadError<Self::Error>> {
+        if *content_type != Some("application/json".to_string()) {
+            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/json'")));
+            // return Err(serde_json::Error::custom(format!("Invalid content type: '{:?}'. Must be 'application/json'", content_type)));
+        }
+        serde_json::from_slice(payload).map_err(|e| PayloadError::DeserializationError(e))
     }
 }

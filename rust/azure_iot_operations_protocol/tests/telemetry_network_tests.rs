@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
+    common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
         telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -107,16 +107,15 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
+
+    fn serialize(&self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: Vec::new(),
+            content_type: "application/octet-stream",
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
-        Ok("".into())
-    }
-    fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
+    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<EmptyPayload, PayloadError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -226,23 +225,25 @@ pub struct DataPayload {
 }
 impl PayloadSerialize for DataPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(&self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
+                self.external_temperature, self.internal_temperature
+            )
+            .into(),
+            content_type: "application/json",
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
-            self.external_temperature, self.internal_temperature
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataPayload, String> {
+    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<DataPayload, PayloadError<String>> {
+        if *content_type != Some("application/json".to_string()) {
+            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/json'")));
+        }
+
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -251,7 +252,7 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(ext_temp) => ext_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
         };
         let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
@@ -259,7 +260,7 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(int_temp) => int_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
         };
 
         Ok(DataPayload {
@@ -327,7 +328,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
+                            "application/json"
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
@@ -351,7 +352,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(
                             cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
+                            "application/json"
                         );
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
