@@ -17,12 +17,12 @@ public class CloudEventsTests
         Assert.Equal("1.0", metadata.SpecVersion);
         Assert.Equal("tel-type", metadata.Type);
         Assert.Equal("a", metadata.Source!.ToString());
-        Assert.Null(metadata.Id);
+        Assert.NotNull(metadata.Id);
 
         Assert.Null(metadata.DataContentType);
         Assert.Null(metadata.DataSchema);
         Assert.Null(metadata.Subject);
-        Assert.Null(metadata.Time);
+        Assert.NotNull(metadata.Time);
     }
 
     [Fact]
@@ -105,20 +105,19 @@ public class CloudEventsTests
 
         Assert.Equal(dataContentType, cloudEvent.ToMqttMessageContentType());
         Dictionary<string, string> userProperties = cloudEvent.ToUserProperties();
-        Assert.True(userProperties.ContainsKey("SpecVersion"));
-        Assert.Equal(specVersion, userProperties["SpecVersion"]);
-        Assert.True(userProperties.ContainsKey("Id"));
-        Assert.Equal(id, userProperties["Id"]);
-        Assert.True(userProperties.ContainsKey("Type"));
-        Assert.Equal(type, userProperties["Type"]);
-        Assert.True(userProperties.ContainsKey("Source"));
-        Assert.Equal(source.ToString(), userProperties["Source"]);
-        Assert.True(userProperties.ContainsKey("Time"));
-        Assert.Equal(time.ToString("O"), userProperties["Time"]);
-        Assert.True(userProperties.ContainsKey("DataSubject"));
-        Assert.Equal(subject, userProperties["DataSubject"]);
-        Assert.True(userProperties.ContainsKey("DataSchema"));
-        Assert.Equal(dataSchema, userProperties["DataSchema"]);
-
+        Assert.True(userProperties.ContainsKey("specversion"));
+        Assert.Equal(specVersion, userProperties["specversion"]);
+        Assert.True(userProperties.ContainsKey("id"));
+        Assert.Equal(id, userProperties["id"]);
+        Assert.True(userProperties.ContainsKey("type"));
+        Assert.Equal(type, userProperties["type"]);
+        Assert.True(userProperties.ContainsKey("source"));
+        Assert.Equal(source.ToString(), userProperties["source"]);
+        Assert.True(userProperties.ContainsKey("time"));
+        Assert.Equal(time.ToString("O"), userProperties["time"]);
+        Assert.True(userProperties.ContainsKey("subject"));
+        Assert.Equal(subject, userProperties["subject"]);
+        Assert.True(userProperties.ContainsKey("dataschema"));
+        Assert.Equal(dataSchema, userProperties["dataschema"]);
     }
 }

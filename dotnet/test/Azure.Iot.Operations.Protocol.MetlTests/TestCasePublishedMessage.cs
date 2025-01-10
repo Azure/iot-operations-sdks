@@ -20,5 +20,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public string? SourceId { get; set; }
 
         public int? Expiry { get; set; }
+
+        public string? ContentType { get; set; }
     }
 }

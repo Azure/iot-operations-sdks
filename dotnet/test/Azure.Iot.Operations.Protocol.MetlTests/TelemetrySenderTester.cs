@@ -312,19 +312,39 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 CloudEvent cloudEvent;
                 if (actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null)
                 {
-                    cloudEvent = new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion);
+                    cloudEvent = new(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion)
+                    {
+                        DataContentType = actionSendTelemetry.CloudEvent.DataContentType,
+                        DataSchema = actionSendTelemetry.CloudEvent.DataSchema,
+                        Subject = actionSendTelemetry.CloudEvent.Subject,
+                    };
                 }
-                else if (actionSendTelemetry.CloudEvent.Type != null)
+                else if (actionSendTelemetry.CloudEvent.Type == null && actionSendTelemetry.CloudEvent.SpecVersion != null)
                 {
-                    cloudEvent = new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type);
+                    cloudEvent = new(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion)
+                    {
+                        DataContentType = actionSendTelemetry.CloudEvent.DataContentType,
+                        DataSchema = actionSendTelemetry.CloudEvent.DataSchema,
+                        Subject = actionSendTelemetry.CloudEvent.Subject,
+                    };
                 }
-                else if (actionSendTelemetry.CloudEvent.SpecVersion != null)
+                else if (actionSendTelemetry.CloudEvent.SpecVersion == null && actionSendTelemetry.CloudEvent.Type != null)
                 {
-                    cloudEvent = new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion);
+                    cloudEvent = new(sourceUri, actionSendTelemetry.CloudEvent.Type)
+                    {
+                        DataContentType = actionSendTelemetry.CloudEvent.DataContentType,
+                        DataSchema = actionSendTelemetry.CloudEvent.DataSchema,
+                        Subject = actionSendTelemetry.CloudEvent.Subject,
+                    };
                 }
                 else
                 {
-                    cloudEvent = new CloudEvent(sourceUri);
+                    cloudEvent = new(sourceUri)
+                    {
+                        DataContentType = actionSendTelemetry.CloudEvent.DataContentType,
+                        DataSchema = actionSendTelemetry.CloudEvent.DataSchema,
+                        Subject = actionSendTelemetry.CloudEvent.Subject,
+                    };
                 }
 
                 metadata = new OutgoingTelemetryMetadata();
@@ -392,7 +412,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)
             {
-                if (kvp.Value != null)
+                if (kvp.Value != null && kvp.Value.Equals("datacontenttype"))
+                {
+                    Assert.Equal(kvp.Value, publishedMessage.ContentType);
+                }
+                else if (kvp.Value != null)
                 {
                     Assert.True(MqttNetConverter.ToGeneric(appMsg.UserProperties).TryGetProperty(kvp.Key, out string? value), $"header {kvp.Key} not present");
                     Assert.Equal(kvp.Value, value);

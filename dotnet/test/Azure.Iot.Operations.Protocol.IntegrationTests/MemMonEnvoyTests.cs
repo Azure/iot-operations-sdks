@@ -167,7 +167,7 @@ public class MemMonEnvoyTests
         Assert.Equal("test://mq/", memStatsCloudEvent.Source!.ToString());
         Assert.Equal("ms.aio.telemetry", memStatsCloudEvent.Type);
         Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsCloudEvent.Subject);
-        //Assert.Equal("1.0", memStatsMD.CloudEvent.DataSchema);
+        Assert.Equal("1.0", memStatsCloudEvent.DataSchema);
         Assert.Equal("application/avro", memStatsCloudEvent.DataContentType);
         Assert.True(DateTime.TryParse(memStatsCloudEvent.Time!.Value.ToString("o"), out DateTime _));
         Assert.True(Guid.TryParse(memStatsCloudEvent.Id, out Guid _));

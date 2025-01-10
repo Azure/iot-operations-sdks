@@ -16,6 +16,8 @@ actions:
     source: "dtmi:test:myEventSource;1"
     type: "test-type"
     spec-version: "1.0"
+    subject: "mock/test"
+    data-schema: "dtmi:test:MyModel:_contents:__test;1"
 - action: await publish
 - action: await send
 
@@ -23,11 +25,11 @@ epilogue:
   published-messages:
   - topic: "mock/test"
     payload: "Test_Telemetry"
+    content-type: "application/json"
     metadata:
       "source": "dtmi:test:myEventSource;1"
       "type": "test-type"
       "specversion": "1.0"
-      "datacontenttype": "application/json"
       "subject": "mock/test"
       "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ...
