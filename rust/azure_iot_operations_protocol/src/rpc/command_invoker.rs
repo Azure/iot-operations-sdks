@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, thread, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
@@ -10,10 +10,10 @@ use tokio::{
     sync::{
         broadcast::{error::RecvError, Sender},
         Mutex,
+        Notify
     },
     task, time,
 };
-use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use super::StatusCode;
@@ -205,7 +205,7 @@ where
     // Describes state
     invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
-    recv_cancellation_token: CancellationToken,
+    shutdown_notifier: Arc<Notify>,
     response_tx: Sender<Option<Publish>>,
 }
 
@@ -344,19 +344,19 @@ where
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Start the receive response loop
         task::spawn({
             let response_tx_clone = response_tx.clone();
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let command_name_clone = invoker_options.command_name.clone();
             async move {
                 Self::receive_response_loop(
                     mqtt_receiver,
                     response_tx_clone,
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     command_name_clone,
                 )
                 .await;
@@ -371,7 +371,7 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             invoker_state_mutex,
-            recv_cancellation_token,
+            shutdown_notifier,
             response_tx,
         })
     }
@@ -702,16 +702,16 @@ where
     async fn receive_response_loop(
         mut mqtt_receiver: C::PubReceiver,
         response_tx: Sender<Option<Publish>>,
-        recv_cancellation_token: CancellationToken,
+        shutdown_notifier: Arc<Notify>,
         command_name: String,
     ) {
         loop {
             tokio::select! {
-                  // on shutdown/drop, this cancellation token will be called so this loop can exit
-                  () = recv_cancellation_token.cancelled() => {
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
                     mqtt_receiver.close();
-                    log::info!("[{command_name}] Receive response loop cancelled");
-                    break;
+                    log::info!("[{command_name}] MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv() => {
                     if let Some((m, ack_token)) = recv_result {
@@ -738,46 +738,16 @@ where
                                 log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                             }
                         }
-                        log::error!("[{command_name}] MqttReceiver closed");
+                        log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }
                 }
             }
         }
-        // receive any more publishes that are in the queue
-        loop {
-            if let Some((m, ack_token)) = mqtt_receiver.recv().await {
-                // Send to pending command listeners
-                match response_tx.send(Some(m)) {
-                    Ok(_) => {}
-                    Err(e) => {
-                        log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
-                    }
-                }
-                // Manually ack
-                if let Some(ack_token) = ack_token {
-                    match ack_token.ack().await {
-                        Ok(_) => {}
-                        Err(e) => {
-                            log::error!("[{command_name}] Error acking message: {e}");
-                        }
-                    }
-                }
-            } else {
-                match response_tx.send(None) {
-                    Ok(_) => {}
-                    Err(e) => {
-                        log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
-                    }
-                }
-                log::error!("[{command_name}] MqttReceiver closed");
-                break;
-            }
-        }
     }
 
-    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
-    /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and closes the
+    /// MQTT receiver to stop receiving messages.
     ///
     /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
@@ -786,8 +756,8 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to close the MQTT Receiver
+        self.shutdown_notifier.notify_one();
 
         let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
         match *invoker_state_mutex_guard {
@@ -1143,8 +1113,8 @@ where
             async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
         });
 
-        // Cancel the receiver loop to drop the receiver
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to close the MQTT receiver
+        self.shutdown_notifier.notify_one();
         log::info!("[{}] Invoker has been dropped", self.command_name);
     }
 }
@@ -1949,7 +1919,7 @@ mod tests {
 //     publish received on the correct topic, gets sent to pending command requests
 //     publish received on a different topic, message ignored
 //     publish received on the correct topic, no pending commands. Message ignored
-//     receive cancellation token is called and the loop exits
+//     shutdown notifier is notified and the MQTT receiver is closed
 //     mqtt_receiver sends a lagged error
 //     mqtt_receiver sends a closed error
 // Tests failure:
