@@ -51,3 +51,11 @@ test-case.workspace = true
 
 [lints]
 workspace = true
+
+[[example]]
+name = "state_store_client"
+required-features = ["state_store"]
+
+[[example]]
+name = "schema_registry_client"
+required-features = ["schema_registry"]
