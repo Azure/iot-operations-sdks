@@ -220,7 +220,7 @@ pub struct TelemetrySenderOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -239,7 +239,7 @@ pub struct TelemetrySenderOptions {
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .qos(QoS::AtLeastOnce)
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {

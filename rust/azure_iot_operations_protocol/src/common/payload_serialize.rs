@@ -31,7 +31,7 @@ pub enum FormatIndicator {
 ///   fn format_indicator() -> FormatIndicator {
 ///    FormatIndicator::Utf8EncodedCharacterData
 ///   }
-///   fn serialize(&self) -> Result<Vec<u8>, String> {
+///   fn serialize(self) -> Result<Vec<u8>, String> {
 ///     let response = format!("{{\"latitude\": {}, \"longitude\": {}}}", self.latitude, self.longitude);
 ///     Ok(response.as_bytes().to_vec())
 ///   }

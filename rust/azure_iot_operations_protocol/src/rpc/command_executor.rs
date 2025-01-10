@@ -212,7 +212,7 @@ pub struct CommandExecutorOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()

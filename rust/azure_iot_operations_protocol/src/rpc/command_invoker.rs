@@ -153,7 +153,7 @@ pub struct CommandInvokerOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -176,7 +176,7 @@ pub struct CommandInvokerOptions {
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
