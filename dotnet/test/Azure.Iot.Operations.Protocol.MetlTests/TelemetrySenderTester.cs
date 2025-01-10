@@ -309,21 +309,28 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 Uri sourceUri = new Uri(actionSendTelemetry.CloudEvent.Source!, UriKind.RelativeOrAbsolute);
 
+                CloudEvent cloudEvent;
                 if (actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null)
                 {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion);
+                    cloudEvent = new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion);
                 }
                 else if (actionSendTelemetry.CloudEvent.Type != null)
                 {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type);
+                    cloudEvent = new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type);
                 }
                 else if (actionSendTelemetry.CloudEvent.SpecVersion != null)
                 {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion);
+                    cloudEvent = new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion);
                 }
                 else
                 {
-                    metadata.CloudEvent = new CloudEvent(sourceUri);
+                    cloudEvent = new CloudEvent(sourceUri);
+                }
+
+                metadata = new OutgoingTelemetryMetadata();
+                foreach (string userProperty in cloudEvent.ToUserProperties().Keys)
+                {
+                    metadata.UserData.Add(userProperty, cloudEvent.ToUserProperties()[userProperty]);
                 }
             }
 

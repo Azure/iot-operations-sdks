@@ -112,7 +112,13 @@ public class MemMonEnvoyTests
         var memoryStatsCorrelationId = Guid.NewGuid();
         var memoryStatsUserDataKey = Guid.NewGuid().ToString();
         var memoryStatsUserDataValue = Guid.NewGuid().ToString();
-        var memoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
+
+        var memoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata();
+        CloudEvent cloudEvent1 = new CloudEvent(new Uri("test://mq"));
+        foreach (string userProperty in cloudEvent1.ToUserProperties().Keys)
+        {
+            memoryStatsTelemetryMetadata.UserData.Add(userProperty, cloudEvent1.ToUserProperties()[userProperty]);
+        }
         memoryStatsTelemetryMetadata.UserData.Add(memoryStatsUserDataKey, memoryStatsUserDataValue);
         await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { memoryStats = new Object_MemoryStats { managedMemory = 3, workingSet = 4 } }, memoryStatsTelemetryMetadata);
 
@@ -126,7 +132,14 @@ public class MemMonEnvoyTests
         var managedMemoryCorrelationId = Guid.NewGuid();
         var managedMemoryUserDataKey = Guid.NewGuid().ToString();
         var managedMemoryUserDataValue = Guid.NewGuid().ToString();
-        var managedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
+
+        CloudEvent cloudEvent2 = new CloudEvent(new Uri("test://mq"));
+        var managedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata();
+        foreach (string userProperty in cloudEvent2.ToUserProperties().Keys)
+        {
+            managedMemoryTelemetryMetadata.UserData.Add(userProperty, cloudEvent2.ToUserProperties()[userProperty]);
+        }
+
         managedMemoryTelemetryMetadata.UserData.Add(managedMemoryUserDataKey, managedMemoryUserDataValue);
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { managedMemory = 2 }, managedMemoryTelemetryMetadata);
 
@@ -149,15 +162,15 @@ public class MemMonEnvoyTests
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
         Assert.Equal(8, memStatsMD.UserData.Count);
-        Assert.NotNull(memStatsMD.CloudEvent);
-        Assert.Equal("1.0", memStatsMD.CloudEvent.SpecVersion);
-        Assert.Equal("test://mq/", memStatsMD.CloudEvent.Source!.ToString());
-        Assert.Equal("ms.aio.telemetry", memStatsMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsMD.CloudEvent.Subject);
+        CloudEvent memStatsCloudEvent = new(memStatsMD.ContentType, memStatsMD.UserData);
+        Assert.Equal("1.0", memStatsCloudEvent.SpecVersion);
+        Assert.Equal("test://mq/", memStatsCloudEvent.Source!.ToString());
+        Assert.Equal("ms.aio.telemetry", memStatsCloudEvent.Type);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsCloudEvent.Subject);
         //Assert.Equal("1.0", memStatsMD.CloudEvent.DataSchema);
-        Assert.Equal("application/avro", memStatsMD.CloudEvent.DataContentType);
-        Assert.True(DateTime.TryParse(memStatsMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
-        Assert.True(Guid.TryParse(memStatsMD.CloudEvent.Id, out Guid _));
+        Assert.Equal("application/avro", memStatsCloudEvent.DataContentType);
+        Assert.True(DateTime.TryParse(memStatsCloudEvent.Time!.Value.ToString("o"), out DateTime _));
+        Assert.True(Guid.TryParse(memStatsCloudEvent.Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, memStatsMD.SenderId);
 
 
@@ -165,14 +178,15 @@ public class MemMonEnvoyTests
         Assert.NotNull(managedMemoryMD);
         Assert.NotNull(managedMemoryMD.UserData);
         Assert.Equal(8, managedMemoryMD.UserData.Count);
-        Assert.Equal("1.0", managedMemoryMD.CloudEvent!.SpecVersion);
-        Assert.Equal("test://mq/", managedMemoryMD.CloudEvent.Source!.ToString());
-        Assert.Equal("ms.aio.telemetry", managedMemoryMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/managedMemory", managedMemoryMD.CloudEvent.Subject);
-        //Assert.Equal("1.0", managedMemoryMD.CloudEvent.DataSchema);
-        Assert.Equal("application/avro", managedMemoryMD.CloudEvent.DataContentType);
-        Assert.True(DateTime.TryParse(managedMemoryMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
-        Assert.True(Guid.TryParse(managedMemoryMD.CloudEvent.Id, out Guid _));
+        CloudEvent managedMemoryCloudEvent = new(managedMemoryMD.ContentType, managedMemoryMD.UserData);
+        Assert.Equal("1.0", managedMemoryCloudEvent.SpecVersion);
+        Assert.Equal("test://mq/", managedMemoryCloudEvent.Source!.ToString());
+        Assert.Equal("ms.aio.telemetry", managedMemoryCloudEvent.Type);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/managedMemory", managedMemoryCloudEvent.Subject);
+        Assert.Equal("1.0", managedMemoryCloudEvent.DataSchema);
+        Assert.Equal("application/avro", managedMemoryCloudEvent.DataContentType);
+        Assert.True(DateTime.TryParse(managedMemoryCloudEvent.Time!.Value.ToString("o"), out DateTime _));
+        Assert.True(Guid.TryParse(managedMemoryCloudEvent.Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, managedMemoryMD.SenderId);
 
 

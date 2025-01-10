@@ -528,7 +528,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     new ApplicationException(testCaseReceiver.RaiseError.Message);
             }
 
-            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, sourceId));
+            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, new CloudEvent(metadata.ContentType, metadata.UserData), sourceId));
         }
 
         private record ReceivedTelemetry

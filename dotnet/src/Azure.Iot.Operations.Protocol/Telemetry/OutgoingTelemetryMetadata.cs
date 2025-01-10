@@ -17,16 +17,20 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// A message sent by a <see cref="TelemetrySender{T}"/> will include a non-null timestamp. A message sent 
         /// by anything else may or may not include this timestamp.
         /// </remarks>
-        public HybridLogicalClock Timestamp { get; }
+        public HybridLogicalClock Timestamp { get; set; }
 
         /// <summary>
         /// A dictionary of user properties that are sent along with the telemetry message from the TelemetrySender.
         /// </summary>
-        public Dictionary<string, string> UserData { get; }
+        public Dictionary<string, string> UserData { get; set; }
 
-
-
-        public CloudEvent? CloudEvent { get; set; }
+        /// <summary>
+        /// The content type to attach to this outgoing telemetry message. If no content type is specified, the content type of the serializer will be used.
+        /// </summary>
+        /// <remarks>
+        /// Overriding the content type that the serializer would set may be useful in cloud event scenarios.
+        /// </remarks>
+        public string? ContentType { get; set; }
 
         /// <summary>
         /// Construct an instance with the default values.

@@ -21,17 +21,17 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
 
         var schemaInfo = await srClient.PutAsync(File.ReadAllText("OvenTelemetry.schema.json"), SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema);
 
-        
+        CloudEvent cloudEvent = new CloudEvent(new Uri("aio://oven/sample"))
+        {
+            DataSchema = $"sr://{schemaInfo?.Namespace}/{schemaInfo?.Name}#{schemaInfo?.Version}"
+        };
 
         OutgoingTelemetryMetadata metadata = new()
         {
-            CloudEvent = new CloudEvent(new Uri("aio://oven/sample"))
-            {
-                DataSchema = $"sr://{schemaInfo?.Namespace}/{schemaInfo?.Name}#{schemaInfo?.Version}"
-            }
+            UserData = cloudEvent.ToUserProperties(),
         };
 
-        logger.LogInformation(metadata.CloudEvent.DataSchema);
+        logger.LogInformation(cloudEvent.DataSchema);
 
         int counter = 0;
         while (!stoppingToken.IsCancellationRequested)

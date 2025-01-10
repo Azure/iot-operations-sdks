@@ -24,7 +24,15 @@ internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> 
     public override Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.memoryStats.workingSet, telemetry.memoryStats.managedMemory);
-        logger.LogInformation("Cloud Events Metadata {v1} {v2}", metadata.CloudEvent?.Id, metadata.CloudEvent?.Time);
+        try
+        {
+            CloudEvent cloudEvent = new(metadata.ContentType, metadata.UserData);
+            logger.LogInformation("Cloud Events Metadata {v1} {v2}", cloudEvent?.Id, cloudEvent?.Time);
+        }
+        catch (ArgumentException e)
+        {
+            logger.LogError(e, "Could not parse cloud events");
+        }
         return Task.CompletedTask;
     }
 }

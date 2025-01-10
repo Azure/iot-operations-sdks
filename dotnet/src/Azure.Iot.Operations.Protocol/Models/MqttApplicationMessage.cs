@@ -157,42 +157,9 @@ namespace Azure.Iot.Operations.Protocol.Models
                 AddUserProperty(AkriSystemProperties.Timestamp, md.Timestamp.EncodeToString());
             }
 
-            if (md.CloudEvent is not null)
-            {
-                AddCloudEvents(md.CloudEvent);
-            }
-
             foreach (KeyValuePair<string, string> kvp in md.UserData)
             {
                 AddUserProperty(kvp.Key, kvp.Value);
-            }
-        }
-
-        public void AddCloudEvents(CloudEvent md)
-        {
-            AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
-            AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id!.ToString());
-            AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source!.ToString());
-
-            if (md.Time is not null)
-            {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("O"));
-            }
-
-            if (md.Subject is not null)
-            {
-                AddUserProperty(nameof(md.Subject).ToLowerInvariant(), md.Subject);
-            }
-
-            if (md.DataContentType is not null)
-            {
-                AddUserProperty(nameof(md.DataContentType).ToLowerInvariant(), md.DataContentType);
-            }
-
-            if (md.DataSchema is not null)
-            {
-                AddUserProperty(nameof(md.DataSchema).ToLowerInvariant(), md.DataSchema);
             }
         }
     }

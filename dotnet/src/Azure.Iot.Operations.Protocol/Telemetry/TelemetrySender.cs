@@ -114,19 +114,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             try
             {
-                if (metadata?.CloudEvent is not null)
-                {
-                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time = DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = _serializer.ContentType;
-                    metadata.CloudEvent.DataSchema = DataSchema;
-                }
 
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
                     PayloadFormatIndicator = (MqttPayloadFormatIndicator)_serializer.CharacterDataFormatIndicator,
-                    ContentType = _serializer.ContentType,
+                    ContentType = metadata.ContentType ?? _serializer.ContentType, // This allows users to override the content type that the serializer would default to. This is used primarily in cloud event scenarios.
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
                     PayloadSegment = _serializer.ToBytes(telemetry) ?? [],
                 };

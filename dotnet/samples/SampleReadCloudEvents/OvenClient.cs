@@ -18,35 +18,42 @@ public class OvenClient(MqttSessionClient mqttClient, SchemaRegistryClient schem
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Received telemetry from {senderId} \n", senderId);
-        if (metadata.CloudEvent != null)
+        try
         {
-            logger.LogInformation("CloudEvents: \n" +
-                "id: {id} \n " +
-                "time: {time} \n " +
-                "type: {type}\n " +
-                "source: {source} \n " +
-                "contenttype: {ct} \n " +
-                "dataschema: {ds}", 
-                metadata.CloudEvent.Id, 
-                metadata.CloudEvent.Time,
-                metadata.CloudEvent.Type, 
-                metadata.CloudEvent.Source, 
-                metadata.CloudEvent.DataContentType,
-                metadata.CloudEvent.DataSchema);
-
-            if (schemaCache.ContainsKey(metadata.CloudEvent.DataSchema!))
+            CloudEvent cloudEvent = new CloudEvent(metadata.ContentType, metadata.UserData);
+            if (cloudEvent != null)
             {
-                logger.LogInformation("Schema already cached");
+                logger.LogInformation("CloudEvents: \n" +
+                    "id: {id} \n " +
+                    "time: {time} \n " +
+                    "type: {type}\n " +
+                    "source: {source} \n " +
+                    "contenttype: {ct} \n " +
+                    "dataschema: {ds}",
+                    cloudEvent.Id,
+                    cloudEvent.Time,
+                    cloudEvent.Type,
+                    cloudEvent.Source,
+                    cloudEvent.DataContentType,
+                    cloudEvent.DataSchema);
+
+                if (schemaCache.ContainsKey(cloudEvent.DataSchema!))
+                {
+                    logger.LogInformation("Schema already cached");
+                }
+                else
+                {
+                    logger.LogInformation("Schema not cached, fetching from SR");
+                    Uri schemaUri = new(cloudEvent.DataSchema!);
+                    var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
+                    schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
+                    logger.LogInformation("Schema cached");
+                }
             }
-            else
-            {
-                logger.LogInformation("Schema not cached, fetching from SR");
-                Uri schemaUri = new(metadata.CloudEvent.DataSchema!);
-                var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
-                schemaCache.Add(metadata.CloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
-                logger.LogInformation("Schema cached");
-            }   
-
+        }
+        catch (ArgumentException e)
+        {
+            logger.LogError(e, "Could not parse the cloud event");
         }
     }
 }

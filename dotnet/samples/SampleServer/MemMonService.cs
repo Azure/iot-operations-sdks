@@ -35,18 +35,41 @@ public class MemMonService : Memmon.Service
         });
     }
 
-    public Task SendTelemetryWorkingSet() =>
-        SendTelemetryAsync(
-            new WorkingSetTelemetry() { workingSet = Environment.WorkingSet},
-            new OutgoingTelemetryMetadata() { CloudEvent = _ceWorkingSet });
+    public async Task SendTelemetryWorkingSet()
+    {
+        var metadata = new OutgoingTelemetryMetadata();
+        foreach (string userProperty in _ceWorkingSet.ToUserProperties().Keys)
+        {
+            metadata.UserData.Add(userProperty, _ceWorkingSet.ToUserProperties()[userProperty]);
+        }
 
-    public Task SendTelemetryManagedMemory() =>
-        SendTelemetryAsync(
+        await SendTelemetryAsync(
+            new WorkingSetTelemetry() { workingSet = Environment.WorkingSet },
+            metadata);
+    }
+
+    public async Task SendTelemetryManagedMemory()
+    {
+        var metadata = new OutgoingTelemetryMetadata();
+        foreach (string userProperty in _ceManagedMemory.ToUserProperties().Keys)
+        {
+            metadata.UserData.Add(userProperty, _ceManagedMemory.ToUserProperties()[userProperty]);
+        }
+
+        await SendTelemetryAsync(
             new ManagedMemoryTelemetry { managedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes },
-            new OutgoingTelemetryMetadata() { CloudEvent = _ceManagedMemory } );
+            metadata);
+    }
 
-    public Task SendMemStats() =>
-        SendTelemetryAsync(
+    public async Task SendMemStats()
+    {
+        var metadata = new OutgoingTelemetryMetadata();
+        foreach (string userProperty in _ceMemStats.ToUserProperties().Keys)
+        {
+            metadata.UserData.Add(userProperty, _ceMemStats.ToUserProperties()[userProperty]);
+        }
+
+        await SendTelemetryAsync(
             new MemoryStatsTelemetry
             {
                 memoryStats = new Object_MemoryStats
@@ -54,8 +77,9 @@ public class MemMonService : Memmon.Service
                     managedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
                     workingSet = Environment.WorkingSet
                 }
-            }, 
-            new OutgoingTelemetryMetadata() { CloudEvent = _ceMemStats });
+            },
+            metadata);
+    }
 
     public override Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {

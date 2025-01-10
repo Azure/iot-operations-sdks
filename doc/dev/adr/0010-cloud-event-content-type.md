@@ -45,7 +45,7 @@ The current default rules, which are consistently implemented in all SDKs, will 
 * The default value for `specversion` is "1.0"
 * There is no default value for `dataschema`
 * The default value for `id` is a newly generated GUID
-* The default value for `time` is the current time
+* The default value for `time` is the current time (UTC)
 * The default value for `subject` is the Telemetry topic
 * The default value for `datacontenttype` is the content type indicated by the serializer
 
