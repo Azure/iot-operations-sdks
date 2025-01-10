@@ -58,7 +58,7 @@ pub trait PayloadSerialize: Clone {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if the serialization fails.
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error>;
+    fn serialize(self) -> Result<Vec<u8>, Self::Error>;
 
     /// Deserializes the payload from a byte vector to the generic type
     ///
@@ -79,7 +79,7 @@ mock! {
         type Error = String;
         fn content_type() -> &'static str;
         fn format_indicator() -> FormatIndicator;
-        fn serialize(&self) -> Result<Vec<u8>, String>;
+        fn serialize(self) -> Result<Vec<u8>, String>;
         fn deserialize(payload: &[u8]) -> Result<Self, String>;
     }
 }

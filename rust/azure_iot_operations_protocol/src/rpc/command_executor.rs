@@ -151,7 +151,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TResp) -> Result<&mut Self, TResp::Error> {
+    pub fn payload(&mut self, payload: TResp) -> Result<&mut Self, TResp::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.response_payload_type = Some(PhantomData);
@@ -1031,7 +1031,7 @@ mod tests {
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
         }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
+        fn serialize(self) -> Result<Vec<u8>, String> {
             unimplemented!()
         }
         fn deserialize(_payload: &[u8]) -> Result<Self, String> {
@@ -1440,7 +1440,7 @@ mod tests {
             .times(1);
 
         let mut binding = CommandResponseBuilder::default();
-        let resp_builder = binding.payload(&mock_response_payload);
+        let resp_builder = binding.payload(mock_response_payload);
         assert!(resp_builder.is_err());
     }
 }

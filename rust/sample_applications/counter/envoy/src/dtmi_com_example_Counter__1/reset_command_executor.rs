@@ -37,7 +37,7 @@ impl ResetResponseBuilder {
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<ResetResponse, ResetResponseBuilderError> {
-        self.inner_builder.payload(&EmptyJson {}).unwrap();
+        self.inner_builder.payload(EmptyJson {}).unwrap();
 
         self.inner_builder.build()
     }

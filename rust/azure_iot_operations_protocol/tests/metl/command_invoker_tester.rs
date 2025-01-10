@@ -264,7 +264,7 @@ where
 
                     if let Some(request_value) = default_invoke_command.request_value.clone() {
                         command_request_builder
-                            .payload(&TestPayload {
+                            .payload(TestPayload {
                                 payload: Some(request_value.clone()),
                                 test_case_index: Some(test_case_index),
                             })
@@ -342,7 +342,7 @@ where
 
             if let Some(request_value) = request_value {
                 command_request_builder
-                    .payload(&TestPayload {
+                    .payload(TestPayload {
                         payload: Some(request_value.clone()),
                         test_case_index: Some(test_case_index),
                     })

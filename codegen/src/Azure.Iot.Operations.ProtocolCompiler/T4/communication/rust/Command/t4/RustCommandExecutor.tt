@@ -61,7 +61,7 @@ impl <#=this.capitalizedCommandName#>ResponseBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &<#=this.respSchema#>,
+        payload: <#=this.respSchema#>,
     ) -> Result<&mut Self, <<#=this.respSchema#> as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)
@@ -75,7 +75,7 @@ impl <#=this.capitalizedCommandName#>ResponseBuilder {
     #[allow(clippy::missing_panics_doc)]    // The panic is not possible
     pub fn build(&mut self) -> Result<<#=this.capitalizedCommandName#>Response, <#=this.capitalizedCommandName#>ResponseBuilderError> {
 <# if (this.respSchema == null) { #>
-        self.inner_builder.payload(&<#=this.serializerEmptyType#> {}).unwrap();
+        self.inner_builder.payload(<#=this.serializerEmptyType#> {}).unwrap();
 
 <# } #>
         self.inner_builder.build()
