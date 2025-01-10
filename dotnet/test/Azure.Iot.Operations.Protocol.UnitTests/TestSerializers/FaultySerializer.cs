@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
         public int DefaultPayloadFormatIndicator => 1;
         public Type EmptyType { get => typeof(EmptyJson); }
         
-        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class
+        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class
         {
             throw new SerializationException();
         }

@@ -28,8 +28,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 
             SerializedPayloadContext emptyBytes = cborSerializer.ToBytes(new EmptyCbor(), null, 0);
             Assert.Null(emptyBytes.SerializedPayload);
-            DeserializedPayloadContext<EmptyCbor> empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes.SerializedPayload, null, 0);
-            Assert.NotNull(empty.DeserializedPayload);
+            EmptyCbor empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes.SerializedPayload, null, 0);
+            Assert.NotNull(empty);
         }
 
         [Fact]

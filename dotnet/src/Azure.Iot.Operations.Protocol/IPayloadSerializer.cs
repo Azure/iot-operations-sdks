@@ -33,6 +33,6 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="contentType">An optional override of the default content type specified in <see cref="DefaultContentType"/>.</param>
         /// <param name="payloadFormatIndicator">An optional override of the default payload format indicator specified in <see cref="DefaultContentType"/>.</param>
         /// <returns>The deserialized object and the content type + payload format indicator used when serializing.</returns>
-        DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class;
+        T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class;
     }
 }

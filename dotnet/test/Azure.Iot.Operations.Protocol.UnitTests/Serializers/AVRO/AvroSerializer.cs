@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 
         public int DefaultPayloadFormatIndicator => 0;
 
-        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -49,7 +49,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return new((new EmptyAvro() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return (new EmptyAvro() as T)!;
                 }
 
                 using (var stream = new MemoryStream(payload))
@@ -60,14 +60,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     {
                         T1 obj1 = new();
                         datumReader1.Read(obj1, avroDecoder);
-                        return new((obj1 as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                        return (obj1 as T)!;
 
                     }
                     else if (typeof(T) == typeof(T2))
                     {
                         T2 obj2 = new();
                         datumReader2.Read(obj2, avroDecoder);
-                        return new((obj2 as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                        return (obj2 as T)!;
                     }
                     else
                     {

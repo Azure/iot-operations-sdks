@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
         public int DefaultPayloadFormatIndicator => 0;
 
-        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -46,13 +46,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return new((new EmptyCbor() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return (new EmptyCbor() as T)!;
                 }
 
                 using (var stream = new MemoryStream(payload))
                 {
                     ValueTask<T> task = Cbor.DeserializeAsync<T>(stream, cborOptions);
-                    return new(task.IsCompletedSuccessfully ? task.Result : default!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return task.IsCompletedSuccessfully ? task.Result : default!;
                 }
             }
             catch (Exception)

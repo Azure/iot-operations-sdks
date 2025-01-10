@@ -27,22 +27,22 @@ namespace TestEnvoys
 
         public int DefaultPayloadFormatIndicator => 0;
 
-        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(T1))
                 {
-                    return new((messageParserT1.ParseFrom(payload ?? Array.Empty<byte>()) as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return (messageParserT1.ParseFrom(payload ?? Array.Empty<byte>()) as T)!;
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return new((messageParserT2.ParseFrom(payload ?? Array.Empty<byte>()) as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return (messageParserT2.ParseFrom(payload ?? Array.Empty<byte>()) as T)!;
                 }
                 else
                 {
-                    return new(default!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return default!;
                 }
             }
             catch (Exception)

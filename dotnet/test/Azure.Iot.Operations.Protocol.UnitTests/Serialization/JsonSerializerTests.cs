@@ -40,10 +40,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             byte[]? nullBytes = ser.ToBytes(new EmptyJson(), null, 0).SerializedPayload;
             Assert.Null(nullBytes);
-            EmptyJson? empty = ser.FromBytes<EmptyJson>(nullBytes, null, 0).DeserializedPayload;
+            EmptyJson? empty = ser.FromBytes<EmptyJson>(nullBytes, null, 0);
             Assert.NotNull(empty);
 
-            EmptyJson? empty2 = ser.FromBytes<EmptyJson>(Array.Empty<byte>(), null, 0).DeserializedPayload;
+            EmptyJson? empty2 = ser.FromBytes<EmptyJson>(Array.Empty<byte>(), null, 0);
             Assert.NotNull(empty2);
         }
 
@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             MyJsonType myType = new();
             var bytes = ser.ToBytes(myType, null, 0).SerializedPayload;
-            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0).DeserializedPayload;
+            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
@@ -82,7 +82,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                 MyDecimalProperty = new DecimalString("55.5"),
             };
             var bytes = ser.ToBytes(myType, null, 0).SerializedPayload;
-            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0).DeserializedPayload;
+            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0);
             Assert.Equal(13, fromBytes.MyIntProperty);
             Assert.Equal("my string", fromBytes.MyStringProperty);
             Assert.Equal(new DateTime(2001,02,03), fromBytes.MyDateTimeProperty);
@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
-            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, 0).DeserializedPayload;
+            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, 0);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
@@ -125,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
-            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, 0).DeserializedPayload;
+            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, 0);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);

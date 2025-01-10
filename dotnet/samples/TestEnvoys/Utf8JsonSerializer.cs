@@ -30,7 +30,7 @@ namespace TestEnvoys
 
         public int DefaultPayloadFormatIndicator => 1;
 
-        public DeserializedPayloadContext<T> FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
             where T : class
         {
             try
@@ -42,11 +42,11 @@ namespace TestEnvoys
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return new((new EmptyJson() as T)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return (new EmptyJson() as T)!;
                 }
 
                 Utf8JsonReader reader = new(payload);
-                return new(JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
             }
             catch (Exception)
             {

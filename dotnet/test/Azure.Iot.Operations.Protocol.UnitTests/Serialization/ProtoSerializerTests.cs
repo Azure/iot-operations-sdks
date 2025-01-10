@@ -21,10 +21,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 
             byte[]? nullBytes = protobufSerializer.ToBytes(new Empty(), null, 0).SerializedPayload;
             Assert.Null(nullBytes);
-            Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes, null, 0).DeserializedPayload;
+            Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes, null, 0);
             Assert.NotNull(empty);
 
-            Empty? empty2 = protobufSerializer.FromBytes<Empty>(Array.Empty<byte>(), null, 0).DeserializedPayload;
+            Empty? empty2 = protobufSerializer.FromBytes<Empty>(Array.Empty<byte>(), null, 0);
             Assert.NotNull(empty2);
         }
 
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<ProtoCountTelemetry, ProtoCountTelemetry>();
 
-            ProtoCountTelemetry protoCountTelemetry = protobufSerializer.FromBytes<ProtoCountTelemetry>(null, null, 0).DeserializedPayload;
+            ProtoCountTelemetry protoCountTelemetry = protobufSerializer.FromBytes<ProtoCountTelemetry>(null, null, 0);
             Assert.NotNull(protoCountTelemetry);
         }
     }

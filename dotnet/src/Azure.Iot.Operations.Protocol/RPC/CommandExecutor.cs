@@ -178,8 +178,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    var deserializedPayloadContext = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator);
-                    request = deserializedPayloadContext.DeserializedPayload;
+                    request = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator);
                     requestMetadata = new CommandRequestMetadata(args.ApplicationMessage);
                     hybridLogicalClock.Update(requestMetadata.Timestamp);
                 }

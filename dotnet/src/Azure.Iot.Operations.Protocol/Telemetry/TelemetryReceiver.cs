@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 try
                 {
 
-                    DeserializedPayloadContext<T> deserializedPayloadContext = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, (int) args.ApplicationMessage.PayloadFormatIndicator);
+                    T deserializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, (int) args.ApplicationMessage.PayloadFormatIndicator);
 
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
                     metadata.ContentType = args.ApplicationMessage.ContentType;
@@ -118,7 +118,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     {
                         try
                         {
-                            await OnTelemetryReceived(sourceId, deserializedPayloadContext.DeserializedPayload, metadata);
+                            await OnTelemetryReceived(sourceId, deserializedPayload, metadata);
                         }
                         catch (Exception innerEx)
                         {
