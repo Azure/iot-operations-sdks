@@ -10,10 +10,10 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorEmptyName_StartsSuccessfully
+test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor initialized with empty string as command name.
+    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
   expect: >-
     CommandExecutor starts successfully.
 prologue:
@@ -24,12 +24,12 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerEmptyName_ThrowsException
+test-name: CommandInvokerRequestTopicCommandNameWithoutReplacement_ThrowsException
 description:
   condition: >-
-    CommandInvoker initialized with empty string as command name.
+    CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified.
   expect: >-
-    CommandInvoker throws 'invalid configuration' exception.
+    CommandInvoker throws 'invalid argument' exception.
 prologue:
   invokers:
   - request-topic: "mock/{commandName}/test"
