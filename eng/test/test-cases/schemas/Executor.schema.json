@@ -13,11 +13,6 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "model-id": {
-            "description": "The identifier of the the service model, which is the full DTMI of the Interface.",
-            "type": [ "string", "null" ],
-            "kind": "drive"
-        },
         "executor-id": {
             "description": "Identifier of the asset that is targeted to execute a Command.",
             "type": [ "string", "null" ],
@@ -28,8 +23,8 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "custom-token-map": {
-            "description": "A map from custom topic tokens to replacement values.",
+        "topic-token-map": {
+            "description": "A map from topic tokens to replacement values.",
             "type": "object",
             "additionalProperties": {
                 "type": "string"

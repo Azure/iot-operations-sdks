@@ -11,9 +11,6 @@ pub struct DefaultSender {
     #[serde(rename = "telemetry-topic")]
     pub telemetry_topic: Option<String>,
 
-    #[serde(rename = "model-id")]
-    pub model_id: Option<String>,
-
     #[serde(rename = "data-schema")]
     pub data_schema: Option<String>,
 

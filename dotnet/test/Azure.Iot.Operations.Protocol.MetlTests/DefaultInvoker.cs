@@ -9,8 +9,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? RequestTopic { get; set; }
 
-        public string? ModelId { get; set; }
-
         public string? TopicNamespace { get; set; }
 
         public string? ResponseTopicPrefix { get; set; }

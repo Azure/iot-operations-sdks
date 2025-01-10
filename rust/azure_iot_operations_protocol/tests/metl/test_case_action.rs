@@ -93,9 +93,8 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(default = "test_case_action_invoke_command::get_default_command_name::<T>")]
         command_name: Option<String>,
 
-        #[serde(rename = "executor-id")]
-        #[serde(default = "test_case_action_invoke_command::get_default_executor_id::<T>")]
-        executor_id: Option<String>,
+        #[serde(rename = "topic-token-map")]
+        topic_token_map: Option<HashMap<String, String>>,
 
         #[serde(rename = "timeout")]
         #[serde(default = "test_case_action_invoke_command::get_default_timeout::<T>")]

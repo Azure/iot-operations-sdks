@@ -1,0 +1,12 @@
+---
+test-name: CommandExecutorEmptyName_StartsSuccessfully
+description:
+  condition: >-
+    CommandExecutor initialized with empty string as command name.
+  expect: >-
+    CommandExecutor throws 'invalid configuration' exception.
+
+prologue:
+  executors:
+  - request-topic: "mock/{commandName}/test"
+...

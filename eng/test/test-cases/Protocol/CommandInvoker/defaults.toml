@@ -1,12 +1,10 @@
 [prologue.invoker]
 command-name = "test"
 request-topic = "mock/test"
-model-id = "dtmi:test:MyModel;1"
 response-topic-prefix = "response"
 
 [actions.invoke-command]
 command-name = "test"
-executor-id = "someExecutor"
 request-value = "Test_Request"
 timeout = { minutes = 1 }
 
