@@ -161,7 +161,7 @@ func runOneCommandExecutorTest(
 		case AwaitAck:
 			awaitAcknowledgement(t, action.AsAwaitAck(), stubBroker, packetIDs)
 		case AwaitPublish:
-			awaitPublish(
+			awaitPublishResponse(
 				t,
 				action.AsAwaitPublish(),
 				stubBroker,
@@ -231,7 +231,6 @@ func getCommandExecutor(
 		protocol.WithTopicTokens(tce.CustomTokenMap),
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithIdempotent(tce.Idempotent),
-		protocol.WithCacheTTL(tce.CacheTTL.ToDuration()),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
 
@@ -386,6 +385,26 @@ func receiveRequest(
 
 	if actionReceiveRequest.PacketIndex != nil {
 		packetIDs[*actionReceiveRequest.PacketIndex] = packetID
+	}
+}
+
+func awaitPublishResponse(
+	t *testing.T,
+	actionAwaitPublish *TestCaseActionAwaitPublish,
+	stubBroker *StubBroker,
+	correlationIDs map[int][]byte,
+) {
+	correlationID := stubBroker.AwaitPublish()
+
+	if actionAwaitPublish.CorrelationIndex != nil {
+		extantCorrelationID, ok := correlationIDs[*actionAwaitPublish.CorrelationIndex]
+		require.True(
+			t,
+			ok,
+			"CorrelationIndex %d not found",
+			*actionAwaitPublish.CorrelationIndex,
+		)
+		require.Equal(t, extantCorrelationID, correlationID)
 	}
 }
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package main
 
 import (
@@ -5,6 +8,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
@@ -13,8 +17,9 @@ import (
 	"github.com/lmittmann/tint"
 )
 
-var counterValue int = 0
-var telemetrySender *dtmi_com_example_Counter__1.TelemetryCollectionSender
+type Handlers struct {
+	counterValue int32
+}
 
 func main() {
 	ctx := context.Background()
@@ -30,9 +35,7 @@ func main() {
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
 		mqttClient,
-		ReadCounter,
-		Increment,
-		Reset,
+		&Handlers{},
 		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
@@ -51,7 +54,7 @@ func main() {
 	<-sig
 }
 
-func ReadCounter(
+func (h *Handlers) ReadCounter(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
@@ -67,11 +70,11 @@ func ReadCounter(
 	)
 
 	return protocol.Respond(dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.LoadInt32(&h.counterValue),
 	})
 }
 
-func Increment(
+func (h *Handlers) Increment(
 	ctx context.Context,
 	req *protocol.CommandRequest[dtmi_com_example_Counter__1.IncrementRequestPayload],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
@@ -97,11 +100,11 @@ func Increment(
 	}
 
 	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.AddInt32(&h.counterValue, 1),
 	})
 }
 
-func Reset(
+func (h *Handlers) Reset(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
@@ -115,7 +118,8 @@ func Reset(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue = 0
+
+	atomic.StoreInt32(&h.counterValue, 0)
 	return protocol.Respond[any](nil)
 }
 

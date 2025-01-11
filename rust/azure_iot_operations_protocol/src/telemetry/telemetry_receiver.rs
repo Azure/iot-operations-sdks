@@ -16,7 +16,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::TopicPattern,
-        user_properties::{UserProperty, RESERVED_PREFIX},
+        user_properties::UserProperty,
     },
     DEFAULT_AIO_PROTOCOL_VERSION,
 };
@@ -264,6 +264,7 @@ where
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
         let topic_pattern = TopicPattern::new(
+            "receiver_options.topic_pattern",
             &receiver_options.topic_pattern,
             receiver_options.topic_namespace.as_deref(),
             &receiver_options.topic_token_map,
@@ -531,16 +532,13 @@ where
                                                     cloud_event_time = Some(value);
                                                 },
                                                 Err(()) => {
-                                                    if key.starts_with(RESERVED_PREFIX) {
-                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                                    } else {
-                                                        custom_user_data.push((key, value));
-                                                    }
+                                                    custom_user_data.push((key, value));
                                                 }
                                             }
                                         }
                                         _ => {
-                                            log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            custom_user_data.push((key, value));
                                         }
                                     }
                                 }
@@ -805,7 +803,10 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("pattern".to_string()));
+                assert_eq!(
+                    e.property_name,
+                    Some("receiver_options.topic_pattern".to_string())
+                );
                 assert_eq!(
                     e.property_value,
                     Some(Value::String(topic_pattern.to_string()))

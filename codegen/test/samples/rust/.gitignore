@@ -1,3 +1,4 @@
 *.json
 *.rs
+*.md
 cargo.toml

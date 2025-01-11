@@ -24,67 +24,9 @@ type (
 	}
 )
 
-func TestEquivalentCacheEviction(t *testing.T) {
-	clock := fixedClock(time.Now())
-	c := New(&clock, time.Hour, "")
-
-	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
-	msg2 := &test{2, "req2", "res2", nil, time.Minute, 10 * time.Second}
-	eqv1 := &test{3, "req1", "res1", nil, time.Minute, time.Second}
-	eqv2 := &test{4, "req2", "res2", nil, time.Minute, time.Second}
-
-	// Artificially fill the cache.
-	c.bytes = MaxAggregatePayloadBytes - len(msg1.res) - len(msg2.res)/2
-
-	// Initial request does not hit the cache.
-	msg1.testCacheHit(t, &clock, c, false)
-
-	// Advance the clock so that the first request expires but does not timeout.
-	clock.Add(2 * time.Minute)
-
-	// First request is expired, and should return nothing.
-	msg1.testCacheRes(t, &clock, c, true, "", nil)
-
-	// Add a second request with higher storage benefit that overflows the
-	// cache. This should evict the first request.
-	msg2.testCacheHit(t, &clock, c, false)
-
-	// An equivalent request to the longer execution should be cached.
-	eqv2.testCacheHit(t, &clock, c, true)
-
-	// The faster request should have been evicted.
-	eqv1.testCacheHit(t, &clock, c, false)
-}
-
-func TestDuplicateCacheEviction(t *testing.T) {
-	clock := fixedClock(time.Now())
-	c := New(&clock, time.Hour, "")
-
-	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
-	msg2 := &test{2, "req2", "res2", nil, time.Minute, 10 * time.Second}
-	eqv1 := &test{3, "req1", "res1", nil, time.Minute, time.Second}
-
-	// Artificially fill the cache.
-	c.bytes = MaxAggregatePayloadBytes - len(msg1.res) - len(msg2.res)/2
-
-	// Initial request does not hit the cache.
-	msg1.testCacheHit(t, &clock, c, false)
-
-	// Add a second request with higher storage benefit that overflows the
-	// cache. This should evict the first request from equivalency caching but
-	// not from duplicate caching.
-	msg2.testCacheHit(t, &clock, c, false)
-
-	// A duplicate request still hits the cache.
-	msg1.testCacheHit(t, &clock, c, true)
-
-	// An equivalent request does not.
-	eqv1.testCacheHit(t, &clock, c, false)
-}
-
 func TestDuplicateCacheProcessing(t *testing.T) {
 	clock := fixedClock(time.Now())
-	c := New(&clock, time.Hour, "")
+	c := New(&clock)
 
 	msg1 := &test{1, "req1", "res1", nil, time.Minute, time.Second}
 
