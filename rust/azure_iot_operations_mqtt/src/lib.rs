@@ -14,6 +14,7 @@ mod connection_settings;
 pub mod control_packet;
 pub mod error;
 pub mod interface;
+pub mod receiver;
 pub mod session;
 pub mod topic;
 
