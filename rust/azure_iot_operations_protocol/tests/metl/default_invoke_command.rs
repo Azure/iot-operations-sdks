@@ -10,9 +10,6 @@ pub struct DefaultInvokeCommand {
     #[serde(rename = "command-name")]
     pub command_name: Option<String>,
 
-    #[serde(rename = "executor-id")]
-    pub executor_id: Option<String>,
-
     #[serde(rename = "request-value")]
     pub request_value: Option<String>,
 

@@ -11,9 +11,6 @@ pub struct DefaultInvoker {
     #[serde(rename = "request-topic")]
     pub request_topic: Option<String>,
 
-    #[serde(rename = "model-id")]
-    pub model_id: Option<String>,
-
     #[serde(rename = "topic-namespace")]
     pub topic_namespace: Option<String>,
 

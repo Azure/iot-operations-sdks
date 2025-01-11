@@ -9,11 +9,14 @@ description:
 prologue:
   invokers:
   - request-topic: "{executorId}/commands/{commandName}/{ex:foobar}"
-    custom-token-map:
-      "foobar": "MyValue"
+    topic-token-map:
+      "commandName": "test"
+      "ex:foobar": "MyValue"
 
 actions:
 - action: invoke command
+  topic-token-map:
+    "executorId": "someExecutor"
   invocation-index: 0
 - action: await publish
   correlation-index: 0

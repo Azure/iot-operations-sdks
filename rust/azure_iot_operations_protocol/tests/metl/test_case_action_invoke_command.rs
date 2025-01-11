@@ -18,20 +18,6 @@ pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
     None
 }
 
-pub fn get_default_executor_id<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_action) = default_test_case.actions.as_ref() {
-            if let Some(default_invoke_command) = default_action.invoke_command.as_ref() {
-                if let Some(default_executor_id) = default_invoke_command.executor_id.as_ref() {
-                    return Some(default_executor_id.to_string());
-                }
-            }
-        }
-    }
-
-    None
-}
-
 pub fn get_default_request_value<T: DefaultsType + Default>() -> Option<String> {
     if let Some(default_test_case) = T::get_defaults() {
         if let Some(default_action) = default_test_case.actions.as_ref() {

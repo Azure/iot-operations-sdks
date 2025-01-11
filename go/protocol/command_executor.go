@@ -35,7 +35,6 @@ type (
 	// CommandExecutorOptions are the resolved command executor options.
 	CommandExecutorOptions struct {
 		Idempotent bool
-		CacheTTL   time.Duration
 
 		Concurrency uint
 		Timeout     time.Duration
@@ -69,10 +68,6 @@ type (
 	// WithIdempotent marks the command as idempotent.
 	WithIdempotent bool
 
-	// WithCacheTTL indicates how long results of this command will live in the
-	// cache. This is only valid for idempotent commands.
-	WithCacheTTL time.Duration
-
 	// RespondOption represent a single per-response option.
 	RespondOption interface{ respond(*RespondOptions) }
 
@@ -97,24 +92,6 @@ func NewCommandExecutor[Req, Res any](
 
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
-
-	if !opts.Idempotent && opts.CacheTTL != 0 {
-		return nil, &errors.Error{
-			Message:       "CacheTTL must be zero for non-idempotent commands",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "CacheTTL",
-			PropertyValue: opts.CacheTTL,
-		}
-	}
-
-	if opts.CacheTTL < 0 {
-		return nil, &errors.Error{
-			Message:       "CacheTTL must not have a negative value",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "CacheTTL",
-			PropertyValue: opts.CacheTTL,
-		}
-	}
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -156,11 +133,7 @@ func NewCommandExecutor[Req, Res any](
 	ce = &CommandExecutor[Req, Res]{
 		handler: handler,
 		timeout: to,
-		cache: caching.New(
-			wallclock.Instance,
-			opts.CacheTTL,
-			requestTopicPattern,
-		),
+		cache:   caching.New(wallclock.Instance),
 	}
 	ce.listener = &listener[Req]{
 		client:         client,
@@ -445,12 +418,6 @@ func (o WithIdempotent) commandExecutor(opt *CommandExecutorOptions) {
 }
 
 func (WithIdempotent) option() {}
-
-func (o WithCacheTTL) commandExecutor(opt *CommandExecutorOptions) {
-	opt.CacheTTL = time.Duration(o)
-}
-
-func (WithCacheTTL) option() {}
 
 // Apply resolves the provided list of options.
 func (o *RespondOptions) Apply(
