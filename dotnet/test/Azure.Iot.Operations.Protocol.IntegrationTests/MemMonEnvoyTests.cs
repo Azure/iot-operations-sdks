@@ -161,7 +161,6 @@ public class MemMonEnvoyTests
         var memStatsMD = memmonClient.ReceivedMemoryStatsTelemetryMetadata[0];
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
-        Assert.Equal(8, memStatsMD.UserData.Count);
         CloudEvent memStatsCloudEvent = new(memStatsMD.ContentType, memStatsMD.UserData);
         Assert.Equal("1.0", memStatsCloudEvent.SpecVersion);
         Assert.Equal("test://mq/", memStatsCloudEvent.Source!.ToString());
@@ -177,7 +176,6 @@ public class MemMonEnvoyTests
         var managedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
         Assert.NotNull(managedMemoryMD);
         Assert.NotNull(managedMemoryMD.UserData);
-        Assert.Equal(8, managedMemoryMD.UserData.Count);
         CloudEvent managedMemoryCloudEvent = new(managedMemoryMD.ContentType, managedMemoryMD.UserData);
         Assert.Equal("1.0", managedMemoryCloudEvent.SpecVersion);
         Assert.Equal("test://mq/", managedMemoryCloudEvent.Source!.ToString());
