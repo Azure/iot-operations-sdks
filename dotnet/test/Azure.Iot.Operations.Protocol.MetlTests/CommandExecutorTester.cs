@@ -62,7 +62,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 TestCaseExecutor.DefaultCommandName = defaultTestCase.Prologue.Executor.CommandName;
                 TestCaseExecutor.DefaultRequestTopic = defaultTestCase.Prologue.Executor.RequestTopic;
-                TestCaseExecutor.DefaultModelId = defaultTestCase.Prologue.Executor.ModelId;
                 TestCaseExecutor.DefaultExecutorId = defaultTestCase.Prologue.Executor.ExecutorId;
                 TestCaseExecutor.DefaultTopicNamespace = defaultTestCase.Prologue.Executor.TopicNamespace;
                 TestCaseExecutor.DefaultIdempotent = defaultTestCase.Prologue.Executor.Idempotent;
@@ -348,26 +347,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         OnCommandReceived = null!,
                     };
 
-                if (testCaseExecutor.ModelId != null)
+                if (testCaseExecutor.TopicTokenMap != null)
                 {
-                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
-                }
-
-                if (testCaseExecutor.CommandName != null)
-                {
-                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
-                }
-
-                if (testCaseExecutor.ExecutorId != null)
-                {
-                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
-                }
-
-                if (testCaseExecutor.CustomTokenMap != null)
-                {
-                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.CustomTokenMap)
+                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.TopicTokenMap)
                     {
-                        commandExecutor.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                        commandExecutor.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
 

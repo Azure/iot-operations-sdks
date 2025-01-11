@@ -9,10 +9,9 @@ import (
 type testCaseExecutor struct {
 	CommandName          *string             `yaml:"command-name"`
 	RequestTopic         *string             `yaml:"request-topic"`
-	ModelID              *string             `yaml:"model-id"`
 	ExecutorID           *string             `yaml:"executor-id"`
 	TopicNamespace       *string             `yaml:"topic-namespace"`
-	CustomTokenMap       map[string]string   `yaml:"custom-token-map"`
+	TopicTokenMap        map[string]string   `yaml:"topic-token-map"`
 	Idempotent           bool                `yaml:"idempotent"`
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
@@ -31,7 +30,6 @@ func (executor *TestCaseExecutor) UnmarshalYAML(node *yaml.Node) error {
 
 	executor.CommandName = TestCaseDefaultInfo.Prologue.Executor.GetCommandName()
 	executor.RequestTopic = TestCaseDefaultInfo.Prologue.Executor.GetRequestTopic()
-	executor.ModelID = TestCaseDefaultInfo.Prologue.Executor.GetModelID()
 	executor.ExecutorID = TestCaseDefaultInfo.Prologue.Executor.GetExecutorID()
 	executor.TopicNamespace = TestCaseDefaultInfo.Prologue.Executor.GetTopicNamespace()
 	executor.Idempotent = TestCaseDefaultInfo.Prologue.Executor.GetIdempotent()

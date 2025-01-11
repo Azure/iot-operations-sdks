@@ -246,25 +246,9 @@ where
             receiver_options_builder.topic_namespace(topic_namespace);
         }
 
-        let mut topic_token_map = if let Some(custom_token_map) = tcr.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tcr.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
+        if let Some(topic_token_map) = tcr.topic_token_map.as_ref() {
+            receiver_options_builder.topic_token_map(topic_token_map.clone());
         }
-
-        if let Some(telemetry_name) = tcr.telemetry_name.as_ref() {
-            topic_token_map.insert("telemetryName".to_string(), telemetry_name.to_string());
-        }
-
-        receiver_options_builder.topic_token_map(topic_token_map);
 
         let options_result = receiver_options_builder.build();
         if let Err(error) = options_result {

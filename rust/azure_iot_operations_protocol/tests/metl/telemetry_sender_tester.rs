@@ -177,30 +177,9 @@ where
             sender_options_builder.topic_namespace(topic_namespace);
         }
 
-        let mut topic_token_map = if let Some(custom_token_map) = tcs.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tcs.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
+        if let Some(topic_token_map) = tcs.topic_token_map.as_ref() {
+            sender_options_builder.topic_token_map(topic_token_map.clone());
         }
-
-        if let Some(telemetry_name) = tcs.telemetry_name.as_ref() {
-            topic_token_map.insert("telemetryName".to_string(), telemetry_name.to_string());
-        }
-
-        topic_token_map.insert(
-            "senderClientId".to_string(),
-            managed_client.client_id().to_string(),
-        );
-
-        sender_options_builder.topic_token_map(topic_token_map);
 
         let options_result = sender_options_builder.build();
         if let Err(error) = options_result {

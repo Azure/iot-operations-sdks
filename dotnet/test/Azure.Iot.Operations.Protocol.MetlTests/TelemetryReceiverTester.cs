@@ -60,9 +60,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
-                TestCaseReceiver.DefaultTelemetryName = defaultTestCase.Prologue.Receiver.TelemetryName;
                 TestCaseReceiver.DefaultTelemetryTopic = defaultTestCase.Prologue.Receiver.TelemetryTopic;
-                TestCaseReceiver.DefaultModelId = defaultTestCase.Prologue.Receiver.ModelId;
                 TestCaseReceiver.DefaultTopicNamespace = defaultTestCase.Prologue.Receiver.TopicNamespace;
 
                 TestCaseActionReceiveTelemetry.DefaultTopic = defaultTestCase.Actions.ReceiveTelemetry.Topic;
@@ -296,28 +294,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient, testCaseReceiver.TelemetryName)
+                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient)
                 {
                     TopicPattern = testCaseReceiver.TelemetryTopic!,
                     TopicNamespace = testCaseReceiver.TopicNamespace,
                     OnTelemetryReceived = null!,
                 };
 
-                if (testCaseReceiver.ModelId != null)
+                if (testCaseReceiver.TopicTokenMap != null)
                 {
-                    telemetryReceiver.TopicTokenMap!["modelId"] = testCaseReceiver.ModelId;
-                }
-
-                if (testCaseReceiver.TelemetryName != null)
-                {
-                    telemetryReceiver.TopicTokenMap!["telemetryName"] = testCaseReceiver.TelemetryName;
-                }
-
-                if (testCaseReceiver.CustomTokenMap != null)
-                {
-                    foreach (KeyValuePair<string, string> kvp in testCaseReceiver.CustomTokenMap)
+                    foreach (KeyValuePair<string, string> kvp in testCaseReceiver.TopicTokenMap)
                     {
-                        telemetryReceiver.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                        telemetryReceiver.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
 

@@ -1,7 +1,6 @@
 [prologue.executor]
 command-name = "test"
 request-topic = "mock/test"
-model-id = "dtmi:test:MyModel;1"
 executor-id = "someExecutor"
 idempotent = false
 execution-timeout = { seconds = 10 }
