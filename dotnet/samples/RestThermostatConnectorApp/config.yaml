@@ -1,8 +1,0 @@
-apiVersion: akri.microsoft.com/v1beta1
-kind: ConnectorConfig
-metadata:
-  name: rest-connector-app-config
-  namespace: azure-iot-operations
-spec:
-  assetEndpointProfileType: rest-thermostat
-  image: dockeroliva/restthermostatconnectorapp:0.6.0-decem1212

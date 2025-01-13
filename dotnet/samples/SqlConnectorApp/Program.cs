@@ -10,7 +10,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(SqlQualityAnalyzerDatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddHostedService<TelemetryConnectorWorker>();
-        // TODO To get all possible types of logging. Can be deleetd later.
+        // TODO To get all possible types of logging. Can be deleted later.
         services.AddLogging(logging =>
         {
             logging.ClearProviders();

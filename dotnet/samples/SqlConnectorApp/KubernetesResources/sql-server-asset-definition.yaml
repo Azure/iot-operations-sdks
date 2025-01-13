@@ -19,31 +19,11 @@ spec:
       dataPoints:
         - dataSource: CountryMeasurements
           name: Country
-          # dataPointConfiguration: |-
-          #  {
-          #     "SqlRequestMethod": "SELECT",
-          #  }
         - dataSource: CountryMeasurements
           name: Viscosity
-          # dataPointConfiguration: |-
-          #  {
-          #     "SqlRequestMethod": "SELECT",
-          #  }
         - dataSource: CountryMeasurements
           name: Sweetness
-          # dataPointConfiguration: |-
-          #  {
-          #     "SqlRequestMethod": "SELECT",
-          #  }
         - dataSource: CountryMeasurements
           name: ParticleSize
-          # dataPointConfiguration: |-
-          #  {
-          #     "SqlRequestMethod": "SELECT",
-          #  }
         - dataSource: CountryMeasurements
           name: Overall
-          # dataPointConfiguration: |-
-          #  {
-          #     "SqlRequestMethod": "SELECT",
-          #  }
