@@ -4,7 +4,6 @@ package protocol
 
 type DefaultInvokeCommand struct {
 	CommandName  *string          `toml:"command-name"`
-	ExecutorID   *string          `toml:"executor-id"`
 	RequestValue *string          `toml:"request-value"`
 	Timeout      TestCaseDuration `toml:"timeout"`
 }
@@ -16,15 +15,6 @@ func (invokeCommand *DefaultInvokeCommand) GetCommandName() *string {
 
 	commandName := *invokeCommand.CommandName
 	return &commandName
-}
-
-func (invokeCommand *DefaultInvokeCommand) GetExecutorID() *string {
-	if invokeCommand.ExecutorID == nil {
-		return nil
-	}
-
-	executorID := *invokeCommand.ExecutorID
-	return &executorID
 }
 
 func (invokeCommand *DefaultInvokeCommand) GetRequestValue() *string {

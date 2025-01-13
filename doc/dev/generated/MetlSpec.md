@@ -10,37 +10,36 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorRequestTopicModelIdWithoutReplacement_StartsSuccessfully
+test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{modelId}' token but no model ID is specified.
+    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
   expect: >-
     CommandExecutor starts successfully.
 prologue:
   executors:
-  - request-topic: "mock/{modelId}/test"
-    model-id:
+  - request-topic: "mock/{commandName}/test"
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerSubAckFailure_ThrowsException
+test-name: CommandInvokerRequestTopicCommandNameWithoutReplacement_ThrowsException
 description:
   condition: >-
-    CommandInvoker initialized but ACK fails when subscribing.
+    CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified.
   expect: >-
-    CommandInvoker throws 'mqtt error' exception.
+    CommandInvoker throws 'invalid argument' exception.
 prologue:
-  push-acks:
-    subscribe: [ fail ]
   invokers:
-  - { }
+  - request-topic: "mock/{commandName}/test"
   catch:
-    error-kind: mqtt error
+    error-kind: invalid argument
     in-application: !!bool false
-    is-shallow: !!bool false
-    is-remote: !!bool false 
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'commandname'
 ```
 
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
@@ -102,23 +101,20 @@ Unquoted (bare) strings are used for keywords or key phrases in METL, such as th
 For example:
 
 ```yaml
-actions:
-- action: invoke command
-  invocation-index: 0
-  metadata:
-    "__hasReservePrefix": "userValue"
-- action: await invocation
-  invocation-index: 0
+prologue:
+  executors:
+  - topic-namespace: "invalid/{modelId}"
   catch:
-    error-kind: invalid argument
+    error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
-    is-remote: !!bool false
+    is-remote: !!bool false 
     supplemental:
-      property-name: 'metadata'
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
-In the above test case, the value of `metadata` is double quoted, indicating that the metadata key must be used verbatim in the test.
+In the above test case, the value of `property-value` is double quoted, indicating that the value must be used verbatim in the test.
 By contrast, the value of `property-name` is single quoted, indicating that it may incur non-semantic changes across programming languages.
 Since language conventions dictate different casing of property and argument names, the value in the test case is lowercase and contains no separators.
 Test engines should de-capitalize and de-separate property names that are camelCase, PascalCase, or snake_case before comparing them to the indicated value.
@@ -294,12 +290,11 @@ Each element of the `executors` array can have the following child keys:
 | --- | --- | --- | --- | --- | --- |
 | command-name | drive | no | string or null | "test" | The name of the Command. |
 | request-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Command request. |
-| model-id | drive | no | string or null | "dtmi:test:MyModel;1" | The identifier of the the service model, which is the full DTMI of the Interface. |
 | executor-id | drive | no | string or null | "someExecutor" | Identifier of the asset that is targeted to execute a Command. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request MQTT topic pattern. |
-| custom-token-map | drive | no | map from string to string | { } | A map from custom topic tokens to replacement values. |
+| topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | idempotent | drive | no | boolean | False | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
-| cache-ttl | drive | no | [Duration](#duration) or null | { "seconds": 0 } | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
+| cache-ttl | drive | no | [Duration](#duration) or null | null | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |
@@ -383,9 +378,9 @@ epilogue:
     command-status: 505 # Not Supported Version
     is-application-error: false
     metadata:
-      "__supProtMajVer": "0"
+      "__supProtMajVer": "1"
       "__requestProtVer": "this is not a valid protocol version"
-      "__protVer": "0.1"
+      "__protVer": "1.0"
 ```
 
 #### ExecutorEpilogue
@@ -562,15 +557,15 @@ Following is an example CommandInvoker prologue:
 
 ```yaml
 prologue:
-  push-acks:
-    subscribe: [ fail ]
   invokers:
-  - { }
+  - request-topic: "mock/{commandName}/test"
   catch:
-    error-kind: mqtt error
+    error-kind: invalid argument
     in-application: !!bool false
-    is-shallow: !!bool false
-    is-remote: !!bool false 
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'commandname'
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -597,11 +592,10 @@ Each element of the `invokers` array can have the following child keys:
 | --- | --- | --- | --- | --- | --- |
 | command-name | drive | no | string or null | "test" | The name of the Command. |
 | request-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Command request. |
-| model-id | drive | no | string or null | "dtmi:test:MyModel;1" | The identifier of the the service model, which is the full DTMI of the Interface. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request and response MQTT topic patterns. |
 | response-topic-prefix | drive | no | string or null | "response" | A prefix to be prepended to the request topic pattern to produce a response topic pattern. |
 | response-topic-suffix | drive | no | string or null | null | A suffix to be appended to the request topic pattern to produce a response topic pattern. |
-| custom-token-map | drive | no | map from string to string | { } | A map from custom topic tokens to replacement values. |
+| topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | response-topic-map | drive | no | map from string to string | { } | A map from request topic to response topic, as an alternative to using prefix/suffix. |
 
 ### CommandInvoker test epilogue
@@ -701,8 +695,9 @@ An `invoke command` action causes the CommandInvoker to invoke a command without
 ```yaml
 - action: invoke command
   invocation-index: 0
-  metadata:
-    "__hasReservePrefix": "userValue"
+  topic-token-map:
+    "executorId": "someExecutor"
+  request-value: "Test_Request0"
 ```
 
 When the value of the `action` key is `invoke command`, the following sibling keys are also available:
@@ -712,7 +707,7 @@ When the value of the `action` key is `invoke command`, the following sibling ke
 | action |  | yes | string | "invoke command" |  | Invoke a Command without waiting for its completion. |
 | invocation-index | match | yes | integer |  |  | An arbitrary numeric value used to identify the invocation. |
 | command-name | drive | no | string |  | "test" | The name of the Command. |
-| executor-id | drive | no | string |  | "someExecutor" | Identifier of the asset that is targeted to execute a Command. |
+| topic-token-map | drive | no | map from string to string |  | { } | A map from topic tokens to replacement values. |
 | timeout | drive | no | [Duration](#duration) or null |  | { "minutes": 1 } | Command timeout duration. |
 | request-value | drive | no | string or null |  | "Test_Request" | A UTF8 string (or null) value for the Command request. |
 | metadata | drive | no | map from string to string |  | { } | Keys and values for user metadata. |
@@ -783,8 +778,8 @@ A `receive response` action causes the CommandInvoker to receive a response mess
   is-application-error: "false"
   metadata:
     "__supProtMajVer": "2 3 4"
-    "__requestProtVer": "0.1"
-    "__protVer": "0.1"
+    "__requestProtVer": "1.0"
+    "__protVer": "1.0"
     "__stMsg": "This is a not supported version exception"
 ```
 
@@ -879,11 +874,9 @@ Each element of the `receivers` array can have the following child keys:
 
 | Key | Test Kind | Required | Value Type | Default Value | Description |
 | --- | --- | --- | --- | --- | --- |
-| telemetry-name | drive | no | string or null | "test" | The name of the Telemetry. |
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
-| model-id | drive | no | string or null | "dtmi:test:MyModel;1" | The identifier of the the service model, which is the full DTMI of the Interface. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
-| custom-token-map | drive | no | map from string to string | { } | A map from custom topic tokens to replacement values. |
+| topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | raise-error | drive | no | [Error](#error) |  | Raise an error from the Telemetry receive function. |
 
 ### TelemetryReceiver test epilogue
@@ -1085,10 +1078,9 @@ Each element of the `senders` array can have the following child keys:
 | --- | --- | --- | --- | --- | --- |
 | telemetry-name | drive | no | string or null | "test" | The name of the Telemetry. |
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
-| model-id | drive | no | string or null | "dtmi:test:MyModel;1" | The identifier of the the service model, which is the full DTMI of the Interface. |
 | data-schema | drive | no | string or null | "dtmi:test:MyModel:_contents:__test;1" | The data schema to use in a cloud event when associated with the telemetry. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
-| custom-token-map | drive | no | map from string to string | { } | A map from custom topic tokens to replacement values. |
+| topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 
 ### TelemetrySender test epilogue
 

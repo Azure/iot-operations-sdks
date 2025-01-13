@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#![cfg(feature = "state_store")]
+
 use std::{env, time::Duration};
 
 use env_logger::Builder;

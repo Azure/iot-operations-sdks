@@ -203,31 +203,13 @@ where
         invoker_options_builder.response_topic_prefix(tci.response_topic_prefix.clone());
         invoker_options_builder.response_topic_suffix(tci.response_topic_suffix.clone());
 
-        let mut topic_token_map = if let Some(custom_token_map) = tci.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tci.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
+        if let Some(topic_token_map) = tci.topic_token_map.as_ref() {
+            invoker_options_builder.topic_token_map(topic_token_map.clone());
         }
-
-        topic_token_map.insert(
-            "invokerClientId".to_string(),
-            managed_client.client_id().to_string(),
-        );
 
         if let Some(command_name) = tci.command_name.as_ref() {
-            topic_token_map.insert("commandName".to_string(), command_name.to_string());
             invoker_options_builder.command_name(command_name);
         }
-
-        invoker_options_builder.topic_token_map(topic_token_map);
 
         let options_result = invoker_options_builder.build();
         if let Err(error) = options_result {
@@ -269,13 +251,6 @@ where
                                 test_case_index: Some(test_case_index),
                             })
                             .unwrap();
-                    }
-
-                    if let Some(executor_id) = default_invoke_command.executor_id.clone() {
-                        command_request_builder.topic_tokens(HashMap::from([(
-                            "executorId".to_string(),
-                            executor_id.to_string(),
-                        )]));
                     }
 
                     if let Some(timeout) = default_invoke_command.timeout.clone() {
@@ -332,7 +307,7 @@ where
             defaults_type: _,
             invocation_index,
             command_name,
-            executor_id,
+            topic_token_map,
             timeout,
             request_value,
             metadata,
@@ -349,11 +324,8 @@ where
                     .unwrap();
             }
 
-            if let Some(executor_id) = executor_id {
-                command_request_builder.topic_tokens(HashMap::from([(
-                    "executorId".to_string(),
-                    executor_id.to_string(),
-                )]));
+            if let Some(topic_token_map) = topic_token_map {
+                command_request_builder.topic_tokens(topic_token_map.clone());
             }
 
             if let Some(timeout) = timeout {
