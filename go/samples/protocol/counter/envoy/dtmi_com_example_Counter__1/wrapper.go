@@ -16,7 +16,7 @@ type CounterCommandHandlers interface {
 
 	Increment(
 		context.Context,
-		*protocol.CommandRequest[any],
+		*protocol.CommandRequest[IncrementRequestPayload],
 	) (*protocol.CommandResponse[IncrementResponsePayload], error)
 
 	Reset(
@@ -120,7 +120,7 @@ func NewCounterService(
 
 func NewCounterClient(
 	client protocol.MqttClient,
-	telemetryCollectionHandler protocol.TelemetryHandler[TelemetryCollection],
+	telemetryHandler protocol.TelemetryHandler[TelemetryCollection],
 	opts ...protocol.Option,
 ) (*CounterClient, error) {
 	var err error
@@ -176,7 +176,7 @@ func NewCounterClient(
 	counterClient.TelemetryCollectionReceiver, err = NewTelemetryCollectionReceiver(
 		client,
 		TelemetryTopic,
-		telemetryCollectionHandler,
+		telemetryHandler,
 		&receiverOpts,
 	)
 	if err != nil {
