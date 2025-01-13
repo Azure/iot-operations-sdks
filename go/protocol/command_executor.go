@@ -185,14 +185,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		req := &CommandRequest[Req]{Message: *msg}
 		var err error
 
-		if msg.ClientID == "" {
-			return nil, &errors.Error{
-				Message:    "source client ID missing",
-				Kind:       errors.HeaderMissing,
-				HeaderName: constants.SourceID,
-			}
-		}
-
 		req.Payload, err = ce.listener.payload(msg)
 		if err != nil {
 			return nil, err
