@@ -25,10 +25,6 @@ pub struct TestCaseExecutor<T: DefaultsType + Default> {
     #[serde(default = "get_default_request_topic::<T>")]
     pub request_topic: Option<String>,
 
-    #[serde(rename = "model-id")]
-    #[serde(default = "get_default_model_id::<T>")]
-    pub model_id: Option<String>,
-
     #[serde(rename = "executor-id")]
     #[serde(default = "get_default_executor_id::<T>")]
     pub executor_id: Option<String>,
@@ -37,8 +33,8 @@ pub struct TestCaseExecutor<T: DefaultsType + Default> {
     #[serde(default = "get_default_topic_namespace::<T>")]
     pub topic_namespace: Option<String>,
 
-    #[serde(rename = "custom-token-map")]
-    pub custom_token_map: Option<HashMap<String, String>>,
+    #[serde(rename = "topic-token-map")]
+    pub topic_token_map: Option<HashMap<String, String>>,
 
     #[serde(rename = "idempotent")]
     #[serde(default = "get_default_idempotent::<T>")]
@@ -92,20 +88,6 @@ pub fn get_default_request_topic<T: DefaultsType + Default>() -> Option<String> 
             if let Some(default_executor) = default_prologue.executor.as_ref() {
                 if let Some(default_request_topic) = default_executor.request_topic.as_ref() {
                     return Some(default_request_topic.to_string());
-                }
-            }
-        }
-    }
-
-    None
-}
-
-pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_prologue) = default_test_case.prologue.as_ref() {
-            if let Some(default_executor) = default_prologue.executor.as_ref() {
-                if let Some(default_model_id) = default_executor.model_id.as_ref() {
-                    return Some(default_model_id.to_string());
                 }
             }
         }

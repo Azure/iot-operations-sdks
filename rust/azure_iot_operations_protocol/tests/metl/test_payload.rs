@@ -20,8 +20,8 @@ pub struct TestPayload {
 impl PayloadSerialize for TestPayload {
     type Error = serde_json::Error;
 
-    fn serialize(&self) -> Result<SerializedPayload, Self::Error> {
-        match serde_json::to_vec(self) {
+    fn serialize(self) -> Result<SerializedPayload, Self::Error> {
+        match serde_json::to_vec(&self) {
             Ok(payload) => Ok(SerializedPayload {
                 payload,
                 content_type: "application/json",

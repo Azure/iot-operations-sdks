@@ -15,7 +15,7 @@ use crate::{
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{PayloadSerialize, FormatIndicator},
         topic_processor::TopicPattern,
-        user_properties::{UserProperty, RESERVED_PREFIX},
+        user_properties::UserProperty,
     },
     DEFAULT_AIO_PROTOCOL_VERSION,
 };
@@ -187,7 +187,7 @@ pub struct TelemetryReceiverOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -520,16 +520,13 @@ where
                                                     cloud_event_time = Some(value);
                                                 },
                                                 Err(()) => {
-                                                    if key.starts_with(RESERVED_PREFIX) {
-                                                        log::error!("[pkid: {}] Invalid telemetry user data property '{}' starts with reserved prefix '{}'. Value is '{}'", m.pkid, key, RESERVED_PREFIX, value);
-                                                    } else {
-                                                        custom_user_data.push((key, value));
-                                                    }
+                                                    custom_user_data.push((key, value));
                                                 }
                                             }
                                         }
                                         _ => {
-                                            log::error!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                            custom_user_data.push((key, value));
                                         }
                                     }
                                 }
@@ -669,7 +666,7 @@ mod tests {
     //     fn format_indicator() -> FormatIndicator {
     //         unimplemented!()
     //     }
-    //     fn serialize(&self) -> Result<Vec<u8>, String> {
+    //     fn serialize(self) -> Result<Vec<u8>, String> {
     //         unimplemented!()
     //     }
     //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {

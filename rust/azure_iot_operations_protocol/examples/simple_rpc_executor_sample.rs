@@ -70,7 +70,7 @@ async fn executor_loop(client: SessionManagedClient) {
             counter_response: counter,
         };
         let response = CommandResponseBuilder::default()
-            .payload(&response)
+            .payload(response)
             .unwrap()
             .build()
             .unwrap();
@@ -92,7 +92,7 @@ pub enum IncrSerializerError {}
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
 
-    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         // This is a request payload, executor does not need to serialize it
         unimplemented!()
     }
@@ -105,7 +105,7 @@ impl PayloadSerialize for IncrRequestPayload {
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
 
-    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
         Ok(SerializedPayload {
             payload: payload.into_bytes(),

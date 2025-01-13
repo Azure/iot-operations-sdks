@@ -110,14 +110,15 @@
         For example:
       </Paragraph>
 
-      <Example suite="CommandInvoker" key="actions" maxLines="20">
-        <Include key="metadata" />
+      <Example suite="CommandExecutor" key="prologue" maxLines="20">
         <Include key="catch" />
+        <Include key="supplemental" />
         <Include key="property-name" />
+        <Include key="property-value" />
       </Example>
 
       <Paragraph>
-        In the above test case, the value of `metadata` is double quoted, indicating that the metadata key must be used verbatim in the test.
+        In the above test case, the value of `property-value` is double quoted, indicating that the value must be used verbatim in the test.
         By contrast, the value of `property-name` is single quoted, indicating that it may incur non-semantic changes across programming languages.
         Since language conventions dictate different casing of property and argument names, the value in the test case is lowercase and contains no separators.
         Test engines should de-capitalize and de-separate property names that are camelCase, PascalCase, or snake_case before comparing them to the indicated value.

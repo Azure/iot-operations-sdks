@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                             SenderId = property.Value;
                             break;
                         default:
-                            if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
+                            if (!AkriSystemProperties.IsReservedUserProperty(property.Name))
                             {
                                 UserData[property.Name] = property.Value;
                             }

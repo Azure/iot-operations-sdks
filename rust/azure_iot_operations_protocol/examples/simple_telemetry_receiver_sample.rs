@@ -113,7 +113,7 @@ pub struct SampleTelemetry {
 impl PayloadSerialize for SampleTelemetry {
     type Error = String;
 
-    fn serialize(&self) -> Result<SerializedPayload, String> {
+    fn serialize(self) -> Result<SerializedPayload, String> {
         // Not used in this example
         unimplemented!()
     }

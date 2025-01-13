@@ -69,7 +69,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
     // Send 10 increment requests
     for i in 1..10 {
         let payload = CommandRequestBuilder::default()
-            .payload(&IncrRequestPayload::default())
+            .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
@@ -109,7 +109,7 @@ pub enum IncrSerializerError {
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
 
-    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         Ok(SerializedPayload {
             payload: Vec::new(),
             content_type: "application/json",
@@ -125,7 +125,7 @@ impl PayloadSerialize for IncrRequestPayload {
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
-    fn serialize(&self) -> Result<SerializedPayload, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         // This is a response payload, invoker does not need to serialize it
         unimplemented!()
     }

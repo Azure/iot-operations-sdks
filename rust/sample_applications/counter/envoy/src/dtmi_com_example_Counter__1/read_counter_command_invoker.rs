@@ -5,17 +5,16 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
 
+use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::empty_json::EmptyJson;
 use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
-use crate::common_types::empty_json::EmptyJson;
 
 pub type ReadCounterRequest = CommandRequest<EmptyJson>;
 pub type ReadCounterResponse = CommandResponse<ReadCounterResponsePayload>;
@@ -32,12 +31,6 @@ impl ReadCounterRequestBuilder {
     /// Custom user data to set on the request
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
-        self
-    }
-
-    /// Fencing token for the request
-    pub fn fencing_token(&mut self, fencing_token: Option<HybridLogicalClock>) -> &mut Self {
-        self.inner_builder.fencing_token(fencing_token);
         self
     }
 
@@ -67,7 +60,7 @@ impl ReadCounterRequestBuilder {
             ));
         }
 
-        self.inner_builder.payload(&EmptyJson {}).unwrap();
+        self.inner_builder.payload(EmptyJson {}).unwrap();
 
         self.inner_builder.build()
     }

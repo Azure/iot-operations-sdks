@@ -51,7 +51,7 @@ impl From<Option<u8>> for FormatIndicator {
 ///   fn format_indicator() -> FormatIndicator {
 ///    FormatIndicator::Utf8EncodedCharacterData
 ///   }
-///   fn serialize(&self) -> Result<Vec<u8>, String> {
+///   fn serialize(self) -> Result<Vec<u8>, String> {
 ///     let response = format!("{{\"latitude\": {}, \"longitude\": {}}}", self.latitude, self.longitude);
 ///     Ok(response.as_bytes().to_vec())
 ///   }
@@ -72,7 +72,7 @@ pub trait PayloadSerialize: Clone {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if the serialization fails.
-    fn serialize(&self) -> Result<SerializedPayload, Self::Error>;
+    fn serialize(self) -> Result<SerializedPayload, Self::Error>;
 
     /// Deserializes the payload from a byte vector to the generic type
     ///
@@ -145,7 +145,7 @@ mock! {
     }
     impl PayloadSerialize for Payload {
         type Error = String;
-        fn serialize(&self) -> Result<SerializedPayload, String>;
+        fn serialize(self) -> Result<SerializedPayload, String>;
         fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, PayloadError<String>>;
     }
 }

@@ -1,21 +1,23 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System;
+    using System.ComponentModel;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using DTDLParser;
 
     internal class CommandHandler
     {
-        private static readonly Dictionary<string, string> DefaultWorkingPaths = new()
+        private static readonly Dictionary<string, LanguageInfo> LanguageInfos = new()
         {
-            { "csharp", $"obj{Path.DirectorySeparatorChar}Akri" },
-            { "go", $"akri" },
-            { "rust", $"target{Path.DirectorySeparatorChar}akri" },
+            { "csharp", new LanguageInfo($"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
+            { "go", new LanguageInfo($"akri", string.Empty) },
+            { "rust", new LanguageInfo($"target{Path.DirectorySeparatorChar}akri", "src") },
         };
 
-        public static readonly string[] SupportedLanguages = DefaultWorkingPaths.Keys.ToArray();
+        public static readonly string[] SupportedLanguages = LanguageInfos.Keys.ToArray();
 
         public static async Task<int> GenerateCode(OptionContainer options)
         {
@@ -91,27 +93,28 @@
 
                 var modelParser = new ModelParser();
 
-                string projectName = Path.GetFileNameWithoutExtension(options.OutDir.FullName);
+                string projectName = options.OutDir.Name;
 
                 string workingPathResolved =
-                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, DefaultWorkingPaths[options.Lang]) :
+                    options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfos[options.Lang].DefaultWorkingPath) :
                     Path.IsPathRooted(options.WorkingDir) ? options.WorkingDir :
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
 
-                string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
+                string serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
-                SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
+                string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
+                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
 
                 HashSet<string> sourceFilePaths = new();
                 HashSet<SchemaKind> distinctSchemaKinds = new();
 
                 foreach (string schemaFileName in schemaFiles)
                 {
-                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, options.OutDir, genNamespace, sourceFilePaths, distinctSchemaKinds);
+                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, workingDir, options.OutDir, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, sourceFilePaths, distinctSchemaKinds);
+                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
             }
             catch (Exception ex)
             {
@@ -121,6 +124,8 @@
 
             return 0;
         }
+
+        private record LanguageInfo(string DefaultWorkingPath, string GenSubdir);
 
         private static void WarnOnSuspiciousOption(string optionName, string? pathName)
         {

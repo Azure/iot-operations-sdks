@@ -72,7 +72,7 @@ async fn telemetry_loop(
             .build()
             .unwrap();
         let message = TelemetryMessageBuilder::default()
-            .payload(&SampleTelemetry {
+            .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
             })
@@ -101,7 +101,7 @@ pub struct SampleTelemetry {
 impl PayloadSerialize for SampleTelemetry {
     type Error = String;
 
-    fn serialize(&self) -> Result<SerializedPayload, String> {
+    fn serialize(self) -> Result<SerializedPayload, String> {
         Ok(SerializedPayload {
             payload: format!(
                 "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",

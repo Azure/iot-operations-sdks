@@ -9,4 +9,6 @@ description:
 prologue:
   executors:
   - request-topic: "mock/{modelId}/test"
+    topic-token-map:
+      "modelId": "dtmi:test:MyModel;1"
 ...

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![allow(unused_imports)]
-
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::future::Future;
 use std::marker::PhantomData;
-use std::pin::Pin;
 use std::str::from_utf8;
-use std::sync::atomic;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
@@ -26,10 +21,8 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
-use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
-use crate::metl::countdown_event_map::CountdownEventMap;
 use crate::metl::defaults::{get_invoker_defaults, InvokerDefaults};
 use crate::metl::mqtt_hub::MqttHub;
 use crate::metl::qos;
@@ -38,7 +31,6 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_invoker::TestCaseInvoker;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
-use crate::metl::test_error_kind::TestErrorKind;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -211,31 +203,13 @@ where
         invoker_options_builder.response_topic_prefix(tci.response_topic_prefix.clone());
         invoker_options_builder.response_topic_suffix(tci.response_topic_suffix.clone());
 
-        let mut topic_token_map = if let Some(custom_token_map) = tci.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tci.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
+        if let Some(topic_token_map) = tci.topic_token_map.as_ref() {
+            invoker_options_builder.topic_token_map(topic_token_map.clone());
         }
-
-        topic_token_map.insert(
-            "invokerClientId".to_string(),
-            managed_client.client_id().to_string(),
-        );
 
         if let Some(command_name) = tci.command_name.as_ref() {
-            topic_token_map.insert("commandName".to_string(), command_name.to_string());
             invoker_options_builder.command_name(command_name);
         }
-
-        invoker_options_builder.topic_token_map(topic_token_map);
 
         let options_result = invoker_options_builder.build();
         if let Err(error) = options_result {
@@ -272,18 +246,11 @@ where
 
                     if let Some(request_value) = default_invoke_command.request_value.clone() {
                         command_request_builder
-                            .payload(&TestPayload {
+                            .payload(TestPayload {
                                 payload: Some(request_value.clone()),
                                 test_case_index: Some(test_case_index),
                             })
                             .unwrap();
-                    }
-
-                    if let Some(executor_id) = default_invoke_command.executor_id.clone() {
-                        command_request_builder.topic_tokens(HashMap::from([(
-                            "executorId".to_string(),
-                            executor_id.to_string(),
-                        )]));
                     }
 
                     if let Some(timeout) = default_invoke_command.timeout.clone() {
@@ -340,7 +307,7 @@ where
             defaults_type: _,
             invocation_index,
             command_name,
-            executor_id,
+            topic_token_map,
             timeout,
             request_value,
             metadata,
@@ -350,18 +317,15 @@ where
 
             if let Some(request_value) = request_value {
                 command_request_builder
-                    .payload(&TestPayload {
+                    .payload(TestPayload {
                         payload: Some(request_value.clone()),
                         test_case_index: Some(test_case_index),
                     })
                     .unwrap();
             }
 
-            if let Some(executor_id) = executor_id {
-                command_request_builder.topic_tokens(HashMap::from([(
-                    "executorId".to_string(),
-                    executor_id.to_string(),
-                )]));
+            if let Some(topic_token_map) = topic_token_map {
+                command_request_builder.topic_tokens(topic_token_map.clone());
             }
 
             if let Some(timeout) = timeout {
