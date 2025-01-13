@@ -81,6 +81,7 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -130,22 +131,29 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
+	logger := opts.Logger
+	if logger == nil {
+		logger = app.log
+	}
+
 	ce = &CommandExecutor[Req, Res]{
 		handler: handler,
 		timeout: to,
 		cache:   caching.New(wallclock.Instance),
 	}
 	ce.listener = &listener[Req]{
+		app:            app,
 		client:         client,
 		encoding:       requestEncoding,
 		topic:          reqTF,
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
+		log:            log.Wrap(logger),
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
+		app:      app,
 		client:   client,
 		encoding: responseEncoding,
 	}

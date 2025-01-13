@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/leasedlock"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
@@ -52,7 +51,7 @@ func TestFencing(t *testing.T) {
 
 	test.set(ctx, t, true, uuid.NewString(), statestore.WithFencingToken(ft))
 
-	badFT, err := hlc.Get()
+	badFT, err := app.GetHLC()
 	require.NoError(t, err)
 	badFT.Timestamp = time.Unix(0, 0)
 
@@ -106,7 +105,7 @@ func TestFencingWithSessionID(t *testing.T) {
 
 	test.set(ctx, t, true, uuid.NewString(), statestore.WithFencingToken(ft))
 
-	badFT, err := hlc.Get()
+	badFT, err := app.GetHLC()
 	require.NoError(t, err)
 	badFT.Timestamp = time.Unix(0, 0)
 

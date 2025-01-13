@@ -15,45 +15,56 @@ import (
 	"github.com/google/uuid"
 )
 
-// HybridLogicalClock provides a combination of physical and logical clocks used
-// to track timestamps across a distributed system.
-type HybridLogicalClock struct {
-	Timestamp time.Time
-	Counter   uint64
-	NodeID    string
-}
+type (
+	// HybridLogicalClock provides a combination of physical and logical clocks
+	// used to track timestamps across a distributed system.
+	HybridLogicalClock struct {
+		Timestamp time.Time
+		Counter   uint64
+		NodeID    string
+	}
+
+	// Shared provides a shared instance of an HLC.
+	Shared struct {
+		hlc HybridLogicalClock
+		mu  sync.Mutex
+	}
+)
 
 const maxClockDrift = time.Minute
 
-var (
-	instance = HybridLogicalClock{
-		Timestamp: now(),
-		NodeID:    uuid.Must(uuid.NewV7()).String(),
+// NewShared creates a new shared instance of an HLC. Only one of these should
+// typically be created per application.
+func NewShared() *Shared {
+	return &Shared{
+		hlc: HybridLogicalClock{
+			Timestamp: now(),
+			NodeID:    uuid.Must(uuid.NewV7()).String(),
+		},
 	}
-	instanceMux sync.Mutex
-)
+}
 
-// Get syncs the global HLC instance to the current time and returns it.
-func Get() (HybridLogicalClock, error) {
-	instanceMux.Lock()
-	defer instanceMux.Unlock()
+// Get syncs the shared HLC instance to the current time and returns it.
+func (s *Shared) Get() (HybridLogicalClock, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	var err error
-	instance, err = instance.Update(HybridLogicalClock{})
+	s.hlc, err = s.hlc.Update(HybridLogicalClock{})
 	if err != nil {
 		return HybridLogicalClock{}, err
 	}
 
-	return instance, nil
+	return s.hlc, nil
 }
 
-// Set syncs the global HLC instance to the given HLC.
-func Set(hlc HybridLogicalClock) error {
-	instanceMux.Lock()
-	defer instanceMux.Unlock()
+// Set syncs the shared HLC instance to the given HLC.
+func (s *Shared) Set(hlc HybridLogicalClock) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	var err error
-	instance, err = instance.Update(hlc)
+	s.hlc, err = s.hlc.Update(hlc)
 	return err
 }
 

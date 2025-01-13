@@ -14,6 +14,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var app = protocol.Must(protocol.NewApplication())
+
 func sessionClients(
 	t *testing.T,
 ) (client, server *mqtt.SessionClient, done func()) {

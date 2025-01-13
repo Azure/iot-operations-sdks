@@ -10,6 +10,7 @@ type TelemetryCollectionReceiver struct {
 }
 
 func NewTelemetryCollectionReceiver(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	topic string,
 	handler protocol.TelemetryHandler[TelemetryCollection],
@@ -24,6 +25,7 @@ func NewTelemetryCollectionReceiver(
 	)
 
 	receiver.TelemetryReceiver, err = protocol.NewTelemetryReceiver(
+		app,
 		client,
 		protocol.JSON[TelemetryCollection]{},
 		topic,

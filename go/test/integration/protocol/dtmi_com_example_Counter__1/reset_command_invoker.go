@@ -12,6 +12,7 @@ type ResetCommandInvoker struct {
 }
 
 func NewResetCommandInvoker(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
@@ -28,6 +29,7 @@ func NewResetCommandInvoker(
 	)
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.Empty{},
 		protocol.Empty{},

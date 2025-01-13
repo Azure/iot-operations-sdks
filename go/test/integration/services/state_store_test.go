@@ -25,7 +25,7 @@ func newStateStoreTest(ctx context.Context, t *testing.T) *stateStoreTest {
 
 	test.mqtt = mqtt.NewSessionClient(mqtt.TCPConnection("localhost", 1883))
 
-	test.client, err = statestore.New[string, string](test.mqtt)
+	test.client, err = statestore.New[string, string](app, test.mqtt)
 	require.NoError(t, err)
 
 	require.NoError(t, test.mqtt.Start())

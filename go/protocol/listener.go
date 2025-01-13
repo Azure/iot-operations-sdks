@@ -29,6 +29,7 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
+		app            *Application
 		client         MqttClient
 		encoding       Encoding[T]
 		topic          *internal.TopicFilter
@@ -146,6 +147,10 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		var err error
 		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
+			l.error(ctx, msg.Mqtt, err)
+			return
+		}
+		if err = l.app.hlc.Set(msg.Timestamp); err != nil {
 			l.error(ctx, msg.Mqtt, err)
 			return
 		}

@@ -16,7 +16,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_
   - [func \(v Enum\_Ms\_Adr\_SchemaRegistry\_SchemaType\_\_1\) String\(\) string](<#Enum_Ms_Adr_SchemaRegistry_SchemaType__1.String>)
   - [func \(v \*Enum\_Ms\_Adr\_SchemaRegistry\_SchemaType\_\_1\) UnmarshalJSON\(b \[\]byte\) error](<#Enum_Ms_Adr_SchemaRegistry_SchemaType__1.UnmarshalJSON>)
 - [type GetCommandInvoker](<#GetCommandInvoker>)
-  - [func NewGetCommandInvoker\(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*GetCommandInvoker, error\)](<#NewGetCommandInvoker>)
+  - [func NewGetCommandInvoker\(app \*protocol.Application, client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*GetCommandInvoker, error\)](<#NewGetCommandInvoker>)
   - [func \(invoker GetCommandInvoker\) Get\(ctx context.Context, request GetRequestPayload, opt ...protocol.InvokeOption\) \(\*protocol.CommandResponse\[GetResponsePayload\], error\)](<#GetCommandInvoker.Get>)
 - [type GetRequestPayload](<#GetRequestPayload>)
 - [type GetResponsePayload](<#GetResponsePayload>)
@@ -24,12 +24,12 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_
 - [type Object\_Ms\_Adr\_SchemaRegistry\_Schema\_\_1](<#Object_Ms_Adr_SchemaRegistry_Schema__1>)
 - [type Object\_Put\_Request](<#Object_Put_Request>)
 - [type PutCommandInvoker](<#PutCommandInvoker>)
-  - [func NewPutCommandInvoker\(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*PutCommandInvoker, error\)](<#NewPutCommandInvoker>)
+  - [func NewPutCommandInvoker\(app \*protocol.Application, client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption\) \(\*PutCommandInvoker, error\)](<#NewPutCommandInvoker>)
   - [func \(invoker PutCommandInvoker\) Put\(ctx context.Context, request PutRequestPayload, opt ...protocol.InvokeOption\) \(\*protocol.CommandResponse\[PutResponsePayload\], error\)](<#PutCommandInvoker.Put>)
 - [type PutRequestPayload](<#PutRequestPayload>)
 - [type PutResponsePayload](<#PutResponsePayload>)
 - [type SchemaRegistryClient](<#SchemaRegistryClient>)
-  - [func NewSchemaRegistryClient\(client protocol.MqttClient, opts ...protocol.Option\) \(\*SchemaRegistryClient, error\)](<#NewSchemaRegistryClient>)
+  - [func NewSchemaRegistryClient\(app \*protocol.Application, client protocol.MqttClient, opts ...protocol.Option\) \(\*SchemaRegistryClient, error\)](<#NewSchemaRegistryClient>)
 
 
 ## Constants
@@ -144,16 +144,16 @@ type GetCommandInvoker struct {
 ```
 
 <a name="NewGetCommandInvoker"></a>
-### func [NewGetCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_invoker.go#L14-L18>)
+### func [NewGetCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_invoker.go#L14-L19>)
 
 ```go
-func NewGetCommandInvoker(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption) (*GetCommandInvoker, error)
+func NewGetCommandInvoker(app *protocol.Application, client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption) (*GetCommandInvoker, error)
 ```
 
 
 
 <a name="GetCommandInvoker.Get"></a>
-### func \(GetCommandInvoker\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_invoker.go#L41-L45>)
+### func \(GetCommandInvoker\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/get_command_invoker.go#L43-L47>)
 
 ```go
 func (invoker GetCommandInvoker) Get(ctx context.Context, request GetRequestPayload, opt ...protocol.InvokeOption) (*protocol.CommandResponse[GetResponsePayload], error)
@@ -244,16 +244,16 @@ type PutCommandInvoker struct {
 ```
 
 <a name="NewPutCommandInvoker"></a>
-### func [NewPutCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_invoker.go#L14-L18>)
+### func [NewPutCommandInvoker](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_invoker.go#L14-L19>)
 
 ```go
-func NewPutCommandInvoker(client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption) (*PutCommandInvoker, error)
+func NewPutCommandInvoker(app *protocol.Application, client protocol.MqttClient, requestTopic string, opt ...protocol.CommandInvokerOption) (*PutCommandInvoker, error)
 ```
 
 
 
 <a name="PutCommandInvoker.Put"></a>
-### func \(PutCommandInvoker\) [Put](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_invoker.go#L41-L45>)
+### func \(PutCommandInvoker\) [Put](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/put_command_invoker.go#L43-L47>)
 
 ```go
 func (invoker PutCommandInvoker) Put(ctx context.Context, request PutRequestPayload, opt ...protocol.InvokeOption) (*protocol.CommandResponse[PutResponsePayload], error)
@@ -297,10 +297,10 @@ type SchemaRegistryClient struct {
 ```
 
 <a name="NewSchemaRegistryClient"></a>
-### func [NewSchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L19-L22>)
+### func [NewSchemaRegistryClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1/wrapper.go#L19-L23>)
 
 ```go
-func NewSchemaRegistryClient(client protocol.MqttClient, opts ...protocol.Option) (*SchemaRegistryClient, error)
+func NewSchemaRegistryClient(app *protocol.Application, client protocol.MqttClient, opts ...protocol.Option) (*SchemaRegistryClient, error)
 ```
 
 
