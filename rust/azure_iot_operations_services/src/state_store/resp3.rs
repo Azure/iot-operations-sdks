@@ -71,17 +71,17 @@ impl PayloadSerialize for Request {
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(match self {
             Request::Set {
                 key,
                 value,
                 options,
-            } => serialize_set(key, value, options),
-            Request::Get { key } => serialize_get(key),
-            Request::KeyNotify { key, options } => serialize_key_notify(key, options),
-            Request::Del { key } => serialize_del(key),
-            Request::VDel { key, value } => serialize_v_del(key, value),
+            } => serialize_set(&key, &value, &options),
+            Request::Get { key } => serialize_get(&key),
+            Request::KeyNotify { key, options } => serialize_key_notify(&key, &options),
+            Request::Del { key } => serialize_del(&key),
+            Request::VDel { key, value } => serialize_v_del(&key, &value),
         })
     }
 
@@ -269,7 +269,7 @@ impl PayloadSerialize for Response {
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Err("Not implemented".into())
     }
 
@@ -324,7 +324,7 @@ impl PayloadSerialize for Operation {
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Err("Not implemented".into())
     }
 
@@ -503,7 +503,7 @@ mod tests {
         "expires set")]
     fn test_serialize_set_options(set_options: SetOptions, expected: &[u8]) {
         assert_eq!(
-            Request::serialize(&Request::Set {
+            Request::serialize(Request::Set {
                 key: b"testkey".to_vec(),
                 value: b"testvalue".to_vec(),
                 options: set_options
@@ -516,7 +516,7 @@ mod tests {
     #[test]
     fn test_serialize_empty_set() {
         assert_eq!(
-            Request::serialize(&Request::Set {
+            Request::serialize(Request::Set {
                 key: b"".to_vec(),
                 value: b"".to_vec(),
                 options: SetOptions::default()
@@ -529,7 +529,7 @@ mod tests {
     #[test]
     fn test_serialize_get() {
         assert_eq!(
-            Request::serialize(&Request::Get {
+            Request::serialize(Request::Get {
                 key: b"testkey".to_vec()
             })
             .unwrap(),
@@ -540,7 +540,7 @@ mod tests {
     #[test]
     fn test_serialize_del() {
         assert_eq!(
-            Request::serialize(&Request::Del {
+            Request::serialize(Request::Del {
                 key: b"testkey".to_vec()
             })
             .unwrap(),
@@ -551,7 +551,7 @@ mod tests {
     #[test]
     fn test_serialize_vdel() {
         assert_eq!(
-            Request::serialize(&Request::VDel {
+            Request::serialize(Request::VDel {
                 key: b"testkey".to_vec(),
                 value: b"testvalue".to_vec()
             })

@@ -1,0 +1,12 @@
+---
+test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
+description:
+  condition: >-
+    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
+  expect: >-
+    CommandExecutor starts successfully.
+
+prologue:
+  executors:
+  - request-topic: "mock/{commandName}/test"
+...

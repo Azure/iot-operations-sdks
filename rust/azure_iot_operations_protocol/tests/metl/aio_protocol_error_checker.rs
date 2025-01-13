@@ -50,7 +50,18 @@ pub fn check_error(
         .supplemental
         .get(test_case_catch::TIMEOUT_NAME_KEY)
     {
-        assert_eq!(timeout_name, &aio_protocol_error.timeout_name);
+        if let Some(expected_timeout_name) = timeout_name {
+            if let Some(actual_timeout_name) = aio_protocol_error.timeout_name.as_ref() {
+                assert_eq!(
+                    expected_timeout_name,
+                    &actual_timeout_name.replace('_', "").to_lowercase()
+                );
+            } else {
+                panic!("no timeout_name value in AIOProtocolError");
+            }
+        } else {
+            assert_eq!(None, aio_protocol_error.timeout_name);
+        }
     }
 
     if let Some(timeout_value) = test_case_catch
@@ -83,7 +94,9 @@ pub fn check_error(
                             0
                         })
                         .collect::<String>()
+                        .replace("__", ".")
                         .replace('_', "")
+                        .replace('.', "__")
                         .to_lowercase()
                 );
             } else {

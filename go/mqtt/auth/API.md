@@ -26,7 +26,7 @@ var ErrUnexpected = errors.New("unexpected call to auth provider")
 ```
 
 <a name="AIOServiceAccountToken"></a>
-## type [AIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L14-L20>)
+## type [AIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L16-L23>)
 
 AIOServiceAccountToken impelements an enhanced authentication provider that reads a Kubernetes Service Account Token for the AIO Broker.
 
@@ -37,7 +37,7 @@ type AIOServiceAccountToken struct {
 ```
 
 <a name="NewAIOServiceAccountToken"></a>
-### func [NewAIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L24-L26>)
+### func [NewAIOServiceAccountToken](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L27-L29>)
 
 ```go
 func NewAIOServiceAccountToken(filename string) (*AIOServiceAccountToken, error)
@@ -46,7 +46,7 @@ func NewAIOServiceAccountToken(filename string) (*AIOServiceAccountToken, error)
 NewAIOServiceAccountToken creates a new AIO SAT auth provider from the given filename.
 
 <a name="AIOServiceAccountToken.AuthSuccess"></a>
-### func \(\*AIOServiceAccountToken\) [AuthSuccess](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L59>)
+### func \(\*AIOServiceAccountToken\) [AuthSuccess](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L64>)
 
 ```go
 func (sat *AIOServiceAccountToken) AuthSuccess(requestReauth func())
@@ -55,7 +55,7 @@ func (sat *AIOServiceAccountToken) AuthSuccess(requestReauth func())
 
 
 <a name="AIOServiceAccountToken.Close"></a>
-### func \(\*AIOServiceAccountToken\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L65>)
+### func \(\*AIOServiceAccountToken\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L70>)
 
 ```go
 func (sat *AIOServiceAccountToken) Close() error
@@ -64,7 +64,7 @@ func (sat *AIOServiceAccountToken) Close() error
 
 
 <a name="AIOServiceAccountToken.ContinueAuth"></a>
-### func \(\*AIOServiceAccountToken\) [ContinueAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L55>)
+### func \(\*AIOServiceAccountToken\) [ContinueAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L60>)
 
 ```go
 func (*AIOServiceAccountToken) ContinueAuth(*Values) (*Values, error)
@@ -73,7 +73,7 @@ func (*AIOServiceAccountToken) ContinueAuth(*Values) (*Values, error)
 
 
 <a name="AIOServiceAccountToken.InitiateAuth"></a>
-### func \(\*AIOServiceAccountToken\) [InitiateAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L44>)
+### func \(\*AIOServiceAccountToken\) [InitiateAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/auth/mq_sat.go#L56>)
 
 ```go
 func (sat *AIOServiceAccountToken) InitiateAuth(bool) (*Values, error)

@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
@@ -16,11 +17,14 @@ import (
 	"github.com/lmittmann/tint"
 )
 
-type Handlers struct{}
-
-var counterValue int = 0
+type Handlers struct {
+	counterValue    int32
+	telemetrySender *dtmi_com_example_Counter__1.TelemetryCollectionSender
+}
 
 func main() {
+	handlers := &Handlers{}
+
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
 		Level: slog.LevelDebug,
@@ -34,7 +38,7 @@ func main() {
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
 		mqttClient,
-		&Handlers{},
+		handlers,
 		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
@@ -42,12 +46,19 @@ func main() {
 	check(mqttClient.Start())
 	check(server.Start(ctx))
 
+	sender := must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
+		mqttClient,
+		dtmi_com_example_Counter__1.TelemetryTopic,
+		protocol.WithLogger(slog.Default()),
+	))
+	handlers.telemetrySender = sender
+
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 	<-sig
 }
 
-func (Handlers) ReadCounter(
+func (h *Handlers) ReadCounter(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
@@ -63,13 +74,13 @@ func (Handlers) ReadCounter(
 	)
 
 	return protocol.Respond(dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.LoadInt32(&h.counterValue),
 	})
 }
 
-func (Handlers) Increment(
+func (h *Handlers) Increment(
 	ctx context.Context,
-	req *protocol.CommandRequest[any],
+	req *protocol.CommandRequest[dtmi_com_example_Counter__1.IncrementRequestPayload],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
 	slog.Info(
 		"--> Counter.Increment",
@@ -81,13 +92,22 @@ func (Handlers) Increment(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue++
+
+	value := atomic.AddInt32(&h.counterValue, req.Payload.IncrementValue)
+	telemetry := dtmi_com_example_Counter__1.TelemetryCollection{
+		CounterValue: &value,
+	}
+	err := h.telemetrySender.SendTelemetryCollection(ctx, telemetry)
+	if err != nil {
+		slog.Error("failed to send telemetry", "error", err)
+	}
+
 	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
-		CounterResponse: int32(counterValue),
+		CounterResponse: atomic.AddInt32(&h.counterValue, 1),
 	})
 }
 
-func (Handlers) Reset(
+func (h *Handlers) Reset(
 	ctx context.Context,
 	req *protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
@@ -101,7 +121,8 @@ func (Handlers) Reset(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
-	counterValue = 0
+
+	atomic.StoreInt32(&h.counterValue, 0)
 	return protocol.Respond[any](nil)
 }
 

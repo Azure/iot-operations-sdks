@@ -9,7 +9,6 @@ description:
 prologue:
   invokers:
   - response-topic-suffix: "valid/{modelId}"
-    model-id:
   catch:
     error-kind: invalid argument
     in-application: !!bool false
@@ -17,5 +16,4 @@ prologue:
     is-remote: !!bool false 
     supplemental:
       property-name: 'modelid'
-      property-value:
 ...

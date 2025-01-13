@@ -13,7 +13,6 @@ prologue:
 actions:
 - action: invoke command
   invocation-index: 0
-  executor-id: ""
 - action: await invocation
   invocation-index: 0
   catch:

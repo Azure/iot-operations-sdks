@@ -41,7 +41,6 @@ func NewTestingCommandInvoker(
 	client protocol.MqttClient,
 	commandName *string,
 	requestTopic *string,
-	modelID *string,
 	opt ...protocol.CommandInvokerOption,
 ) (*TestingCommandInvoker, error) {
 	invoker := &TestingCommandInvoker{}
@@ -72,23 +71,12 @@ func NewTestingCommandInvoker(
 		opt,
 	)
 
-	if modelID != nil {
-		opts.Apply(
-			[]protocol.CommandInvokerOption{},
-			protocol.WithTopicTokens{
-				"modelId": *modelID,
-			},
-		)
-	}
-
 	invoker.base, err = protocol.NewCommandInvoker(
 		client,
 		protocol.JSON[string]{},
 		protocol.JSON[string]{},
 		*requestTopic,
 		&opts,
-		protocol.WithTopicTokens{"commandName": *commandName},
-		protocol.WithTopicTokens{"invokerClientId": client.ID()},
 	)
 
 	return invoker, err
@@ -99,8 +87,6 @@ func NewTestingCommandExecutor(
 	commandName *string,
 	requestTopic *string,
 	handler func(context.Context, *protocol.CommandRequest[string], *sync.Map) (*protocol.CommandResponse[string], error),
-	modelID *string,
-	executorID *string,
 	opt ...protocol.CommandExecutorOption,
 ) (*TestingCommandExecutor, error) {
 	executor := &TestingCommandExecutor{
@@ -128,26 +114,10 @@ func NewTestingCommandExecutor(
 		}
 	}
 
-	var realizedExecutorID string
-	if executorID != nil {
-		realizedExecutorID = *executorID
-	} else {
-		realizedExecutorID = client.ID()
-	}
-
 	var opts protocol.CommandExecutorOptions
 	opts.Apply(
 		opt,
 	)
-
-	if modelID != nil {
-		opts.Apply(
-			[]protocol.CommandExecutorOption{},
-			protocol.WithTopicTokens{
-				"modelId": *modelID,
-			},
-		)
-	}
 
 	executor.base, err = protocol.NewCommandExecutor(
 		client,
@@ -162,8 +132,6 @@ func NewTestingCommandExecutor(
 			return handler(ctx, req, &executor.reqRespSeq)
 		},
 		&opts,
-		protocol.WithTopicTokens{"commandName": *commandName},
-		protocol.WithTopicTokens{"executorId": realizedExecutorID},
 	)
 
 	return executor, err
@@ -171,9 +139,7 @@ func NewTestingCommandExecutor(
 
 func NewTestingTelemetrySender(
 	client protocol.MqttClient,
-	telemetryName *string,
 	telemetryTopic *string,
-	modelID *string,
 	opt ...protocol.TelemetrySenderOption,
 ) (*TestingTelemetrySender, error) {
 	sender := &TestingTelemetrySender{}
@@ -194,30 +160,11 @@ func NewTestingTelemetrySender(
 		opt,
 	)
 
-	if modelID != nil {
-		opts.Apply(
-			[]protocol.TelemetrySenderOption{},
-			protocol.WithTopicTokens{
-				"modelId": *modelID,
-			},
-		)
-	}
-
-	if telemetryName != nil {
-		opts.Apply(
-			[]protocol.TelemetrySenderOption{},
-			protocol.WithTopicTokens{
-				"telemetryName": *telemetryName,
-			},
-		)
-	}
-
 	sender.base, err = protocol.NewTelemetrySender(
 		client,
 		protocol.JSON[string]{},
 		*telemetryTopic,
 		&opts,
-		protocol.WithTopicTokens{"senderId": client.ID()},
 	)
 
 	return sender, err
@@ -225,10 +172,8 @@ func NewTestingTelemetrySender(
 
 func NewTestingTelemetryReceiver(
 	client protocol.MqttClient,
-	telemetryName *string,
 	telemetryTopic *string,
 	handler func(context.Context, *protocol.TelemetryMessage[string]) error,
-	modelID *string,
 	opt ...protocol.TelemetryReceiverOption,
 ) (*TestingTelemetryReceiver, error) {
 	receiver := &TestingTelemetryReceiver{
@@ -250,24 +195,6 @@ func NewTestingTelemetryReceiver(
 	opts.Apply(
 		opt,
 	)
-
-	if modelID != nil {
-		opts.Apply(
-			[]protocol.TelemetryReceiverOption{},
-			protocol.WithTopicTokens{
-				"modelId": *modelID,
-			},
-		)
-	}
-
-	if telemetryName != nil {
-		opts.Apply(
-			[]protocol.TelemetryReceiverOption{},
-			protocol.WithTopicTokens{
-				"telemetryName": *telemetryName,
-			},
-		)
-	}
 
 	receiver.base, err = protocol.NewTelemetryReceiver(
 		client,

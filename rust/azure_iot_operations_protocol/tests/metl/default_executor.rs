@@ -15,9 +15,6 @@ pub struct DefaultExecutor {
     #[serde(rename = "request-topic")]
     pub request_topic: Option<String>,
 
-    #[serde(rename = "model-id")]
-    pub model_id: Option<String>,
-
     #[serde(rename = "executor-id")]
     pub executor_id: Option<String>,
 

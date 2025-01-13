@@ -21,6 +21,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
             await mqttClient.ConnectAsync(mcs, stoppingToken);
             await Console.Out.WriteLineAsync($"Connected to: {mcs}");
             var server_id = configuration.GetValue<string>("COUNTER_SERVER_ID") ?? "CounterServer";
+            await counterClient.StartAsync(stoppingToken);
             await RunCounterCommands(server_id);
             await mqttClient.DisconnectAsync();
             Environment.Exit(0);
@@ -47,12 +48,14 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         for (int i = 0; i < tasks.Length; i++)
         {
             CommandRequestMetadata reqMd2 = new();
+            IncrementRequestPayload payload = new IncrementRequestPayload();
+            payload.IncrementValue = 1;
             logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
-            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, reqMd2).WithMetadata();
+            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;
         }
         await Task.WhenAll(tasks);
-
+        
         for (int i = 0; i < tasks.Length; i++)
         {
             Task<ExtendedResponse<IncrementResponsePayload>>? t = (Task<ExtendedResponse<IncrementResponsePayload>>?)tasks[i];
@@ -63,6 +66,17 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         ExtendedResponse<ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(server).WithMetadata();
         logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
 
+        if (!IsTelemetryCountEqualTo(tasks.LongLength))
 
+        {
+            throw new Exception("Telemetry count mismatch");
+        }
+    }
+
+    private bool IsTelemetryCountEqualTo(long targetCount)
+    {
+        long currentCount = counterClient.GetTelemetryCount();
+        logger.LogInformation($"Current telemetry count: {currentCount}");
+        return currentCount == targetCount;
     }
 }

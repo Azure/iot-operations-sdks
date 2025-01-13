@@ -19,9 +19,9 @@ use super::TELEMETRY_SERVICE_GROUP_ID;
 <# } #>
 use super::TELEMETRY_TOPIC_PATTERN;
 <# if (this.schemaClassName == "Bytes") { #>
-use crate::common_types::bytes::Bytes;
+use super::super::common_types::bytes::Bytes;
 <# } #>
-use crate::common_types::common_options::TelemetryOptions;
+use super::super::common_types::common_options::TelemetryOptions;
 
 pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
 
