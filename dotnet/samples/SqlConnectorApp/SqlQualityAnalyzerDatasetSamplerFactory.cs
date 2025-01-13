@@ -19,8 +19,6 @@ namespace SqlQualityAnalyzerConnectorApp
 
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
-            // this method should return the appropriate dataset sampler implementation for the provided asset + dataset. This
-            // method may be called multiple times if the asset or dataset changes in any way over time.
             if (dataset.Name.Equals("qualityanalyzer_data"))
             {
                 string connectionString = assetEndpointProfile.TargetAddress;

@@ -3,19 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using SqlQualityAnalyzerConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    // .ConfigureLogging(logging =>
-    // {
-    //     logging.ClearProviders();
-    //     logging.AddConsole(); // Outputs logs to console
-    //     logging.AddDebug();   // Adds debug logging
-    // })
+
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(SqlQualityAnalyzerDatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddHostedService<TelemetryConnectorWorker>();
-        //services.AddLogging();
+        // TODO To get all possible types of logging. Can be deleetd later.
         services.AddLogging(logging =>
         {
             logging.ClearProviders();
