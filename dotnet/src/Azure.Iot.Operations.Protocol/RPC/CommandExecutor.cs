@@ -397,16 +397,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            string? sourceId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
-            if (sourceId == null)
-            {
-                status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Source ID ({AkriSystemProperties.SourceId}) property present.";
-                invalidPropertyName = AkriSystemProperties.SourceId;
-                invalidPropertyValue = null;
-                return false;
-            }
-
             string? requestProtocolVersion = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
             if (!ProtocolVersion.TryParseProtocolVersion(requestProtocolVersion, out ProtocolVersion? protocolVersion))
             {

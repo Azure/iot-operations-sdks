@@ -46,7 +46,7 @@ We will use the next properties
 |`ResponseTopic`|yes|system||String with the topic used to receive the response.|
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`Timestamp`|no|user|`__ts`|A hybrid clock (HLC) value that can be used to identify the time when the message was produced.|
-|`SourceId`|yes|user|`__srcId`|String representing an identifier of the command invoker.|
+|`SourceId`|no|user|`__srcId`|String representing an identifier of the command invoker.|
 |`ProtocolVersion`|no|user|`__protVer`| The protocol version of the request. If not provided, a protocol version of 0.1 is assumed by the receiving executor. | 
 
 ### Response Message

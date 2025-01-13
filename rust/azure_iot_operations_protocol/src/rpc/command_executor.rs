@@ -64,8 +64,8 @@ where
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the command request.
     pub timestamp: Option<HybridLogicalClock>,
-    /// Client ID of the invoker.
-    pub invoker_id: String,
+    /// If present, contains the client ID of the invoker of the command.
+    pub invoker_id: Option<String>,
     /// Resolved topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
@@ -681,13 +681,6 @@ where
                                     }
                                 }
                             }
-
-                            let Some(invoker_id) = invoker_id else {
-                                 response_arguments.status_code = StatusCode::BadRequest;
-                                 response_arguments.status_message = Some(format!("No source client id ({}) property present", UserProperty::SourceId));
-                                 response_arguments.invalid_property_name = Some(UserProperty::SourceId.to_string());
-                                 break 'process_request;
-                            };
 
                             let topic = match std::str::from_utf8(&m.topic) {
                                 Ok(topic) => topic,
