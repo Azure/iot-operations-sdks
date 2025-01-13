@@ -10,10 +10,11 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::{common::payload_serialize::{PayloadError, SerializedPayload}, telemetry::telemetry_receiver::TelemetryReceiver};
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
-    telemetry::telemetry_receiver::TelemetryReceiverOptionsBuilder,
+    common::payload_serialize::{
+        FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    },
+    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "myReceiver";
@@ -118,14 +119,24 @@ impl PayloadSerialize for SampleTelemetry {
         unimplemented!()
     }
 
-    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<SampleTelemetry, PayloadError<String>> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<SampleTelemetry, PayloadError<String>> {
         if *content_type != Some("application/json".to_string()) {
-            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/json'")));
+            return Err(PayloadError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -134,7 +145,11 @@ impl PayloadSerialize for SampleTelemetry {
             .parse::<f64>()
         {
             Ok(ext_temp) => ext_temp,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
@@ -142,7 +157,11 @@ impl PayloadSerialize for SampleTelemetry {
             .parse::<f64>()
         {
             Ok(int_temp) => int_temp,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
 
         Ok(SampleTelemetry {

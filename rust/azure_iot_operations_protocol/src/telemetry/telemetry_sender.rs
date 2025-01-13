@@ -11,17 +11,17 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::{common::payload_serialize::SerializedPayload, telemetry::cloud_event::{
-    CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-}};
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
+        payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
         user_properties::{validate_user_properties, UserProperty},
+    },
+    telemetry::cloud_event::{
+        CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
     },
     AIO_PROTOCOL_VERSION,
 };
@@ -143,19 +143,16 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
     /// TODO: change to argument invalid?
-    pub fn payload(&mut self, payload: T) -> Result<&mut Self, AIOProtocolError> 
-    {
+    pub fn payload(&mut self, payload: T) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
-            Err(e) => {
-                Err(AIOProtocolError::new_payload_invalid_error(
-                    true,
-                    false,
-                    Some(e.into()),
-                    None,
-                    Some("Payload serialization error".to_string()),
-                    None,
-                ))
-            }
+            Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                Some(e.into()),
+                None,
+                Some("Payload serialization error".to_string()),
+                None,
+            )),
             Ok(serialized_payload) => {
                 // Validate content type of telemetry message is valid UTF-8
                 if is_invalid_utf8(serialized_payload.content_type) {
@@ -356,7 +353,8 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(&message_topic, message.serialized_payload.content_type);
+            let cloud_event_headers =
+                cloud_event.into_headers(&message_topic, message.serialized_payload.content_type);
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -583,11 +581,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: String::new().into(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
@@ -604,11 +604,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: String::new().into(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
@@ -625,11 +627,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: String::new().into(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()

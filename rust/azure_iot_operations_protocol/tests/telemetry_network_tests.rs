@@ -11,7 +11,9 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
+    common::payload_serialize::{
+        FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
         telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -115,7 +117,11 @@ impl PayloadSerialize for EmptyPayload {
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }
-    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<EmptyPayload, PayloadError<String>> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<EmptyPayload, PayloadError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -236,14 +242,24 @@ impl PayloadSerialize for DataPayload {
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }
-    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<DataPayload, PayloadError<String>> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataPayload, PayloadError<String>> {
         if *content_type != Some("application/json".to_string()) {
-            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/json'")));
+            return Err(PayloadError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
 
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -252,7 +268,11 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(ext_temp) => ext_temp,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
@@ -260,7 +280,11 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(int_temp) => int_temp,
-            Err(e) => return Err(PayloadError::DeserializationError(format!("Error while deserializing telemetry: {e}"))),
+            Err(e) => {
+                return Err(PayloadError::DeserializationError(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
 
         Ok(DataPayload {
@@ -326,10 +350,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
-                        assert_eq!(
-                            cloud_event.data_content_type.unwrap(),
-                            "application/json"
-                        );
+                        assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
                     }
@@ -350,10 +371,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
-                        assert_eq!(
-                            cloud_event.data_content_type.unwrap(),
-                            "application/json"
-                        );
+                        assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
 

@@ -1001,32 +1001,36 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
 
     // response payload deserialization
     let format_indicator = response_properties.payload_format_indicator.into();
-    let deserialized_response_payload = match TResp::deserialize(response_payload, &response_properties.content_type, &format_indicator) {
+    let deserialized_response_payload = match TResp::deserialize(
+        response_payload,
+        &response_properties.content_type,
+        &format_indicator,
+    ) {
         Ok(payload) => payload,
-        Err(e) => {
-            match e {
-                PayloadError::DeserializationError(deserialization_e) => {
-                    return Err(AIOProtocolError::new_payload_invalid_error(
-                        false,
-                        false,
-                        Some(deserialization_e.into()),
-                        None,
-                        None,
-                        Some(command_name),
-                    ));
-                }
-                PayloadError::UnsupportedContentType(message) => {
-                    return Err(AIOProtocolError::new_header_invalid_error(
-                        "Content Type",
-                        &response_properties.content_type.unwrap_or("None".to_string()),
-                        false,
-                        None,
-                        Some(message),
-                        Some(command_name)
-                    ));
-                }
+        Err(e) => match e {
+            PayloadError::DeserializationError(deserialization_e) => {
+                return Err(AIOProtocolError::new_payload_invalid_error(
+                    false,
+                    false,
+                    Some(deserialization_e.into()),
+                    None,
+                    None,
+                    Some(command_name),
+                ));
             }
-        }
+            PayloadError::UnsupportedContentType(message) => {
+                return Err(AIOProtocolError::new_header_invalid_error(
+                    "Content Type",
+                    &response_properties
+                        .content_type
+                        .unwrap_or("None".to_string()),
+                    false,
+                    None,
+                    Some(message),
+                    Some(command_name),
+                ));
+            }
+        },
     };
 
     Ok(CommandResponse {
@@ -1058,9 +1062,7 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{
-            FormatIndicator, MockPayload, DESERIALIZE_MTX,
-        },
+        payload_serialize::{FormatIndicator, MockPayload, DESERIALIZE_MTX},
     };
 
     // // Payload that has an invalid content type for testing
@@ -1393,11 +1395,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         // TODO: Check for
@@ -1457,11 +1461,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         // TODO: Check for
@@ -1498,7 +1504,7 @@ mod tests {
     async fn test_invoke_deserialize_error() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
-        
+
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1514,11 +1520,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         // TODO: Check for
@@ -1531,7 +1539,11 @@ mod tests {
         // Deserialize should be called on the incoming response payload
         mock_payload_deserialize_ctx
             .expect()
-            .returning(|_, _, _| Err(PayloadError::DeserializationError("dummy error".to_string())))
+            .returning(|_, _, _| {
+                Err(PayloadError::DeserializationError(
+                    "dummy error".to_string(),
+                ))
+            })
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
@@ -1578,11 +1590,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let response = command_invoker
@@ -1629,11 +1643,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let response = command_invoker
@@ -1685,11 +1701,13 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(SerializedPayload {
-                payload: Vec::new(),
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json",
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let request_builder_result = CommandRequestBuilder::default()

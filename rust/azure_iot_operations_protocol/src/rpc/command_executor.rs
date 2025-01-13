@@ -712,7 +712,7 @@ where
                                             break 'process_request;
                                         }
                                     }
-                                    
+
                                 }
                             };
 
@@ -1018,10 +1018,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::common::{
-        aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::MockPayload,
-    };
+    use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
     // // Payload that has an invalid content type for testing
     // struct InvalidContentTypePayload {}

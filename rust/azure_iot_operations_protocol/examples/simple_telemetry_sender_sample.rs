@@ -10,12 +10,13 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::{common::payload_serialize::{PayloadError, SerializedPayload}, telemetry::telemetry_sender::{
-    CloudEventBuilder, TelemetrySender,
-}};
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
-    telemetry::telemetry_sender::{TelemetryMessageBuilder, TelemetrySenderOptionsBuilder},
+    common::payload_serialize::{
+        FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    },
+    telemetry::telemetry_sender::{
+        CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
+    },
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -113,7 +114,11 @@ impl PayloadSerialize for SampleTelemetry {
         })
     }
 
-    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<SampleTelemetry, PayloadError<String>> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<SampleTelemetry, PayloadError<String>> {
         // Not used in this example
         unimplemented!()
     }

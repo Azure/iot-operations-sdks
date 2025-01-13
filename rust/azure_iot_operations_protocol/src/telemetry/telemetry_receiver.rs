@@ -13,7 +13,7 @@ use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::{PayloadSerialize, FormatIndicator},
+        payload_serialize::{FormatIndicator, PayloadSerialize},
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
@@ -640,10 +640,7 @@ mod tests {
 
     use super::*;
     use crate::{
-        common::{
-            aio_protocol_error::AIOProtocolErrorKind,
-            payload_serialize::MockPayload,
-        },
+        common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
     use azure_iot_operations_mqtt::{
@@ -783,7 +780,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
-       let session = get_session();
+        let session = get_session();
         let receiver_options = TelemetryReceiverOptionsBuilder::default()
             .topic_pattern("test/receiver")
             .build()

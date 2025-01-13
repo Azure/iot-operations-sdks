@@ -66,7 +66,7 @@ impl From<Option<u8>> for FormatIndicator {
 pub trait PayloadSerialize: Clone {
     /// The type returned in the event of a serialization/deserialization error
     type Error: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>;
-    
+
     /// Serializes the payload from the generic type to a byte vector and specifies the content type and format indicator.
     /// The content type and format indicator could be the same every time or dynamic per payload.
     ///
@@ -79,7 +79,11 @@ pub trait PayloadSerialize: Clone {
     /// # Errors
     /// Returns a [`PayloadError::DeserializationError`] over Type [`PayloadSerialize::Error`] if the deserialization fails.
     /// Returns a [`PayloadError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
-    fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, PayloadError<Self::Error>>;
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<Self::Error>>;
 }
 
 #[derive(thiserror::Error, Debug)]

@@ -5,7 +5,9 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+};
 
 /// Request types for the State Store service, used internally for serialization
 #[derive(Clone, Debug)]
@@ -82,7 +84,11 @@ impl PayloadSerialize for Request {
         })
     }
 
-    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<Self, PayloadError<String>> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
         Err(PayloadError::DeserializationError("Not implemented".into()))
     }
 }
@@ -263,9 +269,17 @@ impl PayloadSerialize for Response {
         Err("Not implemented".into())
     }
 
-    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<Self, PayloadError<String>> {
-        if *content_type != Some("application/octet-stream".to_string()) {
-            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'")));
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/octet-stream" {
+                return Err(PayloadError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+                )));
+            }
         }
 
         match payload {
@@ -286,7 +300,9 @@ impl PayloadSerialize for Response {
                     ))),
                 }
             }
-            _ => Err(PayloadError::DeserializationError(format!("Unknown response: {payload:?}"))),
+            _ => Err(PayloadError::DeserializationError(format!(
+                "Unknown response: {payload:?}"
+            ))),
         }
     }
 }
@@ -315,17 +331,26 @@ impl PayloadSerialize for Operation {
         Err("Not implemented".into())
     }
 
-    fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<Self, PayloadError<String>> {
-        // TODO: Should we accept no content type as well?
-        if *content_type != Some("application/octet-stream".to_string()) {
-            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'")));
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/octet-stream" {
+                return Err(PayloadError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+                )));
+            }
         }
         match payload {
             Operation::OPERATION_DELETE => Ok(Operation::Del),
             _ if payload.starts_with(Operation::SET_WITH_VALUE_PREFIX) => Ok(Operation::Set(
                 parse_value(payload, Operation::SET_WITH_VALUE_PREFIX)?,
             )),
-            _ => Err(PayloadError::DeserializationError(format!("Unknown operation: {payload:?}"))),
+            _ => Err(PayloadError::DeserializationError(format!(
+                "Unknown operation: {payload:?}"
+            ))),
         }
     }
 }
@@ -445,11 +470,23 @@ mod tests {
     #[test_case(b"-ERR \r\n", &Response::Error(b"".to_vec()); "test_empty_error_response_success")]
 
     fn test_response_deserialization_success(payload: &[u8], expected: &Response) {
-        assert_eq!(Response::deserialize(payload, &Some("application/octet-stream".to_string()), &FormatIndicator::UnspecifiedBytes).unwrap(), expected.clone());
+        assert_eq!(
+            Response::deserialize(
+                payload,
+                &Some("application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes
+            )
+            .unwrap(),
+            expected.clone()
+        );
     }
 
+    #[test]
     fn test_response_deserialization_no_content_type_success() {
-        assert_eq!(Response::deserialize(b"+OK\r\n", &None, &FormatIndicator::UnspecifiedBytes).unwrap(), Response::Ok);
+        assert_eq!(
+            Response::deserialize(b"+OK\r\n", &None, &FormatIndicator::UnspecifiedBytes).unwrap(),
+            Response::Ok
+        );
     }
 
     #[test_case(b"1"; "too short")]
@@ -471,11 +508,22 @@ mod tests {
     #[test_case(b"+OK"; "OK response doesn't end with newline")]
 
     fn test_response_deserialization_failures(payload: &[u8]) {
-        assert!(Response::deserialize(payload, &Some("application/octet-stream".to_string()), &FormatIndicator::UnspecifiedBytes).is_err());
+        assert!(Response::deserialize(
+            payload,
+            &Some("application/octet-stream".to_string()),
+            &FormatIndicator::UnspecifiedBytes
+        )
+        .is_err());
     }
 
+    #[test]
     fn test_response_deserialization_content_type_failure() {
-        assert!(Response::deserialize(b"+OK\r\n", &Some("application/json".to_string()), &FormatIndicator::UnspecifiedBytes).is_err());
+        assert!(Response::deserialize(
+            b"+OK\r\n",
+            &Some("application/json".to_string()),
+            &FormatIndicator::UnspecifiedBytes
+        )
+        .is_err());
     }
 
     // --------------- Internal Fns tests ---------------------

@@ -7,7 +7,9 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+};
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
@@ -97,7 +99,11 @@ impl PayloadSerialize for IncrRequestPayload {
         unimplemented!()
     }
 
-    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<IncrRequestPayload, PayloadError<IncrSerializerError>> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrRequestPayload, PayloadError<IncrSerializerError>> {
         Ok(IncrRequestPayload {})
     }
 }
@@ -114,7 +120,11 @@ impl PayloadSerialize for IncrResponsePayload {
         })
     }
 
-    fn deserialize(_payload: &[u8], _content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<IncrResponsePayload, PayloadError<IncrSerializerError>> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrResponsePayload, PayloadError<IncrSerializerError>> {
         // This is a response payload, executor does not need to deserialize it
         unimplemented!()
     }
