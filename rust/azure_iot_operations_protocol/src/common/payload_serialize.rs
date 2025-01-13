@@ -86,6 +86,7 @@ pub trait PayloadSerialize: Clone {
     ) -> Result<Self, PayloadError<Self::Error>>;
 }
 
+/// Enum to describe the type of error that occurred during payload deserialization.
 #[derive(thiserror::Error, Debug)]
 pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>> {
     /// An error occurred while deserializing
@@ -96,10 +97,14 @@ pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 
     UnsupportedContentType(String),
 }
 
+/// Struct that specifies the content type, format indicator, and payload for a serialized payload.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct SerializedPayload {
+    /// The content type of the payload
     pub content_type: &'static str,
+    /// The format indicator of the payload
     pub format_indicator: FormatIndicator,
+    /// The payload as a serialized byte vector
     pub payload: Vec<u8>,
 }
 
