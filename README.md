@@ -46,13 +46,7 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
     >  
     > Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
 
-1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to connect your cluster to Azure Arc and deploy Azure IoT Operations.
-
-1. Configure Azure IoT Operations for SDK development:
-
-    ```bash
-    ./tools/deployment/deploy-aio.sh release
-    ```
+1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to deploy a cluster to Azure Arc and deploy Azure IoT Operations all within codespaces. Alternatively, follow [these instructions](https://learn.microsoft.com/en-us/azure/iot-operations/deploy-iot-ops/overview-deploy) to deploy a cluster cluster with Azure IoT Operations via the Azure Portal. 
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
@@ -84,7 +78,7 @@ The following tables outline the current feature set, along with the associated 
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
-| **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :orange_circle: | :orange_circle: |
+| **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
 | **Akri** client | Record discovered assets and asset endpoints | :yellow_circle: | :orange_circle: | :orange_circle: |
 

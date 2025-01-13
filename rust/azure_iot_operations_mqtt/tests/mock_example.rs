@@ -42,7 +42,7 @@ async fn mock_event_injection() {
             })))
             .unwrap();
 
-        let received_pub = pub_receiver.recv().await.unwrap();
+        let (received_pub, _) = pub_receiver.recv().await.unwrap();
         assert_eq!(received_pub.topic, "test/resp/topic");
     }
 

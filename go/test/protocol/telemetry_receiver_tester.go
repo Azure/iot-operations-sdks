@@ -204,8 +204,7 @@ func getTelemetryReceiver(
 	receivedTelemetries chan receivedTelemetry,
 ) *TestingTelemetryReceiver {
 	options := []protocol.TelemetryReceiverOption{
-		protocol.WithTopicTokens(tcr.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens(tcr.TopicTokenMap),
 	}
 
 	if tcr.TopicNamespace != nil {
@@ -217,7 +216,6 @@ func getTelemetryReceiver(
 
 	receiver, err := NewTestingTelemetryReceiver(
 		sessionClient,
-		tcr.TelemetryName,
 		tcr.TelemetryTopic,
 		func(
 			_ context.Context,
@@ -225,7 +223,6 @@ func getTelemetryReceiver(
 		) error {
 			return processTelemetry(msg, tcr, receivedTelemetries)
 		},
-		tcr.ModelID,
 		options...)
 
 	if err == nil {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class DefaultSender
@@ -5,8 +8,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public string? TelemetryName { get; set; }
 
         public string? TelemetryTopic { get; set; }
-
-        public string? ModelId { get; set; }
 
         public string? DataSchema { get; set; }
 
