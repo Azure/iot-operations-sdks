@@ -6,19 +6,17 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml;
     using Azure.Iot.Operations.Protocol;
-    using Azure.Iot.Operations.Protocol.RPC;
+    using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Protocol.Models;
     using TestEnvoys;
 
     public static partial class Counter
     {
         /// <summary>
-        /// Specializes a <c>CommandExecutor</c> class for Command 'increment'.
+        /// Specializes the <c>TelemetryReceiver</c> class for type <c>TelemetryCollection</c>.
         /// </summary>
-        public class IncrementCommandExecutor : CommandExecutor<IncrementRequestPayload, IncrementResponsePayload>
+        public class TelemetryCollectionReceiver : TelemetryReceiver<TelemetryCollection>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -28,26 +26,25 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
             public Dictionary<string, string> CustomTopicTokenMap { private get; init; } = new();
 
             /// <summary>
-            /// Gets a dictionary for adding custom token keys and their replacement strings, which will be substituted in request and response topic patterns.
+            /// Gets a dictionary for adding custom token keys and their replacement strings, which will be substituted in telemetry topic patterns.
             /// Note that keys will automatically be prefixed by "ex:" when used for substitution searches in topic pattern strings.
             /// </summary>
             public override Dictionary<string, string> TopicTokenMap { get => CustomTopicTokenMap; }
 
             /// <summary>
-            /// Gets a dictionary used by the base class's code for substituting tokens in request and response topic patterns.
+            /// Gets a dictionary used by the base class's code for substituting tokens in telemetry topic patterns.
             /// </summary>
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="IncrementCommandExecutor"/> class.
+            /// Initializes a new instance of the <see cref="TelemetryCollectionReceiver"/> class.
             /// </summary>
-            internal IncrementCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "increment", new Utf8JsonSerializer())
+            public TelemetryCollectionReceiver(IMqttPubSubClient mqttClient)
+                : base(mqttClient, null, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
-                base.TopicTokenMap["commandName"] = "increment";
             }
         }
     }

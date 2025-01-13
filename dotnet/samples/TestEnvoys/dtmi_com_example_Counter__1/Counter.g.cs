@@ -16,6 +16,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
     using TestEnvoys;
 
     [CommandTopic("rpc/command-samples/{executorId}/{commandName}")]
+    [TelemetryTopic("telemetry/telemetry-samples/counterValue")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.6.0.0")]
     public static partial class Counter
     {
@@ -25,6 +26,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
             private readonly ReadCounterCommandExecutor readCounterCommandExecutor;
             private readonly IncrementCommandExecutor incrementCommandExecutor;
             private readonly ResetCommandExecutor resetCommandExecutor;
+            private readonly TelemetryCollectionSender telemetryCollectionSender;
 
             public Service(IMqttPubSubClient mqttClient)
             {
@@ -34,19 +36,26 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 this.readCounterCommandExecutor = new ReadCounterCommandExecutor(mqttClient) { OnCommandReceived = ReadCounter_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
                 this.incrementCommandExecutor = new IncrementCommandExecutor(mqttClient) { OnCommandReceived = Increment_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
                 this.resetCommandExecutor = new ResetCommandExecutor(mqttClient) { OnCommandReceived = Reset_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionSender = new TelemetryCollectionSender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public ReadCounterCommandExecutor ReadCounterCommandExecutor { get => this.readCounterCommandExecutor; }
             public IncrementCommandExecutor IncrementCommandExecutor { get => this.incrementCommandExecutor; }
             public ResetCommandExecutor ResetCommandExecutor { get => this.resetCommandExecutor; }
+            public TelemetryCollectionSender TelemetryCollectionSender { get => this.telemetryCollectionSender; }
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<CommandResponseMetadata?> ResetAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+
+            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            {
+                await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+            }
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
@@ -79,9 +88,9 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 ExtendedResponse<ReadCounterResponsePayload> extended = await this.ReadCounterAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<ReadCounterResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<IncrementResponsePayload>> Increment_Int(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<IncrementResponsePayload>> Increment_Int(ExtendedRequest<IncrementRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<IncrementResponsePayload> extended = await this.IncrementAsync(req.RequestMetadata!, cancellationToken);
+                ExtendedResponse<IncrementResponsePayload> extended = await this.IncrementAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<IncrementResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
             private async Task<ExtendedResponse<EmptyJson>> Reset_Int(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
@@ -95,6 +104,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 await this.readCounterCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.incrementCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.resetCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.telemetryCollectionSender.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
@@ -102,6 +112,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 await this.readCounterCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.incrementCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.resetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.telemetryCollectionSender.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
 
@@ -111,6 +122,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
             private readonly ReadCounterCommandInvoker readCounterCommandInvoker;
             private readonly IncrementCommandInvoker incrementCommandInvoker;
             private readonly ResetCommandInvoker resetCommandInvoker;
+            private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
 
             public Client(IMqttPubSubClient mqttClient)
             {
@@ -120,13 +132,17 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 this.readCounterCommandInvoker = new ReadCounterCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
                 this.incrementCommandInvoker = new IncrementCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
                 this.resetCommandInvoker = new ResetCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public ReadCounterCommandInvoker ReadCounterCommandInvoker { get => this.readCounterCommandInvoker; }
             public IncrementCommandInvoker IncrementCommandInvoker { get => this.incrementCommandInvoker; }
             public ResetCommandInvoker ResetCommandInvoker { get => this.resetCommandInvoker; }
+            public TelemetryCollectionReceiver TelemetryCollectionReceiver { get => this.telemetryCollectionReceiver; }
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
+
+            public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
             public RpcCallAsync<ReadCounterResponsePayload> ReadCounterAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
@@ -146,7 +162,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<IncrementResponsePayload> IncrementAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<IncrementResponsePayload> IncrementAsync(string executorId, IncrementRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -161,7 +177,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                     { "executorId", executorId },
                 };
 
-                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyJson> ResetAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -182,11 +198,24 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            public async Task StartAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.telemetryCollectionReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.telemetryCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.readCounterCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.incrementCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.resetCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.telemetryCollectionReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
@@ -194,6 +223,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
                 await this.readCounterCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.incrementCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.resetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.telemetryCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }
