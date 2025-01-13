@@ -9,7 +9,7 @@ import (
 type testCaseActionInvokeCommand struct {
 	InvocationIndex int                `yaml:"invocation-index"`
 	CommandName     *string            `yaml:"command-name"`
-	ExecutorID      *string            `yaml:"executor-id"`
+	TopicTokenMap   map[string]string  `yaml:"topic-token-map"`
 	Timeout         *TestCaseDuration  `yaml:"timeout"`
 	RequestValue    *string            `yaml:"request-value"`
 	Metadata        *map[string]string `yaml:"metadata"`
@@ -25,7 +25,6 @@ func (invokeCommand *TestCaseActionInvokeCommand) UnmarshalYAML(
 	*invokeCommand = TestCaseActionInvokeCommand{}
 
 	invokeCommand.CommandName = TestCaseDefaultInfo.Actions.InvokeCommand.GetCommandName()
-	invokeCommand.ExecutorID = TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()
 	invokeCommand.RequestValue = TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue()
 
 	err := node.Decode(&invokeCommand.testCaseActionInvokeCommand)

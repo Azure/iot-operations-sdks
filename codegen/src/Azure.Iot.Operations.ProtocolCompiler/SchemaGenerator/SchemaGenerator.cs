@@ -20,7 +20,7 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
+        public static string GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
         {
             schemaFiles = new List<string>();
 
@@ -37,7 +37,7 @@
             string genNamespace = NameFormatter.DtmiToNamespace(dtInterface.Id);
 
             List<string> annexFiles = new List<string>();
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName, annexFiles), mqttVersion);
+            string serviceName = schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName, annexFiles), mqttVersion);
             annexFile = annexFiles.First();
 
             schemaFiles = new List<string>();
@@ -48,6 +48,8 @@
             schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName, schemaFiles));
             schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName, schemaFiles));
             schemaGenerator.CopyIncludedSchemas(GetWriter(workingDir.FullName));
+
+            return serviceName;
         }
 
         public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion)
@@ -79,7 +81,7 @@
             }
         }
 
-        public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
+        public string GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
         {
             string serviceName = NameFormatter.DtmiToServiceName(dtInterface.Id);
 
@@ -92,6 +94,8 @@
 
             ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales, separateTelemetries);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
+
+            return serviceName;
         }
 
         public void GenerateTelemetrySchemas(Action<string, string, string> acceptor, int mqttVersion)

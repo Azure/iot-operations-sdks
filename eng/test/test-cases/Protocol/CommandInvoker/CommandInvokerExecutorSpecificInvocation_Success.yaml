@@ -13,6 +13,8 @@ prologue:
 actions:
 - action: invoke command
   invocation-index: 0
+  topic-token-map:
+    "executorId": "someExecutor"
 - action: await publish
   correlation-index: 0
 - action: receive response

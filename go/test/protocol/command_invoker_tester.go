@@ -209,8 +209,7 @@ func getCommandInvoker(
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {
 	options := []protocol.CommandInvokerOption{
-		protocol.WithTopicTokens(tci.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens(tci.TopicTokenMap),
 	}
 
 	if tci.ResponseTopicPrefix != nil {
@@ -247,7 +246,6 @@ func getCommandInvoker(
 		sessionClient,
 		tci.CommandName,
 		tci.RequestTopic,
-		tci.ModelID,
 		options...)
 
 	if err == nil {
@@ -263,9 +261,7 @@ func getCommandInvoker(
 		)
 	} else {
 		if err == nil {
-			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
-				protocol.WithTopicTokens{"executorId": *TestCaseDefaultInfo.Actions.InvokeCommand.GetExecutorID()},
-			)
+			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue())
 		}
 
 		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
@@ -290,16 +286,8 @@ func invokeCommand(
 	options = append(
 		options,
 		protocol.WithTimeout(actionInvokeCommand.Timeout.ToDuration()),
+		protocol.WithTopicTokens(actionInvokeCommand.TopicTokenMap),
 	)
-
-	if actionInvokeCommand.ExecutorID != nil {
-		options = append(
-			options,
-			protocol.WithTopicTokens{
-				"executorId": *actionInvokeCommand.ExecutorID,
-			},
-		)
-	}
 
 	if actionInvokeCommand.Metadata != nil {
 		for key, val := range *actionInvokeCommand.Metadata {

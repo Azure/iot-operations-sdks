@@ -4,9 +4,6 @@ package <#=this.genNamespace#>
 
 import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-<# if (this.ttl != null) { #>
-	"github.com/sosodev/duration"
-<# } #>
 )
 
 type <#=this.capitalizedCommandName#>CommandExecutor struct {
@@ -22,13 +19,6 @@ func New<#=this.capitalizedCommandName#>CommandExecutor(
 	var err error
 	executor := &<#=this.capitalizedCommandName#>CommandExecutor{}
 
-<# if (this.ttl != null) { #>
-	cacheTTL, err := duration.Parse("<#=this.ttl#>")
-	if err != nil {
-		return nil, err
-	}
-
-<# } #>
 	var opts protocol.CommandExecutorOptions
 	opts.Apply(
 		opt,
@@ -36,9 +26,6 @@ func New<#=this.capitalizedCommandName#>CommandExecutor(
 			"commandName": "<#=this.commandName#>",
 		},
 		protocol.WithIdempotent(<#=this.isIdempotent ? "true" : "false"#>),
-<# if (this.ttl != null) { #>
-		protocol.WithCacheTTL(cacheTTL.ToTimeDuration()),
-<# } #>
 	)
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
