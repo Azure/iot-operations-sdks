@@ -18,10 +18,13 @@ import (
 )
 
 type Handlers struct {
-	counterValue int32
+	counterValue    int32
+	telemetrySender *dtmi_com_example_Counter__1.TelemetryCollectionSender
 }
 
 func main() {
+	handlers := &Handlers{}
+
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
 		Level: slog.LevelDebug,
@@ -35,7 +38,7 @@ func main() {
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
 		mqttClient,
-		&Handlers{},
+		handlers,
 		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
@@ -43,11 +46,12 @@ func main() {
 	check(mqttClient.Start())
 	check(server.Start(ctx))
 
-	telemetrySender = must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
+	sender := must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
 		mqttClient,
 		dtmi_com_example_Counter__1.TelemetryTopic,
 		protocol.WithLogger(slog.Default()),
 	))
+	handlers.telemetrySender = sender
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -89,12 +93,11 @@ func (h *Handlers) Increment(
 		slog.String("client", req.ClientID),
 	)
 
-	counterValue += int(req.Payload.IncrementValue)
-	value := int32(counterValue)
+	value := atomic.AddInt32(&h.counterValue, req.Payload.IncrementValue)
 	telemetry := dtmi_com_example_Counter__1.TelemetryCollection{
 		CounterValue: &value,
 	}
-	err := telemetrySender.SendTelemetryCollection(ctx, telemetry)
+	err := h.telemetrySender.SendTelemetryCollection(ctx, telemetry)
 	if err != nil {
 		slog.Error("failed to send telemetry", "error", err)
 	}
