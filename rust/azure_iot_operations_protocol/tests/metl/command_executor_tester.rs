@@ -266,7 +266,7 @@ where
                 }
 
                 let response = CommandResponseBuilder::default()
-                    .payload(&response_payload)
+                    .payload(response_payload)
                     .unwrap()
                     .custom_user_data(metadata)
                     .build()

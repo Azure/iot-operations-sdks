@@ -216,7 +216,7 @@ where
 
                     if let Some(telemetry_value) = default_send_telemetry.telemetry_value.clone() {
                         telemetry_message_builder
-                            .payload(&TestPayload {
+                            .payload(TestPayload {
                                 payload: Some(telemetry_value.clone()),
                                 test_case_index: Some(test_case_index),
                             })
@@ -287,7 +287,7 @@ where
 
             if let Some(telemetry_value) = telemetry_value {
                 telemetry_message_builder
-                    .payload(&TestPayload {
+                    .payload(TestPayload {
                         payload: Some(telemetry_value.clone()),
                         test_case_index: Some(test_case_index),
                     })

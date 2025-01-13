@@ -17,8 +17,8 @@ impl PayloadSerialize for PutRequestPayload {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
-        serde_json::to_vec(self)
+    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
+        serde_json::to_vec(&self)
     }
 
     fn deserialize(payload: &[u8]) -> Result<Self, Self::Error> {

@@ -152,7 +152,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
-            .payload(&get_request_payload)
+            .payload(get_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
             })?
@@ -212,7 +212,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
-            .payload(&put_request_payload)
+            .payload(put_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
             })?

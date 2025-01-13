@@ -46,7 +46,7 @@ impl GetRequestBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &GetRequestPayload,
+        payload: GetRequestPayload,
     ) -> Result<&mut Self, <GetRequestPayload as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)

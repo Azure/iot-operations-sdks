@@ -106,7 +106,7 @@ impl PayloadSerialize for EmptyPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok("".into())
     }
     fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
@@ -145,7 +145,7 @@ async fn command_basic_invoke_response_network_tests() {
 
                         // send response
                         let response = CommandResponseBuilder::default()
-                            .payload(&EmptyPayload::default())
+                            .payload(EmptyPayload::default())
                             .unwrap()
                             .build()
                             .unwrap();
@@ -164,7 +164,7 @@ async fn command_basic_invoke_response_network_tests() {
 
             // Send request with empty payload
             let request = CommandRequestBuilder::default()
-                .payload(&EmptyPayload::default())
+                .payload(EmptyPayload::default())
                 .unwrap()
                 .timeout(Duration::from_secs(2))
                 .build()
@@ -224,7 +224,7 @@ impl PayloadSerialize for DataRequestPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
             self.requested_temperature, self.requested_color
@@ -271,7 +271,7 @@ impl PayloadSerialize for DataResponsePayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
             self.old_temperature, self.old_color, self.minutes_to_change
@@ -370,7 +370,7 @@ async fn command_complex_invoke_response_network_tests() {
 
                         // send response
                         let response = CommandResponseBuilder::default()
-                            .payload(&test_response_payload_clone)
+                            .payload(test_response_payload_clone)
                             .unwrap()
                             .custom_user_data(test_response_custom_user_data_clone)
                             .build()
@@ -391,7 +391,7 @@ async fn command_complex_invoke_response_network_tests() {
 
             // Send request with more complex payload and custom user data
             let request = CommandRequestBuilder::default()
-                .payload(&test_request_payload)
+                .payload(test_request_payload)
                 .unwrap()
                 .custom_user_data(test_request_custom_user_data.clone())
                 .timeout(Duration::from_secs(2))

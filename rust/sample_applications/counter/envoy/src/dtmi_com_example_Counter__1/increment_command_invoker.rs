@@ -60,7 +60,7 @@ impl IncrementRequestBuilder {
             ));
         }
 
-        self.inner_builder.payload(&EmptyJson {}).unwrap();
+        self.inner_builder.payload(EmptyJson {}).unwrap();
 
         self.inner_builder.build()
     }

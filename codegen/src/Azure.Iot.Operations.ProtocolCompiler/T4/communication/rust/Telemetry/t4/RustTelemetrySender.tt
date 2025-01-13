@@ -64,7 +64,7 @@ impl <#=this.componentName#>MessageBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &<#=this.schemaClassName#>,
+        payload: <#=this.schemaClassName#>,
     ) -> Result<&mut Self, <<#=this.schemaClassName#> as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)
