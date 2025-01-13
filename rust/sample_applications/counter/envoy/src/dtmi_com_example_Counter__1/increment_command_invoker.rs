@@ -5,13 +5,14 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
 
 use super::super::common_types::common_options::CommandOptions;
-use super::super::common_types::empty_json::EmptyJson;
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
@@ -54,7 +55,7 @@ impl IncrementRequestBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &IncrementRequestPayload,
+        payload: IncrementRequestPayload,
     ) -> Result<&mut Self, <IncrementRequestPayload as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)
@@ -71,8 +72,6 @@ impl IncrementRequestBuilder {
                 "executor_id",
             ));
         }
-
-        self.inner_builder.payload(EmptyJson {}).unwrap();
 
         self.inner_builder.build()
     }

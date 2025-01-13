@@ -147,7 +147,7 @@ async fn increment_and_check(client: SessionManagedClient) {
             .timeout(Duration::from_secs(10))
             .executor_id(target_executor_id.clone())
             .payload(
-                &IncrementRequestPayloadBuilder::default()
+                IncrementRequestPayloadBuilder::default()
                     .increment_value(1)
                     .build()
                     .unwrap(),

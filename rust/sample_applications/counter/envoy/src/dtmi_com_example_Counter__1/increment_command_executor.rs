@@ -11,7 +11,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 };
 
 use super::super::common_types::common_options::CommandOptions;
-use super::super::common_types::empty_json::EmptyJson;
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;

@@ -115,7 +115,7 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryCollectionMessageBuilder::default()
             .payload(
-                &TelemetryCollectionBuilder::default()
+                TelemetryCollectionBuilder::default()
                     .counter_value(Some(updated_counter))
                     .build()
                     .unwrap(),
