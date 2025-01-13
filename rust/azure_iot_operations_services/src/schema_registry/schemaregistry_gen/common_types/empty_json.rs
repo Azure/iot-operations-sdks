@@ -16,7 +16,7 @@ impl PayloadSerialize for EmptyJson {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
+    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
         Ok("".as_bytes().to_owned())
     }
 
