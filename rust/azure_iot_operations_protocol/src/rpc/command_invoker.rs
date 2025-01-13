@@ -23,7 +23,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{PayloadError, PayloadSerialize, SerializedPayload},
+        payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
         topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
@@ -137,7 +137,11 @@ where
 {
     /// Payload of the command response. Must implement [`PayloadSerialize`].
     pub payload: TResp,
-    /// User data that will be set as custom MQTT User Properties on the Response message.
+    /// Content Type of the command response.
+    pub content_type: Option<String>,
+    /// Format Indicator of the command response.
+    pub format_indicator: FormatIndicator,
+    /// Custom user data set as custom MQTT User Properties on the Response message.
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the command response.
     pub timestamp: Option<HybridLogicalClock>,
@@ -1010,7 +1014,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     }
 
     // response payload deserialization
-    let deserialized_response_payload = match TResp::deserialize(response_payload, &response_properties.content_type, &response_properties.payload_format_indicator.into()) {
+    let format_indicator = response_properties.payload_format_indicator.into();
+    let deserialized_response_payload = match TResp::deserialize(response_payload, &response_properties.content_type, &format_indicator) {
         Ok(payload) => payload,
         Err(e) => {
             match e {
@@ -1035,19 +1040,13 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     ));
                 }
             }
-            // return Err(AIOProtocolError::new_payload_invalid_error(
-            //     false,
-            //     false,
-            //     Some(e.into()),
-            //     None,
-            //     None,
-            //     Some(command_name),
-            // ));
         }
     };
 
     Ok(CommandResponse {
         payload: deserialized_response_payload,
+        content_type: response_properties.content_type,
+        format_indicator,
         custom_user_data: response_custom_user_data,
         timestamp,
     })

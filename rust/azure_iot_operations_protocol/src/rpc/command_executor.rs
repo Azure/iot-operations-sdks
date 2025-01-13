@@ -17,7 +17,7 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{PayloadError, PayloadSerialize, SerializedPayload},
+        payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
@@ -60,6 +60,10 @@ where
 {
     /// Payload of the command request.
     pub payload: TReq,
+    /// Content Type of the command request.
+    pub content_type: Option<String>,
+    /// Format Indicator of the command request.
+    pub format_indicator: FormatIndicator,
     /// Custom user data set as custom MQTT User Properties on the request message.
     pub custom_user_data: Vec<(String, String)>,
     /// Fencing token of the command request.
@@ -711,7 +715,8 @@ where
                             let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
                             // Deserialize payload
-                            let payload = match TReq::deserialize(&m.payload, &properties.content_type, &properties.payload_format_indicator.into()) {
+                            let format_indicator = properties.payload_format_indicator.into();
+                            let payload = match TReq::deserialize(&m.payload, &properties.content_type, &format_indicator) {
                                 Ok(payload) => payload,
                                 Err(e) => {
                                     match e {
@@ -736,6 +741,8 @@ where
 
                             let command_request = CommandRequest {
                                 payload,
+                                content_type: properties.content_type,
+                                format_indicator,
                                 custom_user_data: user_data,
                                 fencing_token,
                                 timestamp,

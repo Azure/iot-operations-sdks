@@ -135,6 +135,10 @@ impl AckToken {
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     pub payload: T,
+    /// Content Type of the telemetry message.
+    pub content_type: Option<String>,
+    /// Format Indicator of the telemetry message.
+    pub format_indicator: FormatIndicator,
     /// Custom user data set as custom MQTT User Properties on the telemetry message.
     pub custom_user_data: Vec<(String, String)>,
     /// If present, contains the client ID of the sender of the telemetry message.
@@ -573,11 +577,13 @@ where
 
                             let telemetry_message = TelemetryMessage {
                                 payload,
+                                content_type,
+                                format_indicator,
                                 custom_user_data,
                                 sender_id,
                                 timestamp,
                                 cloud_event,
-                                topic_tokens,
+                                topic_tokens
                             };
 
                             // If the telemetry message needs ack, return telemetry message with ack token
