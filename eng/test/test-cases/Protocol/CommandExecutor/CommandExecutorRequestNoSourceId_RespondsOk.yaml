@@ -1,10 +1,11 @@
 ---
-test-name: CommandExecutorRequestNoInvokerClientId_RespondsOk
+test-name: CommandExecutorRequestNoSourceId_RespondsOk
 description:
   condition: >-
     CommandExecutor receives request with no __srcId header.
   expect: >-
     CommandExecutor sends response with status OK.
+
 prologue:
   executors:
   - { }
