@@ -62,7 +62,7 @@ impl <#=this.capitalizedCommandName#>ResponseBuilder {
     pub fn payload(
         &mut self,
         payload: <#=this.respSchema#>,
-    ) -> Result<&mut Self, <<#=this.respSchema#> as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

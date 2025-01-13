@@ -40,7 +40,7 @@ impl ReadCounterResponseBuilder {
     pub fn payload(
         &mut self,
         payload: ReadCounterResponsePayload,
-    ) -> Result<&mut Self, <ReadCounterResponsePayload as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

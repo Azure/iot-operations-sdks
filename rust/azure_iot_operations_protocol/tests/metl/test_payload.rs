@@ -21,21 +21,19 @@ impl PayloadSerialize for TestPayload {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
-        match serde_json::to_vec(&self) {
-            Ok(payload) => Ok(SerializedPayload {
-                payload,
-                content_type: "application/json",
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            }),
-            Err(e) => Err(e),
-        }
+        Ok(SerializedPayload {
+            payload: serde_json::to_vec(&self)?,
+            content_type: "application/json",
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
 
     fn deserialize(payload: &[u8], content_type: &Option<String>, _format_indicator: &FormatIndicator) -> Result<Self, PayloadError<Self::Error>> {
-        if *content_type != Some("application/json".to_string()) {
-            return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type:?}'. Must be 'application/json'")));
-            // return Err(serde_json::Error::custom(format!("Invalid content type: '{:?}'. Must be 'application/json'", content_type)));
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(PayloadError::UnsupportedContentType(format!("Invalid content type: '{content_type}'. Must be 'application/json'")));
+            }
         }
-        serde_json::from_slice(payload).map_err(|e| PayloadError::DeserializationError(e))
+        serde_json::from_slice(payload).map_err(PayloadError::DeserializationError)
     }
 }
