@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, thread, time::Duration};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
@@ -9,8 +9,7 @@ use bytes::Bytes;
 use tokio::{
     sync::{
         broadcast::{error::RecvError, Sender},
-        Mutex,
-        Notify
+        Mutex, Notify,
     },
     task, time,
 };

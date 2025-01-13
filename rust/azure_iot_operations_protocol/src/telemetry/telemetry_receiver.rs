@@ -197,7 +197,7 @@ where
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
-    executor_cancellation_token: CancellationToken,
+    receiver_cancellation_token: CancellationToken,
 }
 
 /// Describes state of receiver
@@ -283,7 +283,7 @@ where
             topic_pattern,
             message_payload_type: PhantomData,
             receiver_state: TelemetryReceiverState::New,
-            executor_cancellation_token: CancellationToken::new(),
+            receiver_cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -580,11 +580,11 @@ where
                 // Occurs on an error processing the message, ack to prevent redelivery
                 if let Some(ack_token) = ack_token {
                     tokio::spawn({
-                        let executor_cancellation_token_clone =
-                            self.executor_cancellation_token.clone();
+                        let receiver_cancellation_token_clone =
+                            self.receiver_cancellation_token.clone();
                         async move {
                             tokio::select! {
-                                () = executor_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
                                 ack_res = ack_token.ack() => {
                                     match ack_res {
                                         Ok(_) => { /* Success */ }
@@ -613,7 +613,7 @@ where
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.executor_cancellation_token.cancel();
+        self.receiver_cancellation_token.cancel();
         // Close the receiver
         self.mqtt_receiver.close();
 
