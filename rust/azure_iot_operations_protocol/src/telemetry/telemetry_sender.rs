@@ -141,7 +141,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &T) -> Result<&mut Self, T::Error> {
+    pub fn payload(&mut self, payload: T) -> Result<&mut Self, T::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.message_payload_type = Some(PhantomData);
@@ -220,7 +220,7 @@ pub struct TelemetrySenderOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -239,7 +239,7 @@ pub struct TelemetrySenderOptions {
 ///   .build().unwrap();
 /// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .qos(QoS::AtLeastOnce)
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
@@ -448,7 +448,7 @@ mod tests {
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
         }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
+        fn serialize(self) -> Result<Vec<u8>, String> {
             unimplemented!()
         }
         fn deserialize(_payload: &[u8]) -> Result<Self, String> {
@@ -596,7 +596,7 @@ mod tests {
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
-            .payload(&mock_telemetry_payload)
+            .payload(mock_telemetry_payload)
             .unwrap()
             .message_expiry(timeout)
             .build();
@@ -613,7 +613,7 @@ mod tests {
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
-            .payload(&mock_telemetry_payload)
+            .payload(mock_telemetry_payload)
             .unwrap()
             .qos(azure_iot_operations_mqtt::control_packet::QoS::ExactlyOnce)
             .build();
@@ -630,7 +630,7 @@ mod tests {
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
-            .payload(&mock_telemetry_payload)
+            .payload(mock_telemetry_payload)
             .unwrap()
             .custom_user_data(vec![("source".to_string(), "test".to_string())])
             .build();

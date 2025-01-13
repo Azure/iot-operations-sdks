@@ -31,32 +31,19 @@ See below for categorized tests.
 | CommandExecutor receives basic valid request. | CommandExecutor sends response and acknowledges request. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
 | CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
-| CommandExecutor initialized with empty string as command name. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with idempotent command that has a positive cache TTL. | CommandExecutor starts successfully. |
-| CommandExecutor initialized with idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a positive cache TTL. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with non-idempotent command that has a zero cache TTL. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor initialized with null command name. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
 | CommandExecutor receives duplicate non-idempotent request within command timeout. | CommandExecutor does not execute command and responds with value from cache. |
-| CommandExecutor receives equivalent executor-agnostic idempotent request from different Invoker ID beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent executor-agnostic idempotent request from different Invoker ID within cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives equivalent executor-agnostic non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent executor-specific idempotent request from different Invoker ID beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent executor-specific idempotent request from different Invoker ID within cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent executor-specific non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent idempotent request beyond cacheable TTL. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent idempotent request within cacheable TTL, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
 | CommandExecutor receives equivalent non-idempotent request. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives idempotent request that is duplicate except for different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives non-idempotent request that is duplicate except for different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives non-idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
 | CommandExecutor receives request with unexpected system property in metadata. | CommandExecutor ignores unexpected header and sends response with status OK. |
 | CommandExecutor receives a request whose expiry time elapses while the CommandExecutor is disconnected. | Request is not acknowledged after CommandExecutor reconnects. |
 | CommandExecutor receives request and stalls execution, causing expiry time to be reached. | CommandExecutor does not complete execution and acknowledges request. |
 | CommandExecutor receives request with correlation data that is not a GUID string. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with invalid __ft header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with invalid ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
 | CommandExecutor receives request with invalid __ts header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with payload that cannot deserialize. | CommandExecutor does not execute command and sends response with status BadRequest. |
@@ -67,8 +54,7 @@ See below for categorized tests.
 | CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
 | CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
-| CommandExecutor request topic contains a '{commandName}' token but commandName is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor request topic contains a '{commandName}' token and command name is a valid replacement. | CommandExecutor starts successfully. |
+| CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified. | CommandExecutor starts successfully. |
 | CommandExecutor request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor request topic contains a '{modelId}' token but no model ID is specified. | CommandExecutor starts successfully. |
 | CommandExecutor request topic contains a {modelId} token and model ID is a valid replacement. | CommandExecutor starts successfully. |
@@ -87,7 +73,6 @@ See below for categorized tests.
 | CommandExecutor user code raises error indicating problem with request content. | CommandExecutor sends error response. |
 | CommandExecutor user code raises error indicating problem with request content. | CommandExecutor sends error response. |
 | CommandExecutor user code raises error indicating problem with request execution. | CommandExecutor sends error response. |
-| CommandExecutor user code sets metadata header with reserved prefix. | CommandExecutor sends error response. |
 | CommandExecutor initialized with a topic namespace that is valid. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with an execution timeout of zero. | CommandExecutor throws 'invalid configuration' exception. |
 
@@ -95,7 +80,6 @@ See below for categorized tests.
 
 | Normative statement | Expected behavior |
 | --- | --- |
-| CommandInvoker initialized with empty string as command name. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker with executor-agnostic topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker with executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker invokes command and receives response. | CommandInvoker publication includes protocol version header with expected version value. |
@@ -111,7 +95,7 @@ See below for categorized tests.
 | CommandInvoker invokes command but ACK fails when publishing request, then repeats invocation. | Invocation throws 'mqtt error' exception, then reinvocation succeeds. |
 | CommandInvoker invokes command but ACK fails when publishing request. | Invocation throws 'mqtt error' exception. |
 | CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker request topic contains a '{commandName}' token but commandName is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
 | CommandInvoker invokes command with request topic that contains an '{executorId}' token but no replacement is specified. | Invocation throws 'invalid argument' exception. |
 | CommandInvoker request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker request topic contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
@@ -133,11 +117,9 @@ See below for categorized tests.
 | CommandInvoker receives response with payload that cannot deserialize. | Invocation throws 'invalid payload' exception. |
 | CommandInvoker receives response with no payload. | Invocation throws 'invalid payload' exception. |
 | CommandInvoker receives response message with no status property in header. | Invocation throws 'missing header' exception. |
-| CommandInvoker response topic prefix contains a '{commandName}' token but commandName is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker initialized with a response topic prefix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
 | CommandInvoker response topic prefix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker response topic prefix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker response topic suffix contains a '{commandName}' token but commandName is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker initialized with a response topic suffix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
 | CommandInvoker response topic suffix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker response topic suffix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
@@ -156,7 +138,6 @@ See below for categorized tests.
 | CommandInvoker invokes command and receives response. | CommandInvoker publication includes source ID header with value of client ID. |
 | CommandInvoker with custom response topic invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker with custom topic-token map invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command with metadata key that uses reserved prefix. | Invocation throws 'invalid argument' exception. |
 | CommandInvoker invokes command with metadata and receives response. | CommandInvoker publication includes metadata. |
 | CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid configuration' exception. |
 | CommandInvoker with topic namespace invokes command and receives response. | CommandInvoker completes command and acknowledges response. |

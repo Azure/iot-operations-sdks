@@ -228,8 +228,7 @@ func getCommandExecutor(
 	catch *TestCaseCatch,
 ) *TestingCommandExecutor {
 	options := []protocol.CommandExecutorOption{
-		protocol.WithTopicTokens(tce.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens(tce.TopicTokenMap),
 		protocol.WithIdempotent(tce.Idempotent),
 		protocol.WithTimeout(tce.ExecutionTimeout.ToDuration()),
 	}
@@ -259,8 +258,6 @@ func getCommandExecutor(
 		) (*protocol.CommandResponse[string], error) {
 			return processRequest(ctx, req, tce, countdownEvents, reqRespSeq)
 		},
-		tce.ModelID,
-		tce.ExecutorID,
 		options...)
 
 	if err == nil {

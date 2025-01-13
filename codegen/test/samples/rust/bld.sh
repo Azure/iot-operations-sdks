@@ -32,11 +32,11 @@ cd TelemetryPrimitiveSchemasSample/telemetry_primitive_schemas_gen
 cargo build
 cd ../..
 
-cd TelemetryRawSingleSample/telemetry_raw_separate_gen
+cd TelemetryRawSingleSample/telemetry_raw_single_gen
 cargo build
 cd ../..
 
-cd TelemetryRawSeparateSample/telemetry_raw_single_gen
+cd TelemetryRawSeparateSample/telemetry_raw_separate_gen
 cargo build
 cd ../..
 

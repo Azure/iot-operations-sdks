@@ -39,7 +39,7 @@ impl ReadCounterResponseBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &ReadCounterResponsePayload,
+        payload: ReadCounterResponsePayload,
     ) -> Result<&mut Self, <ReadCounterResponsePayload as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)

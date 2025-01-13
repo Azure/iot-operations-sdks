@@ -213,7 +213,7 @@ where
         }
         let mut request_builder = CommandRequestBuilder::default();
         request_builder
-            .payload(&state_store::resp3::Request::Set {
+            .payload(state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
@@ -268,7 +268,7 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Get { key })
+            .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
@@ -364,7 +364,7 @@ where
     ) -> Result<state_store::Response<i64>, StateStoreError> {
         let mut request_builder = CommandRequestBuilder::default();
         request_builder
-            .payload(&request)
+            .payload(request)
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout);
         if let Some(ft) = fencing_token {
@@ -398,7 +398,7 @@ where
     ) -> Result<state_store::Response<()>, StateStoreError> {
         // Send invoke request for observe
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
             })
@@ -530,7 +530,7 @@ where
         }
         // Send invoke request for unobserve
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
             })

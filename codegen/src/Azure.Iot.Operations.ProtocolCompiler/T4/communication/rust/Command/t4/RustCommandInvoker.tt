@@ -73,7 +73,7 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &<#=this.reqSchema#>,
+        payload: <#=this.reqSchema#>,
     ) -> Result<&mut Self, <<#=this.reqSchema#> as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)
@@ -95,7 +95,7 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
 
 <# } #>
 <# if (this.reqSchema == null) { #>
-        self.inner_builder.payload(&<#=this.serializerEmptyType#> {}).unwrap();
+        self.inner_builder.payload(<#=this.serializerEmptyType#> {}).unwrap();
 
 <# } #>
         self.inner_builder.build()

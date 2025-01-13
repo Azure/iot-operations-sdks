@@ -11,6 +11,21 @@ repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
 publish = true
 
+[features]
+default = ["state_store", "schema_registry"]
+state_store = []
+schema_registry = [
+  "serde",
+  "serde_json",
+  "chrono",
+  "iso8601-duration",
+  "bytes",
+  "base64",
+  "bigdecimal",
+  "time",
+  "uuid"
+]
+
 [dependencies]
 azure_iot_operations_protocol = { version = "0.6", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
 azure_iot_operations_mqtt = { version = "0.6", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
@@ -20,6 +35,15 @@ thiserror.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
 data-encoding = "2.5"
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_json = { version = "1.0.105", optional = true }
+chrono = { version = "0.4.31", features = ["serde", "alloc"], optional = true }
+iso8601-duration = { version = "0.2", features = ["serde", "chrono"], optional = true }
+bytes = { version = "1.5.0", optional = true }
+base64 = { version = "0.22.1", optional = true }
+bigdecimal = { version = "0.4.5", optional = true }
+time = { version = "0.3", features = ["serde", "formatting", "parsing"], optional = true }
+uuid = { version = "1.8.0", features = ["serde", "v4"], optional = true }
 
 [dev-dependencies]
 env_logger.workspace = true
@@ -27,3 +51,11 @@ test-case.workspace = true
 
 [lints]
 workspace = true
+
+[[example]]
+name = "state_store_client"
+required-features = ["state_store"]
+
+[[example]]
+name = "schema_registry_client"
+required-features = ["schema_registry"]

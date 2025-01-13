@@ -67,7 +67,7 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
             counter_response: *counter.lock().unwrap(),
         };
         let response = ReadCounterResponseBuilder::default()
-            .payload(&response_payload)
+            .payload(response_payload)
             .unwrap()
             .build()
             .unwrap();
@@ -106,7 +106,7 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
 
         // Respond to the increment request
         let response = IncrementResponseBuilder::default()
-            .payload(&response_payload)
+            .payload(response_payload)
             .unwrap()
             .build()
             .unwrap();

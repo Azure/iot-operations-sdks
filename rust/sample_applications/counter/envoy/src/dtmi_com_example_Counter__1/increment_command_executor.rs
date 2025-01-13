@@ -39,7 +39,7 @@ impl IncrementResponseBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &IncrementResponsePayload,
+        payload: IncrementResponsePayload,
     ) -> Result<&mut Self, <IncrementResponsePayload as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)

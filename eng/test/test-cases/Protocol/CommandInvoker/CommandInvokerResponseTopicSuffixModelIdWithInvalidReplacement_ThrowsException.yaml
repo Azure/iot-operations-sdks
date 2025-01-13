@@ -9,7 +9,8 @@ description:
 prologue:
   invokers:
   - response-topic-suffix: "valid/{modelId}"
-    model-id: "Invalid#Model"
+    topic-token-map:
+      "modelId": "Invalid#Model"
   catch:
     error-kind: invalid configuration
     in-application: !!bool false

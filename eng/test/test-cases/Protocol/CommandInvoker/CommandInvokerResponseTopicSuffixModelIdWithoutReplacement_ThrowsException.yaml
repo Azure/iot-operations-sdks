@@ -9,7 +9,6 @@ description:
 prologue:
   invokers:
   - response-topic-suffix: "valid/{modelId}"
-    model-id:
   catch:
     error-kind: invalid argument
     in-application: !!bool false
