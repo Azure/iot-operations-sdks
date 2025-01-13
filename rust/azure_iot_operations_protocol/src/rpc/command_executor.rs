@@ -262,7 +262,7 @@ where
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
-    recv_cancellation_token: CancellationToken,
+    executor_cancellation_token: CancellationToken,
 }
 
 /// Describes state of executor
@@ -386,7 +386,7 @@ where
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             executor_state: CommandExecutorState::New,
-            recv_cancellation_token: CancellationToken::new(),
+            executor_cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -532,10 +532,11 @@ where
                             m.pkid
                         );
                         tokio::task::spawn({
-                            let recv_cancellation_token_clone =
-                                self.recv_cancellation_token.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
                             async move {
-                                handle_ack(ack_token, recv_cancellation_token_clone, m.pkid).await;
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
                             }
                         });
                         continue;
@@ -547,10 +548,11 @@ where
                     if !is_valid_replacement(&rt) {
                         log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
                         tokio::task::spawn({
-                            let recv_cancellation_token_clone =
-                                self.recv_cancellation_token.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
                             async move {
-                                handle_ack(ack_token, recv_cancellation_token_clone, m.pkid).await;
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
                             }
                         });
                         continue;
@@ -563,8 +565,11 @@ where
                         m.pkid
                     );
                     tokio::task::spawn({
-                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                        async move { handle_ack(ack_token, recv_cancellation_token_clone, m.pkid).await }
+                        let executor_cancellation_token_clone =
+                            self.executor_cancellation_token.clone();
+                        async move {
+                            handle_ack(ack_token, executor_cancellation_token_clone, m.pkid).await;
+                        }
                     });
                     continue;
                 };
@@ -803,12 +808,12 @@ where
                         // Elapsed returns zero if the time has not passed
                         tokio::task::spawn({
                             let client_clone = self.mqtt_client.clone();
-                            let recv_cancellation_token_clone =
-                                self.recv_cancellation_token.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
                             let pkid = m.pkid;
                             async move {
                                 tokio::select! {
-                                    () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
                                     () = Self::process_command(
                                         client_clone,
                                         pkid,
@@ -816,7 +821,7 @@ where
                                         Some(response_rx),
                                     ) => {
                                         // Finished processing command
-                                        handle_ack(ack_token, recv_cancellation_token_clone, pkid).await;
+                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                                     },
                                 }
                             }
@@ -835,11 +840,12 @@ where
 
                 tokio::task::spawn({
                     let client_clone = self.mqtt_client.clone();
-                    let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
+                    let executor_cancellation_token_clone =
+                        self.executor_cancellation_token.clone();
                     let pkid = m.pkid;
                     async move {
                         tokio::select! {
-                            () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
+                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
                             () = Self::process_command(
                                 client_clone,
                                 pkid,
@@ -847,7 +853,7 @@ where
                                 None,
                             ) => {
                                 // Finished processing command
-                                handle_ack(ack_token, recv_cancellation_token_clone, pkid).await;
+                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                             },
                         }
                     }
@@ -1078,7 +1084,7 @@ where
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.recv_cancellation_token.cancel();
+        self.executor_cancellation_token.cancel();
         // Close the receiver
         self.mqtt_receiver.close();
 
@@ -1109,11 +1115,15 @@ where
 /// Wait on an [`AckToken`] ack to complete, if the [`CancellationToken`] is cancelled, the ack is dropped.
 /// # Arguments
 /// * `ack_token` - [`AckToken`] ack to wait on
-/// * `cancellation_token` - Cancellation token to check if the ack should be dropped
+/// * `executor_cancellation_token` - Cancellation token to check if the ack should be dropped
 /// * `pkid` - Packet identifier of the message
-async fn handle_ack(ack_token: AckToken, cancellation_token: CancellationToken, pkid: u16) {
+async fn handle_ack(
+    ack_token: AckToken,
+    executor_cancellation_token: CancellationToken,
+    pkid: u16,
+) {
     tokio::select! {
-        () = cancellation_token.cancelled() => { /* Receive loop cancelled */ },
+        () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
             match ack_res {
                 Ok(_) => {
