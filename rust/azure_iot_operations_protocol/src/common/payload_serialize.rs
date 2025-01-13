@@ -92,7 +92,7 @@ pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 
     UnsupportedContentType(String),
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct SerializedPayload {
     pub content_type: &'static str,
     pub format_indicator: FormatIndicator,
