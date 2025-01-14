@@ -103,11 +103,11 @@ where
         )
     }
 
-    /// Receive the next [`IncrementRequest`]
+    /// Receive the next [`IncrementRequest`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Result<IncrementRequest, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<IncrementRequest, AIOProtocolError>> {
         self.0.recv().await
     }
 

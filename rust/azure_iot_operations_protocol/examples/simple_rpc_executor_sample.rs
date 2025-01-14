@@ -62,19 +62,25 @@ async fn executor_loop(client: SessionManagedClient) {
     let mut counter = 0;
 
     // Increment the counter for each incoming request
-    loop {
-        // TODO: Show how to use other parameters
-        let request = incr_executor.recv().await.unwrap();
-        counter += 1;
-        let response = IncrResponsePayload {
-            counter_response: counter,
-        };
-        let response = CommandResponseBuilder::default()
-            .payload(response)
-            .unwrap()
-            .build()
-            .unwrap();
-        request.complete(response).unwrap();
+    while let Some(request) = incr_executor.recv().await {
+        match request {
+            Ok(request) => {
+                counter += 1;
+                let response = IncrResponsePayload {
+                    counter_response: counter,
+                };
+                let response = CommandResponseBuilder::default()
+                    .payload(response)
+                    .unwrap()
+                    .build()
+                    .unwrap();
+                request.complete(response).unwrap();
+            }
+            Err(err) => {
+                println!("Error receiving request: {err}");
+                return;
+            }
+        }
     }
 }
 
