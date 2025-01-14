@@ -354,7 +354,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.CompletedTask;
         }
 
-        private bool TryValidateResponseHeaders(
+        private static bool TryValidateResponseHeaders(
             MqttApplicationMessage responseMsg,
             MqttUserProperty? statusProperty,
             string correlationId,

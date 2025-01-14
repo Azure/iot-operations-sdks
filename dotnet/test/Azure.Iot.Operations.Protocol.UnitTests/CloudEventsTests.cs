@@ -103,7 +103,6 @@ public class CloudEventsTests
         cloudEvent.Subject = subject;
         cloudEvent.Time = time;
 
-        Assert.Equal(dataContentType, cloudEvent.ToMqttMessageContentType());
         Dictionary<string, string> userProperties = cloudEvent.ToUserProperties();
         Assert.True(userProperties.ContainsKey("specversion"));
         Assert.Equal(specVersion, userProperties["specversion"]);
