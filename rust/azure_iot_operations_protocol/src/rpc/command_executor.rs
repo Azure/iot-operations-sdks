@@ -7,8 +7,8 @@ use std::{collections::HashMap, marker::PhantomData, time::Duration};
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
 use bytes::Bytes;
+use tokio::sync::oneshot;
 use tokio::time::{timeout, Instant};
-use tokio::{sync::oneshot, task::JoinSet};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
@@ -256,10 +256,17 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    is_subscribed: bool,
+    executor_state: CommandExecutorState,
     // Information to manage state
-    pending_acks: JoinSet<AckToken>, // TODO: Consider using FuturesUnordered
-    recv_cancellation_token: CancellationToken,
+    executor_cancellation_token: CancellationToken,
+}
+
+/// Describes state of executor
+#[derive(PartialEq)]
+enum CommandExecutorState {
+    New,
+    Subscribed,
+    ShutdownSuccessful,
 }
 
 /// Implementation of Command Executor.
@@ -348,9 +355,6 @@ where
             &executor_options.topic_token_map,
         )?;
 
-        // Create cancellation token for the request receive loop
-        let recv_cancellation_token = CancellationToken::new();
-
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client
             .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
@@ -377,32 +381,40 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            is_subscribed: false,
-            pending_acks: JoinSet::new(),
-            recv_cancellation_token,
+            executor_state: CommandExecutorState::New,
+            executor_cancellation_token: CancellationToken::new(),
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
     ///
-    /// Note: If this method is called, the [`CommandExecutor`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    /// Note: If this method is called, the [`CommandExecutor`] will no longer receive commands
+    /// from the MQTT client, any command requests that have not been processed can still be received
+    /// by the executor. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if self.is_subscribed {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
-                .await;
+        // Close the receiver, no longer receive messages
+        self.mqtt_receiver.close();
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
+        match self.executor_state {
+            CommandExecutorState::New | CommandExecutorState::ShutdownSuccessful => {
+                // If subscribe has not been called or shutdown was successful, do not unsubscribe
+                self.executor_state = CommandExecutorState::ShutdownSuccessful;
+            }
+            CommandExecutorState::Subscribed => {
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                    .await;
+
+                match unsubscribe_result {
+                    Ok(unsub_ct) => match unsub_ct.await {
+                        Ok(()) => {
+                            self.executor_state = CommandExecutorState::ShutdownSuccessful;
+                        }
                         Err(e) => {
                             log::error!("[{}] Unsuback error: {e}", self.command_name);
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -411,18 +423,18 @@ where
                                 Some(self.command_name.clone()),
                             ));
                         }
+                    },
+                    Err(e) => {
+                        log::error!(
+                            "[{}] Client error while unsubscribing: {e}",
+                            self.command_name
+                        );
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command executor unsubscribe".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
                     }
-                }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command executor unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
                 }
             }
         }
@@ -430,361 +442,401 @@ where
         Ok(())
     }
 
-    /// Subscribe to the request topic if not already subscribed.
+    /// Subscribe to the request topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        if !self.is_subscribed {
-            let subscribe_result = self
-                .mqtt_client
-                .subscribe(
-                    self.request_topic_pattern.as_subscribe_topic(),
-                    QoS::AtLeastOnce,
-                )
-                .await;
+        let subscribe_result = self
+            .mqtt_client
+            .subscribe(
+                self.request_topic_pattern.as_subscribe_topic(),
+                QoS::AtLeastOnce,
+            )
+            .await;
 
-            match subscribe_result {
-                Ok(sub_ct) => match sub_ct.await {
-                    Ok(()) => {
-                        self.is_subscribed = true;
-                    }
-                    Err(e) => {
-                        log::error!("[{}] Suback error: {e}", self.command_name);
-                        return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT error on command executor suback".to_string()),
-                            Box::new(e),
-                            Some(self.command_name.clone()),
-                        ));
-                    }
-                },
+        match subscribe_result {
+            Ok(sub_ct) => match sub_ct.await {
+                Ok(()) => { /* Success */ }
                 Err(e) => {
-                    log::error!(
-                        "[{}] Client error while subscribing: {e}",
-                        self.command_name
-                    );
+                    log::error!("[{}] Suback error: {e}", self.command_name);
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command executor subscribe".to_string()),
+                        Some("MQTT error on command executor suback".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
                 }
+            },
+            Err(e) => {
+                log::error!(
+                    "[{}] Client error while subscribing: {e}",
+                    self.command_name
+                );
+                return Err(AIOProtocolError::new_mqtt_error(
+                    Some("Client error on command executor subscribe".to_string()),
+                    Box::new(e),
+                    Some(self.command_name.clone()),
+                ));
             }
         }
         Ok(())
     }
 
-    /// Receive a command request.
+    /// Receive a command request or [`None`] if there will be no more requests.
+    ///
+    /// If there are messages:
+    /// - Returns Ok([`CommandRequest`]) on success
+    /// - Returns [`AIOProtocolError`] on error.
     ///
     /// Will also subscribe to the request topic if not already subscribed.
     ///
-    /// Returns Ok([`CommandRequest`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`UnknownError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::UnknownError) if an error occurs while receiving the message.
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
-    pub async fn recv(&mut self) -> Result<CommandRequest<TReq, TResp>, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        self.try_subscribe().await?;
+        if CommandExecutorState::New == self.executor_state {
+            if let Err(e) = self.try_subscribe().await {
+                return Some(Err(e));
+            }
+            self.executor_state = CommandExecutorState::Subscribed;
+        }
 
         loop {
-            tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_acks will never be processed
-                Some(join_result) = self.pending_acks.join_next() => {
-                    match join_result {
-                        Ok(ack_token) => {
-                            match ack_token.ack().await {
-                                Ok(_) => { /* Success */ }
-                                Err(e) => {
-                                    log::error!("[{}] Ack error: {e}", self.command_name);
-                                }
+            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+                let Some(ack_token) = ack_token else {
+                    // No ack token, ignore the message. This should never happen as the executor
+                    // should always receive QoS 1 messages that have an ack token.
+                    log::warn!("[{}] Received message without ack token", self.command_name);
+                    continue;
+                };
+                // Process the request
+                log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
+                let message_received_time = Instant::now();
+
+                // Clone properties
+                let properties = match &m.properties {
+                    Some(properties) => properties.clone(),
+                    None => {
+                        log::error!(
+                            "[{}][pkid: {}] Properties missing",
+                            self.command_name,
+                            m.pkid
+                        );
+                        tokio::task::spawn({
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            async move {
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
                             }
+                        });
+                        continue;
+                    }
+                };
+
+                // Get response topic
+                let response_topic = if let Some(rt) = properties.response_topic {
+                    if !is_valid_replacement(&rt) {
+                        log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
+                        tokio::task::spawn({
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            async move {
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
+                            }
+                        });
+                        continue;
+                    }
+                    rt
+                } else {
+                    log::error!(
+                        "[{}][pkid: {}] Response topic missing",
+                        self.command_name,
+                        m.pkid
+                    );
+                    tokio::task::spawn({
+                        let executor_cancellation_token_clone =
+                            self.executor_cancellation_token.clone();
+                        async move {
+                            handle_ack(ack_token, executor_cancellation_token_clone, m.pkid).await;
                         }
-                        Err(e) => {
-                            // Unreachable: Occurs when the task failed to execute to completion by
-                            // panicking or cancelling.
-                            log::error!("[{}] Failure to process command response: {e}", self.command_name);
+                    });
+                    continue;
+                };
+
+                let mut command_expiration_time_calculated = false;
+                let mut response_arguments = ResponseArguments {
+                    command_name: self.command_name.clone(),
+                    response_topic,
+                    correlation_data: None,
+                    status_code: StatusCode::Ok,
+                    status_message: None,
+                    is_application_error: false,
+                    invalid_property_name: None,
+                    invalid_property_value: None,
+                    command_expiration_time: None,
+                    supported_protocol_major_versions: None,
+                    request_protocol_version: None,
+                };
+
+                // Get message expiry interval
+                let command_expiration_time = if let Some(ct) = properties.message_expiry_interval {
+                    message_received_time.checked_add(Duration::from_secs(ct.into()))
+                } else {
+                    message_received_time
+                        .checked_add(Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL))
+                };
+
+                // Check if there was an error calculating the command expiration time
+                // if not, set the command expiration time
+                if let Some(command_expiration_time) = command_expiration_time {
+                    response_arguments.command_expiration_time = Some(command_expiration_time);
+                    command_expiration_time_calculated = true;
+                }
+
+                'process_request: {
+                    // Get correlation data
+                    if let Some(correlation_data) = properties.correlation_data {
+                        if correlation_data.len() != 16 {
+                            response_arguments.status_code = StatusCode::BadRequest;
+                            response_arguments.status_message =
+                                Some("Correlation data bytes do not conform to a GUID".to_string());
+                            response_arguments.invalid_property_name =
+                                Some("Correlation Data".to_string());
+                            if let Ok(correlation_data_str) =
+                                String::from_utf8(correlation_data.to_vec())
+                            {
+                                response_arguments.invalid_property_value =
+                                    Some(correlation_data_str);
+                            } else { /* Ignore */
+                            }
+                            response_arguments.correlation_data = Some(correlation_data);
+                            break 'process_request;
+                        }
+                        response_arguments.correlation_data = Some(correlation_data);
+                    } else {
+                        response_arguments.status_code = StatusCode::BadRequest;
+                        response_arguments.status_message =
+                            Some("Correlation data missing".to_string());
+                        response_arguments.invalid_property_name =
+                            Some("Correlation Data".to_string());
+                        break 'process_request;
+                    };
+
+                    // Checking if command expiration time was calculated after correlation
+                    // to provide a more accurate response to the invoker.
+                    let Some(command_expiration_time) = command_expiration_time else {
+                        response_arguments.status_code = StatusCode::InternalServerError;
+                        response_arguments.status_message =
+                            Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string());
+                        break 'process_request;
+                    };
+
+                    // Check if message expiry interval is present
+                    if properties.message_expiry_interval.is_none() {
+                        response_arguments.status_code = StatusCode::BadRequest;
+                        response_arguments.status_message =
+                            Some("Message expiry interval missing".to_string());
+                        response_arguments.invalid_property_name =
+                            Some("Message Expiry".to_string());
+                        break 'process_request;
+                    }
+
+                    // Get content type
+                    if let Some(content_type) = properties.content_type {
+                        if TReq::content_type() != content_type {
+                            response_arguments.status_code = StatusCode::UnsupportedMediaType;
+                            response_arguments.status_message = Some(format!("Content type {content_type} is not supported by this implementation; only {} is accepted", TReq::content_type()));
+                            response_arguments.invalid_property_name =
+                                Some("Content Type".to_string());
+                            response_arguments.invalid_property_value = Some(content_type);
+                            break 'process_request;
+                        }
+                    };
+
+                    // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+                    let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                    if let Some((_, protocol_version)) =
+                        properties.user_properties.iter().find(|(key, _)| {
+                            UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                        })
+                    {
+                        if let Some(request_version) =
+                            ProtocolVersion::parse_protocol_version(protocol_version)
+                        {
+                            request_protocol_version = request_version;
+                        } else {
+                            response_arguments.status_code = StatusCode::VersionNotSupported;
+                            response_arguments.status_message = Some(format!(
+                                "Unparsable protocol version value provided: {protocol_version}."
+                            ));
+                            response_arguments.supported_protocol_major_versions =
+                                Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                            response_arguments.request_protocol_version =
+                                Some(protocol_version.to_string());
+                            break 'process_request;
                         }
                     }
-                },
-                recv_result = self.mqtt_receiver.recv() => {
-                    // Process the request
-                    if let Some((m, ack_token)) = recv_result {
-                        log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
-                        let message_received_time = Instant::now();
+                    // Check that the version (or the default version if one isn't provided) is supported
+                    if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                        response_arguments.status_code = StatusCode::VersionNotSupported;
+                        response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
+                        response_arguments.supported_protocol_major_versions =
+                            Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                        response_arguments.request_protocol_version =
+                            Some(request_protocol_version.to_string());
+                        break 'process_request;
+                    }
 
-                        // Clone properties
-                        let properties = match &m.properties {
-                            Some(properties) => properties.clone(),
-                            None => {
-                                log::error!("[{}][pkid: {}] Properties missing", self.command_name, m.pkid);
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn(async move { ack_token });
+                    let mut user_data = Vec::new();
+                    let mut timestamp = None;
+                    let mut invoker_id = None;
+                    for (key, value) in properties.user_properties {
+                        match UserProperty::from_str(&key) {
+                            Ok(UserProperty::Timestamp) => {
+                                match HybridLogicalClock::from_str(&value) {
+                                    Ok(ts) => {
+                                        timestamp = Some(ts);
+                                    }
+                                    Err(e) => {
+                                        response_arguments.status_code = StatusCode::BadRequest;
+                                        response_arguments.status_message =
+                                            Some(format!("Timestamp invalid: {e}"));
+                                        response_arguments.invalid_property_name =
+                                            Some(UserProperty::Timestamp.to_string());
+                                        response_arguments.invalid_property_value = Some(value);
+                                        break 'process_request;
+                                    }
                                 }
-                                continue;
                             }
-                        };
-
-                        // Get response topic
-                        let response_topic = if let Some(rt) = properties.response_topic {
-                            if !is_valid_replacement(&rt) {
-                                log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn(async move { ack_token });
-                                }
-                                continue;
+                            Ok(UserProperty::SourceId) => {
+                                invoker_id = Some(value);
                             }
-                            rt
-                        } else {
-                            log::error!("[{}][pkid: {}] Response topic missing", self.command_name, m.pkid);
-                            if let Some(ack_token) = ack_token {
-                                self.pending_acks.spawn(async move { ack_token });
+                            Ok(UserProperty::ProtocolVersion) => {
+                                // skip, already processed
                             }
-                            continue;
-                        };
-
-                        let mut command_expiration_time_calculated = false;
-                        let mut response_arguments = ResponseArguments {
-                            command_name: self.command_name.clone(),
-                            response_topic,
-                            correlation_data: None,
-                            status_code: StatusCode::Ok,
-                            status_message: None,
-                            is_application_error: false,
-                            invalid_property_name: None,
-                            invalid_property_value: None,
-                            command_expiration_time: None,
-                            supported_protocol_major_versions: None,
-                            request_protocol_version: None
-                        };
-
-                        // Get message expiry interval
-                        let command_expiration_time = if let Some(ct) = properties.message_expiry_interval {
-                            message_received_time.checked_add(Duration::from_secs(ct.into()))
-                        } else {
-                            message_received_time.checked_add(Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL))
-                        };
-
-                        // Check if there was an error calculating the command expiration time
-                        // if not, set the command expiration time
-                        if let Some(command_expiration_time) = command_expiration_time{
-                            response_arguments.command_expiration_time = Some(command_expiration_time);
-                            command_expiration_time_calculated = true;
+                            Err(()) => {
+                                user_data.push((key, value));
+                            }
+                            _ => {
+                                /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
+                                // Don't return error, although above properties shouldn't be in the request
+                                log::warn!("Request should not contain MQTT user property {key}. Value is {value}");
+                                user_data.push((key, value));
+                            }
                         }
+                    }
 
-                        // TODO: Use once shutdown is implemented
-                        let _execution_cancellation_token = CancellationToken::new();
-                        'process_request: {
-                            // Get correlation data
-                            if let Some(correlation_data) = properties.correlation_data {
-                                if correlation_data.len() != 16 {
-                                    response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some("Correlation data bytes do not conform to a GUID".to_string());
-                                    response_arguments.invalid_property_name = Some("Correlation Data".to_string());
-                                    if let Ok(correlation_data_str) = String::from_utf8(correlation_data.to_vec()) {
-                                        response_arguments.invalid_property_value = Some(correlation_data_str);
-                                    } else { /* Ignore */ }
-                                    response_arguments.correlation_data = Some(correlation_data);
-                                    break 'process_request;
-                                }
-                                response_arguments.correlation_data = Some(correlation_data);
-                            } else {
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message = Some("Correlation data missing".to_string());
-                                response_arguments.invalid_property_name = Some("Correlation Data".to_string());
-                                break 'process_request;
-                            };
+                    let topic = match std::str::from_utf8(&m.topic) {
+                        Ok(topic) => topic,
+                        Err(e) => {
+                            // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                            response_arguments.status_code = StatusCode::BadRequest;
+                            response_arguments.status_message =
+                                Some(format!("Error deserializing topic: {e:?}"));
+                            break 'process_request;
+                        }
+                    };
 
-                            // Checking if command expiration time was calculated after correlation
-                            // to provide a more accurate response to the invoker.
-                            let Some(command_expiration_time) = command_expiration_time else {
-                                response_arguments.status_code = StatusCode::InternalServerError;
-                                response_arguments.status_message = Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string());
-                                break 'process_request;
-                            };
+                    let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
-                            // Check if message expiry interval is present
-                            if properties.message_expiry_interval.is_none() {
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message = Some("Message expiry interval missing".to_string());
-                                response_arguments.invalid_property_name = Some("Message Expiry".to_string());
-                                break 'process_request;
-                            }
+                    // Deserialize payload
+                    let payload = match TReq::deserialize(&m.payload) {
+                        Ok(payload) => payload,
+                        Err(e) => {
+                            response_arguments.status_code = StatusCode::BadRequest;
+                            response_arguments.status_message =
+                                Some(format!("Error deserializing payload: {e:?}"));
+                            break 'process_request;
+                        }
+                    };
 
-                            // Get content type
-                            if let Some(content_type) = properties.content_type {
-                                if TReq::content_type() != content_type {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(format!("Content type {content_type} is not supported by this implementation; only {} is accepted", TReq::content_type()));
-                                    response_arguments.invalid_property_name = Some("Content Type".to_string());
-                                    response_arguments.invalid_property_value = Some(content_type);
-                                    break 'process_request;
-                                }
-                            };
+                    let (response_tx, response_rx) = oneshot::channel();
 
-                            // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                            let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
-                            if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
-                                if let Some(request_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
-                                    request_protocol_version = request_version;
-                                } else {
-                                    response_arguments.status_code = StatusCode::VersionNotSupported;
-                                    response_arguments.status_message = Some(format!("Unparsable protocol version value provided: {protocol_version}."));
-                                    response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
-                                    response_arguments.request_protocol_version = Some(protocol_version.to_string());
-                                    break 'process_request;
-                                }
-                            }
-                            // Check that the version (or the default version if one isn't provided) is supported
-                            if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                                response_arguments.status_code = StatusCode::VersionNotSupported;
-                                response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
-                                response_arguments.supported_protocol_major_versions = Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
-                                response_arguments.request_protocol_version = Some(request_protocol_version.to_string());
-                                break 'process_request;
-                            }
+                    let command_request = CommandRequest {
+                        payload,
+                        custom_user_data: user_data,
+                        timestamp,
+                        invoker_id,
+                        topic_tokens,
+                        response_tx,
+                    };
 
-                            let mut user_data = Vec::new();
-                            let mut timestamp = None;
-                            let mut invoker_id = None;
-                            for (key,value) in properties.user_properties {
-                                match UserProperty::from_str(&key) {
-                                    Ok(UserProperty::Timestamp) => {
-                                        match HybridLogicalClock::from_str(&value) {
-                                            Ok(ts) => {
-                                                timestamp = Some(ts);
-                                            },
-                                            Err(e) => {
-                                                response_arguments.status_code = StatusCode::BadRequest;
-                                                response_arguments.status_message = Some(format!("Timestamp invalid: {e}"));
-                                                response_arguments.invalid_property_name = Some(UserProperty::Timestamp.to_string());
-                                                response_arguments.invalid_property_value = Some(value);
-                                                break 'process_request;
-                                            }
-                                        }
+                    // Check the command has not expired, if it has, we do not respond to the invoker.
+                    if command_expiration_time.elapsed().is_zero() {
+                        // Elapsed returns zero if the time has not passed
+                        tokio::task::spawn({
+                            let client_clone = self.mqtt_client.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            let pkid = m.pkid;
+                            async move {
+                                tokio::select! {
+                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                    () = Self::process_command(
+                                        client_clone,
+                                        pkid,
+                                        response_arguments,
+                                        Some(response_rx),
+                                    ) => {
+                                        // Finished processing command
+                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                                     },
-                                    Ok(UserProperty::SourceId) => {
-                                        invoker_id = Some(value);
-                                    },
-                                    Ok(UserProperty::ProtocolVersion) => {
-                                        // skip, already processed
-                                    }
-                                    Err(()) => {
-                                        user_data.push((key, value));
-                                    }
-                                    _ => {
-                                        /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
-                                        // Don't return error, although above properties shouldn't be in the request
-                                        log::warn!("Request should not contain MQTT user property {key}. Value is {value}");
-                                        user_data.push((key, value));
-                                    }
                                 }
                             }
-
-                            let topic = match std::str::from_utf8(&m.topic) {
-                                Ok(topic) => topic,
-                                Err(e) => {
-                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                    response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing topic: {e:?}"));
-                                    break 'process_request;
-                                }
-                            };
-
-                            let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
-
-                            // Deserialize payload
-                            let payload = match TReq::deserialize(&m.payload) {
-                                Ok(payload) => payload,
-                                Err(e) => {
-                                    response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing payload: {e:?}"));
-                                    break 'process_request;
-                                }
-                            };
-
-                            let (response_tx, response_rx) = oneshot::channel();
-
-                            let command_request = CommandRequest {
-                                payload,
-                                custom_user_data: user_data,
-                                timestamp,
-                                invoker_id,
-                                topic_tokens,
-                                response_tx,
-                            };
-
-                            // Check the command has not expired, if it has, we do not respond to the invoker.
-                            if command_expiration_time.elapsed().is_zero() { // Elapsed returns zero if the time has not passed
-                                if let Some(ack_token) = ack_token {
-                                    self.pending_acks.spawn({
-                                        let client_clone = self.mqtt_client.clone();
-                                        let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                        let pkid = m.pkid;
-                                        async move {
-                                            tokio::select! {
-                                                () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                                () = Self::process_command(
-                                                        client_clone,
-                                                        pkid,
-                                                        response_arguments,
-                                                        Some(response_rx),
-                                                ) => { /* Finished processing command */},
-                                            }
-                                            ack_token
-                                        }
-                                    });
-                                }
-                                return Ok(command_request);
-                            }
-                        }
-
-                        // Checking that command expiration time was calculated and has not
-                        // expired. If it has, we do not respond to the invoker.
-                        if let Some(command_expiration_time) = command_expiration_time {
-                            if !command_expiration_time.elapsed().is_zero() {
-                                continue;
-                            }
-                        }
-
-                        if let Some(ack_token) = ack_token {
-                            self.pending_acks.spawn({
-                                let client_clone = self.mqtt_client.clone();
-                                let recv_cancellation_token_clone = self.recv_cancellation_token.clone();
-                                let pkid = m.pkid;
-                                async move {
-                                    tokio::select! {
-                                        () = recv_cancellation_token_clone.cancelled() => { /* Receive loop cancelled */},
-                                        () = Self::process_command(
-                                            client_clone,
-                                            pkid,
-                                            response_arguments,
-                                            None,
-                                        ) => { /* Finished processing command */},
-                                    }
-                                    ack_token
-                                }
-                            });
-                        }
-
-                        if !command_expiration_time_calculated {
-                            return Err(AIOProtocolError::new_internal_logic_error(
-                                true,
-                                false,
-                                None,
-                                None,
-                                "command_expiration_time",
-                                None,
-                                Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
-                                Some(self.command_name.clone())));
-                        }
-                    } else {
-                        // TODO: Change the signature to return Option.
-                        log::error!("MqttReceiver Closed");
-                        return Err(AIOProtocolError::new_unknown_error(false, false, None, None, None, Some(self.command_name.clone())));
+                        });
+                        return Some(Ok(command_request));
                     }
                 }
+
+                // Checking that command expiration time was calculated and has not
+                // expired. If it has, we do not respond to the invoker.
+                if let Some(command_expiration_time) = command_expiration_time {
+                    if !command_expiration_time.elapsed().is_zero() {
+                        continue;
+                    }
+                }
+
+                tokio::task::spawn({
+                    let client_clone = self.mqtt_client.clone();
+                    let executor_cancellation_token_clone =
+                        self.executor_cancellation_token.clone();
+                    let pkid = m.pkid;
+                    async move {
+                        tokio::select! {
+                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                            () = Self::process_command(
+                                client_clone,
+                                pkid,
+                                response_arguments,
+                                None,
+                            ) => {
+                                // Finished processing command
+                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                            },
+                        }
+                    }
+                });
+
+                if !command_expiration_time_calculated {
+                    return Some(Err(AIOProtocolError::new_internal_logic_error(
+                        true,
+                        false,
+                        None,
+                        None,
+                        "command_expiration_time",
+                        None,
+                        Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
+                        Some(self.command_name.clone()),
+                    )));
+                }
+            } else {
+                // There will be no more requests
+                return None;
             }
         }
     }
@@ -993,7 +1045,57 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // Cancel all tasks awaiting responses
+        self.executor_cancellation_token.cancel();
+        // Close the receiver, once dropped all remaining messages are automatically ack'd
+        self.mqtt_receiver.close();
+
+        // If the executor has not been unsubscribed, attempt to unsubscribe
+        if CommandExecutorState::Subscribed == self.executor_state {
+            tokio::spawn({
+                let request_topic = self.request_topic_pattern.as_subscribe_topic();
+                let mqtt_client = self.mqtt_client.clone();
+                async move {
+                    match mqtt_client.unsubscribe(request_topic.clone()).await {
+                        Ok(_) => {
+                            log::debug!("Unsubscribe sent on topic {request_topic}. Unsuback may still be pending.");
+                        }
+                        Err(e) => {
+                            log::error!("Unsubscribe error on topic {request_topic}: {e}");
+                        }
+                    }
+                }
+            });
+        }
+
+        log::info!("[{}] Executor has been dropped", self.command_name);
+    }
+}
+
+/// Wait on an [`AckToken`] ack to complete, if the [`CancellationToken`] is cancelled, the ack is dropped.
+/// # Arguments
+/// * `ack_token` - [`AckToken`] ack to wait on
+/// * `executor_cancellation_token` - Cancellation token to check if the ack should be dropped
+/// * `pkid` - Packet identifier of the message
+async fn handle_ack(
+    ack_token: AckToken,
+    executor_cancellation_token: CancellationToken,
+    pkid: u16,
+) {
+    tokio::select! {
+        () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
+        ack_res = ack_token.ack() => {
+            match ack_res {
+                Ok(_) => {
+                    log::info!("[pkid: {}] Acknowledged", pkid);
+                },
+                Err(e) => {
+                    log::error!("[pkid: {}] Ack error: {e}", pkid);
+                }
+            }
+        }
+    }
 }
 
 #[cfg(test)]
