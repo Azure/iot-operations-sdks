@@ -7,12 +7,16 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"sync/atomic"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
 	"github.com/lmittmann/tint"
 )
+
+var telemetryCount int64
 
 func main() {
 	ctx := context.Background()
@@ -30,6 +34,7 @@ func main() {
 	client := must(dtmi_com_example_Counter__1.NewCounterClient(
 		app,
 		mqttClient,
+		handleTelemetry,
 		protocol.WithResponseTopicPrefix("response"),
 	))
 	defer client.Close()
@@ -37,14 +42,37 @@ func main() {
 	check(mqttClient.Start())
 	check(client.Start(ctx))
 
-	resp := must(client.ReadCounter(ctx, counterServerID))
+	runCounterCommands(ctx, client, counterServerID)
 
+	if telemetryCount == 15 {
+		slog.Info("received expected number of telemetry messages", "count", telemetryCount)
+	} else {
+		slog.Error("unexpected number of telemetry messages received", "expected", 15, "actual", telemetryCount)
+	}
+}
+
+func handleTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[dtmi_com_example_Counter__1.TelemetryCollection]) error {
+	atomic.AddInt64(&telemetryCount, 1)
+	p := msg.Payload
+	if p.CounterValue != nil {
+		slog.Info("received telemetry", "counter_value", *p.CounterValue)
+	}
+	msg.Ack()
+	return nil
+}
+
+func runCounterCommands(ctx context.Context, client *dtmi_com_example_Counter__1.CounterClient, serverID string) {
+	resp := must(client.ReadCounter(ctx, serverID))
 	slog.Info("read counter", "value", resp.Payload.CounterResponse)
 
-	for range 15 {
-		respIncr := must(client.Increment(ctx, counterServerID))
+	for i := 0; i < 15; i++ {
+		respIncr := must(client.Increment(ctx, serverID, dtmi_com_example_Counter__1.IncrementRequestPayload{
+			IncrementValue: 1,
+		}))
 		slog.Info("increment", "value", respIncr.Payload.CounterResponse)
 	}
+
+	time.Sleep(10 * time.Second)
 }
 
 func check(e error) {

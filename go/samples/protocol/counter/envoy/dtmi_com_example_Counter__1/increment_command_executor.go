@@ -6,14 +6,14 @@ import (
 )
 
 type IncrementCommandExecutor struct {
-	*protocol.CommandExecutor[any, IncrementResponsePayload]
+	*protocol.CommandExecutor[IncrementRequestPayload, IncrementResponsePayload]
 }
 
 func NewIncrementCommandExecutor(
 	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
-	handler protocol.CommandHandler[any, IncrementResponsePayload],
+	handler protocol.CommandHandler[IncrementRequestPayload, IncrementResponsePayload],
 	opt ...protocol.CommandExecutorOption,
 ) (*IncrementCommandExecutor, error) {
 	var err error
@@ -31,7 +31,7 @@ func NewIncrementCommandExecutor(
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
 		app,
 		client,
-		protocol.Empty{},
+		protocol.JSON[IncrementRequestPayload]{},
 		protocol.JSON[IncrementResponsePayload]{},
 		requestTopic,
 		handler,

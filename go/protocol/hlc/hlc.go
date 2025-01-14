@@ -173,7 +173,10 @@ func (hlc HybridLogicalClock) String() string {
 	)
 }
 
-func (hlc *HybridLogicalClock) validate(wall time.Time, opt *HybridLogicalClockOptions) error {
+func (hlc *HybridLogicalClock) validate(
+	wall time.Time,
+	opt *HybridLogicalClockOptions,
+) error {
 	switch {
 	case hlc.counter == math.MaxUint64:
 		return &errors.Error{
