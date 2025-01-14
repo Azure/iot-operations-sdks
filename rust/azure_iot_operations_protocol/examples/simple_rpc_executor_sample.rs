@@ -70,7 +70,7 @@ async fn executor_loop(client: SessionManagedClient) {
                     counter_response: counter,
                 };
                 let response = CommandResponseBuilder::default()
-                    .payload(&response)
+                    .payload(response)
                     .unwrap()
                     .build()
                     .unwrap();
