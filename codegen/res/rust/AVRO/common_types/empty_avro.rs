@@ -22,7 +22,7 @@ impl PayloadSerialize for EmptyAvro{
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
+    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
         Ok(apache_avro::to_avro_datum(&SCHEMA, apache_avro::to_value(self).unwrap()).unwrap())
     }
 

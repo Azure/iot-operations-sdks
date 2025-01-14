@@ -9,7 +9,6 @@ description:
 prologue:
   invokers:
   - request-topic: "mock/{modelId}/test"
-    model-id:
   catch:
     error-kind: invalid argument
     in-application: !!bool false

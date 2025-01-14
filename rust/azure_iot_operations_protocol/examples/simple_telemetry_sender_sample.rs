@@ -72,7 +72,7 @@ async fn telemetry_loop(
             .build()
             .unwrap();
         let message = TelemetryMessageBuilder::default()
-            .payload(&SampleTelemetry {
+            .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
             })
@@ -108,7 +108,7 @@ impl PayloadSerialize for SampleTelemetry {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
             self.external_temperature, self.internal_temperature

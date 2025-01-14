@@ -33,5 +33,5 @@ $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSa
 $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSeparateSample/telemetry_raw_separate_gen --lang rust --sdkPath ../../../../rust
 
 [[ -d ./TelemetryAndCommandNestedRaw ]] && rm -r ./TelemetryAndCommandNestedRaw
-$gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen --lang rust
-$gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen/src/command_raw_gen --lang rust --noProj
+$gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
+$gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen/src/command_raw_gen --lang rust --noProj --sdkPath ../../../../rust

@@ -64,7 +64,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::Error> {
+    pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, TReq::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.request_payload_type = Some(PhantomData);
@@ -153,7 +153,7 @@ pub struct CommandInvokerOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -176,7 +176,7 @@ pub struct CommandInvokerOptions {
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
@@ -1090,7 +1090,7 @@ mod tests {
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
         }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
+        fn serialize(self) -> Result<Vec<u8>, String> {
             unimplemented!()
         }
         fn deserialize(_payload: &[u8]) -> Result<Self, String> {
@@ -1494,7 +1494,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
                     .build()
@@ -1551,7 +1551,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1633,7 +1633,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1683,7 +1683,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::from([(
@@ -1738,7 +1738,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::new())
@@ -1770,7 +1770,7 @@ mod tests {
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();
-        let req_builder = binding.payload(&mock_request_payload);
+        let req_builder = binding.payload(mock_request_payload);
         assert!(req_builder.is_err());
     }
 
@@ -1788,7 +1788,7 @@ mod tests {
             .times(1);
 
         let request_builder_result = CommandRequestBuilder::default()
-            .payload(&mock_request_payload)
+            .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
             .build();

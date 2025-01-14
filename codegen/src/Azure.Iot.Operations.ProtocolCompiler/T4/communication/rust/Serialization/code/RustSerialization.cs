@@ -51,12 +51,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private static readonly Dictionary<string, List<string>> formatSerializeCode = new()
         {
             { PayloadFormat.Avro, new List<string> {
-                "match apache_avro::to_value(self) {",
+                "match apache_avro::to_value(&self) {",
                 "    Ok(v) => apache_avro::to_avro_datum(&SCHEMA, v),",
                 "    Err(e) => Err(e),",
                 "}",
             } },
-            { PayloadFormat.Json, new List<string> { "serde_json::to_vec(self)" } },
+            { PayloadFormat.Json, new List<string> { "serde_json::to_vec(&self)" } },
         };
 
         private static readonly Dictionary<string, List<string>> formatDeserializeCode = new()

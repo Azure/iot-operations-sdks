@@ -11,5 +11,6 @@ Utilities for using the Azure IoT Operations Services over MQTT, leveraging the 
 The Azure IoT Operations Services provides clients for the various services in Azure IoT Operations:
  
 - State Store
+- Schema Registry
 - Leased Lock (coming soon)
 - Leader Election (coming soon)
