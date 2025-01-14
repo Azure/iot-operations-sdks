@@ -266,7 +266,6 @@ where
 enum CommandExecutorState {
     New,
     Subscribed,
-    ShutdownInitiated,
     ShutdownSuccessful,
 }
 
@@ -405,9 +404,7 @@ where
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
                 self.executor_state = CommandExecutorState::ShutdownSuccessful;
             }
-            CommandExecutorState::Subscribed | CommandExecutorState::ShutdownInitiated => {
-                // If failure occurs here, the executor should still be in a shutdown state
-                self.executor_state = CommandExecutorState::ShutdownInitiated;
+            CommandExecutorState::Subscribed => {
                 let unsubscribe_result = self
                     .mqtt_client
                     .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
@@ -1055,9 +1052,7 @@ where
         self.mqtt_receiver.close();
 
         // If the executor has not been unsubscribed, attempt to unsubscribe
-        if let CommandExecutorState::Subscribed | CommandExecutorState::ShutdownInitiated =
-            self.executor_state
-        {
+        if CommandExecutorState::Subscribed == self.executor_state {
             tokio::spawn({
                 let request_topic = self.request_topic_pattern.as_subscribe_topic();
                 let mqtt_client = self.mqtt_client.clone();

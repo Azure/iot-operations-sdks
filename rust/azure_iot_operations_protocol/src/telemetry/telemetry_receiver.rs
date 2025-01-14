@@ -205,7 +205,6 @@ where
 enum TelemetryReceiverState {
     New,
     Subscribed,
-    ShutdownInitiated,
     ShutdownSuccessful,
 }
 
@@ -306,9 +305,7 @@ where
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
                 self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
             }
-            TelemetryReceiverState::Subscribed | TelemetryReceiverState::ShutdownInitiated => {
-                // If failure occurs here, the receiver should still be in a shutdown state
-                self.receiver_state = TelemetryReceiverState::ShutdownInitiated;
+            TelemetryReceiverState::Subscribed => {
                 let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
                 match unsubscribe_result {
@@ -616,9 +613,7 @@ where
         self.mqtt_receiver.close();
 
         // If the receiver has not unsubscribed, attempt to unsubscribe
-        if let TelemetryReceiverState::Subscribed | TelemetryReceiverState::ShutdownInitiated =
-            self.receiver_state
-        {
+        if TelemetryReceiverState::Subscribed == self.receiver_state {
             tokio::spawn({
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();
