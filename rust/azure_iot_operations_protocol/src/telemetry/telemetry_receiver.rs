@@ -297,7 +297,7 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        // Close the receier, no longer receive messages
+        // Close the receiver, no longer receive messages
         self.mqtt_receiver.close();
 
         match self.receiver_state {
