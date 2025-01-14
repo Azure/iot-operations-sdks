@@ -266,6 +266,7 @@ where
 }
 
 /// Describes state of executor
+#[derive(PartialEq)]
 enum CommandExecutorState {
     New,
     Subscribed,
@@ -503,7 +504,7 @@ where
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        if let CommandExecutorState::New = self.executor_state {
+        if CommandExecutorState::New == self.executor_state {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
@@ -1085,7 +1086,7 @@ where
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
         self.executor_cancellation_token.cancel();
-        // Close the receiver
+        // Close the receiver, once dropped all remaining messages are automatically ack'd
         self.mqtt_receiver.close();
 
         // If the executor has not been unsubscribed, attempt to unsubscribe

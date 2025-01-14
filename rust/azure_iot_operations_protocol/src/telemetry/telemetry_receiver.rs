@@ -201,6 +201,7 @@ where
 }
 
 /// Describes state of receiver
+#[derive(PartialEq)]
 enum TelemetryReceiverState {
     New,
     Subscribed,
@@ -390,7 +391,7 @@ where
         &mut self,
     ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if let TelemetryReceiverState::New = self.receiver_state {
+        if self.receiver_state == TelemetryReceiverState::New {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
