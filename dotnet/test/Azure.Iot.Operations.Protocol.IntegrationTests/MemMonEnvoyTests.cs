@@ -153,7 +153,7 @@ public class MemMonEnvoyTests
         Assert.Equal("1.0", memStatsMD.CloudEvent.SpecVersion);
         Assert.Equal("test://mq/", memStatsMD.CloudEvent.Source!.ToString());
         Assert.Equal("ms.aio.telemetry", memStatsMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/MemoryStats", memStatsMD.CloudEvent.Subject);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsMD.CloudEvent.Subject);
         //Assert.Equal("1.0", memStatsMD.CloudEvent.DataSchema);
         Assert.Equal("application/avro", memStatsMD.CloudEvent.DataContentType);
         Assert.True(DateTime.TryParse(memStatsMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
@@ -222,7 +222,7 @@ public class MemMonEnvoyTests
         var startResp = await memmonClient.StartTelemetryAsync(executorId, new StartTelemetryRequestPayload() { Interval = 4 });
 
         resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
-        Assert.Equal("4", resp.DiagnosticResults["Interval"]);
+        Assert.Equal("4", resp.DiagnosticResults["interval"]);
         Assert.Equal("True", resp.DiagnosticResults["enabled"]);
 
         await memmonClient.StopTelemetryAsync(executorId);
