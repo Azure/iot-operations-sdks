@@ -156,7 +156,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
 
-	message.Payload, err = tr.listener.payload(pub)
+	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
 		return err
 	}

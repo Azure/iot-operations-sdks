@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Diagnostics;
 using System.Text;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Events;
@@ -19,6 +22,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         private const string NotificationsTopicFilter = NotificationsTopicFormat + "/+";
         string _clientIdHexString = "";
         private bool _disposed = false;
+
+        internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
 
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
@@ -179,13 +184,17 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            { 
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 
@@ -224,13 +233,17 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            {
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 

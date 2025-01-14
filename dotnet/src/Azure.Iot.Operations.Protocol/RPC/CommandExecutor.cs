@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -16,10 +19,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 0;
-        private const int minorProtocolVersion = 1;
+        private const int majorProtocolVersion = 1;
+        private const int minorProtocolVersion = 0;
 
-        private readonly int[] supportedMajorProtocolVersions = [0];
+        private readonly int[] supportedMajorProtocolVersions = [1];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -151,6 +154,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     await commandResponseCache.RetrieveAsync(
                         this.commandName,
                         sourceId,
+                        args.ApplicationMessage.Topic,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.PayloadSegment.Array ?? [],
                         isCacheable: CacheTtl > TimeSpan.Zero,
@@ -210,6 +214,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         await commandResponseCache.StoreAsync(
                             this.commandName,
                             sourceId,
+                            args.ApplicationMessage.Topic,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.PayloadSegment.Array,
                             responseMessage,
@@ -388,16 +393,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 status = CommandStatusCode.BadRequest;
                 statusMessage = $"Correlation data bytes do not conform to a GUID.";
                 invalidPropertyName = "Correlation Data";
-                invalidPropertyValue = null;
-                return false;
-            }
-
-            string? sourceId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
-            if (sourceId == null)
-            {
-                status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Source ID ({AkriSystemProperties.SourceId}) property present.";
-                invalidPropertyName = AkriSystemProperties.SourceId;
                 invalidPropertyValue = null;
                 return false;
             }

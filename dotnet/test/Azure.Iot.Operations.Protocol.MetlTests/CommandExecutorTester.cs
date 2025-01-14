@@ -1,4 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
@@ -25,11 +28,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
-        {
-            "CommandExecutorReceivesPseudoDuplicateIdempotentRequest_CommandExecuted",
-            "CommandExecutorReceivesPseudoDuplicateNonIdempotentRequest_CommandExecuted",
-        };
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
@@ -63,7 +62,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 TestCaseExecutor.DefaultCommandName = defaultTestCase.Prologue.Executor.CommandName;
                 TestCaseExecutor.DefaultRequestTopic = defaultTestCase.Prologue.Executor.RequestTopic;
-                TestCaseExecutor.DefaultModelId = defaultTestCase.Prologue.Executor.ModelId;
                 TestCaseExecutor.DefaultExecutorId = defaultTestCase.Prologue.Executor.ExecutorId;
                 TestCaseExecutor.DefaultTopicNamespace = defaultTestCase.Prologue.Executor.TopicNamespace;
                 TestCaseExecutor.DefaultIdempotent = defaultTestCase.Prologue.Executor.Idempotent;
@@ -349,26 +347,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         OnCommandReceived = null!,
                     };
 
-                if (testCaseExecutor.ModelId != null)
+                if (testCaseExecutor.TopicTokenMap != null)
                 {
-                    commandExecutor.TopicTokenMap!["modelId"] = testCaseExecutor.ModelId;
-                }
-
-                if (testCaseExecutor.CommandName != null)
-                {
-                    commandExecutor.TopicTokenMap!["commandName"] = testCaseExecutor.CommandName;
-                }
-
-                if (testCaseExecutor.ExecutorId != null)
-                {
-                    commandExecutor.TopicTokenMap!["executorId"] = testCaseExecutor.ExecutorId;
-                }
-
-                if (testCaseExecutor.CustomTokenMap != null)
-                {
-                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.CustomTokenMap)
+                    foreach (KeyValuePair<string, string> kvp in testCaseExecutor.TopicTokenMap)
                     {
-                        commandExecutor.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                        commandExecutor.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
 

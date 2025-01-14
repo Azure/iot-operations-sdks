@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
@@ -20,9 +23,9 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         internal static bool TryParseProtocolVersion(string? protocolVersionString, out ProtocolVersion? protocolVersion)
         {
-            // If no protocol version is provided, assume version 0.1
-            int requestMajorProtocolVersion = 0;
-            int requestMinorProtocolVersion = 1;
+            // If no protocol version is provided, assume version 1.0
+            int requestMajorProtocolVersion = 1;
+            int requestMinorProtocolVersion = 0;
 
             if (protocolVersionString != null)
             {

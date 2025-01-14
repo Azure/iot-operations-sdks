@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
             List<(string, string?, string?)> cmdNameReqResps,
-            List<string> telemSchemas,
+            List<(string?, string)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService)
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdNameReqResps = cmdNameReqResps;
-            this.telemSchemas = telemSchemas;
+            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2).ToList();
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;

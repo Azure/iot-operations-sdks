@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Models;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -68,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                             SenderId = property.Value;
                             break;
                         default:
-                            if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
+                            if (!AkriSystemProperties.IsReservedUserProperty(property.Name))
                             {
                                 UserData[property.Name] = property.Value;
                             }

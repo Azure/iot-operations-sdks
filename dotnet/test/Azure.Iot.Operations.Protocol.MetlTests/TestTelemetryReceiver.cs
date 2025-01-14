@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using Azure.Iot.Operations.Protocol;
@@ -13,8 +16,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return await telemetryCount.Read().ConfigureAwait(false);
         }
 
-        internal TestTelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName)
-            : base(mqttClient, telemetryName, new Utf8JsonSerializer())
+        internal TestTelemetryReceiver(IMqttPubSubClient mqttClient)
+            : base(mqttClient, null, new Utf8JsonSerializer())
         {
             telemetryCount = new(0);
         }

@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Protocol.Models;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
 
@@ -26,13 +29,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the Timestamp is set from the request message; this will be null if the message contains no timestamp header.
         /// </summary>
         public HybridLogicalClock? Timestamp { get; }
-
-        /// <summary>
-        /// A fencing token attached to the request.
-        /// When CommandRequestMetadata is constructed by user code that will invoke a command, the FencingToken is initialized to null, and it can be set by user code.
-        /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the FencingToken is set from the request message; this will be null if the message contains no fencing token header.
-        /// </summary>
-        public HybridLogicalClock? FencingToken { get; set; }
 
         /// <summary>
         /// A dictionary of user properties that are sent along with the request from the CommandInvoker to the CommandExecutor.
@@ -67,7 +63,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             InvokerClientId = null;
 
             Timestamp = new HybridLogicalClock(localClock);
-            FencingToken = null;
             UserData = [];
         }
 
@@ -80,7 +75,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             InvokerClientId = null;
 
             Timestamp = null;
-            FencingToken = null;
             UserData = [];
 
             if (message.UserProperties != null)
@@ -92,9 +86,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         case AkriSystemProperties.Timestamp:
                             Timestamp = HybridLogicalClock.DecodeFromString(AkriSystemProperties.Timestamp, property.Value);
                             break;
-                        case AkriSystemProperties.FencingToken:
-                            FencingToken = HybridLogicalClock.DecodeFromString(AkriSystemProperties.FencingToken, property.Value);
-                            break;
                         case AkriSystemProperties.SourceId:
                             InvokerClientId = property.Value;
                             break;
@@ -102,7 +93,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             Partition = property.Value;
                             break;
                         default:
-                            if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
+                            if (!AkriSystemProperties.IsReservedUserProperty(property.Name))
                             {
                                 UserData[property.Name] = property.Value;
                             }
@@ -119,11 +110,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
             }
 
-            if (FencingToken != default)
-            {
-                message.AddUserProperty(AkriSystemProperties.FencingToken, FencingToken.EncodeToString());
-            }
-
             if (Partition != null)
             {
                 message.AddUserProperty("$partition", Partition);
@@ -131,18 +117,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             foreach (KeyValuePair<string, string> kvp in UserData)
             {
-                if (kvp.Key.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
-                {
-                    throw new AkriMqttException($"Invalid user property \"{kvp.Key}\" starts with reserved prefix {AkriSystemProperties.ReservedPrefix}")
-                    {
-                        Kind = AkriMqttErrorKind.HeaderInvalid,
-                        InApplication = true,
-                        IsShallow = false,
-                        IsRemote = false,
-                        HeaderName = kvp.Key,
-                    };
-                }
-
                 message.AddUserProperty(kvp.Key, kvp.Value);
             }
         }

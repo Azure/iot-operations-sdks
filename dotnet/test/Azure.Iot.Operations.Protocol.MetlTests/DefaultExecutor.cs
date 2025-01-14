@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class DefaultExecutor
@@ -5,8 +8,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public string? CommandName { get; set; }
 
         public string? RequestTopic { get; set; }
-
-        public string? ModelId { get; set; }
 
         public string? ExecutorId { get; set; }
 

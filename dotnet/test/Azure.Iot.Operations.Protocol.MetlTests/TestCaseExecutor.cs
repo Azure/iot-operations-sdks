@@ -1,10 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseExecutor
     {
         public static string? DefaultCommandName;
         public static string? DefaultRequestTopic;
-        public static string? DefaultModelId;
         public static string? DefaultExecutorId;
         public static string? DefaultTopicNamespace;
         public static bool DefaultIdempotent;
@@ -17,13 +19,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? RequestTopic { get; set; } = DefaultRequestTopic;
 
-        public string? ModelId { get; set; } = DefaultModelId;
-
         public string? ExecutorId { get; set; } = DefaultExecutorId;
 
         public string? TopicNamespace { get; set; } = DefaultTopicNamespace;
 
-        public Dictionary<string, string>? CustomTokenMap { get; set; }
+        public Dictionary<string, string>? TopicTokenMap { get; set; }
 
         public bool Idempotent { get; set; } = DefaultIdempotent;
 

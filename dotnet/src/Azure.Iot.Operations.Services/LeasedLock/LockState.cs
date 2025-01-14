@@ -1,4 +1,7 @@
-﻿namespace Azure.Iot.Operations.Services.LeasedLock
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.LeasedLock
 {
     /// <summary>
     /// The state of the leased lock.
