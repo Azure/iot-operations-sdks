@@ -38,8 +38,6 @@ impl<'de> Deserialize<'de> for Decimal {
         D: Deserializer<'de>,
     {
         let s: String = String::deserialize(deserializer)?;
-        Ok(Decimal(
-            bigdecimal::BigDecimal::from_str(&s).map_err(de::Error::custom)?,
-        ))
+        Ok(Decimal(bigdecimal::BigDecimal::from_str(&s).map_err(de::Error::custom)?))
     }
 }
