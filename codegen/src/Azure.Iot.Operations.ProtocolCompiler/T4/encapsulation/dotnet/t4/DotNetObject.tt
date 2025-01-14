@@ -7,16 +7,29 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 {
     using System;
     using System.Collections.Generic;
+<# if (this.serFormat == SerializationFormat.Avro) { #>
+    using Avro;
+    using Avro.Specific;
+<# } else if (this.serFormat == SerializationFormat.Json) { #>
     using System.Text.Json.Serialization;
+<# } #>
     using <#=this.projectName#>;
 
+<# if (this.serFormat == SerializationFormat.Avro) { #>
+    [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
+    public class <#=this.objectType.SchemaName#>Base
+    {
+        public virtual Schema Schema { get => Schema.Parse(@"{""namespace"":""<#=this.projectName#>.<#=this.genNamespace#>"",""name"":""<#=this.objectType.SchemaName#>"",""type"":""record"",""fields"":[]}"); }
+    }
+
+<# } #>
 <# if (this.objectType.Description != null) { #>
     /// <summary>
     /// <#=this.objectType.Description#>
     /// </summary>
 <# } #>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
-    public class <#=this.objectType.SchemaName#><#=this.needsNullCheck ? " : IJsonOnDeserialized, IJsonOnSerializing": ""#>
+    public partial class <#=this.objectType.SchemaName#><#=this.Exports()#>
     {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
 <# if (fieldInfo.Value.Description != null) { #>
@@ -24,10 +37,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
         /// <#=fieldInfo.Value.Description#>
         /// </summary>
 <# } #>
+<# if (this.serFormat == SerializationFormat.Json) { #>
         [JsonPropertyName("<#=fieldInfo.Key#>")]
         [JsonIgnore(Condition = JsonIgnoreCondition.<#=fieldInfo.Value.IsRequired ? "Never" : "WhenWritingDefault"#>)]
 <# if (fieldInfo.Value.IsRequired) { #>
         [JsonRequired]
+<# } #>
 <# } #>
 <# if (fieldInfo.Value.Index != null) { #>
         [Dahomey.Cbor.Attributes.CborPropertyAttribute(index: <#=fieldInfo.Value.Index#>)]
@@ -35,7 +50,29 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
         public <#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#> <#=Capitalize(fieldInfo.Key)#> { get; set; } = default<#=fieldInfo.Value.IsRequired ? "!" : ""#>;
 
 <# } #>
-<# if (this.needsNullCheck) { #>
+<# if (this.serFormat == SerializationFormat.Avro) { #>
+        public virtual object Get(int fieldPos)
+        {
+            switch (fieldPos)
+            {
+<# int ix = 0; foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+                case <#=ix#>: return this.<#=Capitalize(fieldInfo.Key)#>!;
+<# ++ix; } #>
+                default: throw new Avro.AvroRuntimeException("Bad index " + fieldPos + " in Get()");
+            };
+        }
+
+        public virtual void Put(int fieldPos, object fieldValue)
+        {
+            switch (fieldPos)
+            {
+<# ix = 0; foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+                case <#=ix#>: this.<#=Capitalize(fieldInfo.Key)#> = (<#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#>)<#=fieldInfo.Value.SchemaType is ReferenceType refType && refType.IsEnum ? (fieldInfo.Value.IsRequired ? "(int)" : "(int?)") : ""#>fieldValue; break;
+<# ++ix; } #>
+                default: throw new Avro.AvroRuntimeException("Bad index " + fieldPos + " in Put()");
+            };
+        }
+<# } else if (this.serFormat == SerializationFormat.Json && this.needsNullCheck) { #>
         void IJsonOnDeserialized.OnDeserialized()
         {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
@@ -63,5 +100,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     }
 }
 <#+
+    public string Exports() => this.serFormat switch
+    {
+        SerializationFormat.Avro => $" : {this.objectType.SchemaName}Base, ISpecificRecord",
+        SerializationFormat.Json when this.needsNullCheck => " : IJsonOnDeserialized, IJsonOnSerializing",
+        _ => "",
+    };
+
     public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
 #>
