@@ -59,17 +59,16 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///  whereby format and encoding might differ from that of the chosen event format.
         /// </summary>
         /// <remarks>
-        /// This value will be used as the content type of the MQTT message when it is published. Setting this field allows you to override 
-        /// any content type that your serializer will include by default.
+        /// This value will be the content type associated with the MQTT message that this cloud event was associated with.
         /// </remarks>
-        public string? DataContentType { get; internal set; } // Default value should be the serializer's content type, but this class isn't tied to a serializer yet.
+        public string? DataContentType { get; internal set; } //  Default value should be the serializer's content type, but this class isn't tied to a serializer yet.
 
         /// <summary>
         /// Identifies the subject of the event in the context of the event producer (identified by source). 
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source, 
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
         /// </summary>
-        public string? Subject { get; internal set; } // Default value should be the telemetry sender/receiver's topic, but this class isn't tied to a telemetry sender/receiver yet.
+        public string? Subject { get; internal set; } //  Default value should be the telemetry sender/receiver's topic, but this class isn't tied to a telemetry sender/receiver yet.
 
         /// <summary>
         ///  Identifies the schema that data adheres to. 
@@ -176,20 +175,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
 
             return userProperties;
-        }
-
-        /// <summary>
-        /// Gets the MQTT message content type from the CloudEvent.
-        /// </summary>
-        /// <returns>The MQTT message content type if any content type was parsed by <see cref="CloudEvent.CloudEvent(string?, Dictionary{string, string})"/>.</returns>
-        public string? ToMqttMessageContentType()
-        {
-            if (!string.IsNullOrWhiteSpace(DataContentType) && Regex.IsMatch(DataContentType, CloudEventsDataContentTypeRegex))
-            {
-                return DataContentType;
-            }
-
-            return null;
         }
     }
 }

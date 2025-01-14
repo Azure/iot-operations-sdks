@@ -371,15 +371,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (requestMsg.ContentType != null && requestMsg.ContentType != this.serializer.DefaultContentType)
-            {
-                status = CommandStatusCode.UnsupportedMediaType;
-                statusMessage = $"Content type {requestMsg.ContentType} is not supported by this implementation; only {this.serializer.DefaultContentType} is accepted.";
-                invalidPropertyName = "Content Type";
-                invalidPropertyValue = requestMsg.ContentType;
-                return false;
-            }
-
             if (requestMsg.CorrelationData == null || requestMsg.CorrelationData.Length == 0)
             {
                 status = CommandStatusCode.BadRequest;

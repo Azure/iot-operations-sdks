@@ -363,15 +363,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             out string? headerName,
             out string? headerValue)
         {
-            if (responseMsg.ContentType != null && responseMsg.ContentType != serializer.DefaultContentType)
-            {
-                errorKind = AkriMqttErrorKind.HeaderInvalid;
-                message = $"Content type {responseMsg.ContentType} is not supported by this implementation; only {serializer.DefaultContentType} is accepted.";
-                headerName = "Content Type";
-                headerValue = responseMsg.ContentType;
-                return false;
-            }
-
             if (!Guid.TryParse(correlationId, out _))
             {
                 errorKind = AkriMqttErrorKind.HeaderInvalid;

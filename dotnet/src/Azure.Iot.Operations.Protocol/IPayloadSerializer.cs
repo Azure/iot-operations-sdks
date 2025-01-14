@@ -30,9 +30,9 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         /// <typeparam name="T">The type to deserialize into.</typeparam>
         /// <param name="payload">The byte array to deserialize.</param>
-        /// <param name="contentType">An optional override of the default content type specified in <see cref="DefaultContentType"/>.</param>
-        /// <param name="payloadFormatIndicator">An optional override of the default payload format indicator specified in <see cref="DefaultContentType"/>.</param>
-        /// <returns>The deserialized object and the content type + payload format indicator used when serializing.</returns>
+        /// <param name="contentType">The content type of the MQTT message received with this payload.</param>
+        /// <param name="payloadFormatIndicator">The payload format indicator of the MQTT message received with this payload.</param>
+        /// <returns>The deserialized object.</returns>
         T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class;
     }
 }
