@@ -13,10 +13,10 @@ public class CounterService : Counter.Service
 
     public CounterService(MqttSessionClient mqttClient) : base(mqttClient) { }
 
-    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        Interlocked.Increment(ref counter);
+        Interlocked.Add(ref counter, request.IncrementValue);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>
         {

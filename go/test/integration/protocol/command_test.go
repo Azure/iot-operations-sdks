@@ -28,6 +28,8 @@ func TestCommand(t *testing.T) {
 			_ context.Context,
 			cr *protocol.CommandRequest[string],
 		) (*protocol.CommandResponse[string], error) {
+			require.Equal(t, "application/json", cr.ContentType)
+			require.Equal(t, byte(1), cr.PayloadFormat)
 			return protocol.Respond(
 				cr.Payload+cr.ClientID+cr.CorrelationData,
 				protocol.WithMetadata(cr.TopicTokens),

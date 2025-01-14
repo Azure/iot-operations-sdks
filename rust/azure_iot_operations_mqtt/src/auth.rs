@@ -27,6 +27,9 @@ pub enum SatAuthContextInitError {
     /// Error occurred while creating the SAT auth context.
     #[error("{0}")]
     WatcherError(#[from] notify::Error),
+    /// No SAT file found.
+    #[error("No SAT file found")]
+    NoSatFile,
 }
 
 /// Error type for reauthenticating the client using the SAT token. The type of error is specified by the value of [`SatReauthError`].
@@ -53,11 +56,11 @@ pub enum SatReauthError {
 pub struct SatAuthContext {
     /// File path to the SAT token
     file_location: String,
-    /// SAT file watcher, held to keep the watcher alive
+    /// SAT file's directory watcher, held to keep the watcher alive
     #[allow(dead_code)]
     watcher: Option<notify_debouncer_full::Debouncer<RecommendedWatcher, RecommendedCache>>,
-    /// Notifier for SAT file changes
-    pub file_watcher_notify: Arc<Notify>,
+    /// Notifier for changes in the SAT file's directory
+    pub directory_watcher_notify: Arc<Notify>,
     /// Channel for receiving auth change notifications
     auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
 }
@@ -70,11 +73,23 @@ impl SatAuthContext {
         file_location: String,
         auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
     ) -> Result<Self, SatAuthContextInitError> {
-        // Create a watcher notifier
-        let file_watcher_notify = Arc::new(Notify::new());
-        let file_watcher_notify_clone = file_watcher_notify.clone();
+        let file_location_path = Path::new(&file_location);
 
-        // Create a SAT file watcher
+        // Check that the specified SAT token file exists
+        if !file_location_path.is_file() {
+            return Err(SatAuthContextInitError::NoSatFile);
+        }
+
+        let Some(parent_path) = Path::new(&file_location).parent() else {
+            // Should never happen, as we already checked that the file exists
+            return Err(SatAuthContextInitError::NoSatFile);
+        };
+
+        // Create a watcher notifier
+        let directory_watcher_notify = Arc::new(Notify::new());
+        let directory_watcher_notify_clone = directory_watcher_notify.clone();
+
+        // Create a SAT directory watcher
         let watcher = match new_debouncer(
             Duration::from_secs(10),
             None,
@@ -82,33 +97,30 @@ impl SatAuthContext {
                 match res {
                     Ok(events) => {
                         if events.iter().any(|e| {
-                            // Only notify on events that are not file open events
+                            // Only notify on non-open events
                             !matches!(
                                 e.event.kind,
                                 notify::EventKind::Access(notify::event::AccessKind::Open(_))
                             )
                         }) {
-                            file_watcher_notify_clone.notify_one();
+                            directory_watcher_notify_clone.notify_one();
                         }
                     }
                     Err(err) => {
-                        log::error!("Error reading SAT file: {err:?}");
+                        log::error!("Error reading SAT directory: {err:?}");
                     }
                 }
             },
         ) {
             Ok(mut debouncer) => {
-                // Start watching the SAT file
+                // Start watching the SAT file's parent directory
                 debouncer
-                    .watch(
-                        Path::new(&file_location),
-                        notify::RecursiveMode::NonRecursive,
-                    )
+                    .watch(Path::new(&parent_path), notify::RecursiveMode::NonRecursive)
                     .map_err(SatAuthContextInitError::from)?;
                 Some(debouncer)
             }
             Err(e) => {
-                log::error!("Error creating SAT file watcher: {e:?}");
+                log::error!("Error creating SAT file's directory watcher: {e:?}");
                 return Err(SatAuthContextInitError::from(e));
             }
         };
@@ -116,20 +128,19 @@ impl SatAuthContext {
         Ok(Self {
             file_location,
             watcher,
-            file_watcher_notify,
+            directory_watcher_notify,
             auth_watcher_rx,
         })
     }
 
-    /// Wait for SAT file changes.
+    /// Wait for changes in SAT file's directory.
     pub async fn notified(&self) {
-        self.file_watcher_notify.notified().await;
+        self.directory_watcher_notify.notified().await;
     }
-
-    /// Drain the SAT file watcher notification.
+    /// Drain the SAT file's directory watcher notification.
     pub async fn drain_notify(&self) {
-        self.file_watcher_notify.notify_one();
-        self.file_watcher_notify.notified().await;
+        self.directory_watcher_notify.notify_one();
+        self.directory_watcher_notify.notified().await;
     }
 
     /// Re-authenticate the client using the SAT token.

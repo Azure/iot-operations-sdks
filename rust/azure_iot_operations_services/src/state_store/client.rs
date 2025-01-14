@@ -15,14 +15,16 @@ use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
-        mpsc::{channel, Receiver, Sender},
+        mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
         Mutex,
     },
     task,
 };
 use tokio_util::sync::CancellationToken;
 
-use crate::state_store::{self, SetOptions, StateStoreError, StateStoreErrorKind};
+use crate::state_store::{
+    self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
+};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -41,7 +43,7 @@ pub struct KeyObservation {
     /// The name of the key (for convenience)
     pub key: Vec<u8>,
     /// The internal channel for receiving notifications for this key
-    receiver: Receiver<(state_store::KeyNotification, Option<AckToken>)>,
+    receiver: UnboundedReceiver<(state_store::KeyNotification, Option<AckToken>)>,
 }
 impl KeyObservation {
     /// Receives a [`state_store::KeyNotification`] or [`None`] if there will be no more notifications.
@@ -78,7 +80,7 @@ where
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
-        ArcMutexHashmap<String, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
+        ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
     recv_cancellation_token: CancellationToken,
 }
 
@@ -209,15 +211,22 @@ where
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
-        let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Set {
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
+            .payload(state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
             })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
@@ -259,7 +268,7 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Get { key })
+            .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
@@ -353,11 +362,18 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        let request = CommandRequestBuilder::default()
-            .payload(&request)
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
+            .payload(request)
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
@@ -382,7 +398,7 @@ where
     ) -> Result<state_store::Response<()>, StateStoreError> {
         // Send invoke request for observe
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
             })
@@ -444,7 +460,7 @@ where
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
         let encoded_key_name = HEXUPPER.encode(&key);
-        let (tx, rx) = channel(100);
+        let (tx, rx) = unbounded_channel();
 
         {
             let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
@@ -514,7 +530,7 @@ where
         }
         // Send invoke request for unobserve
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
             })
@@ -557,7 +573,7 @@ where
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
-            Sender<(state_store::KeyNotification, Option<AckToken>)>,
+            UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
         loop {
@@ -596,7 +612,7 @@ where
                                         }
                                         else {
                                             // Otherwise, send the notification to the receiver
-                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)).await {
+                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)) {
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }

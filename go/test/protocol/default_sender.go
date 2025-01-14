@@ -5,7 +5,6 @@ package protocol
 type DefaultSender struct {
 	TelemetryName  *string `toml:"telemetry-name"`
 	TelemetryTopic *string `toml:"telemetry-topic"`
-	ModelID        *string `toml:"model-id"`
 	DataSchema     *string `toml:"data-schema"`
 	TopicNamespace *string `toml:"topic-namespace"`
 }
@@ -26,15 +25,6 @@ func (sender *DefaultSender) GetTelemetryTopic() *string {
 
 	telemetryTopic := *sender.TelemetryTopic
 	return &telemetryTopic
-}
-
-func (sender *DefaultSender) GetModelID() *string {
-	if sender.ModelID == nil {
-		return nil
-	}
-
-	modelID := *sender.ModelID
-	return &modelID
 }
 
 func (sender *DefaultSender) GetDataSchema() *string {

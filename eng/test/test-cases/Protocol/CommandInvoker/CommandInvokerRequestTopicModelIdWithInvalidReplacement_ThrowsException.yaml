@@ -9,7 +9,8 @@ description:
 prologue:
   invokers:
   - request-topic: "mock/{modelId}/test"
-    model-id: "Invalid#Model"
+    topic-token-map:
+      "modelId": "Invalid#Model"
   catch:
     error-kind: invalid configuration
     in-application: !!bool false

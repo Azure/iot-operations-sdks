@@ -120,7 +120,7 @@ impl PayloadSerialize for SampleTelemetry {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         // Not used in this example
         Ok(Vec::new())
     }

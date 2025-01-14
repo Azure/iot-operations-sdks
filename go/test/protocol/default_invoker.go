@@ -5,7 +5,6 @@ package protocol
 type DefaultInvoker struct {
 	CommandName         *string `toml:"command-name"`
 	RequestTopic        *string `toml:"request-topic"`
-	ModelID             *string `toml:"model-id"`
 	TopicNamespace      *string `toml:"topic-namespace"`
 	ResponseTopicPrefix *string `toml:"response-topic-prefix"`
 	ResponseTopicSuffix *string `toml:"response-topic-suffix"`
@@ -27,15 +26,6 @@ func (invoker *DefaultInvoker) GetRequestTopic() *string {
 
 	requestTopic := *invoker.RequestTopic
 	return &requestTopic
-}
-
-func (invoker *DefaultInvoker) GetModelID() *string {
-	if invoker.ModelID == nil {
-		return nil
-	}
-
-	modelID := *invoker.ModelID
-	return &modelID
 }
 
 func (invoker *DefaultInvoker) GetTopicNamespace() *string {
