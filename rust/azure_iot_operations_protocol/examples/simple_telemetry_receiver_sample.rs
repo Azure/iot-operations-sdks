@@ -4,6 +4,7 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
+use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -47,9 +48,12 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(
         session.create_managed_client(),
+        application_context,
         session.create_exit_handle(),
     ));
 
@@ -58,7 +62,11 @@ async fn main() {
 }
 
 // Handle incoming telemetry messages
-async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn telemetry_loop(
+    client: SessionManagedClient,
+    application_context: ApplicationContext,
+    exit_handle: SessionExitHandle,
+) {
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
@@ -70,7 +78,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
-        TelemetryReceiver::new(client, receiver_options).unwrap();
+        TelemetryReceiver::new(client, application_context, receiver_options).unwrap();
 
     while let Some(message) = telemetry_receiver.recv().await {
         match message {

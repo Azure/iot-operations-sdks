@@ -8,6 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::CommandOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
@@ -32,16 +33,20 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // The counter value for the server
     let counter = Arc::new(Mutex::new(0));
 
     // Spawn tasks for the server features
     tokio::spawn(read_counter_executor(
         session.create_managed_client(),
+        application_context.clone(),
         counter.clone(),
     ));
     tokio::spawn(increment_executor(
         session.create_managed_client(),
+        application_context,
         counter.clone(),
     ));
     tokio::spawn(exit_timer(
@@ -54,10 +59,15 @@ async fn main() {
 }
 
 /// Run an executor that responds to requests to read the counter value.
-async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
+async fn read_counter_executor(
+    client: SessionManagedClient,
+    application_context: ApplicationContext,
+    counter: Arc<Mutex<i32>>,
+) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let mut read_counter_executor = ReadCounterCommandExecutor::new(client, &options);
+    let mut read_counter_executor =
+        ReadCounterCommandExecutor::new(client, application_context, &options);
 
     // Respond to each read request with the current counter value
     loop {
@@ -75,10 +85,15 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
 }
 
 /// Run an executor that responds to requests to increment the counter value.
-async fn increment_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
+async fn increment_executor(
+    client: SessionManagedClient,
+    application_context: ApplicationContext,
+    counter: Arc<Mutex<i32>>,
+) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let mut increment_executor = IncrementCommandExecutor::new(client, &options);
+    let mut increment_executor =
+        IncrementCommandExecutor::new(client, application_context, &options);
 
     // Respond to each increment request by incrementing the counter value and responding with the new value
     loop {

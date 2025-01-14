@@ -14,6 +14,7 @@ use uuid::Uuid;
 use crate::telemetry::cloud_event::{
     CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
 };
+use crate::ApplicationContext;
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
@@ -214,6 +215,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
+/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -232,12 +234,13 @@ pub struct TelemetrySenderOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), application_context, sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
 ///   .payload(SamplePayload {}).unwrap()
 ///   .qos(QoS::AtLeastOnce)
@@ -277,6 +280,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
+        application_context: ApplicationContext,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of telemetry message is valid UTF-8
@@ -427,6 +431,7 @@ mod tests {
         telemetry::telemetry_sender::{
             TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
         },
+        ApplicationContextBuilder,
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -487,8 +492,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
-            .unwrap();
+        TelemetrySender::<MockPayload, _>::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            sender_options,
+        )
+        .unwrap();
     }
 
     #[test]
@@ -512,8 +521,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
-            .unwrap();
+        TelemetrySender::<MockPayload, _>::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            sender_options,
+        )
+        .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
@@ -534,8 +547,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options);
+        let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            sender_options,
+        );
         match telemetry_sender {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -564,7 +580,11 @@ mod tests {
         let telemetry_sender: Result<
             TelemetrySender<InvalidContentTypePayload, _>,
             AIOProtocolError,
-        > = TelemetrySender::new(session.create_managed_client(), sender_options);
+        > = TelemetrySender::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            sender_options,
+        );
 
         match telemetry_sender {
             Err(e) => {

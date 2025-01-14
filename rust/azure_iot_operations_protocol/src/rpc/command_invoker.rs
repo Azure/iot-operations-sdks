@@ -18,6 +18,7 @@ use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use super::StatusCode;
+use crate::ApplicationContext;
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
@@ -147,6 +148,7 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
+/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -165,6 +167,7 @@ pub struct CommandInvokerOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
 /// let invoker_options = CommandInvokerOptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
@@ -174,7 +177,7 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), application_context, invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
 ///   .payload(SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
@@ -239,6 +242,7 @@ where
     /// - Content types of the request or response are not valid utf-8
     pub fn new(
         client: C,
+        application_context: ApplicationContext,
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of request is valid utf-8
@@ -1074,6 +1078,7 @@ mod tests {
             FormatIndicator, MockPayload, CONTENT_TYPE_MTX, DESERIALIZE_MTX, FORMAT_INDICATOR_MTX,
         },
     };
+    use crate::ApplicationContextBuilder;
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
@@ -1140,8 +1145,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/test_command_name/+/request"
@@ -1171,8 +1180,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
@@ -1201,7 +1214,11 @@ mod tests {
         let command_invoker: Result<
             CommandInvoker<InvalidContentTypePayload, MockPayload, _>,
             AIOProtocolError,
-        > = CommandInvoker::new(managed_client, invoker_options);
+        > = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        );
         match command_invoker {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1241,7 +1258,11 @@ mod tests {
         let command_invoker: Result<
             CommandInvoker<MockPayload, InvalidContentTypePayload, _>,
             AIOProtocolError,
-        > = CommandInvoker::new(managed_client, invoker_options);
+        > = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        );
         match command_invoker {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1329,7 +1350,11 @@ mod tests {
             .unwrap();
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                managed_client,
+                ApplicationContextBuilder::default().build().unwrap(),
+                invoker_options,
+            );
         match command_invoker {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -1379,7 +1404,11 @@ mod tests {
             .unwrap();
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                managed_client,
+                ApplicationContextBuilder::default().build().unwrap(),
+                invoker_options,
+            );
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1413,7 +1442,11 @@ mod tests {
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                managed_client,
+                ApplicationContextBuilder::default().build().unwrap(),
+                invoker_options,
+            );
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1449,8 +1482,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1526,8 +1563,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1595,8 +1636,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
@@ -1672,8 +1717,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
@@ -1727,8 +1776,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        )
+        .unwrap();
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()

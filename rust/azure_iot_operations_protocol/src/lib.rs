@@ -6,6 +6,10 @@
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
+use std::sync::{Arc, RwLock};
+
+use common::hybrid_logical_clock::HybridLogicalClock;
+
 pub mod common;
 pub mod rpc;
 pub mod telemetry;
@@ -84,6 +88,34 @@ pub(crate) fn parse_supported_protocol_major_versions(
         })
         .collect();
     versions
+}
+
+#[derive(Builder, Clone)]
+pub struct ApplicationContext {
+    #[builder(default=Arc::new(ApplicationHLC::new()), setter(skip))]
+    pub application_hlc: Arc<ApplicationHLC>,
+}
+
+pub struct ApplicationHLC {
+    hlc: RwLock<HybridLogicalClock>,
+}
+
+impl ApplicationHLC {
+    pub fn new() -> Self {
+        Self {
+            hlc: RwLock::new(HybridLogicalClock::new()),
+        }
+    }
+
+    fn update(&self) {
+        let mut hlc = self.hlc.write().unwrap();
+        hlc.counter = 3; // Toy example
+    }
+
+    pub fn read(&self) {
+        let hlc = self.hlc.read().unwrap();
+        log::info!("HLC: {:?}", hlc);
+    }
 }
 
 #[macro_use]

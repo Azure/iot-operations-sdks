@@ -7,6 +7,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::CommandOptionsBuilder;
 use envoy::dtmi_com_example_Counter__1::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker,
@@ -31,9 +32,12 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(increment_and_check(
         session.create_managed_client(),
+        application_context,
         session.create_exit_handle(),
     ));
 
@@ -42,11 +46,17 @@ async fn main() {
 }
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses, then disconnect
-async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn increment_and_check(
+    client: SessionManagedClient,
+    application_context: ApplicationContext,
+    exit_handle: SessionExitHandle,
+) {
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
-    let read_counter_invoker = ReadCounterCommandInvoker::new(client, &options);
+    let increment_invoker =
+        IncrementCommandInvoker::new(client.clone(), application_context.clone(), &options);
+    let read_counter_invoker =
+        ReadCounterCommandInvoker::new(client, application_context, &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();

@@ -9,6 +9,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
+use azure_iot_operations_protocol::ApplicationContext;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
@@ -78,7 +79,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &CommandOptions) -> Self {
+    pub fn new(
+        client: C,
+        application_context: ApplicationContext,
+        options: &CommandOptions,
+    ) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -106,7 +111,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandInvoker::new(client, invoker_options)
+            CommandInvoker::new(client, application_context, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

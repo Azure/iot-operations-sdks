@@ -18,6 +18,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandInvokerOptionsBuilderError,
     CommandRequestBuilder, CommandRequestBuilderError, CommandResponse,
 };
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
@@ -227,7 +228,11 @@ where
 
         let invoker_options = options_result.unwrap();
 
-        match CommandInvoker::new(managed_client, invoker_options) {
+        match CommandInvoker::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            invoker_options,
+        ) {
             Ok(invoker) => {
                 if let Some(catch) = catch {
                     // CommandInvoker has no start method, so if an exception is expected, invoke may be needed to trigger it.

@@ -4,6 +4,7 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -49,12 +50,18 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
     let exit_handle = session.create_exit_handle();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<SampleTelemetry, _> =
-        TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+    let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
+        session.create_managed_client(),
+        application_context,
+        sender_options,
+    )
+    .unwrap();
 
     tokio::task::spawn(telemetry_loop(telemetry_sender, exit_handle));
 

@@ -16,6 +16,7 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
 };
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::sync::mpsc;
 use tokio::time;
@@ -266,7 +267,11 @@ where
 
         let receiver_options = options_result.unwrap();
 
-        match TelemetryReceiver::new(managed_client, receiver_options) {
+        match TelemetryReceiver::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        ) {
             Ok(mut receiver) => {
                 if let Some(catch) = catch {
                     // TelemetryReceiver has no start method, so if an exception is expected, recv may be needed to trigger it.

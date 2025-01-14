@@ -18,7 +18,7 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    DEFAULT_AIO_PROTOCOL_VERSION,
+    ApplicationContext, DEFAULT_AIO_PROTOCOL_VERSION,
 };
 use crate::{
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
@@ -178,6 +178,7 @@ pub struct TelemetryReceiverOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
+/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -196,10 +197,11 @@ pub struct TelemetryReceiverOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut telemetry_receiver: TelemetryReceiver<SamplePayload, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), application_context, receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
 /// ```
 pub struct TelemetryReceiver<T, C>
@@ -246,6 +248,7 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
+        application_context: ApplicationContext,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of telemetry message is valid UTF-8
@@ -655,6 +658,7 @@ mod tests {
             payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+        ApplicationContextBuilder,
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -719,8 +723,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
-            .unwrap();
+        TelemetryReceiver::<MockPayload, _>::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        )
+        .unwrap();
     }
 
     #[test]
@@ -741,8 +749,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
-            .unwrap();
+        TelemetryReceiver::<MockPayload, _>::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        )
+        .unwrap();
     }
 
     #[test]
@@ -756,7 +768,11 @@ mod tests {
         let telemetry_receiver: Result<
             TelemetryReceiver<InvalidContentTypePayload, _>,
             AIOProtocolError,
-        > = TelemetryReceiver::new(session.create_managed_client(), receiver_options);
+        > = TelemetryReceiver::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        );
 
         match telemetry_receiver {
             Err(e) => {
@@ -793,8 +809,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<TelemetryReceiver<MockPayload, _>, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options);
+        let result: Result<TelemetryReceiver<MockPayload, _>, _> = TelemetryReceiver::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        );
         match result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -830,8 +849,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> = TelemetryReceiver::new(
+            session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+            receiver_options,
+        )
+        .unwrap();
         assert!(telemetry_receiver.shutdown().await.is_ok());
     }
 }

@@ -9,6 +9,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
+use azure_iot_operations_protocol::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Mutex;
 
@@ -99,14 +100,22 @@ where
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(client: &C) -> Self {
+    pub fn new(client: &C, application_context: ApplicationContext) -> Self {
         let options = CommandOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
 
         Self {
-            get_command_invoker: Arc::new(GetCommandInvoker::new(client.clone(), &options)),
-            put_command_invoker: Arc::new(PutCommandInvoker::new(client.clone(), &options)),
+            get_command_invoker: Arc::new(GetCommandInvoker::new(
+                client.clone(),
+                application_context.clone(),
+                &options,
+            )),
+            put_command_invoker: Arc::new(PutCommandInvoker::new(
+                client.clone(),
+                application_context,
+                &options,
+            )),
             shutdown_handle: Arc::new(Mutex::new(ShutdownHandle {
                 put_shutdown: false,
                 get_shutdown: false,
@@ -280,6 +289,7 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
+    use azure_iot_operations_protocol::ApplicationContextBuilder;
 
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
@@ -363,7 +373,10 @@ mod tests {
     #[tokio::test]
     async fn test_get_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            &session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+        );
 
         let get_result = client
             .get(
@@ -399,7 +412,10 @@ mod tests {
     #[tokio::test]
     async fn test_put_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            &session.create_managed_client(),
+            ApplicationContextBuilder::default().build().unwrap(),
+        );
 
         let put_result = client
             .put(

@@ -16,6 +16,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     CloudEventBuilder, TelemetryMessageBuilder, TelemetryMessageBuilderError, TelemetrySender,
     TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
 };
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
@@ -197,7 +198,11 @@ where
 
         let sender_options = options_result.unwrap();
 
-        match TelemetrySender::new(managed_client, sender_options) {
+        match TelemetrySender::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            sender_options,
+        ) {
             Ok(sender) => {
                 if let Some(catch) = catch {
                     // TelemetrySender has no start method, so if an exception is expected, send may be needed to trigger it.

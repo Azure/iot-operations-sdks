@@ -1,7 +1,11 @@
+use std::sync::Arc;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 use std::time::Duration;
 
+use azure_iot_operations_protocol::{
+    ApplicationContext, ApplicationContextBuilder, ApplicationHLC,
+};
 use env_logger::Builder;
 use thiserror::Error;
 
@@ -40,15 +44,20 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run a a command executor in another task
-    tokio::task::spawn(executor_loop(session.create_managed_client()));
+    tokio::task::spawn(executor_loop(
+        session.create_managed_client(),
+        application_context,
+    ));
 
     // Run the session
     session.run().await.unwrap();
 }
 
 /// Handle incoming increment command requests
-async fn executor_loop(client: SessionManagedClient) {
+async fn executor_loop(client: SessionManagedClient, application_context: ApplicationContext) {
     // Create a command executor for the increment command
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -56,7 +65,7 @@ async fn executor_loop(client: SessionManagedClient) {
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandExecutor::new(client, incr_executor_options).unwrap();
+        CommandExecutor::new(client, application_context, incr_executor_options).unwrap();
 
     // Counter to increment
     let mut counter = 0;

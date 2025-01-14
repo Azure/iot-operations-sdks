@@ -3,6 +3,7 @@
 
 use std::{env, time::Duration};
 
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -75,22 +76,32 @@ fn setup_test<
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     let invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(topic)
         .response_topic_prefix("response".to_string())
         .command_name(client_id)
         .build()
         .unwrap();
-    let invoker: CommandInvoker<TReq, TResp, _> =
-        CommandInvoker::new(session.create_managed_client(), invoker_options).unwrap();
+    let invoker: CommandInvoker<TReq, TResp, _> = CommandInvoker::new(
+        session.create_managed_client(),
+        application_context.clone(),
+        invoker_options,
+    )
+    .unwrap();
 
     let executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(topic)
         .command_name(client_id)
         .build()
         .unwrap();
-    let executor: CommandExecutor<TReq, TResp, _> =
-        CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
+    let executor: CommandExecutor<TReq, TResp, _> = CommandExecutor::new(
+        session.create_managed_client(),
+        application_context,
+        executor_options,
+    )
+    .unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
     Ok((session, invoker, executor, exit_handle))

@@ -18,6 +18,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
     CommandResponseBuilder,
 };
+use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::time;
 use uuid::Uuid;
@@ -323,7 +324,11 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match CommandExecutor::new(managed_client, executor_options) {
+        match CommandExecutor::new(
+            managed_client,
+            ApplicationContextBuilder::default().build().unwrap(),
+            executor_options,
+        ) {
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.
