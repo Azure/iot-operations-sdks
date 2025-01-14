@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"log/slog"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
@@ -12,7 +13,7 @@ import (
 type (
 	// Application represents shared application state.
 	Application struct {
-		hlc *hlc.Shared
+		hlc *hlc.Global
 		log *slog.Logger
 	}
 
@@ -21,8 +22,13 @@ type (
 
 	// ApplicationOptions are the resolved application options.
 	ApplicationOptions struct {
-		Logger *slog.Logger
+		MaxClockDrift time.Duration
+		Logger        *slog.Logger
 	}
+
+	// WithMaxClockDrift specifies how long HLCs are allowed to drift from the
+	// wall clock before they are considered no longer valid.
+	WithMaxClockDrift time.Duration
 )
 
 // NewApplication creates a new shared application state. Only one of these
@@ -32,7 +38,9 @@ func NewApplication(opt ...ApplicationOption) (*Application, error) {
 	opts.Apply(opt)
 
 	return &Application{
-		hlc: hlc.NewShared(),
+		hlc: hlc.New(&hlc.HybridLogicalClockOptions{
+			MaxClockDrift: opts.MaxClockDrift,
+		}),
 		log: opts.Logger,
 	}, nil
 }
@@ -61,4 +69,8 @@ func (o *ApplicationOptions) application(opt *ApplicationOptions) {
 	if o != nil {
 		*opt = *o
 	}
+}
+
+func (o WithMaxClockDrift) application(opt *ApplicationOptions) {
+	opt.MaxClockDrift = time.Duration(o)
 }

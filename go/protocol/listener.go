@@ -9,7 +9,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -145,7 +144,7 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	ts := msg.Mqtt.UserProperties[constants.Timestamp]
 	if ts != "" {
 		var err error
-		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
+		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
 			l.error(ctx, msg.Mqtt, err)
 			return

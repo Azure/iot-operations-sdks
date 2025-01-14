@@ -101,6 +101,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type WithFencingToken](<#WithFencingToken>)
 - [type WithIdempotent](<#WithIdempotent>)
 - [type WithManualAck](<#WithManualAck>)
+- [type WithMaxClockDrift](<#WithMaxClockDrift>)
 - [type WithMetadata](<#WithMetadata>)
 - [type WithResponseTopic](<#WithResponseTopic>)
 - [type WithResponseTopicPrefix](<#WithResponseTopicPrefix>)
@@ -164,7 +165,7 @@ func WithLogger(logger *slog.Logger) interface {
 WithLogger enables logging with the provided slog logger.
 
 <a name="Application"></a>
-## type [Application](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L14-L17>)
+## type [Application](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L15-L18>)
 
 Application represents shared application state.
 
@@ -175,7 +176,7 @@ type Application struct {
 ```
 
 <a name="NewApplication"></a>
-### func [NewApplication](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L30>)
+### func [NewApplication](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L36>)
 
 ```go
 func NewApplication(opt ...ApplicationOption) (*Application, error)
@@ -184,7 +185,7 @@ func NewApplication(opt ...ApplicationOption) (*Application, error)
 NewApplication creates a new shared application state. Only one of these should be created per application.
 
 <a name="Application.GetHLC"></a>
-### func \(\*Application\) [GetHLC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L41>)
+### func \(\*Application\) [GetHLC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L49>)
 
 ```go
 func (a *Application) GetHLC() (hlc.HybridLogicalClock, error)
@@ -193,7 +194,7 @@ func (a *Application) GetHLC() (hlc.HybridLogicalClock, error)
 GetHLC syncs the application HLC instance to the current time and returns it.
 
 <a name="Application.SetHLC"></a>
-### func \(\*Application\) [SetHLC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L46>)
+### func \(\*Application\) [SetHLC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L54>)
 
 ```go
 func (a *Application) SetHLC(val hlc.HybridLogicalClock) error
@@ -202,7 +203,7 @@ func (a *Application) SetHLC(val hlc.HybridLogicalClock) error
 SetHLC syncs the application HLC instance to the given HLC.
 
 <a name="ApplicationOption"></a>
-## type [ApplicationOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L20>)
+## type [ApplicationOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L21>)
 
 ApplicationOption represents a single application option.
 
@@ -213,18 +214,19 @@ type ApplicationOption interface {
 ```
 
 <a name="ApplicationOptions"></a>
-## type [ApplicationOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L23-L25>)
+## type [ApplicationOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L24-L27>)
 
 ApplicationOptions are the resolved application options.
 
 ```go
 type ApplicationOptions struct {
-    Logger *slog.Logger
+    MaxClockDrift time.Duration
+    Logger        *slog.Logger
 }
 ```
 
 <a name="ApplicationOptions.Apply"></a>
-### func \(\*ApplicationOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L51-L54>)
+### func \(\*ApplicationOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L59-L62>)
 
 ```go
 func (o *ApplicationOptions) Apply(opts []ApplicationOption, rest ...ApplicationOption)
@@ -635,7 +637,7 @@ func (JSON[T]) Serialize(t T) (*Data, error)
 Serialize translates the Go type T into JSON bytes.
 
 <a name="Listener"></a>
-## type [Listener](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L22-L25>)
+## type [Listener](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L21-L24>)
 
 Listener represents an object which will listen to a MQTT topic.
 
@@ -647,7 +649,7 @@ type Listener interface {
 ```
 
 <a name="Listeners"></a>
-## type [Listeners](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L28>)
+## type [Listeners](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L27>)
 
 Listeners represents a collection of MQTT listeners.
 
@@ -656,7 +658,7 @@ type Listeners []Listener
 ```
 
 <a name="Listeners.Close"></a>
-### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L200>)
+### func \(Listeners\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L199>)
 
 ```go
 func (ls Listeners) Close()
@@ -665,7 +667,7 @@ func (ls Listeners) Close()
 Close all underlying MQTT topics and free resources.
 
 <a name="Listeners.Start"></a>
-### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L190>)
+### func \(Listeners\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/listener.go#L189>)
 
 ```go
 func (ls Listeners) Start(ctx context.Context) error
@@ -1074,6 +1076,15 @@ WithManualAck indicates that the handler is responsible for manually acking the 
 
 ```go
 type WithManualAck bool
+```
+
+<a name="WithMaxClockDrift"></a>
+## type [WithMaxClockDrift](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app.go#L31>)
+
+WithMaxClockDrift specifies how long HLCs are allowed to drift from the wall clock before they are considered no longer valid.
+
+```go
+type WithMaxClockDrift time.Duration
 ```
 
 <a name="WithMetadata"></a>
