@@ -106,7 +106,7 @@ impl PayloadSerialize for EmptyPayload {
     fn serialize(self) -> Result<SerializedPayload, String> {
         Ok(SerializedPayload {
             payload: Vec::new(),
-            content_type: "application/octet-stream",
+            content_type: "application/octet-stream".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }
@@ -230,7 +230,7 @@ impl PayloadSerialize for DataRequestPayload {
                 self.requested_temperature, self.requested_color
             )
             .into(),
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }
@@ -294,7 +294,7 @@ impl PayloadSerialize for DataResponsePayload {
                 self.old_temperature, self.old_color, self.minutes_to_change
             )
             .into(),
-            content_type: "application/something",
+            content_type: "application/something".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }

@@ -19,7 +19,7 @@ impl PayloadSerialize for EmptyAvro{
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
         Ok(SerializedPayload {
             payload: apache_avro::to_avro_datum(&SCHEMA, apache_avro::to_value(self).unwrap()).unwrap(),
-            content_type: "application/avro",
+            content_type: "application/avro".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }

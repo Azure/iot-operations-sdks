@@ -115,7 +115,7 @@ impl PayloadSerialize for IncrResponsePayload {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
         Ok(SerializedPayload {
             payload: payload.into_bytes(),
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }

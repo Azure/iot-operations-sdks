@@ -110,7 +110,7 @@ impl PayloadSerialize for IncrRequestPayload {
     fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         Ok(SerializedPayload {
             payload: Vec::new(),
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }

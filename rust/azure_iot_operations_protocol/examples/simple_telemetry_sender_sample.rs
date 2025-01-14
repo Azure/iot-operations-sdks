@@ -109,7 +109,7 @@ impl PayloadSerialize for SampleTelemetry {
                 self.external_temperature, self.internal_temperature
             )
             .into(),
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }

@@ -30,7 +30,7 @@ impl PayloadSerialize for Bytes {
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
         Ok(SerializedPayload {
             payload: self.to_vec(),
-            content_type: "application/octet-stream",
+            content_type: "application/octet-stream".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }

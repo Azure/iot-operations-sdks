@@ -155,7 +155,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
             )),
             Ok(serialized_payload) => {
                 // Validate content type of telemetry message is valid UTF-8
-                if is_invalid_utf8(serialized_payload.content_type) {
+                if is_invalid_utf8(&serialized_payload.content_type) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
@@ -354,7 +354,7 @@ where
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
             let cloud_event_headers =
-                cloud_event.into_headers(&message_topic, message.serialized_payload.content_type);
+                cloud_event.into_headers(&message_topic, &message.serialized_payload.content_type);
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -584,7 +584,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: String::new().into(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -607,7 +607,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: String::new().into(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -630,7 +630,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: String::new().into(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })

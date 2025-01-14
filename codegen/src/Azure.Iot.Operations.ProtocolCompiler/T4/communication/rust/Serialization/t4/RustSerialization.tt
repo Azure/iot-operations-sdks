@@ -32,7 +32,7 @@ let payload = <# foreach (string serializeLine in this.serializeCode) { #>
 <# } #>;
         Ok(SerializedPayload {
             payload: payload?,
-            content_type: "<#=this.contentType#>",
+            content_type: "<#=this.contentType#>".to_string(),
             format_indicator: FormatIndicator::<#=this.formatIndicator#>,
         })
     }

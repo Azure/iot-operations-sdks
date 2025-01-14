@@ -169,7 +169,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
             }
             Ok(serialized_payload) => {
                 // Validate content type of command request is valid UTF-8
-                if is_invalid_utf8(serialized_payload.content_type) {
+                if is_invalid_utf8(&serialized_payload.content_type) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",

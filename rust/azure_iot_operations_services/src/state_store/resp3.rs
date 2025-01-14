@@ -79,7 +79,7 @@ impl PayloadSerialize for Request {
                 Request::Del { key } => serialize_del(&key),
                 Request::VDel { key, value } => serialize_v_del(&key, &value),
             },
-            content_type: "application/octet-stream",
+            content_type: "application/octet-stream".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }
@@ -558,7 +558,7 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: expected.to_vec(),
-                content_type: "application/octet-stream",
+                content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }
         );
@@ -575,7 +575,7 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: b"*3\r\n$3\r\nSET\r\n$0\r\n\r\n$0\r\n\r\n".to_vec(),
-                content_type: "application/octet-stream",
+                content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }
         );
@@ -590,7 +590,7 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n".to_vec(),
-                content_type: "application/octet-stream",
+                content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }
         );
@@ -605,7 +605,7 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: b"*2\r\n$3\r\nDEL\r\n$7\r\ntestkey\r\n".to_vec(),
-                content_type: "application/octet-stream",
+                content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }
         );
@@ -621,7 +621,7 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: b"*3\r\n$4\r\nVDEL\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n".to_vec(),
-                content_type: "application/octet-stream",
+                content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }
         );

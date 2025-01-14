@@ -80,7 +80,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
             }
             Ok(serialized_payload) => {
                 // Validate content type of command request is valid UTF-8
-                if is_invalid_utf8(serialized_payload.content_type) {
+                if is_invalid_utf8(&serialized_payload.content_type) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
@@ -1398,7 +1398,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -1464,7 +1464,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -1523,7 +1523,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -1593,7 +1593,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -1646,7 +1646,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })
@@ -1704,7 +1704,7 @@ mod tests {
             .returning(|| {
                 Ok(SerializedPayload {
                     payload: Vec::new(),
-                    content_type: "application/json",
+                    content_type: "application/json".to_string(),
                     format_indicator: FormatIndicator::Utf8EncodedCharacterData,
                 })
             })

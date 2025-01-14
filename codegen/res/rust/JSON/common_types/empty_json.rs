@@ -13,7 +13,7 @@ impl PayloadSerialize for EmptyJson {
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
         Ok(SerializedPayload {
             payload: "".as_bytes().to_owned(),
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }

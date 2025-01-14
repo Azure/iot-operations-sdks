@@ -15,7 +15,7 @@ impl PayloadSerialize for PutRequestPayload {
         let payload = serde_json::to_vec(&self);
         Ok(SerializedPayload {
             payload: payload?,
-            content_type: "application/json",
+            content_type: "application/json".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         })
     }

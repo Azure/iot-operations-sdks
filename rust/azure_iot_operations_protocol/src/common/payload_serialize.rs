@@ -101,48 +101,75 @@ pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct SerializedPayload {
     /// The content type of the payload
-    pub content_type: &'static str,
+    pub content_type: String,
     /// The format indicator of the payload
     pub format_indicator: FormatIndicator,
     /// The payload as a serialized byte vector
     pub payload: Vec<u8>,
 }
 
-// pub struct BypassPayload {
-//     pub content_type: &'static str,
-//     pub format_indicator: FormatIndicator,
-//     pub payload: &'static str,
-// }
+/// A provided convenience struct for bypassing serialization and deserialization,
+/// but having dynamic content type and format indicator.
+#[derive(Clone, Debug)]
+pub struct BypassPayload {
+    /// The content type of the payload
+    pub content_type: String,
+    /// The format indicator of the payload
+    pub format_indicator: FormatIndicator,
+    /// The raw bytes to be sent as the payload
+    pub payload: Vec<u8>,
+}
 
-// impl PayloadSerialize for BypassPayload {
-//     type Error = String;
+impl PayloadSerialize for BypassPayload {
+    type Error = String;
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: self.payload,
+            content_type: self.content_type,
+            format_indicator: self.format_indicator,
+        })
+    }
 
-//     // fn content_type() -> &'static str {
-//     //     "application/octet-stream"
-//     // }
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
+        let ct: String = content_type.clone().unwrap_or_default();
+        Ok(BypassPayload {
+            content_type: ct,
+            format_indicator: format_indicator.clone(),
+            payload: payload.to_vec(),
+        })
+    }
+}
 
-//     // fn format_indicator() -> FormatIndicator {
-//     //     FormatIndicator::UnspecifiedBytes
-//     // }
+/// Provided convenience implementation for sending raw bytes as `content_type` "application/octet-stream".
+impl PayloadSerialize for Vec<u8> {
+    type Error = String;
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: self,
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
+    }
 
-//     fn serialize(&self) -> Result<SerializedPayload, String> {
-//         // Ok(self.payload.clone())
-//         Ok(SerializedPayload {
-//             payload: self.payload,
-//             content_type: "application/json",
-//             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-//         })
-//     }
-
-//     fn deserialize(payload: &[u8]) -> Result<Self, String> {
-//         // pass in format indicator and format indicator?
-//         Ok(BypassPayload {
-//             content_type: "application/octet-stream",
-//             format_indicator: FormatIndicator::UnspecifiedBytes,
-//             payload: payload.to_vec(),
-//         })
-//     }
-// }
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/octet-stream" {
+                return Err(PayloadError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+                )));
+            }
+        }
+        Ok(payload.to_vec())
+    }
+}
 
 #[cfg(test)]
 use mockall::mock;
