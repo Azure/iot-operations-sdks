@@ -37,22 +37,22 @@ public class MemMonService : Memmon.Service
 
     public Task SendTelemetryWorkingSet() =>
         SendTelemetryAsync(
-            new WorkingSetTelemetry() { workingSet = Environment.WorkingSet},
+            new WorkingSetTelemetry() { WorkingSet = Environment.WorkingSet},
             new OutgoingTelemetryMetadata() { CloudEvent = _ceWorkingSet });
 
     public Task SendTelemetryManagedMemory() =>
         SendTelemetryAsync(
-            new ManagedMemoryTelemetry { managedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes },
+            new ManagedMemoryTelemetry { ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes },
             new OutgoingTelemetryMetadata() { CloudEvent = _ceManagedMemory } );
 
     public Task SendMemStats() =>
         SendTelemetryAsync(
             new MemoryStatsTelemetry
             {
-                memoryStats = new Object_MemoryStats
+                MemoryStats = new Object_MemoryStats
                 {
-                    managedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
-                    workingSet = Environment.WorkingSet
+                    ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
+                    WorkingSet = Environment.WorkingSet
                 }
             }, 
             new OutgoingTelemetryMetadata() { CloudEvent = _ceMemStats });
@@ -63,7 +63,7 @@ public class MemMonService : Memmon.Service
         {
             Response = new GetRuntimeStatsResponsePayload
             {
-                diagnosticResults = new Dictionary<string, string>
+                DiagnosticResults = new Dictionary<string, string>
                 {
                     { ".NETversion", Environment.Version.ToString() },
                     { "Is64Bit", Environment.Is64BitProcess.ToString() },
@@ -82,7 +82,7 @@ public class MemMonService : Memmon.Service
     {
         Console.WriteLine("Starting Memmon.Telemetry");
         enabled = true;
-        interval = request.interval;
+        interval = request.Interval;
         _telemetryTimer.Change(0, interval * 1000);
         return Task.FromResult(new CommandResponseMetadata())!;
     }
