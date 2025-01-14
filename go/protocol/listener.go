@@ -153,6 +153,12 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 
 	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)
 
+	msg.Data = &Data{
+		msg.Mqtt.Payload,
+		msg.Mqtt.ContentType,
+		msg.Mqtt.PayloadFormat,
+	}
+
 	if err := l.handler.onMsg(ctx, msg.Mqtt, &msg.Message); err != nil {
 		l.error(ctx, msg.Mqtt, err)
 		return
@@ -160,20 +166,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 }
 
 // Handle payload manually, since it may be ignored on errors.
-func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
-	var zero T
-
-	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
-		pub.ContentType != l.encoding.ContentType() {
-		return zero, &errors.Error{
-			Message:     "content type mismatch",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.ContentType,
-			HeaderValue: pub.ContentType,
-		}
-	}
-
-	return deserialize(l.encoding, pub.Payload)
+func (l *listener[T]) payload(msg *Message[T]) (T, error) {
+	return deserialize(l.encoding, msg.Data)
 }
 
 func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {

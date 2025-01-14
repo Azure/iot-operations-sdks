@@ -113,7 +113,7 @@ impl PayloadSerialize for EmptyPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok("".into())
     }
     fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
@@ -172,7 +172,7 @@ async fn telemetry_basic_send_receive_network_tests() {
 
             // Send QoS 0 message with empty payload
             let message_qos0 = TelemetryMessageBuilder::default()
-                .payload(&EmptyPayload::default())
+                .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtMostOnce)
                 .build()
@@ -181,7 +181,7 @@ async fn telemetry_basic_send_receive_network_tests() {
 
             // Send QoS 1 message with empty payload
             let message_qos1 = TelemetryMessageBuilder::default()
-                .payload(&EmptyPayload::default())
+                .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtLeastOnce)
                 .build()
@@ -232,7 +232,7 @@ impl PayloadSerialize for DataPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
             self.external_temperature, self.internal_temperature
@@ -373,7 +373,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
             // Send QoS 0 message with more complex payload, custom user data, and a cloud event
             let message_qos0 = TelemetryMessageBuilder::default()
-                .payload(&test_payload1)
+                .payload(test_payload1)
                 .unwrap()
                 .custom_user_data(test_custom_user_data.clone())
                 .cloud_event(test_cloud_event.clone())
@@ -384,7 +384,7 @@ async fn telemetry_complex_send_receive_network_tests() {
 
             // Send QoS 1 message with more complex payload, custom user data, and a cloud event
             let message_qos1 = TelemetryMessageBuilder::default()
-                .payload(&test_payload2)
+                .payload(test_payload2)
                 .unwrap()
                 .custom_user_data(test_custom_user_data)
                 .qos(QoS::AtLeastOnce)

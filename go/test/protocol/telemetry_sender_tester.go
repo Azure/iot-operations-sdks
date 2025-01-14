@@ -178,8 +178,7 @@ func getTelemetrySender(
 	catch *TestCaseCatch,
 ) *TestingTelemetrySender {
 	options := []protocol.TelemetrySenderOption{
-		protocol.WithTopicTokens(tcs.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens(tcs.TopicTokenMap),
 	}
 
 	if tcs.DataSchema != nil {
@@ -208,9 +207,7 @@ func getTelemetrySender(
 
 	sender, err := NewTestingTelemetrySender(
 		sessionClient,
-		tcs.TelemetryName,
 		tcs.TelemetryTopic,
-		tcs.ModelID,
 		options...)
 
 	if catch == nil {

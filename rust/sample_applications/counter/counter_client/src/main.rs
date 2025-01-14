@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use core::panic;
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use envoy::common_types::common_options::CommandOptionsBuilder;
+use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::dtmi_com_example_Counter__1::client::{
-    IncrementCommandInvoker, IncrementRequestBuilder, ReadCounterCommandInvoker,
-    ReadCounterRequestBuilder,
+    IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
+    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
 };
+
+use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -31,22 +34,92 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    // Use the managed client to run command invocations in another task
-    tokio::task::spawn(increment_and_check(
+    // Use the managed client to run telemetry checks in another task
+    let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
-    // Run the session
-    session.run().await.unwrap();
+    // Use the managed client to run command invocations in another task
+    let increment_and_check_handle =
+        tokio::task::spawn(increment_and_check(session.create_managed_client()));
+
+    // Wait for all tasks to finish and run the session, if any of the tasks fail, the program will panic
+    assert!(tokio::try_join!(
+        async move {
+            counter_telemetry_check_handle
+                .await
+                .map_err(|e| e.to_string())
+        },
+        async move { increment_and_check_handle.await.map_err(|e| e.to_string()) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
 }
 
-/// Send a read request, 15 increment requests, and another read request and wait for their responses, then disconnect
-async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+/// Wait for the associated telemetry. Then exit the session.
+async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+    // Create receiver
+    let mut counter_value_receiver = TelemetryCollectionReceiver::new(
+        client,
+        &TelemetryOptionsBuilder::default()
+            .auto_ack(false)
+            .build()
+            .unwrap(),
+    );
+
+    log::info!("Waiting for associated telemetry");
+    let mut telemetry_count = 0;
+
+    loop {
+        tokio::select! {
+            telemetry_res = counter_value_receiver.recv() => {
+                let (message, ack_token) = telemetry_res.unwrap().unwrap();
+
+                log::info!("Telemetry reported counter value: {:?}", message.payload);
+
+                // Acknowledge the message
+                if let Some(ack_token) = ack_token {
+                    ack_token.ack();
+                }
+
+                telemetry_count += 1;
+            },
+            () = sleep(Duration::from_secs(5))=> {
+                if telemetry_count >= 15 {
+                    break;
+                }
+                panic!("Telemetry not finished");
+            }
+        }
+    }
+
+    log::info!("Telemetry finished");
+    counter_value_receiver.shutdown().await.unwrap();
+
+    // Exit the session now that we're done
+    match exit_handle.try_exit().await {
+        Ok(()) => { /* Successfully exited */ }
+        Err(e) => {
+            if let azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
+                attempted,
+            } = e
+            {
+                // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                assert!(attempted, "{}", e.to_string());
+            } else {
+                panic!("{}", e.to_string())
+            }
+        }
+    }
+}
+
+/// Send a read request, 15 increment requests, and another read request and wait for their responses.
+async fn increment_and_check(client: SessionManagedClient) {
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
     let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
-    let read_counter_invoker = ReadCounterCommandInvoker::new(client, &options);
+    let read_counter_invoker = ReadCounterCommandInvoker::new(client.clone(), &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();
@@ -68,11 +141,18 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
     );
 
     // Increment the counter 15 times on the server
-    for _ in 1..15 {
+    for _ in 0..15 {
         log::info!("Calling increment");
         let increment_request = IncrementRequestBuilder::default()
             .timeout(Duration::from_secs(10))
             .executor_id(target_executor_id.clone())
+            .payload(
+                IncrementRequestPayloadBuilder::default()
+                    .increment_value(1)
+                    .build()
+                    .unwrap(),
+            )
+            .unwrap()
             .build()
             .unwrap();
         let increment_response = increment_invoker.invoke(increment_request).await.unwrap();
@@ -100,7 +180,4 @@ async fn increment_and_check(client: SessionManagedClient, exit_handle: SessionE
 
     read_counter_invoker.shutdown().await.unwrap();
     increment_invoker.shutdown().await.unwrap();
-
-    // Exit the session now that we're done
-    exit_handle.try_exit().await.unwrap();
 }

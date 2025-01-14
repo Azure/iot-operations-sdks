@@ -25,7 +25,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, TopicPattern},
-        user_properties::{self, validate_user_properties, UserProperty},
+        user_properties::{validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
     DEFAULT_AIO_PROTOCOL_VERSION,
@@ -55,9 +55,6 @@ where
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
-    /// Optional Fencing Token of the command request.
-    #[builder(default = "None")]
-    fencing_token: Option<HybridLogicalClock>,
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
@@ -67,7 +64,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::Error> {
+    pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, TReq::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.request_payload_type = Some(PhantomData);
@@ -78,7 +75,6 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
@@ -157,7 +153,7 @@ pub struct CommandInvokerOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -180,7 +176,7 @@ pub struct CommandInvokerOptions {
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
@@ -546,12 +542,6 @@ where
             UserProperty::ProtocolVersion.to_string(),
             AIO_PROTOCOL_VERSION.to_string(),
         ));
-        if let Some(fencing_token) = request.fencing_token {
-            request.custom_user_data.push((
-                UserProperty::FencingToken.to_string(),
-                fencing_token.to_string(),
-            ));
-        }
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
@@ -921,21 +911,17 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     Some(parse_supported_protocol_major_versions(&value));
             }
             Ok(_) => {
-                // UserProperty::FencingToken or UserProperty::CommandInvokerId
+                // UserProperty::CommandInvokerId
                 // Don't return error, although these properties shouldn't be present on a response
-                log::error!(
+                log::warn!(
                     "Response should not contain MQTT user property '{}'. Value is '{}'",
                     key,
                     value
                 );
+                response_custom_user_data.push((key, value));
             }
             Err(()) => {
-                if key.starts_with(user_properties::RESERVED_PREFIX) {
-                    // Don't return error, although these properties shouldn't be present on a response
-                    log::error!("Invalid response user data property '{}' starts with reserved prefix '{}'. Value is '{}'", key, user_properties::RESERVED_PREFIX, value);
-                } else {
-                    response_custom_user_data.push((key, value));
-                }
+                response_custom_user_data.push((key, value));
             }
         }
     }
@@ -1104,7 +1090,7 @@ mod tests {
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
         }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
+        fn serialize(self) -> Result<Vec<u8>, String> {
             unimplemented!()
         }
         fn deserialize(_payload: &[u8]) -> Result<Self, String> {
@@ -1508,7 +1494,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
                     .build()
@@ -1565,7 +1551,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1647,7 +1633,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1697,7 +1683,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::from([(
@@ -1752,7 +1738,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::new())
@@ -1784,7 +1770,7 @@ mod tests {
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();
-        let req_builder = binding.payload(&mock_request_payload);
+        let req_builder = binding.payload(mock_request_payload);
         assert!(req_builder.is_err());
     }
 
@@ -1802,7 +1788,7 @@ mod tests {
             .times(1);
 
         let request_builder_result = CommandRequestBuilder::default()
-            .payload(&mock_request_payload)
+            .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
             .build();
@@ -1828,8 +1814,6 @@ mod tests {
 //    invalid executor id when it's not in either topic pattern
 //    payload is successfully serialized
 //    invoker client id is correctly added to user properties on message
-//    fencing_token is provided and added to user properties
-//    fencing_token isn't provided and isn't added to user properties
 // Tests failure:
 //     x timeout is > u32::max (invalid value) and an `ArgumentInvalid` error is returned
 //     x custom user data property starts with __
@@ -1861,7 +1845,7 @@ mod tests {
 //     no timestamp is present
 //     status is a number and is one of StatusCode's enum values
 //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this
-//     custom user properties are correctly passed to the application. Any starting with the reserved prefix '__' that aren't ours are logged and ignored
+//     custom user properties are correctly passed to the application.
 //     status code is no content and the payload is empty
 //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
 //     response payload deserializes successfully

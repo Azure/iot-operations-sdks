@@ -13,11 +13,6 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "model-id": {
-            "description": "The identifier of the the service model, which is the full DTMI of the Interface.",
-            "type": [ "string", "null" ],
-            "kind": "drive"
-        },
         "topic-namespace": {
             "description": "A leading namespace for the Command request and response MQTT topic patterns.",
             "type": [ "string", "null" ],
@@ -33,8 +28,8 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "custom-token-map": {
-            "description": "A map from custom topic tokens to replacement values.",
+        "topic-token-map": {
+            "description": "A map from topic tokens to replacement values.",
             "type": "object",
             "additionalProperties": {
                 "type": "string"

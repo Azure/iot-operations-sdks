@@ -33,7 +33,7 @@ impl PayloadSerialize for Bytes {
         FormatIndicator::UnspecifiedBytes
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, Self::Error> {
+    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
         Ok(self.to_vec())
     }
 

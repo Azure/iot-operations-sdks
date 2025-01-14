@@ -10,13 +10,13 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandResponseBuilder, CommandResponseBuilderError,
 };
 
+use super::super::common_types::common_options::CommandOptions;
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use crate::common_types::common_options::CommandOptions;
-use crate::common_types::empty_json::EmptyJson;
 
-pub type IncrementRequest = CommandRequest<EmptyJson, IncrementResponsePayload>;
+pub type IncrementRequest = CommandRequest<IncrementRequestPayload, IncrementResponsePayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
 pub type IncrementResponseBuilderError = CommandResponseBuilderError;
 
@@ -39,7 +39,7 @@ impl IncrementResponseBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: &IncrementResponsePayload,
+        payload: IncrementResponsePayload,
     ) -> Result<&mut Self, <IncrementResponsePayload as PayloadSerialize>::Error> {
         self.inner_builder.payload(payload)?;
         Ok(self)
@@ -56,7 +56,9 @@ impl IncrementResponseBuilder {
 }
 
 /// Command Executor for `Increment`
-pub struct IncrementCommandExecutor<C>(CommandExecutor<EmptyJson, IncrementResponsePayload, C>)
+pub struct IncrementCommandExecutor<C>(
+    CommandExecutor<IncrementRequestPayload, IncrementResponsePayload, C>,
+)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;

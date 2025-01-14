@@ -9,5 +9,4 @@ description:
 prologue:
   executors:
   - request-topic: "mock/{modelId}/test"
-    model-id:
 ...
