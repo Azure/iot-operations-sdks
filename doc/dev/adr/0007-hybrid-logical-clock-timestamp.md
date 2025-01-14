@@ -15,13 +15,20 @@ Rust has an "implementation" of the HLC (Hybrid Logical Clock) in that it suppor
   - Currently in dotnet, the executor updates the global HLC based on incoming publishes (in conjunction with the local clock), and it is not updated again before the response is sent. The invoker updates the global HLC against the local clock before a request is sent, but it is not updated based on received responses. The telemetry sender updates the global HLC against the local clock before sending publishes. And the telemetry receiver does not update the global HLC.
   - In go, all publishes update the global HLC with the local clock before attaching the timestamp to the message. Right now, it doesn't get updated from any inbound publishes.
 
+## Requirements:
+1. A Session must not have more than one HLC.
+1. An HLC may be shared between multiple Sessions, and this is desirable - for all Sessions within an Application to use the same HLC.
 
 ## Decision: 
 
-1. A (reference to a) global HLC should be created by the application and passed into all envoy new functions. This allows the application to adjust the max clock drift, as well as have read access to the global HLC. The SDK will update this value and use it on outbound publishes. There is no restriction on all HLCs passed in to all envoys matching, but it is encouraged to maintain predictable behavior.
-1. All incoming publishes with a `__ts` timestamp property will update the global HLC.
-1. All outbound publishes will update the global HLC against the system clock and then use that value for the `__ts` property.
-1. The app MUST have read access to the global HLC so they can use it for ordering, creating fencing tokens, etc.
+1. Code Globals are problematic in SDKs for most languages, so our goal is to avoid this.
+1. To avoid the global, we'll create an `ApplicationContext` (naming not locked in) at the Protocol layer that will own/create the HLC and any future items that might be useful to have at an application level context as well. The max clock drift will be configurable where this is created.
+1. This ApplicationContext would be passed into envoy::new(), similar to how the session is now
+1. This wouldn't strictly enforce that there isn't more than one ApplicationContext used per session, but it's very clear that there should only be one of these per application (and documentation will include that as a requirement). This also means we are by default using the same HLC for all Sessions in an application, which is a bonus desire. From our investigations and brainstorming, any ways of enforcing this beyond strong convention introduces major complexities.
+1. The SDK will update the `ApplicationContext` HLC value and use it on outbound publishes.
+1. All incoming publishes with a `__ts` timestamp property will update the `ApplicationContext` HLC.
+1. All outbound publishes will update the `ApplicationContext` HLC against the system clock and then use that value for the `__ts` property.
+1. The app MUST have read access to the `ApplicationContext` HLC so they can use it for ordering, creating fencing tokens, etc.
 1. `__ts` will be maintained as a user property that has meaning in the SDKs.
 1. We will push to have the State Store Service send the message timestamp on the `__ts` user property to match our convention and send the version under a different user property name. If this isn't possible, updating our global HLC with a timestamp that is far in the past will not cause any errors on Update, but it won't be doing anything to make our global HLC more accurate.
 
