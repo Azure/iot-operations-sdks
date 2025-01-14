@@ -144,6 +144,38 @@ impl PayloadSerialize for BypassPayload {
     }
 }
 
+/// A provided convenience struct for an empty payload.
+#[derive(Clone, Debug)]
+pub struct EmptyPayload {
+    /// The content type of the payload
+    pub content_type: String,
+    /// The format indicator of the payload
+    pub format_indicator: FormatIndicator,
+}
+
+impl PayloadSerialize for EmptyPayload {
+    type Error = String;
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: vec![],
+            content_type: self.content_type,
+            format_indicator: self.format_indicator,
+        })
+    }
+
+    fn deserialize(
+        _payload: &[u8],
+        content_type: &Option<String>,
+        format_indicator: &FormatIndicator,
+    ) -> Result<Self, PayloadError<String>> {
+        let ct: String = content_type.clone().unwrap_or_default();
+        Ok(EmptyPayload {
+            content_type: ct,
+            format_indicator: format_indicator.clone(),
+        })
+    }
+}
+
 /// Provided convenience implementation for sending raw bytes as `content_type` "application/octet-stream".
 impl PayloadSerialize for Vec<u8> {
     type Error = String;

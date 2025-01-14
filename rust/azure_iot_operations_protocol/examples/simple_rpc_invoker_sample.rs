@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    EmptyPayload, FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload
 };
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
@@ -65,13 +65,16 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: CommandInvoker<IncrRequestPayload, IncrResponsePayload, _> =
+    let incr_invoker: CommandInvoker<EmptyPayload, IncrResponsePayload, _> =
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
     for i in 1..10 {
         let payload = CommandRequestBuilder::default()
-            .payload(IncrRequestPayload::default())
+            .payload(EmptyPayload {
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            })
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
@@ -87,9 +90,6 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct IncrRequestPayload {}
-
-#[derive(Clone, Debug, Default)]
 pub struct IncrResponsePayload {
     pub counter_response: i32,
 }
@@ -102,27 +102,6 @@ pub enum IncrSerializerError {
     ParseIntError(#[from] ParseIntError),
     #[error(transparent)]
     Utf8Error(#[from] Utf8Error),
-}
-
-impl PayloadSerialize for IncrRequestPayload {
-    type Error = IncrSerializerError;
-
-    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
-        Ok(SerializedPayload {
-            payload: Vec::new(),
-            content_type: "application/json".to_string(),
-            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-        })
-    }
-
-    fn deserialize(
-        _payload: &[u8],
-        _content_type: &Option<String>,
-        _format_indicator: &FormatIndicator,
-    ) -> Result<IncrRequestPayload, PayloadError<IncrSerializerError>> {
-        // This is a request payload, invoker does not need to deserialize it
-        unimplemented!()
-    }
 }
 
 impl PayloadSerialize for IncrResponsePayload {
