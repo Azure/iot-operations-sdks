@@ -18,10 +18,8 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    DEFAULT_AIO_PROTOCOL_VERSION,
-};
-use crate::{
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
     ProtocolVersion,
 };
 
@@ -422,7 +420,7 @@ where
                         }
 
                         // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                        let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                        let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided
                         if let Some((_, protocol_version)) =
                             properties.user_properties.iter().find(|(key, _)| {
                                 UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)

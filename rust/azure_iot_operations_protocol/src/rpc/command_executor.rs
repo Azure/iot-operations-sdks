@@ -21,8 +21,8 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
-    supported_protocol_major_versions_to_string, ProtocolVersion, AIO_PROTOCOL_VERSION,
-    DEFAULT_AIO_PROTOCOL_VERSION,
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -659,7 +659,7 @@ where
                     };
 
                     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                    let mut request_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                    let mut request_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
                     if let Some((_, protocol_version)) =
                         properties.user_properties.iter().find(|(key, _)| {
                             UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
@@ -916,7 +916,7 @@ where
 
         user_properties.push((
             UserProperty::ProtocolVersion.to_string(),
-            AIO_PROTOCOL_VERSION.to_string(),
+            RPC_PROTOCOL_VERSION.to_string(),
         ));
 
         user_properties.push((
