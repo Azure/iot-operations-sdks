@@ -213,6 +213,21 @@ impl MqttAck for rumqttc::v5::AsyncClient {
         // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
         Ok(self.manual_ack(manual_ack).await?)
     }
+
+    async fn ack2(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
+        // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
+        // if the publish in question has already been acked - doing so would require adding a
+        // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
+        // This would need to be implemented before any non-Session MQTT client gets exposed in API.
+        let mut manual_ack = self.get_manual_ack(publish);
+        manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
+        // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
+        // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
+        self.manual_ack(manual_ack).await?;
+
+        // TODO: Update rumqttc to return a notice future so this can be meaningful
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
+    }
 }
 
 #[async_trait]
