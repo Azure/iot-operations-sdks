@@ -1,11 +1,8 @@
-use std::sync::Arc;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 use std::time::Duration;
 
-use azure_iot_operations_protocol::{
-    ApplicationContext, ApplicationContextBuilder, ApplicationHLC,
-};
+use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use env_logger::Builder;
 use thiserror::Error;
 

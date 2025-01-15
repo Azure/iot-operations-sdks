@@ -9,7 +9,6 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
-use envoy::common_types::common_options::CommandOptionsBuilder;
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::dtmi_com_example_Counter__1::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
@@ -38,10 +37,10 @@ async fn main() {
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    // Use the managed client to run command invocations in another task
-    tokio::task::spawn(increment_and_check(
+    // Use the managed client to run telemetry checks in another task
+    let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
         session.create_managed_client(),
-        application_context,
+        application_context.clone(),
         session.create_exit_handle(),
     ));
 
@@ -134,7 +133,7 @@ async fn increment_and_check(
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
     let increment_invoker =
-        IncrementCommandInvoker::new(client.clone(), application_context, &options);
+        IncrementCommandInvoker::new(client.clone(), application_context.clone(), &options);
     let read_counter_invoker =
         ReadCounterCommandInvoker::new(client, application_context, &options);
 

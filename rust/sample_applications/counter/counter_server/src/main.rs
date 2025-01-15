@@ -8,6 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
@@ -94,11 +95,12 @@ async fn increment_counter_and_publish(
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
     let mut increment_executor =
-        IncrementCommandExecutor::new(client, application_context, &options);
+        IncrementCommandExecutor::new(client.clone(), application_context.clone(), &options);
 
     // Create sender
     let counter_sender = TelemetryCollectionSender::new(
         client,
+        application_context,
         &TelemetryOptionsBuilder::default().build().unwrap(),
     );
 

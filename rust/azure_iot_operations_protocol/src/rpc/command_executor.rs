@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
-use std::sync::Arc;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
@@ -13,6 +12,7 @@ use tokio::time::{timeout, Instant};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
+use crate::ApplicationContext;
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
@@ -25,7 +25,6 @@ use crate::{
     rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
 };
-use crate::{ApplicationContext, ApplicationContextBuilder};
 
 /// Default message expiry interval only for when the message expiry interval is not present
 const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
@@ -1125,6 +1124,7 @@ mod tests {
         aio_protocol_error::AIOProtocolErrorKind,
         payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
+    use crate::ApplicationContextBuilder;
 
     // Payload that has an invalid content type for testing
     struct InvalidContentTypePayload {}
