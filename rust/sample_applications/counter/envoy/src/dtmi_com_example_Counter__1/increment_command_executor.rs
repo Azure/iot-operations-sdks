@@ -12,12 +12,12 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 use azure_iot_operations_protocol::ApplicationContext;
 
 use super::super::common_types::common_options::CommandOptions;
-use super::super::common_types::empty_json::EmptyJson;
+use super::increment_request_payload::IncrementRequestPayload;
 use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type IncrementRequest = CommandRequest<EmptyJson, IncrementResponsePayload>;
+pub type IncrementRequest = CommandRequest<IncrementRequestPayload, IncrementResponsePayload>;
 pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
 pub type IncrementResponseBuilderError = CommandResponseBuilderError;
 
@@ -57,7 +57,9 @@ impl IncrementResponseBuilder {
 }
 
 /// Command Executor for `Increment`
-pub struct IncrementCommandExecutor<C>(CommandExecutor<EmptyJson, IncrementResponsePayload, C>)
+pub struct IncrementCommandExecutor<C>(
+    CommandExecutor<IncrementRequestPayload, IncrementResponsePayload, C>,
+)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -106,11 +108,11 @@ where
         )
     }
 
-    /// Receive the next [`IncrementRequest`]
+    /// Receive the next [`IncrementRequest`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Result<IncrementRequest, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<IncrementRequest, AIOProtocolError>> {
         self.0.recv().await
     }
 

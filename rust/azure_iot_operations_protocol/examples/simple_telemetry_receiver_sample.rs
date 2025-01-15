@@ -98,7 +98,7 @@ async fn telemetry_loop(
 
                 // Acknowledge the message if ack_token is present
                 if let Some(ack_token) = ack_token {
-                    ack_token.ack();
+                    ack_token.ack().await.unwrap().await.unwrap();
                 }
             }
             Err(e) => {

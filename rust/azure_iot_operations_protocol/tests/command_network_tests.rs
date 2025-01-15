@@ -144,14 +144,14 @@ async fn command_basic_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent
                         assert_eq!(request.payload, EmptyPayload::default());
                         assert!(request.custom_user_data.is_empty());
                         assert!(request.timestamp.is_some());
-                        assert_eq!(request.invoker_id, invoker_id);
+                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
@@ -366,7 +366,7 @@ async fn command_complex_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent
@@ -376,7 +376,7 @@ async fn command_complex_invoke_response_network_tests() {
                             test_request_custom_user_data_clone
                         );
                         assert!(request.timestamp.is_some());
-                        assert_eq!(request.invoker_id, invoker_id);
+                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
                         assert!(request.topic_tokens.is_empty());
 
                         // send response

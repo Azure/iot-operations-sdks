@@ -8,11 +8,11 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
-use envoy::common_types::common_options::CommandOptionsBuilder;
+use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
+    TelemetryCollectionBuilder, TelemetryCollectionMessageBuilder, TelemetryCollectionSender,
 };
 
 #[tokio::main(flavor = "current_thread")]
@@ -44,7 +44,7 @@ async fn main() {
         application_context.clone(),
         counter.clone(),
     ));
-    tokio::spawn(increment_executor(
+    tokio::spawn(increment_counter_and_publish(
         session.create_managed_client(),
         application_context,
         counter.clone(),
@@ -71,7 +71,7 @@ async fn read_counter_executor(
 
     // Respond to each read request with the current counter value
     loop {
-        let request = read_counter_executor.recv().await.unwrap();
+        let request = read_counter_executor.recv().await.unwrap().unwrap();
         let response_payload = ReadCounterResponsePayload {
             counter_response: *counter.lock().unwrap(),
         };
@@ -84,8 +84,9 @@ async fn read_counter_executor(
     }
 }
 
-/// Run an executor that responds to requests to increment the counter value.
-async fn increment_executor(
+/// Run an executor that responds to requests to increment the counter value and a sender that sends
+/// telemetry messages with the new counter value.
+async fn increment_counter_and_publish(
     client: SessionManagedClient,
     application_context: ApplicationContext,
     counter: Arc<Mutex<i32>>,
@@ -95,22 +96,50 @@ async fn increment_executor(
     let mut increment_executor =
         IncrementCommandExecutor::new(client, application_context, &options);
 
+    // Create sender
+    let counter_sender = TelemetryCollectionSender::new(
+        client,
+        &TelemetryOptionsBuilder::default().build().unwrap(),
+    );
+
     // Respond to each increment request by incrementing the counter value and responding with the new value
     loop {
-        let request = increment_executor.recv().await.unwrap();
-        // Increment
-        let mut counter_guard = counter.lock().unwrap();
-        *counter_guard += 1;
+        let request = increment_executor.recv().await.unwrap().unwrap();
+
+        let updated_counter = {
+            // Increment
+            let mut counter_guard = counter.lock().unwrap();
+            *counter_guard += request.payload.increment_value;
+            *counter_guard
+        };
+
         // Respond
         let response_payload = IncrementResponsePayload {
-            counter_response: *counter_guard,
+            counter_response: updated_counter,
         };
+
+        // Respond to the increment request
         let response = IncrementResponseBuilder::default()
             .payload(response_payload)
             .unwrap()
             .build()
             .unwrap();
         request.complete(response).unwrap();
+
+        // Create telemetry message using the new counter value
+        let telemetry_message = TelemetryCollectionMessageBuilder::default()
+            .payload(
+                TelemetryCollectionBuilder::default()
+                    .counter_value(Some(updated_counter))
+                    .build()
+                    .unwrap(),
+            )
+            .unwrap()
+            .build()
+            .unwrap();
+
+        // Send associated telemetry
+        counter_sender.send(telemetry_message).await.unwrap();
     }
 }
 
