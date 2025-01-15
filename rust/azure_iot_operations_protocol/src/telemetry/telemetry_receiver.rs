@@ -9,18 +9,16 @@ use azure_iot_operations_mqtt::{
 use chrono::{DateTime, Utc};
 use tokio::{sync::oneshot, task::JoinSet};
 
-use crate::{
-    common::{
-        aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
-        is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
-        topic_processor::TopicPattern,
-        user_properties::{UserProperty, RESERVED_PREFIX},
-    },
-    DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+use crate::common::{
+    aio_protocol_error::{AIOProtocolError, Value},
+    hybrid_logical_clock::HybridLogicalClock,
+    is_invalid_utf8,
+    payload_serialize::PayloadSerialize,
+    topic_processor::TopicPattern,
+    user_properties::{UserProperty, RESERVED_PREFIX},
 };
 use crate::{
+    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     ProtocolVersion,
 };

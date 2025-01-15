@@ -13,6 +13,7 @@ use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
 use crate::{
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
@@ -21,8 +22,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, RESERVED_PREFIX},
     },
-    supported_protocol_major_versions_to_string, ProtocolVersion, DEFAULT_RPC_PROTOCOL_VERSION,
-    RPC_PROTOCOL_VERSION,
+    supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present

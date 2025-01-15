@@ -10,17 +10,6 @@ pub mod common;
 pub mod rpc;
 pub mod telemetry;
 
-/// Protocol version used by all envoys in this crate.
-pub(crate) const TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
-    ProtocolVersion { major: 1, minor: 0 };
-pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
-
-/// Assumed version if no version is provided.
-pub(crate) const DEFAULT_TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
-    ProtocolVersion { major: 1, minor: 0 };
-pub(crate) const DEFAULT_RPC_PROTOCOL_VERSION: ProtocolVersion =
-    ProtocolVersion { major: 1, minor: 0 };
-
 /// Struct containing the major and minor version of the protocol.
 pub struct ProtocolVersion {
     major: u16,

@@ -18,6 +18,7 @@ use uuid::Uuid;
 
 use super::StatusCode;
 use crate::{
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
@@ -26,8 +27,7 @@ use crate::{
         topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{self, validate_user_properties, UserProperty},
     },
-    parse_supported_protocol_major_versions, ProtocolVersion, DEFAULT_RPC_PROTOCOL_VERSION,
-    RPC_PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions, ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];

@@ -11,19 +11,19 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::telemetry::cloud_event::{
-    CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-};
-use crate::{
-    common::{
-        aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
-        is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
-        topic_processor::TopicPattern,
-        user_properties::{validate_user_properties, UserProperty},
-    },
+use crate::telemetry::{
     TELEMETRY_PROTOCOL_VERSION,
+    cloud_event::{
+        CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+    },
+};
+use crate::common::{
+    aio_protocol_error::{AIOProtocolError, Value},
+    hybrid_logical_clock::HybridLogicalClock,
+    is_invalid_utf8,
+    payload_serialize::PayloadSerialize,
+    topic_processor::TopicPattern,
+    user_properties::{validate_user_properties, UserProperty}
 };
 
 /// Cloud Event struct
