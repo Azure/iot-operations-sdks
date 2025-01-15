@@ -328,8 +328,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CommandResponseMetadata responseMetadata;
                     try
                     {
-                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator);
-                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
+                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage)
+                        {
+                            ContentType = args.ApplicationMessage.ContentType,
+                            PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
+                        };
+
+                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array, responseMetadata.ContentType, (int) responseMetadata.PayloadFormatIndicator);
                     }
                     catch (Exception ex)
                     {

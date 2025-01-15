@@ -76,8 +76,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         public string? DataSchema { get; set; }
 
-        private const string CloudEventsDataContentTypeRegex = "^([-a-z]+)/([-a-z0-9\\.\\-]+)(?:\\+([a-z0-9\\.\\-]+))?$";
-
         public CloudEvent(Uri source, string type = "ms.aio.telemetry", string specversion = "1.0")
         {
             Source = source;
