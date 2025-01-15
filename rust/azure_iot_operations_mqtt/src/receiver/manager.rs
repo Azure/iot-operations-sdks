@@ -71,6 +71,18 @@ where A: MqttAck + Clone + Send + 'static,
 
         let topic_name = extract_publish_topic_name(&publish)?;
 
+        // Register the publish as received in the OrderedAcker so that it can later be acked in the
+        // correct order.
+        // TODO: can this fail? Is this an .expect() situation? Or should some of that Session logic come in here?
+        // (I think it's the latter)
+        self.acker.register(&publish).await.unwrap();
+
+        // Determine which receivers to dispatch to
+        let filtered = self
+            .filtered_txs
+            .iter()
+            .filter(|(topic_filter, _)| topic_filter.matches_topic_name(&topic_name));
+
         // AHA! The reason why looking up the number of dispatches beforehand is bad is runtime complexity.
         // There can be many matching filters...
         // Need some kind of "get matching filter" helper
@@ -97,14 +109,14 @@ where A: MqttAck + Clone + Send + 'static,
 
         // // TODO: ack future
 
-        // let mut ack_token = None;
-        if publish.qos != QoS::AtMostOnce {
-            let publish_c = publish.clone();
-            let acker_c = self.acker.clone();
-            let ack_f = async move {
-                // TODO: wait for notification that all acks are complete / msg is ready for ack
-                acker_c.ordered_ack(&publish_c).await
-            };
+        // // let mut ack_token = None;
+        // if publish.qos != QoS::AtMostOnce {
+        //     let publish_c = publish.clone();
+        //     let acker_c = self.acker.clone();
+        //     let ack_f = async move {
+        //         // TODO: wait for notification that all acks are complete / msg is ready for ack
+        //         acker_c.ordered_ack(&publish_c).await
+        //     };
 
         //     let ack_token = Some(AckToken {
         //         tracker: self.ack_tracker.clone(),
@@ -112,45 +124,6 @@ where A: MqttAck + Clone + Send + 'static,
         //     });
         // }
 
-        // // First, dispatch to all receivers filters that match the topic name
-        // let filtered = self
-        //     .filtered_txs
-        //     .iter()
-        //     .filter(|(topic_filter, _)| topic_filter.matches_topic_name(&topic_name));
-        // for (topic_filter, v) in filtered {
-        //     for (pos, tx) in v.iter().enumerate() {
-        //         // If the receiver is closed, add it to the list of closed receivers to remove after iteration.
-        //         // NOTE: This must be done dynamically because the awaitable send allows for a channel to be closed
-        //         // sometime during the execution of this loop. You cannot simply use .prune() before the loop.
-        //         if tx.is_closed() {
-        //             closed.push((topic_filter.clone(), pos));
-        //             continue;
-        //         }
-        //         // Otherwise, send the publish to the receiver
-        //         tx.send((publish.clone(), ack_token))?;
-        //         num_dispatches += 1;
-        //     }
-        // }
-        // // PLACEHOLDER
-        // if num_dispatches == 0 {
-        //     return Ok(());
-        // }
-        // // // Then, if no filters matched, dispatch to the unfiltered receiver
-        // // if num_dispatches == 0 {
-        // //     self.unfiltered_tx.send(publish)?;
-        // //     num_dispatches += 1;
-        // // }
-
-        // // Remove any closed receivers.
-        // // NOTE: Do this in reverse order to avoid index issues.
-        // for (topic_filter, pos) in closed.iter().rev() {
-        //     if let Some(v) = self.filtered_txs.get_mut(topic_filter) {
-        //         v.remove(*pos);
-        //         if v.is_empty() {
-        //             self.filtered_txs.remove(topic_filter);
-        //         }
-        //     }
-        // }
 
         Ok(())
 
