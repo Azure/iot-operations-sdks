@@ -30,11 +30,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
         }
 
-        public string DefaultContentType => "application/cbor";
+        public const string DefaultContentType = "application/cbor";
 
-        public int DefaultPayloadFormatIndicator => 0;
+        public const int DefaultPayloadFormatIndicator = 0;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try

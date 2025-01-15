@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void JsonUsesFormatIndicatorAsOne()
         {
-            Assert.Equal(1, ser.DefaultPayloadFormatIndicator);
+            Assert.Equal(1, Utf8JsonSerializer.DefaultPayloadFormatIndicator);
         }
 
         [Fact]

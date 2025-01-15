@@ -6,16 +6,6 @@ namespace Azure.Iot.Operations.Protocol
     public interface IPayloadSerializer
     {
         /// <summary>
-        /// The content type that this serializer will use when serializing and deserializing unless a different content type is specified.
-        /// </summary>
-        string DefaultContentType { get; }
-
-        /// <summary>
-        /// The payload format indicator that this serializer will use when serializing and deserializing unless a different payload format indicator is specified.
-        /// </summary>
-        int DefaultPayloadFormatIndicator { get; }
-
-        /// <summary>
         /// Serialize the provided object.
         /// </summary>
         /// <typeparam name="T">The type to serialize</typeparam>
@@ -31,6 +21,6 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="contentType">The content type of the MQTT message received with this payload.</param>
         /// <param name="payloadFormatIndicator">The payload format indicator of the MQTT message received with this payload.</param>
         /// <returns>The deserialized object.</returns>
-        T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator) where T : class;
+        T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null) where T : class;
     }
 }

@@ -33,11 +33,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
 
-        public string DefaultContentType => "application/avro";
+        public const string DefaultContentType = "application/avro";
 
-        public int DefaultPayloadFormatIndicator => 0;
+        public const int DefaultPayloadFormatIndicator = 0;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try

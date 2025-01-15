@@ -10,18 +10,18 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void PassthroughUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, new PassthroughSerializer().DefaultPayloadFormatIndicator);
+            Assert.Equal(0, PassthroughSerializer.DefaultPayloadFormatIndicator);
         }
 
         [Fact]
         public void DeserializeEmpty()
         {
-            IPayloadSerializer rawSerializer = new PassthroughSerializer();
+            var rawSerializer = new PassthroughSerializer();
 
             byte[]? emptyBytes = rawSerializer.ToBytes<byte[]>(null).SerializedPayload;
             Assert.NotNull(emptyBytes);
             Assert.Empty(emptyBytes);
-            byte[] empty = rawSerializer.FromBytes<byte[]>(emptyBytes, rawSerializer.DefaultContentType, rawSerializer.DefaultPayloadFormatIndicator);
+            byte[] empty = rawSerializer.FromBytes<byte[]>(emptyBytes, PassthroughSerializer.DefaultContentType, PassthroughSerializer.DefaultPayloadFormatIndicator);
             Assert.NotNull(empty);
             Assert.Empty(empty);
         }

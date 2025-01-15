@@ -19,11 +19,11 @@ namespace EventDrivenApp
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
-        public string DefaultContentType => "application/json";
+        public const string DefaultContentType = "application/json";
 
-        public int DefaultPayloadFormatIndicator => 1;
+        public const int DefaultPayloadFormatIndicator = 1;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, int? payloadFormatIndicator)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try
