@@ -47,7 +47,7 @@ pub struct SerializedPayload {
 /// Trait for serializing and deserializing payloads.
 /// # Examples
 /// ```
-/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
+/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, PayloadError, FormatIndicator, SerializedPayload};
 /// #[derive(Clone, Debug)]
 /// pub struct CarLocationResponse {
 ///   latitude: f64,
@@ -55,17 +55,25 @@ pub struct SerializedPayload {
 /// }
 /// impl PayloadSerialize for CarLocationResponse {
 ///   type Error = String;
-///   fn content_type() -> &'static str {
-///     "application/json"
-///   }
-///   fn format_indicator() -> FormatIndicator {
-///    FormatIndicator::Utf8EncodedCharacterData
-///   }
-///   fn serialize(self) -> Result<Vec<u8>, String> {
+///   fn serialize(self) -> Result<SerializedPayload, String> {
 ///     let response = format!("{{\"latitude\": {}, \"longitude\": {}}}", self.latitude, self.longitude);
-///     Ok(response.as_bytes().to_vec())
+///     Ok(SerializedPayload {
+///         payload: response.as_bytes().to_vec(),
+///         content_type: "application/json".to_string(),
+///         format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+///     })
 ///   }
-///   fn deserialize(payload: &[u8]) -> Result<Self, String> {
+///   fn deserialize(payload: &[u8],
+///     content_type: &Option<String>,
+///     _format_indicator: &FormatIndicator,
+///   ) -> Result<Self, PayloadError<String>> {
+///     if let Some(content_type) = content_type {
+///            if content_type != "application/json" {
+///                return Err(PayloadError::UnsupportedContentType(format!(
+///                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+///                )));
+///            }
+///        }
 ///     // mock deserialization here for brevity
 ///     let _payload = String::from_utf8(payload.to_vec()).unwrap();
 ///     Ok(CarLocationResponse {latitude: 12.0, longitude: 35.0})
