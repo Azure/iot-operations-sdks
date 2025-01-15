@@ -92,6 +92,12 @@ func (g *Global) Set(hlc HybridLogicalClock) error {
 	return err
 }
 
+// UTC returns the physical clock component of the HTC in UTC.
+func (hlc HybridLogicalClock) UTC() time.Time {
+	// This is always set to UTC, so no need to normalize.
+	return hlc.timestamp
+}
+
 // Update an HLC based on another one and return the new value.
 func (hlc HybridLogicalClock) Update(
 	other HybridLogicalClock,
@@ -235,7 +241,7 @@ func (g *Global) Parse(name, value string) (HybridLogicalClock, error) {
 	}
 
 	return HybridLogicalClock{
-		timestamp: time.UnixMilli(timestamp),
+		timestamp: time.UnixMilli(timestamp).UTC(),
 		counter:   count,
 		nodeID:    parts[2],
 		opt:       &g.opt,
