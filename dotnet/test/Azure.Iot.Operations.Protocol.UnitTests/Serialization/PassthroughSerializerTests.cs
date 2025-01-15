@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer rawSerializer = new PassthroughSerializer();
 
-            byte[]? emptyBytes = rawSerializer.ToBytes<byte[]>(null, rawSerializer.DefaultContentType, rawSerializer.DefaultPayloadFormatIndicator).SerializedPayload;
+            byte[]? emptyBytes = rawSerializer.ToBytes<byte[]>(null).SerializedPayload;
             Assert.NotNull(emptyBytes);
             Assert.Empty(emptyBytes);
             byte[] empty = rawSerializer.FromBytes<byte[]>(emptyBytes, rawSerializer.DefaultContentType, rawSerializer.DefaultPayloadFormatIndicator);

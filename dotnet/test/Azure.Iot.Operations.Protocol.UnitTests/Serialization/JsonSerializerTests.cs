@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void DeserializeEmtpyAndNull()
         {
-            byte[]? nullBytes = ser.ToBytes(new EmptyJson(), null, 0).SerializedPayload;
+            byte[]? nullBytes = ser.ToBytes(new EmptyJson()).SerializedPayload;
             Assert.Null(nullBytes);
             EmptyJson? empty = ser.FromBytes<EmptyJson>(nullBytes, null, 0);
             Assert.NotNull(empty);
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         public void PrimitiveTypesRoundTripWithDefaultValues()
         {
             MyJsonType myType = new();
-            var bytes = ser.ToBytes(myType, null, 0).SerializedPayload;
+            var bytes = ser.ToBytes(myType).SerializedPayload;
             MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                 MyByteArrayProperty = SomeByteArray,
                 MyDecimalProperty = new DecimalString("55.5"),
             };
-            var bytes = ser.ToBytes(myType, null, 0).SerializedPayload;
+            var bytes = ser.ToBytes(myType).SerializedPayload;
             MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, 0);
             Assert.Equal(13, fromBytes.MyIntProperty);
             Assert.Equal("my string", fromBytes.MyStringProperty);

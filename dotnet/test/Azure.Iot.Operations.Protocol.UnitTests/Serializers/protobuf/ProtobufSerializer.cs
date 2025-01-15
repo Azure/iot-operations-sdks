@@ -51,26 +51,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
             }
         }
 
-        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(Empty))
                 {
-                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new(null, DefaultContentType, DefaultPayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T1))
                 {
-                    return new((payload as IMessage<T1>).ToByteArray(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new((payload as IMessage<T1>).ToByteArray(), DefaultContentType, DefaultPayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return new((payload as IMessage<T2>).ToByteArray(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new((payload as IMessage<T2>).ToByteArray(), DefaultContentType, DefaultPayloadFormatIndicator);
                 }
                 else
                 {
-                    return new(Array.Empty<byte>(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new(Array.Empty<byte>(), DefaultContentType, DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)

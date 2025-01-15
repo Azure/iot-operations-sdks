@@ -231,7 +231,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -249,7 +249,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(2, mock.AcknowledgedMessageCount);
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1, null, 0).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
         }
 
         [Fact]
@@ -278,7 +278,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var serializer = new Utf8JsonSerializer();
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -296,7 +296,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(2, mock.AcknowledgedMessageCount);
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1, null, 0).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
         }
 
         [Fact(Skip = "flaky")]
@@ -328,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var CorrelationData = Guid.NewGuid().ToByteArray();
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -340,7 +340,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -362,8 +362,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagesPublished[1].Topic);
 
             // Response messages could arrive in either order
-            byte[]? payload1 = serializer.ToBytes(payload + payload + 1, null, 0).SerializedPayload;
-            byte[]? payload2 = serializer.ToBytes(payload + payload + 2, null, 0).SerializedPayload;
+            byte[]? payload1 = serializer.ToBytes(payload + payload + 1).SerializedPayload;
+            byte[]? payload2 = serializer.ToBytes(payload + payload + 2).SerializedPayload;
             Assert.True(
                 (payload1!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!)) ||
                 (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
@@ -397,7 +397,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var CorrelationData = Guid.NewGuid().ToByteArray();
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -409,7 +409,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -431,8 +431,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal($"mock/any/echo/response", mock.MessagesPublished[1].Topic);
 
             // Response messages could arrive in either order
-            byte[]? payload1 = serializer.ToBytes(payload + payload + 1, null, 0).SerializedPayload;
-            byte[]? payload2 = serializer.ToBytes(payload + payload + 2, null, 0).SerializedPayload;
+            byte[]? payload1 = serializer.ToBytes(payload + payload + 1).SerializedPayload;
+            byte[]? payload2 = serializer.ToBytes(payload + payload + 2).SerializedPayload;
             Assert.True(
                 (payload1!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!)) ||
                 (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
@@ -464,7 +464,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var serializer = new Utf8JsonSerializer();
             MqttApplicationMessage requestMsg = new MqttApplicationMessage("mock/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = serializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
@@ -482,7 +482,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
             Assert.Equal("mock/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1, null, 0).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
         }
 
         [Fact]
@@ -535,7 +535,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage message1 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = payloadSerializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.DefaultPayloadFormatIndicator,
@@ -547,7 +547,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage message2 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = payloadSerializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.DefaultPayloadFormatIndicator,
@@ -559,7 +559,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MqttApplicationMessage message3 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = payloadSerializer.DefaultContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.DefaultPayloadFormatIndicator,
@@ -612,7 +612,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout), null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout)).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = payloadSerializer.DefaultContentType,
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.DefaultPayloadFormatIndicator,
                 ResponseTopic = responseTopic,
@@ -669,7 +669,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(payload, null, 0).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = payloadSerializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
                 ContentType = payloadSerializer.DefaultContentType,
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.DefaultPayloadFormatIndicator,
                 ResponseTopic = responseTopic,
@@ -684,7 +684,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
-            Assert.Equal(payloadSerializer.ToBytes(payload + payload, null, 0).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(payloadSerializer.ToBytes(payload + payload).SerializedPayload, mock.MessagePublished.PayloadSegment.Array);
             Assert.Equal(cid.ToByteArray(), mock.MessagePublished.CorrelationData);
         }
 

@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<Empty, Empty>();
 
-            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty(), null, 0).SerializedPayload;
+            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty()).SerializedPayload;
             Assert.Null(nullBytes);
             Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes, null, 0);
             Assert.NotNull(empty);

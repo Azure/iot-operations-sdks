@@ -54,17 +54,17 @@ namespace SampleReadCloudEvents
             }
         }
 
-        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new(null, DefaultContentType, DefaultPayloadFormatIndicator);
                 }
 
-                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), DefaultContentType, DefaultPayloadFormatIndicator);
             }
             catch (Exception)
             {

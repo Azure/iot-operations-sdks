@@ -26,20 +26,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; set; }
 
         /// <summary>
-        /// The content type to attach to this outgoing telemetry message. If no content type is specified, the content type of the serializer will be used.
-        /// </summary>
-        /// <remarks>
-        /// Overriding the content type that the serializer would set may be useful in cloud event scenarios.
-        /// </remarks>
-        public string? ContentType { get; set; }
-
-        /// <summary>
-        /// The payload format indicator to publish the message with. 
-        /// If null, the payload format indicator specified by the serializer will be used instead.
-        /// </summary>
-        public int? PayloadFormatIndicator { get; set; }
-
-        /// <summary>
         /// Construct an instance with the default values.
         /// </summary>
         /// <remarks>

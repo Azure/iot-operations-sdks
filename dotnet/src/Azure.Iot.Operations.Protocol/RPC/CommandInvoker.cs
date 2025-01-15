@@ -515,7 +515,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                var serializedPayloadContext = serializer.ToBytes(request, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator);
+                var serializedPayloadContext = serializer.ToBytes(request);
                 if (serializedPayloadContext.SerializedPayload != null)
                 {
                     requestMessage.PayloadSegment = serializedPayloadContext.SerializedPayload;

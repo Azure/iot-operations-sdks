@@ -81,14 +81,14 @@ namespace TestEnvoys
             }
         }
 
-        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return new(null, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new(null, DefaultContentType, DefaultPayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream())
@@ -105,7 +105,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return new(Array.Empty<byte>(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                        return new(Array.Empty<byte>(), DefaultContentType, DefaultPayloadFormatIndicator);
                     }
 
                     stream.Flush();
@@ -114,7 +114,7 @@ namespace TestEnvoys
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return new(buffer, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                    return new(buffer, DefaultContentType, DefaultPayloadFormatIndicator);
                 }
             }
             catch (Exception)

@@ -208,7 +208,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
 
-                        var serializedPayloadContext = serializer.ToBytes(extended.Response, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator);
+                        var serializedPayloadContext = serializer.ToBytes(extended.Response);
                         byte[]? payload = serializedPayloadContext.SerializedPayload;
 
                         MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, payload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, payload, extended.ResponseMetadata);

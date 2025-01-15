@@ -31,16 +31,16 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
         }
 
-        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             if (payload is byte[] payload1)
             {
-                return new(payload1, contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                return new(payload1, DefaultContentType, DefaultPayloadFormatIndicator);
             }
             else
             {
-                return new(Array.Empty<byte>(), contentType ?? DefaultContentType, payloadFormatIndicator ?? DefaultPayloadFormatIndicator);
+                return new(Array.Empty<byte>(), DefaultContentType, DefaultPayloadFormatIndicator);
             }
         }
     }

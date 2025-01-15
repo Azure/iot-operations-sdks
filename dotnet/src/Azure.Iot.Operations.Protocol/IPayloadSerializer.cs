@@ -20,10 +20,8 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         /// <typeparam name="T">The type to serialize</typeparam>
         /// <param name="payload">The object to serialize</param>
-        /// <param name="contentType">An optional override of the default content type specified in <see cref="DefaultContentType"/>.</param>
-        /// <param name="payloadFormatIndicator">An optional override of the default payload format indicator specified in <see cref="DefaultContentType"/>.</param>
         /// <returns>The serialized payload in a byte[] and the content type + payload format indicator used when serializing.</returns>
-        SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator) where T : class;
+        SerializedPayloadContext ToBytes<T>(T? payload) where T : class;
 
         /// <summary>
         /// Deserialize the provided payload.

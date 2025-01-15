@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             try
             {
-                SerializedPayloadContext serializedPayloadContext = _serializer.ToBytes(telemetry, metadata.ContentType ?? _serializer.DefaultContentType, metadata.PayloadFormatIndicator ?? _serializer.DefaultPayloadFormatIndicator);
+                SerializedPayloadContext serializedPayloadContext = _serializer.ToBytes(telemetry);
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
                     // This allows users to override the content type and payloda format indicator that the serializer would default to. This is used primarily in cloud event scenarios.

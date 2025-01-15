@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer cborSerializer = new CborSerializer();
 
-            SerializedPayloadContext emptyBytes = cborSerializer.ToBytes(new EmptyCbor(), null, 0);
+            SerializedPayloadContext emptyBytes = cborSerializer.ToBytes(new EmptyCbor());
             Assert.Null(emptyBytes.SerializedPayload);
             EmptyCbor empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes.SerializedPayload, null, 0);
             Assert.NotNull(empty);

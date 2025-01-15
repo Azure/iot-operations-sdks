@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
             throw new SerializationException();
         }
 
-        public SerializedPayloadContext ToBytes<T>(T? payload, string? contentType, int? payloadFormatIndicator) where T : class
+        public SerializedPayloadContext ToBytes<T>(T? payload) where T : class
         {
             throw new SerializationException();
         }

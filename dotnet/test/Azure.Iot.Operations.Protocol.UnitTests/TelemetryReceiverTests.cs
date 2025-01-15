@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var message = new MqttApplicationMessage($"{receiver1.TopicNamespace}/{receiver1.TopicPattern}")
             {
-                PayloadSegment = serializer.ToBytes<string>(expectedTelemetry, serializer.DefaultContentType, serializer.DefaultPayloadFormatIndicator).SerializedPayload ?? Array.Empty<byte>(),
+                PayloadSegment = serializer.ToBytes<string>(expectedTelemetry).SerializedPayload ?? Array.Empty<byte>(),
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.DefaultPayloadFormatIndicator,
             };
 
