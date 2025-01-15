@@ -168,7 +168,7 @@ public class MemMonEnvoyTests
         Assert.Equal("1.0", ManagedMemoryMD.CloudEvent!.SpecVersion);
         Assert.Equal("test://mq/", ManagedMemoryMD.CloudEvent.Source!.ToString());
         Assert.Equal("ms.aio.telemetry", ManagedMemoryMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/ManagedMemory", ManagedMemoryMD.CloudEvent.Subject);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/managedMemory", ManagedMemoryMD.CloudEvent.Subject);
         //Assert.Equal("1.0", ManagedMemoryMD.CloudEvent.DataSchema);
         Assert.Equal("application/avro", ManagedMemoryMD.CloudEvent.DataContentType);
         Assert.True(DateTime.TryParse(ManagedMemoryMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
