@@ -33,7 +33,7 @@ where
     A: MqttAck
 {
     acker: A,
-    ack_queue: Arc<Mutex<VecDeque<u16>>>,   //u16, Notify?
+    ack_queue: Arc<Mutex<VecDeque<u16>>>,
     notify: Arc<Notify>,
 
 }
@@ -49,6 +49,9 @@ where
             notify: Arc::new(Notify::new()),
         }
     }
+
+    // TODO: tokio mutex here creates an issue - register ends up being async when it shouldn't be.
+    // This opens up the possibility for 
 
     pub async fn register(&self, publish: &Publish) -> Result<(), RegisterError> {        
         // Ignore PKID 0, as it is reserved for QoS 0 messages
