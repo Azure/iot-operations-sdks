@@ -4,12 +4,43 @@ package protocol
 
 import (
 	"context"
+	"sync/atomic"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/test/integration/protocol/dtmi_com_example_Counter__1"
 	"github.com/stretchr/testify/require"
 )
+
+type Handlers struct{ counter int32 }
+
+func (h *Handlers) ReadCounter(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
+	response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
+		CounterResponse: atomic.LoadInt32(&h.counter),
+	}
+	return protocol.Respond(response)
+}
+
+func (h *Handlers) Increment(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
+	response := dtmi_com_example_Counter__1.IncrementResponsePayload{
+		CounterResponse: atomic.AddInt32(&h.counter, 1),
+	}
+	return protocol.Respond(response)
+}
+
+func (h *Handlers) Reset(
+	_ context.Context,
+	_ *protocol.CommandRequest[any],
+) (*protocol.CommandResponse[any], error) {
+	atomic.StoreInt32(&h.counter, 0)
+	return protocol.Respond[any](nil)
+}
 
 func TestIncrement(t *testing.T) {
 	ctx := context.Background()
@@ -19,36 +50,9 @@ func TestIncrement(t *testing.T) {
 	var listeners protocol.Listeners
 	defer listeners.Close()
 
-	ResetCounter()
-
 	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
 		server,
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
-			response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-				CounterResponse: ReadCounter(),
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
-			newValue := IncrementCounter()
-			response := dtmi_com_example_Counter__1.IncrementResponsePayload{
-				CounterResponse: newValue,
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[any], error) {
-			ResetCounter()
-			return protocol.Respond[any](nil)
-		},
+		&Handlers{},
 	)
 	require.NoError(t, err)
 	listeners = append(listeners, counterService)

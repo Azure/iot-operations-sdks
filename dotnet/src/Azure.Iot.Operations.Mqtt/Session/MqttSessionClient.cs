@@ -784,7 +784,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 case MqttClientDisconnectReason.MalformedPacket:
                 case MqttClientDisconnectReason.ProtocolError:
                 case MqttClientDisconnectReason.NotAuthorized:
-                case MqttClientDisconnectReason.BadAuthenticationMethod:
                 case MqttClientDisconnectReason.SessionTakenOver:
                 case MqttClientDisconnectReason.TopicFilterInvalid:
                 case MqttClientDisconnectReason.TopicNameInvalid:

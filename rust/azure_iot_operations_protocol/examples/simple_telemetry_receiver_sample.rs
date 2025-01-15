@@ -90,7 +90,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
 
                 // Acknowledge the message if ack_token is present
                 if let Some(ack_token) = ack_token {
-                    ack_token.ack();
+                    ack_token.ack().await.unwrap().await.unwrap();
                 }
             }
             Err(e) => {
@@ -120,7 +120,7 @@ impl PayloadSerialize for SampleTelemetry {
         FormatIndicator::Utf8EncodedCharacterData
     }
 
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         // Not used in this example
         Ok(Vec::new())
     }

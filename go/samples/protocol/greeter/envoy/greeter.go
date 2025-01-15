@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package envoy
 
 import (
@@ -105,7 +108,6 @@ func NewGreeterServer(
 		handlers.SayHelloWithDelay,
 		&opt,
 		protocol.WithIdempotent(true),
-		protocol.WithCacheTTL(10*time.Second),
 		protocol.WithTimeout(30*time.Second),
 	)
 	if err != nil {

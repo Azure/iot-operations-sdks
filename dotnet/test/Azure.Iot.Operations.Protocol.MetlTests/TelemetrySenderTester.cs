@@ -53,7 +53,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 TestCaseSender.DefaultTelemetryName = defaultTestCase.Prologue.Sender.TelemetryName;
                 TestCaseSender.DefaultTelemetryTopic = defaultTestCase.Prologue.Sender.TelemetryTopic;
-                TestCaseSender.DefaultModelId = defaultTestCase.Prologue.Sender.ModelId;
                 TestCaseSender.DefaultDataSchema = defaultTestCase.Prologue.Sender.DataSchema;
                 TestCaseSender.DefaultTopicNamespace = defaultTestCase.Prologue.Sender.TopicNamespace;
 
@@ -237,26 +236,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     TopicNamespace = testCaseSender.TopicNamespace,
                 };
 
-                if (testCaseSender.ModelId != null)
+                if (testCaseSender.TopicTokenMap != null)
                 {
-                    telemetrySender.TopicTokenMap!["modelId"] = testCaseSender.ModelId;
-                }
-
-                if (testCaseSender.TelemetryName != null)
-                {
-                    telemetrySender.TopicTokenMap!["telemetryName"] = testCaseSender.TelemetryName;
-                }
-
-                if (mqttClient.ClientId != null)
-                {
-                    telemetrySender.TopicTokenMap!["senderClientId"] = mqttClient.ClientId;
-                }
-
-                if (testCaseSender.CustomTokenMap != null)
-                {
-                    foreach (KeyValuePair<string, string> kvp in testCaseSender.CustomTokenMap)
+                    foreach (KeyValuePair<string, string> kvp in testCaseSender.TopicTokenMap)
                     {
-                        telemetrySender.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                        telemetrySender.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
 

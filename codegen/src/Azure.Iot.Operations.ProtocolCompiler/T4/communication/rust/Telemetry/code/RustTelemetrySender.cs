@@ -18,6 +18,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => NamingSupport.ToSnakeCase($"{this.componentName}Sender.rs"); }
 
-        public string FolderPath { get => Path.Combine(SubPaths.Rust, this.genNamespace); }
+        public string FolderPath { get => this.genNamespace; }
     }
 }

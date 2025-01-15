@@ -18,7 +18,7 @@ public class CounterService : Counter.Service
         ResetCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
     }
 
-    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref counter);

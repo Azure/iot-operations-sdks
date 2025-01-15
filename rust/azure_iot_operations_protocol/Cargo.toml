@@ -15,6 +15,7 @@ publish = true
 azure_iot_operations_mqtt = { version = "0.6", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
 bytes.workspace = true
 derive_builder.workspace = true
+iso8601-duration = "0.2.0"
 log.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
@@ -29,7 +30,6 @@ ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true
 futures = "0.3.31"
-iso8601-duration = "0.2.0"
 mockall = "0.12.1"
 rumqttc = { version = "0.24.0-fork.3", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
 serde = { version = "1.0", features = ["derive"] }
