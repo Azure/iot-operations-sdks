@@ -4,10 +4,10 @@ use std::{collections::HashMap, marker::PhantomData, str::FromStr};
 
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
-    interface::{self, ManagedClient, PubReceiver},
+    interface::{AckToken, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
-use tokio::{sync::oneshot, task::JoinSet};
+use tokio_util::sync::CancellationToken;
 
 use crate::{
     common::{
@@ -111,26 +111,6 @@ impl CloudEventBuilder {
     }
 }
 
-/// Acknowledgement token used to acknowledge a telemetry message.
-/// Used by the [`TelemetryReceiver`].
-///
-/// When dropped without calling [`AckToken::ack`], the message is automatically acknowledged.
-pub struct AckToken {
-    ack_tx: oneshot::Sender<()>,
-}
-
-impl AckToken {
-    /// Consumes the [`AckToken`] and acknowledges the telemetry message.
-    pub fn ack(self) {
-        match self.ack_tx.send(()) {
-            Ok(()) => { /* Success */ }
-            Err(()) => {
-                log::error!("Ack error");
-            }
-        }
-    }
-}
-
 /// Telemetry message struct
 /// Used by the telemetry receiver.
 pub struct TelemetryMessage<T: PayloadSerialize> {
@@ -215,9 +195,17 @@ where
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
-    is_subscribed: bool,
+    receiver_state: TelemetryReceiverState,
     // Information to manage state
-    pending_acks: JoinSet<interface::AckToken>, // TODO: Remove need for this
+    receiver_cancellation_token: CancellationToken,
+}
+
+/// Describes state of receiver
+#[derive(PartialEq)]
+enum TelemetryReceiverState {
+    New,
+    Subscribed,
+    ShutdownSuccessful,
 }
 
 /// Implementation of a Telemetry Sender
@@ -294,28 +282,37 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            is_subscribed: false,
-            pending_acks: JoinSet::new(),
+            receiver_state: TelemetryReceiverState::New,
+            receiver_cancellation_token: CancellationToken::new(),
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
     ///
-    /// Note: If this method is called, the [`TelemetryReceiver`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
+    /// Note: If this method is called, the [`TelemetryReceiver`] will no longer receive telemetry messages
+    /// from the MQTT client, any messages that have not been processed can still be received by the
+    /// receiver. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
-        if self.is_subscribed {
-            let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+        // Close the receiver, no longer receive messages
+        self.mqtt_receiver.close();
 
-            match unsubscribe_result {
-                Ok(unsub_ct) => {
-                    match unsub_ct.await {
-                        Ok(()) => { /* Success */ }
+        match self.receiver_state {
+            TelemetryReceiverState::New | TelemetryReceiverState::ShutdownSuccessful => {
+                // If subscribe has not been called or shutdown was successful, do not unsubscribe
+                self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+            }
+            TelemetryReceiverState::Subscribed => {
+                let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
+
+                match unsubscribe_result {
+                    Ok(unsub_ct) => match unsub_ct.await {
+                        Ok(()) => {
+                            self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+                        }
                         Err(e) => {
                             log::error!("Unsuback error: {e}");
                             return Err(AIOProtocolError::new_mqtt_error(
@@ -324,23 +321,23 @@ where
                                 None,
                             ));
                         }
+                    },
+                    Err(e) => {
+                        log::error!("Client error while unsubscribing: {e}");
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on telemetry receiver unsubscribe".to_string()),
+                            Box::new(e),
+                            None,
+                        ));
                     }
-                }
-                Err(e) => {
-                    log::error!("Client error while unsubscribing: {e}");
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on telemetry receiver unsubscribe".to_string()),
-                        Box::new(e),
-                        None,
-                    ));
                 }
             }
         }
-        log::info!("Shutdown");
+        log::info!("Telemetry receiver shutdown");
         Ok(())
     }
 
-    /// Subscribe to the telemetry topic if not already subscribed.
+    /// Subscribe to the telemetry topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -353,9 +350,7 @@ where
 
         match subscribe_result {
             Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => {
-                    self.is_subscribed = true;
-                }
+                Ok(()) => { /* Success */ }
                 Err(e) => {
                     log::error!("Suback error: {e}");
                     return Err(AIOProtocolError::new_mqtt_error(
@@ -377,7 +372,6 @@ where
         Ok(())
     }
 
-    /// Receives a telemetry message or [`None`] if there will be no more changes.
     /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
@@ -386,250 +380,221 @@ where
     ///
     /// A received message can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     ///
+    /// Will also subscribe to the telemetry topic if not already subscribed.
+    ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     pub async fn recv(
         &mut self,
     ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if !self.is_subscribed {
-            match self.try_subscribe().await {
-                Ok(()) => {
-                    /* Success */
-                    log::info!("Subscribed to telemetry topic");
-                }
-                Err(e) => {
-                    return Some(Err(e));
-                }
+        if self.receiver_state == TelemetryReceiverState::New {
+            if let Err(e) = self.try_subscribe().await {
+                return Some(Err(e));
             }
+            self.receiver_state = TelemetryReceiverState::Subscribed;
         }
 
         loop {
-            tokio::select! {
-                // TODO: BUG, if recv() is not called, pending_acks will never be processed
-                Some(inner_ack_token_result) = self.pending_acks.join_next() => {
+            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+                // Process the received message
+                log::info!("[pkid: {}] Received message", m.pkid);
 
-                    match inner_ack_token_result {
-                        Ok(inner_ack_token) => {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Acked */ }
-                                Err(e) => {
-                                    log::error!("Ack error: {e}");
-                                }
-                            }
+                'process_message: {
+                    // Clone properties
 
-                        }
-                        Err(e) => {
-                            // Unreachable: Occurs when the task failed to execute to completion by
-                            // panicking or cancelling.
-                            log::error!("Failure to process ack: {e}");
-                        }
-                    }
-                },
-                recv_result = self.mqtt_receiver.recv() => {
-                    // Process the received message
-                    if let Some((m, inner_ack_token)) = recv_result {
-                        log::info!("[pkid: {}] Received message", m.pkid);
+                    let properties = m.properties.clone();
 
-                        'process_message: {
-                            // Clone properties
+                    let mut custom_user_data = Vec::new();
+                    let mut timestamp = None;
+                    let mut cloud_event = None;
+                    let mut sender_id = None;
 
-                            let properties = m.properties.clone();
-
-                            let mut custom_user_data = Vec::new();
-                            let mut timestamp = None;
-                            let mut cloud_event = None;
-                            let mut sender_id = None;
-
-                            if let Some(properties) = properties {
-                                // Get content type
-                                if let Some(content_type) = &properties.content_type {
-                                    if T::content_type() != content_type {
-                                        log::error!(
+                    if let Some(properties) = properties {
+                        // Get content type
+                        if let Some(content_type) = &properties.content_type {
+                            if T::content_type() != content_type {
+                                log::error!(
                                             "[pkid: {}] Content type {content_type} is not supported by this implementation; only {} is accepted", m.pkid, T::content_type()
                                         );
-                                        break 'process_message;
-                                    }
-                                }
+                                break 'process_message;
+                            }
+                        }
 
-                                // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                                let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
-                                if let Some((_, protocol_version)) = properties.user_properties.iter().find(|(key, _)| UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)) {
-                                    if let Some(message_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
-                                        message_protocol_version = message_version;
-                                    } else {
-                                        log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
+                        // unused beyond validation, but may be used in the future to determine how to handle other fields.
+                        let mut message_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+                        if let Some((_, protocol_version)) =
+                            properties.user_properties.iter().find(|(key, _)| {
+                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                            })
+                        {
+                            if let Some(message_version) =
+                                ProtocolVersion::parse_protocol_version(protocol_version)
+                            {
+                                message_protocol_version = message_version;
+                            } else {
+                                log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
                                             m.pkid
                                         );
-                                        break 'process_message;
-                                    }
-                                }
-                                // Check that the version (or the default version if one isn't provided) is supported
-                                if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                                    log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
+                                break 'process_message;
+                            }
+                        }
+                        // Check that the version (or the default version if one isn't provided) is supported
+                        if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                            log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
                                         m.pkid
                                     );
-                                    break 'process_message;
-                                }
+                            break 'process_message;
+                        }
 
-                                let mut cloud_event_present = false;
-                                let mut cloud_event_builder = CloudEventBuilder::default();
-                                let mut cloud_event_time = None;
-                                for (key, value) in properties.user_properties {
-                                    match UserProperty::from_str(&key) {
-                                        Ok(UserProperty::Timestamp) => {
-                                            match HybridLogicalClock::from_str(&value) {
-                                                Ok(ts) => {
-                                                    timestamp = Some(ts);
-                                                }
-                                                Err(e) => {
-                                                    log::error!(
-                                                        "[pkid: {}] Invalid timestamp {value}: {e}",
-                                                        m.pkid
-                                                    );
-                                                    break 'process_message;
-                                                }
-                                            }
-                                        },
-                                        Ok(UserProperty::ProtocolVersion) => {
-                                            // skip, already processed
-                                        },
-                                        Ok(UserProperty::SourceId) => {
-                                            sender_id = Some(value);
-                                        },
-                                        Err(()) => {
-                                            match CloudEventFields::from_str(&key) {
-                                                Ok(CloudEventFields::Id) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.id(value);
-                                                },
-                                                Ok(CloudEventFields::Source) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.source(value);
-                                                },
-                                                Ok(CloudEventFields::SpecVersion) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.spec_version(value);
-                                                },
-                                                Ok(CloudEventFields::EventType) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.event_type(value);
-                                                },
-                                                Ok(CloudEventFields::Subject) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.subject(value);
-                                                },
-                                                Ok(CloudEventFields::DataSchema) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.data_schema(Some(value));
-                                                },
-                                                Ok(CloudEventFields::DataContentType) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_builder.data_content_type(value);
-                                                },
-                                                Ok(CloudEventFields::Time) => {
-                                                    cloud_event_present = true;
-                                                    cloud_event_time = Some(value);
-                                                },
-                                                Err(()) => {
-                                                    custom_user_data.push((key, value));
-                                                }
-                                            }
+                        let mut cloud_event_present = false;
+                        let mut cloud_event_builder = CloudEventBuilder::default();
+                        let mut cloud_event_time = None;
+                        for (key, value) in properties.user_properties {
+                            match UserProperty::from_str(&key) {
+                                Ok(UserProperty::Timestamp) => {
+                                    match HybridLogicalClock::from_str(&value) {
+                                        Ok(ts) => {
+                                            timestamp = Some(ts);
                                         }
-                                        _ => {
-                                            log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
-                                            custom_user_data.push((key, value));
+                                        Err(e) => {
+                                            log::error!(
+                                                "[pkid: {}] Invalid timestamp {value}: {e}",
+                                                m.pkid
+                                            );
+                                            break 'process_message;
                                         }
                                     }
                                 }
-                                if cloud_event_present {
-                                    if let Ok(mut ce) = cloud_event_builder.build() {
-                                        if let Some(ce_time) = cloud_event_time {
-                                            match DateTime::parse_from_rfc3339(&ce_time) {
-                                                Ok(time) => {
-                                                    let time = time.with_timezone(&Utc);
-                                                    ce.time = Some(time);
-                                                    cloud_event = Some(ce);
-                                                },
-                                                Err(e) => {
-                                                    log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
-                                                }
-                                            }
-                                        } else {
+                                Ok(UserProperty::ProtocolVersion) => {
+                                    // skip, already processed
+                                }
+                                Ok(UserProperty::SourceId) => {
+                                    sender_id = Some(value);
+                                }
+                                Err(()) => match CloudEventFields::from_str(&key) {
+                                    Ok(CloudEventFields::Id) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.id(value);
+                                    }
+                                    Ok(CloudEventFields::Source) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.source(value);
+                                    }
+                                    Ok(CloudEventFields::SpecVersion) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.spec_version(value);
+                                    }
+                                    Ok(CloudEventFields::EventType) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.event_type(value);
+                                    }
+                                    Ok(CloudEventFields::Subject) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.subject(value);
+                                    }
+                                    Ok(CloudEventFields::DataSchema) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.data_schema(Some(value));
+                                    }
+                                    Ok(CloudEventFields::DataContentType) => {
+                                        cloud_event_present = true;
+                                        cloud_event_builder.data_content_type(value);
+                                    }
+                                    Ok(CloudEventFields::Time) => {
+                                        cloud_event_present = true;
+                                        cloud_event_time = Some(value);
+                                    }
+                                    Err(()) => {
+                                        custom_user_data.push((key, value));
+                                    }
+                                },
+                                _ => {
+                                    log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                    custom_user_data.push((key, value));
+                                }
+                            }
+                        }
+                        if cloud_event_present {
+                            if let Ok(mut ce) = cloud_event_builder.build() {
+                                if let Some(ce_time) = cloud_event_time {
+                                    match DateTime::parse_from_rfc3339(&ce_time) {
+                                        Ok(time) => {
+                                            let time = time.with_timezone(&Utc);
+                                            ce.time = Some(time);
                                             cloud_event = Some(ce);
                                         }
-                                    } else {
-                                        log::error!("[pkid: {}] Telemetry received invalid cloud event", m.pkid);
-                                    }
-                                }
-                            }
-
-                            let topic = match std::str::from_utf8(&m.topic) {
-                                Ok(topic) => topic,
-                                Err(e) => {
-                                    // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                    log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
-                                    break 'process_message;
-                                }
-                            };
-
-                            let topic_tokens = self.topic_pattern.parse_tokens(topic);
-
-                            // Deserialize payload
-                            let payload = match T::deserialize(&m.payload) {
-                                Ok(p) => p,
-                                Err(e) => {
-                                    log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
-                                    break 'process_message;
-                                }
-                            };
-
-                            let telemetry_message = TelemetryMessage {
-                                payload,
-                                custom_user_data,
-                                sender_id,
-                                timestamp,
-                                cloud_event,
-                                topic_tokens,
-                            };
-
-                            // If the telemetry message needs ack, return telemetry message with ack token
-                            if let Some(inner_ack_token) = inner_ack_token {
-                                let (ack_tx, ack_rx) = oneshot::channel();
-                                let ack_token = AckToken { ack_tx };
-
-                                self.pending_acks.spawn({
-                                    async move {
-                                        match ack_rx.await {
-                                            Ok(()) => { /* Ack token used */ },
-                                            Err(_) => {
-                                                log::error!("[pkid: {}] Ack channel closed, acking", m.pkid);
-                                            }
+                                        Err(e) => {
+                                            log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
                                         }
-                                        inner_ack_token
                                     }
-                                });
-
-                                return Some(Ok((telemetry_message, Some(ack_token))));
-                            }
-
-                            return Some(Ok((telemetry_message, None)));
-                        }
-
-                        // Occurs on an error processing the message, ack to prevent redelivery
-                        if let Some(inner_ack_token) = inner_ack_token {
-                            match inner_ack_token.ack().await {
-                                Ok(_) => { /* Success */ }
-                                Err(e) => {
-                                    log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                                } else {
+                                    cloud_event = Some(ce);
                                 }
-                            };
+                            } else {
+                                log::error!(
+                                    "[pkid: {}] Telemetry received invalid cloud event",
+                                    m.pkid
+                                );
+                            }
                         }
-                    } else {
-                        // There will be no more messages
-                        return None;
                     }
+
+                    let topic = match std::str::from_utf8(&m.topic) {
+                        Ok(topic) => topic,
+                        Err(e) => {
+                            // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                            log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
+                            break 'process_message;
+                        }
+                    };
+
+                    let topic_tokens = self.topic_pattern.parse_tokens(topic);
+
+                    // Deserialize payload
+                    let payload = match T::deserialize(&m.payload) {
+                        Ok(p) => p,
+                        Err(e) => {
+                            log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
+                            break 'process_message;
+                        }
+                    };
+
+                    let telemetry_message = TelemetryMessage {
+                        payload,
+                        custom_user_data,
+                        sender_id,
+                        timestamp,
+                        cloud_event,
+                        topic_tokens,
+                    };
+
+                    return Some(Ok((telemetry_message, ack_token)));
                 }
+
+                // Occurs on an error processing the message, ack to prevent redelivery
+                if let Some(ack_token) = ack_token {
+                    tokio::spawn({
+                        let receiver_cancellation_token_clone =
+                            self.receiver_cancellation_token.clone();
+                        async move {
+                            tokio::select! {
+                                () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                ack_res = ack_token.ack() => {
+                                    match ack_res {
+                                        Ok(_) => { /* Success */ }
+                                        Err(e) => {
+                                            log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                // There will be no more messages
+                return None;
             }
         }
     }
@@ -641,7 +606,32 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // Cancel all tasks awaiting responses
+        self.receiver_cancellation_token.cancel();
+        // Close the receiver
+        self.mqtt_receiver.close();
+
+        // If the receiver has not unsubscribed, attempt to unsubscribe
+        if TelemetryReceiverState::Subscribed == self.receiver_state {
+            tokio::spawn({
+                let telemetry_topic = self.telemetry_topic.clone();
+                let mqtt_client = self.mqtt_client.clone();
+                async move {
+                    match mqtt_client.unsubscribe(telemetry_topic.clone()).await {
+                        Ok(_) => {
+                            log::debug!("Unsubscribe sent on topic {telemetry_topic}. Unsuback may still be pending.");
+                        }
+                        Err(e) => {
+                            log::error!("Unsubscribe error on topic {telemetry_topic}: {e}");
+                        }
+                    }
+                }
+            });
+        }
+
+        log::info!("Telemetry receiver dropped");
+    }
 }
 
 #[cfg(test)]

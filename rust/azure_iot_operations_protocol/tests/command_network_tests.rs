@@ -133,7 +133,7 @@ async fn command_basic_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent
@@ -355,7 +355,7 @@ async fn command_complex_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent

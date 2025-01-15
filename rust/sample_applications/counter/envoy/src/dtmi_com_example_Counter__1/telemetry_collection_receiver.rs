@@ -2,10 +2,10 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    AckToken, TelemetryMessage, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
+    TelemetryMessage, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
 };
 
 use super::super::common_types::common_options::TelemetryOptions;
