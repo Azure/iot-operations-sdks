@@ -18,8 +18,8 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
     ProtocolVersion,
 };
 

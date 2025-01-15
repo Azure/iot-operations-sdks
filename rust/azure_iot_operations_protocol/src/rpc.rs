@@ -20,7 +20,6 @@ pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major
 pub(crate) const DEFAULT_RPC_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };
 
-
 /// Represents the valid status codes for command responses.
 #[repr(u16)]
 #[derive(Debug, Copy, Clone, PartialEq)]
