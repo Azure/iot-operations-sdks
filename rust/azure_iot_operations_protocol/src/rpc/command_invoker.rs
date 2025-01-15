@@ -301,12 +301,14 @@ where
 
         // Generate the request and response topics
         let request_topic_pattern = TopicPattern::new(
+            "invoker_options.request_topic_pattern",
             &invoker_options.request_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
 
         let response_topic_pattern = TopicPattern::new(
+            "response_topic_pattern",
             &response_topic_pattern,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
@@ -1298,7 +1300,7 @@ mod tests {
         let mut response_topic_prefix = "custom/prefix".to_string();
         let mut response_topic_suffix = "custom/suffix".to_string();
 
-        let mut error_property_name = "pattern";
+        let error_property_name;
         let mut error_property_value = property_value.to_string();
 
         match property_name {
@@ -1306,18 +1308,26 @@ mod tests {
                 command_name = property_value.to_string();
                 error_property_name = "command_name";
             }
-            "request_topic_pattern" => request_topic_pattern = property_value.to_string(),
-            "response_topic_pattern" => response_topic_pattern = Some(property_value.to_string()),
+            "request_topic_pattern" => {
+                request_topic_pattern = property_value.to_string();
+                error_property_name = "invoker_options.request_topic_pattern";
+            }
+            "response_topic_pattern" => {
+                response_topic_pattern = Some(property_value.to_string());
+                error_property_name = "response_topic_pattern";
+            }
             "response_topic_prefix" => {
                 response_topic_prefix = property_value.to_string();
+                error_property_name = "response_topic_pattern";
                 error_property_value.push_str("/test/req/topic/custom/suffix");
             }
             "response_topic_suffix" => {
                 response_topic_suffix = property_value.to_string();
+                error_property_name = "response_topic_pattern";
                 error_property_value = "custom/prefix/test/req/topic/".to_string();
                 error_property_value.push_str(&response_topic_suffix);
             }
-            _ => panic!("Invalid error_property_name"),
+            _ => panic!("Invalid property_name"),
         }
 
         let invoker_options = CommandInvokerOptionsBuilder::default()
