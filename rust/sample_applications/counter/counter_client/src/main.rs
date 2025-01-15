@@ -80,7 +80,7 @@ async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: Sess
 
                 // Acknowledge the message
                 if let Some(ack_token) = ack_token {
-                    ack_token.ack();
+                    ack_token.ack().await.unwrap();
                 }
 
                 telemetry_count += 1;
