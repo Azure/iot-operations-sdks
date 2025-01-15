@@ -125,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 if (metadata != null)
                 {
-                    applicationMessage.AddMetadata(metadata);
+                    applicationMessage.AddMetadata(metadata, telemTopic.ToString());
                 }
 
                 applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");

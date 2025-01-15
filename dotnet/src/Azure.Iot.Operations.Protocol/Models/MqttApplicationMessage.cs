@@ -145,7 +145,7 @@ namespace Azure.Iot.Operations.Protocol.Models
                 : Encoding.UTF8.GetString(PayloadSegment.Array, PayloadSegment.Offset, PayloadSegment.Count);
         }
 
-        public void AddMetadata(OutgoingTelemetryMetadata md)
+        internal void AddMetadata(OutgoingTelemetryMetadata md, string topic)
         {
             if (md == null)
             {
@@ -160,6 +160,12 @@ namespace Azure.Iot.Operations.Protocol.Models
             foreach (KeyValuePair<string, string> kvp in md.UserData)
             {
                 AddUserProperty(kvp.Key, kvp.Value);
+            }
+
+            // If user specified other cloud event keys, but not the subject field, populate the default value for them
+            if (md.UserData.ContainsKey("specversion") && md.UserData.ContainsKey("id") && md.UserData.ContainsKey("source") && md.UserData.ContainsKey("type") && !md.UserData.ContainsKey("subject"))
+            {
+                AddUserProperty("subject", topic);
             }
         }
     }

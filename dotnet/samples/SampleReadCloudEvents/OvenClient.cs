@@ -21,34 +21,31 @@ public class OvenClient(MqttSessionClient mqttClient, SchemaRegistryClient schem
         try
         {
             CloudEvent cloudEvent = new CloudEvent(metadata.ContentType, metadata.UserData);
-            if (cloudEvent != null)
-            {
-                logger.LogInformation("CloudEvents: \n" +
-                    "id: {id} \n " +
-                    "time: {time} \n " +
-                    "type: {type}\n " +
-                    "source: {source} \n " +
-                    "contenttype: {ct} \n " +
-                    "dataschema: {ds}",
-                    cloudEvent.Id,
-                    cloudEvent.Time,
-                    cloudEvent.Type,
-                    cloudEvent.Source,
-                    cloudEvent.DataContentType,
-                    cloudEvent.DataSchema);
+            logger.LogInformation("CloudEvents: \n" +
+                "id: {id} \n " +
+                "time: {time} \n " +
+                "type: {type}\n " +
+                "source: {source} \n " +
+                "contenttype: {ct} \n " +
+                "dataschema: {ds}",
+                cloudEvent.Id,
+                cloudEvent.Time,
+                cloudEvent.Type,
+                cloudEvent.Source,
+                cloudEvent.DataContentType,
+                cloudEvent.DataSchema);
 
-                if (schemaCache.ContainsKey(cloudEvent.DataSchema!))
-                {
-                    logger.LogInformation("Schema already cached");
-                }
-                else
-                {
-                    logger.LogInformation("Schema not cached, fetching from SR");
-                    Uri schemaUri = new(cloudEvent.DataSchema!);
-                    var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
-                    schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
-                    logger.LogInformation("Schema cached");
-                }
+            if (schemaCache.ContainsKey(cloudEvent.DataSchema!))
+            {
+                logger.LogInformation("Schema already cached");
+            }
+            else
+            {
+                logger.LogInformation("Schema not cached, fetching from SR");
+                Uri schemaUri = new(cloudEvent.DataSchema!);
+                var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
+                schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
+                logger.LogInformation("Schema cached");
             }
         }
         catch (ArgumentException e)
