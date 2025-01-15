@@ -84,6 +84,6 @@ async fn executor_loop(client: SessionManagedClient) {
             request.complete(response).unwrap();
             continue;
         }
-        request.error("Unknown file type".to_string()).unwrap();
+        request.error("Ignored File".to_string()).unwrap();
     }
 }

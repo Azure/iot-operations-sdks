@@ -1020,29 +1020,6 @@ mod tests {
     use super::*;
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
-    // // Payload that has an invalid content type for testing
-    // struct InvalidContentTypePayload {}
-    // impl Clone for InvalidContentTypePayload {
-    //     fn clone(&self) -> Self {
-    //         unimplemented!()
-    //     }
-    // }
-    // impl PayloadSerialize for InvalidContentTypePayload {
-    //     type Error = String;
-    //     fn content_type() -> &'static str {
-    //         "application/json\u{0000}"
-    //     }
-    //     fn format_indicator() -> FormatIndicator {
-    //         unimplemented!()
-    //     }
-    //     fn serialize(self) -> Result<Vec<u8>, String> {
-    //         unimplemented!()
-    //     }
-    //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-    //         unimplemented!()
-    //     }
-    // }
-
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
     // scope and render the ManagedClient unable to to be used correctly.
@@ -1115,74 +1092,6 @@ mod tests {
         assert!(command_executor.is_idempotent);
         assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
     }
-
-    // #[test]
-    // fn test_invalid_request_content_type() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-
-    //     let executor_options = CommandExecutorOptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/request")
-    //         .command_name("test_command_name")
-    //         .build()
-    //         .unwrap();
-
-    //     let executor: Result<
-    //         CommandExecutor<InvalidContentTypePayload, MockPayload, _>,
-    //         AIOProtocolError,
-    //     > = CommandExecutor::new(managed_client, executor_options);
-
-    //     match executor {
-    //         Err(e) => {
-    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //             assert!(!e.in_application);
-    //             assert!(e.is_shallow);
-    //             assert!(!e.is_remote);
-    //             assert_eq!(e.http_status_code, None);
-    //             assert_eq!(e.property_name, Some("content_type".to_string()));
-    //             assert!(
-    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-    //             );
-    //         }
-    //         Ok(_) => {
-    //             panic!("Expected error");
-    //         }
-    //     }
-    // }
-
-    // #[test]
-    // fn test_invalid_response_content_type() {
-    //     let session = create_session();
-    //     let managed_client = session.create_managed_client();
-
-    //     let executor_options = CommandExecutorOptionsBuilder::default()
-    //         .request_topic_pattern("test/{commandName}/request")
-    //         .command_name("test_command_name")
-    //         .build()
-    //         .unwrap();
-
-    //     let executor: Result<
-    //         CommandExecutor<MockPayload, InvalidContentTypePayload, _>,
-    //         AIOProtocolError,
-    //     > = CommandExecutor::new(managed_client, executor_options);
-
-    //     match executor {
-    //         Err(e) => {
-    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //             assert!(!e.in_application);
-    //             assert!(e.is_shallow);
-    //             assert!(!e.is_remote);
-    //             assert_eq!(e.http_status_code, None);
-    //             assert_eq!(e.property_name, Some("content_type".to_string()));
-    //             assert!(
-    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-    //             );
-    //         }
-    //         Ok(_) => {
-    //             panic!("Expected error");
-    //         }
-    //     }
-    // }
 
     #[test_case(""; "empty command name")]
     #[test_case(" "; "whitespace command name")]
@@ -1366,7 +1275,47 @@ mod tests {
 
         let mut binding = CommandResponseBuilder::default();
         let resp_builder = binding.payload(mock_response_payload);
-        assert!(resp_builder.is_err());
+        match resp_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+    #[test]
+    fn test_response_serialization_bad_content_type_error() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json\u{0000}".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = CommandResponseBuilder::default();
+        let resp_builder = binding.payload(mock_response_payload);
+        match resp_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
     }
 }
 

@@ -648,29 +648,6 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    // // Payload that has an invalid content type for testing
-    // struct InvalidContentTypePayload {}
-    // impl Clone for InvalidContentTypePayload {
-    //     fn clone(&self) -> Self {
-    //         unimplemented!()
-    //     }
-    // }
-    // impl PayloadSerialize for InvalidContentTypePayload {
-    //     type Error = String;
-    //     fn content_type() -> &'static str {
-    //         "application/json\u{0000}"
-    //     }
-    //     fn format_indicator() -> FormatIndicator {
-    //         unimplemented!()
-    //     }
-    //     fn serialize(self) -> Result<Vec<u8>, String> {
-    //         unimplemented!()
-    //     }
-    //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-    //         unimplemented!()
-    //     }
-    // }
-
     // TODO: This should return a mock Session instead
     fn get_session() -> Session {
         // TODO: Make a real mock that implements Session
@@ -715,37 +692,6 @@ mod tests {
         TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
             .unwrap();
     }
-
-    // #[test]
-    // fn test_invalid_telemetry_content_type() {
-    //     let session = get_session();
-    //     let receiver_options = TelemetryReceiverOptionsBuilder::default()
-    //         .topic_pattern("test/receiver")
-    //         .build()
-    //         .unwrap();
-
-    //     let telemetry_receiver: Result<
-    //         TelemetryReceiver<InvalidContentTypePayload, _>,
-    //         AIOProtocolError,
-    //     > = TelemetryReceiver::new(session.create_managed_client(), receiver_options);
-
-    //     match telemetry_receiver {
-    //         Err(e) => {
-    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //             assert!(!e.in_application);
-    //             assert!(e.is_shallow);
-    //             assert!(!e.is_remote);
-    //             assert_eq!(e.http_status_code, None);
-    //             assert_eq!(e.property_name, Some("content_type".to_string()));
-    //             assert!(
-    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-    //             );
-    //         }
-    //         Ok(_) => {
-    //             panic!("Expected error");
-    //         }
-    //     }
-    // }
 
     #[test_case(""; "new_empty_topic_pattern")]
     #[test_case(" "; "new_whitespace_topic_pattern")]

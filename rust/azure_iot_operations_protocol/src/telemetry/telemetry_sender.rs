@@ -446,29 +446,6 @@ mod tests {
         MqttConnectionSettingsBuilder,
     };
 
-    // // Payload that has an invalid content type for testing
-    // struct InvalidContentTypePayload {}
-    // impl Clone for InvalidContentTypePayload {
-    //     fn clone(&self) -> Self {
-    //         unimplemented!()
-    //     }
-    // }
-    // impl PayloadSerialize for InvalidContentTypePayload {
-    //     type Error = String;
-    //     fn content_type() -> &'static str {
-    //         "application/json\u{0000}"
-    //     }
-    //     fn format_indicator() -> FormatIndicator {
-    //         unimplemented!()
-    //     }
-    //     fn serialize(self) -> Result<Vec<u8>, String> {
-    //         unimplemented!()
-    //     }
-    //     fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-    //         unimplemented!()
-    //     }
-    // }
-
     // TODO: This should return a mock MqttProvider instead
     fn get_session() -> Session {
         // TODO: Make a real mock that implements MqttProvider
@@ -542,36 +519,59 @@ mod tests {
         }
     }
 
-    // #[tokio::test]
-    // async fn test_send_serializer_invalid_content_type() {
-    //     let session = get_session();
-    //     let sender_options = TelemetrySenderOptionsBuilder::default()
-    //         .topic_pattern("test/test_telemetry")
-    //         .build()
-    //         .unwrap();
+    #[test]
+    fn test_message_serialization_error() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| Err("dummy error".to_string()))
+            .times(1);
 
-    //     let telemetry_sender: Result<
-    //         TelemetrySender<InvalidContentTypePayload, _>,
-    //         AIOProtocolError,
-    //     > = TelemetrySender::new(session.create_managed_client(), sender_options);
+        let mut binding = TelemetryMessageBuilder::default();
+        let message_builder = binding.payload(mock_telemetry_payload);
+        match message_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
 
-    //     match telemetry_sender {
-    //         Err(e) => {
-    //             assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //             assert!(!e.in_application);
-    //             assert!(e.is_shallow);
-    //             assert!(!e.is_remote);
-    //             assert_eq!(e.http_status_code, None);
-    //             assert_eq!(e.property_name, Some("content_type".to_string()));
-    //             assert!(
-    //                 e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-    //             );
-    //         }
-    //         Ok(_) => {
-    //             panic!("Expected error");
-    //         }
-    //     }
-    // }
+    #[test]
+    fn test_response_serialization_bad_content_type_error() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json\u{0000}".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = TelemetryMessageBuilder::default();
+        let message_builder = binding.payload(mock_telemetry_payload);
+        match message_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
 
     /// Tests failure: Timeout specified as > u32::max (invalid value) on send and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "send_timeout_u32_max")]

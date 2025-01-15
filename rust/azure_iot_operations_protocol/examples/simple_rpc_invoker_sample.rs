@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    EmptyPayload, FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload
+    EmptyPayload, FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,

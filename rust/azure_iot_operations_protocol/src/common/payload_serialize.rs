@@ -27,11 +27,21 @@ impl From<u8> for FormatIndicator {
 impl From<Option<u8>> for FormatIndicator {
     fn from(value: Option<u8>) -> Self {
         match value {
-            Some(0) => FormatIndicator::UnspecifiedBytes,
-            Some(1) => FormatIndicator::Utf8EncodedCharacterData,
-            _ => FormatIndicator::default(),
+            Some(num) => FormatIndicator::from(num),
+            None => FormatIndicator::default(),
         }
     }
+}
+
+/// Struct that specifies the content type, format indicator, and payload for a serialized payload.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct SerializedPayload {
+    /// The content type of the payload
+    pub content_type: String,
+    /// The format indicator of the payload
+    pub format_indicator: FormatIndicator,
+    /// The payload as a serialized byte vector
+    pub payload: Vec<u8>,
 }
 
 /// Trait for serializing and deserializing payloads.
@@ -62,7 +72,6 @@ impl From<Option<u8>> for FormatIndicator {
 ///   }
 /// }
 /// ```
-///
 pub trait PayloadSerialize: Clone {
     /// The type returned in the event of a serialization/deserialization error
     type Error: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>;
@@ -97,16 +106,7 @@ pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 
     UnsupportedContentType(String),
 }
 
-/// Struct that specifies the content type, format indicator, and payload for a serialized payload.
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct SerializedPayload {
-    /// The content type of the payload
-    pub content_type: String,
-    /// The format indicator of the payload
-    pub format_indicator: FormatIndicator,
-    /// The payload as a serialized byte vector
-    pub payload: Vec<u8>,
-}
+// Provided convenience implementations
 
 /// A provided convenience struct for bypassing serialization and deserialization,
 /// but having dynamic content type and format indicator.
@@ -220,10 +220,36 @@ mock! {
 #[cfg(test)]
 use std::sync::Mutex;
 
-// Mutex needed to check mock calls of static methods `PayloadSerialize::content_type`, `PayloadSerialize::format_indicator`, and `PayloadSerialize::deserialize`,
-#[cfg(test)]
-pub static CONTENT_TYPE_MTX: Mutex<()> = Mutex::new(());
-#[cfg(test)]
-pub static FORMAT_INDICATOR_MTX: Mutex<()> = Mutex::new(());
+// Mutex needed to check mock calls of static method `PayloadSerialize::deserialize`,
 #[cfg(test)]
 pub static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());
+
+#[cfg(test)]
+mod tests {
+    use test_case::test_case;
+
+    use crate::common::payload_serialize::FormatIndicator;
+
+    #[test_case(&FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
+    #[test_case(&FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
+    fn test_to_from_u8(prop: &FormatIndicator) {
+        assert_eq!(prop, &FormatIndicator::from(prop.clone() as u8));
+    }
+
+    #[test_case(0, &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
+    #[test_case(1, &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
+    #[test_case(2, &FormatIndicator::UnspecifiedBytes; "2_to_UnspecifiedBytes")]
+    #[test_case(255, &FormatIndicator::UnspecifiedBytes; "255_to_UnspecifiedBytes")]
+    fn test_from_u8(value: u8, expected: &FormatIndicator) {
+        assert_eq!(expected, &FormatIndicator::from(value));
+    }
+
+    #[test_case(Some(0), &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
+    #[test_case(Some(1), &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
+    #[test_case(Some(2), &FormatIndicator::UnspecifiedBytes; "2_to_UnspecifiedBytes")]
+    #[test_case(Some(255), &FormatIndicator::UnspecifiedBytes; "255_to_UnspecifiedBytes")]
+    #[test_case(None, &FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
+    fn test_from_option_u8(value: Option<u8>, expected: &FormatIndicator) {
+        assert_eq!(expected, &FormatIndicator::from(value));
+    }
+}
