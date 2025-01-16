@@ -35,9 +35,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 
         public string ContentType => "application/avro";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int PayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try
@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
@@ -104,7 +104,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     }
                     else
                     {
-                        return Array.Empty<byte>();
+                        return new(Array.Empty<byte>(), null, 0);
                     }
 
                     stream.Flush();
@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)

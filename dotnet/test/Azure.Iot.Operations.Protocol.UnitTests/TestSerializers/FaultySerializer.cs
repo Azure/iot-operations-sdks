@@ -10,16 +10,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
     public class FaultySerializer : IPayloadSerializer
     {
         public string ContentType => "application/json";
-        public int CharacterDataFormatIndicator => 1;
+        public int PayloadFormatIndicator => 1;
         public Type EmptyType { get => typeof(EmptyJson); }
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             throw new SerializationException();
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             throw new SerializationException();

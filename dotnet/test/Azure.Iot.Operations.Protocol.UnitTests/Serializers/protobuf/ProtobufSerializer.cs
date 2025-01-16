@@ -25,9 +25,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
 
         public string ContentType => "application/protobuf";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int PayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try
@@ -51,7 +51,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
@@ -62,15 +62,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
                 }
                 else if (typeof(T) == typeof(T1))
                 {
-                    return (payload as IMessage<T1>).ToByteArray();
+                    return new((payload as IMessage<T1>).ToByteArray(), ContentType, PayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return (payload as IMessage<T2>).ToByteArray();
+                    return new((payload as IMessage<T2>).ToByteArray(), ContentType, PayloadFormatIndicator);
                 }
                 else
                 {
-                    return Array.Empty<byte>();
+                    return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)

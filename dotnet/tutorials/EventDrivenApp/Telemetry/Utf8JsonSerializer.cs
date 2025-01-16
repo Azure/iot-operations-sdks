@@ -20,9 +20,9 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
     public string ContentType => "application/json";
 
-    public int CharacterDataFormatIndicator => 1;
+    public int PayloadFormatIndicator => 1;
 
-    public T FromBytes<T>(byte[]? payload)
+    public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
         where T : class
     {
         try
@@ -46,17 +46,17 @@ public class Utf8JsonSerializer : IPayloadSerializer
         }
     }
 
-    public byte[]? ToBytes<T>(T? payload)
+    public SerializedPayloadContext ToBytes<T>(T? payload)
         where T : class
     {
         try
         {
             if (typeof(T) == typeof(EmptyJson))
             {
-                return null;
+                return new(null, ContentType, PayloadFormatIndicator);
             }
 
-            return JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions);
+            return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
         }
         catch (Exception)
         {

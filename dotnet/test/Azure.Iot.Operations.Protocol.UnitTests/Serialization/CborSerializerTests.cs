@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void CborUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, new CborSerializer().CharacterDataFormatIndicator);
+            Assert.Equal(0, new CborSerializer().PayloadFormatIndicator);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer cborSerializer = new CborSerializer();
 
-            byte[]? emptyBytes = cborSerializer.ToBytes(new EmptyCbor());
+            byte[]? emptyBytes = cborSerializer.ToBytes(new EmptyCbor()).SerializedPayload;
             Assert.Null(emptyBytes);
             EmptyCbor? empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes);
             Assert.NotNull(empty);

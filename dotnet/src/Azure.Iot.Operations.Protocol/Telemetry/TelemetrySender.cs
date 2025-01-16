@@ -123,12 +123,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.DataSchema = DataSchema;
                 }
 
+                SerializedPayloadContext serializedPayloadContext = _serializer.ToBytes(telemetry);
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
-                    PayloadFormatIndicator = (MqttPayloadFormatIndicator)_serializer.CharacterDataFormatIndicator,
-                    ContentType = _serializer.ContentType,
+                    PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializedPayloadContext.PayloadFormatIndicator,
+                    ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
-                    PayloadSegment = _serializer.ToBytes(telemetry) ?? [],
+                    PayloadSegment = serializedPayloadContext.SerializedPayload ?? [],
                 };
 
                 if (metadata != null)

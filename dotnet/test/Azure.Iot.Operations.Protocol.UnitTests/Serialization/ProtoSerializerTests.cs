@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void ProtoUsersFormatIndicatorZero()
         {
-            Assert.Equal(0, new ProtobufSerializer<Empty,Empty>().CharacterDataFormatIndicator);
+            Assert.Equal(0, new ProtobufSerializer<Empty,Empty>().PayloadFormatIndicator);
         }
 
         [Fact]
@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<Empty, Empty>();
 
-            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty());
+            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty()).SerializedPayload;
             Assert.Null(nullBytes);
             Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes);
             Assert.NotNull(empty);

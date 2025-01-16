@@ -12,9 +12,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
     {
         public string ContentType => "application/octet-stream";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int PayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             if (payload == null)
@@ -31,16 +31,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             if (payload is byte[] payload1)
             {
-                return payload1;
+                return new(payload1, ContentType, PayloadFormatIndicator);
             }
             else
             {
-                return Array.Empty<byte>();
+                return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
             }
         }
     }

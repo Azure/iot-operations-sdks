@@ -167,7 +167,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         async () =>
                         {
                             MqttApplicationMessage cachedMessage = await cachedResponse.ConfigureAwait(false);
-                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.PayloadSegment, cachedMessage.UserProperties).ConfigureAwait(false);
+                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.PayloadSegment, cachedMessage.UserProperties, cachedMessage.ContentType, (int)cachedMessage.PayloadFormatIndicator).ConfigureAwait(false);
                         },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
 
@@ -178,8 +178,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    request = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array);
-                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage);
+                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage)
+                    {
+                        ContentType = args.ApplicationMessage.ContentType,
+                        PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
+                    };
+                    request = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, requestMetadata.ContentType, (int)requestMetadata.PayloadFormatIndicator);
                     hybridLogicalClock.Update(requestMetadata.Timestamp);
                 }
                 catch (Exception ex)
@@ -208,9 +212,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
 
-                        byte[]? payload = this.serializer.ToBytes(extended.Response);
+                        var serializedPayloadContext = serializer.ToBytes(extended.Response);
 
-                        MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, payload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, payload, extended.ResponseMetadata);
+                        MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, serializedPayloadContext.SerializedPayload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await commandResponseCache.StoreAsync(
                             this.commandName,
                             sourceId,
@@ -370,15 +374,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (requestMsg.ContentType != null && requestMsg.ContentType != this.serializer.ContentType)
-            {
-                status = CommandStatusCode.UnsupportedMediaType;
-                statusMessage = $"Content type {requestMsg.ContentType} is not supported by this implementation; only {this.serializer.ContentType} is accepted.";
-                invalidPropertyName = "Content Type";
-                invalidPropertyValue = requestMsg.ContentType;
-                return false;
-            }
-
             if (requestMsg.CorrelationData == null || requestMsg.CorrelationData.Length == 0)
             {
                 status = CommandStatusCode.BadRequest;
@@ -429,7 +424,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             byte[] correlationData,
             CommandStatusCode status,
             string? statusMessage = null,
-            byte[]? payload = null,
+            SerializedPayloadContext? payloadContext = null,
             CommandResponseMetadata? metadata = null,
             bool? isAppError = null,
             string? invalidPropertyName = null,
@@ -448,11 +443,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.AddUserProperty(AkriSystemProperties.StatusMessage, statusMessage);
             }
 
-            if (payload != null && payload.Length > 0)
+            if (payloadContext != null && payloadContext.SerializedPayload != null && payloadContext.SerializedPayload.Length > 0)
             {
-                message.PayloadSegment = payload;
-                message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)this.serializer.CharacterDataFormatIndicator;
-                message.ContentType = this.serializer.ContentType;
+                message.PayloadSegment = payloadContext.SerializedPayload;
+                message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
+                message.ContentType = payloadContext.ContentType;
             }
 
             message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
@@ -495,14 +490,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             byte[] correlationData,
             CommandStatusCode status,
             string? statusMessage = null,
-            byte[]? payload = null,
+            SerializedPayloadContext? payloadContext = null,
             CommandResponseMetadata? metadata = null,
             bool? isAppError = null,
             string? invalidPropertyName = null,
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
         {
-            MqttApplicationMessage responseMessage = GenerateResponse(commandExpirationTime, topic, correlationData, status, statusMessage, payload, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
+            MqttApplicationMessage responseMessage = GenerateResponse(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
             return PublishResponse(topic, correlationData, responseMessage);
         }
 
@@ -511,7 +506,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string topic,
             byte[]? correlationData,
             ArraySegment<byte> payloadSegment,
-            List<MqttUserProperty>? userProperties)
+            List<MqttUserProperty>? userProperties,
+            string? contentType,
+            int payloadFormatIndicator)
         {
             MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
@@ -521,8 +518,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (payloadSegment.Count > 0)
             {
                 message.PayloadSegment = payloadSegment;
-                message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)this.serializer.CharacterDataFormatIndicator;
-                message.ContentType = this.serializer.ContentType;
+                message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadFormatIndicator;
+                message.ContentType = contentType;
             }
 
             if (userProperties != null)

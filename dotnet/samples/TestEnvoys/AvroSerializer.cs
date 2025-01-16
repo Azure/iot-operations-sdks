@@ -35,9 +35,9 @@ namespace TestEnvoys
 
         public string ContentType => "application/avro";
 
-        public int CharacterDataFormatIndicator => 0;
+        public int PayloadFormatIndicator => 0;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class
         {
             try
@@ -80,14 +80,14 @@ namespace TestEnvoys
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return null;
+                    return new(null, ContentType, PayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream())
@@ -104,7 +104,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return Array.Empty<byte>();
+                        return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
                     }
 
                     stream.Flush();
@@ -113,7 +113,7 @@ namespace TestEnvoys
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)
