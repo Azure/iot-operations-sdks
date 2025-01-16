@@ -10,6 +10,8 @@
     {
         private const string JsonSchemaFileSuffix = ".schema.json";
 
+        public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
+
         public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
         {
             StreamReader schemaReader = File.OpenText(schemaFilePath);
@@ -63,7 +65,7 @@
             if (schemaElt.TryGetProperty("$ref", out JsonElement refElt))
             {
                 string refFilePath = Path.Combine(Path.GetDirectoryName(schemaFilePath)!, refElt.GetString()!);
-                return new ReferenceType(refElt.GetString()!.Replace(JsonSchemaFileSuffix, string.Empty), IsNullable(refFilePath));
+                return new ReferenceType(refElt.GetString()!.Replace(JsonSchemaFileSuffix, string.Empty), isNullable: IsNullable(refFilePath));
             }
             switch (schemaElt.GetProperty("type").GetString())
             {

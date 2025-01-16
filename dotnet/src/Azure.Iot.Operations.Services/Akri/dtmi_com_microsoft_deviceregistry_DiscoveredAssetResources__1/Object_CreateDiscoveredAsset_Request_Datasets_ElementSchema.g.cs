@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using Azure.Iot.Operations.Services.Akri;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.6.0.0")]
-    public class Object_CreateDiscoveredAsset_Request_Datasets_ElementSchema
+    public partial class Object_CreateDiscoveredAsset_Request_Datasets_ElementSchema
     {
         /// <summary>
         /// The 'dataPoints' Field.
