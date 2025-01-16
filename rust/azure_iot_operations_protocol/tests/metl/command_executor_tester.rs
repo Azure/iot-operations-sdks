@@ -209,7 +209,7 @@ where
         }
 
         loop {
-            if let Ok(request) = executor.recv().await {
+            if let Some(Ok(request)) = executor.recv().await {
                 *execution_count.lock().unwrap() += 1;
 
                 for test_case_sync in &test_case_executor.sync {
@@ -332,13 +332,13 @@ where
                         time::timeout(TEST_TIMEOUT, mqtt_hub.await_operation())
                     );
                     match recv_result {
-                        Ok(Ok(_)) => {
+                        Ok(Some(Ok(_))) => {
                             panic!(
                                 "Expected {} error when constructing CommandExecutor but no error returned",
                                 catch.error_kind
                             );
                         }
-                        Ok(Err(error)) => {
+                        Ok(Some(Err(error))) => {
                             aio_protocol_error_checker::check_error(catch, &error);
                         }
                         _ => {

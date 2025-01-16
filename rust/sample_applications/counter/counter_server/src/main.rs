@@ -62,7 +62,7 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
 
     // Respond to each read request with the current counter value
     loop {
-        let request = read_counter_executor.recv().await.unwrap();
+        let request = read_counter_executor.recv().await.unwrap().unwrap();
         let response_payload = ReadCounterResponsePayload {
             counter_response: *counter.lock().unwrap(),
         };
@@ -90,7 +90,7 @@ async fn increment_counter_and_publish(client: SessionManagedClient, counter: Ar
 
     // Respond to each increment request by incrementing the counter value and responding with the new value
     loop {
-        let request = increment_executor.recv().await.unwrap();
+        let request = increment_executor.recv().await.unwrap().unwrap();
 
         let updated_counter = {
             // Increment

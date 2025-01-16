@@ -357,7 +357,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(message.topic_tokens.is_empty());
 
                         // need to ack
-                        ack_token.unwrap().ack();
+                        ack_token.unwrap().ack().await.unwrap().await.unwrap();
                     }
 
                     // only the 2 expected messages should occur (checks that recv() didn't return None when it shouldn't have)
