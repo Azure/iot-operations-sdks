@@ -10,7 +10,7 @@ pub enum FormatIndicator {
     /// Unspecified Bytes
     #[default]
     UnspecifiedBytes = 0,
-    /// UTF-8 Encoded Character Data (as JSON)
+    /// UTF-8 Encoded Character Data (such as JSON)
     Utf8EncodedCharacterData = 1,
 }
 

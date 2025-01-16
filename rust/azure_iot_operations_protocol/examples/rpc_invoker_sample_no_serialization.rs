@@ -70,7 +70,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
             .payload(BypassPayload {
                 payload: b"fruit,count\napple,2\norange,3".to_vec(),
                 content_type: "text/csv".to_string(),
-                format_indicator: FormatIndicator::UnspecifiedBytes,
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
             })
             .unwrap()
             .timeout(Duration::from_secs(2))
@@ -84,7 +84,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
             .payload(BypassPayload {
                 payload: "Hello, World!".to_string().into_bytes(),
                 content_type: "text/plain".to_string(),
-                format_indicator: FormatIndicator::UnspecifiedBytes,
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
             })
             .unwrap()
             .timeout(Duration::from_secs(2))
