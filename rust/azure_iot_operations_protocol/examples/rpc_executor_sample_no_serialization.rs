@@ -59,7 +59,7 @@ async fn executor_loop(client: SessionManagedClient) {
 
     // Save the file for each incoming request
     loop {
-        let request = file_transfer_executor.recv().await.unwrap();
+        let request = file_transfer_executor.recv().await.unwrap().unwrap();
         if request.payload.content_type == "text/csv" {
             // save csv file implementation would go here
             log::info!("CSV file saved!");
