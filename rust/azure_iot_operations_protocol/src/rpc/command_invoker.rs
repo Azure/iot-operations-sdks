@@ -26,8 +26,9 @@ use crate::{
         topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
-    parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
-    DEFAULT_AIO_PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions,
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -547,7 +548,7 @@ where
         ));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            AIO_PROTOCOL_VERSION.to_string(),
+            RPC_PROTOCOL_VERSION.to_string(),
         ));
 
         // Create MQTT Properties
@@ -850,7 +851,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
