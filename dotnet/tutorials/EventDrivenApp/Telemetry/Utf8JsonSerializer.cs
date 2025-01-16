@@ -26,6 +26,19 @@ public class Utf8JsonSerializer : IPayloadSerializer
     public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
         where T : class
     {
+        if (contentType != null && contentType != ContentType)
+        {
+            throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+            {
+                Kind = AkriMqttErrorKind.HeaderInvalid,
+                HeaderName = "Content Type",
+                HeaderValue = contentType,
+                InApplication = false,
+                IsShallow = false,
+                IsRemote = true,
+            };
+        }
+
         try
         {
             if (payload == null || payload.Length == 0)

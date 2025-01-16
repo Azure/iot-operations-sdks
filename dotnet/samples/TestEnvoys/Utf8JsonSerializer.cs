@@ -36,6 +36,19 @@ namespace TestEnvoys
         {
             try
             {
+                if (contentType != null && contentType != ContentType)
+                {
+                    throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                    {
+                        Kind = AkriMqttErrorKind.HeaderInvalid,
+                        HeaderName = "Content Type",
+                        HeaderValue = contentType,
+                        InApplication = false,
+                        IsShallow = false,
+                        IsRemote = true,
+                    };
+                }
+
                 if (payload == null || payload.Length == 0)
                 {
                     if (typeof(T) != typeof(EmptyJson))
