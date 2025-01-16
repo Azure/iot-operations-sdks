@@ -10,7 +10,6 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
 use derive_builder::Builder;
-use tokio::sync::Mutex;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
 use super::schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
@@ -22,14 +21,6 @@ use super::{SchemaRegistryError, SchemaRegistryErrorKind};
 
 /// The default schema version to use if not provided.
 const DEFAULT_SCHEMA_VERSION: &str = "1.0.0";
-
-/// Handle for shutting down the [`Client`].
-struct ShutdownHandle {
-    /// Whether the get command invoker has been shut down.
-    put_shutdown: bool,
-    /// Whether the put command invoker has been shut down.
-    get_shutdown: bool,
-}
 
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug)]
@@ -86,7 +77,6 @@ where
 {
     get_command_invoker: Arc<GetCommandInvoker<C>>,
     put_command_invoker: Arc<PutCommandInvoker<C>>,
-    shutdown_handle: Arc<Mutex<ShutdownHandle>>,
 }
 
 impl<C> Client<C>
@@ -107,10 +97,6 @@ where
         Self {
             get_command_invoker: Arc::new(GetCommandInvoker::new(client.clone(), &options)),
             put_command_invoker: Arc::new(PutCommandInvoker::new(client.clone(), &options)),
-            shutdown_handle: Arc::new(Mutex::new(ShutdownHandle {
-                put_shutdown: false,
-                get_shutdown: false,
-            })),
         }
     }
 
@@ -231,7 +217,6 @@ where
             .schema)
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
@@ -242,32 +227,16 @@ where
     /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), SchemaRegistryError> {
-        // Obtain a lock on the shutdown handle to ensure that the shutdown logic is only executed once.
-        let mut shutdown_handle = self.shutdown_handle.lock().await;
-
-        // If the command invokers have already been shut down, return Ok(()).
-        if shutdown_handle.get_shutdown && shutdown_handle.put_shutdown {
-            return Ok(());
-        }
-
-        // If the get command invoker has not been shut down, shut it down.
-        if !shutdown_handle.get_shutdown {
-            self.get_command_invoker
-                .shutdown()
-                .await
-                .map_err(SchemaRegistryErrorKind::from)?;
-            shutdown_handle.get_shutdown = true;
-        }
-
-        // If the put command invoker has not been shut down, shut it down.
-        if !shutdown_handle.put_shutdown {
-            self.put_command_invoker
-                .shutdown()
-                .await
-                .map_err(SchemaRegistryErrorKind::from)?;
-            shutdown_handle.put_shutdown = true;
-        }
-
+        // Shutdown the get command invoker
+        self.get_command_invoker
+            .shutdown()
+            .await
+            .map_err(SchemaRegistryErrorKind::from)?;
+        // Shutdown the put command invoker
+        self.put_command_invoker
+            .shutdown()
+            .await
+            .map_err(SchemaRegistryErrorKind::from)?;
         Ok(())
     }
 }

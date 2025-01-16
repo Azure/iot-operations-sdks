@@ -20,10 +20,12 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::{validate_user_properties, UserProperty},
     },
-    telemetry::cloud_event::{
-        CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+    telemetry::{
+        cloud_event::{
+            CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+        },
+        TELEMETRY_PROTOCOL_VERSION,
     },
-    AIO_PROTOCOL_VERSION,
 };
 
 /// Cloud Event struct used by the [`TelemetrySender`].
@@ -353,7 +355,7 @@ where
 
         message.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            AIO_PROTOCOL_VERSION.to_string(),
+            TELEMETRY_PROTOCOL_VERSION.to_string(),
         ));
 
         message.custom_user_data.push((

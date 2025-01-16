@@ -18,10 +18,13 @@ import (
 )
 
 type Handlers struct {
-	counterValue int32
+	counterValue    int32
+	telemetrySender *dtmi_com_example_Counter__1.TelemetryCollectionSender
 }
 
 func main() {
+	handlers := &Handlers{}
+
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
 		Level: slog.LevelDebug,
@@ -35,13 +38,20 @@ func main() {
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
 		mqttClient,
-		&Handlers{},
+		handlers,
 		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
 
 	check(mqttClient.Start())
 	check(server.Start(ctx))
+
+	sender := must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
+		mqttClient,
+		dtmi_com_example_Counter__1.TelemetryTopic,
+		protocol.WithLogger(slog.Default()),
+	))
+	handlers.telemetrySender = sender
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -70,7 +80,7 @@ func (h *Handlers) ReadCounter(
 
 func (h *Handlers) Increment(
 	ctx context.Context,
-	req *protocol.CommandRequest[any],
+	req *protocol.CommandRequest[dtmi_com_example_Counter__1.IncrementRequestPayload],
 ) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
 	slog.Info(
 		"--> Counter.Increment",
@@ -82,6 +92,15 @@ func (h *Handlers) Increment(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
+
+	value := atomic.AddInt32(&h.counterValue, req.Payload.IncrementValue)
+	telemetry := dtmi_com_example_Counter__1.TelemetryCollection{
+		CounterValue: &value,
+	}
+	err := h.telemetrySender.SendTelemetryCollection(ctx, telemetry)
+	if err != nil {
+		slog.Error("failed to send telemetry", "error", err)
+	}
 
 	return protocol.Respond(dtmi_com_example_Counter__1.IncrementResponsePayload{
 		CounterResponse: atomic.AddInt32(&h.counterValue, 1),

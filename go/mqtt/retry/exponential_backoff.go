@@ -25,7 +25,7 @@ type ExponentialBackoff struct {
 	MinInterval time.Duration
 
 	// MaxInterval is the maximum interval between retries (before jitter).
-	// Will be set to a default of 30s if unspecified.
+	// Will be set to a default of one minute if unspecified.
 	MaxInterval time.Duration
 
 	// Timeout is the total timeout for all retries.
@@ -101,7 +101,7 @@ func (e *ExponentialBackoff) shouldRetry(
 
 	maxInterval := e.MaxInterval
 	if maxInterval == 0 {
-		maxInterval = 30 * time.Second
+		maxInterval = time.Minute
 	}
 
 	// Calculate exponent and clamp to max exponent.
