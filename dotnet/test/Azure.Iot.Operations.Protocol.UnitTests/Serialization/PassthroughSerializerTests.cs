@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void PassthroughUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, new PassthroughSerializer().PayloadFormatIndicator);
+            Assert.Equal(0, PassthroughSerializer.PayloadFormatIndicator);
         }
 
         [Fact]

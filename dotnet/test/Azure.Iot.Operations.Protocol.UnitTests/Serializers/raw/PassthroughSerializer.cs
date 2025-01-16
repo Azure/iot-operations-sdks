@@ -10,9 +10,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
 
     public class PassthroughSerializer : IPayloadSerializer
     {
-        public string ContentType => "application/octet-stream";
+        public const string ContentType = "application/octet-stream";
 
-        public int PayloadFormatIndicator => 0;
+        public const int PayloadFormatIndicator = 0;
 
         public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class

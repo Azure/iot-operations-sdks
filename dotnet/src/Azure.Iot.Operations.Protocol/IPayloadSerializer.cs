@@ -5,10 +5,6 @@ namespace Azure.Iot.Operations.Protocol
 {
     public interface IPayloadSerializer
     {
-        string ContentType { get; }
-
-        int PayloadFormatIndicator { get; }
-
         /// <summary>
         /// Serialize the provided object.
         /// </summary>

@@ -229,12 +229,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_SameInvokerId_TopicContainsExecutorId_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
 
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -276,12 +277,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_NoInvokerId_TopicContainsExecutorId_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -326,24 +328,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicContainsExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
             var CorrelationData = Guid.NewGuid().ToByteArray();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
             requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
+            var payloadContext2 = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext2.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -395,24 +399,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicWithoutExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
             var CorrelationData = Guid.NewGuid().ToByteArray();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = "mock/any/echo/response",
             };
 
             requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
+            var payloadContext2 = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext2.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = "mock/any/echo/response",
             };
@@ -462,12 +468,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             string payload = nameof(DuplicateRequest_Idempotent_CacheUnexpired_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage("mock/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = "mock/echo/response",
                 MessageExpiryInterval = 25,
             };
@@ -533,36 +540,39 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var requestTopic = "mock/delay";
             var responseTopic = "mock/delay/response";
 
+            var payloadContext = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message1 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
 
             message1.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
+            var payloadContext2 = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message2 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                PayloadSegment = payloadContext2.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
 
             message2.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
+            var payloadContext3 = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message3 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                PayloadSegment = payloadContext3.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext3.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.PayloadFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext3.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
@@ -609,12 +619,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var requestTopic = $"mock/echo";
             var responseTopic = "mock/echo/response";
             Guid cid = Guid.NewGuid();
+            var payloadContext = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout));
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout)).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.PayloadFormatIndicator,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = (uint)timeout.TotalSeconds,
             };
@@ -666,12 +677,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var responseTopic = "mock/echo/response";
             string payload = nameof(ExecutorResponsePubAckDropped_NoExceptionThrownRequestAcknowledged);
             Guid cid = Guid.NewGuid();
+            var payloadContext = payloadSerializer.ToBytes(payload);
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(payload).SerializedPayload ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.PayloadFormatIndicator,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };

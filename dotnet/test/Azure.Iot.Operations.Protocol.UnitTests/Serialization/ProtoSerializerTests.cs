@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void ProtoUsersFormatIndicatorZero()
         {
-            Assert.Equal(0, new ProtobufSerializer<Empty,Empty>().PayloadFormatIndicator);
+            Assert.Equal(0, ProtobufSerializer<Empty,Empty>.PayloadFormatIndicator);
         }
 
         [Fact]

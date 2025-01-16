@@ -354,7 +354,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.CompletedTask;
         }
 
-        private bool TryValidateResponseHeaders(
+        private static bool TryValidateResponseHeaders(
             MqttApplicationMessage responseMsg,
             MqttUserProperty? statusProperty,
             string correlationId,
@@ -363,15 +363,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             out string? headerName,
             out string? headerValue)
         {
-            if (responseMsg.ContentType != null && responseMsg.ContentType != this.serializer.ContentType)
-            {
-                errorKind = AkriMqttErrorKind.HeaderInvalid;
-                message = $"Content type {responseMsg.ContentType} is not supported by this implementation; only {this.serializer.ContentType} is accepted.";
-                headerName = "Content Type";
-                headerValue = responseMsg.ContentType;
-                return false;
-            }
-
             if (!Guid.TryParse(correlationId, out _))
             {
                 errorKind = AkriMqttErrorKind.HeaderInvalid;

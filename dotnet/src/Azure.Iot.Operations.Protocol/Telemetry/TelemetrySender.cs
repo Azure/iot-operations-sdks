@@ -114,15 +114,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             try
             {
-                if (metadata?.CloudEvent is not null)
-                {
-                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time = DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = _serializer.ContentType;
-                    metadata.CloudEvent.DataSchema = DataSchema;
-                }
-
                 SerializedPayloadContext serializedPayloadContext = _serializer.ToBytes(telemetry);
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
@@ -131,6 +122,15 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
                     PayloadSegment = serializedPayloadContext.SerializedPayload ?? [],
                 };
+
+                if (metadata?.CloudEvent is not null)
+                {
+                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
+                    metadata.CloudEvent.Time = DateTime.UtcNow;
+                    metadata.CloudEvent.Subject = telemTopic.ToString();
+                    metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
+                    metadata.CloudEvent.DataSchema = DataSchema;
+                }
 
                 if (metadata != null)
                 {

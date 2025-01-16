@@ -18,9 +18,9 @@ public class Utf8JsonSerializer : IPayloadSerializer
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public string ContentType => "application/json";
+    public const string ContentType = "application/json";
 
-    public int PayloadFormatIndicator => 1;
+    public const int PayloadFormatIndicator = 1;
 
     public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
         where T : class
