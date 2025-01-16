@@ -68,6 +68,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             UserData = [];
 
             ContentType = message.ContentType;
+            PayloadFormatIndicator = message.PayloadFormatIndicator;
 
             if (message.UserProperties != null)
             {
