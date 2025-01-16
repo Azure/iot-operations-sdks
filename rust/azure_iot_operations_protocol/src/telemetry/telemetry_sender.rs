@@ -26,7 +26,7 @@ use crate::{
     AIO_PROTOCOL_VERSION,
 };
 
-/// Cloud Event struct
+/// Cloud Event struct used by the [`TelemetrySender`].
 ///
 /// Implements the cloud event spec 1.0 for the telemetry sender.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -105,8 +105,8 @@ impl CloudEvent {
     }
 }
 
-/// Telemetry Message struct
-/// Used by the telemetry sender.
+/// Telemetry Message struct.
+/// Used by the [`TelemetrySender`].
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct TelemetryMessage<T: PayloadSerialize> {
@@ -141,8 +141,8 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
+    /// 
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
-    /// TODO: change to argument invalid?
     pub fn payload(&mut self, payload: T) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
             Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
@@ -218,9 +218,8 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
 pub struct TelemetrySenderOptions {
-    // TODO: Update topic-structure link to the correct one once available.
-    /// Topic pattern for the telemetry message
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the telemetry message.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     topic_pattern: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
@@ -315,9 +314,6 @@ where
     /// # Arguments
     /// * `message` - [`TelemetryMessage`] to send
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if
-    /// - [`payload`][TelemetryMessage::payload]'s content type isn't valid utf-8
-    ///
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.

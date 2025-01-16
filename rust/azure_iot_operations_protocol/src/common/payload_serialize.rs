@@ -106,7 +106,7 @@ pub trait PayloadSerialize: Clone {
 /// Enum to describe the type of error that occurred during payload deserialization.
 #[derive(thiserror::Error, Debug)]
 pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>> {
-    /// An error occurred while deserializing
+    /// An error occurred while deserializing.
     #[error(transparent)]
     DeserializationError(#[from] T),
     /// The content type received is not supported by the deserialization implementation.

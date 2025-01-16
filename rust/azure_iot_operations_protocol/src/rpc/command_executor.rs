@@ -154,7 +154,9 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     /// Add a payload to the command response. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
+    /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
+    /// 
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
     pub fn payload(&mut self, payload: TResp) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
             Err(e) => {
@@ -168,7 +170,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
                 ))
             }
             Ok(serialized_payload) => {
-                // Validate content type of command request is valid UTF-8
+                // Validate content type of command response is valid UTF-8
                 if is_invalid_utf8(&serialized_payload.content_type) {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
@@ -205,8 +207,8 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
 pub struct CommandExecutorOptions {
-    /// Topic pattern for the command request
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the command request.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
     /// Command name if required by the topic pattern
     command_name: String,
@@ -298,7 +300,7 @@ where
     /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
     /// - [`command_name`](CommandExecutorOptions::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](CommandExecutorOptions::request_topic_pattern),
     ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
@@ -474,7 +476,9 @@ where
     /// Returns Ok([`CommandRequest`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`UnknownError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::UnknownError) if an error occurs while receiving the message.
+    /// 
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
+    /// 
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Result<CommandRequest<TReq, TResp>, AIOProtocolError> {
         // Subscribe to the request topic if not already subscribed

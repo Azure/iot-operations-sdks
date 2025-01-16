@@ -26,7 +26,7 @@ use crate::{
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
-/// Cloud Event struct
+/// Cloud Event struct used by the [`TelemetryReceiver`].
 ///
 /// Implements the cloud event spec 1.0 for the telemetry receiver.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -130,8 +130,8 @@ impl AckToken {
     }
 }
 
-/// Telemetry message struct
-/// Used by the telemetry receiver.
+/// Telemetry message struct.
+/// Used by the [`TelemetryReceiver`].
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     pub payload: T,
@@ -155,8 +155,8 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
 pub struct TelemetryReceiverOptions {
-    /// Topic pattern for the telemetry message
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the telemetry message.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     topic_pattern: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
@@ -356,7 +356,6 @@ where
         Ok(())
     }
 
-    /// Receives a telemetry message or [`None`] if there will be no more changes.
     /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
     /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
@@ -731,7 +730,7 @@ mod tests {
 // Test cases for recv telemetry
 // Tests failure:
 //   if properties are missing, the message is not processed and is acked
-//   if content type is not supported by the payload type, the message is not processed and is acked
+//   if content type is not supported, the message is not processed and is acked
 //   if timestamp is invalid, the message is not processed and is acked
 //   if payload deserialization fails, the message is not processed and is acked
 //

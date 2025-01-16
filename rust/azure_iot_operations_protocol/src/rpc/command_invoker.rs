@@ -64,8 +64,8 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
+    /// 
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
-    /// TODO: change to argument invalid?
     pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
             Err(e) => {
@@ -147,11 +147,11 @@ where
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
 pub struct CommandInvokerOptions {
-    /// Topic pattern for the command request
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the command request.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
-    /// Topic pattern for the command response
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the command response.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     #[builder(default = "None")]
     response_topic_pattern: Option<String>,
     /// Command name
@@ -244,7 +244,7 @@ where
     ///
     /// Returns Ok([`CommandInvoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid)
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if:
     /// - [`command_name`](CommandInvokerOptions::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](CommandInvokerOptions::request_topic_pattern) is empty or whitespace
     /// - [`response_topic_pattern`](CommandInvokerOptions::response_topic_pattern) is Some and empty or whitespace
@@ -368,7 +368,7 @@ where
     /// # Errors
     ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - `executor_id` is Some and invalid
+    /// - any [`topic_tokens`](CommandRequest::topic_tokens) are invalid
     ///
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](AIOProtocolErrorKind::PayloadInvalid) if
     /// - [`response_payload`][CommandResponse::payload] deserialization fails
@@ -388,7 +388,7 @@ where
     /// [`AIOProtocolError`] of kind [`Cancellation`](AIOProtocolErrorKind::Cancellation) if the [`CommandInvoker`] has been dropped
     ///
     /// [`AIOProtocolError`] of kind [`HeaderInvalid`](AIOProtocolErrorKind::HeaderInvalid) if
-    /// - The response's `content_type` doesn't match the `content_type` of [`TResp`](PayloadSerialize)
+    /// - The response's `content_type` isn't supported
     /// - The response has a [`UserProperty::Timestamp`] that is malformed
     /// - The response has a [`UserProperty::Status`] that can't be parsed as an integer
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and a [`UserProperty::InvalidPropertyValue`] is specified
@@ -496,11 +496,11 @@ where
             }
         };
 
-        // Get request topic. Validates executor_id
+        // Get request topic. Validates dynamic topic tokens
         let request_topic = self
             .request_topic_pattern
             .as_publish_topic(&request.topic_tokens)?;
-        // Get response topic. Validates executor_id
+        // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
             .as_publish_topic(&request.topic_tokens)?;
@@ -1689,7 +1689,6 @@ mod tests {
 //
 // validation
 // Tests success:
-//     content type matches TReq content type
 //     content type isn't present
 //     format indicator not present, 0, or (1 and TResp format indicator is 1)
 //     valid timestamp present and is returned on the CommandResponse
@@ -1701,7 +1700,7 @@ mod tests {
 //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
 //     response payload deserializes successfully
 // Tests failure:
-//     content type doesn't match TResp content type. 'HeaderInvalid' error returned
+//     content type isn't supported. 'HeaderInvalid' error returned
 //     format indicator is 1 and TResp format indicator is 0. 'HeaderInvalid' error returned
 //     timestamp cannot be parsed (more or less than 3 sections, invalid section values for each of the three sections)
 //     status can't be parsed as a number
