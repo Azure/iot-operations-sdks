@@ -147,7 +147,6 @@ async fn get_lock_holder(
         },
         Err(e) => {
             log::error!("Failed getting lock holder {:?}", e);
-            return;
         }
     };
 }

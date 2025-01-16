@@ -75,13 +75,12 @@ where
         self.dss_client
             .set(
                 key,
-                self.lock_holder_name.to_vec(),
+                self.lock_holder_name.clone(),
                 timeout,
                 None,
                 SetOptions {
                     set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-                    expires: Some(expiration),
-                    ..SetOptions::default()
+                    expires: Some(expiration)
                 },
             )
             .await
@@ -110,7 +109,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
         self.dss_client
-            .vdel(key.to_vec(), self.lock_holder_name.to_vec(), None, timeout)
+            .vdel(key.clone(), self.lock_holder_name.clone(), None, timeout)
             .await
     }
 
@@ -197,24 +196,24 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
-        self.dss_client.get(key.to_vec(), timeout).await
+        self.dss_client.get(key.clone(), timeout).await
     }
 
     /// Enables the auto-renewal of the lock duration.
-    pub async fn enable_auto_renewal(&self, key: Vec<u8>)
+    pub fn enable_auto_renewal(&self, _key: &[u8])
     /* -> Result<state_store::Response<bool>, StateStoreError> */
     {
-        // TODO: implement.
+        unimplemented!();
     }
 
     /// Disables the auto-renewal of the lock duration.
-    pub async fn disable_auto_renewal(&self, key: Vec<u8>)
+    pub fn disable_auto_renewal(&self, _key: &[u8])
     /* -> Result<state_store::Response<bool>, StateStoreError> */
     {
-        // TODO: implement.
+        unimplemented!();
     }
 
-    /// Shutdown the [`leased_lock::Client`]. Shuts down the underlying state_store client.
+    /// Shutdown the [`leased_lock::Client`]. Shuts down the underlying `state_store` client.
     ///
     /// Note: If this method is called, the [`leased_lock::Client`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
