@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         }
 
         [Fact]
-        public void DeserializeEmtpy()
+        public void DeserializeEmpty()
         {
             IPayloadSerializer avroSerializer = new AvroSerializer<EmptyAvro, EmptyAvro>();
 

@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         }
 
         [Fact]
-        public void DeserializeEmtpyAndNull()
+        public void DeserializeEmptyAndNull()
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<Empty, Empty>();
 

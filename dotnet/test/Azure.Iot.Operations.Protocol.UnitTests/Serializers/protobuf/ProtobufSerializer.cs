@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
             {
                 if (typeof(T) == typeof(Empty))
                 {
-                    return null;
+                    return new(null, null, 0);
                 }
                 else if (typeof(T) == typeof(T1))
                 {

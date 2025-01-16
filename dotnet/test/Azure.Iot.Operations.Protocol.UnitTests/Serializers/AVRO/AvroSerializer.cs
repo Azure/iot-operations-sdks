@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return null;
+                    return new(null, null, 0);
                 }
 
                 using (var stream = new MemoryStream())
