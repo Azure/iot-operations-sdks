@@ -3,7 +3,6 @@
 use std::time::Duration;
 use std::{num::ParseIntError, str::Utf8Error};
 
-use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use env_logger::Builder;
 use thiserror::Error;
 
@@ -11,7 +10,10 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::{
+    application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
+    payload_serialize::{FormatIndicator, PayloadSerialize},
+};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
@@ -45,7 +47,8 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(

@@ -3,7 +3,7 @@
 
 use std::{env, time::Duration};
 
-use azure_iot_operations_protocol::ApplicationContextBuilder;
+use azure_iot_operations_protocol::common::application_context::ApplicationContextOptions;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -12,7 +12,10 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
+    common::{
+        application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
+        payload_serialize::{FormatIndicator, PayloadSerialize},
+    },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
         telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -85,7 +88,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(topic)

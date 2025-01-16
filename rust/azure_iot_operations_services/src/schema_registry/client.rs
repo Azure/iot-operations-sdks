@@ -8,8 +8,8 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::common::application_context::ApplicationContext;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
-use azure_iot_operations_protocol::ApplicationContext;
 use derive_builder::Builder;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
@@ -258,7 +258,9 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
-    use azure_iot_operations_protocol::ApplicationContextBuilder;
+    use azure_iot_operations_protocol::common::application_context::{
+        ApplicationContext, ApplicationContextOptionsBuilder,
+    };
 
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
@@ -344,7 +346,7 @@ mod tests {
         let session = create_session();
         let client = Client::new(
             &session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
         );
 
         let get_result = client
@@ -383,7 +385,7 @@ mod tests {
         let session = create_session();
         let client = Client::new(
             &session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
         );
 
         let put_result = client

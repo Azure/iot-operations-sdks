@@ -4,7 +4,6 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use azure_iot_operations_protocol::{ApplicationContext, ApplicationContextBuilder};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -13,6 +12,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::TelemetryReceiver;
 use azure_iot_operations_protocol::{
+    common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::telemetry_receiver::TelemetryReceiverOptionsBuilder,
 };
@@ -48,7 +48,8 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(

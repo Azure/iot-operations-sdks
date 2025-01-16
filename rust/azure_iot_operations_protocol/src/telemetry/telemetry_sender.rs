@@ -13,6 +13,7 @@ use uuid::Uuid;
 
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
+    application_context::ApplicationContext,
     hybrid_logical_clock::HybridLogicalClock,
     is_invalid_utf8,
     payload_serialize::PayloadSerialize,
@@ -25,7 +26,6 @@ use crate::telemetry::{
     },
     TELEMETRY_PROTOCOL_VERSION,
 };
-use crate::ApplicationContext;
 
 /// Cloud Event struct
 ///
@@ -426,12 +426,12 @@ mod tests {
     use crate::{
         common::{
             aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
+            application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
             payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_sender::{
             TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
         },
-        ApplicationContextBuilder,
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -494,7 +494,7 @@ mod tests {
 
         TelemetrySender::<MockPayload, _>::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             sender_options,
         )
         .unwrap();
@@ -523,7 +523,7 @@ mod tests {
 
         TelemetrySender::<MockPayload, _>::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             sender_options,
         )
         .unwrap();
@@ -549,7 +549,7 @@ mod tests {
 
         let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             sender_options,
         );
         match telemetry_sender {
@@ -582,7 +582,7 @@ mod tests {
             AIOProtocolError,
         > = TelemetrySender::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             sender_options,
         );
 

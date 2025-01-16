@@ -7,10 +7,10 @@ use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::{
+    common::application_context::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
-    ApplicationContext,
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
@@ -664,7 +664,9 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_protocol::ApplicationContextBuilder;
+    use azure_iot_operations_protocol::common::application_context::{
+        ApplicationContext, ApplicationContextOptionsBuilder,
+    };
 
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
@@ -691,7 +693,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -716,7 +718,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -733,7 +735,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -752,7 +754,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -771,7 +773,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -790,7 +792,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -809,7 +811,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -834,7 +836,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -853,7 +855,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -872,7 +874,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -896,7 +898,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -915,7 +917,7 @@ mod tests {
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();

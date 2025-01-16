@@ -13,12 +13,14 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
+use azure_iot_operations_protocol::common::application_context::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
     CommandResponseBuilder,
 };
-use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::time;
 use uuid::Uuid;
@@ -326,7 +328,7 @@ where
 
         match CommandExecutor::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             executor_options,
         ) {
             Ok(mut executor) => {

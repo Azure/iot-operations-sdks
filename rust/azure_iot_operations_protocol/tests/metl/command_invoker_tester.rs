@@ -13,12 +13,14 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
+use azure_iot_operations_protocol::common::application_context::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandInvokerOptionsBuilderError,
     CommandRequestBuilder, CommandRequestBuilderError, CommandResponse,
 };
-use azure_iot_operations_protocol::ApplicationContextBuilder;
 use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
@@ -230,7 +232,7 @@ where
 
         match CommandInvoker::new(
             managed_client,
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             invoker_options,
         ) {
             Ok(invoker) => {

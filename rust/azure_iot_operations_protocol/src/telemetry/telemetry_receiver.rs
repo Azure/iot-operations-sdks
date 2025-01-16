@@ -12,6 +12,7 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
+        application_context::ApplicationContext,
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
@@ -20,7 +21,7 @@ use crate::{
     },
     telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
     telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
-    ApplicationContext, ProtocolVersion,
+    ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -643,10 +644,10 @@ mod tests {
     use crate::{
         common::{
             aio_protocol_error::AIOProtocolErrorKind,
+            application_context::ApplicationContextOptionsBuilder,
             payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
-        ApplicationContextBuilder,
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -713,7 +714,7 @@ mod tests {
 
         TelemetryReceiver::<MockPayload, _>::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             receiver_options,
         )
         .unwrap();
@@ -739,7 +740,7 @@ mod tests {
 
         TelemetryReceiver::<MockPayload, _>::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             receiver_options,
         )
         .unwrap();
@@ -758,7 +759,7 @@ mod tests {
             AIOProtocolError,
         > = TelemetryReceiver::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             receiver_options,
         );
 
@@ -799,7 +800,7 @@ mod tests {
 
         let result: Result<TelemetryReceiver<MockPayload, _>, _> = TelemetryReceiver::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             receiver_options,
         );
         match result {
@@ -839,7 +840,7 @@ mod tests {
 
         let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> = TelemetryReceiver::new(
             session.create_managed_client(),
-            ApplicationContextBuilder::default().build().unwrap(),
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             receiver_options,
         )
         .unwrap();

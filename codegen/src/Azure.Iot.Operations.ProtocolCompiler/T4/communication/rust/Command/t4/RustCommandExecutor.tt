@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandRequest, CommandResponse,
     CommandResponseBuilder, CommandResponseBuilderError,
 };
-use azure_iot_operations_protocol::ApplicationContext;
+use azure_iot_operations_protocol::common::application_context::ApplicationContext;
 <# if (this.ttl != null) { #>
 use iso8601_duration;
 <# } #>

@@ -4,7 +4,6 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use azure_iot_operations_protocol::ApplicationContextBuilder;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -15,6 +14,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     CloudEventBuilder, TelemetrySender,
 };
 use azure_iot_operations_protocol::{
+    common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::telemetry_sender::{TelemetryMessageBuilder, TelemetrySenderOptionsBuilder},
 };
@@ -50,7 +50,8 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
     let exit_handle = session.create_exit_handle();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
