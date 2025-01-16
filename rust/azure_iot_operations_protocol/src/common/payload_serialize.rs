@@ -95,6 +95,7 @@ pub trait PayloadSerialize: Clone {
     ///
     /// # Errors
     /// Returns a [`PayloadError::DeserializationError`] over Type [`PayloadSerialize::Error`] if the deserialization fails.
+    ///
     /// Returns a [`PayloadError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
     fn deserialize(
         payload: &[u8],

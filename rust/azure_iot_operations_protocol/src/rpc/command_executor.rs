@@ -155,20 +155,18 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
-    /// 
+    ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
     pub fn payload(&mut self, payload: TResp) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
-            Err(e) => {
-                Err(AIOProtocolError::new_payload_invalid_error(
-                    true,
-                    false,
-                    Some(e.into()),
-                    None,
-                    Some("Payload serialization error".to_string()),
-                    None, // TODO: ?
-                ))
-            }
+            Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                Some(e.into()),
+                None,
+                Some("Payload serialization error".to_string()),
+                None,
+            )),
             Ok(serialized_payload) => {
                 // Validate content type of command response is valid UTF-8
                 if is_invalid_utf8(&serialized_payload.content_type) {
@@ -487,9 +485,9 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`UnknownError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::UnknownError) if an error occurs while receiving the message.
-    /// 
+    ///
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
-    /// 
+    ///
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
@@ -730,24 +728,30 @@ where
 
                     // Deserialize payload
                     let format_indicator = properties.payload_format_indicator.into();
-                    let payload = match TReq::deserialize(&m.payload, &properties.content_type, &format_indicator) {
+                    let payload = match TReq::deserialize(
+                        &m.payload,
+                        &properties.content_type,
+                        &format_indicator,
+                    ) {
                         Ok(payload) => payload,
-                        Err(e) => {
-                            match e {
-                                PayloadError::DeserializationError(deserialization_e) => {
-                                    response_arguments.status_code = StatusCode::BadRequest;
-                                    response_arguments.status_message = Some(format!("Error deserializing payload: {deserialization_e:?}"));
-                                    break 'process_request;
-                                }
-                                PayloadError::UnsupportedContentType(message) => {
-                                    response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                    response_arguments.status_message = Some(message);
-                                    response_arguments.invalid_property_name = Some("Content Type".to_string());
-                                    response_arguments.invalid_property_value = Some(properties.content_type.unwrap_or("None".to_string()));
-                                    break 'process_request;
-                                }
+                        Err(e) => match e {
+                            PayloadError::DeserializationError(deserialization_e) => {
+                                response_arguments.status_code = StatusCode::BadRequest;
+                                response_arguments.status_message = Some(format!(
+                                    "Error deserializing payload: {deserialization_e:?}"
+                                ));
+                                break 'process_request;
                             }
-                        }
+                            PayloadError::UnsupportedContentType(message) => {
+                                response_arguments.status_code = StatusCode::UnsupportedMediaType;
+                                response_arguments.status_message = Some(message);
+                                response_arguments.invalid_property_name =
+                                    Some("Content Type".to_string());
+                                response_arguments.invalid_property_value =
+                                    Some(properties.content_type.unwrap_or("None".to_string()));
+                                break 'process_request;
+                            }
+                        },
                     };
 
                     let (response_tx, response_rx) = oneshot::channel();

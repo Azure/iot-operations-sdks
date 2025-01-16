@@ -143,7 +143,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
-    /// 
+    ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
     pub fn payload(&mut self, payload: T) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {

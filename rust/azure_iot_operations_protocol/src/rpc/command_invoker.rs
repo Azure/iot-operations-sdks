@@ -64,20 +64,18 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
-    /// 
+    ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
     pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, AIOProtocolError> {
         match payload.serialize() {
-            Err(e) => {
-                Err(AIOProtocolError::new_payload_invalid_error(
-                    true,
-                    false,
-                    Some(e.into()),
-                    None,
-                    Some("Payload serialization error".to_string()),
-                    None, // TODO: ?
-                ))
-            }
+            Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                Some(e.into()),
+                None,
+                Some("Payload serialization error".to_string()),
+                None,
+            )),
             Ok(serialized_payload) => {
                 // Validate content type of command request is valid UTF-8
                 if is_invalid_utf8(&serialized_payload.content_type) {
@@ -206,7 +204,6 @@ pub struct CommandInvokerOptions {
 /// //let response: CommandResponse<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
-#[allow(unused)] // TODO: remove once drop is implemented
 pub struct CommandInvoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize + 'static,

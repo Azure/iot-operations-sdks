@@ -393,7 +393,8 @@ where
                         // Get content type
                         content_type = properties.content_type;
                         // Get format indicator
-                        if let Some(payload_format_indicator) = properties.payload_format_indicator {
+                        if let Some(payload_format_indicator) = properties.payload_format_indicator
+                        {
                             format_indicator = payload_format_indicator.into();
                         }
 
@@ -528,7 +529,8 @@ where
                     let topic_tokens = self.topic_pattern.parse_tokens(topic);
 
                     // Deserialize payload
-                    let payload = match T::deserialize(&m.payload, &content_type, &format_indicator) {
+                    let payload = match T::deserialize(&m.payload, &content_type, &format_indicator)
+                    {
                         Ok(p) => p,
                         Err(e) => {
                             log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
