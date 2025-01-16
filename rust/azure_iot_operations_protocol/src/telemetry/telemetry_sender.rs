@@ -215,7 +215,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
+/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -234,7 +234,7 @@ pub struct TelemetrySenderOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
@@ -258,6 +258,8 @@ where
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
+    #[allow(unused)]
+    application_context: ApplicationContext,
 }
 
 /// Implementation of Telemetry Sender
@@ -308,6 +310,7 @@ where
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
+            application_context,
         })
     }
 

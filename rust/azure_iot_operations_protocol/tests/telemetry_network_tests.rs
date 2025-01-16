@@ -3,7 +3,6 @@
 
 use std::{env, time::Duration};
 
-use azure_iot_operations_protocol::common::application_context::ApplicationContextOptions;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;

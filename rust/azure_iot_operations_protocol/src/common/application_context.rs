@@ -21,11 +21,13 @@ pub struct ApplicationContextOptions {
 #[derive(Clone)]
 pub struct ApplicationContext {
     /// The Hybrid Logical Clock used by the application
+    #[allow(unused)]
     application_hlc: Arc<RwLock<HybridLogicalClock>>,
 }
 
 impl ApplicationContext {
     /// Creates a new `ApplicationContext` with the provided options.
+    #[must_use]
     pub fn new(_options: ApplicationContextOptions) -> Self {
         // TODO: Implement max clock drift on HLC
         Self {
@@ -40,7 +42,7 @@ impl ApplicationContext {
     }
 
     /// Updates the Hybrid Logical Clock used by the application.
-    fn set_hlc(&self, _hlc: HybridLogicalClock) {
+    pub(crate) fn set_hlc(&self, _hlc: HybridLogicalClock) {
         // TODO: Implement HLC update
         unimplemented!()
     }

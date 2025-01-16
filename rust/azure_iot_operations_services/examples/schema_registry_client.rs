@@ -7,7 +7,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::ApplicationContextBuilder;
+use azure_iot_operations_protocol::common::application_context::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_services::schema_registry::{
     self, Format, GetRequestBuilder, PutRequestBuilder, SchemaType,
 };
@@ -52,7 +54,8 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     // Create a channel to send the schema ID from the put task to the get task
     let (schema_id_tx, schema_id_rx) = oneshot::channel();

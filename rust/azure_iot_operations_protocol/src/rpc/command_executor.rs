@@ -207,7 +207,7 @@ pub struct CommandExecutorOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
+/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -226,7 +226,7 @@ pub struct CommandExecutorOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let executor_options = CommandExecutorOptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
@@ -258,6 +258,7 @@ where
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    application_context: ApplicationContext,
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
@@ -375,16 +376,6 @@ where
             }
         };
 
-        // let application_ctx = ApplicationContextBuilder::default()
-        //     .application_hlc(Arc::new(crate::ApplicationHLC::new()))
-        //     .build()
-        //     .unwrap();
-
-        // let mut app_hlc = application_ctx.application_hlc;
-
-        // app_hlc.read();
-        // app_hlc.update();
-
         // Create Command executor
         Ok(CommandExecutor {
             mqtt_client: client,
@@ -395,6 +386,7 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
+            application_context,
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
         })
@@ -1122,7 +1114,7 @@ mod tests {
     use super::*;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        application_context::{ApplicationContextOptions, ApplicationContextOptionsBuilder},
+        application_context::ApplicationContextOptionsBuilder,
         payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
 

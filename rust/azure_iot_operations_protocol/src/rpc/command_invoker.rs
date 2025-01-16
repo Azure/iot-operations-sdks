@@ -148,7 +148,7 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
+/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -167,7 +167,7 @@ pub struct CommandInvokerOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let invoker_options = CommandInvokerOptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
@@ -202,6 +202,7 @@ where
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    application_context: ApplicationContext,
     // Describes state
     invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
@@ -371,6 +372,7 @@ where
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
+            application_context,
             invoker_state_mutex,
             shutdown_notifier,
             response_tx,

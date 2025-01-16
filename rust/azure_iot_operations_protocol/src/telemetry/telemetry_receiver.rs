@@ -157,7 +157,7 @@ pub struct TelemetryReceiverOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::ApplicationContextBuilder;
+/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -176,7 +176,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContextBuilder::default().build().unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
@@ -195,6 +195,8 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
+    #[allow(unused)]
+    application_context: ApplicationContext,
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
@@ -284,6 +286,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
+            application_context,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
         })
