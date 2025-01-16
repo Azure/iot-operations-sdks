@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
     using System.Threading.Tasks;
     using Dahomey.Cbor;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
 #pragma warning disable VSTHRD002 // Synchronously waiting on tasks or awaiters may cause deadlocks. Use await or JoinableTaskFactory.Run instead.
 
@@ -32,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
         public const string ContentType = "application/cbor";
 
-        public const int PayloadFormatIndicator = 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
         public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class

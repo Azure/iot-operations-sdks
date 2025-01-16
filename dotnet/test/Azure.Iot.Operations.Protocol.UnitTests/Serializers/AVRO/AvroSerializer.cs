@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
     using Avro.IO;
     using Avro.Specific;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class AvroSerializer<T1, T2> : IPayloadSerializer
         where T1 : class, ISpecificRecord, new()
@@ -35,7 +36,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 
         public const string ContentType = "application/avro";
 
-        public const int PayloadFormatIndicator = 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
         public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class

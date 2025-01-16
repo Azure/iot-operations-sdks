@@ -4,6 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Models;
 
 namespace EventDrivenApp;
 
@@ -20,7 +21,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
     public const string ContentType = "application/json";
 
-    public const int PayloadFormatIndicator = 1;
+    public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
     public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
         where T : class

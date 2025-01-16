@@ -9,6 +9,7 @@ namespace TestEnvoys
     using Google.Protobuf;
     using Google.Protobuf.WellKnownTypes;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class ProtobufSerializer<T1, T2> : IPayloadSerializer
         where T1 : IMessage<T1>, new()
@@ -25,7 +26,7 @@ namespace TestEnvoys
 
         public const string ContentType = "application/protobuf";
 
-        public const int PayloadFormatIndicator = 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
         public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
             where T : class

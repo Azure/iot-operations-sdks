@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void AvroUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, AvroSerializer<EmptyAvro, EmptyAvro>.PayloadFormatIndicator);
+            Assert.Equal(Models.MqttPayloadFormatIndicator.Unspecified, AvroSerializer<EmptyAvro, EmptyAvro>.PayloadFormatIndicator);
         }
 
         [Fact]

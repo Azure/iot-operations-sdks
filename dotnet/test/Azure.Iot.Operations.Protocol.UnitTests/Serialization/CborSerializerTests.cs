@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void CborUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, CborSerializer.PayloadFormatIndicator);
+            Assert.Equal(Models.MqttPayloadFormatIndicator.Unspecified, CborSerializer.PayloadFormatIndicator);
         }
 
         [Fact]
