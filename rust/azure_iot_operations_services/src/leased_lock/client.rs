@@ -3,10 +3,10 @@
 
 //! Client for Lease Lock operations.
 
-use std::{time::Duration};
+use std::time::Duration;
 
+use crate::state_store::{self, KeyObservation, SetCondition, SetOptions, StateStoreError};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use crate::state_store::{self, SetOptions, StateStoreError, SetCondition, KeyObservation};
 
 /// Leased Lock client state
 pub struct Client<C>
@@ -14,7 +14,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    dss_client: crate::state_store::Client<C>,
+    dss_client: state_store::Client<C>,
     lock_holder_name: Vec<u8>,
 }
 
@@ -25,7 +25,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     /// Create a new Leased Lock Client
-    /// 
+    ///
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
@@ -72,17 +72,19 @@ where
         expiration: Duration,
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
-        self.dss_client.set(
-            key,
-            self.lock_holder_name.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-                expires: Some(expiration),
-                ..SetOptions::default()
-            },
-        ).await
+        self.dss_client
+            .set(
+                key,
+                self.lock_holder_name.to_vec(),
+                timeout,
+                None,
+                SetOptions {
+                    set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                    expires: Some(expiration),
+                    ..SetOptions::default()
+                },
+            )
+            .await
     }
 
     /// Deletes a lock key from the State Store Service if and only if requested by the lock holder (same client id).
@@ -107,7 +109,9 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        self.dss_client.vdel(key.to_vec(), self.lock_holder_name.to_vec(), None, timeout).await
+        self.dss_client
+            .vdel(key.to_vec(), self.lock_holder_name.to_vec(), None, timeout)
+            .await
     }
 
     /// Starts observation of any changes on a lock key from the State Store Service
@@ -197,18 +201,16 @@ where
     }
 
     /// Enables the auto-renewal of the lock duration.
-    pub async fn enable_auto_renewal(
-        &self,
-        key: Vec<u8>
-    ) /* -> Result<state_store::Response<bool>, StateStoreError> */ {
+    pub async fn enable_auto_renewal(&self, key: Vec<u8>)
+    /* -> Result<state_store::Response<bool>, StateStoreError> */
+    {
         // TODO: implement.
     }
 
     /// Disables the auto-renewal of the lock duration.
-    pub async fn disable_auto_renewal(
-        &self,
-        key: Vec<u8>
-    ) /* -> Result<state_store::Response<bool>, StateStoreError> */ {
+    pub async fn disable_auto_renewal(&self, key: Vec<u8>)
+    /* -> Result<state_store::Response<bool>, StateStoreError> */
+    {
         // TODO: implement.
     }
 

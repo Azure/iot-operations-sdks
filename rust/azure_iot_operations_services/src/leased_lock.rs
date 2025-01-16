@@ -4,4 +4,4 @@
 /// Leased Lock Client implementation
 mod client;
 
-pub use client::{Client};
+pub use client::Client;
