@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Models;
+
 namespace Azure.Iot.Operations.Protocol
 {
     public interface IPayloadSerializer
@@ -21,6 +23,6 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="contentType">The content type of the MQTT message received with this payload.</param>
         /// <param name="payloadFormatIndicator">The payload format indicator of the MQTT message received with this payload.</param>
         /// <returns>The deserialized object.</returns>
-        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null) where T : class;
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator) where T : class;
     }
 }

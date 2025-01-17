@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             byte[]? emptyBytes = rawSerializer.ToBytes<byte[]>(null).SerializedPayload;
             Assert.NotNull(emptyBytes);
             Assert.Empty(emptyBytes);
-            byte[] empty = rawSerializer.FromBytes<byte[]>(emptyBytes);
+            byte[] empty = rawSerializer.FromBytes<byte[]>(emptyBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
             Assert.Empty(empty);
         }

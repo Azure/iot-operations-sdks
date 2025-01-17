@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 
             byte[]? emptyBytes = cborSerializer.ToBytes(new EmptyCbor()).SerializedPayload;
             Assert.Null(emptyBytes);
-            EmptyCbor? empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes);
+            EmptyCbor? empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
         }
 
@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer cborSerializer = new CborSerializer();
 
-            Assert.Throws<AkriMqttException>(() => { cborSerializer.FromBytes<MyCborType>(null); });
+            Assert.Throws<AkriMqttException>(() => { cborSerializer.FromBytes<MyCborType>(null, null, Models.MqttPayloadFormatIndicator.Unspecified); });
         }
     }
 }

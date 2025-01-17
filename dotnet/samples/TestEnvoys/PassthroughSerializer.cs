@@ -15,7 +15,7 @@ namespace TestEnvoys
 
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (payload == null)

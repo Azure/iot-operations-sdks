@@ -23,7 +23,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
     public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
-    public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
+    public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
         where T : class
     {
         if (contentType != null && contentType != ContentType)

@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
         public Type EmptyType { get => typeof(EmptyJson); }
 
-        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             throw new SerializationException();
