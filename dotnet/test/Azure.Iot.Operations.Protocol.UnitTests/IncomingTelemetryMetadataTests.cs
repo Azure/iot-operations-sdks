@@ -126,7 +126,7 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Null(metadata.Timestamp);
-        Assert.Null(metadata.GetCloudEvent());
+        Assert.Throws<ArgumentException>(() => metadata.GetCloudEvent());
         Assert.Equal(packetId, metadata.PacketId);
     }
 
