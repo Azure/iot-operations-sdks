@@ -4,7 +4,7 @@ use std::io::Cursor;
 
 use apache_avro;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use lazy_static;
 use serde::{Deserialize, Serialize};
@@ -28,7 +28,7 @@ impl PayloadSerialize for EmptyAvro{
         payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>> {
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(apache_avro::from_value(&apache_avro::from_avro_datum(&SCHEMA, &mut Cursor::new(payload), None).unwrap()).unwrap())
     }
 }

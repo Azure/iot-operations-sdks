@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
-        FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
     telemetry::telemetry_sender::{
         CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
@@ -118,7 +118,7 @@ impl PayloadSerialize for SampleTelemetry {
         _payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<SampleTelemetry, PayloadError<String>> {
+    ) -> Result<SampleTelemetry, DeserializationError<String>> {
         // Not used in this example
         unimplemented!()
     }

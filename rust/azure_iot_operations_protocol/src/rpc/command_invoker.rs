@@ -22,7 +22,9 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
+        payload_serialize::{
+            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+        },
         topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
@@ -1031,7 +1033,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     ) {
         Ok(payload) => payload,
         Err(e) => match e {
-            PayloadError::DeserializationError(deserialization_e) => {
+            DeserializationError::InvalidPayload(deserialization_e) => {
                 return Err(AIOProtocolError::new_payload_invalid_error(
                     false,
                     false,
@@ -1041,7 +1043,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     Some(command_name),
                 ));
             }
-            PayloadError::UnsupportedContentType(message) => {
+            DeserializationError::UnsupportedContentType(message) => {
                 return Err(AIOProtocolError::new_header_invalid_error(
                     "Content Type",
                     &response_properties
@@ -1500,7 +1502,7 @@ mod tests {
         mock_payload_deserialize_ctx
             .expect()
             .returning(|_, _, _| {
-                Err(PayloadError::DeserializationError(
+                Err(DeserializationError::InvalidPayload(
                     "dummy error".to_string(),
                 ))
             })

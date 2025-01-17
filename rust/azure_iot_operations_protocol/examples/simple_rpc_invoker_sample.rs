@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    EmptyPayload, FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, EmptyPayload, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
@@ -115,10 +115,10 @@ impl PayloadSerialize for IncrResponsePayload {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<IncrResponsePayload, PayloadError<IncrSerializerError>> {
+    ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
         if let Some(content_type) = content_type {
             if content_type != "application/json" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type:?}'. Must be 'application/json'"
                 )));
             }
@@ -126,7 +126,7 @@ impl PayloadSerialize for IncrResponsePayload {
         let payload = match std::str::from_utf8(payload) {
             Ok(p) => p,
             Err(e) => {
-                return Err(PayloadError::DeserializationError(
+                return Err(DeserializationError::InvalidPayload(
                     IncrSerializerError::Utf8Error(e),
                 ))
             }
@@ -138,12 +138,12 @@ impl PayloadSerialize for IncrResponsePayload {
             let counter_str = &payload[start_str.len()..payload.len() - 1];
             match counter_str.parse::<i32>() {
                 Ok(counter_response) => Ok(IncrResponsePayload { counter_response }),
-                Err(e) => Err(PayloadError::DeserializationError(
+                Err(e) => Err(DeserializationError::InvalidPayload(
                     IncrSerializerError::ParseIntError(e),
                 )),
             }
         } else {
-            Err(PayloadError::DeserializationError(
+            Err(DeserializationError::InvalidPayload(
                 IncrSerializerError::InvalidPayload(payload.into()),
             ))
         }

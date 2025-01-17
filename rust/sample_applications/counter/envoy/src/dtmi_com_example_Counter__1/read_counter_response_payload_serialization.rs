@@ -2,7 +2,7 @@
 #![allow(non_camel_case_types)]
 
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use serde_json;
 
@@ -24,14 +24,14 @@ impl PayloadSerialize for ReadCounterResponsePayload {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>> {
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
             if content_type != "application/json" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));
             }
         }
-        serde_json::from_slice(payload).map_err(PayloadError::DeserializationError)
+        serde_json::from_slice(payload).map_err(DeserializationError::InvalidPayload)
     }
 }

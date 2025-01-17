@@ -3,7 +3,7 @@
 use std::ops::{Deref, DerefMut};
 
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use bytes;
 
@@ -39,7 +39,7 @@ impl PayloadSerialize for Bytes {
         payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>> {
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(Bytes(bytes::Bytes::from(payload.to_vec())))
     }
 }

@@ -11,7 +11,7 @@
 <# } #>
 <# if (this.extHeaders.Any()) { #>
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 <# foreach (string header in this.extHeaders) { #>
 <#=header#>
@@ -40,17 +40,17 @@ let payload = <# foreach (string serializeLine in this.serializeCode) { #>
     fn deserialize(payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>> {
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
             if content_type != "<#=this.contentType#>" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be '<#=this.contentType#>'"
                 )));
             }
         }
 <# foreach (string deserializeLine in this.deserializeCode) { #>
         <#=deserializeLine#>
-<# } #>.map_err(PayloadError::DeserializationError)
+<# } #>.map_err(DeserializationError::InvalidPayload)
     }
 }
 <# if (this.schemaCode != null) { #>

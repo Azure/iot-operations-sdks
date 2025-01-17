@@ -6,7 +6,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 
 /// Request types for the State Store service, used internally for serialization
@@ -88,8 +88,10 @@ impl PayloadSerialize for Request {
         _payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
-        Err(PayloadError::DeserializationError("Not implemented".into()))
+    ) -> Result<Self, DeserializationError<String>> {
+        Err(DeserializationError::InvalidPayload(
+            "Not implemented".into(),
+        ))
     }
 }
 
@@ -273,10 +275,10 @@ impl PayloadSerialize for Response {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
+    ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
             if content_type != "application/octet-stream" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
                 )));
             }
@@ -295,12 +297,12 @@ impl PayloadSerialize for Response {
             _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => {
                 match parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?.try_into() {
                     Ok(n) => Ok(Response::ValuesDeleted(n)),
-                    Err(e) => Err(PayloadError::DeserializationError(format!(
+                    Err(e) => Err(DeserializationError::InvalidPayload(format!(
                         "Error parsing number of keys deleted: {e}. Payload: {payload:?}"
                     ))),
                 }
             }
-            _ => Err(PayloadError::DeserializationError(format!(
+            _ => Err(DeserializationError::InvalidPayload(format!(
                 "Unknown response: {payload:?}"
             ))),
         }
@@ -335,10 +337,10 @@ impl PayloadSerialize for Operation {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
+    ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
             if content_type != "application/octet-stream" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
                 )));
             }
@@ -348,7 +350,7 @@ impl PayloadSerialize for Operation {
             _ if payload.starts_with(Operation::SET_WITH_VALUE_PREFIX) => Ok(Operation::Set(
                 parse_value(payload, Operation::SET_WITH_VALUE_PREFIX)?,
             )),
-            _ => Err(PayloadError::DeserializationError(format!(
+            _ => Err(DeserializationError::InvalidPayload(format!(
                 "Unknown operation: {payload:?}"
             ))),
         }

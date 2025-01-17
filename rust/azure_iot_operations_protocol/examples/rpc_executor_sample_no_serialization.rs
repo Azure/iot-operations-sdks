@@ -71,7 +71,7 @@ async fn executor_loop(client: SessionManagedClient) {
                     .build()
                     .unwrap();
                 request.complete(response).unwrap();
-            },
+            }
             "text/plain" => {
                 // save txt file implementation would go here
                 log::info!("txt file saved!");
@@ -86,7 +86,7 @@ async fn executor_loop(client: SessionManagedClient) {
             _ => {
                 log::warn!("Ignored file");
                 request.error("Ignored File".to_string()).unwrap();
-            },
+            }
         }
     }
 }

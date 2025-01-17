@@ -8,7 +8,7 @@ use thiserror::Error;
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    EmptyPayload, FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, EmptyPayload, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -110,7 +110,7 @@ impl PayloadSerialize for IncrResponsePayload {
         _payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<IncrResponsePayload, PayloadError<IncrSerializerError>> {
+    ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
         // This is a response payload, executor does not need to deserialize it
         unimplemented!()
     }

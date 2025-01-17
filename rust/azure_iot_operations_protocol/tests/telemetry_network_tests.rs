@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::{
 };
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
-        FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
@@ -121,7 +121,7 @@ impl PayloadSerialize for EmptyPayload {
         _payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<EmptyPayload, PayloadError<String>> {
+    ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -246,10 +246,10 @@ impl PayloadSerialize for DataPayload {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<DataPayload, PayloadError<String>> {
+    ) -> Result<DataPayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {
             if content_type != "application/json" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type:?}'. Must be 'application/json'"
                 )));
             }
@@ -258,7 +258,7 @@ impl PayloadSerialize for DataPayload {
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
             Err(e) => {
-                return Err(PayloadError::DeserializationError(format!(
+                return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
                 )))
             }
@@ -271,7 +271,7 @@ impl PayloadSerialize for DataPayload {
         {
             Ok(ext_temp) => ext_temp,
             Err(e) => {
-                return Err(PayloadError::DeserializationError(format!(
+                return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
                 )))
             }
@@ -283,7 +283,7 @@ impl PayloadSerialize for DataPayload {
         {
             Ok(int_temp) => int_temp,
             Err(e) => {
-                return Err(PayloadError::DeserializationError(format!(
+                return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
                 )))
             }

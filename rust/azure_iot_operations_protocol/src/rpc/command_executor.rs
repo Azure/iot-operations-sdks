@@ -17,7 +17,9 @@ use crate::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::{FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload},
+        payload_serialize::{
+            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+        },
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
@@ -735,14 +737,14 @@ where
                     ) {
                         Ok(payload) => payload,
                         Err(e) => match e {
-                            PayloadError::DeserializationError(deserialization_e) => {
+                            DeserializationError::InvalidPayload(deserialization_e) => {
                                 response_arguments.status_code = StatusCode::BadRequest;
                                 response_arguments.status_message = Some(format!(
                                     "Error deserializing payload: {deserialization_e:?}"
                                 ));
                                 break 'process_request;
                             }
-                            PayloadError::UnsupportedContentType(message) => {
+                            DeserializationError::UnsupportedContentType(message) => {
                                 response_arguments.status_code = StatusCode::UnsupportedMediaType;
                                 response_arguments.status_message = Some(message);
                                 response_arguments.invalid_property_name =

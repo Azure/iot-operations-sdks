@@ -1,7 +1,7 @@
 /* This file will be copied into the folder for generated code. */
 
 use azure_iot_operations_protocol::common::payload_serialize::{
-    FormatIndicator, PayloadError, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 
 #[derive(Debug, Clone)]
@@ -22,7 +22,7 @@ impl PayloadSerialize for EmptyJson {
         _payload: &[u8],
         _content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>> {
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(Self {})
     }
 }

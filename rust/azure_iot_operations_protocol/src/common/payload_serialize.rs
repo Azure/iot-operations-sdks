@@ -38,7 +38,7 @@ pub struct SerializedPayload {
 /// Trait for serializing and deserializing payloads.
 /// # Examples
 /// ```
-/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, PayloadError, FormatIndicator, SerializedPayload};
+/// use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, DeserializationError, FormatIndicator, SerializedPayload};
 /// #[derive(Clone, Debug)]
 /// pub struct CarLocationResponse {
 ///   latitude: f64,
@@ -57,10 +57,10 @@ pub struct SerializedPayload {
 ///   fn deserialize(payload: &[u8],
 ///     content_type: &Option<String>,
 ///     _format_indicator: &FormatIndicator,
-///   ) -> Result<Self, PayloadError<String>> {
+///   ) -> Result<Self, DeserializationError<String>> {
 ///     if let Some(content_type) = content_type {
 ///            if content_type != "application/json" {
-///                return Err(PayloadError::UnsupportedContentType(format!(
+///                return Err(DeserializationError::UnsupportedContentType(format!(
 ///                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
 ///                )));
 ///            }
@@ -85,22 +85,22 @@ pub trait PayloadSerialize: Clone {
     /// Deserializes the payload from a byte vector to the generic type
     ///
     /// # Errors
-    /// Returns a [`PayloadError::DeserializationError`] over type [`PayloadSerialize::Error`] if the deserialization fails.
+    /// Returns a [`DeserializationError::InvalidPayload`] over type [`PayloadSerialize::Error`] if the deserialization fails.
     ///
-    /// Returns a [`PayloadError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
+    /// Returns a [`DeserializationError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
     fn deserialize(
         payload: &[u8],
         content_type: &Option<String>,
         format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<Self::Error>>;
+    ) -> Result<Self, DeserializationError<Self::Error>>;
 }
 
 /// Enum to describe the type of error that occurred during payload deserialization.
 #[derive(thiserror::Error, Debug)]
-pub enum PayloadError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>> {
+pub enum DeserializationError<T: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>> {
     /// An error occurred while deserializing.
     #[error(transparent)]
-    DeserializationError(#[from] T),
+    InvalidPayload(#[from] T),
     /// The content type received is not supported by the deserialization implementation.
     #[error("Unsupported content type: {0}")]
     UnsupportedContentType(String),
@@ -134,7 +134,7 @@ impl PayloadSerialize for BypassPayload {
         payload: &[u8],
         content_type: &Option<String>,
         format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
+    ) -> Result<Self, DeserializationError<String>> {
         let ct: String = content_type.clone().unwrap_or_default();
         Ok(BypassPayload {
             content_type: ct,
@@ -167,7 +167,7 @@ impl PayloadSerialize for EmptyPayload {
         _payload: &[u8],
         content_type: &Option<String>,
         format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
+    ) -> Result<Self, DeserializationError<String>> {
         let ct: String = content_type.clone().unwrap_or_default();
         Ok(EmptyPayload {
             content_type: ct,
@@ -191,10 +191,10 @@ impl PayloadSerialize for Vec<u8> {
         payload: &[u8],
         content_type: &Option<String>,
         _format_indicator: &FormatIndicator,
-    ) -> Result<Self, PayloadError<String>> {
+    ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
             if content_type != "application/octet-stream" {
-                return Err(PayloadError::UnsupportedContentType(format!(
+                return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
                 )));
             }
@@ -214,7 +214,7 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn serialize(self) -> Result<SerializedPayload, String>;
-        fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, PayloadError<String>>;
+        fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
     }
 }
 #[cfg(test)]
