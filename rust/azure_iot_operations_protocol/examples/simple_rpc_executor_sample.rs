@@ -8,7 +8,7 @@ use thiserror::Error;
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
-    DeserializationError, EmptyPayload, FormatIndicator, PayloadSerialize, SerializedPayload,
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -57,7 +57,7 @@ async fn executor_loop(client: SessionManagedClient) {
         .command_name("increment")
         .build()
         .unwrap();
-    let mut incr_executor: CommandExecutor<EmptyPayload, IncrResponsePayload, _> =
+    let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
         CommandExecutor::new(client, incr_executor_options).unwrap();
 
     // Counter to increment
@@ -87,12 +87,30 @@ async fn executor_loop(client: SessionManagedClient) {
 }
 
 #[derive(Clone, Debug, Default)]
+pub struct IncrRequestPayload {}
+
+#[derive(Clone, Debug, Default)]
 pub struct IncrResponsePayload {
     pub counter_response: i32,
 }
 
 #[derive(Debug, Error)]
 pub enum IncrSerializerError {}
+
+impl PayloadSerialize for IncrRequestPayload {
+    type Error = IncrSerializerError;
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
+        // This is a request payload, executor does not need to serialize it
+        unimplemented!()
+    }
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrRequestPayload, DeserializationError<IncrSerializerError>> {
+        Ok(IncrRequestPayload {})
+    }
+}
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
