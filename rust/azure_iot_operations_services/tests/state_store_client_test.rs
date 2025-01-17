@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::application_context::{
+use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
 };
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;

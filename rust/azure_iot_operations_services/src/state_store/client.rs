@@ -7,7 +7,7 @@ use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::{
-    common::application_context::ApplicationContext,
+    application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -664,10 +664,9 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_protocol::common::application_context::{
-        ApplicationContext, ApplicationContextOptionsBuilder,
-    };
+    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
 
+    use super::*;
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
     // TODO: This should return a mock ManagedClient instead.

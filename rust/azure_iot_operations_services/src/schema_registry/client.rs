@@ -8,7 +8,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::common::application_context::ApplicationContext;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
 use derive_builder::Builder;
 
@@ -258,10 +258,9 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
-    use azure_iot_operations_protocol::common::application_context::{
-        ApplicationContext, ApplicationContextOptionsBuilder,
-    };
+    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
 
+    use super::*;
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
         Client, Format, GetRequestBuilder, PutRequestBuilder, SchemaRegistryError,

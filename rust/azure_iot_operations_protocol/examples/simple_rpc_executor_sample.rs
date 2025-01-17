@@ -7,10 +7,10 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::{
-    application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
-    payload_serialize::{FormatIndicator, PayloadSerialize},
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
 };
+use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };

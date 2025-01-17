@@ -18,9 +18,6 @@ pub mod topic_processor;
 /// This module contains string values for Azure IoT Operations Protocol defined user properties.
 pub mod user_properties;
 
-/// This module contains the application context implementation for the Azure IoT Operations SDK.
-pub mod application_context;
-
 /// Used to validate that a string is well-formed UTF-8 per the [MQTT 5 spec](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_UTF-8_Encoded_String)
 #[must_use]
 pub fn is_invalid_utf8(s: &str) -> bool {

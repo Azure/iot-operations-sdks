@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     CloudEventBuilder, TelemetrySender,
 };
 use azure_iot_operations_protocol::{
-    common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
+    application::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::telemetry_sender::{TelemetryMessageBuilder, TelemetrySenderOptionsBuilder},
 };

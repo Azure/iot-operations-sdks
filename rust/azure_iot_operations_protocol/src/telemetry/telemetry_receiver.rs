@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
@@ -10,17 +10,19 @@ use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
-        application_context::ApplicationContext,
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+    telemetry::{
+        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+        DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+    },
     ProtocolVersion,
 };
 
@@ -157,7 +159,7 @@ pub struct TelemetryReceiverOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -195,8 +197,7 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    #[allow(unused)]
-    application_context: ApplicationContext,
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
@@ -286,7 +287,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            application_context,
+            application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
         })
@@ -645,9 +646,9 @@ mod tests {
 
     use super::*;
     use crate::{
+        application::ApplicationContextOptionsBuilder,
         common::{
             aio_protocol_error::AIOProtocolErrorKind,
-            application_context::ApplicationContextOptionsBuilder,
             payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},

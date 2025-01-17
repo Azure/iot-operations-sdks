@@ -11,10 +11,8 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    common::{
-        application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
-        payload_serialize::{FormatIndicator, PayloadSerialize},
-    },
+    application::{ApplicationContext, ApplicationContextOptionsBuilder},
+    common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
         telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},

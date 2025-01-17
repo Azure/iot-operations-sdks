@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     CloudEvent, TelemetryMessage, TelemetryMessageBuilder, TelemetryMessageBuilderError,
     TelemetrySender, TelemetrySenderOptionsBuilder,
 };
-use azure_iot_operations_protocol::common::application_context::ApplicationContext;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.schemaClassName != "Bytes") { #>
 use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;

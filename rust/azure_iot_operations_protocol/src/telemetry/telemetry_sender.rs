@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
+use std::sync::Arc;
 use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
@@ -11,9 +12,9 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
+use crate::application::{ApplicationContext, ApplicationHybridLogicalClock};
 use crate::common::{
     aio_protocol_error::{AIOProtocolError, Value},
-    application_context::ApplicationContext,
     hybrid_logical_clock::HybridLogicalClock,
     is_invalid_utf8,
     payload_serialize::PayloadSerialize,
@@ -215,7 +216,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -258,8 +259,7 @@ where
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
-    #[allow(unused)]
-    application_context: ApplicationContext,
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
 }
 
 /// Implementation of Telemetry Sender
@@ -310,7 +310,7 @@ where
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
-            application_context,
+            application_hlc: application_context.application_hlc,
         })
     }
 
@@ -426,10 +426,11 @@ mod tests {
 
     use test_case::test_case;
 
+    use super::*;
     use crate::{
+        application::ApplicationContextOptionsBuilder,
         common::{
             aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
-            application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
             payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize, CONTENT_TYPE_MTX},
         },
         telemetry::telemetry_sender::{

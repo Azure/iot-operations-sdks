@@ -17,10 +17,11 @@ use tokio::{
 use uuid::Uuid;
 
 use super::StatusCode;
+use crate::application::ApplicationHybridLogicalClock;
 use crate::{
+    application::ApplicationContext,
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
-        application_context::ApplicationContext,
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
@@ -148,7 +149,7 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -202,7 +203,7 @@ where
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    application_context: ApplicationContext,
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
@@ -372,7 +373,7 @@ where
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            application_context,
+            application_hlc: application_context.application_hlc,
             invoker_state_mutex,
             shutdown_notifier,
             response_tx,
@@ -1150,10 +1151,9 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
+    use crate::application::ApplicationContextOptionsBuilder;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        application_context::ApplicationContext,
-        application_context::ApplicationContextOptionsBuilder,
         payload_serialize::{
             FormatIndicator, MockPayload, CONTENT_TYPE_MTX, DESERIALIZE_MTX, FORMAT_INDICATOR_MTX,
         },

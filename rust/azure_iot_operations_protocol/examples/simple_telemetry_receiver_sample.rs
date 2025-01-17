@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::TelemetryReceiver;
 use azure_iot_operations_protocol::{
-    common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder},
+    application::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{FormatIndicator, PayloadSerialize},
     telemetry::telemetry_receiver::TelemetryReceiverOptionsBuilder,
 };

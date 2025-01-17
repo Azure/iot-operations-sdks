@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
+use std::sync::Arc;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
@@ -12,10 +13,11 @@ use tokio::time::{timeout, Instant};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
+use crate::application::ApplicationHybridLogicalClock;
 use crate::{
+    application::ApplicationContext,
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
-        application_context::ApplicationContext,
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
@@ -207,7 +209,7 @@ pub struct CommandExecutorOptions {
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
 /// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # use azure_iot_operations_protocol::common::application_context::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # #[derive(Clone, Debug)]
 /// # pub struct SamplePayload { }
 /// # impl PayloadSerialize for SamplePayload {
@@ -258,7 +260,7 @@ where
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    application_context: ApplicationContext,
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
@@ -386,7 +388,7 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            application_context,
+            application_hlc: application_context.application_hlc,
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
         })
@@ -1112,9 +1114,9 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
+    use crate::application::ApplicationContextOptionsBuilder;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        application_context::ApplicationContextOptionsBuilder,
         payload_serialize::{FormatIndicator, MockPayload, CONTENT_TYPE_MTX},
     };
 

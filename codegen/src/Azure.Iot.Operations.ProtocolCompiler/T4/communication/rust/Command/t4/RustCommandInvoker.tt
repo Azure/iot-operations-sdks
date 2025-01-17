@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
-use azure_iot_operations_protocol::common::application_context::ApplicationContext;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.reqSchema != null && this.reqSchema != "Bytes") { #>
 use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
