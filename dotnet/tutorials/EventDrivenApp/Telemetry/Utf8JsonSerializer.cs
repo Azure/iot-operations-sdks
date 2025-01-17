@@ -35,7 +35,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
                 HeaderValue = contentType,
                 InApplication = false,
                 IsShallow = false,
-                IsRemote = true,
+                IsRemote = false,
             };
         }
 

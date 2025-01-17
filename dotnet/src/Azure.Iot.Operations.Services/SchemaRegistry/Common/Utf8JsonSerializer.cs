@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

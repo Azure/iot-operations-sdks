@@ -43,7 +43,7 @@ namespace SampleReadCloudEvents
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

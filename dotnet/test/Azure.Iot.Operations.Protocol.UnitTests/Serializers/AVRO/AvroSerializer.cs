@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

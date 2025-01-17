@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

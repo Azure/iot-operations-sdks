@@ -40,7 +40,7 @@ namespace TestEnvoys
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

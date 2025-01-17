@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 

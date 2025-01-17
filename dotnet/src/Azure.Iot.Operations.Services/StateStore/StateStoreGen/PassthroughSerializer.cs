@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     HeaderValue = contentType,
                     InApplication = false,
                     IsShallow = false,
-                    IsRemote = true,
+                    IsRemote = false,
                 };
             }
 
