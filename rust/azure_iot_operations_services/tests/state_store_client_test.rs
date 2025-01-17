@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![cfg(feature = "all")]
+#![cfg(feature = "state_store")]
 
 use std::{env, time::Duration};
 
