@@ -16,7 +16,7 @@ use derive_builder::Builder;
 use tokio::{
     sync::{
         mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
-        Mutex, Notify
+        Mutex, Notify,
     },
     task,
 };
@@ -645,7 +645,7 @@ where
                         log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
                         let mut observed_keys_mutex_guard = observed_keys.lock().await;
                         // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
-                        observed_keys_mutex_guard.drain(); 
+                        observed_keys_mutex_guard.drain();
                         break;
                     }
                 }
