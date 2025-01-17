@@ -34,21 +34,21 @@ namespace TestEnvoys
         public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             try
             {
-                if (contentType != null && contentType != ContentType)
-                {
-                    throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
-                    {
-                        Kind = AkriMqttErrorKind.HeaderInvalid,
-                        HeaderName = "Content Type",
-                        HeaderValue = contentType,
-                        InApplication = false,
-                        IsShallow = false,
-                        IsRemote = false,
-                    };
-                }
-
                 if (payload == null || payload.Length == 0)
                 {
                     if (typeof(T) != typeof(EmptyJson))
@@ -75,7 +75,7 @@ namespace TestEnvoys
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(null, ContentType, PayloadFormatIndicator);
+                    return new(null, null, 0);
                 }
 
                 return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
