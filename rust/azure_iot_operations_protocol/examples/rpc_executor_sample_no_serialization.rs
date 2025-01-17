@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::rpc::command_executor::{
 
 const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1887;
+const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
 #[tokio::main(flavor = "current_thread")]
@@ -39,7 +39,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    // Use the managed client to run a a command executor in another task
+    // Use the managed client to run a command executor in another task
     tokio::task::spawn(executor_loop(session.create_managed_client()));
 
     // Run the session
@@ -60,30 +60,33 @@ async fn executor_loop(client: SessionManagedClient) {
     // Save the file for each incoming request
     loop {
         let request = file_transfer_executor.recv().await.unwrap().unwrap();
-        if request.payload.content_type == "text/csv" {
-            // save csv file implementation would go here
-            log::info!("CSV file saved!");
+        match request.payload.content_type.as_str() {
+            "text/csv" => {
+                // save csv file implementation would go here
+                log::info!("CSV file saved!");
 
-            let response = CommandResponseBuilder::default()
-                .payload(b"CSV File Saved".to_vec())
-                .unwrap()
-                .build()
-                .unwrap();
-            request.complete(response).unwrap();
-            continue;
-        }
-        if request.payload.content_type == "text/plain" {
-            // save txt file implementation would go here
-            log::info!("txt file saved!");
+                let response = CommandResponseBuilder::default()
+                    .payload(b"CSV File Saved".to_vec())
+                    .unwrap()
+                    .build()
+                    .unwrap();
+                request.complete(response).unwrap();
+            },
+            "text/plain" => {
+                // save txt file implementation would go here
+                log::info!("txt file saved!");
 
-            let response = CommandResponseBuilder::default()
-                .payload(b"txt File Saved".to_vec())
-                .unwrap()
-                .build()
-                .unwrap();
-            request.complete(response).unwrap();
-            continue;
+                let response = CommandResponseBuilder::default()
+                    .payload(b"txt File Saved".to_vec())
+                    .unwrap()
+                    .build()
+                    .unwrap();
+                request.complete(response).unwrap();
+            }
+            _ => {
+                log::warn!("Ignored file");
+                request.error("Ignored File".to_string()).unwrap();
+            },
         }
-        request.error("Ignored File".to_string()).unwrap();
     }
 }

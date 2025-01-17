@@ -393,10 +393,7 @@ where
                         // Get content type
                         content_type = properties.content_type;
                         // Get format indicator
-                        if let Some(payload_format_indicator) = properties.payload_format_indicator
-                        {
-                            format_indicator = payload_format_indicator.into();
-                        }
+                        format_indicator = properties.payload_format_indicator.into();
 
                         // unused beyond validation, but may be used in the future to determine how to handle other fields.
                         let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided

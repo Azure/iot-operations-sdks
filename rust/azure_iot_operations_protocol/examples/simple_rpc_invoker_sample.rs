@@ -69,7 +69,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
-    for i in 1..10 {
+    for i in 1..11 {
         let payload = CommandRequestBuilder::default()
             .payload(EmptyPayload {
                 content_type: "application/json".to_string(),

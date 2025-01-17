@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1887;
+const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 
@@ -65,7 +65,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         CommandInvoker::new(client, file_transfer_invoker_options).unwrap();
 
     // Send 10 file transfer requests
-    for i in 1..5 {
+    for i in 1..6 {
         let payload = CommandRequestBuilder::default()
             .payload(BypassPayload {
                 payload: b"fruit,count\napple,2\norange,3".to_vec(),
@@ -79,7 +79,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         let response = file_transfer_invoker.invoke(payload).await;
         log::info!("Response {}: {:?}", i, response);
     }
-    for i in 6..10 {
+    for i in 6..11 {
         let payload = CommandRequestBuilder::default()
             .payload(BypassPayload {
                 payload: "Hello, World!".to_string().into_bytes(),

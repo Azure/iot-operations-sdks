@@ -14,21 +14,12 @@ pub enum FormatIndicator {
     Utf8EncodedCharacterData = 1,
 }
 
-impl From<u8> for FormatIndicator {
-    fn from(value: u8) -> Self {
-        match value {
-            0 => FormatIndicator::UnspecifiedBytes,
-            1 => FormatIndicator::Utf8EncodedCharacterData,
-            _ => FormatIndicator::default(),
-        }
-    }
-}
-
+/// Used to convert an `Option<u8>` `payload_format_indicator` on a received MQTT message into a [`FormatIndicator`].
 impl From<Option<u8>> for FormatIndicator {
     fn from(value: Option<u8>) -> Self {
         match value {
-            Some(num) => FormatIndicator::from(num),
-            None => FormatIndicator::default(),
+            Some(1) => FormatIndicator::Utf8EncodedCharacterData,
+            Some(_) | None => FormatIndicator::default(),
         }
     }
 }
@@ -94,7 +85,7 @@ pub trait PayloadSerialize: Clone {
     /// Deserializes the payload from a byte vector to the generic type
     ///
     /// # Errors
-    /// Returns a [`PayloadError::DeserializationError`] over Type [`PayloadSerialize::Error`] if the deserialization fails.
+    /// Returns a [`PayloadError::DeserializationError`] over type [`PayloadSerialize::Error`] if the deserialization fails.
     ///
     /// Returns a [`PayloadError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
     fn deserialize(
@@ -242,15 +233,7 @@ mod tests {
     #[test_case(&FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
     #[test_case(&FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
     fn test_to_from_u8(prop: &FormatIndicator) {
-        assert_eq!(prop, &FormatIndicator::from(prop.clone() as u8));
-    }
-
-    #[test_case(0, &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
-    #[test_case(1, &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
-    #[test_case(2, &FormatIndicator::UnspecifiedBytes; "2_to_UnspecifiedBytes")]
-    #[test_case(255, &FormatIndicator::UnspecifiedBytes; "255_to_UnspecifiedBytes")]
-    fn test_from_u8(value: u8, expected: &FormatIndicator) {
-        assert_eq!(expected, &FormatIndicator::from(value));
+        assert_eq!(prop, &FormatIndicator::from(Some(prop.clone() as u8)));
     }
 
     #[test_case(Some(0), &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
