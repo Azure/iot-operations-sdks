@@ -45,14 +45,14 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
                 SchemaType = request.PutSchemaRequest.SchemaType,
                 Namespace = "DefaultSRNamespace"
             };
-            byte[] schemaInfoBytes = _jsonSerializer.ToBytes(schemaInfo)!;
+            byte[] schemaInfoBytes = _jsonSerializer.ToBytes(schemaInfo)!.SerializedPayload;
             StateStoreSetResponse resp = await _stateStoreClient.SetAsync(id, new StateStoreValue(schemaInfoBytes), new StateStoreSetRequestOptions() { }, cancellationToken: cancellationToken);
             logger.LogInformation("RegisterSchema response success: {s} {id}", resp.Success, id);
         }
         else
         {
             logger.LogInformation("Schema already exists {id}", id);
-            schemaInfo = _jsonSerializer.FromBytes<SchemaInfo>(find.Value.Bytes)!;
+            schemaInfo = _jsonSerializer.FromBytes<SchemaInfo>(find.Value.Bytes, Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator)!;
         }
 
         return new ExtendedResponse<PutResponsePayload>
@@ -73,7 +73,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
         SchemaInfo sdoc = null!;
         if (resp.Value != null)
         {
-            sdoc = _jsonSerializer.FromBytes<SchemaInfo>(resp.Value?.Bytes);
+            sdoc = _jsonSerializer.FromBytes<SchemaInfo>(resp.Value?.Bytes, Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
         }
         return new ExtendedResponse<GetResponsePayload>
         {
