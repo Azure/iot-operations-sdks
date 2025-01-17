@@ -191,6 +191,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     AkriMqttException? amex = ex as AkriMqttException;
                     CommandStatusCode statusCode = amex != null ? ErrorKindToStatusCode(amex.Kind) : CommandStatusCode.InternalServerError;
 
+                    if (amex != null 
+                        && amex.Kind == AkriMqttErrorKind.HeaderInvalid 
+                        && amex.HeaderName != null 
+                        && amex.HeaderName.Equals("Content Type", StringComparison.Ordinal))
+                    {
+                        statusCode = CommandStatusCode.UnsupportedMediaType;
+                    }
+
                     await GetDispatcher()(
                         async () => { await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, ex.Message, null, null, amex?.InApplication, amex?.HeaderName, amex?.HeaderValue, requestedProtocolVersion).ConfigureAwait(false); },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
