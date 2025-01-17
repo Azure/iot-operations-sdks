@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "dtmi:codegen:communicationTest:jsonModel:_contents:__schedule:_schema:_JSON;1",
+  "title": "Object_Schedule",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "course": {
+      "description": "The 'course' Field.",
+      "type": "string"
+    },
+    "credit": {
+      "description": "The 'credit' Field.",
+      "type": "string", "format": "duration"
+    }
+  }
+}
