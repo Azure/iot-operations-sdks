@@ -110,15 +110,7 @@ pub enum DeserializationError<T: Debug + Into<Box<dyn std::error::Error + Sync +
 
 /// A provided convenience struct for bypassing serialization and deserialization,
 /// but having dynamic content type and format indicator.
-#[derive(Clone, Debug)]
-pub struct BypassPayload {
-    /// The content type of the payload
-    pub content_type: String,
-    /// The format indicator of the payload
-    pub format_indicator: FormatIndicator,
-    /// The raw bytes to be sent as the payload
-    pub payload: Vec<u8>,
-}
+pub type BypassPayload = SerializedPayload;
 
 impl PayloadSerialize for BypassPayload {
     type Error = String;
