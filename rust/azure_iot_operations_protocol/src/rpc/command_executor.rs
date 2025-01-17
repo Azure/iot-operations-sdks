@@ -729,7 +729,17 @@ where
                     let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
 
                     // Deserialize payload
-                    let format_indicator = properties.payload_format_indicator.into();
+                    let format_indicator = match properties.payload_format_indicator.try_into() {
+                        Ok(format_indicator) => format_indicator,
+                        Err(e) => {
+                            log::error!(
+                                "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
+                                m.pkid
+                            );
+                            // Use default format indicator
+                            FormatIndicator::default()
+                        }
+                    };
                     let payload = match TReq::deserialize(
                         &m.payload,
                         &properties.content_type,

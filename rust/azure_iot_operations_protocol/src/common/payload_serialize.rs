@@ -14,12 +14,16 @@ pub enum FormatIndicator {
     Utf8EncodedCharacterData = 1,
 }
 
-/// Used to convert an `Option<u8>` `payload_format_indicator` on a received MQTT message into a [`FormatIndicator`].
-impl From<Option<u8>> for FormatIndicator {
-    fn from(value: Option<u8>) -> Self {
+impl TryFrom<Option<u8>> for FormatIndicator {
+    type Error = String;
+
+    fn try_from(value: Option<u8>) -> Result<Self, Self::Error> {
         match value {
-            Some(1) => FormatIndicator::Utf8EncodedCharacterData,
-            Some(_) | None => FormatIndicator::default(),
+            Some(0) | None => Ok(FormatIndicator::default()),
+            Some(1) => Ok(FormatIndicator::Utf8EncodedCharacterData),
+            Some(_) => Err(format!(
+                "Invalid format indicator value: {value:?}. Must be 0 or 1"
+            )),
         }
     }
 }
@@ -225,15 +229,24 @@ mod tests {
     #[test_case(&FormatIndicator::UnspecifiedBytes; "UnspecifiedBytes")]
     #[test_case(&FormatIndicator::Utf8EncodedCharacterData; "Utf8EncodedCharacterData")]
     fn test_to_from_u8(prop: &FormatIndicator) {
-        assert_eq!(prop, &FormatIndicator::from(Some(prop.clone() as u8)));
+        assert_eq!(
+            prop,
+            &FormatIndicator::try_from(Some(prop.clone() as u8)).unwrap()
+        );
     }
 
     #[test_case(Some(0), &FormatIndicator::UnspecifiedBytes; "0_to_UnspecifiedBytes")]
     #[test_case(Some(1), &FormatIndicator::Utf8EncodedCharacterData; "1_to_Utf8EncodedCharacterData")]
-    #[test_case(Some(2), &FormatIndicator::UnspecifiedBytes; "2_to_UnspecifiedBytes")]
-    #[test_case(Some(255), &FormatIndicator::UnspecifiedBytes; "255_to_UnspecifiedBytes")]
     #[test_case(None, &FormatIndicator::UnspecifiedBytes; "None_to_UnspecifiedBytes")]
-    fn test_from_option_u8(value: Option<u8>, expected: &FormatIndicator) {
-        assert_eq!(expected, &FormatIndicator::from(value));
+    fn test_from_option_u8_success(value: Option<u8>, expected: &FormatIndicator) {
+        let res = FormatIndicator::try_from(value);
+        assert!(res.is_ok());
+        assert_eq!(expected, &res.unwrap());
+    }
+
+    #[test_case(Some(2); "2")]
+    #[test_case(Some(255); "255")]
+    fn test_from_option_u8_failure(value: Option<u8>) {
+        assert!(&FormatIndicator::try_from(value).is_err());
     }
 }

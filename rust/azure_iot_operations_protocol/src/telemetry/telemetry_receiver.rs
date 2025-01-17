@@ -393,7 +393,17 @@ where
                         // Get content type
                         content_type = properties.content_type;
                         // Get format indicator
-                        format_indicator = properties.payload_format_indicator.into();
+                        format_indicator = match properties.payload_format_indicator.try_into() {
+                            Ok(format_indicator) => format_indicator,
+                            Err(e) => {
+                                log::error!(
+                                    "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
+                                    m.pkid
+                                );
+                                // Use default format indicator
+                                FormatIndicator::default()
+                            }
+                        };
 
                         // unused beyond validation, but may be used in the future to determine how to handle other fields.
                         let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided

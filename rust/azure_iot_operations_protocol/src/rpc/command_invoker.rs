@@ -1025,7 +1025,14 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     }
 
     // response payload deserialization
-    let format_indicator = response_properties.payload_format_indicator.into();
+    let format_indicator = match response_properties.payload_format_indicator.try_into() {
+        Ok(format_indicator) => format_indicator,
+        Err(e) => {
+            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.");
+            // Use default format indicator
+            FormatIndicator::default()
+        }
+    };
     let deserialized_response_payload = match TResp::deserialize(
         response_payload,
         &response_properties.content_type,
