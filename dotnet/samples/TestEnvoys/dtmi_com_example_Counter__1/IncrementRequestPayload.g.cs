@@ -10,7 +10,7 @@ namespace TestEnvoys.dtmi_com_example_Counter__1
     using TestEnvoys;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.6.0.0")]
-    public class IncrementRequestPayload
+    public partial class IncrementRequestPayload
     {
         /// <summary>
         /// The Command request argument.

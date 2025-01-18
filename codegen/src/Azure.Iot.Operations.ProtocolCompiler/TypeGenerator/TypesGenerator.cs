@@ -32,20 +32,7 @@
                 Directory.CreateDirectory(genRoot);
             }
 
-            if (schemaFileName.EndsWith(".avsc") && language == "csharp")
-            {
-                try
-                {
-                    Process.Start("avrogen", $"-s {schemaFilePath} {Directory.GetParent(genRoot)!.FullName}");
-                }
-                catch (Win32Exception)
-                {
-                    Console.WriteLine("avrogen tool not found; install via command:");
-                    Console.WriteLine("  dotnet tool install --global Apache.Avro.Tools");
-                    Environment.Exit(1);
-                }
-            }
-            else if (schemaFileName.EndsWith(".proto"))
+            if (schemaFileName.EndsWith(".proto"))
             {
                 try
                 {
@@ -65,7 +52,7 @@
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
                     distinctSchemaKinds.Add(schemaType.Kind);
-                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, genRoot, sourceFilePaths);
+                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot, sourceFilePaths);
                 }
             }
             else
