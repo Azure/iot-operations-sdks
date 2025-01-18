@@ -183,10 +183,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 responseTask = dedupRequestResponse.Response.Task;
             }
-            else if (fullRequest != null && reuseReferenceMap.TryGetValue(fullRequest, out ReuseReference? reuseReference) && WallClock.UtcNow < reuseReference.Ttl)
-            {
-                responseTask = requestResponseCache[reuseReference.FullCorrelationId].Response.Task;
-            }
             else
             {
                 requestResponseCache[fullCorrelationId] = new RequestResponse(fullRequest);
