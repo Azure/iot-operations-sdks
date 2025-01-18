@@ -4,6 +4,8 @@ package statestore
 
 import (
 	"context"
+	"encoding/hex"
+	"log/slog"
 	"strconv"
 	"time"
 
@@ -36,6 +38,7 @@ func (c *Client[K, V]) Set(
 	opt ...SetOption,
 ) (*Response[bool], error) {
 	if len(key) == 0 {
+		c.logger.Warn(ctx, "empty key")
 		return nil, ArgumentError{Name: "key"}
 	}
 
@@ -48,12 +51,15 @@ func (c *Client[K, V]) Set(
 	}
 	switch {
 	case opts.Expiry < 0:
+		c.logger.Warn(ctx, "negative expiry", slog.Duration("expiry", opts.Expiry))
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
+		c.logger.Debug(ctx, "expiry", slog.Duration("expiry", opts.Expiry))
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
 	req := resp.OpKV("SET", key, val, rest...)
+	c.logger.Debug(ctx, "set", slog.String("key", hex.EncodeToString([]byte(key))))
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 

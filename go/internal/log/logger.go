@@ -66,6 +66,11 @@ func (l Logger) Info(ctx context.Context, msg string, attrs ...slog.Attr) {
 	l.Log(ctx, slog.LevelInfo, msg, attrs...)
 }
 
+// Debug logs a message with structured logging.
+func (l Logger) Debug(ctx context.Context, msg string, attrs ...slog.Attr) {
+	l.Log(ctx, slog.LevelDebug, msg, attrs...)
+}
+
 // Enabled indicates that the logger is enabled for the given logging level.
 func (l Logger) Enabled(ctx context.Context, level slog.Level) bool {
 	return l.Wrapped != nil && l.Wrapped.Enabled(ctx, level)

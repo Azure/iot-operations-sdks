@@ -140,11 +140,14 @@ func NewTelemetryReceiver[T any](
 
 // Start listening to the MQTT telemetry topic.
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
+	tr.listener.log.Info(ctx, "Telemetry receiver subscribing to topic",
+		slog.String("topic", tr.listener.topic.Filter()))
 	return tr.listener.listen(ctx)
 }
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
+	tr.listener.log.Info(context.Background(), "Telemetry receiver closing")
 	tr.listener.close()
 }
 
@@ -158,10 +161,19 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
+		tr.listener.log.Warn(ctx, "Cannot parse telemetry, ignoring message",
+			slog.String("error", err.Error()))
 		return err
 	}
 
 	message.CloudEvent = cloudEventFromMessage(pub)
+
+	for key, value := range msg.Metadata {
+		if len(key) > 2 && key[:2] == "__" && !isReservedProperty(key) {
+			tr.listener.log.Warn(ctx, "User property starts with reserved prefix",
+				slog.String("property", key), slog.String("value", value))
+		}
+	}
 
 	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
@@ -170,24 +182,55 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
+	stringPayload := fmt.Sprintf("%v", message.Payload)
+
+	tr.listener.log.Debug(ctx, "Telemetry received",
+		slog.String("topic", pub.Topic),
+		slog.String("payload", stringPayload),
+		slog.Any("metadata", msg.Metadata))
+
 	if err := tr.handle(handlerCtx, message); err != nil {
+		tr.listener.log.Error(ctx, err, slog.String("message", "Handler returned an error"))
 		return err
 	}
 
 	if !tr.manualAck && pub.QoS > 0 {
+		tr.listener.log.Debug(ctx, "Telemetry acknowledged automatically",
+			slog.String("topic", pub.Topic),
+			slog.String("payload", stringPayload))
 		pub.Ack()
 	}
 	return nil
 }
 
+var reservedProperties = map[string]struct{}{
+	"__ts":             {},
+	"__stat":           {},
+	"__stMsg":          {},
+	"__apErr":          {},
+	"__srcId":          {},
+	"__propName":       {},
+	"__propVal":        {},
+	"__protVer":        {},
+	"__supProtMajVer":  {},
+	"__requestProtVer": {},
+}
+
+func isReservedProperty(property string) bool {
+	_, reserved := reservedProperties[property]
+	return reserved
+}
+
 func (tr *TelemetryReceiver[T]) onErr(
-	_ context.Context,
+	ctx context.Context,
 	pub *mqtt.Message,
 	err error,
 ) error {
 	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
+	tr.listener.log.Warn(ctx, "Telemetry error occurred",
+		slog.String("error", err.Error()))
 	return errutil.Return(err, false)
 }
 
@@ -243,8 +286,11 @@ func (tr *TelemetryReceiver[T]) handle(
 
 	select {
 	case err := <-rchan:
+		tr.listener.log.Error(ctx, err, slog.String("message", "Critical error in handler"))
 		return err
 	case <-ctx.Done():
+		err := errutil.Context(ctx, telemetryReceiverErrStr)
+		tr.listener.log.Error(ctx, err, slog.String("message", "Context done"))
 		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }

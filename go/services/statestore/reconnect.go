@@ -27,11 +27,13 @@ func (c *Client[K, V]) reconnect(ctx context.Context) {
 		// Get the latest value and artificially generate a notification.
 		res, err := c.Get(ctx, key)
 		if err != nil {
+			c.logger.Warn(ctx, "Failed to get key on reconnect")
 			continue
 		}
 
 		op := "SET"
 		if res.Version.IsZero() {
+			c.logger.Debug(ctx, "Key was empty on reconnect")
 			op = "DELETE"
 		}
 

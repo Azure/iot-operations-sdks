@@ -4,10 +4,12 @@ package protocol
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/url"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
@@ -19,6 +21,7 @@ type (
 	TelemetrySender[T any] struct {
 		publisher  *publisher[T]
 		dataSchema *url.URL
+		logger     log.Logger
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -86,11 +89,14 @@ func NewTelemetrySender[T any](
 		return nil, err
 	}
 
-	ts = &TelemetrySender[T]{}
+	ts = &TelemetrySender[T]{
+		logger: log.Wrap(opts.Logger),
+	}
 	ts.publisher = &publisher[T]{
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
+		log:      log.Wrap(opts.Logger),
 	}
 
 	ts.dataSchema = opts.DataSchema
@@ -137,6 +143,11 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 	pub.Retain = opts.Retain
+
+	ts.logger.Debug(ctx, "Sending telemetry",
+		slog.String("topic", pub.Topic),
+		slog.String("payload", fmt.Sprintf("%v", msg.Payload)),
+		slog.Any("metadata", msg.Metadata))
 
 	shallow = false
 	return ts.publisher.publish(ctx, pub)

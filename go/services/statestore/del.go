@@ -4,6 +4,8 @@ package statestore
 
 import (
 	"context"
+	"encoding/hex"
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -31,6 +33,7 @@ func (c *Client[K, V]) Del(
 	opt ...DelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
+		c.logger.Warn(ctx, "empty key", slog.String("key", hex.EncodeToString([]byte(key))))
 		return nil, ArgumentError{Name: "key"}
 	}
 
@@ -38,6 +41,7 @@ func (c *Client[K, V]) Del(
 	opts.Apply(opt)
 
 	req := resp.OpK("DEL", key)
+	c.logger.Debug(ctx, "del", slog.String("key", hex.EncodeToString([]byte(key))))
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 

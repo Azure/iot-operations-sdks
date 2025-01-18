@@ -4,6 +4,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -38,9 +39,11 @@ func (c *Client[K, V]) KeyNotify(
 
 	req := resp.OpK("KEYNOTIFY", key)
 	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
+		c.logger.Warn(ctx, "Key Notification failed", slog.String("key", k))
 		return err
 	}
 
+	c.logger.Info(ctx, "Key Notification started", slog.String("key", k))
 	c.keynotify[k]++
 	return nil
 }
@@ -65,10 +68,12 @@ func (c *Client[K, V]) KeyNotifyStop(
 		req := resp.OpK("KEYNOTIFY", key, "STOP")
 		_, err := invoke(ctx, c.invoker, parseOK, &opts, req)
 		if err != nil {
+			c.logger.Warn(ctx, "Key Notification stop failed", slog.String("key", k))
 			return err
 		}
 
 		delete(c.keynotify, k)
+		c.logger.Info(ctx, "Key Notification stopped", slog.String("key", k))
 		return nil
 	}
 

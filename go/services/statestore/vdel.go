@@ -4,6 +4,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -33,6 +34,7 @@ func (c *Client[K, V]) VDel(
 	opt ...VDelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
+		c.logger.Warn(ctx, "empty key")
 		return nil, ArgumentError{Name: "key"}
 	}
 
@@ -40,6 +42,7 @@ func (c *Client[K, V]) VDel(
 	opts.Apply(opt)
 
 	req := resp.OpKV("VDEL", key, val)
+	c.logger.Debug(ctx, "vdel", slog.String("key", string(key)), slog.String("val", string(val)))
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 

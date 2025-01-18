@@ -4,6 +4,8 @@ package statestore
 
 import (
 	"context"
+	"encoding/hex"
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -30,12 +32,14 @@ func (c *Client[K, V]) Get(
 	opt ...GetOption,
 ) (*Response[V], error) {
 	if len(key) == 0 {
+		c.logger.Warn(ctx, "empty key")
 		return nil, ArgumentError{Name: "key"}
 	}
 
 	var opts GetOptions
 	opts.Apply(opt)
 
+	c.logger.Debug(ctx, "get", slog.String("key", hex.EncodeToString([]byte(key))))
 	req := resp.OpK("GET", key)
 	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
