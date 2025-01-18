@@ -230,8 +230,9 @@ where
     /// Creates a new [`CommandInvoker`].
     ///
     /// # Arguments
-    /// * `client` - The MQTT client to use for communication
-    /// * `invoker_options` - Configuration options
+    /// * `client` - The MQTT client to use for communication.
+    /// * `application_context` - [`ApplicationContext`] for the command invoker.
+    /// * `invoker_options` - Configuration options.
     ///
     /// Returns Ok([`CommandInvoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors

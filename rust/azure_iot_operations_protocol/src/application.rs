@@ -9,7 +9,7 @@ use super::common::hybrid_logical_clock::HybridLogicalClock;
 
 const DEFAULT_MAX_CLOCK_DRIFT: u64 = 60;
 
-/// Struct containing the application Hybrid Logical Clock.
+/// Struct containing the application-level [`HybridLogicalClock`].
 pub struct ApplicationHybridLogicalClock {
     /// The [`HybridLogicalClock`] used by the application, wrapped in a Mutex to allow for concurrent access.
     #[allow(unused)] // TODO: Remove once HybridLogicalClock is implemented
@@ -52,7 +52,7 @@ impl ApplicationHybridLogicalClock {
 /// Options for creating an [`ApplicationContext`].
 #[derive(Builder)]
 pub struct ApplicationContextOptions {
-    /// The maximum clock drift allowed for the Application Hybrid Logical Clock
+    /// The maximum clock drift allowed for the [`ApplicationHybridLogicalClock`].
     #[builder(default = DEFAULT_MAX_CLOCK_DRIFT)]
     pub max_clock_drift: u64,
 }

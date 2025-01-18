@@ -197,7 +197,7 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    application_hlc: Arc<ApplicationHybridLogicalClock>,
+    _application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
@@ -223,6 +223,7 @@ where
     ///
     /// # Arguments
     /// * `client` - [`ManagedClient`] to use for telemetry communication.
+    /// * `application_context` - [`ApplicationContext`] for the telemetry receiver.
     /// * `receiver_options` - [`TelemetryReceiverOptions`] to configure the telemetry receiver.
     ///
     /// Returns Ok([`TelemetryReceiver`]) on success, otherwise returns[`AIOProtocolError`].
@@ -287,7 +288,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            application_hlc: application_context.application_hlc,
+            _application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
         })

@@ -286,8 +286,9 @@ where
     /// Create a new [`CommandExecutor`].
     ///
     /// # Arguments
-    /// * `client` - The MQTT client to use for communication
-    /// * `executor_options` - Configuration options
+    /// * `client` - The MQTT client to use for communication.
+    /// * `application_context` - [`ApplicationContext`] for the command executor.
+    /// * `executor_options` - Configuration options.
     ///
     /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
     ///

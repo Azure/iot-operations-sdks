@@ -259,7 +259,7 @@ where
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
-    application_hlc: Arc<ApplicationHybridLogicalClock>,
+    _application_hlc: Arc<ApplicationHybridLogicalClock>,
 }
 
 /// Implementation of Telemetry Sender
@@ -269,6 +269,11 @@ where
     C: ManagedClient + Send + Sync + 'static,
 {
     /// Creates a new [`TelemetrySender`].
+    ///
+    /// # Arguments
+    /// * `client` - The MQTT client to use for telemetry communication.
+    /// * `application_context` - [`ApplicationContext`] for the telemetry sender.
+    /// * `sender_options` - Configuration options.
     ///
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -310,7 +315,7 @@ where
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
-            application_hlc: application_context.application_hlc,
+            _application_hlc: application_context.application_hlc,
         })
     }
 
