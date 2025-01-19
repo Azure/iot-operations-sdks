@@ -68,7 +68,11 @@ func (c *Client[K, V]) KeyNotifyStop(
 		req := resp.OpK("KEYNOTIFY", key, "STOP")
 		_, err := invoke(ctx, c.invoker, parseOK, &opts, req)
 		if err != nil {
-			c.logger.Warn(ctx, "Key Notification stop failed", slog.String("key", k))
+			c.logger.Warn(
+				ctx,
+				"Key Notification stop failed",
+				slog.String("key", k),
+			)
 			return err
 		}
 

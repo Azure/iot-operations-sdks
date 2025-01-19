@@ -51,7 +51,11 @@ func (c *Client[K, V]) Set(
 	}
 	switch {
 	case opts.Expiry < 0:
-		c.logger.Warn(ctx, "negative expiry", slog.Duration("expiry", opts.Expiry))
+		c.logger.Warn(
+			ctx,
+			"negative expiry",
+			slog.Duration("expiry", opts.Expiry),
+		)
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		c.logger.Debug(ctx, "expiry", slog.Duration("expiry", opts.Expiry))
@@ -59,7 +63,11 @@ func (c *Client[K, V]) Set(
 	}
 
 	req := resp.OpKV("SET", key, val, rest...)
-	c.logger.Debug(ctx, "set", slog.String("key", hex.EncodeToString([]byte(key))))
+	c.logger.Debug(
+		ctx,
+		"set",
+		slog.String("key", hex.EncodeToString([]byte(key))),
+	)
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 

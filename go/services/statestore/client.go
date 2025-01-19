@@ -116,7 +116,11 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.logger.Warn(context.Background(), "Error creating command invoker", slog.String("error", err.Error()))
+		c.logger.Warn(
+			context.Background(),
+			"Error creating command invoker",
+			slog.String("error", err.Error()),
+		)
 		c.listeners.Close()
 		return nil, err
 	}
@@ -131,7 +135,11 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.logger.Warn(context.Background(), "Error creating telemetry receiver", slog.String("error", err.Error()))
+		c.logger.Warn(
+			context.Background(),
+			"Error creating telemetry receiver",
+			slog.String("error", err.Error()),
+		)
 		c.listeners.Close()
 		return nil, err
 	}
@@ -154,7 +162,11 @@ func New[K, V Bytes](
 func (c *Client[K, V]) Start(ctx context.Context) error {
 	err := c.listeners.Start(ctx)
 	if err != nil {
-		c.logger.Warn(ctx, "Subscribe error encountered but not returned", slog.String("error", err.Error()))
+		c.logger.Warn(
+			ctx,
+			"Subscribe error encountered but not returned",
+			slog.String("error", err.Error()),
+		)
 	}
 	c.logger.Debug(ctx, "State store client started")
 	return nil

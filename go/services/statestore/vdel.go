@@ -42,7 +42,12 @@ func (c *Client[K, V]) VDel(
 	opts.Apply(opt)
 
 	req := resp.OpKV("VDEL", key, val)
-	c.logger.Debug(ctx, "vdel", slog.String("key", string(key)), slog.String("val", string(val)))
+	c.logger.Debug(
+		ctx,
+		"vdel",
+		slog.String("key", string(key)),
+		slog.String("val", string(val)),
+	)
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 

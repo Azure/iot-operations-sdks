@@ -33,7 +33,11 @@ func (c *Client[K, V]) Del(
 	opt ...DelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
-		c.logger.Warn(ctx, "empty key", slog.String("key", hex.EncodeToString([]byte(key))))
+		c.logger.Warn(
+			ctx,
+			"empty key",
+			slog.String("key", hex.EncodeToString([]byte(key))),
+		)
 		return nil, ArgumentError{Name: "key"}
 	}
 
@@ -41,7 +45,11 @@ func (c *Client[K, V]) Del(
 	opts.Apply(opt)
 
 	req := resp.OpK("DEL", key)
-	c.logger.Debug(ctx, "del", slog.String("key", hex.EncodeToString([]byte(key))))
+	c.logger.Debug(
+		ctx,
+		"del",
+		slog.String("key", hex.EncodeToString([]byte(key))),
+	)
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 

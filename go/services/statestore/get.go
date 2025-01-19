@@ -39,7 +39,11 @@ func (c *Client[K, V]) Get(
 	var opts GetOptions
 	opts.Apply(opt)
 
-	c.logger.Debug(ctx, "get", slog.String("key", hex.EncodeToString([]byte(key))))
+	c.logger.Debug(
+		ctx,
+		"get",
+		slog.String("key", hex.EncodeToString([]byte(key))),
+	)
 	req := resp.OpK("GET", key)
 	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
