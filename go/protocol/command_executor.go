@@ -123,7 +123,11 @@ func NewCommandExecutor[Req, Res any](
 		"responseEncoding": responseEncoding,
 		"handler":          handler,
 	}); err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to create command executor"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to create command executor"),
+		)
 		return nil, err
 	}
 
@@ -133,12 +137,20 @@ func NewCommandExecutor[Req, Res any](
 		Text:     commandExecutorErrStr,
 	}
 	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to validate timeout"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to validate timeout"),
+		)
 		return nil, err
 	}
 
 	if err := internal.ValidateShareName(opts.ShareName); err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to validate share name"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to validate share name"),
+		)
 		return nil, err
 	}
 
@@ -149,13 +161,21 @@ func NewCommandExecutor[Req, Res any](
 		opts.TopicNamespace,
 	)
 	if err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to create topic pattern"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to create topic pattern"),
+		)
 		return nil, err
 	}
 
 	reqTF, err := reqTP.Filter()
 	if err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to create topic filter"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to create topic filter"),
+		)
 		return nil, err
 	}
 
@@ -189,19 +209,34 @@ func NewCommandExecutor[Req, Res any](
 
 // Start listening to the MQTT request topic.
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
-	ce.listener.log.Info(ctx, "Subscribing to MQTT request topic", slog.String("topic", ce.listener.topic.Filter()))
+	ce.listener.log.Info(
+		ctx,
+		"Subscribing to MQTT request topic",
+		slog.String("topic", ce.listener.topic.Filter()),
+	)
 	err := ce.listener.listen(ctx)
 	if err != nil {
-		ce.listener.log.Warn(ctx, err.Error(), slog.String("message", "Subscribe failed in CommandExecutor.Start"))
+		ce.listener.log.Warn(
+			ctx,
+			err.Error(),
+			slog.String("message", "Subscribe failed in CommandExecutor.Start"),
+		)
 	}
 	return err
 }
 
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
-	ce.listener.log.Info(context.Background(), "Unsubscribing from MQTT request topic", slog.String("topic", ce.listener.topic.Filter()))
+	ce.listener.log.Info(
+		context.Background(),
+		"Unsubscribing from MQTT request topic",
+		slog.String("topic", ce.listener.topic.Filter()),
+	)
 	ce.listener.close()
-	ce.listener.log.Info(context.Background(), "Command executor shutdown complete")
+	ce.listener.log.Info(
+		context.Background(),
+		"Command executor shutdown complete",
+	)
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -209,17 +244,32 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	pub *mqtt.Message,
 	msg *Message[Req],
 ) error {
-	ce.listener.log.Debug(ctx, "Request received", slog.String("correlationData", string(pub.CorrelationData)))
+	ce.listener.log.Debug(
+		ctx,
+		"Request received",
+		slog.String("correlationData", string(pub.CorrelationData)),
+	)
 
 	if err := ignoreRequest(pub); err != nil {
-		ce.listener.log.Error(ctx, err, slog.String("message", "Ignoring request due to invalid or missing response topic"))
+		ce.listener.log.Error(
+			ctx,
+			err,
+			slog.String(
+				"message",
+				"Ignoring request due to invalid or missing response topic",
+			),
+		)
 		return err
 	}
 
 	if pub.MessageExpiry == 0 {
-		ce.listener.log.Error(ctx,
+		ce.listener.log.Error(
+			ctx,
 			fmt.Errorf("Command has no expiry"),
-			slog.String("message", "Request will be rejected due to missing expiry"),
+			slog.String(
+				"message",
+				"Request will be rejected due to missing expiry",
+			),
 		)
 		return &errors.Error{
 			Message:    "message expiry missing",
@@ -242,7 +292,14 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 		req.Payload, err = ce.listener.payload(msg)
 		if err != nil {
-			ce.listener.log.Warn(ctx, err.Error(), slog.String("message", "Ignoring request due to invalid payload"))
+			ce.listener.log.Warn(
+				ctx,
+				err.Error(),
+				slog.String(
+					"message",
+					"Ignoring request due to invalid payload",
+				),
+			)
 			return nil, err
 		}
 
@@ -254,25 +311,41 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 		res, err := ce.handle(handlerCtx, req)
 		if err != nil {
-			ce.listener.log.Warn(ctx, err.Error(), slog.String("message", "Ignoring request due to handler error"))
+			ce.listener.log.Warn(
+				ctx,
+				err.Error(),
+				slog.String("message", "Ignoring request due to handler error"),
+			)
 			return nil, err
 		}
 
 		rpub, err := ce.build(pub, res, nil)
 		if err != nil {
-			ce.listener.log.Error(ctx, err, slog.String("message", "Failed to build response"))
+			ce.listener.log.Error(
+				ctx,
+				err,
+				slog.String("message", "Failed to build response"),
+			)
 			return nil, err
 		}
 
 		return rpub, nil
 	})
 	if err != nil {
-		ce.listener.log.Error(ctx, err, slog.String("message", "Failed to execute command"))
+		ce.listener.log.Error(
+			ctx,
+			err,
+			slog.String("message", "Failed to execute command"),
+		)
 		return err
 	}
 
 	defer pub.Ack()
-	ce.listener.log.Debug(ctx, "Request acked", slog.String("correlationData", string(pub.CorrelationData)))
+	ce.listener.log.Debug(
+		ctx,
+		"Request acked",
+		slog.String("correlationData", string(pub.CorrelationData)),
+	)
 	if rpub == nil {
 		return nil
 	}
@@ -280,7 +353,11 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	err = ce.publisher.publish(ctx, rpub)
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
-		ce.listener.log.Warn(ctx, err.Error(), slog.String("message", "Message dropped due to publish failure"))
+		ce.listener.log.Warn(
+			ctx,
+			err.Error(),
+			slog.String("message", "Message dropped due to publish failure"),
+		)
 		ce.listener.drop(ctx, pub, err)
 	} else {
 		ce.listener.log.Debug(ctx, "Response sent", slog.String("correlationData", string(pub.CorrelationData)))
@@ -301,13 +378,21 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 
 	// If the error is a no-return error, don't send it.
 	if no, e := errutil.IsNoReturn(err); no {
-		ce.listener.log.Warn(ctx, e.Error(), slog.String("message", "Ignoring request due to no-return error"))
+		ce.listener.log.Warn(
+			ctx,
+			e.Error(),
+			slog.String("message", "Ignoring request due to no-return error"),
+		)
 		return e
 	}
 
 	rpub, err := ce.build(pub, nil, err)
 	if err != nil {
-		ce.listener.log.Error(ctx, err, slog.String("message", "Failed to build response"))
+		ce.listener.log.Error(
+			ctx,
+			err,
+			slog.String("message", "Failed to build response"),
+		)
 		return err
 	}
 	return ce.publisher.publish(ctx, rpub)
@@ -367,7 +452,11 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case ret := <-rchan:
 		return ret.res, ret.err
 	case <-ctx.Done():
-		ce.listener.log.Warn(ctx, "Command handler timed out", slog.String("message", "Ignoring request due to handler timeout"))
+		ce.listener.log.Warn(
+			ctx,
+			"Command handler timed out",
+			slog.String("message", "Ignoring request due to handler timeout"),
+		)
 		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
 }
@@ -384,7 +473,11 @@ func (ce *CommandExecutor[Req, Res]) build(
 	}
 	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
 	if err != nil {
-		ce.listener.log.Error(context.Background(), err, slog.String("message", "Failed to build response"))
+		ce.listener.log.Error(
+			context.Background(),
+			err,
+			slog.String("message", "Failed to build response"),
+		)
 		return nil, err
 	}
 

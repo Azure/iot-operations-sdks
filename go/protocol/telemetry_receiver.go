@@ -170,8 +170,12 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	for key, value := range msg.Metadata {
 		if len(key) > 2 && key[:2] == "__" && !isReservedProperty(key) {
-			tr.listener.log.Warn(ctx, "User property starts with reserved prefix",
-				slog.String("property", key), slog.String("value", value))
+			tr.listener.log.Warn(
+				ctx,
+				"User property starts with reserved prefix",
+				slog.String("property", key),
+				slog.String("value", value),
+			)
 		}
 	}
 
@@ -190,7 +194,11 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		slog.Any("metadata", msg.Metadata))
 
 	if err := tr.handle(handlerCtx, message); err != nil {
-		tr.listener.log.Error(ctx, err, slog.String("message", "Handler returned an error"))
+		tr.listener.log.Error(
+			ctx,
+			err,
+			slog.String("message", "Handler returned an error"),
+		)
 		return err
 	}
 
@@ -286,7 +294,11 @@ func (tr *TelemetryReceiver[T]) handle(
 
 	select {
 	case err := <-rchan:
-		tr.listener.log.Error(ctx, err, slog.String("message", "Critical error in handler"))
+		tr.listener.log.Error(
+			ctx,
+			err,
+			slog.String("message", "Critical error in handler"),
+		)
 		return err
 	case <-ctx.Done():
 		err := errutil.Context(ctx, telemetryReceiverErrStr)
