@@ -48,7 +48,7 @@ func (c *Client[K, V]) VDel(
 		slog.String("key", string(key)),
 		slog.String("val", string(val)),
 	)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.logger)
 }
 
 // Apply resolves the provided list of options.

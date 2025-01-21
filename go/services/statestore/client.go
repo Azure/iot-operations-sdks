@@ -193,17 +193,22 @@ func invoke[T any](
 	parse func([]byte) (T, error),
 	opts invokeOptions,
 	data []byte,
+	logger log.Logger,
 ) (*Response[T], error) {
+	logger.Debug(ctx, "Invoking", slog.String("data", string(data)))
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
+		logger.Warn(ctx, "Invoke error", slog.String("error", err.Error()))
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
+		logger.Warn(ctx, "Parse error", slog.String("error", err.Error()))
 		return nil, err
 	}
 
+	logger.Debug(ctx, "Invoke success")
 	return &Response[T]{val, res.Timestamp}, nil
 }
 

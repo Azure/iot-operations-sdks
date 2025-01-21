@@ -45,7 +45,7 @@ func (c *Client[K, V]) Get(
 		slog.String("key", hex.EncodeToString([]byte(key))),
 	)
 	req := resp.OpK("GET", key)
-	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
+	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req, c.logger)
 }
 
 // Apply resolves the provided list of options.

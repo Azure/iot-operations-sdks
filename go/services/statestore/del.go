@@ -50,7 +50,7 @@ func (c *Client[K, V]) Del(
 		"del",
 		slog.String("key", hex.EncodeToString([]byte(key))),
 	)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.logger)
 }
 
 // Apply resolves the provided list of options.

@@ -68,7 +68,7 @@ func (c *Client[K, V]) Set(
 		"set",
 		slog.String("key", hex.EncodeToString([]byte(key))),
 	)
-	return invoke(ctx, c.invoker, parseOK, &opts, req)
+	return invoke(ctx, c.invoker, parseOK, &opts, req, c.logger)
 }
 
 // Apply resolves the provided list of options.
