@@ -29,8 +29,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private int aggregateStorageSize;
         private readonly Dictionary<FullCorrelationId, RequestResponse> requestResponseCache;
-        private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry or refresh
-        private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via refresh or eviction
+        private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry
+        private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via eviction
 
         static CommandResponseCache()
         {
@@ -72,7 +72,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public async Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
         {
-            DateTime ttl = DateTime.MinValue;
             if (!isMaintenanceActive)
             {
                 throw new AkriMqttException($"{nameof(StoreAsync)} called before {nameof(StartAsync)} or after {nameof(StopAsync)}.")
@@ -100,9 +99,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             DateTime now = WallClock.UtcNow;
             bool hasExpired = now >= commandExpirationTime;
-            bool excessivelyStale = true;
 
-            if (hasExpired && excessivelyStale)
+            if (hasExpired)
             {
                 RemoveEntry(fullCorrelationId, requestResponse);
                 semaphore.Release();
