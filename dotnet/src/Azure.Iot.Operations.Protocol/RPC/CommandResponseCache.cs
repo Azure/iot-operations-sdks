@@ -29,10 +29,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private int aggregateStorageSize;
         private readonly Dictionary<FullCorrelationId, RequestResponse> requestResponseCache;
-        private readonly Dictionary<FullRequest, ReuseReference> reuseReferenceMap;
         private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry or refresh
         private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via refresh or eviction
-        private readonly PriorityQueue<FullCorrelationId, DateTime> reuseQueue; // may refer to entries that have already been removed via expiry or eviction
 
         static CommandResponseCache()
         {
@@ -53,10 +51,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             aggregateStorageSize = 0;
             requestResponseCache = [];
-            reuseReferenceMap = [];
             costBenefitQueue = new();
             dedupQueue = new();
-            reuseQueue = new();
         }
 
         public int MaxEntryCount { get; set; } = 10_000;
@@ -129,11 +125,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             double effectiveBenefit = dedupBenefit;
             bool canEvict = !isDedupMandatory || hasExpired;
 
-            if (requestResponse.FullRequest != null)
-            {
-                reuseReferenceMap[requestResponse.FullRequest].Ttl = ttl;
-            }
-
             DateTime deferredExpirationTime = holdForDedup ? commandExpirationTime : DateTime.MinValue;
             DateTime deferredStaleness = DateTime.MinValue;
             double deferredBenefit = effectiveBenefit;
@@ -180,10 +171,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             else
             {
                 requestResponseCache[fullCorrelationId] = new RequestResponse(fullRequest);
-                if (fullRequest != null)
-                {
-                    reuseReferenceMap[fullRequest] = new ReuseReference(fullCorrelationId);
-                }
             }
 
             semaphore.Release();
@@ -278,7 +265,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         if (extantEntry.DeferredStaleness > WallClock.UtcNow)
                         {
-                            reuseQueue.Enqueue(extantCorrelationId, extantEntry.DeferredStaleness);
                             if (extantEntry.DeferredBenefit != 0)
                             {
                                 costBenefitQueue.Enqueue(extantCorrelationId, extantEntry.DeferredBenefit);
@@ -305,10 +291,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             aggregateStorageSize -= requestResponse.Size;
             requestResponseCache.Remove(correlationId);
-            if (requestResponse.FullRequest != null)
-            {
-                reuseReferenceMap.Remove(requestResponse.FullRequest);
-            }
         }
 
         private class FullCorrelationId(string topic, byte[] correlationData)
