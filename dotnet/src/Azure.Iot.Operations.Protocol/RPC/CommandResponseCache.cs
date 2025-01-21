@@ -124,17 +124,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             bool canEvict = !isDedupMandatory || hasExpired;
 
             DateTime deferredExpirationTime = holdForDedup ? commandExpirationTime : DateTime.MinValue;
-            DateTime deferredStaleness = DateTime.MinValue;
             double deferredBenefit = effectiveBenefit;
 
             if (holdForDedup)
             {
                 dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
                 deferredExpirationTime = DateTime.MinValue;
-            }
-            else
-            {
-                deferredStaleness = DateTime.MinValue;
             }
 
             if (canEvict)
@@ -144,7 +139,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             requestResponse.DeferredExpirationTime = deferredExpirationTime;
-            requestResponse.DeferredStaleness = deferredStaleness;
             requestResponse.DeferredBenefit = deferredBenefit;
 
             TrimCache();
@@ -261,19 +255,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     if (requestResponseCache.TryGetValue(extantCorrelationId, out RequestResponse? extantEntry))
                     {
-                        if (extantEntry.DeferredStaleness > WallClock.UtcNow)
-                        {
-                            if (extantEntry.DeferredBenefit != 0)
-                            {
-                                costBenefitQueue.Enqueue(extantCorrelationId, extantEntry.DeferredBenefit);
-                            }
-
-                            TrimCache();
-                        }
-                        else
-                        {
-                            RemoveEntry(extantCorrelationId, extantEntry);
-                        }
+                        RemoveEntry(extantCorrelationId, extantEntry);
                     }
 
                     semaphore.Release();
@@ -358,8 +340,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             public TaskCompletionSource<MqttApplicationMessage> Response { get; init; }
 
             public DateTime DeferredExpirationTime { get; set; }
-
-            public DateTime DeferredStaleness { get; set; }
 
             public double DeferredBenefit { get; set; }
 
