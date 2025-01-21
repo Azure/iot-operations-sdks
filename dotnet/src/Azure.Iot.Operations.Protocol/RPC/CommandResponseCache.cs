@@ -23,10 +23,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly SemaphoreSlim semaphore;
         private readonly AutoResetEvent expireEvent;
-        private readonly AutoResetEvent refreshEvent;
 
         private Task expiryTask;
-        private Task refreshTask;
         private bool isMaintenanceActive;
 
         private int aggregateStorageSize;
@@ -50,9 +48,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             semaphore = new SemaphoreSlim(1);
             expireEvent = new AutoResetEvent(false);
-            refreshEvent = new AutoResetEvent(false);
             expiryTask = Task.CompletedTask;
-            refreshTask = Task.CompletedTask;
             isMaintenanceActive = false;
 
             aggregateStorageSize = 0;
@@ -169,7 +165,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             semaphore.Release();
 
             expireEvent.Set();
-            refreshEvent.Set();
         }
 
         public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
@@ -209,7 +204,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             isMaintenanceActive = true;
             expiryTask = Task.Run(ContinuouslyExpireAsync);
-            refreshTask = Task.Run(ContinuouslyRefreshAsync);
 
             semaphore.Release();
         }
@@ -226,15 +220,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             isMaintenanceActive = false;
             Task expiryTask = this.expiryTask;
-            Task refreshTask = this.refreshTask;
 
             semaphore.Release();
 
             expireEvent.Set();
-            refreshEvent.Set();
 
             await expiryTask.ConfigureAwait(false);
-            await refreshTask.ConfigureAwait(false);
         }
 
         private void TrimCache()
@@ -309,59 +300,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 semaphore.Release();
                 await Task.Run(() => { expireEvent.WaitOne(remainingDuration); }).ConfigureAwait(false);
-            }
-        }
-
-        private async Task ContinuouslyRefreshAsync()
-        {
-            while (true)
-            {
-                await semaphore.WaitAsync().ConfigureAwait(false);
-                if (!isMaintenanceActive)
-                {
-                    semaphore.Release();
-                    return;
-                }
-
-                TimeSpan remainingDuration = reuseQueue.TryPeek(out FullCorrelationId? extantCorrelationId, out DateTime ttl) ? ttl - WallClock.UtcNow : TimeSpan.MaxValue;
-                if (remainingDuration > MaxWaitDuration)
-                {
-                    remainingDuration = MaxWaitDuration;
-                }
-
-                if (remainingDuration <= TimeSpan.Zero)
-                {
-                    if (reuseQueue.Dequeue() != extantCorrelationId)
-                    {
-                        semaphore.Release();
-                        throw new AkriMqttException("Internal logic error in CommandResponseCache - inconsistent reuseQueue")
-                        {
-                            Kind = AkriMqttErrorKind.InternalLogicError,
-                            InApplication = false,
-                            IsShallow = false,
-                            IsRemote = false,
-                            PropertyName = nameof(FullCorrelationId.CorrelationData),
-                        };
-                    }
-
-                    if (requestResponseCache.TryGetValue(extantCorrelationId, out RequestResponse? extantEntry))
-                    {
-                        if (extantEntry.DeferredExpirationTime > WallClock.UtcNow)
-                        {
-                            dedupQueue.Enqueue(extantCorrelationId, extantEntry.DeferredExpirationTime);
-                        }
-                        else
-                        {
-                            RemoveEntry(extantCorrelationId, extantEntry);
-                        }
-                    }
-
-                    semaphore.Release();
-                    continue;
-                }
-
-                semaphore.Release();
-                await Task.Run(() => { refreshEvent.WaitOne(remainingDuration); }).ConfigureAwait(false);
             }
         }
 
