@@ -28,7 +28,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
+            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCounterCommands("SampleServer");
             await RunGreeterCommands();
             await RunMathCommands();

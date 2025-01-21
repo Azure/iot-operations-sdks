@@ -7,7 +7,7 @@
 
     public class RustTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
         {
             ITemplateTransform templateTransform = schemaType switch
             {

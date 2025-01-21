@@ -110,6 +110,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                         yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
                     }
 
+                    if (genFormat == PayloadFormat.Avro && schemaClass != string.Empty)
+                    {
+                        yield return new DotNetSerialization(projectName, genNamespace, schemaClass, workingPath);
+                    }
+
                     break;
                 case "go":
                     if (generateServer)
@@ -198,6 +203,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     if (generateServer)
                     {
                         yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                    }
+
+                    if (genFormat == PayloadFormat.Avro)
+                    {
+                        if (reqSchemaClass != null && reqSchemaClass != string.Empty)
+                        {
+                            yield return new DotNetSerialization(projectName, genNamespace, reqSchemaClass, workingPath);
+                        }
+
+                        if (respSchemaClass != null && respSchemaClass != string.Empty)
+                        {
+                            yield return new DotNetSerialization(projectName, genNamespace, respSchemaClass, workingPath);
+                        }
                     }
 
                     break;
