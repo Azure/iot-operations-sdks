@@ -104,7 +104,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             DateTime now = WallClock.UtcNow;
             bool hasExpired = now >= commandExpirationTime;
-            bool excessivelyStale = now >= ttl;
+            bool excessivelyStale = true;
 
             if (hasExpired && excessivelyStale)
             {
@@ -118,16 +118,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
             double reuseBenefit = CostWeightedBenefit(requestPayload, responseMessage, executionDuration);
 
             bool holdForDedup = !hasExpired;
-            bool holdForReuse = !excessivelyStale;
 
-            if (!holdForDedup && !holdForReuse)
+            if (!holdForDedup)
             {
                 RemoveEntry(fullCorrelationId, requestResponse);
                 semaphore.Release();
                 return;
             }
 
-            double effectiveBenefit = holdForReuse ? reuseBenefit : dedupBenefit;
+            double effectiveBenefit = dedupBenefit;
             bool canEvict = !isDedupMandatory || hasExpired;
 
             if (requestResponse.FullRequest != null)
@@ -136,17 +135,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             DateTime deferredExpirationTime = holdForDedup ? commandExpirationTime : DateTime.MinValue;
-            DateTime deferredStaleness = holdForReuse ? ttl : DateTime.MinValue;
+            DateTime deferredStaleness = DateTime.MinValue;
             double deferredBenefit = effectiveBenefit;
 
-            if (holdForDedup && (!holdForReuse || commandExpirationTime < ttl))
+            if (holdForDedup)
             {
                 dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
                 deferredExpirationTime = DateTime.MinValue;
             }
             else
             {
-                reuseQueue.Enqueue(fullCorrelationId, ttl);
                 deferredStaleness = DateTime.MinValue;
             }
 
