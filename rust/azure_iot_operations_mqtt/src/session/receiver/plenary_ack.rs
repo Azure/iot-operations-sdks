@@ -53,15 +53,9 @@ impl PlenaryState {
 
     /// Indicate a member has signalled
     fn signal(&mut self) {
-        println!("Signalling");
         self.signals += 1;
-        println!(
-            "Members: {} || Signals: {} || Commenced: {}",
-            self.members, self.signals, self.commenced
-        );
         if self.signals == self.members && self.commenced {
             self.approved.notify_one();
-            println!("Approved!");
         }
     }
 
@@ -141,9 +135,7 @@ impl PlenaryAck {
         let approved = state.get_approved_notify();
 
         let f = async move {
-            println!("Awaiting approval in plenary op");
             approved.notified().await;
-            println!("Waiting on ack future");
             ack_future.await
         };
 
