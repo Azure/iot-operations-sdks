@@ -219,7 +219,14 @@ where
                 let ack_f = {
                     let acker = self.acker.clone();
                     let publish = publish.clone();
-                    async move { acker.ordered_ack(&publish).await }
+                    async move { 
+                        let result = acker.ordered_ack(&publish).await; 
+                        match result {
+                            Ok(_) => log::debug!("Sent ACK for PKID {}", publish.pkid),
+                            Err(_) => log::error!("ACK failed for PKID {}", publish.pkid),
+                        }
+                        result
+                    }
                 };
                 Some(PlenaryAck::new(ack_f))
             }
