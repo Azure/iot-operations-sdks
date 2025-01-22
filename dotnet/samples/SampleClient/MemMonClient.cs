@@ -11,19 +11,19 @@ internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> 
 {
     public override Task ReceiveTelemetry(string senderId, WorkingSetTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv WorkingSet Telemetry {v}", telemetry.workingSet);
+        logger.LogInformation("Rcv WorkingSet Telemetry {v}", telemetry.WorkingSet);
         return Task.CompletedTask;
     }
 
     public override Task ReceiveTelemetry(string senderId, ManagedMemoryTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv ManagedMemory Telemetry {v}", telemetry.managedMemory);
+        logger.LogInformation("Rcv ManagedMemory Telemetry {v}", telemetry.ManagedMemory);
         return Task.CompletedTask;
     }
 
     public override Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.memoryStats.workingSet, telemetry.memoryStats.managedMemory);
+        logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.MemoryStats.WorkingSet, telemetry.MemoryStats.ManagedMemory);
         logger.LogInformation("Cloud Events Metadata {v1} {v2}", metadata.CloudEvent?.Id, metadata.CloudEvent?.Time);
         return Task.CompletedTask;
     }

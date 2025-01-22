@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.6.0.0")]
-    public class PutResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class PutResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command response argument.
