@@ -23,7 +23,7 @@
         },
         {
             "@type": "Telemetry",
-            "name": "announceCustomTopicTokenValue",
+            "name": "announcedCustomTopicTokenValue",
             "schema": "string"
         }
     ]

@@ -13,7 +13,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
     GreeterService? greetService;
     MathService? mathService;
     MemMonService? memMonService;
-    CustomTopicTokenCounterService? counterServiceWithCustomTopicTokens;
+    CustomTopicTokenCounterService? serviceWithCustomTopicTokens;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -21,7 +21,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         greetService = provider.GetService<GreeterService>()!;
         mathService = provider.GetService<MathService>()!;
         memMonService = provider.GetService<MemMonService>()!;
-        counterServiceWithCustomTopicTokens = provider.GetService<CustomTopicTokenCounterService>()!;
+        serviceWithCustomTopicTokens = provider.GetService<CustomTopicTokenCounterService>()!;
 
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
@@ -31,7 +31,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         await greetService!.StartAsync(null, stoppingToken);
         await mathService!.StartAsync(null, stoppingToken);
         await memMonService!.StartAsync(null, stoppingToken);
-        await counterServiceWithCustomTopicTokens!.StartAsync(null, stoppingToken);
+        await serviceWithCustomTopicTokens!.StartAsync(null, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -61,6 +61,6 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         await mathService!.DisposeAsync();
         await memMonService!.DisposeAsync();
         await mqttClient.DisposeAsync();
-        await counterServiceWithCustomTopicTokens!.DisposeAsync();
+        await serviceWithCustomTopicTokens!.DisposeAsync();
     }
 }

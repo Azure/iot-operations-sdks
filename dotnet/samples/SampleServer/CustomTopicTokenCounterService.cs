@@ -1,48 +1,27 @@
-﻿// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.c
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
-using TestEnvoys.dtmi_com_example_CounterWithCustomTokens__1;
+using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
+using TestEnvoys.dtmi_com_example_Counter__1;
 
 namespace SampleServer;
 
-public class CustomTopicTokenCounterService : CounterWithCustomTokens.Service
+public class CustomTopicTokenCounterService : CustomTopicTokens.Service
 {
-    int counter = 0;
-
     public CustomTopicTokenCounterService(MqttSessionClient mqttClient) : base(mqttClient) 
     {
         CustomTopicTokenMap.Add("myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
-    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        Interlocked.Add(ref counter, request.IncrementValue);
-        Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>
-        {
-            Response = new IncrementResponsePayload { CounterResponse = counter }
-        });
-    }
+        string customTopicTokenValue = CustomTopicTokenMap["myCustomTopicToken"];
 
-    public override Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"--> Executing Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        var curValue = counter;
-        Console.WriteLine($"--> Executed Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<ReadCounterResponsePayload>
+        return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
         {
-            Response = new ReadCounterResponsePayload { CounterResponse = curValue }
+            Response = new ReadCustomTopicTokenResponsePayload { CustomTopicTokenResponse = customTopicTokenValue }
         });
-    }
-
-    public override Task<CommandResponseMetadata?> ResetAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"--> Executing Counter.Reset with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        counter = 0;
-        Console.WriteLine($"--> Executed Counter.Reset with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new CommandResponseMetadata())!;
     }
 }

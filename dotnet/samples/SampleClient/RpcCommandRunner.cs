@@ -9,6 +9,7 @@ using MQTTnet.Server;
 using TestEnvoys.dtmi_com_example_Counter__1;
 using TestEnvoys.dtmi_rpc_samples_math__1;
 using TestEnvoys.Greeter;
+using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
 
 namespace SampleClient;
 
@@ -30,9 +31,9 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         {
             var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCounterCommands("SampleServer");
-            await RunCounterCommands("SampleServerWithCustomTopicTokens");
             await RunGreeterCommands();
             await RunMathCommands();
+            await RunCustomTopicTokenCommand("SampleServerWithCustomTopicTokens");
             await memMonClient.StopTelemetryAsync("SampleServer", null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
@@ -156,41 +157,17 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         }
     }
 
-    private async Task RunCustomTopicTokenCounterCommands(string server)
+    private async Task RunCustomTopicTokenCommand(string server)
     {
-        await using CustomTopicTokenCounterClient counterClient = serviceProvider.GetService<CustomTopicTokenCounterClient>()!;
+        await using CustomTopicTokenCounterClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenCounterClient>()!;
         try
         {
 
             CommandRequestMetadata reqMd = new();
 
             logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
-            ExtendedResponse<TestEnvoys.dtmi_com_example_CounterWithCustomTokens__1.ReadCounterResponsePayload> respCounter = await counterClient.ReadCounterAsync(server, reqMd).WithMetadata();
-            logger.LogInformation("called read {c} with id {id}", respCounter.Response!.CounterResponse, respCounter.ResponseMetadata!.CorrelationId);
-
-
-            Task[] tasks = new Task[32];
-            for (int i = 0; i < tasks.Length; i++)
-            {
-                CommandRequestMetadata reqMd2 = new();
-                TestEnvoys.dtmi_com_example_CounterWithCustomTokens__1.IncrementRequestPayload payload = new();
-                payload.IncrementValue = 1;
-                logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
-                Task<ExtendedResponse<TestEnvoys.dtmi_com_example_CounterWithCustomTokens__1.IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
-                tasks[i] = incrCounterTask;
-            }
-            await Task.WhenAll(tasks);
-
-            for (int i = 0; i < tasks.Length; i++)
-            {
-                Task<ExtendedResponse<IncrementResponsePayload>>? t = (Task<ExtendedResponse<IncrementResponsePayload>>?)tasks[i];
-                logger.LogInformation("called counter.incr {c} with id {id}", t!.Result.Response.CounterResponse, t.Result.ResponseMetadata!.CorrelationId);
-            }
-
-
-            ExtendedResponse<TestEnvoys.dtmi_com_example_CounterWithCustomTokens__1.ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(server).WithMetadata();
-            logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
-
+            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(server, reqMd).WithMetadata();
+            logger.LogInformation("Received response with custom topic token {token}", respCounter.Response!.CustomTopicTokenResponse);
         }
         catch (Exception ex)
         {
