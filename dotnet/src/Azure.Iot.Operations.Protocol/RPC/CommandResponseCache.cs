@@ -23,18 +23,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly SemaphoreSlim semaphore;
         private readonly AutoResetEvent expireEvent;
-        private readonly AutoResetEvent refreshEvent;
 
         private Task expiryTask;
-        private Task refreshTask;
         private bool isMaintenanceActive;
 
         private int aggregateStorageSize;
         private readonly Dictionary<FullCorrelationId, RequestResponse> requestResponseCache;
-        private readonly Dictionary<FullRequest, ReuseReference> reuseReferenceMap;
-        private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry or refresh
-        private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via refresh or eviction
-        private readonly PriorityQueue<FullCorrelationId, DateTime> reuseQueue; // may refer to entries that have already been removed via expiry or eviction
+        private readonly PriorityQueue<FullCorrelationId, double> costBenefitQueue; // may refer to entries that have already been removed via expiry
+        private readonly PriorityQueue<FullCorrelationId, DateTime> dedupQueue; // may refer to entries that have already been removed via eviction
 
         static CommandResponseCache()
         {
@@ -50,17 +46,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             semaphore = new SemaphoreSlim(1);
             expireEvent = new AutoResetEvent(false);
-            refreshEvent = new AutoResetEvent(false);
             expiryTask = Task.CompletedTask;
-            refreshTask = Task.CompletedTask;
             isMaintenanceActive = false;
 
             aggregateStorageSize = 0;
             requestResponseCache = [];
-            reuseReferenceMap = [];
             costBenefitQueue = new();
             dedupQueue = new();
-            reuseQueue = new();
         }
 
         public int MaxEntryCount { get; set; } = 10_000;
@@ -78,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return executionBypassBenefit / storageCost;
         }
 
-        public async Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, DateTime ttl, TimeSpan executionDuration)
+        public async Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
         {
             if (!isMaintenanceActive)
             {
@@ -107,9 +99,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             DateTime now = WallClock.UtcNow;
             bool hasExpired = now >= commandExpirationTime;
-            bool excessivelyStale = now >= ttl;
 
-            if (hasExpired && excessivelyStale)
+            if (hasExpired)
             {
                 RemoveEntry(fullCorrelationId, requestResponse);
                 semaphore.Release();
@@ -120,38 +111,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             double dedupBenefit = CostWeightedBenefit(null, responseMessage, executionDuration);
             double reuseBenefit = CostWeightedBenefit(requestPayload, responseMessage, executionDuration);
 
-            bool holdForDedup = !hasExpired;
-            bool holdForReuse = !excessivelyStale;
-
-            if (!holdForDedup && !holdForReuse)
-            {
-                RemoveEntry(fullCorrelationId, requestResponse);
-                semaphore.Release();
-                return;
-            }
-
-            double effectiveBenefit = holdForReuse ? reuseBenefit : dedupBenefit;
+            double effectiveBenefit = dedupBenefit;
             bool canEvict = !isDedupMandatory || hasExpired;
 
-            if (requestResponse.FullRequest != null)
-            {
-                reuseReferenceMap[requestResponse.FullRequest].Ttl = ttl;
-            }
-
-            DateTime deferredExpirationTime = holdForDedup ? commandExpirationTime : DateTime.MinValue;
-            DateTime deferredStaleness = holdForReuse ? ttl : DateTime.MinValue;
             double deferredBenefit = effectiveBenefit;
 
-            if (holdForDedup && (!holdForReuse || commandExpirationTime < ttl))
-            {
-                dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
-                deferredExpirationTime = DateTime.MinValue;
-            }
-            else
-            {
-                reuseQueue.Enqueue(fullCorrelationId, ttl);
-                deferredStaleness = DateTime.MinValue;
-            }
+            dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
 
             if (canEvict)
             {
@@ -159,8 +124,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 deferredBenefit = 0;
             }
 
-            requestResponse.DeferredExpirationTime = deferredExpirationTime;
-            requestResponse.DeferredStaleness = deferredStaleness;
             requestResponse.DeferredBenefit = deferredBenefit;
 
             TrimCache();
@@ -168,7 +131,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             semaphore.Release();
 
             expireEvent.Set();
-            refreshEvent.Set();
         }
 
         public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
@@ -183,17 +145,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 responseTask = dedupRequestResponse.Response.Task;
             }
-            else if (fullRequest != null && reuseReferenceMap.TryGetValue(fullRequest, out ReuseReference? reuseReference) && WallClock.UtcNow < reuseReference.Ttl)
-            {
-                responseTask = requestResponseCache[reuseReference.FullCorrelationId].Response.Task;
-            }
             else
             {
                 requestResponseCache[fullCorrelationId] = new RequestResponse(fullRequest);
-                if (fullRequest != null)
-                {
-                    reuseReferenceMap[fullRequest] = new ReuseReference(fullCorrelationId);
-                }
             }
 
             semaphore.Release();
@@ -212,7 +166,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             isMaintenanceActive = true;
             expiryTask = Task.Run(ContinuouslyExpireAsync);
-            refreshTask = Task.Run(ContinuouslyRefreshAsync);
 
             semaphore.Release();
         }
@@ -229,15 +182,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             isMaintenanceActive = false;
             Task expiryTask = this.expiryTask;
-            Task refreshTask = this.refreshTask;
 
             semaphore.Release();
 
             expireEvent.Set();
-            refreshEvent.Set();
 
             await expiryTask.ConfigureAwait(false);
-            await refreshTask.ConfigureAwait(false);
         }
 
         private void TrimCache()
@@ -290,20 +240,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     if (requestResponseCache.TryGetValue(extantCorrelationId, out RequestResponse? extantEntry))
                     {
-                        if (extantEntry.DeferredStaleness > WallClock.UtcNow)
-                        {
-                            reuseQueue.Enqueue(extantCorrelationId, extantEntry.DeferredStaleness);
-                            if (extantEntry.DeferredBenefit != 0)
-                            {
-                                costBenefitQueue.Enqueue(extantCorrelationId, extantEntry.DeferredBenefit);
-                            }
-
-                            TrimCache();
-                        }
-                        else
-                        {
-                            RemoveEntry(extantCorrelationId, extantEntry);
-                        }
+                        RemoveEntry(extantCorrelationId, extantEntry);
                     }
 
                     semaphore.Release();
@@ -315,67 +252,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private async Task ContinuouslyRefreshAsync()
-        {
-            while (true)
-            {
-                await semaphore.WaitAsync().ConfigureAwait(false);
-                if (!isMaintenanceActive)
-                {
-                    semaphore.Release();
-                    return;
-                }
-
-                TimeSpan remainingDuration = reuseQueue.TryPeek(out FullCorrelationId? extantCorrelationId, out DateTime ttl) ? ttl - WallClock.UtcNow : TimeSpan.MaxValue;
-                if (remainingDuration > MaxWaitDuration)
-                {
-                    remainingDuration = MaxWaitDuration;
-                }
-
-                if (remainingDuration <= TimeSpan.Zero)
-                {
-                    if (reuseQueue.Dequeue() != extantCorrelationId)
-                    {
-                        semaphore.Release();
-                        throw new AkriMqttException("Internal logic error in CommandResponseCache - inconsistent reuseQueue")
-                        {
-                            Kind = AkriMqttErrorKind.InternalLogicError,
-                            InApplication = false,
-                            IsShallow = false,
-                            IsRemote = false,
-                            PropertyName = nameof(FullCorrelationId.CorrelationData),
-                        };
-                    }
-
-                    if (requestResponseCache.TryGetValue(extantCorrelationId, out RequestResponse? extantEntry))
-                    {
-                        if (extantEntry.DeferredExpirationTime > WallClock.UtcNow)
-                        {
-                            dedupQueue.Enqueue(extantCorrelationId, extantEntry.DeferredExpirationTime);
-                        }
-                        else
-                        {
-                            RemoveEntry(extantCorrelationId, extantEntry);
-                        }
-                    }
-
-                    semaphore.Release();
-                    continue;
-                }
-
-                semaphore.Release();
-                await Task.Run(() => { refreshEvent.WaitOne(remainingDuration); }).ConfigureAwait(false);
-            }
-        }
-
         private void RemoveEntry(FullCorrelationId correlationId, RequestResponse requestResponse)
         {
             aggregateStorageSize -= requestResponse.Size;
             requestResponseCache.Remove(correlationId);
-            if (requestResponse.FullRequest != null)
-            {
-                reuseReferenceMap.Remove(requestResponse.FullRequest);
-            }
         }
 
         private class FullCorrelationId(string topic, byte[] correlationData)
@@ -443,10 +323,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             public FullRequest? FullRequest { get; init; }
 
             public TaskCompletionSource<MqttApplicationMessage> Response { get; init; }
-
-            public DateTime DeferredExpirationTime { get; set; }
-
-            public DateTime DeferredStaleness { get; set; }
 
             public double DeferredBenefit { get; set; }
 
