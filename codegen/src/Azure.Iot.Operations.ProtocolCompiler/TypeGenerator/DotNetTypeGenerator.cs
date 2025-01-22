@@ -5,12 +5,12 @@
     using System.Linq;
 
     public class DotNetTypeGenerator : ITypeGenerator
-   {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, string outputFolder, HashSet<string> sourceFilePaths)
+    {
+        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new DotNetObject(projectName, genNamespace, objectType),
+                ObjectType objectType => new DotNetObject(projectName, genNamespace, objectType, serFormat),
                 EnumType enumType =>
                     enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new DotNetStringEnum(projectName, genNamespace, enumType) :
                     enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new DotNetIntegerEnum(projectName, genNamespace, enumType) :

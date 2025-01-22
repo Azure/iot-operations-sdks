@@ -10,13 +10,6 @@ pub mod common;
 pub mod rpc;
 pub mod telemetry;
 
-/// Protocol version used by all envoys in this crate.
-pub(crate) const AIO_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
-
-/// Assumed version if no version is provided.
-pub(crate) const DEFAULT_AIO_PROTOCOL_VERSION: ProtocolVersion =
-    ProtocolVersion { major: 1, minor: 0 };
-
 /// Struct containing the major and minor version of the protocol.
 pub struct ProtocolVersion {
     major: u16,
@@ -34,7 +27,7 @@ impl ProtocolVersion {
     /// format "major.minor" where each part can be parsed into a u16.
     /// Returns [`None`] if the string is not in the correct format.
     pub(crate) fn parse_protocol_version(version: &str) -> Option<ProtocolVersion> {
-        let mut protocol_version = DEFAULT_AIO_PROTOCOL_VERSION;
+        let mut protocol_version = ProtocolVersion { major: 0, minor: 0 };
         if let Some((major, minor)) = version.split_once('.') {
             if let Ok(major) = major.parse::<u16>() {
                 protocol_version.major = major;

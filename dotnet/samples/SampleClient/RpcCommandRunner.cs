@@ -28,7 +28,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
+            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCounterCommands("SampleServer");
             await RunGreeterCommands();
             await RunMathCommands();
@@ -130,8 +130,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             for (int i = 0; i < tasks.Length; i++)
             {
                 CommandRequestMetadata reqMd2 = new();
+                IncrementRequestPayload payload = new IncrementRequestPayload();
+                payload.IncrementValue = 1;
                 logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
-                Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, reqMd2).WithMetadata();
+                Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
                 tasks[i] = incrCounterTask;
             }
             await Task.WhenAll(tasks);

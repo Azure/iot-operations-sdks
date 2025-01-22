@@ -8,6 +8,8 @@
 
     public class AvroSchemaStandardizer : ISchemaStandardizer
     {
+        public SerializationFormat SerializationFormat { get => SerializationFormat.Avro; }
+
         public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
         {
             StreamReader schemaReader = File.OpenText(schemaFilePath);
@@ -58,7 +60,7 @@
                         schemaName,
                         null,
                         names: schemaElt.GetProperty("symbols").EnumerateArray().Select(e => e.GetString()!).ToArray()));
-                    return new ReferenceType(schemaName);
+                    return new ReferenceType(schemaName, isEnum: true);
                 case "map":
                     return new MapType(GetSchemaType(schemaElt.GetProperty("values"), schemaTypes));
                 case "array":

@@ -21,35 +21,22 @@
             { "rust", new RustTypeGenerator() },
         };
 
-        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, DirectoryInfo outDir, string genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, string genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
             string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace);
             string schemaFilePath = Path.Combine(schemaFileFolder, schemaFileName);
             string schemaIncludeFolder = Path.Combine(workingDir.FullName, ResourceNames.IncludeFolder);
 
-            if (!outDir.Exists)
+            if (!Directory.Exists(genRoot))
             {
-                outDir.Create();
+                Directory.CreateDirectory(genRoot);
             }
 
-            if (schemaFileName.EndsWith(".avsc") && language == "csharp")
+            if (schemaFileName.EndsWith(".proto"))
             {
                 try
                 {
-                    Process.Start("avrogen", $"-s {schemaFilePath} {outDir.Parent!.FullName}");
-                }
-                catch (Win32Exception)
-                {
-                    Console.WriteLine("avrogen tool not found; install via command:");
-                    Console.WriteLine("  dotnet tool install --global Apache.Avro.Tools");
-                    Environment.Exit(1);
-                }
-            }
-            else if (schemaFileName.EndsWith(".proto"))
-            {
-                try
-                {
-                    Process.Start("protoc", $"--{language}_out={Path.Combine(outDir.FullName, genNamespace)} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
+                    Process.Start("protoc", $"--{language}_out={Path.Combine(genRoot, genNamespace)} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
                 }
                 catch (Win32Exception)
                 {
@@ -65,7 +52,7 @@
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
                     distinctSchemaKinds.Add(schemaType.Kind);
-                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, outDir.FullName, sourceFilePaths);
+                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot, sourceFilePaths);
                 }
             }
             else

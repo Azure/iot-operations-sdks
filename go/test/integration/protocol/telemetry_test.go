@@ -17,14 +17,21 @@ func TestTelemetry(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	enc := protocol.JSON[string]{}
+	enc := protocol.Data{}
 	topic := "prefix/{token}/suffix"
-	value := "test"
+	value := &protocol.Data{
+		Payload:     []byte("value"),
+		ContentType: "custom/type",
+	}
 
-	results := make(chan *protocol.TelemetryMessage[string])
+	results := make(chan *protocol.TelemetryMessage[*protocol.Data])
 
-	receiver, err := protocol.NewTelemetryReceiver(server, enc, topic,
-		func(_ context.Context, tm *protocol.TelemetryMessage[string]) error {
+	receiver, err := protocol.NewTelemetryReceiver(
+		app, server, enc, topic,
+		func(
+			_ context.Context,
+			tm *protocol.TelemetryMessage[*protocol.Data],
+		) error {
 			results <- tm
 			return nil
 		},
@@ -32,7 +39,8 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 	defer receiver.Close()
 
-	sender, err := protocol.NewTelemetrySender(client, enc, topic,
+	sender, err := protocol.NewTelemetrySender(
+		app, client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)
@@ -51,5 +59,5 @@ func TestTelemetry(t *testing.T) {
 	require.Equal(t, value, res.Payload)
 	require.Equal(t, "https://contoso.com", res.Source.String())
 	require.Equal(t, "prefix/test/suffix", res.Subject)
-	require.Equal(t, enc.ContentType(), res.DataContentType)
+	require.Equal(t, value.ContentType, res.DataContentType)
 }

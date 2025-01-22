@@ -72,6 +72,11 @@
 			<LastGenOutput>DotNetProject.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
+		<None Update="T4\communication\dotnet\Serialization\t4\DotNetSerialization.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetSerialization.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
 		<None Update="T4\communication\dotnet\Service\t4\DotNetService.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>DotNetService.cs</LastGenOutput>
@@ -423,6 +428,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>DotNetProject.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\dotnet\Serialization\t4\DotNetSerialization.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetSerialization.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\dotnet\Service\t4\DotNetService.cs">
 			<DesignTime>True</DesignTime>

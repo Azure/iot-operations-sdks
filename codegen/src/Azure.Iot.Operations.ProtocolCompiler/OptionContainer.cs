@@ -36,5 +36,8 @@
 
         /// <summary>Gets or sets an indication of whether to generate only server-side code.</summary>
         public bool ServerOnly { get; set; }
+
+        /// <summary>Gets or sets an indication of whether to suppress generation of a project.</summary>
+        public bool NoProj { get; set; }
     }
 }

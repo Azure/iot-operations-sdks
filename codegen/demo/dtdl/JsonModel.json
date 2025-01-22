@@ -1,0 +1,55 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+  ],
+  "@id": "dtmi:codegen:communicationTest:jsonModel;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "telemetryTopic": "test/JsonModel/{senderId}/telemetry",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "schedule",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "course",
+            "schema": "string"
+          },
+          {
+            "name": "credit",
+            "schema": "duration"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "lengths",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "double"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "proximity",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "near",
+            "enumValue": 1
+          },
+          {
+            "name": "far",
+            "enumValue": 2
+          }
+        ]
+      }
+    }
+  ]
+}

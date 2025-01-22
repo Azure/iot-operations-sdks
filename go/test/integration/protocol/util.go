@@ -5,7 +5,6 @@ package protocol
 import (
 	"context"
 	"fmt"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -14,6 +13,8 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy"
 	"github.com/stretchr/testify/require"
 )
+
+var app = protocol.Must(protocol.NewApplication())
 
 func sessionClients(
 	t *testing.T,
@@ -81,7 +82,7 @@ func SayHelloWithDelay(
 	)
 
 	if req.Payload.Delay == 0 {
-		return nil, fmt.Errorf("Delay cannot be Zero")
+		return nil, fmt.Errorf("delay cannot be zero")
 	}
 
 	select {
@@ -106,18 +107,4 @@ func SayHelloWithDelay(
 		},
 		protocol.WithMetadata(req.TopicTokens),
 	)
-}
-
-var counter int32
-
-func IncrementCounter() int32 {
-	return atomic.AddInt32(&counter, 1)
-}
-
-func ReadCounter() int32 {
-	return atomic.LoadInt32(&counter)
-}
-
-func ResetCounter() {
-	atomic.StoreInt32(&counter, 0)
 }

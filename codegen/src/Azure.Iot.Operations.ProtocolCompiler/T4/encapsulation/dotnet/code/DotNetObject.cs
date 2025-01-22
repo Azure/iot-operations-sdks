@@ -7,13 +7,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string projectName;
         private readonly string genNamespace;
         private readonly ObjectType objectType;
+        private readonly SerializationFormat serFormat;
         private readonly bool needsNullCheck;
 
-        public DotNetObject(string projectName, string genNamespace, ObjectType objectType)
+        public DotNetObject(string projectName, string genNamespace, ObjectType objectType, SerializationFormat serFormat)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.objectType = objectType;
+            this.serFormat = serFormat;
             this.needsNullCheck = objectType.FieldInfos.Any(fi => fi.Value.IsRequired && DotNetSchemaSupport.IsNullable(fi.Value.SchemaType));
         }
 

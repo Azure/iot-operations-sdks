@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package main
 
 import (
@@ -18,12 +21,13 @@ import (
 func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
+	app := must(protocol.NewApplication())
 
 	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
-	server := must(dtmi_akri_samples_oven__1.NewOvenService(mqttClient))
+	server := must(dtmi_akri_samples_oven__1.NewOvenService(app, mqttClient))
 	defer server.Close()
 
 	check(mqttClient.Start())

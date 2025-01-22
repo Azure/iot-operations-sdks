@@ -23,6 +23,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         string _clientIdHexString = "";
         private bool _disposed = false;
 
+        internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
+
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
         public StateStoreClient(IMqttPubSubClient mqttClient) 
@@ -182,13 +184,17 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            { 
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 
@@ -227,13 +233,17 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            {
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 

@@ -47,8 +47,6 @@ type (
 
 	// InvokeOptions are the resolved per-invoke options.
 	InvokeOptions struct {
-		FencingToken hlc.HybridLogicalClock
-
 		Timeout     time.Duration
 		TopicTokens map[string]string
 		Metadata    map[string]string
@@ -86,6 +84,7 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -159,21 +158,28 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
+	logger := opts.Logger
+	if logger == nil {
+		logger = app.log
+	}
+
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		app:      app,
 		client:   client,
 		encoding: requestEncoding,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
+		app:            app,
 		client:         client,
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
+		log:            log.Wrap(logger),
 		handler:        ci,
 	}
 
@@ -225,9 +231,6 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	}
 
 	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
-	if !opts.FencingToken.IsZero() {
-		pub.UserProperties[constants.FencingToken] = opts.FencingToken.String()
-	}
 	pub.ResponseTopic, err = ci.responseTopic.Topic(opts.TopicTokens)
 	if err != nil {
 		return nil, err
@@ -314,7 +317,7 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 	var res *CommandResponse[Res]
 	err := errutil.FromUserProp(pub.UserProperties)
 	if err == nil {
-		msg.Payload, err = ci.listener.payload(pub)
+		msg.Payload, err = ci.listener.payload(msg)
 		if err == nil {
 			res = &CommandResponse[Res]{*msg}
 		}
@@ -397,8 +400,4 @@ func (o *InvokeOptions) invoke(opt *InvokeOptions) {
 	if o != nil {
 		*opt = *o
 	}
-}
-
-func (o WithFencingToken) invoke(opt *InvokeOptions) {
-	opt.FencingToken = hlc.HybridLogicalClock(o)
 }

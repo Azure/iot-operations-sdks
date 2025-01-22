@@ -10,10 +10,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
-    common::{
-        hybrid_logical_clock::HybridLogicalClock,
-        payload_serialize::{FormatIndicator, PayloadSerialize},
-    },
+    common::payload_serialize::{FormatIndicator, PayloadSerialize},
     rpc::{
         command_executor::{
             CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -27,8 +24,6 @@ use azure_iot_operations_protocol::{
 // - request without payload
 // - request with custom user data
 // - request without custom user data
-// - request with fencing token
-// - request without fencing token
 // - response with payload
 // - response without payload
 // - response with custom user data
@@ -111,7 +106,7 @@ impl PayloadSerialize for EmptyPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok("".into())
     }
     fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
@@ -120,7 +115,7 @@ impl PayloadSerialize for EmptyPayload {
 }
 
 /// Tests basic command invoke/response scenario
-/// Payloads are empty, no custom user data, no fencing token
+/// Payloads are empty, no custom user data
 #[tokio::test]
 async fn command_basic_invoke_response_network_tests() {
     let invoker_id = "command_basic_invoke_response_network_tests-rust";
@@ -138,20 +133,19 @@ async fn command_basic_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent
                         assert_eq!(request.payload, EmptyPayload::default());
                         assert!(request.custom_user_data.is_empty());
-                        assert!(request.fencing_token.is_none());
                         assert!(request.timestamp.is_some());
-                        assert_eq!(request.invoker_id, invoker_id);
+                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
                         let response = CommandResponseBuilder::default()
-                            .payload(&EmptyPayload::default())
+                            .payload(EmptyPayload::default())
                             .unwrap()
                             .build()
                             .unwrap();
@@ -170,7 +164,7 @@ async fn command_basic_invoke_response_network_tests() {
 
             // Send request with empty payload
             let request = CommandRequestBuilder::default()
-                .payload(&EmptyPayload::default())
+                .payload(EmptyPayload::default())
                 .unwrap()
                 .timeout(Duration::from_secs(2))
                 .build()
@@ -230,7 +224,7 @@ impl PayloadSerialize for DataRequestPayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::Utf8EncodedCharacterData
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
             self.requested_temperature, self.requested_color
@@ -277,7 +271,7 @@ impl PayloadSerialize for DataResponsePayload {
     fn format_indicator() -> FormatIndicator {
         FormatIndicator::UnspecifiedBytes
     }
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<Vec<u8>, String> {
         Ok(format!(
             "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
             self.old_temperature, self.old_color, self.minutes_to_change
@@ -318,7 +312,7 @@ impl PayloadSerialize for DataResponsePayload {
 }
 
 /// Tests more complex command invoke/response scenario
-/// Payloads are not empty, custom user data is present, fencing token is present
+/// Payloads are not empty and custom user data is present
 #[tokio::test]
 async fn command_complex_invoke_response_network_tests() {
     let invoker_id = "command_complex_invoke_response_network_tests-rust";
@@ -361,7 +355,7 @@ async fn command_complex_invoke_response_network_tests() {
             let receive_requests_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
-                    if let Ok(request) = executor.recv().await {
+                    if let Some(Ok(request)) = executor.recv().await {
                         count += 1;
 
                         // Validate contents of the request match expected based on what was sent
@@ -370,14 +364,13 @@ async fn command_complex_invoke_response_network_tests() {
                             request.custom_user_data,
                             test_request_custom_user_data_clone
                         );
-                        assert!(request.fencing_token.is_some());
                         assert!(request.timestamp.is_some());
-                        assert_eq!(request.invoker_id, invoker_id);
+                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
                         let response = CommandResponseBuilder::default()
-                            .payload(&test_response_payload_clone)
+                            .payload(test_response_payload_clone)
                             .unwrap()
                             .custom_user_data(test_response_custom_user_data_clone)
                             .build()
@@ -396,12 +389,11 @@ async fn command_complex_invoke_response_network_tests() {
             monitor.connected().await;
             tokio::time::sleep(Duration::from_secs(1)).await;
 
-            // Send request with more complex payload, custom user data, and a fencing_token
+            // Send request with more complex payload and custom user data
             let request = CommandRequestBuilder::default()
-                .payload(&test_request_payload)
+                .payload(test_request_payload)
                 .unwrap()
                 .custom_user_data(test_request_custom_user_data.clone())
-                .fencing_token(HybridLogicalClock::new())
                 .timeout(Duration::from_secs(2))
                 .build()
                 .unwrap();

@@ -23,18 +23,21 @@ public class CounterEnvoyTests
 
         await counterService.StartAsync(null, CancellationToken.None);
 
+        IncrementRequestPayload payload = new IncrementRequestPayload();
+        payload.IncrementValue = 1;
+
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
 
-        var resp2 = await counterClient.IncrementAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(1, resp2.Response.CounterResponse);
 
         var resp3 = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(1, resp3.Response.CounterResponse);
 
-        await counterClient.IncrementAsync(executorId).WithMetadata();
-        await counterClient.IncrementAsync(executorId).WithMetadata();
-        await counterClient.IncrementAsync(executorId).WithMetadata();
+        await counterClient.IncrementAsync(executorId, payload).WithMetadata();
+        await counterClient.IncrementAsync(executorId, payload).WithMetadata();
+        await counterClient.IncrementAsync(executorId, payload).WithMetadata();
 
         var resp4 = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(4, resp4.Response.CounterResponse);
@@ -61,10 +64,12 @@ public class CounterEnvoyTests
         Assert.Equal(0, resp.Response.CounterResponse);
         
         CommandRequestMetadata reqMd2 = new();
+        IncrementRequestPayload payload = new IncrementRequestPayload();
+        payload.IncrementValue = 1;
         Task[] tasks = new Task[2];
         for (int i = 0; i < tasks.Length; i++)
         {
-            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(executorId, reqMd2).WithMetadata();
+            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(executorId, payload, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;
         }
         var exception = await Assert.ThrowsAsync<AkriMqttException>(() => Task.WhenAll(tasks));

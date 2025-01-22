@@ -8,7 +8,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -18,6 +17,7 @@ import (
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
+	app      *Application
 	client   MqttClient
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
@@ -47,13 +47,14 @@ func (p *publisher[T]) build(
 	}
 
 	if msg != nil {
-		pub.Payload, err = serialize(p.encoding, msg.Payload)
+		data, err := serialize(p.encoding, msg.Payload)
 		if err != nil {
 			return nil, err
 		}
 
-		pub.ContentType = p.encoding.ContentType()
-		pub.PayloadFormat = p.encoding.PayloadFormat()
+		pub.Payload = data.Payload
+		pub.ContentType = data.ContentType
+		pub.PayloadFormat = data.PayloadFormat
 
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)
@@ -66,15 +67,16 @@ func (p *publisher[T]) build(
 			pub.CorrelationData = correlationData[:]
 		}
 
-		pub.UserProperties, err = internal.MetadataToProp(msg.Metadata)
-		if err != nil {
-			return nil, err
+		if msg.Metadata != nil {
+			pub.UserProperties = msg.Metadata
+		} else {
+			pub.UserProperties = map[string]string{}
 		}
 	} else {
 		pub.UserProperties = map[string]string{}
 	}
 
-	ts, err := hlc.Get()
+	ts, err := p.app.hlc.Get()
 	if err != nil {
 		return nil, err
 	}

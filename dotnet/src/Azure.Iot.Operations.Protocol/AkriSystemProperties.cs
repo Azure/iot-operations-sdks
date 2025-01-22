@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+
 namespace Azure.Iot.Operations.Protocol
 {
     /// <summary>
@@ -9,7 +11,10 @@ namespace Azure.Iot.Operations.Protocol
     public static class AkriSystemProperties
     {
         /// <summary>
-        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol; custom properties from user code may not start with this prefix.
+        /// A reserved prefix for all user properties known to Azure.Iot.Operations.Protocol. This prefix "__" should only be 
+        /// used by Azure IoT Operations SDK's MQTT, Protocol, and Services packages, and any use of the 
+        /// reserved prefix by consumers outside of these packages could cause unexpected behavior now or 
+        /// in the future.
         /// </summary>
         public const string ReservedPrefix = "__";
 
@@ -17,11 +22,6 @@ namespace Azure.Iot.Operations.Protocol
         /// A HybridLogicalClock timestamp associated with the request or response.
         /// </summary>
         internal const string Timestamp = ReservedPrefix + "ts";
-
-        /// <summary>
-        /// A HybridLogicalClock fencing token used to protect the object of the request from conflicting updates.
-        /// </summary>
-        internal const string FencingToken = ReservedPrefix + "ft";
 
         /// <summary>
         /// User Property indicating an HTTP status code.
@@ -74,6 +74,21 @@ namespace Azure.Iot.Operations.Protocol
         internal const string SourceId = ReservedPrefix + "srcId";
 
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
-        public const string CommandInvokerId = ReservedPrefix + "invId";
+        internal const string CommandInvokerId = ReservedPrefix + "invId";
+
+        internal static bool IsReservedUserProperty(string name)
+        { 
+            return name.Equals(Timestamp, StringComparison.Ordinal) 
+                || name.Equals(Status, StringComparison.Ordinal) 
+                || name.Equals(StatusMessage, StringComparison.Ordinal) 
+                || name.Equals(IsApplicationError, StringComparison.Ordinal) 
+                || name.Equals(InvalidPropertyName, StringComparison.Ordinal) 
+                || name.Equals(InvalidPropertyValue, StringComparison.Ordinal) 
+                || name.Equals(ProtocolVersion, StringComparison.Ordinal) 
+                || name.Equals(SupportedMajorProtocolVersions, StringComparison.Ordinal) 
+                || name.Equals(RequestedProtocolVersion, StringComparison.Ordinal) 
+                || name.Equals(SourceId, StringComparison.Ordinal) 
+                || name.Equals(CommandInvokerId, StringComparison.Ordinal);
+        }
     }
 }

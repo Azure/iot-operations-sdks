@@ -6,14 +6,14 @@ use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, ti
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
 use bytes::Bytes;
+use iso8601_duration;
 use tokio::{
     sync::{
         broadcast::{error::RecvError, Sender},
-        Mutex,
+        Mutex, Notify,
     },
     task, time,
 };
-use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use super::StatusCode;
@@ -24,10 +24,11 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::PayloadSerialize,
         topic_processor::{contains_invalid_char, TopicPattern},
-        user_properties::{self, validate_user_properties, UserProperty},
+        user_properties::{validate_user_properties, UserProperty},
     },
-    parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
-    DEFAULT_AIO_PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions,
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -54,9 +55,6 @@ where
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
-    /// Optional Fencing Token of the command request.
-    #[builder(default = "None")]
-    fencing_token: Option<HybridLogicalClock>,
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
@@ -66,7 +64,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::Error> {
+    pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, TReq::Error> {
         let serialized_payload = payload.serialize()?;
         self.payload = Some(serialized_payload);
         self.request_payload_type = Some(PhantomData);
@@ -77,12 +75,11 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys start with the [`RESERVED_PREFIX`](user_properties::RESERVED_PREFIX)
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            return validate_user_properties(custom_user_data);
+            validate_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
             if timeout.as_millis() < 1 {
@@ -156,7 +153,7 @@ pub struct CommandInvokerOptions {
 /// #   type Error = String;
 /// #   fn content_type() -> &'static str { "application/json" }
 /// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
+/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
 /// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
 /// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
@@ -179,7 +176,7 @@ pub struct CommandInvokerOptions {
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(SamplePayload {}).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
@@ -203,10 +200,18 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    is_subscribed_mutex: Arc<Mutex<bool>>,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
-    recv_cancellation_token: CancellationToken,
-    response_tx: Sender<Publish>,
+    shutdown_notifier: Arc<Notify>,
+    response_tx: Sender<Option<Publish>>,
+}
+
+/// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
+enum CommandInvokerState {
+    New,
+    Subscribed,
+    ShutdownInitiated,
+    ShutdownSuccessful,
 }
 
 /// Implementation of Command Invoker.
@@ -314,8 +319,8 @@ where
             &invoker_options.topic_token_map,
         )?;
 
-        // Create mutex to track subscription state
-        let is_subscribed_mutex = Arc::new(Mutex::new(false));
+        // Create mutex to track invoker state
+        let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
@@ -336,19 +341,19 @@ where
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Start the receive response loop
         task::spawn({
             let response_tx_clone = response_tx.clone();
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let command_name_clone = invoker_options.command_name.clone();
             async move {
                 Self::receive_response_loop(
                     mqtt_receiver,
                     response_tx_clone,
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     command_name_clone,
                 )
                 .await;
@@ -362,8 +367,8 @@ where
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            is_subscribed_mutex,
-            recv_cancellation_token,
+            invoker_state_mutex,
+            shutdown_notifier,
             response_tx,
         })
     }
@@ -543,14 +548,8 @@ where
         ));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            AIO_PROTOCOL_VERSION.to_string(),
+            RPC_PROTOCOL_VERSION.to_string(),
         ));
-        if let Some(fencing_token) = request.fencing_token {
-            request.custom_user_data.push((
-                UserProperty::FencingToken.to_string(),
-                fencing_token.to_string(),
-            ));
-        }
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
@@ -564,14 +563,30 @@ where
             subscription_identifiers: Vec::new(),
         };
 
-        // Subscribe to the response topic if we're not already subscribed
+        // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
-            let mut is_subscribed = self.is_subscribed_mutex.lock().await;
-            if !*is_subscribed {
-                self.subscribe_to_response_filter().await?;
-                *is_subscribed = true;
+            let mut invoker_state = self.invoker_state_mutex.lock().await;
+            match *invoker_state {
+                CommandInvokerState::New => {
+                    self.subscribe_to_response_filter().await?;
+                    *invoker_state = CommandInvokerState::Subscribed;
+                }
+                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
+                CommandInvokerState::ShutdownInitiated
+                | CommandInvokerState::ShutdownSuccessful => {
+                    return Err(AIOProtocolError::new_cancellation_error(
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "Command Invoker has been shutdown and can no longer invoke commands"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
-            // Allow other concurrent invoke commands to acquire the is_subscribed lock
+            // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
 
         // Create receiver for response
@@ -618,85 +633,84 @@ where
         // Wait for a response where the correlation id matches
         loop {
             // wait for incoming pub
-            tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
-                  () = self.recv_cancellation_token.cancelled() => {
-                    log::error!("Command Invoker has been shutdown and will no longer receive a response");
+            match response_rx.recv().await {
+                Ok(rsp_pub) => {
+                    if let Some(rsp_pub) = rsp_pub {
+                        // check correlation id for match, otherwise loop again
+                        if let Some(ref rsp_properties) = rsp_pub.properties {
+                            if let Some(ref response_correlation_data) =
+                                rsp_properties.correlation_data
+                            {
+                                if *response_correlation_data == correlation_data {
+                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                    // This is the response for this request, validate and parse it and send it back to the application
+                                    return validate_and_parse_response(
+                                        self.command_name.clone(),
+                                        &rsp_pub.payload,
+                                        rsp_properties.clone(),
+                                    );
+                                }
+                            }
+                        }
+                    } else {
+                        log::error!("Command Invoker has been shutdown and will no longer receive a response");
+                        return Err(AIOProtocolError::new_cancellation_error(
+                            false,
+                            None,
+                            None,
+                            Some(
+                                "Command Invoker has been shutdown and will no longer receive a response"
+                                    .to_string(),
+                            ),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
+
+                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+                }
+                Err(RecvError::Lagged(e)) => {
+                    log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
+                    // Keep waiting for response even though it may have gotten overwritten.
+                    continue;
+                }
+                Err(RecvError::Closed) => {
+                    log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
                     return Err(AIOProtocolError::new_cancellation_error(
-                          false,
-                          None,
-                          None,
-                          Some(
-                              "Command Invoker has been shutdown and will no longer receive a response"
-                                  .to_string(),
-                          ),
-                          Some(self.command_name.clone()),
-                      ));
-                  },
-                  resp = response_rx.recv() => {
-                      match resp {
-                          Ok(rsp_pub) => {
-                              // check correlation id for match, otherwise loop again
-                              if let Some(ref rsp_properties) = rsp_pub.properties {
-                                  if let Some(ref response_correlation_data) = rsp_properties.correlation_data
-                                  {
-                                      if *response_correlation_data == correlation_data {
-                                          // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                          // This is the response for this request, validate and parse it and send it back to the application
-                                          return validate_and_parse_response(
-                                              self.command_name.clone(),
-                                              &rsp_pub.payload,
-                                              rsp_properties.clone(),
-                                          );
-                                      }
-                                  }
-                              }
-                              // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                          }
-                          Err(RecvError::Lagged(e)) => {
-                              log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
-                              // Keep waiting for response even though it may have gotten overwritten.
-                              continue;
-                          }
-                          Err(RecvError::Closed) => {
-                              log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
-                              return Err(AIOProtocolError::new_cancellation_error(
-                                  false,
-                                  None,
-                                  None,
-                                  Some(
-                                      "MQTT Receiver has been cleaned up and will no longer send a response"
-                                          .to_string(),
-                                  ),
-                                  Some(self.command_name.clone()),
-                              ));
-                          }
-                      }
-                  }
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "MQTT Receiver has been cleaned up and will no longer send a response"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
         }
     }
 
     async fn receive_response_loop(
         mut mqtt_receiver: C::PubReceiver,
-        response_tx: Sender<Publish>,
-        recv_cancellation_token: CancellationToken,
+        response_tx: Sender<Option<Publish>>,
+        shutdown_notifier: Arc<Notify>,
         command_name: String,
     ) {
         loop {
             tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
-                  () = recv_cancellation_token.cancelled() => {
-                    log::info!("[{command_name}] Receive response loop cancelled");
-                    break;
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    mqtt_receiver.close();
+                    log::info!("[{command_name}] MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv() => {
                     if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
-                        match response_tx.send(m.clone()) {
+                        match response_tx.send(Some(m)) {
                             Ok(_) => { },
                             Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}, {:?}", m.topic);
+                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                             }
                         }
                         // Manually ack
@@ -708,9 +722,14 @@ where
                                 }
                             }
                         }
-
                     } else {
-                        log::error!("[{command_name}] MqttReceiver closed");
+                        match response_tx.send(None) {
+                            Ok(_) => { },
+                            Err(e) => {
+                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                            }
+                        }
+                        log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }
                 }
@@ -718,9 +737,8 @@ where
         }
     }
 
-    // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
-    /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and closes the
+    /// MQTT receiver to stop receiving messages.
     ///
     /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
@@ -729,45 +747,54 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to close the MQTT Receiver
+        self.shutdown_notifier.notify_one();
 
-        // If we didn't call subscribe, we shouldn't unsubscribe
-        if *self.is_subscribed_mutex.lock().await {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
-                .await;
+        let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
+        match *invoker_state_mutex_guard {
+            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+                /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+            }
+            CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+                // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+                *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .await;
 
-            match unsubscribe_result {
-                Ok(unsub_completion_token) => {
-                    match unsub_completion_token.await {
-                        Ok(()) => { /* Success */ }
-                        Err(e) => {
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
-                            return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command invoker unsuback".to_string()),
-                                Box::new(e),
-                                Some(self.command_name.clone()),
-                            ));
+                match unsubscribe_result {
+                    Ok(unsub_completion_token) => {
+                        match unsub_completion_token.await {
+                            Ok(()) => { /* Success */ }
+                            Err(e) => {
+                                log::error!("[{}] Unsuback error: {e}", self.command_name);
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on command invoker unsuback".to_string()),
+                                    Box::new(e),
+                                    Some(self.command_name.clone()),
+                                ));
+                            }
                         }
                     }
-                }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command invoker unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
+                    Err(e) => {
+                        log::error!(
+                            "[{}] Client error while unsubscribing: {e}",
+                            self.command_name
+                        );
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command invoker unsubscribe".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
                 }
             }
         }
 
         log::info!("[{}] Shutdown", self.command_name);
+        // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+        *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
         Ok(())
     }
 }
@@ -824,7 +851,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
@@ -920,21 +947,17 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     Some(parse_supported_protocol_major_versions(&value));
             }
             Ok(_) => {
-                // UserProperty::FencingToken or UserProperty::CommandInvokerId
+                // UserProperty::CommandInvokerId
                 // Don't return error, although these properties shouldn't be present on a response
-                log::error!(
+                log::warn!(
                     "Response should not contain MQTT user property '{}'. Value is '{}'",
                     key,
                     value
                 );
+                response_custom_user_data.push((key, value));
             }
             Err(()) => {
-                if key.starts_with(user_properties::RESERVED_PREFIX) {
-                    // Don't return error, although these properties shouldn't be present on a response
-                    log::error!("Invalid response user data property '{}' starts with reserved prefix '{}'. Value is '{}'", key, user_properties::RESERVED_PREFIX, value);
-                } else {
-                    response_custom_user_data.push((key, value));
-                }
+                response_custom_user_data.push((key, value));
             }
         }
     }
@@ -984,8 +1007,10 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     response_error.kind = AIOProtocolErrorKind::Timeout;
                     response_error.timeout_name = invalid_property_name;
                     response_error.timeout_value =
-                        invalid_property_value.and_then(|timeout| match timeout.parse::<u64>() {
-                            Ok(val) => Some(Duration::from_secs(val)),
+                        invalid_property_value.and_then(|timeout| match timeout
+                            .parse::<iso8601_duration::Duration>(
+                        ) {
+                            Ok(val) => val.to_std(),
                             Err(_) => None,
                         });
                 }
@@ -1015,7 +1040,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 }
                 StatusCode::ServiceUnavailable => {
                     response_error.kind = AIOProtocolErrorKind::StateInvalid;
-                    response_error.is_remote = false;
+                    response_error.is_remote = true;
                     response_error.property_name = invalid_property_name;
                     response_error.property_value = invalid_property_value.map(Value::String);
                 }
@@ -1028,7 +1053,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         }
         // status is not present
         return Err(AIOProtocolError::new_header_missing_error(
-            "Status",
+            "__stat",
             false,
             None,
             Some(format!(
@@ -1068,7 +1093,47 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // drop can't be async, but we can spawn a task to unsubscribe
+        tokio::spawn({
+            let invoker_state_mutex = self.invoker_state_mutex.clone();
+            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let mqtt_client = self.mqtt_client.clone();
+            async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
+        });
+
+        // Notify the receiver loop to close the MQTT receiver
+        self.shutdown_notifier.notify_one();
+        log::info!("[{}] Invoker has been dropped", self.command_name);
+    }
+}
+
+async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
+    mqtt_client: C,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    unsubscribe_filter: String,
+) {
+    let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
+    match *invoker_state_mutex_guard {
+        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+        }
+        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+                Ok(_) => {
+                    log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
+                }
+                Err(e) => {
+                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                }
+            }
+        }
+    }
+
+    // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
 }
 
 #[cfg(test)]
@@ -1101,7 +1166,7 @@ mod tests {
         fn format_indicator() -> FormatIndicator {
             unimplemented!()
         }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
+        fn serialize(self) -> Result<Vec<u8>, String> {
             unimplemented!()
         }
         fn deserialize(_payload: &[u8]) -> Result<Self, String> {
@@ -1498,14 +1563,14 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
                     .build()
@@ -1562,7 +1627,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1637,14 +1702,14 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1694,7 +1759,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::from([(
@@ -1708,7 +1773,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
                 assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
@@ -1749,7 +1814,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::new())
@@ -1761,7 +1826,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
                 assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
@@ -1781,7 +1846,7 @@ mod tests {
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();
-        let req_builder = binding.payload(&mock_request_payload);
+        let req_builder = binding.payload(mock_request_payload);
         assert!(req_builder.is_err());
     }
 
@@ -1799,7 +1864,7 @@ mod tests {
             .times(1);
 
         let request_builder_result = CommandRequestBuilder::default()
-            .payload(&mock_request_payload)
+            .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
             .build();
@@ -1825,8 +1890,6 @@ mod tests {
 //    invalid executor id when it's not in either topic pattern
 //    payload is successfully serialized
 //    invoker client id is correctly added to user properties on message
-//    fencing_token is provided and added to user properties
-//    fencing_token isn't provided and isn't added to user properties
 // Tests failure:
 //     x timeout is > u32::max (invalid value) and an `ArgumentInvalid` error is returned
 //     x custom user data property starts with __
@@ -1843,7 +1906,7 @@ mod tests {
 //     publish received on the correct topic, gets sent to pending command requests
 //     publish received on a different topic, message ignored
 //     publish received on the correct topic, no pending commands. Message ignored
-//     receive cancellation token is called and the loop exits
+//     shutdown notifier is notified and the MQTT receiver is closed
 //     mqtt_receiver sends a lagged error
 //     mqtt_receiver sends a closed error
 // Tests failure:
@@ -1858,7 +1921,7 @@ mod tests {
 //     no timestamp is present
 //     status is a number and is one of StatusCode's enum values
 //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this
-//     custom user properties are correctly passed to the application. Any starting with the reserved prefix '__' that aren't ours are logged and ignored
+//     custom user properties are correctly passed to the application.
 //     status code is no content and the payload is empty
 //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
 //     response payload deserializes successfully
