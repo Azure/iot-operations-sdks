@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Connector
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
-            mqttConnectionSettings.ClientId = Guid.NewGuid().ToString();
+            //mqttConnectionSettings.ClientId = Guid.NewGuid().ToString();
             _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
@@ -361,11 +361,53 @@ namespace Azure.Iot.Operations.Connector
                 {
                     // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                     // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                    _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                    _logger.LogInformation($"Dataset message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
                 }
                 else
                 {
                     _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                }
+
+                var pingMessage = new MqttApplicationMessage($"/connector/sendPing/{_mqttClient.ClientId}");
+                var pingPuback = await _mqttClient.PublishAsync(pingMessage);
+                if (pingPuback.ReasonCode == MqttClientPublishReasonCode.Success
+                    || pingPuback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+                {
+                    // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                    // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                    _logger.LogInformation($"Ping message was accepted by the MQTT broker on topic `{pingMessage.Topic}` with PUBACK reason code: {pingPuback.ReasonCode} and reason {pingPuback.ReasonString}");
+                }
+                else
+                {
+                    _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker on topic `{pingMessage.Topic}`: {pingPuback.ReasonCode} with reason {pingPuback.ReasonString}");
+                }
+
+                var pingMessage2 = new MqttApplicationMessage($"/connector/sendPing/1234-{_mqttClient.ClientId}");
+                var pingPuback2 = await _mqttClient.PublishAsync(pingMessage2);
+                if (pingPuback2.ReasonCode == MqttClientPublishReasonCode.Success
+                    || pingPuback2.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+                {
+                    // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                    // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                    _logger.LogInformation($"Ping message was accepted by the MQTT broker on topic `{pingMessage2.Topic}` with PUBACK reason code: {pingPuback2.ReasonCode} and reason {pingPuback2.ReasonString}");
+                }
+                else
+                {
+                    _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker on topic `{pingMessage2.Topic}`: {pingPuback2.ReasonCode} with reason {pingPuback2.ReasonString}");
+                }
+
+                var pingMessage3 = new MqttApplicationMessage($"/connector/sendPingToNewUnlisted/1234-{_mqttClient.ClientId}");
+                var pingPuback3 = await _mqttClient.PublishAsync(pingMessage3);
+                if (pingPuback3.ReasonCode == MqttClientPublishReasonCode.Success
+                    || pingPuback3.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+                {
+                    // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                    // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                    _logger.LogInformation($"Ping message was accepted by the MQTT broker on topic `{pingMessage3.Topic}` with PUBACK reason code: {pingPuback3.ReasonCode} and reason {pingPuback3.ReasonString}");
+                }
+                else
+                {
+                    _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker on topic `{pingMessage3.Topic}`: {pingPuback3.ReasonCode} with reason {pingPuback3.ReasonString}");
                 }
             }
         }

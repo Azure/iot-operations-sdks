@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ContainerImageTag>0.1.4-authz-test-0.0.5</ContainerImageTag>
   </PropertyGroup>
 
   <ItemGroup>
