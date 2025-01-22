@@ -160,11 +160,15 @@ namespace Azure.Iot.Operations.Protocol.Connection
             string? satMountPath = string.Empty;
             string? tlsCaCertMountPath = string.Empty;
             int port;
-            string? aepName;
+            string? clientId = Environment.GetEnvironmentVariable("CLIENT_ID");
+
+            if (string.IsNullOrEmpty(clientId)) {
+                clientId = Guid.NewGuid().ToString();
+            }
 
             try
             {
-                aepName = File.ReadAllText(configMapPath + "/AEP_NAME");
+                string? aepName = File.ReadAllText(configMapPath + "/AEP_NAME");
                 if (string.IsNullOrEmpty(aepName))
                 {
                     throw new ArgumentException("AEP_NAME is missing.");
@@ -225,7 +229,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                     SatAuthFile = satMountPath,
                     TrustChain = chain,
                     TcpPort = port,
-                    ClientId = aepName
+                    ClientId = clientId
                 };
             }
             catch (ArgumentException ex)
