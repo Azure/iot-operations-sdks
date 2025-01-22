@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
+use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
@@ -47,6 +48,8 @@ struct ResponseArguments {
     command_expiration_time: Option<Instant>,
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
+    cached_key: Option<CommandExecutorCacheKey>,
+    cached_response: Option<CommandExecutorCacheEntry>,
 }
 
 /// Command Request struct.
@@ -170,6 +173,72 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     }
 }
 
+#[derive(Eq, Hash, PartialEq, Clone)]
+struct CommandExecutorCacheKey {
+    topic: Bytes,
+    correlation_data: Bytes,
+}
+
+#[derive(Clone)]
+struct CommandExecutorCacheEntry {
+    payload: Vec<u8>,
+    properties: PublishProperties,
+    expiration_time: Instant,
+}
+
+enum CommandExecutorCacheEntryStatus {
+    Cached(CommandExecutorCacheEntry),
+    InProgress,
+    Expired,
+    NotFound,
+}
+
+#[derive(Clone)]
+struct CommandExecutorCache {
+    cache: Arc<Mutex<HashMap<CommandExecutorCacheKey, Option<CommandExecutorCacheEntry>>>>,
+}
+
+impl CommandExecutorCache {
+    fn new() -> Self {
+        CommandExecutorCache {
+            cache: Arc::new(Mutex::new(HashMap::new())),
+        }
+    }
+
+    fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
+        match self.cache.lock().unwrap().get(key) {
+            Some(entry_res) => {
+                if let Some(entry) = entry_res {
+                    if entry.expiration_time.elapsed().is_zero() {
+                        CommandExecutorCacheEntryStatus::Expired
+                    } else {
+                        CommandExecutorCacheEntryStatus::Cached(entry.clone())
+                    }
+                } else {
+                    CommandExecutorCacheEntryStatus::InProgress
+                }
+            }
+            None => CommandExecutorCacheEntryStatus::NotFound,
+        }
+    }
+
+    fn set(&self, key: CommandExecutorCacheKey, entry: Option<CommandExecutorCacheEntry>) {
+        // PR: Iterate through the cache and remove expired entries
+
+        let mut cache = self.cache.lock().unwrap();
+
+        cache.retain(|_, entry| {
+            if let Some(entry) = entry {
+                !entry.expiration_time.elapsed().is_zero()
+            } else {
+                true
+            }
+        });
+
+        cache.insert(key, entry);
+    }
+}
+
 /// Command Executor Options struct
 #[allow(unused)]
 #[derive(Builder, Clone)]
@@ -255,6 +324,7 @@ where
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    cache: CommandExecutorCache,
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
@@ -381,6 +451,7 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
+            cache: CommandExecutorCache::new(),
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
         })
@@ -581,6 +652,8 @@ where
                     command_expiration_time: None,
                     supported_protocol_major_versions: None,
                     request_protocol_version: None,
+                    cached_key: None,
+                    cached_response: None,
                 };
 
                 // Get message expiry interval
@@ -598,32 +671,37 @@ where
                     command_expiration_time_calculated = true;
                 }
 
-                'process_request: {
-                    // Get correlation data
-                    if let Some(correlation_data) = properties.correlation_data {
-                        if correlation_data.len() != 16 {
-                            response_arguments.status_code = StatusCode::BadRequest;
-                            response_arguments.status_message =
-                                Some("Correlation data bytes do not conform to a GUID".to_string());
-                            response_arguments.invalid_property_name =
-                                Some("Correlation Data".to_string());
-                            if let Ok(correlation_data_str) =
-                                String::from_utf8(correlation_data.to_vec())
-                            {
-                                response_arguments.invalid_property_value =
-                                    Some(correlation_data_str);
-                            } else { /* Ignore */
-                            }
-                            response_arguments.correlation_data = Some(correlation_data);
-                            break 'process_request;
-                        }
-                        response_arguments.correlation_data = Some(correlation_data);
+                // Get correlation data
+                if let Some(correlation_data) = properties.correlation_data {
+                    if correlation_data.len() == 16 {
+                        response_arguments.correlation_data = Some(correlation_data.clone());
+                        response_arguments.cached_key = Some(CommandExecutorCacheKey {
+                            topic: m.topic.clone(),
+                            correlation_data,
+                        });
                     } else {
                         response_arguments.status_code = StatusCode::BadRequest;
                         response_arguments.status_message =
-                            Some("Correlation data missing".to_string());
+                            Some("Correlation data bytes do not conform to a GUID".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
+                        if let Ok(correlation_data_str) =
+                            String::from_utf8(correlation_data.to_vec())
+                        {
+                            response_arguments.invalid_property_value = Some(correlation_data_str);
+                        } else { /* Ignore */
+                        }
+                        response_arguments.correlation_data = Some(correlation_data);
+                    }
+                } else {
+                    response_arguments.status_code = StatusCode::BadRequest;
+                    response_arguments.status_message =
+                        Some("Correlation data missing".to_string());
+                    response_arguments.invalid_property_name = Some("Correlation Data".to_string());
+                };
+
+                'process_request: {
+                    let Some(cache_key) = &response_arguments.cached_key else {
                         break 'process_request;
                     };
 
@@ -645,6 +723,24 @@ where
                             Some("Message Expiry".to_string());
                         break 'process_request;
                     }
+
+                    // Check cache
+                    match self.cache.get(cache_key) {
+                        CommandExecutorCacheEntryStatus::Cached(command_executor_cache_entry) => {
+                            response_arguments.cached_response = Some(command_executor_cache_entry);
+                            break 'process_request;
+                        }
+                        CommandExecutorCacheEntryStatus::InProgress
+                        | CommandExecutorCacheEntryStatus::Expired => {
+                            break 'process_request;
+                        }
+                        CommandExecutorCacheEntryStatus::NotFound => {
+                            // Create entry in cache
+                            self.cache.set(cache_key.clone(), None);
+
+                            // Continue processing
+                        }
+                    };
 
                     // Get content type
                     if let Some(content_type) = properties.content_type {
@@ -771,6 +867,7 @@ where
                         // Elapsed returns zero if the time has not passed
                         tokio::task::spawn({
                             let client_clone = self.mqtt_client.clone();
+                            let cache_clone = self.cache.clone();
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
                             let pkid = m.pkid;
@@ -782,6 +879,8 @@ where
                                         pkid,
                                         response_arguments,
                                         Some(response_rx),
+                                        cache_clone,
+
                                     ) => {
                                         // Finished processing command
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -803,6 +902,7 @@ where
 
                 tokio::task::spawn({
                     let client_clone = self.mqtt_client.clone();
+                    let cache_clone = self.cache.clone();
                     let executor_cancellation_token_clone =
                         self.executor_cancellation_token.clone();
                     let pkid = m.pkid;
@@ -814,6 +914,7 @@ where
                                 pkid,
                                 response_arguments,
                                 None,
+                                cache_clone,
                             ) => {
                                 // Finished processing command
                                 handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -846,162 +947,193 @@ where
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
+        cache: CommandExecutorCache,
     ) {
         let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut payload = Vec::new();
-        'process_response: {
-            let Some(command_expiration_time) = response_arguments.command_expiration_time else {
-                break 'process_response;
-            };
-            if let Some(response_rx) = response_rx {
-                // Wait for response
-                let response = if let Ok(response_timer) = timeout(
-                    command_expiration_time.duration_since(Instant::now()),
-                    response_rx,
-                )
-                .await
-                {
-                    if let Ok(response_app) = response_timer {
-                        match response_app {
-                            Ok(response) => response,
-                            Err(e) => {
-                                response_arguments.status_code = StatusCode::InternalServerError;
-                                response_arguments.status_message = Some(e);
-                                response_arguments.is_application_error = true;
-                                break 'process_response;
+        let mut publish_properties = PublishProperties::default();
+
+        if let Some(cached_response) = response_arguments.cached_response {
+            publish_properties = cached_response.properties;
+            payload = cached_response.payload;
+        } else {
+            'process_response: {
+                let Some(command_expiration_time) = response_arguments.command_expiration_time
+                else {
+                    break 'process_response;
+                };
+                if let Some(response_rx) = response_rx {
+                    // Wait for response
+                    let response = if let Ok(response_timer) = timeout(
+                        command_expiration_time.duration_since(Instant::now()),
+                        response_rx,
+                    )
+                    .await
+                    {
+                        if let Ok(response_app) = response_timer {
+                            match response_app {
+                                Ok(response) => response,
+                                Err(e) => {
+                                    response_arguments.status_code =
+                                        StatusCode::InternalServerError;
+                                    response_arguments.status_message = Some(e);
+                                    response_arguments.is_application_error = true;
+                                    break 'process_response;
+                                }
                             }
+                        } else {
+                            // Happens when the sender is dropped by the application.
+                            response_arguments.status_code = StatusCode::InternalServerError;
+                            response_arguments.status_message =
+                                Some("Request has been dropped by the application".to_string());
+                            response_arguments.is_application_error = true;
+                            break 'process_response;
                         }
                     } else {
-                        // Happens when the sender is dropped by the application.
-                        response_arguments.status_code = StatusCode::InternalServerError;
-                        response_arguments.status_message =
-                            Some("Request has been dropped by the application".to_string());
-                        response_arguments.is_application_error = true;
-                        break 'process_response;
+                        log::error!(
+                            "[{}][pkid: {}] Request timed out",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                        return;
+                    };
+
+                    user_properties = response.custom_user_data;
+
+                    // Serialize payload
+                    payload = response.payload;
+
+                    if payload.is_empty() {
+                        response_arguments.status_code = StatusCode::NoContent;
                     }
-                } else {
-                    log::error!(
-                        "[{}][pkid: {}] Request timed out",
-                        response_arguments.command_name,
-                        pkid
-                    );
-                    return;
-                };
-
-                user_properties = response.custom_user_data;
-
-                // Serialize payload
-                payload = response.payload;
-
-                if payload.is_empty() {
-                    response_arguments.status_code = StatusCode::NoContent;
+                } else { /* Error */
                 }
-            } else { /* Error */
             }
-        }
 
-        if response_arguments.status_code != StatusCode::Ok
-            || response_arguments.status_code != StatusCode::NoContent
-        {
+            if response_arguments.status_code != StatusCode::Ok
+                || response_arguments.status_code != StatusCode::NoContent
+            {
+                user_properties.push((
+                    UserProperty::IsApplicationError.to_string(),
+                    response_arguments.is_application_error.to_string(),
+                ));
+            }
+
             user_properties.push((
-                UserProperty::IsApplicationError.to_string(),
-                response_arguments.is_application_error.to_string(),
+                UserProperty::Status.to_string(),
+                (response_arguments.status_code as u16).to_string(),
             ));
-        }
 
-        user_properties.push((
-            UserProperty::Status.to_string(),
-            (response_arguments.status_code as u16).to_string(),
-        ));
-
-        user_properties.push((
-            UserProperty::ProtocolVersion.to_string(),
-            RPC_PROTOCOL_VERSION.to_string(),
-        ));
-
-        user_properties.push((
-            UserProperty::Timestamp.to_string(),
-            HybridLogicalClock::new().to_string(),
-        ));
-
-        if let Some(status_message) = response_arguments.status_message {
-            log::error!(
-                "[{}][pkid: {}] {}",
-                response_arguments.command_name,
-                pkid,
-                status_message
-            );
-            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
-        }
-
-        if let Some(name) = response_arguments.invalid_property_name {
             user_properties.push((
-                UserProperty::InvalidPropertyName.to_string(),
-                name.to_string(),
+                UserProperty::ProtocolVersion.to_string(),
+                RPC_PROTOCOL_VERSION.to_string(),
             ));
-        }
 
-        if let Some(value) = response_arguments.invalid_property_value {
             user_properties.push((
-                UserProperty::InvalidPropertyValue.to_string(),
-                value.to_string(),
+                UserProperty::Timestamp.to_string(),
+                HybridLogicalClock::new().to_string(),
             ));
+
+            if let Some(status_message) = response_arguments.status_message {
+                log::error!(
+                    "[{}][pkid: {}] {}",
+                    response_arguments.command_name,
+                    pkid,
+                    status_message
+                );
+                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+            }
+
+            if let Some(name) = response_arguments.invalid_property_name {
+                user_properties.push((
+                    UserProperty::InvalidPropertyName.to_string(),
+                    name.to_string(),
+                ));
+            }
+
+            if let Some(value) = response_arguments.invalid_property_value {
+                user_properties.push((
+                    UserProperty::InvalidPropertyValue.to_string(),
+                    value.to_string(),
+                ));
+            }
+
+            if let Some(supported_protocol_major_versions) =
+                response_arguments.supported_protocol_major_versions
+            {
+                user_properties.push((
+                    UserProperty::SupportedMajorVersions.to_string(),
+                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+                ));
+            }
+
+            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+                user_properties.push((
+                    UserProperty::RequestProtocolVersion.to_string(),
+                    request_protocol_version,
+                ));
+            }
+
+            // Create publish properties
+            publish_properties.payload_format_indicator = Some(TResp::format_indicator() as u8);
+            publish_properties.topic_alias = None;
+            publish_properties.response_topic = None;
+            publish_properties.correlation_data = response_arguments.correlation_data;
+            publish_properties.user_properties = user_properties;
+            publish_properties.subscription_identifiers = Vec::new();
+            publish_properties.content_type = Some(TResp::content_type().to_string());
         }
 
-        if let Some(supported_protocol_major_versions) =
-            response_arguments.supported_protocol_major_versions
-        {
-            user_properties.push((
-                UserProperty::SupportedMajorVersions.to_string(),
-                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
-            ));
-        }
+        if let Some(command_expiration_time) = response_arguments.command_expiration_time {
+            let message_expiry_interval =
+                command_expiration_time.saturating_duration_since(Instant::now());
+            if message_expiry_interval.is_zero() {
+                log::error!(
+                    "[{}][pkid: {}] Request timed out",
+                    response_arguments.command_name,
+                    pkid
+                );
+                return;
+            }
 
-        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
-            user_properties.push((
-                UserProperty::RequestProtocolVersion.to_string(),
-                request_protocol_version,
-            ));
-        }
-
-        let message_expiry_interval =
-            if let Some(command_expiration_time) = response_arguments.command_expiration_time {
-                command_expiration_time.saturating_duration_since(Instant::now())
-            } else {
-                // Happens when the command expiration time was not able to be calculated.
-                Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL)
+            let Ok(message_expiry_interval) = message_expiry_interval.as_secs().try_into() else {
+                // Unreachable, will be smaller than u32::MAX
+                log::error!(
+                    "[{}][pkid: {}] Message expiry interval is too large",
+                    response_arguments.command_name,
+                    pkid
+                );
+                return;
             };
 
-        if message_expiry_interval.is_zero() {
-            log::error!(
-                "[{}][pkid: {}] Request timed out",
-                response_arguments.command_name,
-                pkid
-            );
-            return;
+            publish_properties.message_expiry_interval = Some(message_expiry_interval);
+
+            // Store cache
+            if let Some(cached_key) = response_arguments.cached_key {
+                let cache_entry = CommandExecutorCacheEntry {
+                    properties: publish_properties.clone(),
+                    payload: payload.clone(),
+                    expiration_time: command_expiration_time,
+                };
+                cache.set(cached_key, Some(cache_entry));
+            }
+        } else {
+            // Happens when the command expiration time was not able to be calculated.
+            // We don't cache the response in this case.
+            let message_expiry_interval = Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL);
+
+            let Ok(message_expiry_interval) = message_expiry_interval.as_secs().try_into() else {
+                // Unreachable, will be smaller than u32::MAX
+                log::error!(
+                    "[{}][pkid: {}] Message expiry interval is too large",
+                    response_arguments.command_name,
+                    pkid
+                );
+                return;
+            };
+
+            publish_properties.message_expiry_interval = Some(message_expiry_interval);
         }
-
-        let Ok(message_expiry_interval) = message_expiry_interval.as_secs().try_into() else {
-            // Unreachable, will be smaller than u32::MAX
-            log::error!(
-                "[{}][pkid: {}] Message expiry interval is too large",
-                response_arguments.command_name,
-                pkid
-            );
-            return;
-        };
-
-        // Create publish properties
-        let publish_properties = PublishProperties {
-            payload_format_indicator: Some(TResp::format_indicator() as u8),
-            message_expiry_interval: Some(message_expiry_interval),
-            topic_alias: None,
-            response_topic: None,
-            correlation_data: response_arguments.correlation_data,
-            user_properties,
-            subscription_identifiers: Vec::new(),
-            content_type: Some(TResp::content_type().to_string()),
-        };
 
         // Try to publish
         match client
