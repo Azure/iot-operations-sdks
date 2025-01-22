@@ -8,10 +8,11 @@ using TestEnvoys.dtmi_com_example_Counter__1;
 
 namespace SampleServer;
 
-public class CustomTopicTokenCounterService : CustomTopicTokens.Service
+public class CustomTopicTokenService : CustomTopicTokens.Service
 {
-    public CustomTopicTokenCounterService(MqttSessionClient mqttClient) : base(mqttClient) 
+    public CustomTopicTokenService(MqttSessionClient mqttClient) : base(mqttClient) 
     {
+        base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         base.TelemetryCollectionSender.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         base.ReadCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
     }

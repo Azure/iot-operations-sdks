@@ -12,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<MathClient>();
         services.AddTransient(CounterClient.Factory);
         services.AddTransient<MemMonClient>();
-        services.AddTransient<CustomTopicTokenCounterClient>();
+        services.AddTransient<CustomTopicTokenClient>();
     })
     .Build();
 

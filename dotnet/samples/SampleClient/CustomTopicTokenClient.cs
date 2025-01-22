@@ -7,14 +7,15 @@ using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
 
 namespace SampleClient;
 
-internal class CustomTopicTokenCounterClient : CustomTopicTokens.Client
+internal class CustomTopicTokenClient : CustomTopicTokens.Client
 {
     public static Func<IServiceProvider, CounterClient> Factory = service => new CounterClient(service.GetService<MqttSessionClient>()!);
 
-    public CustomTopicTokenCounterClient(MqttSessionClient mqttClient) : base(mqttClient)
+    public CustomTopicTokenClient(MqttSessionClient mqttClient) : base(mqttClient)
     {
-        base.TelemetryCollectionReceiver.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
-        base.ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        TelemetryCollectionReceiver.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)

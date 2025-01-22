@@ -13,7 +13,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
     GreeterService? greetService;
     MathService? mathService;
     MemMonService? memMonService;
-    CustomTopicTokenCounterService? serviceWithCustomTopicTokens;
+    CustomTopicTokenService? serviceWithCustomTopicTokens;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -21,7 +21,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         greetService = provider.GetService<GreeterService>()!;
         mathService = provider.GetService<MathService>()!;
         memMonService = provider.GetService<MemMonService>()!;
-        serviceWithCustomTopicTokens = provider.GetService<CustomTopicTokenCounterService>()!;
+        serviceWithCustomTopicTokens = provider.GetService<CustomTopicTokenService>()!;
 
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);

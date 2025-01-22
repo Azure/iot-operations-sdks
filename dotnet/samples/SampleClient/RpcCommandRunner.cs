@@ -22,24 +22,15 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         await mqttClient.ConnectAsync(mcs, stoppingToken);
         await Console.Out.WriteLineAsync($"Connected to: {mcs}");
 
-        await using MemMonClient memMonClient = serviceProvider.GetService<MemMonClient>()!;
-
-        await memMonClient.StartAsync(stoppingToken);
 
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
-            await RunCounterCommands("SampleServer");
-            await RunGreeterCommands();
-            await RunMathCommands();
             await RunCustomTopicTokenCommand("SampleServerWithCustomTopicTokens");
-            await memMonClient.StopTelemetryAsync("SampleServer", null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
             if (userResponse == "q")
             {
-                await memMonClient.DisposeAsync();
                 await mqttClient.DisposeAsync(); // This disconnects the mqtt client as well
                 Environment.Exit(0);
             }
@@ -159,7 +150,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
 
     private async Task RunCustomTopicTokenCommand(string server)
     {
-        await using CustomTopicTokenCounterClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenCounterClient>()!;
+        await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
         try
         {
 
