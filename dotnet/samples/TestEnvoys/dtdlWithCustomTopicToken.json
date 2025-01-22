@@ -1,0 +1,47 @@
+  {
+    "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:com:example:CounterWithCustomTokens;1",
+    "@type": [
+        "Interface",
+        "Mqtt"
+    ],
+    "commandTopic": "rpc/command-samples/{executorId}/{commandName}/{ex:myCustomTopicToken}",
+    "telemetryTopic": "telemetry/telemetry-samples/counterValue/{ex:myCustomTopicToken}",
+    "payloadFormat": "Json/ecma/404",
+    "displayName": "Counter",
+    "contents": [
+        {
+            "@type": "Command",
+            "name": "readCounter",
+            "response": {
+                "name": "CounterResponse",
+                "schema": "integer"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "increment",
+            "request": {
+                "name": "incrementValue",
+                "schema": "integer"
+            },
+            "response": {
+                "name": "CounterResponse",
+                "schema": "integer"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "reset"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "CounterValue",
+            "schema": "integer",
+            "description": "The current value of the counter."
+        }
+    ]
+}
