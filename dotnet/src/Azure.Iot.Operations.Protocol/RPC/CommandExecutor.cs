@@ -220,7 +220,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             responseMessage,
                             IsIdempotent,
                             commandExpirationTime,
-                            ttl,
                             WallClock.UtcNow - executionStartTime).ConfigureAwait(false);
 
                         await PublishResponse(args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, responseMessage);

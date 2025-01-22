@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AvroComm\AvroComm.csproj" />
+    <ProjectReference Include="..\JsonComm\JsonComm.csproj" />
+    <ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+    <ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>
