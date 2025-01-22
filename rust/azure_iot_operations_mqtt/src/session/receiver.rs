@@ -37,9 +37,6 @@ impl AckToken {
     }
 }
 
-// TODO: test drop for receiver?
-// Does this actually need drop? I don't think so - the AckToken should take care of all that.
-
 // NOTE: We need to use unbounded channels, because there is no way to know how many
 // publishes may be in-flight. The MQTT client can specify a receive_maximum, yes,
 // but that only applies to QoS1 and QoS2. There is no limit on QoS0.
@@ -138,7 +135,7 @@ where
     A: MqttAck + Clone + Send + Sync + 'static,
 {
     acker: OrderedAcker<A>,
-    pkid_ack_queue: Arc<Mutex<PkidAckQueue>>, // TODO: does this NEED to be bespoke?
+    pkid_ack_queue: Arc<Mutex<PkidAckQueue>>,
     receiver_manager: Arc<Mutex<PublishReceiverManager>>,
 }
 
@@ -164,8 +161,6 @@ where
         self.receiver_manager.clone()
     }
 
-    // TODO: Should this take a publish ref instead?
-    // TODO: move dup functionality in here
     /// Dispatch a [`Publish`] to all relevant receivers.
     ///
     /// The [`Publish`] will be sent to any filtered receivers that correspond to the topic name.
@@ -180,8 +175,6 @@ where
     /// # Errors
     /// Returns a [`DispatchError`] if the dispatch fails.
     pub fn dispatch_publish(&mut self, publish: &Publish) -> Result<usize, DispatchError> {
-        // TODO: handle results
-
         let topic_name = extract_publish_topic_name(publish)?;
 
         // Check if the incoming publish is a duplicate of a publish that is already in the
