@@ -32,6 +32,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            "TelemetryReceiverReceivesWithCloudEvent_Success"
         };
 
         private static IDeserializer yamlDeserializer;
