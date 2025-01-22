@@ -111,26 +111,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             double dedupBenefit = CostWeightedBenefit(null, responseMessage, executionDuration);
             double reuseBenefit = CostWeightedBenefit(requestPayload, responseMessage, executionDuration);
 
-            bool holdForDedup = !hasExpired;
-
-            if (!holdForDedup)
-            {
-                RemoveEntry(fullCorrelationId, requestResponse);
-                semaphore.Release();
-                return;
-            }
-
             double effectiveBenefit = dedupBenefit;
             bool canEvict = !isDedupMandatory || hasExpired;
 
-            DateTime deferredExpirationTime = holdForDedup ? commandExpirationTime : DateTime.MinValue;
+            DateTime deferredExpirationTime = commandExpirationTime;
             double deferredBenefit = effectiveBenefit;
 
-            if (holdForDedup)
-            {
-                dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
-                deferredExpirationTime = DateTime.MinValue;
-            }
+            dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
+            deferredExpirationTime = DateTime.MinValue;
 
             if (canEvict)
             {
