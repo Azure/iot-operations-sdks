@@ -114,11 +114,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             double effectiveBenefit = dedupBenefit;
             bool canEvict = !isDedupMandatory || hasExpired;
 
-            DateTime deferredExpirationTime = commandExpirationTime;
             double deferredBenefit = effectiveBenefit;
 
             dedupQueue.Enqueue(fullCorrelationId, commandExpirationTime);
-            deferredExpirationTime = DateTime.MinValue;
 
             if (canEvict)
             {
@@ -126,7 +124,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 deferredBenefit = 0;
             }
 
-            requestResponse.DeferredExpirationTime = deferredExpirationTime;
             requestResponse.DeferredBenefit = deferredBenefit;
 
             TrimCache();
@@ -326,8 +323,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             public FullRequest? FullRequest { get; init; }
 
             public TaskCompletionSource<MqttApplicationMessage> Response { get; init; }
-
-            public DateTime DeferredExpirationTime { get; set; }
 
             public double DeferredBenefit { get; set; }
 
