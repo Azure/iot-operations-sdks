@@ -50,8 +50,8 @@ func main() {
 				)
 			}
 
-			ce := msg.CloudEvent
-			if ce != nil {
+			ce, err := protocol.CloudEventFromTelemetry(msg)
+			if err == nil {
 				log.LogAttrs(ctx, slog.LevelInfo, "cloud event", ce.Attrs()...)
 			}
 			return nil
