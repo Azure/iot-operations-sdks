@@ -12,7 +12,10 @@ public class CustomTopicTokenCounterService : CustomTopicTokens.Service
 {
     public CustomTopicTokenCounterService(MqttSessionClient mqttClient) : base(mqttClient) 
     {
-        CustomTopicTokenMap.Add("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        base.ReadCustomTopicTokenCommandExecutor.TopicTokenMap.Add("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        
+        //Needed, right?
+        base.TelemetryCollectionSender.TopicTokenMap.Add("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
     public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
