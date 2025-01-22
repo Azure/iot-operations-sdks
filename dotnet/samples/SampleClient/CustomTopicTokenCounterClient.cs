@@ -13,8 +13,8 @@ internal class CustomTopicTokenCounterClient : CustomTopicTokens.Client
 
     public CustomTopicTokenCounterClient(MqttSessionClient mqttClient) : base(mqttClient)
     {
-        base.TelemetryCollectionReceiver.TopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
-        base.ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
+        base.TelemetryCollectionReceiver.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        base.ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
