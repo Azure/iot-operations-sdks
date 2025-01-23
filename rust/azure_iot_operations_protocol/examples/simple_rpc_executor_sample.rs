@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
+use async_std::task::sleep;
 use env_logger::Builder;
 use thiserror::Error;
 
@@ -20,9 +21,9 @@ const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::Warn)
+        .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("rumqttc", log::LevelFilter::max())
         .init();
 
     // Create a session
@@ -74,6 +75,7 @@ async fn executor_loop(client: SessionManagedClient) {
                     .unwrap()
                     .build()
                     .unwrap();
+                sleep(Duration::from_secs(60)).await;
                 request.complete(response).unwrap();
             }
             Err(err) => {

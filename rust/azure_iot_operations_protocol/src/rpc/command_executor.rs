@@ -49,7 +49,7 @@ struct ResponseArguments {
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
     cached_key: Option<CommandExecutorCacheKey>,
-    cached_response: Option<CommandExecutorCacheEntry>,
+    cached_entry_status: CommandExecutorCacheEntryStatus,
 }
 
 /// Command Request struct.
@@ -653,7 +653,7 @@ where
                     supported_protocol_major_versions: None,
                     request_protocol_version: None,
                     cached_key: None,
-                    cached_response: None,
+                    cached_entry_status: CommandExecutorCacheEntryStatus::NotFound,
                 };
 
                 // Get message expiry interval
@@ -725,22 +725,19 @@ where
                     }
 
                     // Check cache
-                    match self.cache.get(cache_key) {
-                        CommandExecutorCacheEntryStatus::Cached(command_executor_cache_entry) => {
-                            response_arguments.cached_response = Some(command_executor_cache_entry);
-                            break 'process_request;
-                        }
-                        CommandExecutorCacheEntryStatus::InProgress
+                    response_arguments.cached_entry_status = self.cache.get(cache_key);
+
+                    match response_arguments.cached_entry_status {
+                        CommandExecutorCacheEntryStatus::Cached(_)
+                        | CommandExecutorCacheEntryStatus::InProgress
                         | CommandExecutorCacheEntryStatus::Expired => {
                             break 'process_request;
                         }
                         CommandExecutorCacheEntryStatus::NotFound => {
                             // Create entry in cache
                             self.cache.set(cache_key.clone(), None);
-
-                            // Continue processing
                         }
-                    };
+                    }
 
                     // Get content type
                     if let Some(content_type) = properties.content_type {
@@ -900,28 +897,37 @@ where
                     }
                 }
 
-                tokio::task::spawn({
-                    let client_clone = self.mqtt_client.clone();
-                    let cache_clone = self.cache.clone();
-                    let executor_cancellation_token_clone =
-                        self.executor_cancellation_token.clone();
-                    let pkid = m.pkid;
-                    async move {
-                        tokio::select! {
-                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                            () = Self::process_command(
-                                client_clone,
-                                pkid,
-                                response_arguments,
-                                None,
-                                cache_clone,
-                            ) => {
-                                // Finished processing command
-                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
-                            },
-                        }
+                match response_arguments.cached_entry_status {
+                    CommandExecutorCacheEntryStatus::InProgress
+                    | CommandExecutorCacheEntryStatus::Expired => {
+                        log::debug!("duplicate request"); // FIN: Make this log better
+                        continue;
                     }
-                });
+                    _ => {
+                        tokio::task::spawn({
+                            let client_clone = self.mqtt_client.clone();
+                            let cache_clone = self.cache.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            let pkid = m.pkid;
+                            async move {
+                                tokio::select! {
+                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                    () = Self::process_command(
+                                        client_clone,
+                                        pkid,
+                                        response_arguments,
+                                        None,
+                                        cache_clone,
+                                    ) => {
+                                        // Finished processing command
+                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                    },
+                                }
+                            }
+                        });
+                    }
+                }
 
                 if !command_expiration_time_calculated {
                     return Some(Err(AIOProtocolError::new_internal_logic_error(
@@ -953,9 +959,11 @@ where
         let mut payload = Vec::new();
         let mut publish_properties = PublishProperties::default();
 
-        if let Some(cached_response) = response_arguments.cached_response {
-            publish_properties = cached_response.properties;
-            payload = cached_response.payload;
+        if let CommandExecutorCacheEntryStatus::Cached(entry) =
+            response_arguments.cached_entry_status
+        {
+            publish_properties = entry.properties;
+            payload = entry.payload;
         } else {
             'process_response: {
                 let Some(command_expiration_time) = response_arguments.command_expiration_time
@@ -1082,7 +1090,7 @@ where
             publish_properties.user_properties = user_properties;
             publish_properties.subscription_identifiers = Vec::new();
             publish_properties.content_type = Some(TResp::content_type().to_string());
-        }
+        };
 
         if let Some(command_expiration_time) = response_arguments.command_expiration_time {
             let message_expiry_interval =
