@@ -7,6 +7,9 @@ use (
 	./samples/protocol/cloudevents/client
 	./samples/protocol/cloudevents/envoy
 	./samples/protocol/cloudevents/server
+	./samples/protocol/complex/client
+	./samples/protocol/complex/envoy
+	./samples/protocol/complex/server
 	./samples/protocol/counter/client
 	./samples/protocol/counter/envoy
 	./samples/protocol/counter/server
