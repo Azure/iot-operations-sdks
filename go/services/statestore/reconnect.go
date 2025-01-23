@@ -22,7 +22,14 @@ func (c *Client[K, V]) reconnect(ctx context.Context) {
 		//nolint:errcheck // TODO: Is there anything useful to do if this fails?
 		// Even bailing out of the loop is unnecessary since we can still return
 		// the latest value as a best effort.
-		invoke(ctx, c.invoker, parseOK, &opts, resp.OpK("KEYNOTIFY", key), c.logger)
+		invoke(
+			ctx,
+			c.invoker,
+			parseOK,
+			&opts,
+			resp.OpK("KEYNOTIFY", key),
+			c.logger,
+		)
 
 		// Get the latest value and artificially generate a notification.
 		res, err := c.Get(ctx, key)
