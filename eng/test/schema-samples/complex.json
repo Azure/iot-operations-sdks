@@ -65,7 +65,7 @@
       "@type": "Command",
       "name": "getTemperatures",
       "request": {
-        "name": "input",
+        "name": "cities",
         "schema": {
           "@type": "Object",
           "fields": [
@@ -86,35 +86,26 @@
         }
       },
       "response": {
-        "name": "output",
+        "name": "temperatures",
         "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "name": "result",
-              "schema": "dtmi:test:result;1"
-            },
-            {
-              "name": "temperatures",
-              "schema": {
-                "@type": "Object",
-                "fields": [
-                  {
-                    "name": "city",
-                    "schema": "string"
-                  },
-                  {
-                    "name": "temperature",
-                    "schema": "double"
-                  },
-                  {
-                    "name": "result",
-                    "schema": "dtmi:test:result;1"
-                  }
-                ]
+          "@type": "Array",
+          "elementSchema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "city",
+                "schema": "string"
+              },
+              {
+                "name": "temperature",
+                "schema": "double"
+              },
+              {
+                "name": "result",
+                "schema": "dtmi:test:result;1"
               }
-            }
-          ]
+            ]
+          }
         }
       }
     }
