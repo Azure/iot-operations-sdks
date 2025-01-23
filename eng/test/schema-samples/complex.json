@@ -9,12 +9,12 @@
     "Mqtt"
   ],
   "payloadFormat": "Json/ecma/404",
-  "commandTopic": "rpc/command-samples/{executorId}/{commandName}",
-  "telemetryTopic": "telemetry/telemetry-samples/counterValue",
+  "commandTopic": "rpc/command-sample/{executorId}/{commandName}",
+  "telemetryTopic": "telemetry/telemetry-sample",
   "displayName": "Complex",
   "schemas": [
     {
-      "@id": "dtmi:test:results;1",
+      "@id": "dtmi:test:result;1",
       "@type": "Enum",
       "valueSchema": "string",
       "enumValues": [
@@ -29,17 +29,17 @@
       ]
     },
     {
-      "@id": "dtmi:test:intEnumProx;1",
+      "@id": "dtmi:test:day;1",
       "@type": "Enum",
       "valueSchema": "integer",
-      "description": "An enumerated value for expressing qualitative distance.",
+      "description": "An enumerated value for expressing a time.",
       "enumValues": [
         {
-          "name": "near",
+          "name": "today",
           "enumValue": 1
         },
         {
-          "name": "far",
+          "name": "tomorrow",
           "enumValue": 2
         }
       ]
@@ -47,8 +47,23 @@
   ],
   "contents": [
     {
+      "@type": "Telemetry",
+      "name": "temperatures",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "city",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "temperature",
+          "schema": "double"
+        }
+      }
+    },
+    {
       "@type": "Command",
-      "name": "doSomething",
+      "name": "getTemperatures",
       "request": {
         "name": "input",
         "schema": {
@@ -56,25 +71,14 @@
           "fields": [
             {
               "name": "when",
-              "schema": {
-                "@type": "Enum",
-                "valueSchema": "integer",
-                "enumValues": [
-                  {
-                    "name": "now",
-                    "enumValue": 1
-                  },
-                  {
-                    "name": "later",
-                    "enumValue": 2
-                  }
-                ]
-              }
+              "description": "When should the temperatures be returned from",
+              "schema": "dtmi:test:day;1"
             },
             {
-              "name": "actions",
+              "name": "cities",
               "schema": {
                 "@type": "Array",
+                "description": "The list of cities to request temperatures from",
                 "elementSchema": "string"
               }
             }
@@ -87,43 +91,30 @@
           "@type": "Object",
           "fields": [
             {
-              "name": "overallResult",
-              "schema": "dtmi:test:results;1"
+              "name": "result",
+              "schema": "dtmi:test:result;1"
             },
             {
-              "name": "magnitude",
-              "schema": "decimal"
-            },
-            {
-              "name": "details",
+              "name": "temperatures",
               "schema": {
-                "@type": "Map",
-                "mapKey": {
-                  "name": "action",
-                  "schema": "string"
-                },
-                "mapValue": {
-                  "name": "result",
-                  "schema": "dtmi:test:results;1"
-                }
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "city",
+                    "schema": "string"
+                  },
+                  {
+                    "name": "temperature",
+                    "schema": "double"
+                  },
+                  {
+                    "name": "result",
+                    "schema": "dtmi:test:result;1"
+                  }
+                ]
               }
             }
           ]
-        }
-      }
-    },
-    {
-      "@type": "Telemetry",
-      "name": "doubleMap",
-      "schema": {
-        "@type": "Map",
-        "mapKey": {
-          "name": "stringKey",
-          "schema": "string"
-        },
-        "mapValue": {
-          "name": "doubleValue",
-          "schema": "double"
         }
       }
     }
