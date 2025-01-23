@@ -118,7 +118,7 @@ func New[K, V Bytes](
 	if err != nil {
 		c.logger.Warn(
 			context.Background(),
-			"Error creating command invoker",
+			"error creating command invoker",
 			slog.String("error", err.Error()),
 		)
 		c.listeners.Close()
@@ -137,7 +137,7 @@ func New[K, V Bytes](
 	if err != nil {
 		c.logger.Warn(
 			context.Background(),
-			"Error creating telemetry receiver",
+			"error creating telemetry receiver",
 			slog.String("error", err.Error()),
 		)
 		c.listeners.Close()
@@ -154,7 +154,7 @@ func New[K, V Bytes](
 		cancel()
 	}
 
-	c.logger.Debug(context.Background(), "State store client created")
+	c.logger.Debug(context.Background(), "state store client created")
 	return c, nil
 }
 
@@ -164,25 +164,25 @@ func (c *Client[K, V]) Start(ctx context.Context) error {
 	if err != nil {
 		c.logger.Warn(
 			ctx,
-			"Subscribe error encountered but not returned",
+			"subscribe error encountered but not returned",
 			slog.String("error", err.Error()),
 		)
 	}
-	c.logger.Debug(ctx, "State store client started")
+	c.logger.Debug(ctx, "state store client started")
 	return nil
 }
 
 // Close all underlying MQTT topics and free resources.
 func (c *Client[K, V]) Close() {
-	c.logger.Info(context.Background(), "Shutting down state store client")
+	c.logger.Info(context.Background(), "shutting down state store client")
 	c.done()
 	c.listeners.Close()
-	c.logger.Info(context.Background(), "State store client shutdown complete")
+	c.logger.Info(context.Background(), "state store client shutdown complete")
 }
 
 // ID returns the ID of the underlying MQTT client.
 func (c *Client[K, V]) ID() string {
-	c.logger.Debug(context.Background(), "State store client ID requested")
+	c.logger.Debug(context.Background(), "state store client ID requested")
 	return c.client.ID()
 }
 

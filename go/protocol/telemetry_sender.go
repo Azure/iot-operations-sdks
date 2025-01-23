@@ -67,7 +67,7 @@ func NewTelemetrySender[T any](
 	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
+	defer func() { err = errutil.Return(err, ts.logger, true) }()
 
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
@@ -111,7 +111,7 @@ func (ts *TelemetrySender[T]) Send(
 	opt ...SendOption,
 ) (err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
+	defer func() { err = errutil.Return(err, ts.logger, shallow) }()
 
 	var opts SendOptions
 	opts.Apply(opt)
@@ -144,7 +144,7 @@ func (ts *TelemetrySender[T]) Send(
 	}
 	pub.Retain = opts.Retain
 
-	ts.logger.Debug(ctx, "Sending telemetry",
+	ts.logger.Debug(ctx, "sending telemetry",
 		slog.String("topic", pub.Topic),
 		slog.String("payload", fmt.Sprintf("%v", msg.Payload)),
 		slog.Any("metadata", msg.Metadata))

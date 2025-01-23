@@ -39,11 +39,11 @@ func (c *Client[K, V]) KeyNotify(
 
 	req := resp.OpK("KEYNOTIFY", key)
 	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req, c.logger); err != nil {
-		c.logger.Warn(ctx, "Key Notification failed", slog.String("key", k))
+		c.logger.Warn(ctx, "key notification failed", slog.String("key", k))
 		return err
 	}
 
-	c.logger.Info(ctx, "Key Notification started", slog.String("key", k))
+	c.logger.Info(ctx, "key notification started", slog.String("key", k))
 	c.keynotify[k]++
 	return nil
 }
@@ -70,7 +70,7 @@ func (c *Client[K, V]) KeyNotifyStop(
 		if err != nil {
 			c.logger.Warn(
 				ctx,
-				"Key Notification stop failed",
+				"key notification stop failed",
 				slog.String("key", k),
 			)
 			return err

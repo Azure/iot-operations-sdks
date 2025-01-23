@@ -91,7 +91,7 @@ func NewCommandInvoker[Req, Res any](
 	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
+	defer func() { err = errutil.Return(err, ci.listener.log, true) }()
 
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
@@ -101,11 +101,6 @@ func NewCommandInvoker[Req, Res any](
 		"requestEncoding":  requestEncoding,
 		"responseEncoding": responseEncoding,
 	}); err != nil {
-		ci.listener.log.Error(
-			context.Background(),
-			err,
-			slog.String("message", "Invoker validation failed"),
-		)
 		return nil, err
 	}
 
@@ -121,7 +116,7 @@ func NewCommandInvoker[Req, Res any](
 				opts.ResponseTopicPrefix,
 			)
 			if err != nil {
-				ci.listener.log.Error(context.Background(), err, slog.String("message", "Response topic prefix validation failed"))
+				ci.listener.log.Error(context.Background(), err, slog.String("message", "response topic prefix validation failed"))
 				return nil, err
 			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
@@ -133,7 +128,7 @@ func NewCommandInvoker[Req, Res any](
 				opts.ResponseTopicSuffix,
 			)
 			if err != nil {
-				ci.listener.log.Error(context.Background(), err, slog.String("message", "Response topic suffix validation failed"))
+				ci.listener.log.Error(context.Background(), err, slog.String("message", "response topic suffix validation failed"))
 				return nil, err
 			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
@@ -150,7 +145,7 @@ func NewCommandInvoker[Req, Res any](
 		ci.listener.log.Error(
 			context.Background(),
 			err,
-			slog.String("message", "Request topic pattern generation failed"),
+			slog.String("message", "request topic pattern generation failed"),
 		)
 		return nil, err
 	}
@@ -165,7 +160,7 @@ func NewCommandInvoker[Req, Res any](
 		ci.listener.log.Error(
 			context.Background(),
 			err,
-			slog.String("message", "Response topic pattern generation failed"),
+			slog.String("message", "response topic pattern generation failed"),
 		)
 		return nil, err
 	}
@@ -175,7 +170,7 @@ func NewCommandInvoker[Req, Res any](
 		ci.listener.log.Error(
 			context.Background(),
 			err,
-			slog.String("message", "Response topic filter generation failed"),
+			slog.String("message", "response topic filter generation failed"),
 		)
 		return nil, err
 	}
@@ -211,7 +206,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	opt ...InvokeOption,
 ) (res *CommandResponse[Res], err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
+	defer func() { err = errutil.Return(err, ci.listener.log, shallow) }()
 
 	var opts InvokeOptions
 	opts.Apply(opt)
@@ -227,11 +222,6 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Text:     commandInvokerErrStr,
 	}
 	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
-		ci.listener.log.Error(
-			ctx,
-			err,
-			slog.String("message", "Message expiry validation failed"),
-		)
 		return nil, err
 	}
 
@@ -240,7 +230,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		ci.listener.log.Warn(
 			ctx,
 			err.Error(),
-			slog.String("message", "Correlation data generation failed"),
+			slog.String("message", "correlation data generation failed"),
 		)
 		return nil, err
 	}
@@ -249,7 +239,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		if len(k) >= 2 && k[0] == '_' && k[1] == '_' && !isReservedProperty(k) {
 			ci.listener.log.Warn(
 				ctx,
-				"Unrecognized reserved property",
+				"unrecognized reserved property",
 				slog.String("propertyKey", k),
 			)
 		}
@@ -262,22 +252,12 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	}
 	pub, err := ci.publisher.build(msg, opts.TopicTokens, expiry)
 	if err != nil {
-		ci.listener.log.Error(
-			ctx,
-			err,
-			slog.String("message", "Publish message failed"),
-		)
 		return nil, err
 	}
 
 	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
 	pub.ResponseTopic, err = ci.responseTopic.Topic(opts.TopicTokens)
 	if err != nil {
-		ci.listener.log.Error(
-			ctx,
-			err,
-			slog.String("message", "Response topic generation failed"),
-		)
 		return nil, err
 	}
 
@@ -369,7 +349,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
 	ci.listener.log.Info(
 		ctx,
-		"Subscribing to MQTT response topic",
+		"subscribing to MQTT response topic",
 		slog.String("topic", ci.listener.topic.Filter()),
 	)
 	return ci.listener.listen(ctx)
@@ -379,13 +359,13 @@ func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
 func (ci *CommandInvoker[Req, Res]) Close() {
 	ci.listener.log.Info(
 		context.Background(),
-		"Unsubscribing from MQTT response topic",
+		"unsubscribing from MQTT response topic",
 		slog.String("topic", ci.listener.topic.Filter()),
 	)
 	ci.listener.close()
 	ci.listener.log.Info(
 		context.Background(),
-		"Command invoker shutdown complete",
+		"command invoker shutdown complete",
 	)
 }
 
@@ -404,11 +384,6 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 	}
 	if e := ci.sendPending(ctx, pub, res, err); e != nil {
 		// If sendPending fails onErr will also fail, so just drop the message.
-		ci.listener.log.Error(
-			ctx,
-			e,
-			slog.String("message", "Send pending failed"),
-		)
 		ci.listener.drop(ctx, pub, e)
 	}
 	ci.listener.log.Debug(

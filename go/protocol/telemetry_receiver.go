@@ -78,7 +78,7 @@ func NewTelemetryReceiver[T any](
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
+	defer func() { err = errutil.Return(err, tr.listener.log, true) }()
 
 	var opts TelemetryReceiverOptions
 	opts.Apply(opt)
@@ -140,14 +140,14 @@ func NewTelemetryReceiver[T any](
 
 // Start listening to the MQTT telemetry topic.
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
-	tr.listener.log.Info(ctx, "Telemetry receiver subscribing to topic",
+	tr.listener.log.Info(ctx, "telemetry receiver subscribing to topic",
 		slog.String("topic", tr.listener.topic.Filter()))
 	return tr.listener.listen(ctx)
 }
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
-	tr.listener.log.Info(context.Background(), "Telemetry receiver closing")
+	tr.listener.log.Info(context.Background(), "telemetry receiver closing")
 	tr.listener.close()
 }
 
@@ -161,7 +161,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
-		tr.listener.log.Warn(ctx, "Cannot parse telemetry, ignoring message",
+		tr.listener.log.Warn(ctx, "cannot parse telemetry, ignoring message",
 			slog.String("error", err.Error()))
 		return err
 	}
@@ -172,7 +172,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		if len(key) > 2 && key[:2] == "__" && !isReservedProperty(key) {
 			tr.listener.log.Warn(
 				ctx,
-				"User property starts with reserved prefix",
+				"user property starts with reserved prefix",
 				slog.String("property", key),
 				slog.String("value", value),
 			)
@@ -188,22 +188,17 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	stringPayload := fmt.Sprintf("%v", message.Payload)
 
-	tr.listener.log.Debug(ctx, "Telemetry received",
+	tr.listener.log.Debug(ctx, "telemetry received",
 		slog.String("topic", pub.Topic),
 		slog.String("payload", stringPayload),
 		slog.Any("metadata", msg.Metadata))
 
 	if err := tr.handle(handlerCtx, message); err != nil {
-		tr.listener.log.Error(
-			ctx,
-			err,
-			slog.String("message", "Handler returned an error"),
-		)
 		return err
 	}
 
 	if !tr.manualAck && pub.QoS > 0 {
-		tr.listener.log.Debug(ctx, "Telemetry acknowledged automatically",
+		tr.listener.log.Debug(ctx, "telemetry acknowledged automatically",
 			slog.String("topic", pub.Topic),
 			slog.String("payload", stringPayload))
 		pub.Ack()
@@ -237,9 +232,9 @@ func (tr *TelemetryReceiver[T]) onErr(
 	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
-	tr.listener.log.Warn(ctx, "Telemetry error occurred",
+	tr.listener.log.Warn(ctx, "telemetry error occurred",
 		slog.String("error", err.Error()))
-	return errutil.Return(err, false)
+	return errutil.Return(err, tr.listener.log, false)
 }
 
 // Call handler with panic catch.
@@ -294,15 +289,10 @@ func (tr *TelemetryReceiver[T]) handle(
 
 	select {
 	case err := <-rchan:
-		tr.listener.log.Error(
-			ctx,
-			err,
-			slog.String("message", "Critical error in handler"),
-		)
 		return err
 	case <-ctx.Done():
 		err := errutil.Context(ctx, telemetryReceiverErrStr)
-		tr.listener.log.Error(ctx, err, slog.String("message", "Context done"))
+		tr.listener.log.Error(ctx, err, slog.String("message", "context done"))
 		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }
