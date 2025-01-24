@@ -65,7 +65,7 @@
       "@type": "Command",
       "name": "getTemperatures",
       "request": {
-        "name": "cities",
+        "name": "request",
         "schema": {
           "@type": "Object",
           "fields": [
@@ -86,7 +86,7 @@
         }
       },
       "response": {
-        "name": "temperatures",
+        "name": "response",
         "schema": {
           "@type": "Array",
           "elementSchema": {
