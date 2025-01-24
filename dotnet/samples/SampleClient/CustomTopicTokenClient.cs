@@ -16,9 +16,14 @@ internal class CustomTopicTokenClient : CustomTopicTokens.Client
         base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         TelemetryCollectionReceiver.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+
         base.CustomTopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
         TelemetryCollectionReceiver.TopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
         ReadCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
+        
+        this.CustomTopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
+        this.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+        //this.TelemetryCollectionReceiver.CustomTopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
