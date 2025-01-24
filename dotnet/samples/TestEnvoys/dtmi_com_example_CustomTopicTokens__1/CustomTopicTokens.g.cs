@@ -98,6 +98,8 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
+                CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
+                CustomTopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
 
                 this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
                 this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
