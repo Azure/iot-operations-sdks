@@ -90,8 +90,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <summary>
         /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
-        [JsonConverter(typeof(JsonDocumentConverter))]
-        public JsonDocument? Attributes { get; set; }
+        public Dictionary<string, string>? Attributes { get; set; }
 
         /// <summary>
         /// Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.

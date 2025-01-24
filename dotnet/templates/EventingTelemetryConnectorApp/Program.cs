@@ -1,4 +1,5 @@
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Services.Assets;
 using ConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -7,8 +8,10 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<TelemetryConnectorWorker>();
+        services.AddHostedService<EventingTelemetryConnectorWorker>();
     })
     .Build();
+
+EventingTelemetryConnectorWorker worker = host.Services.GetService<EventingTelemetryConnectorWorker>()!;
 
 host.Run();

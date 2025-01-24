@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Connector;
 using RestThermostatConnector;
 
@@ -7,7 +10,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<PollingTelemetryConnectorWorker>();
+        services.AddHostedService<AssetNotificationHandlerWorker>();
+        services.AddHostedService<EventingTelemetryConnectorWorker>();
     })
     .Build();
 

@@ -20,10 +20,10 @@ File -> New Project -> Select the installed project tempate
 Alternatively, you can create a new project from an installed template from command line:
 
 ```
-dotnet new aiotelemetryconnectorapp -n MyConnectorApp
+dotnet new aiopollingtelemetryconnectorapp -n MyConnectorApp
 ```
 
-Where "aiotelemetryconnectorapp" is the short name defined in the project template's [template.json file](./ConnectorApp/.template.config/template.json) and where "MyConnectorApp" is the name of your project.
+Where "aiopollingtelemetryconnectorapp" is the short name defined in the project template's [template.json file](./PollingTelemetryConnectorApp/.template.config/template.json) and where "MyConnectorApp" is the name of your project.
 
 Note that this command will create the project 'MyConnectorApp' in the same directory that the command was run from.
 
