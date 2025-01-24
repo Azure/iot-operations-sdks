@@ -6,14 +6,14 @@ var (
 	tomorrow = complex.Tomorrow
 
 	Request = complex.GetTemperaturesRequestPayload{
-		Cities: complex.Object_GetTemperatures_Request{
+		Request: complex.Object_GetTemperatures_Request{
 			When:   &tomorrow,
 			Cities: []string{"Seattle", "Portland"},
 		},
 	}
 
 	Response = complex.GetTemperaturesResponsePayload{
-		Temperatures: []complex.Object_GetTemperatures_Response_ElementSchema{
+		Response: []complex.Object_GetTemperatures_Response_ElementSchema{
 			response("Seattle", -5.6, complex.Success),
 			response("Portland", -13.2, complex.Success),
 		},
