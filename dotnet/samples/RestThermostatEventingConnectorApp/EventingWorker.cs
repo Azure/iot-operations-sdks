@@ -8,14 +8,14 @@ namespace Azure.Iot.Operations.Connector
     public class EventingWorker : BackgroundService
     {
         private readonly ILogger<EventingWorker> _logger;
-        private readonly AssetNotificationHandlerWorker _assetNotificationHandler;
+        private readonly AssetNotificationHandler _assetNotificationHandler;
 
         public EventingWorker(
             ILogger<EventingWorker> logger,
-            AssetNotificationHandlerWorker assetNotificationHandler) // todo interface vs impl here
+            IAssetNotificationHandler assetNotificationHandler) // todo interface vs impl here
         {
             _logger = logger;
-            _assetNotificationHandler = assetNotificationHandler;
+            _assetNotificationHandler = (AssetNotificationHandler) assetNotificationHandler; //TODO feels weird
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
