@@ -3,9 +3,11 @@
 
 //! Bespoke mocks for relevant traits defined in the interface module.
 #![allow(unused_variables)]
+use std::sync::{Arc, Mutex};
 
 use async_trait::async_trait;
 use bytes::Bytes;
+use rumqttc::Publish;
 use tokio::sync::mpsc::{error::SendError, unbounded_channel, UnboundedReceiver, UnboundedSender};
 
 use crate::control_packet::{
@@ -34,20 +36,103 @@ impl std::future::Future for CompletedAckFuture {
     }
 }
 
+pub enum MockClientCall {
+    Publish(PublishCall),
+    Subscribe(SubscribeCall),
+    Unsubscribe(UnsubscribeCall),
+    Ack(AckCall),
+}
+
+pub struct PublishCall {
+    pub topic: String,
+    pub qos: QoS,
+    pub retain: bool,
+    pub payload: Bytes,
+}
+
+pub struct SubscribeCall {
+    pub topic: String,
+    pub qos: QoS,
+}
+
+pub struct UnsubscribeCall {
+    pub topic: String,
+}
+
+pub struct AckCall {
+    pub publish: Publish,
+}
+
+/// Call data for [`MockClient`]
+#[derive(Default)]
+struct SharedCallTracker {
+    publish_calls: Vec<PublishCall>,
+    subscribe_calls: Vec<SubscribeCall>,
+    unsubscribe_calls: Vec<UnsubscribeCall>,
+    ack_calls: Vec<AckCall>,
+
+    publish_count: usize,
+    subscribe_count: usize,
+    unsubscribe_count: usize,
+    ack_count: usize,
+}
+
+/// Tracks call information for a [`MockClient`] instance (including its clones).
+pub struct MockClientMonitor {
+    shared_tracker: Arc<Mutex<SharedCallTracker>>,
+}
+
+impl MockClientMonitor {
+    /// Return the number of .publish() calls made to the client.
+    pub fn publish_count(&self) -> usize {
+        self.shared_tracker.lock().unwrap().publish_count
+    }
+
+    /// Return the number of .subscribe() calls made to the client.
+    pub fn subscribe_count(&self) -> usize {
+        self.shared_tracker.lock().unwrap().subscribe_count
+    }
+
+    /// Return the number of .unsubscribe() calls made to the client.
+    pub fn unsubscribe_count(&self) -> usize {
+        self.shared_tracker.lock().unwrap().unsubscribe_count
+    }
+
+    /// Return the number of .ack() calls made to the client.
+    pub fn ack_count(&self) -> usize {
+        self.shared_tracker.lock().unwrap().ack_count
+    }
+}
+
+
+
+
 // TODO: Will need to add a way to choose when acks return, and what rc they provide
 
 /// Mock implementation of an MQTT client.
 ///
 /// Currently always succeeds on all operations.
 #[derive(Clone)]
-pub struct MockClient {}
+pub struct MockClient {
+    /// Shared state for calls made to this client and all its clones.
+    shared_tracker: Arc<Mutex<SharedCallTracker>>,
+}
 
 impl MockClient {
     /// Return a new mocked MQTT client.
     #[must_use]
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        Self {}
+        Self {
+            shared_tracker: Arc::new(Mutex::new(SharedCallTracker::default())),
+        }
+    }
+
+    /// Return a monitor that tracks the calls to this client (including any of its clones)
+    pub fn mock_monitor(&self) -> MockClientMonitor {
+        MockClientMonitor {
+            shared_tracker: self.shared_tracker.clone(),
+        }
     }
 }
 
@@ -67,6 +152,15 @@ impl MqttPubSub for MockClient {
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, PublishError> {
+        let call = PublishCall {
+            topic: topic.into(),
+            qos,
+            retain,
+            payload: payload.into(),
+        };
+        self.shared_tracker.lock().unwrap().publish_calls.push(call);
+
+        self.shared_tracker.lock().unwrap().publish_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -78,6 +172,7 @@ impl MqttPubSub for MockClient {
         payload: impl Into<Bytes> + Send,
         properties: PublishProperties,
     ) -> Result<CompletionToken, PublishError> {
+        self.shared_tracker.lock().unwrap().publish_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -86,6 +181,7 @@ impl MqttPubSub for MockClient {
         topic: impl Into<String> + Send,
         qos: QoS,
     ) -> Result<CompletionToken, SubscribeError> {
+        self.shared_tracker.lock().unwrap().subscribe_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -95,6 +191,7 @@ impl MqttPubSub for MockClient {
         qos: QoS,
         properties: SubscribeProperties,
     ) -> Result<CompletionToken, SubscribeError> {
+        self.shared_tracker.lock().unwrap().subscribe_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -102,6 +199,7 @@ impl MqttPubSub for MockClient {
         &self,
         topic: impl Into<String> + Send,
     ) -> Result<CompletionToken, UnsubscribeError> {
+        self.shared_tracker.lock().unwrap().unsubscribe_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 
@@ -110,6 +208,7 @@ impl MqttPubSub for MockClient {
         topic: impl Into<String> + Send,
         properties: UnsubscribeProperties,
     ) -> Result<CompletionToken, UnsubscribeError> {
+        self.shared_tracker.lock().unwrap().unsubscribe_count += 1;
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 }
@@ -117,6 +216,7 @@ impl MqttPubSub for MockClient {
 #[async_trait]
 impl MqttAck for MockClient {
     async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+        self.shared_tracker.lock().unwrap().ack_count += 1;
         Ok(())
     }
 }
