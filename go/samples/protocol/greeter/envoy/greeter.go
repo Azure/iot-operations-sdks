@@ -74,6 +74,7 @@ var (
 )
 
 func NewGreeterServer(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	handlers GreeterHandlers,
 	opts ...protocol.CommandExecutorOption,
@@ -87,6 +88,7 @@ func NewGreeterServer(
 	})
 
 	s.sayHelloExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		HelloRequestEncoding,
 		HelloResponseEncoding,
@@ -101,6 +103,7 @@ func NewGreeterServer(
 	s.Listeners = append(s.Listeners, s.sayHelloExecutor)
 
 	s.sayHelloWithDelayExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		HelloWithDelayRequestEncoding,
 		HelloResponseEncoding,
@@ -120,6 +123,7 @@ func NewGreeterServer(
 }
 
 func NewGreeterClient(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	opts ...protocol.CommandInvokerOption,
 ) (*GreeterClient, error) {
@@ -136,6 +140,7 @@ func NewGreeterClient(
 	}
 
 	c.sayHelloInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		HelloRequestEncoding,
 		HelloResponseEncoding,
@@ -149,6 +154,7 @@ func NewGreeterClient(
 	c.Listeners = append(c.Listeners, c.sayHelloInvoker)
 
 	c.sayHelloWithDelayInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		HelloWithDelayRequestEncoding,
 		HelloResponseEncoding,

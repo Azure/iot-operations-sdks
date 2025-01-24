@@ -204,12 +204,17 @@ func (o WithMetadata) respond(opt *RespondOptions) {
 // WithLogger enables logging with the provided slog logger.
 func WithLogger(logger *slog.Logger) interface {
 	Option
+	ApplicationOption
 	CommandExecutorOption
 	CommandInvokerOption
 	TelemetryReceiverOption
 	TelemetrySenderOption
 } {
 	return withLogger{logger}
+}
+
+func (o withLogger) application(opt *ApplicationOptions) {
+	opt.Logger = o.Logger
 }
 
 func (o withLogger) commandExecutor(opt *CommandExecutorOptions) {

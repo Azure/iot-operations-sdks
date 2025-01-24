@@ -51,13 +51,17 @@ func TestIncrement(t *testing.T) {
 	defer listeners.Close()
 
 	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
+		app,
 		server,
 		&Handlers{},
 	)
 	require.NoError(t, err)
 	listeners = append(listeners, counterService)
 
-	counterClient, err := dtmi_com_example_Counter__1.NewCounterClient(client)
+	counterClient, err := dtmi_com_example_Counter__1.NewCounterClient(
+		app,
+		client,
+	)
 	require.NoError(t, err)
 	listeners = append(listeners, counterClient)
 

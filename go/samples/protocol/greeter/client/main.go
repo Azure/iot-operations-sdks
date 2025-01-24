@@ -22,12 +22,13 @@ import (
 func main() {
 	ctx := context.Background()
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
+	app := must(protocol.NewApplication())
 
 	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
-	client := must(envoy.NewGreeterClient(mqttClient))
+	client := must(envoy.NewGreeterClient(app, mqttClient))
 	defer client.Close()
 
 	check(mqttClient.Start())

@@ -10,6 +10,7 @@ type IncrementCommandExecutor struct {
 }
 
 func NewIncrementCommandExecutor(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	handler protocol.CommandHandler[any, IncrementResponsePayload],
@@ -28,6 +29,7 @@ func NewIncrementCommandExecutor(
 	)
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		protocol.Empty{},
 		protocol.JSON[IncrementResponsePayload]{},

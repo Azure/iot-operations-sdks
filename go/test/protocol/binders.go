@@ -37,6 +37,8 @@ type (
 	}
 )
 
+var app = protocol.Must(protocol.NewApplication())
+
 func NewTestingCommandInvoker(
 	client protocol.MqttClient,
 	commandName *string,
@@ -72,6 +74,7 @@ func NewTestingCommandInvoker(
 	)
 
 	invoker.base, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.JSON[string]{},
 		protocol.JSON[string]{},
@@ -120,6 +123,7 @@ func NewTestingCommandExecutor(
 	)
 
 	executor.base, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		protocol.JSON[string]{},
 		protocol.JSON[string]{},
@@ -161,6 +165,7 @@ func NewTestingTelemetrySender(
 	)
 
 	sender.base, err = protocol.NewTelemetrySender(
+		app,
 		client,
 		protocol.JSON[string]{},
 		*telemetryTopic,
@@ -197,6 +202,7 @@ func NewTestingTelemetryReceiver(
 	)
 
 	receiver.base, err = protocol.NewTelemetryReceiver(
+		app,
 		client,
 		protocol.JSON[string]{},
 		*telemetryTopic,
