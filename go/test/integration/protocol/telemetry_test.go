@@ -26,7 +26,8 @@ func TestTelemetry(t *testing.T) {
 
 	results := make(chan *protocol.TelemetryMessage[*protocol.Data])
 
-	receiver, err := protocol.NewTelemetryReceiver(server, enc, topic,
+	receiver, err := protocol.NewTelemetryReceiver(
+		app, server, enc, topic,
 		func(
 			_ context.Context,
 			tm *protocol.TelemetryMessage[*protocol.Data],
@@ -38,7 +39,8 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 	defer receiver.Close()
 
-	sender, err := protocol.NewTelemetrySender(client, enc, topic,
+	sender, err := protocol.NewTelemetrySender(
+		app, client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)

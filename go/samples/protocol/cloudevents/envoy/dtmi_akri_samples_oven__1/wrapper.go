@@ -21,6 +21,7 @@ const (
 )
 
 func NewOvenService(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	opts ...protocol.Option,
 ) (*OvenService, error) {
@@ -40,6 +41,7 @@ func NewOvenService(
 	ovenService := &OvenService{}
 
 	ovenService.TelemetryCollectionSender, err = NewTelemetryCollectionSender(
+		app,
 		client,
 		TelemetryTopic,
 		&senderOpts,
@@ -53,6 +55,7 @@ func NewOvenService(
 }
 
 func NewOvenClient(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	telemetryHandler protocol.TelemetryHandler[TelemetryCollection],
 	opts ...protocol.Option,
@@ -72,6 +75,7 @@ func NewOvenClient(
 	ovenClient := &OvenClient{}
 
 	ovenClient.TelemetryCollectionReceiver, err = NewTelemetryCollectionReceiver(
+		app,
 		client,
 		TelemetryTopic,
 		telemetryHandler,

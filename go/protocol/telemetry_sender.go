@@ -59,6 +59,7 @@ const telemetrySenderErrStr = "telemetry send"
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
@@ -88,6 +89,7 @@ func NewTelemetrySender[T any](
 
 	ts = &TelemetrySender[T]{}
 	ts.publisher = &publisher[T]{
+		app:      app,
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
