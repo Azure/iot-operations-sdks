@@ -1,60 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
+using RestThermostatConnector;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class EventingWorker : BackgroundService, IAssetNotificationHandler
+    public class EventingWorker : BackgroundService
     {
         private readonly ILogger<EventingWorker> _logger;
+        private readonly AssetNotificationHandlerWorker _assetNotificationHandler;
 
-        public EventingWorker(ILogger<EventingWorker> logger)
+        public EventingWorker(
+            ILogger<EventingWorker> logger,
+            AssetNotificationHandlerWorker assetNotificationHandler) // todo interface vs impl here
         {
             _logger = logger;
-        }
-
-        private IDictionary<string, SampleableAsset> sampleableAssets = new ConcurrentDictionary<string, SampleableAsset>();
-
-        public Task OnAssetNotSampleable(string assetName)
-        {
-            sampleableAssets.Remove(assetName);
-            return Task.CompletedTask;
-        }
-
-        public Task OnAssetSampleable(SampleableAsset sampleableAsset)
-        {
-            sampleableAssets.TryAdd(sampleableAsset.Asset.DisplayName!, sampleableAsset);
-            return Task.CompletedTask;
+            _assetNotificationHandler = assetNotificationHandler;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // Simulate randomly occurring events that trigger sampling of available assets
             while (!cancellationToken.IsCancellationRequested)
             { 
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
-                foreach (var sampleableAsset in sampleableAssets.Values)
-                {
-                    if (sampleableAsset.Asset.Datasets != null)
-                    {
-                        foreach (var dataset in sampleableAsset.Asset.Datasets)
-                        {
-                            try
-                            {
-                                await sampleableAsset.SampleDatasetAsync(dataset.Name, cancellationToken);
-                            }
-                            catch (AssetDatasetUnavailableException e)
-                            {
-                                // Tried to sample a dataset that either didn't exist or the asset it belongs to is not available anymore
-                            }
-                            catch (ConnectorSamplingException e)
-                            {
-                                // Tried to sample a dataset, but an error happened when connecting to or reading from the asset (HTTP connect timeout, for example)
-                            }
-                        }
-                    }
-                }
+                await _assetNotificationHandler.SampleAvailableAssetsAsync();
             }
         }
     }
