@@ -2,5 +2,5 @@
 package dtmi_example_Complex__1
 
 type GetTemperaturesResponsePayload struct {
-	Temperatures []Object_GetTemperatures_Response_ElementSchema `json:"temperatures"`
+	Response []Object_GetTemperatures_Response_ElementSchema `json:"response"`
 }

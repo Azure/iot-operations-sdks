@@ -2,5 +2,5 @@
 package dtmi_example_Complex__1
 
 type GetTemperaturesRequestPayload struct {
-	Cities Object_GetTemperatures_Request `json:"cities"`
+	Request Object_GetTemperatures_Request `json:"request"`
 }
