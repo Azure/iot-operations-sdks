@@ -17,5 +17,5 @@ use super::object_get_temperatures_response_element_schema::Object_GetTemperatur
 pub struct GetTemperaturesResponsePayload {
     /// The Command response argument.
     #[builder(default)]
-    pub temperatures: Vec<Object_GetTemperatures_Response_ElementSchema>,
+    pub response: Vec<Object_GetTemperatures_Response_ElementSchema>,
 }

@@ -16,5 +16,5 @@ use super::object_get_temperatures_request::Object_GetTemperatures_Request;
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetTemperaturesRequestPayload {
     /// The Command request argument.
-    pub cities: Object_GetTemperatures_Request,
+    pub request: Object_GetTemperatures_Request,
 }

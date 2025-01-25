@@ -28,6 +28,7 @@ async fn main() {
 
     // Create a session with connection settings from the environment
     let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .clean_start(true)
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
@@ -63,29 +64,25 @@ async fn get_temperatures_and_publish(client: SessionManagedClient) {
     );
 
     // Sample temperature data
-    let temperatures = vec![
+    let tomorrow_temperatures = vec![
         Object_GetTemperatures_Response_ElementSchema {
-            temperature: Some(70.0),
+            temperature: Some(-5.6),
             city: Some("Seattle".to_string()),
             result: Some(Enum_Test_Result__1::Success),
         },
         Object_GetTemperatures_Response_ElementSchema {
-            temperature: Some(72.0),
+            temperature: Some(-13.2),
             city: Some("Portland".to_string()),
             result: Some(Enum_Test_Result__1::Failure),
-        },
-        Object_GetTemperatures_Response_ElementSchema {
-            temperature: Some(74.0),
-            city: Some("San Francisco".to_string()),
-            result: Some(Enum_Test_Result__1::Success),
         },
     ];
 
     // Sample telemetry data
     let telemetry_map = Some(HashMap::from([
-        ("Seattle".to_string(), 70.0),
-        ("Portland".to_string(), 72.0),
-        ("San Francisco".to_string(), 74.0),
+        ("Seattle".to_string(), -2.22),
+        ("Los Angeles".to_string(), 11.67),
+        ("Boston".to_string(), -12.22),
+        ("San Francisco".to_string(), 11.67),
     ]));
 
     // Loop to handle incoming get temperature requests and publish telemetry
@@ -94,7 +91,7 @@ async fn get_temperatures_and_publish(client: SessionManagedClient) {
         let request = get_temperatures_executor.recv().await.unwrap().unwrap();
 
         let response_payload = GetTemperaturesResponsePayload {
-            temperatures: temperatures.clone(),
+            response: tomorrow_temperatures.clone(),
         };
 
         let response = GetTemperaturesResponseBuilder::default()

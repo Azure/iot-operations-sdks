@@ -10,6 +10,7 @@ members = [
   "sample_applications/counter/counter_client",
   "sample_applications/counter/counter_server",
   "sample_applications/complex/complex_envoy", 
+  "sample_applications/complex/complex_client",
   "sample_applications/complex/complex_server",
 ]
 
