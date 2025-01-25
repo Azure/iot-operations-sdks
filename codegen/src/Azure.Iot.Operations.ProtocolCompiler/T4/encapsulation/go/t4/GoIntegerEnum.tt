@@ -9,9 +9,9 @@ import (
 type <#=this.enumType.SchemaName#> int32
 
 const (
-<# bool isFirst = true; foreach (var enumValue in this.enumType.EnumValues) { #>
-	<#=Capitalize(enumValue.Name)#> <#=isFirst ? this.enumType.SchemaName : ""#> = <#=enumValue.IntValue#>
-<# isFirst = false; } #>
+<# foreach (var enumValue in this.enumType.EnumValues) { #>
+	<#=Capitalize(enumValue.Name)#> <#=this.enumType.SchemaName#> = <#=enumValue.IntValue#>
+<# } #>
 )
 
 func (v <#=this.enumType.SchemaName#>) String() string {

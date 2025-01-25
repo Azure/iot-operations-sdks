@@ -257,6 +257,7 @@ _pkginfo.txt
 
 # Others
 ClientBin/
+.config
 ~$*
 *~
 *.dbmdl

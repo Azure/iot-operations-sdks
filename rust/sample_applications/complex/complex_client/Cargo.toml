@@ -1,0 +1,14 @@
+[package]
+name = "complex_client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+complex_envoy = { path = "../complex_envoy"}
+tokio.workspace = true
+env_logger.workspace = true
+log.workspace = true
+azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt" }
+
+[lints]
+workspace = true

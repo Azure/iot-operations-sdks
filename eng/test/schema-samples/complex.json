@@ -1,0 +1,113 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+  ],
+  "@id": "dtmi:example:Complex;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "payloadFormat": "Json/ecma/404",
+  "commandTopic": "rpc/command-sample/{executorId}/{commandName}",
+  "telemetryTopic": "telemetry/telemetry-sample",
+  "displayName": "Complex",
+  "schemas": [
+    {
+      "@id": "dtmi:test:result;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "success",
+          "enumValue": "succès"
+        },
+        {
+          "name": "failure",
+          "enumValue": "échec"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:test:day;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "description": "An enumerated value for expressing a time.",
+      "enumValues": [
+        {
+          "name": "today",
+          "enumValue": 1
+        },
+        {
+          "name": "tomorrow",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "temperatures",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "city",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "temperature",
+          "schema": "double"
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "getTemperatures",
+      "request": {
+        "name": "request",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "when",
+              "description": "When should the temperatures be returned from",
+              "schema": "dtmi:test:day;1"
+            },
+            {
+              "name": "cities",
+              "schema": {
+                "@type": "Array",
+                "description": "The list of cities to request temperatures from",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "response",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "city",
+                "schema": "string"
+              },
+              {
+                "name": "temperature",
+                "schema": "double"
+              },
+              {
+                "name": "result",
+                "schema": "dtmi:test:result;1"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
