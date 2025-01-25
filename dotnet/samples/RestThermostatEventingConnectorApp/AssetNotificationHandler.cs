@@ -8,7 +8,7 @@ namespace RestThermostatConnector
 {
     public class AssetNotificationHandler : IAssetNotificationHandler
     {
-        public static Func<IServiceProvider, AssetNotificationHandler> Provider = service =>
+        public static Func<IServiceProvider, IAssetNotificationHandler> Provider = service =>
         {
             return new AssetNotificationHandler();
         };
