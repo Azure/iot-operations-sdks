@@ -57,7 +57,10 @@ func TestTelemetry(t *testing.T) {
 	res := <-results
 	require.Equal(t, client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
-	require.Equal(t, "https://contoso.com", res.Source.String())
-	require.Equal(t, "prefix/test/suffix", res.Subject)
-	require.Equal(t, value.ContentType, res.DataContentType)
+
+	cloudEvent, err := protocol.CloudEventFromTelemetry(res)
+	require.NoError(t, err)
+	require.Equal(t, "https://contoso.com", cloudEvent.Source.String())
+	require.Equal(t, "prefix/test/suffix", cloudEvent.Subject)
+	require.Equal(t, value.ContentType, cloudEvent.DataContentType)
 }
