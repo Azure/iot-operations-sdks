@@ -187,18 +187,18 @@ func invoke[T any](
 	parse func([]byte) (T, error),
 	opts invokeOptions,
 	data []byte,
-	logger log.Logger,
+	log log.Logger,
 ) (*Response[T], error) {
-	logger.Debug(ctx, "Invoking", slog.String("data", string(data)))
+	log.Debug(ctx, "Invoking", slog.String("data", string(data)))
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
-		logger.Error(ctx, err)
+		log.Error(ctx, err)
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
-		logger.Error(ctx, err)
+		log.Error(ctx, err)
 		return nil, err
 	}
 
