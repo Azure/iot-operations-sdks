@@ -13,6 +13,7 @@ type <#=this.capitalizedCommandName#>CommandInvoker struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandInvoker(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
@@ -29,6 +30,7 @@ func New<#=this.capitalizedCommandName#>CommandInvoker(
 	)
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.<#=GetSerializer(this.reqSchema)#>{},
 		protocol.<#=GetSerializer(this.respSchema)#>{},

@@ -44,6 +44,7 @@ const (
 )
 
 func NewCounterService(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	commandHandlers CounterCommandHandlers,
 	opts ...protocol.Option,
@@ -63,6 +64,7 @@ func NewCounterService(
 	counterService := &CounterService{}
 
 	counterService.ReadCounterCommandExecutor, err = NewReadCounterCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.ReadCounter,
@@ -75,6 +77,7 @@ func NewCounterService(
 	counterService.Listeners = append(counterService.Listeners, counterService.ReadCounterCommandExecutor)
 
 	counterService.IncrementCommandExecutor, err = NewIncrementCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.Increment,
@@ -87,6 +90,7 @@ func NewCounterService(
 	counterService.Listeners = append(counterService.Listeners, counterService.IncrementCommandExecutor)
 
 	counterService.ResetCommandExecutor, err = NewResetCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.Reset,
@@ -102,6 +106,7 @@ func NewCounterService(
 }
 
 func NewCounterClient(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	opts ...protocol.Option,
 ) (*CounterClient, error) {
@@ -120,6 +125,7 @@ func NewCounterClient(
 	counterClient := &CounterClient{}
 
 	counterClient.ReadCounterCommandInvoker, err = NewReadCounterCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -131,6 +137,7 @@ func NewCounterClient(
 	counterClient.Listeners = append(counterClient.Listeners, counterClient.ReadCounterCommandInvoker)
 
 	counterClient.IncrementCommandInvoker, err = NewIncrementCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -142,6 +149,7 @@ func NewCounterClient(
 	counterClient.Listeners = append(counterClient.Listeners, counterClient.IncrementCommandInvoker)
 
 	counterClient.ResetCommandInvoker, err = NewResetCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,

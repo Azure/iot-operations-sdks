@@ -220,7 +220,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             responseMessage,
                             IsIdempotent,
                             commandExpirationTime,
-                            ttl,
                             WallClock.UtcNow - executionStartTime).ConfigureAwait(false);
 
                         await PublishResponse(args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, responseMessage);
@@ -393,16 +392,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 status = CommandStatusCode.BadRequest;
                 statusMessage = $"Correlation data bytes do not conform to a GUID.";
                 invalidPropertyName = "Correlation Data";
-                invalidPropertyValue = null;
-                return false;
-            }
-
-            string? sourceId = requestMsg.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value;
-            if (sourceId == null)
-            {
-                status = CommandStatusCode.BadRequest;
-                statusMessage = $"No Source ID ({AkriSystemProperties.SourceId}) property present.";
-                invalidPropertyName = AkriSystemProperties.SourceId;
                 invalidPropertyValue = null;
                 return false;
             }

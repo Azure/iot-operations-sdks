@@ -11,6 +11,7 @@ type <#=this.componentName#>Receiver struct {
 }
 
 func New<#=this.componentName#>Receiver(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	topic string,
 	handler protocol.TelemetryHandler[<#=this.AsSchema(this.schemaClassName)#>],
@@ -30,6 +31,7 @@ func New<#=this.componentName#>Receiver(
 	)
 
 	receiver.TelemetryReceiver, err = protocol.NewTelemetryReceiver(
+		app,
 		client,
 		protocol.<#=this.GetSerializer(this.schemaClassName)#>{},
 		topic,

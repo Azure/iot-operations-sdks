@@ -40,7 +40,7 @@ impl ReadCounterResponseBuilder {
     pub fn payload(
         &mut self,
         payload: ReadCounterResponsePayload,
-    ) -> Result<&mut Self, <ReadCounterResponsePayload as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -101,11 +101,11 @@ where
         )
     }
 
-    /// Receive the next [`ReadCounterRequest`]
+    /// Receive the next [`ReadCounterRequest`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Result<ReadCounterRequest, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<ReadCounterRequest, AIOProtocolError>> {
         self.0.recv().await
     }
 

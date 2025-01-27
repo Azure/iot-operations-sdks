@@ -46,7 +46,7 @@ var ceReserved = []string{
 	ceSource,
 	ceSpecVersion,
 	ceType,
-	ceDataContentType,
+	// ceDataContentType - not stored in user properties, so omitted here.
 	ceDataSchema,
 	ceSubject,
 	ceTime,
@@ -85,7 +85,7 @@ func (ce *CloudEvent) Attrs() []slog.Attr {
 }
 
 // Initialize default values in the cloud event where possible; error where not.
-func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
+func (ce *CloudEvent) toMessage(msg *mqtt.Message, ds *url.URL) error {
 	// Cloud events were not specified; just bail out.
 	if ce == nil {
 		return nil
@@ -135,10 +135,13 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
 		msg.UserProperties[ceType] = DefaultCloudEventType
 	}
 
-	if ce.DataContentType != "" {
-		msg.UserProperties[ceDataContentType] = ce.DataContentType
-	} else {
-		msg.UserProperties[ceDataContentType] = msg.ContentType
+	if ce.DataContentType != "" && ce.DataContentType != msg.ContentType {
+		return &errors.Error{
+			Message:       "cloud event content type mismatch",
+			Kind:          errors.ArgumentInvalid,
+			PropertyName:  "DataContentType",
+			PropertyValue: ce.DataContentType,
+		}
 	}
 
 	if ce.DataSchema != nil {
@@ -162,53 +165,98 @@ func cloudEventToMessage(msg *mqtt.Message, ce *CloudEvent, ds *url.URL) error {
 	return nil
 }
 
-func cloudEventFromMessage(msg *mqtt.Message) *CloudEvent {
+// CloudEventFromTelemetry extracts cloud event data from the given telemetry
+// message. It will return an error if any required properties are missing or
+// any properties do not match the expected schema.
+func CloudEventFromTelemetry[T any](
+	msg *TelemetryMessage[T],
+) (*CloudEvent, error) {
 	var ok bool
 	var err error
 	ce := &CloudEvent{}
 
-	// Parse required properties first. If any aren't present or valid, assume
-	// this isn't a cloud event.
-	ce.SpecVersion = msg.UserProperties[ceSpecVersion]
+	ce.SpecVersion, ok = msg.Metadata[ceSpecVersion]
+	if !ok {
+		return nil, &errors.Error{
+			Message:    "cloud event missing spec version header",
+			Kind:       errors.HeaderMissing,
+			HeaderName: ceSpecVersion,
+		}
+	}
 	if ce.SpecVersion != "1.0" {
-		return nil
+		return nil, &errors.Error{
+			Message:     "cloud event invalid spec version",
+			Kind:        errors.HeaderInvalid,
+			HeaderName:  ceSpecVersion,
+			HeaderValue: ce.SpecVersion,
+		}
 	}
 
-	ce.ID, ok = msg.UserProperties[ceID]
+	ce.ID, ok = msg.Metadata[ceID]
 	if !ok {
-		return nil
+		return nil, &errors.Error{
+			Message:    "cloud event missing ID header",
+			Kind:       errors.HeaderMissing,
+			HeaderName: ceID,
+		}
 	}
 
-	src, ok := msg.UserProperties[ceSource]
+	src, ok := msg.Metadata[ceSource]
 	if !ok {
-		return nil
+		return nil, &errors.Error{
+			Message:    "cloud event missing source header",
+			Kind:       errors.HeaderMissing,
+			HeaderName: ceSource,
+		}
 	}
 	ce.Source, err = url.Parse(src)
 	if err != nil {
-		return nil
+		return nil, &errors.Error{
+			Message:     "cloud event invalid source header",
+			Kind:        errors.HeaderInvalid,
+			HeaderName:  ceSource,
+			HeaderValue: src,
+		}
 	}
 
-	ce.Type, ok = msg.UserProperties[ceType]
+	ce.Type, ok = msg.Metadata[ceType]
 	if !ok {
-		return nil
-	}
-
-	// Optional properties are best-effort.
-	ce.DataContentType = msg.UserProperties[ceDataContentType]
-
-	if ds, ok := msg.UserProperties[ceDataSchema]; ok {
-		if dsp, err := url.Parse(ds); err == nil {
-			ce.DataSchema = dsp
+		return nil, &errors.Error{
+			Message:    "cloud event missing type header",
+			Kind:       errors.HeaderMissing,
+			HeaderName: ceType,
 		}
 	}
 
-	ce.Subject = msg.UserProperties[ceSubject]
+	// Don't fail for missing optional properties, but do fail for optional
+	// properties that don't parse.
+	ce.DataContentType = msg.ContentType
 
-	if t, ok := msg.UserProperties[ceTime]; ok {
-		if tp, err := iso8601.ParseString(t); err == nil {
-			ce.Time = tp
+	if ds, ok := msg.Metadata[ceDataSchema]; ok {
+		ce.DataSchema, err = url.Parse(ds)
+		if err != nil {
+			return nil, &errors.Error{
+				Message:     "cloud event invalid data schema header",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  ceDataSchema,
+				HeaderValue: ds,
+			}
 		}
 	}
 
-	return ce
+	ce.Subject = msg.Metadata[ceSubject]
+
+	if t, ok := msg.Metadata[ceTime]; ok {
+		ce.Time, err = iso8601.ParseString(t)
+		if err != nil {
+			return nil, &errors.Error{
+				Message:     "cloud event invalid time header",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  ceTime,
+				HeaderValue: t,
+			}
+		}
+	}
+
+	return ce, nil
 }

@@ -62,7 +62,7 @@ impl <#=this.capitalizedCommandName#>ResponseBuilder {
     pub fn payload(
         &mut self,
         payload: <#=this.respSchema#>,
-    ) -> Result<&mut Self, <<#=this.respSchema#> as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -142,11 +142,11 @@ where
         )
     }
 
-    /// Receive the next [`<#=this.capitalizedCommandName#>Request`]
+    /// Receive the next [`<#=this.capitalizedCommandName#>Request`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Result<<#=this.capitalizedCommandName#>Request, AIOProtocolError> {
+    pub async fn recv(&mut self) -> Option<Result<<#=this.capitalizedCommandName#>Request, AIOProtocolError>> {
         self.0.recv().await
     }
 

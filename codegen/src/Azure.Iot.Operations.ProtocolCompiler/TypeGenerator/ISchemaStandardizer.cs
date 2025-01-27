@@ -1,10 +1,11 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System.Collections.Generic;
-    using System.IO;
 
     public interface ISchemaStandardizer
     {
+        SerializationFormat SerializationFormat { get; }
+
         IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath);
     }
 }

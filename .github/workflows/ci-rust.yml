@@ -64,7 +64,7 @@ jobs:
     - name: Run Tests
       run: |
         set -e
-        ENABLE_NETWORK_TESTS=true make test
+        ENABLE_NETWORK_TESTS=true FEATURES="all" make test
 
     - name: Run Coverage Report
       run: |

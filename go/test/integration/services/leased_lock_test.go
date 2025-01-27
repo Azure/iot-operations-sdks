@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/services/leasedlock"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore/errors"
@@ -38,6 +37,9 @@ func TestFencing(t *testing.T) {
 	test := newLeasedLockTest(ctx, t, uuid.NewString())
 	defer test.done()
 
+	badFT, err := app.GetHLC()
+	require.NoError(t, err)
+
 	holder, err := test.lock.Holder(ctx)
 	require.NoError(t, err)
 	require.Empty(t, holder)
@@ -51,10 +53,6 @@ func TestFencing(t *testing.T) {
 	require.Equal(t, test.client.ID(), holder)
 
 	test.set(ctx, t, true, uuid.NewString(), statestore.WithFencingToken(ft))
-
-	badFT, err := hlc.Get()
-	require.NoError(t, err)
-	badFT.Timestamp = time.Unix(0, 0)
 
 	_, err = test.client.Set(ctx, test.key, uuid.NewString(),
 		statestore.WithFencingToken(badFT))
@@ -97,6 +95,9 @@ func TestFencingWithSessionID(t *testing.T) {
 	test := newLeasedLockTest(ctx, t, uuid.NewString())
 	defer test.done()
 
+	badFT, err := app.GetHLC()
+	require.NoError(t, err)
+
 	sessionID := uuid.NewString()
 
 	ft, err := test.lock.TryAcquire(ctx, 10*time.Second,
@@ -105,10 +106,6 @@ func TestFencingWithSessionID(t *testing.T) {
 	require.False(t, ft.IsZero())
 
 	test.set(ctx, t, true, uuid.NewString(), statestore.WithFencingToken(ft))
-
-	badFT, err := hlc.Get()
-	require.NoError(t, err)
-	badFT.Timestamp = time.Unix(0, 0)
 
 	_, err = test.client.Set(ctx, test.key, uuid.NewString(),
 		statestore.WithFencingToken(badFT))

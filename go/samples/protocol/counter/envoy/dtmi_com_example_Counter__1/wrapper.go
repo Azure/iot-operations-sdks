@@ -16,7 +16,7 @@ type CounterCommandHandlers interface {
 
 	Increment(
 		context.Context,
-		*protocol.CommandRequest[any],
+		*protocol.CommandRequest[IncrementRequestPayload],
 	) (*protocol.CommandResponse[IncrementResponsePayload], error)
 
 	Reset(
@@ -30,6 +30,7 @@ type CounterService struct {
 	*ReadCounterCommandExecutor
 	*IncrementCommandExecutor
 	*ResetCommandExecutor
+	*TelemetryCollectionSender
 }
 
 type CounterClient struct {
@@ -37,13 +38,16 @@ type CounterClient struct {
 	*ReadCounterCommandInvoker
 	*IncrementCommandInvoker
 	*ResetCommandInvoker
+	*TelemetryCollectionReceiver
 }
 
 const (
 	CommandTopic = "rpc/command-samples/{executorId}/{commandName}"
+	TelemetryTopic = "telemetry/telemetry-samples/counterValue"
 )
 
 func NewCounterService(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	commandHandlers CounterCommandHandlers,
 	opts ...protocol.Option,
@@ -54,15 +58,20 @@ func NewCounterService(
 		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"executorId": client.ID(),
+			"senderId":   client.ID(),
 		},
 	}
 
 	var executorOpts protocol.CommandExecutorOptions
 	executorOpts.ApplyOptions(opts, serverOpts...)
 
+	var senderOpts protocol.TelemetrySenderOptions
+	senderOpts.ApplyOptions(opts, serverOpts...)
+
 	counterService := &CounterService{}
 
 	counterService.ReadCounterCommandExecutor, err = NewReadCounterCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.ReadCounter,
@@ -75,6 +84,7 @@ func NewCounterService(
 	counterService.Listeners = append(counterService.Listeners, counterService.ReadCounterCommandExecutor)
 
 	counterService.IncrementCommandExecutor, err = NewIncrementCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.Increment,
@@ -87,6 +97,7 @@ func NewCounterService(
 	counterService.Listeners = append(counterService.Listeners, counterService.IncrementCommandExecutor)
 
 	counterService.ResetCommandExecutor, err = NewResetCommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.Reset,
@@ -98,11 +109,24 @@ func NewCounterService(
 	}
 	counterService.Listeners = append(counterService.Listeners, counterService.ResetCommandExecutor)
 
+	counterService.TelemetryCollectionSender, err = NewTelemetryCollectionSender(
+		app,
+		client,
+		TelemetryTopic,
+		&senderOpts,
+	)
+	if err != nil {
+		counterService.Close()
+		return nil, err
+	}
+
 	return counterService, nil
 }
 
 func NewCounterClient(
+	app *protocol.Application,
 	client protocol.MqttClient,
+	telemetryHandler protocol.TelemetryHandler[TelemetryCollection],
 	opts ...protocol.Option,
 ) (*CounterClient, error) {
 	var err error
@@ -117,9 +141,13 @@ func NewCounterClient(
 	var invokerOpts protocol.CommandInvokerOptions
 	invokerOpts.ApplyOptions(opts, clientOpts...)
 
+	var receiverOpts protocol.TelemetryReceiverOptions
+	receiverOpts.ApplyOptions(opts, clientOpts...)
+
 	counterClient := &CounterClient{}
 
 	counterClient.ReadCounterCommandInvoker, err = NewReadCounterCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -131,6 +159,7 @@ func NewCounterClient(
 	counterClient.Listeners = append(counterClient.Listeners, counterClient.ReadCounterCommandInvoker)
 
 	counterClient.IncrementCommandInvoker, err = NewIncrementCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -142,6 +171,7 @@ func NewCounterClient(
 	counterClient.Listeners = append(counterClient.Listeners, counterClient.IncrementCommandInvoker)
 
 	counterClient.ResetCommandInvoker, err = NewResetCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -151,6 +181,19 @@ func NewCounterClient(
 		return nil, err
 	}
 	counterClient.Listeners = append(counterClient.Listeners, counterClient.ResetCommandInvoker)
+
+	counterClient.TelemetryCollectionReceiver, err = NewTelemetryCollectionReceiver(
+		app,
+		client,
+		TelemetryTopic,
+		telemetryHandler,
+		&receiverOpts,
+	)
+	if err != nil {
+		counterClient.Close()
+		return nil, err
+	}
+	counterClient.Listeners = append(counterClient.Listeners, counterClient.TelemetryCollectionReceiver)
 
 	return counterClient, nil
 }

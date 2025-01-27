@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_D
     using Azure.Iot.Operations.Services.Akri;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.6.0.0")]
-    public class CreateDiscoveredAssetEndpointProfileResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class CreateDiscoveredAssetEndpointProfileResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command response argument.
