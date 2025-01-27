@@ -10,7 +10,7 @@ use super::aio_protocol_error::{AIOProtocolError, Value};
 /// Wildcard token
 pub const WILDCARD: &str = "+";
 
-/// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+/// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
 ///
 /// Returns true if the string contains any of the following:
 /// - Non-ASCII characters
@@ -27,7 +27,7 @@ pub(crate) fn contains_invalid_char(s: &str) -> bool {
 }
 
 /// Determine whether a string is valid for use as a replacement string in a custom replacement map
-/// or a topic namespace based on [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+/// or a topic namespace based on [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
 ///
 /// Returns true if the string is not empty, does not contain invalid characters, does not start or
 /// end with '/', and does not contain "//"

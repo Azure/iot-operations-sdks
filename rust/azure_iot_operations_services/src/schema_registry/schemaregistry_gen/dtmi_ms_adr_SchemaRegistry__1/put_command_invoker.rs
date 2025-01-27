@@ -44,10 +44,7 @@ impl PutRequestBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: PutRequestPayload,
-    ) -> Result<&mut Self, <PutRequestPayload as PayloadSerialize>::Error> {
+    pub fn payload(&mut self, payload: PutRequestPayload) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

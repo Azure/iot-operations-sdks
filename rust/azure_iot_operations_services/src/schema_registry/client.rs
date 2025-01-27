@@ -222,7 +222,7 @@ where
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].'
+    /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
