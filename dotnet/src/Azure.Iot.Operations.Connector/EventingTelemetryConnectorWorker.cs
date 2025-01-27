@@ -260,6 +260,8 @@ namespace Azure.Iot.Operations.Connector
                     // Create a new dataset sampler since the old one may have been updated in some way
                     IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(assetEndpointProfile, asset, dataset);
 
+                    _assetsDatasetSamplers[assetName].TryAdd(datasetName, datasetSampler);
+
                     DatasetMessageSchema? datasetMessageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
                     if (datasetMessageSchema != null)
                     {
