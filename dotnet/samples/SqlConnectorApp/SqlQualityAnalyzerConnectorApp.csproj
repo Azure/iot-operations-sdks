@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <!-- <ContainerImageTag>v11</ContainerImageTag> -->
+    <!-- <ContainerImageTag>v12</ContainerImageTag> -->
   </PropertyGroup>
 
   <ItemGroup>
