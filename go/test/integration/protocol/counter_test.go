@@ -29,7 +29,10 @@ func (h *Handlers) Increment(
 	req *protocol.CommandRequest[counter.IncrementRequestPayload],
 ) (*protocol.CommandResponse[counter.IncrementResponsePayload], error) {
 	response := counter.IncrementResponsePayload{
-		CounterResponse: atomic.AddInt32(&h.counter, req.Payload.IncrementValue),
+		CounterResponse: atomic.AddInt32(
+			&h.counter,
+			req.Payload.IncrementValue,
+		),
 	}
 	return protocol.Respond(response)
 }
