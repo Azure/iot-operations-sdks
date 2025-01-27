@@ -197,13 +197,13 @@ func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 func (ce *CommandExecutor[Req, Res]) Close() {
 	ce.listener.log.Info(
 		context.Background(),
-		"Unsubscribing from MQTT request topic",
+		"unsubscribing from MQTT request topic",
 		slog.String("topic", ce.listener.topic.Filter()),
 	)
 	ce.listener.close()
 	ce.listener.log.Info(
 		context.Background(),
-		"Command executor shutdown complete",
+		"command executor shutdown complete",
 	)
 }
 
@@ -229,7 +229,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	if pub.MessageExpiry == 0 {
 		ce.listener.log.Error(
 			ctx,
-			fmt.Errorf("Command has no expiry"),
+			fmt.Errorf("command has no expiry"),
 		)
 		return &errors.Error{
 			Message:    "message expiry missing",
