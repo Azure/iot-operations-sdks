@@ -12,7 +12,10 @@ use std::sync::{Arc, Mutex};
 use futures::future::{FutureExt, Shared};
 use tokio::sync::Notify;
 
-use crate::{error::AckError, interface::CompletionToken};
+use crate::{
+    error::{AckError, CompletionError},
+    interface::CompletionToken
+};
 
 // NOTE: It could be argued this module should not have the Ack semantics at all, and just let this
 // be a generic synchronization tool.
@@ -27,10 +30,10 @@ use crate::{error::AckError, interface::CompletionToken};
 // NOTE: The PlenaryAckFuture type is probably more complex than it needs to be. I think it could
 // be expressed more simply (and perhaps more performatively/flexibly) but in the interest of time,
 // I'm sticking with what works.
-// type PlenaryAckOpFuture =
-//     Shared<Pin<Box<dyn Future<Output = Result<(), AckError>> + Send + 'static>>>;
 type PlenaryAckOpFuture =
-    Shared<Pin<Box<dyn Future<Output = Result<CompletionToken, AckError>> + Send + 'static>>>;
+    Shared<Pin<Box<dyn Future<Output = Result<(), AckError>> + Send + 'static>>>;
+
+type PlenaryAckCompletionFuture = Pin<Box<dyn Future<Output = Result<(), CompletionError>> + Send + 'static>>;
 
 #[derive(Default, Debug)]
 struct PlenaryState {
@@ -81,6 +84,7 @@ impl PlenaryState {
 pub struct PlenaryAckMember {
     state: Arc<Mutex<PlenaryState>>,
     plenary_op_f: PlenaryAckOpFuture,
+    //plenanary_ct_f: PlenaryAckCompletionFuture, // TODO: rename
     signaled: bool,
 }
 
@@ -137,10 +141,13 @@ impl PlenaryAck {
         let state = PlenaryState::default();
         let approved = state.get_approved_notify();
 
-        let f = async move {
+        let ack_op_f = async move {
             approved.notified().await;
             ack_future.await
+            // let ct = ack_future.await;
+            // ct
         };
+
 
         Self {
             state: Arc::new(Mutex::new(state)),
