@@ -65,7 +65,7 @@ impl <#=this.componentName#>MessageBuilder {
     pub fn payload(
         &mut self,
         payload: <#=this.schemaClassName#>,
-    ) -> Result<&mut Self, <<#=this.schemaClassName#> as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

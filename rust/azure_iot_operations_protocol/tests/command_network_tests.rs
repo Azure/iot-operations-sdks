@@ -10,7 +10,9 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    },
     rpc::{
         command_executor::{
             CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -100,16 +102,19 @@ fn setup_test<
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
+
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: Vec::new(),
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok("".into())
-    }
-    fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -218,23 +223,36 @@ pub struct DataRequestPayload {
 }
 impl PayloadSerialize for DataRequestPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
+                self.requested_temperature, self.requested_color
+            )
+            .into(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
-            self.requested_temperature, self.requested_color
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataRequestPayload, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataRequestPayload, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
+        }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing request: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing request: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -243,7 +261,11 @@ impl PayloadSerialize for DataRequestPayload {
             .parse::<f64>()
         {
             Ok(req_temp) => req_temp,
-            Err(e) => return Err(format!("Error while deserializing request: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing request: {e}"
+                )))
+            }
         };
         let requested_color = payload[1]
             .trim_start_matches("\"requestedColor\":")
@@ -265,23 +287,36 @@ pub struct DataResponsePayload {
 }
 impl PayloadSerialize for DataResponsePayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/something"
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
+                self.old_temperature, self.old_color, self.minutes_to_change
+            )
+            .into(),
+            content_type: "application/something".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
-            self.old_temperature, self.old_color, self.minutes_to_change
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataResponsePayload, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataResponsePayload, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/something" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/something'"
+                )));
+            }
+        }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -290,7 +325,11 @@ impl PayloadSerialize for DataResponsePayload {
             .parse::<f64>()
         {
             Ok(old_temp) => old_temp,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
         let old_color = payload[1].trim_start_matches("\"oldColor\":").to_string();
 
@@ -300,7 +339,11 @@ impl PayloadSerialize for DataResponsePayload {
             .parse::<u32>()
         {
             Ok(min) => min,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
 
         Ok(DataResponsePayload {
