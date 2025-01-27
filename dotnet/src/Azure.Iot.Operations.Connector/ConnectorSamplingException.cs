@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector
 {
+    /// <summary>
+    /// An exception that indicates a failure to sample an asset due to a failure to connect to or get a response from an asset.
+    /// </summary>
     public class ConnectorSamplingException : ConnectorException
     {
         public ConnectorSamplingException()
@@ -21,10 +24,6 @@ namespace Azure.Iot.Operations.Connector
         }
 
         public ConnectorSamplingException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected ConnectorSamplingException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

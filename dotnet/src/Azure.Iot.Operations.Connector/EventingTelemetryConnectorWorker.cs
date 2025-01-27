@@ -14,12 +14,11 @@ namespace Azure.Iot.Operations.Connector
 {
     // callback to notify app when asset is ready to be sampled, and a callback into this layer to trigger
     // each sampling
-    public class EventingTelemetryConnectorWorker : BackgroundService
+    public abstract class EventingTelemetryConnectorWorker : BackgroundService
     {
-        private readonly ILogger<EventingTelemetryConnectorWorker> _logger;
+        protected readonly ILogger<EventingTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
-        private IAssetNotificationHandler _assetNotificationHandler;
         private IAssetMonitor _assetMonitor;
 
         // Mapping of asset name to the mapping of dataset name to its sampler and sampling interval
@@ -29,14 +28,12 @@ namespace Azure.Iot.Operations.Connector
             ILogger<EventingTelemetryConnectorWorker> logger,
             IMqttClient mqttClient, 
             IDatasetSamplerFactory datasetSamplerFactory,
-            IAssetMonitor assetMonitor,
-            IAssetNotificationHandler assetNotificationHandler)
+            IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _mqttClient = mqttClient;
             _datasetSamplerFactory = datasetSamplerFactory;
             _assetMonitor = assetMonitor;
-            _assetNotificationHandler = assetNotificationHandler;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -133,7 +130,7 @@ namespace Azure.Iot.Operations.Connector
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {
-                                _ = StopSamplingAssetAsync(args.AssetName, false);
+                                _ = StopSamplingAssetAsync(args.AssetName, false, cancellationToken);
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
@@ -144,7 +141,7 @@ namespace Azure.Iot.Operations.Connector
                                 // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                _ = StopSamplingAssetAsync(args.AssetName, true).ContinueWith((task) => StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken));
+                                _ = StopSamplingAssetAsync(args.AssetName, true, cancellationToken).ContinueWith((task) => StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken));
                             }
                         };
 
@@ -218,7 +215,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StopSamplingAssetAsync(string assetName, bool isRestarting)
+        private async Task StopSamplingAssetAsync(string assetName, bool isRestarting, CancellationToken cancellationToken)
         {
             // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
             if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
@@ -233,7 +230,7 @@ namespace Azure.Iot.Operations.Connector
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isRestarting)
             {
-                _ = _assetNotificationHandler.OnAssetNotSampleable(assetName);
+                _ = OnAssetNotSampleableAsync(assetName, cancellationToken);
             }
         }
 
@@ -285,13 +282,15 @@ namespace Azure.Iot.Operations.Connector
             }
 
             // Don't block on this callback returning since users may start sampling from within this thread.
-            _ = _assetNotificationHandler.OnAssetSampleable(new SampleableAsset(asset, TriggerDatasetSamplingAsync));
+            _ = OnAssetSampleableAsync(assetName, asset, cancellationToken);
         }
 
-        public async Task TriggerDatasetSamplingAsync(Asset asset, string datasetName, CancellationToken cancellationToken = default)
-        {
-            string assetName = asset.DisplayName;
+        public abstract Task OnAssetSampleableAsync(string assetName, Asset asset, CancellationToken cancellationToken);
 
+        public abstract Task OnAssetNotSampleableAsync(string assetName, CancellationToken cancellationToken);
+
+        public async Task SampleDatasetAsync(string assetName, Asset asset, string datasetName, CancellationToken cancellationToken = default)
+        {
             Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
             if (assetDatasets == null || !assetDatasets.TryGetValue(datasetName, out Dataset? dataset))
             {
@@ -301,7 +300,7 @@ namespace Azure.Iot.Operations.Connector
             if (!_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers)
                 || !assetDatasetSamplers.TryGetValue(datasetName, out var datasetSampler))
             {
-                // Should never happen, but may signal the asset was just removed. Change error message?
+                // Should never happen, but may signal the asset was just removed.
                 throw new AssetDatasetUnavailableException("Could not sample the provided dataset: No dataset sampler found for the provided asset and dataset name");
             }
 

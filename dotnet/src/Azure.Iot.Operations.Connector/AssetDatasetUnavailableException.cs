@@ -5,6 +5,9 @@ using System.Runtime.Serialization;
 
 namespace Azure.Iot.Operations.Connector
 {
+    /// <summary>
+    /// An exception that indicates a failure to sample a dataset due to that asset no longer being available to sample.
+    /// </summary>
     public class AssetDatasetUnavailableException : ConnectorException
     {
         public AssetDatasetUnavailableException()
@@ -16,10 +19,6 @@ namespace Azure.Iot.Operations.Connector
         }
 
         public AssetDatasetUnavailableException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected AssetDatasetUnavailableException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

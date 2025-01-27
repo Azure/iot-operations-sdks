@@ -77,8 +77,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestThermostatConnectorApp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnectorApp", "templates\PollingTelemetryConnectorApp\PollingTelemetryConnectorApp.csproj", "{108B218C-DB7B-4599-A191-2071C9D3B662}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventingTelemetryConnectorApp", "templates\EventingTelemetryConnectorApp\EventingTelemetryConnectorApp.csproj", "{C3939856-3F99-406F-A2BE-C2D643DC8DF6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestThermostatEventingConnectorApp", "samples\RestThermostatEventingConnectorApp\RestThermostatEventingConnectorApp.csproj", "{45942791-377A-4AAE-A75B-B3E9A9E01BE5}"
 EndProject
 Global
@@ -199,10 +197,6 @@ Global
 		{108B218C-DB7B-4599-A191-2071C9D3B662}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{108B218C-DB7B-4599-A191-2071C9D3B662}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{108B218C-DB7B-4599-A191-2071C9D3B662}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3939856-3F99-406F-A2BE-C2D643DC8DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3939856-3F99-406F-A2BE-C2D643DC8DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3939856-3F99-406F-A2BE-C2D643DC8DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3939856-3F99-406F-A2BE-C2D643DC8DF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45942791-377A-4AAE-A75B-B3E9A9E01BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45942791-377A-4AAE-A75B-B3E9A9E01BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45942791-377A-4AAE-A75B-B3E9A9E01BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -244,7 +238,6 @@ Global
 		{99113A50-9774-4F42-B18D-5284639194A6} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{FDF0331A-50D4-4F26-8665-49384EE04043} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{108B218C-DB7B-4599-A191-2071C9D3B662} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
-		{C3939856-3F99-406F-A2BE-C2D643DC8DF6} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{45942791-377A-4AAE-A75B-B3E9A9E01BE5} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
