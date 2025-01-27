@@ -294,14 +294,14 @@ namespace Azure.Iot.Operations.Connector
             Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
             if (assetDatasets == null || !assetDatasets.TryGetValue(datasetName, out Dataset? dataset))
             {
-                throw new AssetDatasetUnavailableException("Could not sample the provided dataset: No dataset with the provided name was found in the provided asset");
+                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset with the provided name ({datasetName}) was found in the provided asset ({assetName})");
             }
 
             if (!_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers)
                 || !assetDatasetSamplers.TryGetValue(datasetName, out var datasetSampler))
             {
                 // Should never happen, but may signal the asset was just removed.
-                throw new AssetDatasetUnavailableException("Could not sample the provided dataset: No dataset sampler found for the provided asset and dataset name");
+                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset sampler found for the provided asset ({assetName}) and dataset name ({datasetName})");
             }
 
             byte[] serializedPayload;
