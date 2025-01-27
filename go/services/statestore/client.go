@@ -83,6 +83,7 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
+	app *protocol.Application,
 	client MqttClient,
 	opt ...ClientOption,
 ) (*Client[K, V], error) {
@@ -102,6 +103,7 @@ func New[K, V Bytes](
 	}
 
 	c.invoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.Raw{},
 		protocol.Raw{},
@@ -118,6 +120,7 @@ func New[K, V Bytes](
 	c.listeners = append(c.listeners, c.invoker)
 
 	c.receiver, err = protocol.NewTelemetryReceiver(
+		app,
 		client,
 		protocol.Raw{},
 		"clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{clientId}/command/notify/{keyName}",

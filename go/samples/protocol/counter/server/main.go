@@ -29,6 +29,7 @@ func main() {
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
 		Level: slog.LevelDebug,
 	})))
+	app := must(protocol.NewApplication(protocol.WithLogger(slog.Default())))
 
 	mqttClient := must(mqtt.NewSessionClientFromEnv(
 		mqtt.WithLogger(slog.Default()),
@@ -37,9 +38,9 @@ func main() {
 	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
 	server := must(dtmi_com_example_Counter__1.NewCounterService(
+		app,
 		mqttClient,
 		handlers,
-		protocol.WithLogger(slog.Default()),
 	))
 	defer server.Close()
 
@@ -47,6 +48,7 @@ func main() {
 	check(server.Start(ctx))
 
 	sender := must(dtmi_com_example_Counter__1.NewTelemetryCollectionSender(
+		app,
 		mqttClient,
 		dtmi_com_example_Counter__1.TelemetryTopic,
 		protocol.WithLogger(slog.Default()),

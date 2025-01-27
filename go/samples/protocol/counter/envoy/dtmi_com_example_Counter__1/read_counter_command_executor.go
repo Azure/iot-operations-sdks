@@ -10,6 +10,7 @@ type ReadCounterCommandExecutor struct {
 }
 
 func NewReadCounterCommandExecutor(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	handler protocol.CommandHandler[any, ReadCounterResponsePayload],
@@ -28,6 +29,7 @@ func NewReadCounterCommandExecutor(
 	)
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		protocol.Empty{},
 		protocol.JSON[ReadCounterResponsePayload]{},

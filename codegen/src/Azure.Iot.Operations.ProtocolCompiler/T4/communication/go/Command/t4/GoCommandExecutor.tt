@@ -11,6 +11,7 @@ type <#=this.capitalizedCommandName#>CommandExecutor struct {
 }
 
 func New<#=this.capitalizedCommandName#>CommandExecutor(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>],
@@ -29,6 +30,7 @@ func New<#=this.capitalizedCommandName#>CommandExecutor(
 	)
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		protocol.<#=GetSerializer(this.reqSchema)#>{},
 		protocol.<#=GetSerializer(this.respSchema)#>{},

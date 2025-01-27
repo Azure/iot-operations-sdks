@@ -54,9 +54,6 @@ type (
 	TelemetryMessage[T any] struct {
 		Message[T]
 
-		// CloudEvent will be present if the message was sent with cloud events.
-		*CloudEvent
-
 		// Ack provides a function to manually ack if enabled and if possible;
 		// it will be nil otherwise. Note that, since QoS 0 messages cannot be
 		// acked, this will be nil in this case even if manual ack is enabled.
@@ -72,6 +69,7 @@ const telemetryReceiverErrStr = "telemetry receipt"
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
@@ -119,18 +117,24 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
+	logger := opts.Logger
+	if logger == nil {
+		logger = app.log
+	}
+
 	tr = &TelemetryReceiver[T]{
 		handler:   handler,
 		manualAck: opts.ManualAck,
 		timeout:   to,
 	}
 	tr.listener = &listener[T]{
+		app:         app,
 		client:      client,
 		encoding:    encoding,
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		log:         log.Wrap(opts.Logger),
+		log:         log.Wrap(logger),
 		handler:     tr,
 	}
 
@@ -160,8 +164,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	if err != nil {
 		return err
 	}
-
-	message.CloudEvent = cloudEventFromMessage(pub)
 
 	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
