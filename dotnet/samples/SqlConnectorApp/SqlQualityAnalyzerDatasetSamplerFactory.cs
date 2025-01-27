@@ -7,15 +7,9 @@ namespace SqlQualityAnalyzerConnectorApp
     {
         public static Func<IServiceProvider, IDatasetSamplerFactory> DatasetSamplerFactoryProvider = service =>
         {
-            //var loggerFactory = service.GetRequiredService<ILoggerFactory>();
-            //var logger = loggerFactory.CreateLogger<SqlQualityAnalyzerDatasetSamplerFactory>();
+
             return new SqlQualityAnalyzerDatasetSamplerFactory();
         };
-        // private readonly ILogger<SqlQualityAnalyzerDatasetSamplerFactory> _logger;
-        // public SqlQualityAnalyzerDatasetSamplerFactory(ILogger<SqlQualityAnalyzerDatasetSamplerFactory> logger)
-        // {
-        //     _logger = logger;
-        // }
 
         public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
@@ -24,7 +18,6 @@ namespace SqlQualityAnalyzerConnectorApp
                 string connectionString = assetEndpointProfile.TargetAddress;
 
                 return new QualityAnalyzerDatasetSampler(connectionString, asset.DisplayName!, assetEndpointProfile.Credentials);
-                // _loggerFactory.CreateLogger<QualityAnalyzerDatasetSampler>()
 
             }
             else

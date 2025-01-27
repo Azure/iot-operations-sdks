@@ -26,7 +26,6 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             try
             {
-                Console.WriteLine("In sample data sync");
                 DataPoint sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
                 DataPoint sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
@@ -35,16 +34,12 @@ namespace SqlQualityAnalyzerConnectorApp
                 DataPoint sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
-                Console.WriteLine($"Query: {query}");
 
                 if (_credentials != null)
                 {
                     string sqlServerUsername = _credentials.Username!;
                     byte[] sqlServerPassword = _credentials.Password!;
-                    Console.WriteLine($"Username: {sqlServerUsername}");
-                    Console.WriteLine($"Password: {Encoding.UTF8.GetString(sqlServerPassword)}");
                     fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
-                    Console.WriteLine($"connectionString: {fullConnectionString}");
                 }
 
                 // In this sample, the datapoints have the different datasource, there are 2 options to get the data
@@ -54,11 +49,9 @@ namespace SqlQualityAnalyzerConnectorApp
                 List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
                 using (SqlConnection connection = new SqlConnection(fullConnectionString))
                 {
-                    Console.WriteLine("Using sql connection");
                     await connection.OpenAsync();
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        Console.WriteLine("Executed query");
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
@@ -72,11 +65,6 @@ namespace SqlQualityAnalyzerConnectorApp
                                     analyzerData.Overall = double.Parse(reader["Overall"]?.ToString() ?? "0.0");
                                     analyzerData.Country = reader["Country"]?.ToString();
                                     qualityAnalyzerDataList.Add(analyzerData);
-                                    Console.WriteLine($"Viscosity : {analyzerData.Viscosity}");
-                                    Console.WriteLine($"Sweetness : {analyzerData.Sweetness}");
-                                    Console.WriteLine($"ParticleSize : {analyzerData.ParticleSize}");
-                                    Console.WriteLine($"Overall : {analyzerData.Overall}");
-                                    Console.WriteLine($"Country : {analyzerData.Country}");
                                 }
                             }
                         }
@@ -86,7 +74,6 @@ namespace SqlQualityAnalyzerConnectorApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Logger error: {ex}"); // Fallback logging
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
         }
