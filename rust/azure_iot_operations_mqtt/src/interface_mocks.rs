@@ -123,6 +123,10 @@ impl MqttAck for MockClient {
     async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
         Ok(())
     }
+
+    async fn ack2(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
+    }
 }
 
 #[async_trait]

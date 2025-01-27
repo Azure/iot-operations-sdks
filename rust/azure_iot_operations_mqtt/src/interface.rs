@@ -122,6 +122,8 @@ pub trait MqttPubSub {
 pub trait MqttAck {
     /// Acknowledge a received Publish.
     async fn ack(&self, publish: &Publish) -> Result<(), AckError>;
+
+    async fn ack2(&self, publish: &Publish) -> Result<CompletionToken, AckError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
