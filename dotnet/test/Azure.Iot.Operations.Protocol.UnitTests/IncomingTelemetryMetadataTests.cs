@@ -37,17 +37,17 @@ public class IncomingTelemetryMetadataTests
         
         Assert.Null(metadata.Timestamp);
         Assert.NotNull(metadata.UserData);
-        Assert.NotNull(metadata.CloudEvent);
+        Assert.NotNull(metadata.GetCloudEvent());
         Assert.Equal(packetId, metadata.PacketId);
 
-        Assert.Equal("1.0", metadata.CloudEvent.SpecVersion);
-        Assert.Equal("eventType", metadata.CloudEvent.Type);
-        Assert.Equal(new Uri("my://source"), metadata.CloudEvent.Source);
-        Assert.Equal("eventSubject", metadata.CloudEvent.Subject);
-        Assert.Equal("eventSchema", metadata.CloudEvent.DataSchema);
-        Assert.Equal("application/json", metadata.CloudEvent.DataContentType);
-        Assert.Equal(id, metadata.CloudEvent.Id);
-        Assert.Equal(time.ToUniversalTime(), metadata.CloudEvent.Time!.Value.ToUniversalTime());
+        Assert.Equal("1.0", metadata.GetCloudEvent().SpecVersion);
+        Assert.Equal("eventType", metadata.GetCloudEvent().Type);
+        Assert.Equal(new Uri("my://source"), metadata.GetCloudEvent().Source);
+        Assert.Equal("eventSubject", metadata.GetCloudEvent().Subject);
+        Assert.Equal("eventSchema", metadata.GetCloudEvent().DataSchema);
+        Assert.Equal("application/json", metadata.GetCloudEvent().DataContentType);
+        Assert.Equal(id, metadata.GetCloudEvent().Id);
+        Assert.Equal(time.ToUniversalTime(), metadata.GetCloudEvent().Time!.Value.ToUniversalTime());
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class IncomingTelemetryMetadataTests
 
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
-        Assert.Null(metadata.CloudEvent);
+        Assert.Throws<ArgumentException>(() => metadata.GetCloudEvent());
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public class IncomingTelemetryMetadataTests
         
         Assert.Null(metadata.Timestamp);
         Assert.NotNull(metadata.UserData);
-        Assert.Null(metadata.CloudEvent);
+        Assert.Throws<ArgumentException>(() => metadata.GetCloudEvent());
         Assert.Equal(packetId, metadata.PacketId);
     }
 
@@ -126,7 +126,7 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Null(metadata.Timestamp);
-        Assert.Null(metadata.CloudEvent);
+        Assert.Throws<ArgumentException>(() => metadata.GetCloudEvent());
         Assert.Equal(packetId, metadata.PacketId);
     }
 
@@ -148,7 +148,7 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Null(metadata.Timestamp);
-        Assert.Null(metadata.CloudEvent);
+        Assert.Throws<ArgumentException>(() => metadata.GetCloudEvent());
         Assert.Equal(packetId, metadata.PacketId);
     }
 
@@ -172,11 +172,11 @@ public class IncomingTelemetryMetadataTests
         var metadata = new IncomingTelemetryMetadata(message, packetId);
 
         Assert.Equal(packetId, metadata.PacketId);
-        Assert.NotNull(metadata.CloudEvent);
-        Assert.Equal("1.0", metadata.CloudEvent.SpecVersion);
-        Assert.Equal("123", metadata.CloudEvent.Id!.ToString());
-        Assert.Equal(new Uri("a/b/c", UriKind.RelativeOrAbsolute), metadata.CloudEvent.Source);
-        Assert.Equal("test", metadata.CloudEvent.Type);
+        Assert.NotNull(metadata.GetCloudEvent());
+        Assert.Equal("1.0", metadata.GetCloudEvent().SpecVersion);
+        Assert.Equal("123", metadata.GetCloudEvent().Id!.ToString());
+        Assert.Equal(new Uri("a/b/c", UriKind.RelativeOrAbsolute), metadata.GetCloudEvent().Source);
+        Assert.Equal("test", metadata.GetCloudEvent().Type);
     }
 
 }

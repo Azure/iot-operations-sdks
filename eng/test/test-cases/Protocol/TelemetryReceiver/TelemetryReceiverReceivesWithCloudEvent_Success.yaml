@@ -17,7 +17,6 @@ actions:
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
-    "datacontenttype": "application/json"
     "subject": "mock/test"
     "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0

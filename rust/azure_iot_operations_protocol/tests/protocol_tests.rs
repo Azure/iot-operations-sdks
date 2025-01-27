@@ -44,6 +44,7 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "TelemetrySenderSendWithCloudEvent_Success",
+    "TelemetryReceiverReceivesWithCloudEvent_Success",
 ];
 
 /*
