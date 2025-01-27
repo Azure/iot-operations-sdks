@@ -28,7 +28,7 @@ type (
 	Client[K, V Bytes] struct {
 		client    protocol.MqttClient
 		listeners protocol.Listeners
-		logger    log.Logger
+		log       log.Logger
 		done      func()
 
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
@@ -97,7 +97,7 @@ func New[K, V Bytes](
 
 	var opts ClientOptions
 	opts.Apply(opt)
-	c.logger = log.Wrap(opts.Logger)
+	c.log = log.Wrap(opts.Logger)
 
 	c.manualAck = opts.ManualAck
 
@@ -116,10 +116,9 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.logger.Warn(
+		c.log.Warn(
 			context.Background(),
-			"error creating command invoker",
-			slog.String("error", err.Error()),
+			err.Error(),
 		)
 		c.listeners.Close()
 		return nil, err
@@ -135,10 +134,9 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.logger.Warn(
+		c.log.Warn(
 			context.Background(),
-			"error creating telemetry receiver",
-			slog.String("error", err.Error()),
+			err.Error(),
 		)
 		c.listeners.Close()
 		return nil, err
@@ -154,7 +152,6 @@ func New[K, V Bytes](
 		cancel()
 	}
 
-	c.logger.Debug(context.Background(), "state store client created")
 	return c, nil
 }
 
@@ -162,27 +159,24 @@ func New[K, V Bytes](
 func (c *Client[K, V]) Start(ctx context.Context) error {
 	err := c.listeners.Start(ctx)
 	if err != nil {
-		c.logger.Warn(
+		c.log.Warn(
 			ctx,
-			"subscribe error encountered but not returned",
-			slog.String("error", err.Error()),
+			err.Error(),
 		)
 	}
-	c.logger.Debug(ctx, "state store client started")
 	return nil
 }
 
 // Close all underlying MQTT topics and free resources.
 func (c *Client[K, V]) Close() {
-	c.logger.Info(context.Background(), "shutting down state store client")
+	c.log.Info(context.Background(), "shutting down state store client")
 	c.done()
 	c.listeners.Close()
-	c.logger.Info(context.Background(), "state store client shutdown complete")
+	c.log.Info(context.Background(), "state store client shutdown complete")
 }
 
 // ID returns the ID of the underlying MQTT client.
 func (c *Client[K, V]) ID() string {
-	c.logger.Debug(context.Background(), "state store client ID requested")
 	return c.client.ID()
 }
 
@@ -198,17 +192,16 @@ func invoke[T any](
 	logger.Debug(ctx, "Invoking", slog.String("data", string(data)))
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
-		logger.Warn(ctx, "Invoke error", slog.String("error", err.Error()))
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
-		logger.Warn(ctx, "Parse error", slog.String("error", err.Error()))
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
-	logger.Debug(ctx, "Invoke success")
 	return &Response[T]{val, res.Timestamp}, nil
 }
 

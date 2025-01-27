@@ -21,7 +21,7 @@ type (
 	TelemetrySender[T any] struct {
 		publisher  *publisher[T]
 		dataSchema *url.URL
-		logger     log.Logger
+		log        log.Logger
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -67,7 +67,7 @@ func NewTelemetrySender[T any](
 	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
-	defer func() { err = errutil.Return(err, ts.logger, true) }()
+	defer func() { err = errutil.Return(err, ts.log, true) }()
 
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
@@ -90,7 +90,7 @@ func NewTelemetrySender[T any](
 	}
 
 	ts = &TelemetrySender[T]{
-		logger: log.Wrap(opts.Logger),
+		log: log.Wrap(opts.Logger),
 	}
 	ts.publisher = &publisher[T]{
 		client:   client,
@@ -111,7 +111,7 @@ func (ts *TelemetrySender[T]) Send(
 	opt ...SendOption,
 ) (err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, ts.logger, shallow) }()
+	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	var opts SendOptions
 	opts.Apply(opt)
@@ -144,7 +144,7 @@ func (ts *TelemetrySender[T]) Send(
 	}
 	pub.Retain = opts.Retain
 
-	ts.logger.Debug(ctx, "sending telemetry",
+	ts.log.Debug(ctx, "sending telemetry",
 		slog.String("topic", pub.Topic),
 		slog.String("payload", fmt.Sprintf("%v", msg.Payload)),
 		slog.Any("metadata", msg.Metadata))

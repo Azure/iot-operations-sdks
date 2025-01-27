@@ -27,7 +27,6 @@ type (
 		handler   CommandHandler[Req, Res]
 		timeout   *internal.Timeout
 		cache     *caching.Cache
-		logger    log.Logger
 	}
 
 	// CommandExecutorOption represents a single command executor option.
@@ -179,7 +178,7 @@ func NewCommandExecutor[Req, Res any](
 	}
 
 	ce.listener.register()
-	ce.listener.log.Debug(context.Background(), "Command executor created")
+	ce.listener.log.Debug(context.Background(), "command executor created")
 	return ce, nil
 }
 
@@ -187,7 +186,7 @@ func NewCommandExecutor[Req, Res any](
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 	ce.listener.log.Info(
 		ctx,
-		"Subscribing to MQTT request topic",
+		"subscribing to MQTT request topic",
 		slog.String("topic", ce.listener.topic.Filter()),
 	)
 	err := ce.listener.listen(ctx)
@@ -215,18 +214,14 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 ) error {
 	ce.listener.log.Debug(
 		ctx,
-		"Request received",
-		slog.String("correlationData", string(pub.CorrelationData)),
+		"request received",
+		slog.String("correlation_data", string(pub.CorrelationData)),
 	)
 
 	if err := ignoreRequest(pub); err != nil {
 		ce.listener.log.Warn(
 			ctx,
 			err.Error(),
-			slog.String(
-				"message",
-				"Ignoring request due to invalid or missing response topic",
-			),
 		)
 		return err
 	}
@@ -235,10 +230,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		ce.listener.log.Error(
 			ctx,
 			fmt.Errorf("Command has no expiry"),
-			slog.String(
-				"message",
-				"Request will be rejected due to missing expiry",
-			),
 		)
 		return &errors.Error{
 			Message:    "message expiry missing",
@@ -275,7 +266,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			ce.listener.log.Warn(
 				ctx,
 				err.Error(),
-				slog.String("message", "Ignoring request due to handler error"),
 			)
 			return nil, err
 		}
@@ -285,7 +275,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			ce.listener.log.Error(
 				ctx,
 				err,
-				slog.String("message", "Failed to build response"),
 			)
 			return nil, err
 		}
@@ -311,7 +300,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
 	} else {
-		ce.listener.log.Debug(ctx, "Response sent", slog.String("correlationData", string(pub.CorrelationData)))
+		ce.listener.log.Debug(ctx, "response sent", slog.String("correlationData", string(pub.CorrelationData)))
 	}
 	return nil
 }
@@ -332,7 +321,6 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 		ce.listener.log.Warn(
 			ctx,
 			e.Error(),
-			slog.String("message", "Ignoring request due to no-return error"),
 		)
 		return e
 	}
@@ -400,8 +388,7 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case <-ctx.Done():
 		ce.listener.log.Warn(
 			ctx,
-			"Command handler timed out",
-			slog.String("message", "Ignoring request due to handler timeout"),
+			"command handler timed out",
 		)
 		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
@@ -422,7 +409,6 @@ func (ce *CommandExecutor[Req, Res]) build(
 		ce.listener.log.Error(
 			context.Background(),
 			err,
-			slog.String("message", "Failed to build response"),
 		)
 		return nil, err
 	}

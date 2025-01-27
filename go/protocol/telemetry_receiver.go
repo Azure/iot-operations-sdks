@@ -225,15 +225,13 @@ func isReservedProperty(property string) bool {
 }
 
 func (tr *TelemetryReceiver[T]) onErr(
-	ctx context.Context,
+	_ context.Context,
 	pub *mqtt.Message,
 	err error,
 ) error {
 	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
-	tr.listener.log.Warn(ctx, "telemetry error occurred",
-		slog.String("error", err.Error()))
 	return errutil.Return(err, tr.listener.log, false)
 }
 
@@ -291,8 +289,6 @@ func (tr *TelemetryReceiver[T]) handle(
 	case err := <-rchan:
 		return err
 	case <-ctx.Done():
-		err := errutil.Context(ctx, telemetryReceiverErrStr)
-		tr.listener.log.Error(ctx, err, slog.String("message", "context done"))
 		return errutil.Context(ctx, telemetryReceiverErrStr)
 	}
 }

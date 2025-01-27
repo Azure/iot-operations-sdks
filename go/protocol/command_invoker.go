@@ -272,7 +272,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	ci.listener.log.Debug(
 		ctx,
-		"Request sent",
+		"request sent",
 		slog.String("correlationData", correlationData),
 	)
 
@@ -317,7 +317,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		case pending.ret <- commandReturn[Res]{res, err}:
 			ci.listener.log.Debug(
 				ctx,
-				"Request ack received",
+				"request ack received",
 				slog.String("correlationData", cdata),
 			)
 		case <-pending.done:
@@ -325,7 +325,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		}
 		ci.listener.log.Debug(
 			ctx,
-			"Response acked",
+			"response acked",
 			slog.String("correlationData", cdata),
 		)
 		return nil
@@ -333,7 +333,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 
 	ci.listener.log.Debug(
 		ctx,
-		"Response not for this invoker",
+		"response not for this invoker",
 		slog.String("correlationData", cdata),
 	)
 	return &errors.Error{
@@ -388,7 +388,7 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 	}
 	ci.listener.log.Debug(
 		ctx,
-		"Response received",
+		"response received",
 		slog.String("correlationData", string(pub.CorrelationData)),
 	)
 	return nil

@@ -34,7 +34,7 @@ func (c *Client[K, V]) VDel(
 	opt ...VDelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
-		c.logger.Warn(ctx, "empty key")
+		c.log.Warn(ctx, "empty key")
 		return nil, ArgumentError{Name: "key"}
 	}
 
@@ -42,13 +42,10 @@ func (c *Client[K, V]) VDel(
 	opts.Apply(opt)
 
 	req := resp.OpKV("VDEL", key, val)
-	c.logger.Debug(
-		ctx,
-		"vdel",
-		slog.String("key", string(key)),
-		slog.String("val", string(val)),
-	)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.logger)
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		c.debugLogVdel(ctx, key, val)
+	}
+	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
 }
 
 // Apply resolves the provided list of options.
@@ -82,4 +79,13 @@ func (o *VDelOptions) invoke() *protocol.InvokeOptions {
 		}
 	}
 	return inv
+}
+
+func (c *Client[K, V]) debugLogVdel(ctx context.Context, key K, value V) {
+	c.log.Debug(
+		ctx,
+		"vdel",
+		slog.String("key", string(key)),
+		slog.String("value", string(value)),
+	)
 }

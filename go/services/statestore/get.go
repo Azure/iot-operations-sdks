@@ -4,7 +4,6 @@ package statestore
 
 import (
 	"context"
-	"encoding/hex"
 	"log/slog"
 	"time"
 
@@ -32,20 +31,20 @@ func (c *Client[K, V]) Get(
 	opt ...GetOption,
 ) (*Response[V], error) {
 	if len(key) == 0 {
-		c.logger.Warn(ctx, "empty key")
+		c.log.Warn(ctx, "empty key")
 		return nil, ArgumentError{Name: "key"}
 	}
 
 	var opts GetOptions
 	opts.Apply(opt)
 
-	c.logger.Debug(
+	c.log.Debug(
 		ctx,
 		"get",
-		slog.String("key", hex.EncodeToString([]byte(key))),
+		slog.String("key", string(key)),
 	)
 	req := resp.OpK("GET", key)
-	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req, c.logger)
+	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req, c.log)
 }
 
 // Apply resolves the provided list of options.

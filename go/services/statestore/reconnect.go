@@ -28,19 +28,19 @@ func (c *Client[K, V]) reconnect(ctx context.Context) {
 			parseOK,
 			&opts,
 			resp.OpK("KEYNOTIFY", key),
-			c.logger,
+			c.log,
 		)
 
 		// Get the latest value and artificially generate a notification.
 		res, err := c.Get(ctx, key)
 		if err != nil {
-			c.logger.Warn(ctx, "failed to get key on reconnect")
+			c.log.Warn(ctx, "failed to get key on reconnect")
 			continue
 		}
 
 		op := "SET"
 		if res.Version.IsZero() {
-			c.logger.Debug(ctx, "key was empty on reconnect")
+			c.log.Debug(ctx, "key was empty on reconnect")
 			op = "DELETE"
 		}
 

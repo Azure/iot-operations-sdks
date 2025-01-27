@@ -4,7 +4,6 @@ package statestore
 
 import (
 	"context"
-	"encoding/hex"
 	"log/slog"
 	"time"
 
@@ -33,10 +32,9 @@ func (c *Client[K, V]) Del(
 	opt ...DelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
-		c.logger.Warn(
+		c.log.Warn(
 			ctx,
 			"empty key",
-			slog.String("key", hex.EncodeToString([]byte(key))),
 		)
 		return nil, ArgumentError{Name: "key"}
 	}
@@ -45,12 +43,12 @@ func (c *Client[K, V]) Del(
 	opts.Apply(opt)
 
 	req := resp.OpK("DEL", key)
-	c.logger.Debug(
+	c.log.Debug(
 		ctx,
 		"del",
-		slog.String("key", hex.EncodeToString([]byte(key))),
+		slog.String("key", string(key)),
 	)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.logger)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
 }
 
 // Apply resolves the provided list of options.
