@@ -135,7 +135,7 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
-	if err := cloudEventToMessage(pub, opts.CloudEvent, ts.dataSchema); err != nil {
+	if err := opts.CloudEvent.toMessage(pub, ts.dataSchema); err != nil {
 		return err
 	}
 	pub.Retain = opts.Retain
