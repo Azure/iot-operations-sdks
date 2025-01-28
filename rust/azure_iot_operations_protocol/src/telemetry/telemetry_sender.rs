@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
+use std::sync::Arc;
 use std::time::SystemTime;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
@@ -11,6 +12,7 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
+use crate::application::{ApplicationContext, ApplicationHybridLogicalClock};
 use crate::{
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
@@ -240,6 +242,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
 /// #     .hostname("mqtt://localhost")
@@ -249,12 +252,13 @@ pub struct TelemetrySenderOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
@@ -272,6 +276,7 @@ where
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
+    _application_hlc: Arc<ApplicationHybridLogicalClock>,
 }
 
 /// Implementation of Telemetry Sender
@@ -281,6 +286,11 @@ where
     C: ManagedClient + Send + Sync + 'static,
 {
     /// Creates a new [`TelemetrySender`].
+    ///
+    /// # Arguments
+    /// * `application_context` - [`ApplicationContext`] that the telemetry sender is part of.
+    /// * `client` - The MQTT client to use for telemetry communication.
+    /// * `sender_options` - Configuration options.
     ///
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -292,6 +302,7 @@ where
     /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
+        application_context: ApplicationContext,
         client: C,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
@@ -307,6 +318,7 @@ where
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
+            _application_hlc: application_context.application_hlc,
         })
     }
 
@@ -420,7 +432,9 @@ mod tests {
 
     use test_case::test_case;
 
+    use super::*;
     use crate::{
+        application::ApplicationContextOptionsBuilder,
         common::{
             aio_protocol_error::{AIOProtocolErrorKind, Value},
             payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
@@ -457,8 +471,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
-            .unwrap();
+        TelemetrySender::<MockPayload, _>::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            sender_options,
+        )
+        .unwrap();
     }
 
     #[test]
@@ -474,8 +492,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(session.create_managed_client(), sender_options)
-            .unwrap();
+        TelemetrySender::<MockPayload, _>::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            sender_options,
+        )
+        .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
@@ -488,8 +510,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> =
-            TelemetrySender::new(session.create_managed_client(), sender_options);
+        let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            sender_options,
+        );
         match telemetry_sender {
             Ok(_) => panic!("Expected error"),
             Err(e) => {

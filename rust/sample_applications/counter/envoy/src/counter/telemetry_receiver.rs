@@ -3,6 +3,7 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     TelemetryMessage as TelemetryMessageBase, TelemetryReceiver as TelemetryReceiverBase,
@@ -31,7 +32,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &TelemetryOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &TelemetryOptions,
+    ) -> Self {
         let mut receiver_options_builder = TelemetryReceiverOptionsBaseBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
@@ -54,7 +59,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetryReceiverBase::new(client, receiver_options)
+            TelemetryReceiverBase::new(application_context, client, receiver_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
