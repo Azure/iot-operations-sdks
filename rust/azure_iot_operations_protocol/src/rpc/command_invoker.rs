@@ -224,6 +224,7 @@ where
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    #[allow(dead_code)] // TODO: Remove when used
     application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,

@@ -42,15 +42,15 @@ async fn main() {
 
     // Use the managed client to run telemetry checks in another task
     let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
-        session.create_managed_client(),
         application_context.clone(),
+        session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
     // Use the managed client to run command invocations in another task
     let increment_and_check_handle = tokio::task::spawn(increment_and_check(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
     ));
 
     // Wait for all tasks to finish and run the session, if any of the tasks fail, the program will panic
@@ -74,8 +74,8 @@ async fn counter_telemetry_check(
 ) {
     // Create receiver
     let mut counter_value_receiver = TelemetryCollectionReceiver::new(
-        client,
         application_context,
+        client,
         &TelemetryOptionsBuilder::default()
             .auto_ack(false)
             .build()
