@@ -12,8 +12,10 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
-    // callback to notify app when asset is ready to be sampled, and a callback into this layer to trigger
-    // each sampling
+    /// <summary>
+    /// Base class for a worker that samples datasets from assets and publishes the data to an MQTT broker. This worker allows implementations
+    /// to choose when to sample each dataset and notifies the implementation when an asset is/is not available to be sampled.
+    /// </summary>
     public abstract class EventingTelemetryConnectorWorker : BackgroundService
     {
         protected readonly ILogger<EventingTelemetryConnectorWorker> _logger;
@@ -291,6 +293,16 @@ namespace Azure.Iot.Operations.Connector
 
         public abstract Task OnAssetNotSampleableAsync(string assetName, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Sample the provided dataset on the provided asset and publish the sampled data to the MQTT broker as MQTT telemetry.
+        /// </summary>
+        /// <param name="assetName">The name of the asset to sample</param>
+        /// <param name="asset">The asset to sample</param>
+        /// <param name="datasetName">The name of the dataset to sample</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <exception cref="AssetDatasetUnavailableException">Thrown if the specified asset or dataset is unavailable to be sampled currently.</exception>
+        /// <exception cref="ConnectorSamplingException">Thrown if connecting or getting a response from the asset fails (i.e. HTTP read timeout).</exception>
+        /// <exception cref="ConnectorException">Thrown if publishing the telemetry to the MQTT broker fails.</exception>
         public async Task SampleDatasetAsync(string assetName, Asset asset, string datasetName, CancellationToken cancellationToken = default)
         {
             Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
@@ -339,7 +351,16 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            var puback = await _mqttClient.PublishAsync(mqttMessage);
+            MqttClientPublishResult puback;
+
+            try
+            {
+                puback = await _mqttClient.PublishAsync(mqttMessage);
+            }
+            catch (Exception e)
+            {
+                throw new ConnectorException("Failed to publish telemetry to the MQTT broker.", e);
+            }
 
             if (puback.ReasonCode == MqttClientPublishReasonCode.Success
                 || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)

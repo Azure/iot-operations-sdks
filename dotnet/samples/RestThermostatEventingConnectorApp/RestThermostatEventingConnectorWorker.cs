@@ -53,8 +53,9 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _ = RunEventingLoopAsync(cancellationToken);
-            await base.ExecuteAsync(cancellationToken);
+            // Run the base class's loop in another thread so that this thread can act independently
+            _ = base.ExecuteAsync(cancellationToken);
+            await RunEventingLoopAsync(cancellationToken);
         }
 
         // This method simulates an unrelated thread that occasionally samples the available datasets.
