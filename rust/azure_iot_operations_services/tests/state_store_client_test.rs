@@ -869,7 +869,7 @@ async fn state_store_del_key_notifications_network_tests() {
 
             // wait to make sure delete notification is received before shutting down
             tokio::time::sleep(Duration::from_secs(1)).await;
-            
+
             // Shutdown state store client and underlying resources
             // Tests 37 (where key is being observed, then shutdown is called. Recv returns None)
             assert!(state_store_client.shutdown().await.is_ok());
