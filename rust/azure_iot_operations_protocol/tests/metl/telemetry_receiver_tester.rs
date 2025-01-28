@@ -270,8 +270,8 @@ where
         let receiver_options = options_result.unwrap();
 
         match TelemetryReceiver::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             receiver_options,
         ) {
             Ok(mut receiver) => {

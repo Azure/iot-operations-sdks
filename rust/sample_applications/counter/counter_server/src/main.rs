@@ -44,13 +44,13 @@ async fn main() {
 
     // Spawn tasks for the server features
     tokio::spawn(read_counter_executor(
-        session.create_managed_client(),
         application_context.clone(),
+        session.create_managed_client(),
         counter.clone(),
     ));
     tokio::spawn(increment_counter_and_publish(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         counter.clone(),
     ));
     tokio::spawn(exit_timer(
@@ -64,14 +64,14 @@ async fn main() {
 
 /// Run an executor that responds to requests to read the counter value.
 async fn read_counter_executor(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     counter: Arc<Mutex<i32>>,
 ) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
     let mut read_counter_executor =
-        ReadCounterCommandExecutor::new(client, application_context, &options);
+        ReadCounterCommandExecutor::new(application_context, client, &options);
 
     // Respond to each read request with the current counter value
     loop {
@@ -91,19 +91,19 @@ async fn read_counter_executor(
 /// Run an executor that responds to requests to increment the counter value and a sender that sends
 /// telemetry messages with the new counter value.
 async fn increment_counter_and_publish(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     counter: Arc<Mutex<i32>>,
 ) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
     let mut increment_executor =
-        IncrementCommandExecutor::new(client.clone(), application_context.clone(), &options);
+        IncrementCommandExecutor::new(application_context.clone(), client.clone(), &options);
 
     // Create sender
     let counter_sender = TelemetryCollectionSender::new(
-        client,
         application_context,
+        client,
         &TelemetryOptionsBuilder::default().build().unwrap(),
     );
 

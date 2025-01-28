@@ -93,8 +93,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .build()
         .unwrap();
     let telemetry_sender: TelemetrySender<T, _> = TelemetrySender::new(
-        session.create_managed_client(),
         application_context.clone(),
+        session.create_managed_client(),
         sender_options,
     )
     .unwrap();
@@ -105,8 +105,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .build()
         .unwrap();
     let telemetry_receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         receiver_options,
     )
     .unwrap();

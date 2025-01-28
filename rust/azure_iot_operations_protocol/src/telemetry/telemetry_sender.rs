@@ -241,7 +241,7 @@ pub struct TelemetrySenderOptions {
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), application_context, sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
 ///   .payload(SamplePayload {}).unwrap()
 ///   .qos(QoS::AtLeastOnce)
@@ -271,8 +271,8 @@ where
     /// Creates a new [`TelemetrySender`].
     ///
     /// # Arguments
+    /// * `application_context` - [`ApplicationContext`] that the telemetry sender is part of.
     /// * `client` - The MQTT client to use for telemetry communication.
-    /// * `application_context` - [`ApplicationContext`] for the telemetry sender.
     /// * `sender_options` - Configuration options.
     ///
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
@@ -286,8 +286,8 @@ where
     /// - Content type of the telemetry message is not valid utf-8
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of telemetry message is valid UTF-8
@@ -502,8 +502,8 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
             sender_options,
         )
         .unwrap();
@@ -531,8 +531,8 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
             sender_options,
         )
         .unwrap();
@@ -557,8 +557,8 @@ mod tests {
             .unwrap();
 
         let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
-            session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
             sender_options,
         );
         match telemetry_sender {
@@ -590,8 +590,8 @@ mod tests {
             TelemetrySender<InvalidContentTypePayload, _>,
             AIOProtocolError,
         > = TelemetrySender::new(
-            session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
             sender_options,
         );
 

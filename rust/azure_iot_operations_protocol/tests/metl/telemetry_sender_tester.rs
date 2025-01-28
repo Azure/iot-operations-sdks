@@ -201,8 +201,8 @@ where
         let sender_options = options_result.unwrap();
 
         match TelemetrySender::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             sender_options,
         ) {
             Ok(sender) => {

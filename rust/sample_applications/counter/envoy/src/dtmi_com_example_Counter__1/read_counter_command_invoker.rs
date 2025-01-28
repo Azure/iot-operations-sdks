@@ -83,8 +83,8 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         options: &CommandOptions,
     ) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
@@ -114,7 +114,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandInvoker::new(client, application_context, invoker_options)
+            CommandInvoker::new(application_context, client, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

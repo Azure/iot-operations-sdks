@@ -49,8 +49,8 @@ async fn main() {
 }
 
 async fn state_store_operations(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     exit_handle: SessionExitHandle,
 ) {
     let state_store_key = b"someKey";

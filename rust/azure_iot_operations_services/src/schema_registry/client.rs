@@ -90,7 +90,7 @@ where
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(client: &C, application_context: ApplicationContext) -> Self {
+    pub fn new(application_context: ApplicationContext, client: &C) -> Self {
         let options = CommandOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
@@ -344,8 +344,8 @@ mod tests {
     async fn test_get_timeout_invalid() {
         let session = create_session();
         let client = Client::new(
-            &session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            &session.create_managed_client(),
         );
 
         let get_result = client
@@ -383,8 +383,8 @@ mod tests {
     async fn test_put_timeout_invalid() {
         let session = create_session();
         let client = Client::new(
-            &session.create_managed_client(),
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            &session.create_managed_client(),
         );
 
         let put_result = client

@@ -59,7 +59,7 @@ pub struct ApplicationContextOptions {
 
 /// Struct containing the application context for the Azure IoT Operations SDK.
 ///
-/// <div class="warning"> There should only be one per session and application. </div>
+/// <div class="warning"> There must be a max of one per session and there should only be one per application (which may contain multiple sessions). </div>
 #[derive(Clone)]
 pub struct ApplicationContext {
     /// The [`ApplicationHybridLogicalClock`] used by the application.

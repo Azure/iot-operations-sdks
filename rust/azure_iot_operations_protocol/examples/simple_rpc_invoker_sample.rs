@@ -52,8 +52,8 @@ async fn main() {
 
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
@@ -63,8 +63,8 @@ async fn main() {
 
 /// Send 10 increment command requests and wait for their responses, then disconnect
 async fn invoke_loop(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     exit_handle: SessionExitHandle,
 ) {
     // Create a command invoker for the increment command
@@ -75,7 +75,7 @@ async fn invoke_loop(
         .build()
         .unwrap();
     let incr_invoker: CommandInvoker<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandInvoker::new(client, application_context, incr_invoker_options).unwrap();
+        CommandInvoker::new(application_context, client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
     for i in 1..10 {

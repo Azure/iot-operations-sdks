@@ -89,8 +89,8 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         options: &TelemetryOptions,
     ) -> Self {
         let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
@@ -115,7 +115,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetrySender::new(client, application_context, sender_options)
+            TelemetrySender::new(application_context, client, sender_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

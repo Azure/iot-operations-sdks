@@ -58,8 +58,8 @@ async fn main() {
         .build()
         .unwrap();
     let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         sender_options,
     )
     .unwrap();

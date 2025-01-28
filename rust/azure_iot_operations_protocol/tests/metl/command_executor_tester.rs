@@ -327,8 +327,8 @@ where
         let executor_options = options_result.unwrap();
 
         match CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         ) {
             Ok(mut executor) => {

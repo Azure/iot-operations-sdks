@@ -231,8 +231,8 @@ where
         let invoker_options = options_result.unwrap();
 
         match CommandInvoker::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             invoker_options,
         ) {
             Ok(invoker) => {

@@ -68,8 +68,8 @@ async fn main() {
 
 /// Wait for the associated telemetry. Then exit the session.
 async fn counter_telemetry_check(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     exit_handle: SessionExitHandle,
 ) {
     // Create receiver
@@ -130,15 +130,15 @@ async fn counter_telemetry_check(
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses.
 async fn increment_and_check(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
 ) {
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
     let increment_invoker =
-        IncrementCommandInvoker::new(client.clone(), application_context.clone(), &options);
+        IncrementCommandInvoker::new(application_context.clone(), client.clone(), &options);
     let read_counter_invoker =
-        ReadCounterCommandInvoker::new(client, application_context, &options);
+        ReadCounterCommandInvoker::new(application_context, client, &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();

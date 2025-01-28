@@ -100,8 +100,8 @@ where
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         options: ClientOptions,
     ) -> Result<Self, StateStoreError> {
         // create invoker for commands
@@ -148,7 +148,7 @@ where
         // Start the receive key notification loop
         task::spawn({
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(client, application_context, telemetry_receiver_options)
+                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
                     .map_err(StateStoreErrorKind::from)?;
             let recv_cancellation_token_clone = recv_cancellation_token.clone();
             let observed_keys_clone = observed_keys.clone();
@@ -691,8 +691,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -716,8 +716,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -733,8 +733,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -752,8 +752,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -771,8 +771,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -790,8 +790,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -809,8 +809,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -834,8 +834,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -853,8 +853,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -872,8 +872,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -896,8 +896,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -915,8 +915,8 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();

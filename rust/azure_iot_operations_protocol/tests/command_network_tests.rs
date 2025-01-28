@@ -88,8 +88,8 @@ fn setup_test<
         .build()
         .unwrap();
     let invoker: CommandInvoker<TReq, TResp, _> = CommandInvoker::new(
-        session.create_managed_client(),
         application_context.clone(),
+        session.create_managed_client(),
         invoker_options,
     )
     .unwrap();
@@ -100,8 +100,8 @@ fn setup_test<
         .build()
         .unwrap();
     let executor: CommandExecutor<TReq, TResp, _> = CommandExecutor::new(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         executor_options,
     )
     .unwrap();

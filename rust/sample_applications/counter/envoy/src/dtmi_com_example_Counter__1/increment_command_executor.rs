@@ -74,8 +74,8 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         options: &CommandOptions,
     ) -> Self {
         let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
@@ -103,7 +103,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandExecutor::new(client, application_context, executor_options)
+            CommandExecutor::new(application_context, client, executor_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

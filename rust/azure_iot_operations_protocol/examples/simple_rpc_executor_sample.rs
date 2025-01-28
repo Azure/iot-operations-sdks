@@ -48,8 +48,8 @@ async fn main() {
 
     // Use the managed client to run a a command executor in another task
     tokio::task::spawn(executor_loop(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
     ));
 
     // Run the session
@@ -57,7 +57,7 @@ async fn main() {
 }
 
 /// Handle incoming increment command requests
-async fn executor_loop(client: SessionManagedClient, application_context: ApplicationContext) {
+async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
     // Create a command executor for the increment command
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -65,7 +65,7 @@ async fn executor_loop(client: SessionManagedClient, application_context: Applic
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandExecutor::new(client, application_context, incr_executor_options).unwrap();
+        CommandExecutor::new(application_context, client, incr_executor_options).unwrap();
 
     // Counter to increment
     let mut counter = 0;

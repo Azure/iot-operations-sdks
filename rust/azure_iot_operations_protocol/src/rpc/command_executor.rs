@@ -234,7 +234,7 @@ pub struct CommandExecutorOptions {
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut command_executor: CommandExecutor<SamplePayload, SamplePayload, _> = CommandExecutor::new(mqtt_session.create_managed_client(), application_context, executor_options).unwrap();
+/// let mut command_executor: CommandExecutor<SamplePayload, SamplePayload, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // command_executor.start().await.unwrap();
 /// // let request = command_executor.recv().await.unwrap();
 /// // let response = CommandResponseBuilder::default()
@@ -286,8 +286,8 @@ where
     /// Create a new [`CommandExecutor`].
     ///
     /// # Arguments
+    /// * `application_context` - [`ApplicationContext`] that the command executor is part of.
     /// * `client` - The MQTT client to use for communication.
-    /// * `application_context` - [`ApplicationContext`] for the command executor.
     /// * `executor_options` - Configuration options.
     ///
     /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
@@ -302,8 +302,8 @@ where
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     /// - Content types of the request or response are not valid utf-8
     pub fn new(
-        client: C,
         application_context: ApplicationContext,
+        client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
         // Validate content type of request is valid utf-8
@@ -1187,8 +1187,8 @@ mod tests {
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         )
         .unwrap();
@@ -1226,8 +1226,8 @@ mod tests {
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         )
         .unwrap();
@@ -1264,8 +1264,8 @@ mod tests {
             CommandExecutor<InvalidContentTypePayload, MockPayload, _>,
             AIOProtocolError,
         > = CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         );
 
@@ -1310,8 +1310,8 @@ mod tests {
             CommandExecutor<MockPayload, InvalidContentTypePayload, _>,
             AIOProtocolError,
         > = CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         );
 
@@ -1357,10 +1357,10 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                managed_client,
                 ApplicationContext::new(
                     ApplicationContextOptionsBuilder::default().build().unwrap(),
                 ),
+                managed_client,
                 executor_options,
             );
 
@@ -1405,10 +1405,10 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                managed_client,
                 ApplicationContext::new(
                     ApplicationContextOptionsBuilder::default().build().unwrap(),
                 ),
+                managed_client,
                 executor_options,
             );
 
@@ -1456,10 +1456,10 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                managed_client,
                 ApplicationContext::new(
                     ApplicationContextOptionsBuilder::default().build().unwrap(),
                 ),
+                managed_client,
                 executor_options,
             );
         match executor {
@@ -1502,8 +1502,8 @@ mod tests {
             .unwrap();
 
         let command_executor = CommandExecutor::<MockPayload, MockPayload, _>::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         );
         assert!(command_executor.is_ok());
@@ -1534,8 +1534,8 @@ mod tests {
             CommandExecutor<MockPayload, MockPayload, _>,
             AIOProtocolError,
         > = CommandExecutor::new(
-            managed_client,
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
             executor_options,
         );
 
@@ -1572,10 +1572,10 @@ mod tests {
             .unwrap();
         let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
             CommandExecutor::new(
-                session.create_managed_client(),
                 ApplicationContext::new(
                     ApplicationContextOptionsBuilder::default().build().unwrap(),
                 ),
+                session.create_managed_client(),
                 executor_options,
             )
             .unwrap();

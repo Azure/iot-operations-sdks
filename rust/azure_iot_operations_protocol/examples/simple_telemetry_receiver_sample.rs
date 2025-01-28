@@ -53,8 +53,8 @@ async fn main() {
 
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
@@ -64,8 +64,8 @@ async fn main() {
 
 // Handle incoming telemetry messages
 async fn telemetry_loop(
-    client: SessionManagedClient,
     application_context: ApplicationContext,
+    client: SessionManagedClient,
     exit_handle: SessionExitHandle,
 ) {
     // Create a telemetry receiver for the temperature telemetry
@@ -79,7 +79,7 @@ async fn telemetry_loop(
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
-        TelemetryReceiver::new(client, application_context, receiver_options).unwrap();
+        TelemetryReceiver::new(application_context, client, receiver_options).unwrap();
 
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
