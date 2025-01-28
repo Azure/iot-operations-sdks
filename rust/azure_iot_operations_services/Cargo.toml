@@ -34,7 +34,6 @@ derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
-tokio-util.workspace = true
 data-encoding = "2.5"
 serde = { version = "1.0", features = ["derive"], optional = true }
 serde_json = { version = "1.0.105", optional = true }
