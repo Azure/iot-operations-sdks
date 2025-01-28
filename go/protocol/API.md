@@ -25,6 +25,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 - [type ApplicationOptions](<#ApplicationOptions>)
   - [func \(o \*ApplicationOptions\) Apply\(opts \[\]ApplicationOption, rest ...ApplicationOption\)](<#ApplicationOptions.Apply>)
 - [type CloudEvent](<#CloudEvent>)
+  - [func CloudEventFromTelemetry\[T any\]\(msg \*TelemetryMessage\[T\]\) \(\*CloudEvent, error\)](<#CloudEventFromTelemetry>)
   - [func \(ce \*CloudEvent\) Attrs\(\) \[\]slog.Attr](<#CloudEvent.Attrs>)
 - [type CommandExecutor](<#CommandExecutor>)
   - [func NewCommandExecutor\[Req, Res any\]\(app \*Application, client MqttClient, requestEncoding Encoding\[Req\], responseEncoding Encoding\[Res\], requestTopicPattern string, handler CommandHandler\[Req, Res\], opt ...CommandExecutorOption\) \(ce \*CommandExecutor\[Req, Res\], err error\)](<#NewCommandExecutor>)
@@ -252,6 +253,15 @@ type CloudEvent struct {
     Time            time.Time
 }
 ```
+
+<a name="CloudEventFromTelemetry"></a>
+### func [CloudEventFromTelemetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L171-L173>)
+
+```go
+func CloudEventFromTelemetry[T any](msg *TelemetryMessage[T]) (*CloudEvent, error)
+```
+
+CloudEventFromTelemetry extracts cloud event data from the given telemetry message. It will return an error if any required properties are missing or any properties do not match the expected schema.
 
 <a name="CloudEvent.Attrs"></a>
 ### func \(\*CloudEvent\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L56>)
@@ -857,15 +867,12 @@ type TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
 ```
 
 <a name="TelemetryMessage"></a>
-## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L54-L64>)
+## type [TelemetryMessage](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L54-L61>)
 
 TelemetryMessage contains per\-message data and methods that are exposed to the telemetry handlers.
 
 ```go
 type TelemetryMessage[T any] struct {
-
-    // CloudEvent will be present if the message was sent with cloud events.
-    *CloudEvent
 
     // Ack provides a function to manually ack if enabled and if possible;
     // it will be nil otherwise. Note that, since QoS 0 messages cannot be
@@ -887,7 +894,7 @@ type TelemetryReceiver[T any] struct {
 ```
 
 <a name="NewTelemetryReceiver"></a>
-### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L74-L81>)
+### func [NewTelemetryReceiver](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L71-L78>)
 
 ```go
 func NewTelemetryReceiver[T any](app *Application, client MqttClient, encoding Encoding[T], topicPattern string, handler TelemetryHandler[T], opt ...TelemetryReceiverOption) (tr *TelemetryReceiver[T], err error)
@@ -896,7 +903,7 @@ func NewTelemetryReceiver[T any](app *Application, client MqttClient, encoding E
 NewTelemetryReceiver creates a new telemetry receiver.
 
 <a name="TelemetryReceiver[T].Close"></a>
-### func \(\*TelemetryReceiver\[T\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L154>)
+### func \(\*TelemetryReceiver\[T\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L151>)
 
 ```go
 func (tr *TelemetryReceiver[T]) Close()
@@ -905,7 +912,7 @@ func (tr *TelemetryReceiver[T]) Close()
 Close the telemetry receiver to free its resources.
 
 <a name="TelemetryReceiver[T].Start"></a>
-### func \(\*TelemetryReceiver\[T\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L149>)
+### func \(\*TelemetryReceiver\[T\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L146>)
 
 ```go
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error
@@ -944,7 +951,7 @@ type TelemetryReceiverOptions struct {
 ```
 
 <a name="TelemetryReceiverOptions.Apply"></a>
-### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L260-L263>)
+### func \(\*TelemetryReceiverOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L255-L258>)
 
 ```go
 func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ...TelemetryReceiverOption)
@@ -953,7 +960,7 @@ func (o *TelemetryReceiverOptions) Apply(opts []TelemetryReceiverOption, rest ..
 Apply resolves the provided list of options.
 
 <a name="TelemetryReceiverOptions.ApplyOptions"></a>
-### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L270>)
+### func \(\*TelemetryReceiverOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L265>)
 
 ```go
 func (o *TelemetryReceiverOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -1070,7 +1077,7 @@ type WithIdempotent bool
 ```
 
 <a name="WithManualAck"></a>
-## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L68>)
+## type [WithManualAck](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_receiver.go#L65>)
 
 WithManualAck indicates that the handler is responsible for manually acking the telemetry message.
 

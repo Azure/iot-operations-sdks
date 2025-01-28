@@ -10,7 +10,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
@@ -67,7 +69,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         CommandInvoker::new(client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
-    for i in 1..10 {
+    for i in 1..11 {
         let payload = CommandRequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
@@ -104,19 +106,18 @@ pub enum IncrSerializerError {
 
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
+        Ok(SerializedPayload {
+            payload: Vec::new(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
-
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, IncrSerializerError> {
-        Ok(String::new().into())
-    }
-
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, IncrSerializerError> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrRequestPayload, DeserializationError<IncrSerializerError>> {
         // This is a request payload, invoker does not need to deserialize it
         unimplemented!()
     }
@@ -124,22 +125,30 @@ impl PayloadSerialize for IncrRequestPayload {
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-    fn serialize(self) -> Result<Vec<u8>, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         // This is a response payload, invoker does not need to serialize it
         unimplemented!()
     }
 
-    fn deserialize(payload: &[u8]) -> Result<IncrResponsePayload, IncrSerializerError> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
+        }
         let payload = match std::str::from_utf8(payload) {
             Ok(p) => p,
-            Err(e) => return Err(IncrSerializerError::Utf8Error(e)),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(
+                    IncrSerializerError::Utf8Error(e),
+                ))
+            }
         };
 
         let start_str = "{\"CounterResponse\":";
@@ -148,10 +157,14 @@ impl PayloadSerialize for IncrResponsePayload {
             let counter_str = &payload[start_str.len()..payload.len() - 1];
             match counter_str.parse::<i32>() {
                 Ok(counter_response) => Ok(IncrResponsePayload { counter_response }),
-                Err(e) => Err(IncrSerializerError::ParseIntError(e)),
+                Err(e) => Err(DeserializationError::InvalidPayload(
+                    IncrSerializerError::ParseIntError(e),
+                )),
             }
         } else {
-            Err(IncrSerializerError::InvalidPayload(payload.into()))
+            Err(DeserializationError::InvalidPayload(
+                IncrSerializerError::InvalidPayload(payload.into()),
+            ))
         }
     }
 }
