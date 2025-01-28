@@ -61,7 +61,7 @@ async fn main() {
     let (schema_id_tx, schema_id_rx) = oneshot::channel();
 
     let schema_registry_client =
-        schema_registry::Client::new(&session.create_managed_client(), application_context);
+        schema_registry::Client::new(application_context, &session.create_managed_client());
 
     tokio::task::spawn(schema_registry_put(
         schema_registry_client.clone(),

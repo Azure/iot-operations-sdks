@@ -40,8 +40,8 @@ async fn main() {
         ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
     tokio::task::spawn(state_store_operations(
-        session.create_managed_client(),
         application_context,
+        session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
@@ -58,8 +58,8 @@ async fn state_store_operations(
     let timeout = Duration::from_secs(10);
 
     let state_store_client = state_store::Client::new(
-        client,
         application_context,
+        client,
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
