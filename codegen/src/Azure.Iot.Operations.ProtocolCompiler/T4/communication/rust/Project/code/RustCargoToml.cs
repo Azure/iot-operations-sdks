@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             this.genRoot = genRoot;
             this.generateProject = generateProject;
-            this.projectName = NamingSupport.ToSnakeCase(projectName);
+            this.projectName = projectName;
             this.sdkPath = sdkPath?.Replace('\\', '/');
             this.usesAnySchemas = distinctSchemaKinds.Any();
             this.usesIntEnum = distinctSchemaKinds.Contains(SchemaKind.EnumInt);

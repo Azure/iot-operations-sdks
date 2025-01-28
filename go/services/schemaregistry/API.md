@@ -38,8 +38,8 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 
 ```go
 const (
-    Delta1            = dtmi_ms_adr_SchemaRegistry__1.Delta1
-    JSONSchemaDraft07 = dtmi_ms_adr_SchemaRegistry__1.JsonSchemaDraft07
+    Delta1            = schemaregistry.Delta1
+    JSONSchemaDraft07 = schemaregistry.JsonSchemaDraft07
 )
 ```
 
@@ -47,7 +47,7 @@ const (
 
 ```go
 const (
-    MessageSchema = dtmi_ms_adr_SchemaRegistry__1.MessageSchema
+    MessageSchema = schemaregistry.MessageSchema
 )
 ```
 
@@ -153,7 +153,7 @@ Apply resolves the provided list of options.
 Format represents the encoding used to store the schema. It specifies how the schema content should be interpreted.
 
 ```go
-type Format = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1
+type Format = schemaregistry.Format
 ```
 
 <a name="GetOption"></a>
@@ -228,7 +228,7 @@ Apply resolves the provided list of options.
 Schema represents the stored schema payload.
 
 ```go
-type Schema = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1
+type Schema = schemaregistry.Schema
 ```
 
 <a name="SchemaType"></a>
@@ -237,7 +237,7 @@ type Schema = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema_
 SchemaType represents the type of the schema.
 
 ```go
-type SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1
+type SchemaType = schemaregistry.SchemaType
 ```
 
 <a name="WithSchemaType"></a>

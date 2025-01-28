@@ -1,0 +1,16 @@
+{
+  "projectName": "client",
+  "namespace": "RawModel",
+  "modelId": "dtmi:codegen:communicationTest:rawModel;1",
+  "serviceName": "RawModel",
+  "format": "raw/0",
+  "separateTelemetries": false,
+  "telemetryTopic": "test/RawModel/{senderId}/telemetry",
+  "telemetries": [
+    {
+      "schemaClass": ""
+    }
+  ],
+  "commands": [
+  ]
+}

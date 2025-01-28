@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/test/integration/protocol/dtmi_com_example_Counter__1"
+	"github.com/Azure/iot-operations-sdks/go/test/integration/protocol/counter"
 	"github.com/stretchr/testify/require"
 )
 
@@ -17,8 +17,8 @@ type Handlers struct{ counter int32 }
 func (h *Handlers) ReadCounter(
 	_ context.Context,
 	_ *protocol.CommandRequest[any],
-) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
-	response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
+) (*protocol.CommandResponse[counter.ReadCounterResponsePayload], error) {
+	response := counter.ReadCounterResponsePayload{
 		CounterResponse: atomic.LoadInt32(&h.counter),
 	}
 	return protocol.Respond(response)
@@ -27,8 +27,8 @@ func (h *Handlers) ReadCounter(
 func (h *Handlers) Increment(
 	_ context.Context,
 	_ *protocol.CommandRequest[any],
-) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
-	response := dtmi_com_example_Counter__1.IncrementResponsePayload{
+) (*protocol.CommandResponse[counter.IncrementResponsePayload], error) {
+	response := counter.IncrementResponsePayload{
 		CounterResponse: atomic.AddInt32(&h.counter, 1),
 	}
 	return protocol.Respond(response)
@@ -50,7 +50,7 @@ func TestIncrement(t *testing.T) {
 	var listeners protocol.Listeners
 	defer listeners.Close()
 
-	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
+	counterService, err := counter.NewCounterService(
 		app,
 		server,
 		&Handlers{},
@@ -58,7 +58,7 @@ func TestIncrement(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, counterService)
 
-	counterClient, err := dtmi_com_example_Counter__1.NewCounterClient(
+	counterClient, err := counter.NewCounterClient(
 		app,
 		client,
 	)

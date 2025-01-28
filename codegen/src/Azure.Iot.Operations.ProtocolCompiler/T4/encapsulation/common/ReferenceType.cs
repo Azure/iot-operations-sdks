@@ -4,14 +4,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         public override SchemaKind Kind { get => SchemaKind.Reference; }
 
-        public ReferenceType(string schemaName, bool isNullable = true, bool isEnum = false)
+        public ReferenceType(CodeName schemaName, bool isNullable = true, bool isEnum = false)
         {
             SchemaName = schemaName;
             IsNullable = isNullable;
             IsEnum = isEnum;
         }
 
-        public string SchemaName { get; }
+        public CodeName SchemaName { get; }
 
         public bool IsNullable { get; }
 

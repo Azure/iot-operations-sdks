@@ -2,8 +2,8 @@
 <#@ import namespace="DTDLParser.Models" #>
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "<#=this.intfBareId#>:_<#=this.schema#><#=this.versionSuffix#>",
-  "title": "<#=this.schema#>",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
   "type": "object",
   "additionalProperties": false,
 <# if (this.nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item4)) { #>
@@ -16,7 +16,7 @@
 <# if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { #>
       "index": <#=nameDescSchemaRequiredIndex.Item5#>,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3)#>
     }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   }

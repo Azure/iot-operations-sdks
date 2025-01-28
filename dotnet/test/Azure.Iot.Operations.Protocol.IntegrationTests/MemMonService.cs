@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 

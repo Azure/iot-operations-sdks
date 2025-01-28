@@ -1,5 +1,5 @@
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 

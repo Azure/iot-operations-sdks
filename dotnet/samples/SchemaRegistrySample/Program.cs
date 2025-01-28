@@ -6,8 +6,8 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 
-using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
-using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Schema;
+using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using System.Diagnostics;
 
 string jsonSchema1 = /*lang=json,strict*/ """

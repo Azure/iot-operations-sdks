@@ -9,9 +9,9 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
-use envoy::dtmi_com_example_Counter__1::client::{
+use envoy::counter::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
-    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
+    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryReceiver,
 };
 
 use tokio::time::sleep;
@@ -60,7 +60,7 @@ async fn main() {
 /// Wait for the associated telemetry. Then exit the session.
 async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
     // Create receiver
-    let mut counter_value_receiver = TelemetryCollectionReceiver::new(
+    let mut counter_value_receiver = TelemetryReceiver::new(
         client,
         &TelemetryOptionsBuilder::default()
             .auto_ack(false)
