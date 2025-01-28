@@ -198,10 +198,9 @@ namespace Azure.Iot.Operations.Connector
                         // Dispose of all samplers and timers
                         foreach (var datasetSamplers in _assetsDatasetSamplers.Values)
                         {
-                            foreach (DatasetSamplingContext datasetSamplingContext in datasetSamplers.Values)
+                            foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
                             {
-                                _ = datasetSamplingContext.DatasetSampler.DisposeAsync();
-                                datasetSamplingContext.DatasetSamplingTimer.Dispose();
+                                await datasetSampler.DisposeAsync();
                             }
                         }
                     }
@@ -222,10 +221,9 @@ namespace Azure.Iot.Operations.Connector
             // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
             if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
             { 
-                foreach (DatasetSamplingContext datasetSamplingContext in datasetSamplers.Values)
+                foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
                 {
-                    await datasetSamplingContext.DatasetSampler.DisposeAsync();
-                    datasetSamplingContext.DatasetSamplingTimer.Dispose();
+                    await datasetSampler.DisposeAsync();
                 }
             }
 
