@@ -56,7 +56,7 @@ impl IncrementRequestBuilder {
     pub fn payload(
         &mut self,
         payload: IncrementRequestPayload,
-    ) -> Result<&mut Self, <IncrementRequestPayload as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
