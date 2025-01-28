@@ -2,7 +2,9 @@
 
 use std::ops::{Deref, DerefMut};
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 use bytes;
 
 #[derive(Clone, Debug)]
@@ -25,19 +27,19 @@ impl DerefMut for Bytes {
 impl PayloadSerialize for Bytes {
     type Error = String;
 
-    fn content_type() -> &'static str {
-        "application/octet-stream"
+    fn serialize(self) -> Result<SerializedPayload, Self::Error> {
+        Ok(SerializedPayload {
+            payload: self.to_vec(),
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
-        Ok(self.to_vec())
-    }
-
-    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error> {
+    fn deserialize(
+        payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(Bytes(bytes::Bytes::from(payload.to_vec())))
     }
 }

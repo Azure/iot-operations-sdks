@@ -74,7 +74,7 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
     pub fn payload(
         &mut self,
         payload: <#=this.reqSchema#>,
-    ) -> Result<&mut Self, <<#=this.reqSchema#> as PayloadSerialize>::Error> {
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

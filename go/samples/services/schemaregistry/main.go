@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 	"github.com/lmittmann/tint"
 )
@@ -32,13 +33,14 @@ const jsonSchema = `
 func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
+	app := must(protocol.NewApplication(protocol.WithLogger(log)))
 
 	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
 
-	client := must(schemaregistry.New(mqttClient, schemaregistry.WithLogger(log)))
+	client := must(schemaregistry.New(app, mqttClient))
 	defer client.Close()
 
 	check(mqttClient.Start())

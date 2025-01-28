@@ -12,6 +12,7 @@ type GetCommandInvoker struct {
 }
 
 func NewGetCommandInvoker(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
@@ -28,6 +29,7 @@ func NewGetCommandInvoker(
 	)
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.JSON[GetRequestPayload]{},
 		protocol.JSON[GetResponsePayload]{},

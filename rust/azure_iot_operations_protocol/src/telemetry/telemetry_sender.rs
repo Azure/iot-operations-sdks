@@ -11,22 +11,24 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::common::{
-    aio_protocol_error::{AIOProtocolError, Value},
-    hybrid_logical_clock::HybridLogicalClock,
-    is_invalid_utf8,
-    payload_serialize::PayloadSerialize,
-    topic_processor::TopicPattern,
-    user_properties::{validate_user_properties, UserProperty},
-};
-use crate::telemetry::{
-    cloud_event::{
-        CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+use crate::{
+    common::{
+        aio_protocol_error::{AIOProtocolError, Value},
+        hybrid_logical_clock::HybridLogicalClock,
+        is_invalid_utf8,
+        payload_serialize::{PayloadSerialize, SerializedPayload},
+        topic_processor::TopicPattern,
+        user_properties::{validate_user_properties, UserProperty},
     },
-    TELEMETRY_PROTOCOL_VERSION,
+    telemetry::{
+        cloud_event::{
+            CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
+        },
+        TELEMETRY_PROTOCOL_VERSION,
+    },
 };
 
-/// Cloud Event struct
+/// Cloud Event struct used by the [`TelemetrySender`].
 ///
 /// Implements the cloud event spec 1.0 for the telemetry sender.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -105,14 +107,14 @@ impl CloudEvent {
     }
 }
 
-/// Telemetry Message struct
-/// Used by the telemetry sender.
+/// Telemetry Message struct.
+/// Used by the [`TelemetrySender`].
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     #[builder(setter(custom))]
-    payload: Vec<u8>,
+    serialized_payload: SerializedPayload,
     /// Strongly link `TelemetryMessage` with type `T`
     #[builder(private)]
     message_payload_type: PhantomData<T>,
@@ -140,12 +142,38 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// Add a payload to the telemetry message. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: T) -> Result<&mut Self, T::Error> {
-        let serialized_payload = payload.serialize()?;
-        self.payload = Some(serialized_payload);
-        self.message_payload_type = Some(PhantomData);
-        Ok(self)
+    /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
+    ///
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
+    pub fn payload(&mut self, payload: T) -> Result<&mut Self, AIOProtocolError> {
+        match payload.serialize() {
+            Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                Some(e.into()),
+                None,
+                Some("Payload serialization error".to_string()),
+                None,
+            )),
+            Ok(serialized_payload) => {
+                // Validate content type of telemetry message is valid UTF-8
+                if is_invalid_utf8(&serialized_payload.content_type) {
+                    return Err(AIOProtocolError::new_configuration_invalid_error(
+                        None,
+                        "content_type",
+                        Value::String(serialized_payload.content_type.to_string()),
+                        Some(format!(
+                            "Content type '{}' of telemetry message type is not valid UTF-8",
+                            serialized_payload.content_type
+                        )),
+                        None,
+                    ));
+                }
+                self.serialized_payload = Some(serialized_payload);
+                self.message_payload_type = Some(PhantomData);
+                Ok(self)
+            }
+        }
     }
 
     /// Validate the telemetry message.
@@ -192,9 +220,8 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
 pub struct TelemetrySenderOptions {
-    // TODO: Update topic-structure link to the correct one once available.
-    /// Topic pattern for the telemetry message
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the telemetry message.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     topic_pattern: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
@@ -213,16 +240,6 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
-/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # #[derive(Clone, Debug)]
-/// # pub struct SamplePayload { }
-/// # impl PayloadSerialize for SamplePayload {
-/// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
-/// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
-/// # }
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
 /// #     .hostname("mqtt://localhost")
@@ -237,9 +254,9 @@ pub struct TelemetrySenderOptions {
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<SamplePayload, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let telemetry_sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = TelemetryMessageBuilder::default()
-///   .payload(SamplePayload {}).unwrap()
+///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
@@ -273,25 +290,11 @@ where
     ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
-    /// - Content type of the telemetry message is not valid utf-8
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         client: C,
         sender_options: TelemetrySenderOptions,
     ) -> Result<Self, AIOProtocolError> {
-        // Validate content type of telemetry message is valid UTF-8
-        if is_invalid_utf8(T::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(T::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of telemetry message type is not valid UTF-8",
-                    T::content_type()
-                )),
-                None,
-            ));
-        }
         // Validate parameters
         let topic_pattern = TopicPattern::new(
             "sender_options.topic_pattern",
@@ -313,9 +316,6 @@ where
     /// # Arguments
     /// * `message` - [`TelemetryMessage`] to send
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if
-    /// - [`payload`][TelemetryMessage::payload]'s content type isn't valid utf-8
-    ///
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
@@ -341,7 +341,8 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers = cloud_event.into_headers(&message_topic, T::content_type());
+            let cloud_event_headers =
+                cloud_event.into_headers(&message_topic, &message.serialized_payload.content_type);
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
@@ -366,8 +367,8 @@ where
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data),
             response_topic: None,
-            payload_format_indicator: Some(T::format_indicator() as u8),
-            content_type: Some(T::content_type().to_string()),
+            payload_format_indicator: Some(message.serialized_payload.format_indicator as u8),
+            content_type: Some(message.serialized_payload.content_type.to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: message.custom_user_data,
             topic_alias: None,
@@ -381,7 +382,7 @@ where
                 message_topic,
                 message.qos,
                 false,
-                message.payload,
+                message.serialized_payload.payload,
                 publish_properties,
             )
             .await;
@@ -421,8 +422,8 @@ mod tests {
 
     use crate::{
         common::{
-            aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
-            payload_serialize::{FormatIndicator, MockPayload, PayloadSerialize, CONTENT_TYPE_MTX},
+            aio_protocol_error::{AIOProtocolErrorKind, Value},
+            payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
         },
         telemetry::telemetry_sender::{
             TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
@@ -432,29 +433,6 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
-
-    // Payload that has an invalid content type for testing
-    struct InvalidContentTypePayload {}
-    impl Clone for InvalidContentTypePayload {
-        fn clone(&self) -> Self {
-            unimplemented!()
-        }
-    }
-    impl PayloadSerialize for InvalidContentTypePayload {
-        type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn format_indicator() -> FormatIndicator {
-            unimplemented!()
-        }
-        fn serialize(self) -> Result<Vec<u8>, String> {
-            unimplemented!()
-        }
-        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-            unimplemented!()
-        }
-    }
 
     // TODO: This should return a mock MqttProvider instead
     fn get_session() -> Session {
@@ -473,14 +451,6 @@ mod tests {
 
     #[test]
     fn test_new_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/test_telemetry")
@@ -493,14 +463,6 @@ mod tests {
 
     #[test]
     fn test_new_override_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
         let sender_options = TelemetrySenderOptionsBuilder::default()
             .topic_pattern("test/{telemetryName}")
@@ -519,14 +481,6 @@ mod tests {
     #[test_case(""; "new_empty_topic_pattern")]
     #[test_case(" "; "new_whitespace_topic_pattern")]
     fn test_new_empty_topic_pattern(property_value: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = get_session();
 
         let sender_options = TelemetrySenderOptionsBuilder::default()
@@ -553,20 +507,43 @@ mod tests {
         }
     }
 
-    #[tokio::test]
-    async fn test_send_serializer_invalid_content_type() {
-        let session = get_session();
-        let sender_options = TelemetrySenderOptionsBuilder::default()
-            .topic_pattern("test/test_telemetry")
-            .build()
-            .unwrap();
+    #[test]
+    fn test_message_serialization_error() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| Err("dummy error".to_string()))
+            .times(1);
 
-        let telemetry_sender: Result<
-            TelemetrySender<InvalidContentTypePayload, _>,
-            AIOProtocolError,
-        > = TelemetrySender::new(session.create_managed_client(), sender_options);
+        let mut binding = TelemetryMessageBuilder::default();
+        let message_builder = binding.payload(mock_telemetry_payload);
+        match message_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
 
-        match telemetry_sender {
+    #[test]
+    fn test_response_serialization_bad_content_type_error() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json\u{0000}".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = TelemetryMessageBuilder::default();
+        let message_builder = binding.payload(mock_telemetry_payload);
+        match message_builder {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
                 assert!(!e.in_application);
@@ -592,7 +569,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
@@ -609,7 +592,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()
@@ -626,7 +615,13 @@ mod tests {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let message_builder_result = TelemetryMessageBuilder::default()

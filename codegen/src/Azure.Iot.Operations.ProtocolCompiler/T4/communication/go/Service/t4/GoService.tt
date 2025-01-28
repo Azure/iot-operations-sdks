@@ -72,6 +72,7 @@ const (
 <# if (this.generateServer) { #>
 
 func New<#=this.serviceName#>Service(
+	app *protocol.Application,
 	client protocol.MqttClient,
 <# if (this.cmdNameReqResps.Any()) { #>
 	commandHandlers <#=this.serviceName#>CommandHandlers,
@@ -112,6 +113,7 @@ func New<#=this.serviceName#>Service(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
 	<#=this.AsLower(this.serviceName)#>Service.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor, err = New<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandExecutor(
+		app,
 		client,
 		CommandTopic,
 		commandHandlers.<#=this.AsUpper(cmdNameReqResp.Item1)#>,
@@ -126,6 +128,7 @@ func New<#=this.serviceName#>Service(
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
 	<#=this.AsLower(this.serviceName)#>Service.<#=this.TelemComp(telemNameSchema)#>Sender, err = New<#=this.TelemComp(telemNameSchema)#>Sender(
+		app,
 		client,
 		TelemetryTopic,
 		&senderOpts,
@@ -142,6 +145,7 @@ func New<#=this.serviceName#>Service(
 <# if (this.generateClient) { #>
 
 func New<#=this.serviceName#>Client(
+	app *protocol.Application,
 	client protocol.MqttClient,
 <# if (this.telemNameSchemas.Any()) { #>
 <# if (this.separateTelemetries) { #>
@@ -183,6 +187,7 @@ func New<#=this.serviceName#>Client(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
 	<#=this.AsLower(this.serviceName)#>Client.<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker, err = New<#=this.AsUpper(cmdNameReqResp.Item1)#>CommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -196,6 +201,7 @@ func New<#=this.serviceName#>Client(
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
 	<#=this.AsLower(this.serviceName)#>Client.<#=this.TelemComp(telemNameSchema)#>Receiver, err = New<#=this.TelemComp(telemNameSchema)#>Receiver(
+		app,
 		client,
 		TelemetryTopic,
 <# if (this.separateTelemetries) { #>

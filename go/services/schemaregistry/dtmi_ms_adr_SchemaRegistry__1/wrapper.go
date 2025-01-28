@@ -17,6 +17,7 @@ const (
 )
 
 func NewSchemaRegistryClient(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	opts ...protocol.Option,
 ) (*SchemaRegistryClient, error) {
@@ -36,6 +37,7 @@ func NewSchemaRegistryClient(
 	schemaRegistryClient := &SchemaRegistryClient{}
 
 	schemaRegistryClient.PutCommandInvoker, err = NewPutCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,
@@ -47,6 +49,7 @@ func NewSchemaRegistryClient(
 	schemaRegistryClient.Listeners = append(schemaRegistryClient.Listeners, schemaRegistryClient.PutCommandInvoker)
 
 	schemaRegistryClient.GetCommandInvoker, err = NewGetCommandInvoker(
+		app,
 		client,
 		CommandTopic,
 		&invokerOpts,

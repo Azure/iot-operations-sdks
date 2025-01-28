@@ -12,6 +12,7 @@ type PutCommandInvoker struct {
 }
 
 func NewPutCommandInvoker(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
@@ -28,6 +29,7 @@ func NewPutCommandInvoker(
 	)
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.JSON[PutRequestPayload]{},
 		protocol.JSON[PutResponsePayload]{},

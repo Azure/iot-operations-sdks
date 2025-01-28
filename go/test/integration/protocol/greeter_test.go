@@ -27,7 +27,8 @@ func TestSayHello(t *testing.T) {
 	encRes := protocol.JSON[envoy.HelloResponse]{}
 	topic := "prefix/{ex:token}/suffix"
 
-	executor, err := protocol.NewCommandExecutor(server, encReq, encRes, topic,
+	executor, err := protocol.NewCommandExecutor(
+		app, server, encReq, encRes, topic,
 		func(
 			_ context.Context,
 			cr *protocol.CommandRequest[envoy.HelloRequest],
@@ -55,7 +56,8 @@ func TestSayHello(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(client, encReq, encRes, topic,
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, encReq, encRes, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
 		protocol.WithTopicNamespace("ns"),
 		protocol.WithTopicTokens{"token": "test"},
@@ -86,7 +88,8 @@ func TestSayHelloWithDelay(t *testing.T) {
 	encReq := protocol.JSON[envoy.HelloWithDelayRequest]{}
 	encRes := protocol.JSON[envoy.HelloResponse]{}
 	topic := "prefix/{ex:token}/suffix"
-	executor, err := protocol.NewCommandExecutor(server, encReq, encRes, topic,
+	executor, err := protocol.NewCommandExecutor(
+		app, server, encReq, encRes, topic,
 		func(
 			_ context.Context,
 			cr *protocol.CommandRequest[envoy.HelloWithDelayRequest],
@@ -118,7 +121,8 @@ func TestSayHelloWithDelay(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(client, encReq, encRes, topic,
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, encReq, encRes, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
 		protocol.WithTopicNamespace("ns"),
 		protocol.WithTopicTokens{"token": "test"},
@@ -161,6 +165,7 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 	topic := "prefix/{ex:token}/suffix"
 
 	executor, err := protocol.NewCommandExecutor(
+		app,
 		server,
 		encReq,
 		encRes,
@@ -196,7 +201,8 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(client, encReq, encRes, topic,
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, encReq, encRes, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
 		protocol.WithTopicNamespace("ns"),
 		protocol.WithTopicTokens{"token": "test"},

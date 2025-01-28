@@ -8,7 +8,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -18,6 +17,7 @@ import (
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
+	app      *Application
 	client   MqttClient
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
@@ -76,7 +76,7 @@ func (p *publisher[T]) build(
 		pub.UserProperties = map[string]string{}
 	}
 
-	ts, err := hlc.Get()
+	ts, err := p.app.hlc.Get()
 	if err != nil {
 		return nil, err
 	}
