@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public sealed class TelemetryConnectorWorkerTests
+    public sealed class PollingTelemetryConnectorWorkerTests
     {
         [Fact]
         public async Task ConnectSingleAssetSingleDataset()
