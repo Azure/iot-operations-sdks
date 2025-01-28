@@ -14,7 +14,7 @@ use tokio::sync::Notify;
 
 use crate::{
     error::{AckError, CompletionError},
-    interface::CompletionToken
+    interface::CompletionToken,
 };
 
 // NOTE: It could be argued this module should not have the Ack semantics at all, and just let this
@@ -31,7 +31,8 @@ use crate::{
 // interest of time, I'm sticking with what works.
 type PlenaryAckOpFuture =
     Shared<Pin<Box<dyn Future<Output = Result<CompletionTokenFuture, AckError>> + Send + 'static>>>;
-type CompletionTokenFuture = Shared<Pin<Box<dyn Future<Output = Result<(), CompletionError>> + Send >>>;
+type CompletionTokenFuture =
+    Shared<Pin<Box<dyn Future<Output = Result<(), CompletionError>> + Send>>>;
 
 /// State of a plenary acking operation
 #[derive(Default, Debug)]
@@ -135,7 +136,9 @@ pub struct PlenaryAck {
 
 impl PlenaryAck {
     /// Create a new [`PlenaryAck`] with the given ack future that will be triggered once all members ack
-    pub fn new(ack_future: impl Future<Output = Result<CompletionToken, AckError>> + Send + 'static) -> Self {
+    pub fn new(
+        ack_future: impl Future<Output = Result<CompletionToken, AckError>> + Send + 'static,
+    ) -> Self {
         let state = PlenaryState::default();
         let approved = state.get_approved_notify();
 
@@ -198,7 +201,6 @@ impl Drop for PlenaryAck {
     }
 }
 
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -258,7 +260,6 @@ mod test {
         // After the mock completion token trigger, the completion token will return
         mock_ack_ct_trigger.trigger();
         jh.await.unwrap().unwrap();
-
     }
 
     #[tokio::test]

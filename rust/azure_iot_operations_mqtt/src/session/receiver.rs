@@ -212,11 +212,14 @@ where
                 let ack_f = {
                     let acker = self.acker.clone();
                     let publish = publish.clone();
-                    async move { 
-                        let result = acker.ordered_ack(&publish).await; 
-                        match result {
-                            Ok(_) => log::debug!("Sent ACK for PKID {}", publish.pkid),
-                            Err(_) => log::error!("ACK failed for PKID {}", publish.pkid),
+                    async move {
+                        let result = acker.ordered_ack(&publish).await;
+                        if result.is_ok() {
+                            log::debug!("Sent ACK for PKID {}", publish.pkid);
+                        } else {
+                            // NOTE: can't get the error out of the option enum since we must
+                            // return it to the caller.
+                            log::error!("ACK failed for PKID {}", publish.pkid);
                         }
                         result
                     }

@@ -11,7 +11,7 @@ use tokio::sync::Notify;
 
 use crate::control_packet::Publish;
 use crate::error::AckError;
-use crate::interface::{MqttAck, CompletionToken};
+use crate::interface::{CompletionToken, MqttAck};
 
 /// Error related to PKID
 #[derive(Error, Debug, PartialEq)]
@@ -66,7 +66,7 @@ where
     pub async fn ordered_ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         // No need to ack QoS0 publishes. Skip.
         if publish.pkid == 0 {
-            return Ok(CompletionToken(Box::new(async { Ok(())})));
+            return Ok(CompletionToken(Box::new(async { Ok(()) })));
         }
 
         // Add this publishes PKID as a "pending ack", as it may need to wait here for some amount
