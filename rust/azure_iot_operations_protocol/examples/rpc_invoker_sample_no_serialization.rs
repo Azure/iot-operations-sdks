@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
@@ -42,8 +45,12 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(
+        application_context,
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
@@ -53,7 +60,11 @@ async fn main() {
 }
 
 /// Send 10 file transfer command requests and wait for their responses, then disconnect
-async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn invoke_loop(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+) {
     // Create a command invoker for the file transfer command
     let file_transfer_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -62,7 +73,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         .build()
         .unwrap();
     let file_transfer_invoker: CommandInvoker<BypassPayload, Vec<u8>, _> =
-        CommandInvoker::new(client, file_transfer_invoker_options).unwrap();
+        CommandInvoker::new(application_context, client, file_transfer_invoker_options).unwrap();
 
     // Send 10 file transfer requests
     for i in 1..6 {

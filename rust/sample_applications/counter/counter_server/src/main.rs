@@ -8,6 +8,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::dtmi_com_example_Counter__1::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
@@ -33,17 +36,22 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // The counter value for the server
     let counter = Arc::new(Mutex::new(0));
 
     // Spawn tasks for the server features
     tokio::spawn(read_counter_executor(
+        application_context.clone(),
         session.create_managed_client(),
         counter.clone(),
     ));
     tokio::spawn(increment_counter_and_publish(
+        application_context,
         session.create_managed_client(),
-        counter,
+        counter.clone(),
     ));
     tokio::spawn(exit_timer(
         session.create_exit_handle(),
@@ -55,10 +63,15 @@ async fn main() {
 }
 
 /// Run an executor that responds to requests to read the counter value.
-async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
+async fn read_counter_executor(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    counter: Arc<Mutex<i32>>,
+) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let mut read_counter_executor = ReadCounterCommandExecutor::new(client, &options);
+    let mut read_counter_executor =
+        ReadCounterCommandExecutor::new(application_context, client, &options);
 
     // Respond to each read request with the current counter value
     loop {
@@ -77,13 +90,19 @@ async fn read_counter_executor(client: SessionManagedClient, counter: Arc<Mutex<
 
 /// Run an executor that responds to requests to increment the counter value and a sender that sends
 /// telemetry messages with the new counter value.
-async fn increment_counter_and_publish(client: SessionManagedClient, counter: Arc<Mutex<i32>>) {
+async fn increment_counter_and_publish(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    counter: Arc<Mutex<i32>>,
+) {
     // Create executor
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let mut increment_executor = IncrementCommandExecutor::new(client.clone(), &options);
+    let mut increment_executor =
+        IncrementCommandExecutor::new(application_context.clone(), client.clone(), &options);
 
     // Create sender
     let counter_sender = TelemetryCollectionSender::new(
+        application_context,
         client,
         &TelemetryOptionsBuilder::default().build().unwrap(),
     );

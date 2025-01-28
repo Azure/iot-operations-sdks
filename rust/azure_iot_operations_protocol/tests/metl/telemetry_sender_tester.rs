@@ -8,6 +8,9 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -197,7 +200,11 @@ where
 
         let sender_options = options_result.unwrap();
 
-        match TelemetrySender::new(managed_client, sender_options) {
+        match TelemetrySender::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            sender_options,
+        ) {
             Ok(sender) => {
                 if let Some(catch) = catch {
                     // TelemetrySender has no start method, so if an exception is expected, send may be needed to trigger it.
