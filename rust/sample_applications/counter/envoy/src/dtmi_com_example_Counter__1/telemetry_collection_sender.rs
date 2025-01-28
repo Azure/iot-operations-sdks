@@ -55,10 +55,7 @@ impl TelemetryCollectionMessageBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: TelemetryCollection,
-    ) -> Result<&mut Self, <TelemetryCollection as PayloadSerialize>::Error> {
+    pub fn payload(&mut self, payload: TelemetryCollection) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }

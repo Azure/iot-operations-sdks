@@ -1,0 +1,103 @@
+# The one that worked with AKS
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: azure-disk
+  namespace: azure-iot-operations
+provisioner: kubernetes.io/azure-disk
+parameters:
+  storageaccounttype: Standard_LRS
+  kind: Managed
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-data
+  namespace: azure-iot-operations
+  annotations:
+    volume.beta.kubernetes.io/storage-class: azure-disk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sql-server-auth-creds
+  namespace: azure-iot-operations
+type: Opaque
+data:
+  USERNAME: c2E=
+  SA_PASSWORD: TXlFeHRyZW1lbHlTdHJvbmdwYXNzd29yZEAxMjM=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssql-deployment
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      terminationGracePeriodSeconds: 30
+      hostname: mssqlinst
+      securityContext:
+        fsGroup: 10001
+        runAsUser: 10001
+      containers:
+        - name: mssql
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          securityContext:
+            runAsUser: 10001
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          resources:
+            requests:
+              memory: "2G"
+              cpu: "2000m"
+            limits:
+              memory: "2G"
+              cpu: "2000m"
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-server-auth-creds
+                  key: SA_PASSWORD
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+              subPath: data
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-deployment
+  namespace: azure-iot-operations
+spec:
+  selector:
+    app: mssql
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer
