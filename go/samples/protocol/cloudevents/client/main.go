@@ -20,12 +20,14 @@ type Handlers struct{}
 func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
+	app := must(protocol.NewApplication())
 
 	mqttClient := mqtt.NewSessionClient(
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
 	client := must(dtmi_akri_samples_oven__1.NewOvenClient(
+		app,
 		mqttClient,
 		func(
 			_ context.Context,
@@ -48,8 +50,8 @@ func main() {
 				)
 			}
 
-			ce := msg.CloudEvent
-			if ce != nil {
+			ce, err := protocol.CloudEventFromTelemetry(msg)
+			if err == nil {
 				log.LogAttrs(ctx, slog.LevelInfo, "cloud event", ce.Attrs()...)
 			}
 			return nil

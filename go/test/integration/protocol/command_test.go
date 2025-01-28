@@ -23,7 +23,8 @@ func TestCommand(t *testing.T) {
 	topic := "prefix/{ex:token}/suffix"
 	value := "test"
 
-	executor, err := protocol.NewCommandExecutor(server, enc, enc, topic,
+	executor, err := protocol.NewCommandExecutor(
+		app, server, enc, enc, topic,
 		func(
 			_ context.Context,
 			cr *protocol.CommandRequest[string],
@@ -40,7 +41,8 @@ func TestCommand(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(client, enc, enc, topic,
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, enc, enc, topic,
 		protocol.WithResponseTopicSuffix("response/{executorId}"),
 		protocol.WithTopicNamespace("ns"),
 		protocol.WithTopicTokens{"token": "test"},
@@ -78,7 +80,8 @@ func TestCommandError(t *testing.T) {
 	res := protocol.JSON[string]{}
 	topic := "topic"
 
-	executor, err := protocol.NewCommandExecutor(server, req, res, topic,
+	executor, err := protocol.NewCommandExecutor(
+		app, server, req, res, topic,
 		func(
 			context.Context,
 			*protocol.CommandRequest[any],
@@ -89,7 +92,8 @@ func TestCommandError(t *testing.T) {
 	require.NoError(t, err)
 	listeners = append(listeners, executor)
 
-	invoker, err := protocol.NewCommandInvoker(client, req, res, topic,
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, req, res, topic,
 		protocol.WithResponseTopicSuffix("response"),
 	)
 	require.NoError(t, err)

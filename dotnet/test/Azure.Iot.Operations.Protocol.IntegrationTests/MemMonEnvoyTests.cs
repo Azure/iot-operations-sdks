@@ -149,15 +149,15 @@ public class MemMonEnvoyTests
         Assert.NotNull(memStatsMD);
         Assert.NotNull(memStatsMD.UserData);
         Assert.Equal(8, memStatsMD.UserData.Count);
-        Assert.NotNull(memStatsMD.CloudEvent);
-        Assert.Equal("1.0", memStatsMD.CloudEvent.SpecVersion);
-        Assert.Equal("test://mq/", memStatsMD.CloudEvent.Source!.ToString());
-        Assert.Equal("ms.aio.telemetry", memStatsMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsMD.CloudEvent.Subject);
-        //Assert.Equal("1.0", memStatsMD.CloudEvent.DataSchema);
-        Assert.Equal("application/avro", memStatsMD.CloudEvent.DataContentType);
-        Assert.True(DateTime.TryParse(memStatsMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
-        Assert.True(Guid.TryParse(memStatsMD.CloudEvent.Id, out Guid _));
+        Assert.NotNull(memStatsMD.GetCloudEvent());
+        Assert.Equal("1.0", memStatsMD.GetCloudEvent().SpecVersion);
+        Assert.Equal("test://mq/", memStatsMD.GetCloudEvent().Source!.ToString());
+        Assert.Equal("ms.aio.telemetry", memStatsMD.GetCloudEvent().Type);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/memoryStats", memStatsMD.GetCloudEvent().Subject);
+        //Assert.Equal("1.0", memStatsMD.GetCloudEvent().DataSchema);
+        Assert.Equal("application/avro", memStatsMD.GetCloudEvent().DataContentType);
+        Assert.True(DateTime.TryParse(memStatsMD.GetCloudEvent().Time!.Value.ToString("o"), out DateTime _));
+        Assert.True(Guid.TryParse(memStatsMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, memStatsMD.SenderId);
 
 
@@ -165,14 +165,14 @@ public class MemMonEnvoyTests
         Assert.NotNull(ManagedMemoryMD);
         Assert.NotNull(ManagedMemoryMD.UserData);
         Assert.Equal(8, ManagedMemoryMD.UserData.Count);
-        Assert.Equal("1.0", ManagedMemoryMD.CloudEvent!.SpecVersion);
-        Assert.Equal("test://mq/", ManagedMemoryMD.CloudEvent.Source!.ToString());
-        Assert.Equal("ms.aio.telemetry", ManagedMemoryMD.CloudEvent.Type);
-        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/managedMemory", ManagedMemoryMD.CloudEvent.Subject);
-        //Assert.Equal("1.0", ManagedMemoryMD.CloudEvent.DataSchema);
-        Assert.Equal("application/avro", ManagedMemoryMD.CloudEvent.DataContentType);
-        Assert.True(DateTime.TryParse(ManagedMemoryMD.CloudEvent.Time!.Value.ToString("o"), out DateTime _));
-        Assert.True(Guid.TryParse(ManagedMemoryMD.CloudEvent.Id, out Guid _));
+        Assert.Equal("1.0", ManagedMemoryMD.GetCloudEvent()!.SpecVersion);
+        Assert.Equal("test://mq/", ManagedMemoryMD.GetCloudEvent().Source!.ToString());
+        Assert.Equal("ms.aio.telemetry", ManagedMemoryMD.GetCloudEvent().Type);
+        Assert.Equal($"rpc/samples/dtmi:akri:samples:memmon;1/{mqttSender.ClientId}/managedMemory", ManagedMemoryMD.GetCloudEvent().Subject);
+        //Assert.Equal("1.0", ManagedMemoryMD.GetCloudEvent().DataSchema);
+        Assert.Equal("application/avro", ManagedMemoryMD.GetCloudEvent().DataContentType);
+        Assert.True(DateTime.TryParse(ManagedMemoryMD.GetCloudEvent().Time!.Value.ToString("o"), out DateTime _));
+        Assert.True(Guid.TryParse(ManagedMemoryMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, ManagedMemoryMD.SenderId);
 
 

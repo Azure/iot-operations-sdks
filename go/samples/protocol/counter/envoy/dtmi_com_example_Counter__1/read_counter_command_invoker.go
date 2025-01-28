@@ -12,6 +12,7 @@ type ReadCounterCommandInvoker struct {
 }
 
 func NewReadCounterCommandInvoker(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	opt ...protocol.CommandInvokerOption,
@@ -28,6 +29,7 @@ func NewReadCounterCommandInvoker(
 	)
 
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.Empty{},
 		protocol.JSON[ReadCounterResponsePayload]{},

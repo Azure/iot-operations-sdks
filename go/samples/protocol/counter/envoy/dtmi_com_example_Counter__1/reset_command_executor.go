@@ -10,6 +10,7 @@ type ResetCommandExecutor struct {
 }
 
 func NewResetCommandExecutor(
+	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
 	handler protocol.CommandHandler[any, any],
@@ -28,6 +29,7 @@ func NewResetCommandExecutor(
 	)
 
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
+		app,
 		client,
 		protocol.Empty{},
 		protocol.Empty{},

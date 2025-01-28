@@ -7,6 +7,7 @@ use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::{
+    application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -97,7 +98,11 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(client: C, options: ClientOptions) -> Result<Self, StateStoreError> {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: ClientOptions,
+    ) -> Result<Self, StateStoreError> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -112,8 +117,12 @@ where
             state_store::resp3::Request,
             state_store::resp3::Response,
             C,
-        > = CommandInvoker::new(client.clone(), command_invoker_options)
-            .map_err(StateStoreErrorKind::from)?;
+        > = CommandInvoker::new(
+            application_context.clone(),
+            client.clone(),
+            command_invoker_options,
+        )
+        .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
@@ -138,7 +147,7 @@ where
         // Start the receive key notification loop
         task::spawn({
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(client, telemetry_receiver_options)
+                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
                     .map_err(StateStoreErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
@@ -672,7 +681,9 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
 
+    use super::*;
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
     // TODO: This should return a mock ManagedClient instead.
@@ -697,6 +708,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -721,6 +733,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -737,6 +750,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -755,6 +769,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -773,6 +788,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -791,6 +807,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -809,6 +826,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -833,6 +851,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -851,6 +870,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -869,6 +889,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -892,6 +913,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -910,6 +932,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
