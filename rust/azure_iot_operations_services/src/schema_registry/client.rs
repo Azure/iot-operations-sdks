@@ -97,13 +97,13 @@ where
 
         Self {
             get_command_invoker: Arc::new(GetCommandInvoker::new(
-                client.clone(),
                 application_context.clone(),
+                client.clone(),
                 &options,
             )),
             put_command_invoker: Arc::new(PutCommandInvoker::new(
-                client.clone(),
                 application_context,
+                client.clone(),
                 &options,
             )),
         }

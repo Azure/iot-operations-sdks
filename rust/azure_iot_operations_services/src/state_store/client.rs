@@ -119,8 +119,8 @@ where
             state_store::resp3::Response,
             C,
         > = CommandInvoker::new(
-            client.clone(),
             application_context.clone(),
+            client.clone(),
             command_invoker_options,
         )
         .map_err(StateStoreErrorKind::from)?;
