@@ -11,6 +11,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
+    application::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
@@ -48,8 +49,12 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(
+        application_context,
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
@@ -59,7 +64,11 @@ async fn main() {
 }
 
 // Handle incoming telemetry messages
-async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn telemetry_loop(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+) {
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
@@ -71,7 +80,7 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
-        TelemetryReceiver::new(client, receiver_options).unwrap();
+        TelemetryReceiver::new(application_context, client, receiver_options).unwrap();
 
     while let Some(message) = telemetry_receiver.recv().await {
         match message {

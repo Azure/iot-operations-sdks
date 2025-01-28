@@ -10,6 +10,9 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -323,7 +326,11 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match CommandExecutor::new(managed_client, executor_options) {
+        match CommandExecutor::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        ) {
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.

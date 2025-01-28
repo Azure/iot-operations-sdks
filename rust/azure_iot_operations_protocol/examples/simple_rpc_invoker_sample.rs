@@ -10,6 +10,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
@@ -46,8 +49,12 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(
+        application_context,
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
@@ -57,7 +64,11 @@ async fn main() {
 }
 
 /// Send 10 increment command requests and wait for their responses, then disconnect
-async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn invoke_loop(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+) {
     // Create a command invoker for the increment command
     let incr_invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -66,7 +77,7 @@ async fn invoke_loop(client: SessionManagedClient, exit_handle: SessionExitHandl
         .build()
         .unwrap();
     let incr_invoker: CommandInvoker<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandInvoker::new(client, incr_invoker_options).unwrap();
+        CommandInvoker::new(application_context, client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
     for i in 1..11 {

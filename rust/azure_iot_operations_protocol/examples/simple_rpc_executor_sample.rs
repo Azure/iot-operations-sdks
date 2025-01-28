@@ -7,6 +7,9 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
@@ -42,15 +45,21 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // Use the managed client to run a a command executor in another task
-    tokio::task::spawn(executor_loop(session.create_managed_client()));
+    tokio::task::spawn(executor_loop(
+        application_context,
+        session.create_managed_client(),
+    ));
 
     // Run the session
     session.run().await.unwrap();
 }
 
 /// Handle incoming increment command requests
-async fn executor_loop(client: SessionManagedClient) {
+async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
     // Create a command executor for the increment command
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -58,7 +67,7 @@ async fn executor_loop(client: SessionManagedClient) {
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandExecutor::new(client, incr_executor_options).unwrap();
+        CommandExecutor::new(application_context, client, incr_executor_options).unwrap();
 
     // Counter to increment
     let mut counter = 0;
