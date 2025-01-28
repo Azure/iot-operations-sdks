@@ -202,7 +202,7 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
         // if the publish in question has already been acked - doing so would require adding a
         // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
@@ -213,15 +213,11 @@ impl MqttAck for rumqttc::v5::AsyncClient {
         manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
         // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
         // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
-        Ok(self.manual_ack(manual_ack).await?)
-    }
-
-    async fn ack2(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
-        let mut manual_ack = self.get_manual_ack(publish);
-        manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
-        // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
-        // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
         self.manual_ack(manual_ack).await?;
+        // NOTE: rumqttc does not currently return a NoticeFuture from manual_ack, like it does for
+        // publish, subscribe and unsubscribe. For now we simulate one, although this means that
+        // the CompletionToken's completion has no real meaning. This has implications for
+        // correctness in QoS2 especially, but also QoS1 connection loss scenarios.
         Ok(CompletionToken(Box::new(async { Ok(()) })))
     }
 }

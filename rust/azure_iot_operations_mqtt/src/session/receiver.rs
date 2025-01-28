@@ -5,7 +5,6 @@
 
 mod ordered_acker;
 mod plenary_ack;
-mod plenary_ack2;
 
 use std::collections::HashMap;
 use std::string::FromUtf8Error;

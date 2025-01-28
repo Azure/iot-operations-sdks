@@ -12,24 +12,28 @@ use std::sync::{Arc, Mutex};
 use futures::future::{FutureExt, Shared};
 use tokio::sync::Notify;
 
-use crate::{error::AckError, interface::CompletionToken};
+use crate::{
+    error::{AckError, CompletionError},
+    interface::CompletionToken
+};
 
 // NOTE: It could be argued this module should not have the Ack semantics at all, and just let this
 // be a generic synchronization tool.
 // That *would* be a much cleaner design, but it's a bunch of extra work, and gives us basically
 // nothing since this will probably not be used for anything other than Ack.
-// In the interest of time, this more elegant design is out of scope, but feel free to refactor
-// this in the future if necessary!
-// PlenaryAck could become PlenaryFuture which would take a generic Future of some kind,
-// PlenaryAckMember could become PlenaryMember and its .ack() method could become .signal()...
-// It would be nice.
+// Additionally, the complexities of the needing to propagate the CompletionTokens from acks to
+// multiple members is fairly unique to the Ack use case.
+// There probably is a way to deal with this in a more generic way, but it would require
+// some significant work.
 
-// NOTE: The PlenaryAckFuture type is probably more complex than it needs to be. I think it could
-// be expressed more simply (and perhaps more performatively/flexibly) but in the interest of time,
-// I'm sticking with what works.
+// NOTE: The PlenaryAckOpFuture type may be more complex than it needs to be. I suspect it could
+// potentially be expressed more simply (and perhaps more performatively/flexibly) but in the
+// interest of time, I'm sticking with what works.
 type PlenaryAckOpFuture =
-    Shared<Pin<Box<dyn Future<Output = Result<(), AckError>> + Send + 'static>>>;
+    Shared<Pin<Box<dyn Future<Output = Result<CompletionTokenFuture, AckError>> + Send + 'static>>>;
+type CompletionTokenFuture = Shared<Pin<Box<dyn Future<Output = Result<(), CompletionError>> + Send >>>;
 
+/// State of a plenary acking operation
 #[derive(Default, Debug)]
 struct PlenaryState {
     /// Number of required signals
@@ -92,11 +96,11 @@ impl PlenaryAckMember {
         // implementation to allow for Drop, as the type does not support Copy.
         // I think this could probably be addressed my massaging the type of the future.
         // As mentioned elsewhere, I'm not sure this really needs to be as complex a type as it is.
-        self.plenary_op_f.clone().await?;
-
-        // NOTE: Fake CT for now (fix this for QoS2)
-        // This will likely require some rumqttc changes
-        Ok(CompletionToken(Box::new(async { Ok(()) })))
+        let ct_f = self.plenary_op_f.clone().await?;
+        // The plenary_op_f returns another future that is the eventual result of the ack's
+        // returned completion token. Use this shared future to create a new completion token
+        // that triggers when the original completion token completes.
+        Ok(CompletionToken(Box::new(ct_f)))
     }
 }
 
@@ -111,7 +115,8 @@ impl Drop for PlenaryAckMember {
             tokio::task::spawn({
                 let plenary_op_f = self.plenary_op_f.clone();
                 async move {
-                    plenary_op_f.await.unwrap();
+                    //plenary_op_f.await.unwrap();      TODO: add unwrap back
+                    let _ = plenary_op_f.await;
                 }
             });
         }
@@ -129,19 +134,24 @@ pub struct PlenaryAck {
 }
 
 impl PlenaryAck {
-    /// Create a new [`PlenaryAck`] with the given future that will be triggered once all members ack
-    pub fn new(ack_future: impl Future<Output = Result<(), AckError>> + Send + 'static) -> Self {
+    /// Create a new [`PlenaryAck`] with the given ack future that will be triggered once all members ack
+    pub fn new(ack_future: impl Future<Output = Result<CompletionToken, AckError>> + Send + 'static) -> Self {
         let state = PlenaryState::default();
         let approved = state.get_approved_notify();
 
-        let f = async move {
+        let ack_op_f = async move {
+            // Wait for the ack to be approved by all members signal
             approved.notified().await;
-            ack_future.await
+            // Trigger the ack operation
+            let ct = ack_future.await?;
+            // Return the completion token as a boxed shared future so that it can be propagated to
+            // the multiple members that may be waiting for it.
+            Ok(ct.boxed().shared())
         };
 
         Self {
             state: Arc::new(Mutex::new(state)),
-            plenary_op_f: f.boxed().shared(),
+            plenary_op_f: ack_op_f.boxed().shared(),
         }
     }
 
@@ -188,19 +198,48 @@ impl Drop for PlenaryAck {
     }
 }
 
+
 #[cfg(test)]
 mod test {
     use super::*;
+    use tokio::sync::oneshot;
+
+    struct CompletionTokenTrigger(oneshot::Sender<()>);
+
+    impl CompletionTokenTrigger {
+        fn trigger(self) {
+            self.0.send(()).unwrap();
+        }
+    }
+
+    /// Return a completion token that will not return until triggered
+    fn create_completion_token_and_trigger() -> (CompletionToken, CompletionTokenTrigger) {
+        let (tx, rx) = oneshot::channel();
+        let trigger = CompletionTokenTrigger(tx);
+        let f = async {
+            rx.await.unwrap();
+            Ok(())
+        };
+        let ct = CompletionToken(Box::new(f.boxed()));
+        (ct, trigger)
+    }
+
+    // Return a completion token that will immediately resolve
+    fn create_completion_token() -> CompletionToken {
+        let f = async { Ok(()) };
+        CompletionToken(Box::new(f.boxed()))
+    }
 
     #[tokio::test]
     async fn single_member_commence_before_ack() {
         let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, mock_ack_ct_trigger) = create_completion_token_and_trigger();
 
         let mock_ack_f = {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(mock_ack_ct)
             }
         };
 
@@ -209,20 +248,29 @@ mod test {
 
         // Commence, and then ack w/ plenary member
         plenary_ack.commence();
-        member1.ack().await.unwrap();
+        let ct = member1.ack().await.unwrap();
         // The mock ack was triggered
         assert!(*mock_ack_triggered.lock().unwrap());
+        // Returned completion token has not yet returned
+        let jh = tokio::task::spawn(ct);
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(!jh.is_finished());
+        // After the mock completion token trigger, the completion token will return
+        mock_ack_ct_trigger.trigger();
+        jh.await.unwrap().unwrap();
+
     }
 
     #[tokio::test]
     async fn single_member_ack_before_commence() {
         let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, mock_ack_ct_trigger) = create_completion_token_and_trigger();
 
         let mock_ack_f = {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(mock_ack_ct)
             }
         };
 
@@ -236,19 +284,27 @@ mod test {
         assert!(!*mock_ack_triggered.lock().unwrap());
         // Commence, and then the mock ack will trigger, and the member ack will return
         plenary_ack.commence();
-        m1_ack.await.unwrap().unwrap();
+        let ct = m1_ack.await.unwrap().unwrap();
         assert!(*mock_ack_triggered.lock().unwrap());
+        // Returned completion token has not yet completed
+        let jh = tokio::task::spawn(ct);
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(!jh.is_finished());
+        // After the mock completion token trigger, the completion token will return
+        mock_ack_ct_trigger.trigger();
+        jh.await.unwrap().unwrap();
     }
 
     #[tokio::test]
     async fn multiple_member_commence_before_ack() {
         let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, mock_ack_ct_trigger) = create_completion_token_and_trigger();
 
         let mock_ack_f = {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(mock_ack_ct)
             }
         };
 
@@ -271,21 +327,35 @@ mod test {
         assert!(!m2_ack.is_finished());
         // After the third plenary member acks, the mock ack will trigger, and all plenary ack tasks return
         let m3_ack = tokio::task::spawn(member3.ack());
-        m1_ack.await.unwrap().unwrap();
-        m2_ack.await.unwrap().unwrap();
-        m3_ack.await.unwrap().unwrap();
+        let ct1 = m1_ack.await.unwrap().unwrap();
+        let ct2 = m2_ack.await.unwrap().unwrap();
+        let ct3 = m3_ack.await.unwrap().unwrap();
         assert!(*mock_ack_triggered.lock().unwrap());
+        // Returned completion tokens have not yet completed
+        let jh1 = tokio::task::spawn(ct1);
+        let jh2 = tokio::task::spawn(ct2);
+        let jh3 = tokio::task::spawn(ct3);
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(!jh1.is_finished());
+        assert!(!jh2.is_finished());
+        assert!(!jh3.is_finished());
+        // After the mock completion token trigger, the completion tokens will return
+        mock_ack_ct_trigger.trigger();
+        jh1.await.unwrap().unwrap();
+        jh2.await.unwrap().unwrap();
+        jh3.await.unwrap().unwrap();
     }
 
     #[tokio::test]
     async fn multiple_member_ack_before_commence() {
         let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, mock_ack_ct_trigger) = create_completion_token_and_trigger();
 
         let mock_ack_f = {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(mock_ack_ct)
             }
         };
 
@@ -306,21 +376,35 @@ mod test {
         assert!(!m3_ack.is_finished());
         // Commence, and then the mock ack will trigger, with all member acks returning
         plenary_ack.commence();
-        m1_ack.await.unwrap().unwrap();
-        m2_ack.await.unwrap().unwrap();
-        m3_ack.await.unwrap().unwrap();
+        let ct1 = m1_ack.await.unwrap().unwrap();
+        let ct2 = m2_ack.await.unwrap().unwrap();
+        let ct3 = m3_ack.await.unwrap().unwrap();
         assert!(*mock_ack_triggered.lock().unwrap());
+        // Returned completion tokens have not yet completed
+        let jh1 = tokio::task::spawn(ct1);
+        let jh2 = tokio::task::spawn(ct2);
+        let jh3 = tokio::task::spawn(ct3);
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(!jh1.is_finished());
+        assert!(!jh2.is_finished());
+        assert!(!jh3.is_finished());
+        // After the mock completion token trigger, the completion tokens will return
+        mock_ack_ct_trigger.trigger();
+        jh1.await.unwrap().unwrap();
+        jh2.await.unwrap().unwrap();
+        jh3.await.unwrap().unwrap();
     }
 
     #[tokio::test]
     async fn multiple_member_mixed_ack_timing() {
         let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, mock_ack_ct_trigger) = create_completion_token_and_trigger();
 
         let mock_ack_f = {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(mock_ack_ct)
             }
         };
 
@@ -345,10 +429,23 @@ mod test {
         assert!(!m2_ack.is_finished());
         // Trigger the third member to ack, and then the mock ack will trigger, with all member acks returning
         let m3_ack = tokio::task::spawn(member3.ack());
-        m1_ack.await.unwrap().unwrap();
-        m2_ack.await.unwrap().unwrap();
-        m3_ack.await.unwrap().unwrap();
+        let ct1 = m1_ack.await.unwrap().unwrap();
+        let ct2 = m2_ack.await.unwrap().unwrap();
+        let ct3 = m3_ack.await.unwrap().unwrap();
         assert!(*mock_ack_triggered.lock().unwrap());
+        // Returned completion tokens have not yet completed
+        let jh1 = tokio::task::spawn(ct1);
+        let jh2 = tokio::task::spawn(ct2);
+        let jh3 = tokio::task::spawn(ct3);
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(!jh1.is_finished());
+        assert!(!jh2.is_finished());
+        assert!(!jh3.is_finished());
+        // After the mock completion token trigger, the completion tokens will return
+        mock_ack_ct_trigger.trigger();
+        jh1.await.unwrap().unwrap();
+        jh2.await.unwrap().unwrap();
+        jh3.await.unwrap().unwrap();
     }
 
     #[tokio::test]
@@ -359,7 +456,7 @@ mod test {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(create_completion_token())
             }
         };
 
@@ -382,7 +479,7 @@ mod test {
             let mock_ack_trigger_count = mock_ack_trigger_count.clone();
             async move {
                 *mock_ack_trigger_count.lock().unwrap() += 1;
-                Ok(())
+                Ok(create_completion_token())
             }
         };
 
@@ -412,7 +509,7 @@ mod test {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(create_completion_token())
             }
         };
 
@@ -437,7 +534,7 @@ mod test {
             let mock_ack_triggered = mock_ack_triggered.clone();
             async move {
                 *mock_ack_triggered.lock().unwrap() = true;
-                Ok(())
+                Ok(create_completion_token())
             }
         };
 

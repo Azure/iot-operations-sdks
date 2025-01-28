@@ -282,7 +282,7 @@ where
                                 let acker = self.client.clone();
                                 async move {
                                     match acker.ack(&publish).await {
-                                        Ok(()) => log::debug!("Auto-ack successful"),
+                                        Ok(_) => log::debug!("Auto-ack successful"),
                                         Err(e) => log::error!(
                                             "Auto-ack failed. Publish may be redelivered. Reason: {e:?}"
                                         ),

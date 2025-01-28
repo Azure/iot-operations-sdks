@@ -11,7 +11,7 @@ use tokio::sync::Notify;
 
 use crate::control_packet::Publish;
 use crate::error::AckError;
-use crate::interface::MqttAck;
+use crate::interface::{MqttAck, CompletionToken};
 
 /// Error related to PKID
 #[derive(Error, Debug, PartialEq)]
@@ -63,10 +63,10 @@ where
     /// # Errors
     /// Returns an [`AckError`] if the publish cannot be acknowledged. Note that if ack fails,
     /// its position the queue will be relinquished.
-    pub async fn ordered_ack(&self, publish: &Publish) -> Result<(), AckError> {
+    pub async fn ordered_ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         // No need to ack QoS0 publishes. Skip.
         if publish.pkid == 0 {
-            return Ok(());
+            return Ok(CompletionToken(Box::new(async { Ok(())})));
         }
 
         // Add this publishes PKID as a "pending ack", as it may need to wait here for some amount
@@ -108,11 +108,11 @@ where
 
             // Ack the publish if is is this publishes turn to be acked
             if should_ack {
-                self.acker.ack(publish).await?;
+                let ct = self.acker.ack(publish).await?;
                 // NOTE: Only notify the waiters AFTER the ack is completed to ensure that no scheduling
                 // shenanigans allow ack order to be altered.
                 self.notify.notify_waiters();
-                return Ok(());
+                return Ok(ct);
             }
             // Otherwise, wait for the next ack if not yet this Publish's turn
             self.notify.notified().await;

@@ -157,10 +157,6 @@ impl MockClientController {
 
 // TODO: Will need to add a way to choose when acks return, and what rc they provide
 
-// pub struct MockClientMonitor {
-//     ack_count: Arc<Mutex<usize>>,
-// }
-
 /// Mock implementation of an MQTT client.
 ///
 /// Currently always succeeds on all operations.
@@ -314,7 +310,7 @@ impl MqttPubSub for MockClient {
 
 #[async_trait]
 impl MqttAck for MockClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         let call = AckCall {
             publish: publish.clone(),
         };
@@ -323,10 +319,6 @@ impl MqttAck for MockClient {
             .unwrap()
             .call_sequence
             .push(MockClientCall::Ack(call));
-        Ok(())
-    }
-
-    async fn ack2(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 }
