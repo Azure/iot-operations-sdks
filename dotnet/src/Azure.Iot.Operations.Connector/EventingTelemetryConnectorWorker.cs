@@ -196,12 +196,9 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.UnobserveAssetEndpointProfile();
 
                         // Dispose of all samplers and timers
-                        foreach (var datasetSamplers in _assetsDatasetSamplers.Values)
+                        foreach (string assetName in _assetsDatasetSamplers.Keys)
                         {
-                            foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
-                            {
-                                await datasetSampler.DisposeAsync();
-                            }
+                            await StopSamplingAssetAsync(assetName, false, cancellationToken);
                         }
                     }
                     catch (Exception ex)
