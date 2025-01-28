@@ -517,6 +517,7 @@ where
                         }
                         .serialize()
                         .unwrap()
+                        .payload
                         .as_slice(),
                     )
                 }
@@ -661,6 +662,7 @@ where
                     }
                     .serialize()
                     .unwrap()
+                    .payload
                     .as_slice(),
                 );
                 assert_eq!(payload, published_message.payload, "payload");

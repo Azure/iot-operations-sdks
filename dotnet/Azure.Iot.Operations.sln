@@ -61,21 +61,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.UnitTests", "test\Azure.Iot.Operations.Mqtt.UnitTests\Azure.Iot.Operations.Mqtt.UnitTests.csproj", "{0636DA59-E153-4F22-9093-3E1E0702B190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Mqtt.IntegrationTests", "test\Azure.Iot.Operations.Mqtt.IntegrationTests\Azure.Iot.Operations.Mqtt.IntegrationTests.csproj", "{278D47EA-8CFA-4493-972B-DA7DD94D06A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tutorials", "tutorials", "{DB2F3D71-6B12-4EB3-9FD7-1F743973BD67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventDrivenApp", "tutorials\EventDrivenApp\EventDrivenApp.csproj", "{C70F181D-8264-498D-B0B4-671746E0F93B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Connector", "src\Azure.Iot.Operations.Connector\Azure.Iot.Operations.Connector.csproj", "{14D51034-644B-49BA-B50C-54B3885BD293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Connector", "src\Azure.Iot.Operations.Connector\Azure.Iot.Operations.Connector.csproj", "{14D51034-644B-49BA-B50C-54B3885BD293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Connector.UnitTests", "test\Azure.Iot.Operations.Connector.UnitTests\Azure.Iot.Operations.Connector.UnitTests.csproj", "{99113A50-9774-4F42-B18D-5284639194A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Connector.UnitTests", "test\Azure.Iot.Operations.Connector.UnitTests\Azure.Iot.Operations.Connector.UnitTests.csproj", "{99113A50-9774-4F42-B18D-5284639194A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryConnectorApp", "templates\TelemetryConnectorApp\TelemetryConnectorApp.csproj", "{A0DFB052-B8E7-4F2F-9D18-F3203796D586}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelemetryConnectorApp", "templates\TelemetryConnectorApp\TelemetryConnectorApp.csproj", "{A0DFB052-B8E7-4F2F-9D18-F3203796D586}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestThermostatConnectorApp", "samples\RestThermostatConnectorApp\RestThermostatConnectorApp.csproj", "{FDF0331A-50D4-4F26-8665-49384EE04043}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestThermostatConnectorApp", "samples\RestThermostatConnectorApp\RestThermostatConnectorApp.csproj", "{FDF0331A-50D4-4F26-8665-49384EE04043}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlQualityAnalyzerConnectorApp", "samples\SqlConnectorApp\SqlQualityAnalyzerConnectorApp.csproj", "{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +197,10 @@ Global
 		{FDF0331A-50D4-4F26-8665-49384EE04043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDF0331A-50D4-4F26-8665-49384EE04043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDF0331A-50D4-4F26-8665-49384EE04043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +238,7 @@ Global
 		{99113A50-9774-4F42-B18D-5284639194A6} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{A0DFB052-B8E7-4F2F-9D18-F3203796D586} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{FDF0331A-50D4-4F26-8665-49384EE04043} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
+		{CD255B63-6A0B-4ACE-8DE0-88ED57C5FC28} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

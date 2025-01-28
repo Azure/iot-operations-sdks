@@ -386,6 +386,7 @@ where
                         }
                         .serialize()
                         .unwrap()
+                        .payload
                         .as_slice(),
                     )
                 }

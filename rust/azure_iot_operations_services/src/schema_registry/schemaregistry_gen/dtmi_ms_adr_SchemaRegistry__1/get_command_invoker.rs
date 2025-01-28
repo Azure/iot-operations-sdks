@@ -4,19 +4,19 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
     CommandRequestBuilderError, CommandResponse,
 };
-use azure_iot_operations_protocol::application::ApplicationContext;
 
+use super::super::common_types::common_options::CommandOptions;
 use super::get_request_payload::GetRequestPayload;
 use super::get_response_payload::GetResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::common_options::CommandOptions;
 
 pub type GetRequest = CommandRequest<GetRequestPayload>;
 pub type GetResponse = CommandResponse<GetResponsePayload>;
@@ -45,10 +45,7 @@ impl GetRequestBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: GetRequestPayload,
-    ) -> Result<&mut Self, <GetRequestPayload as PayloadSerialize>::Error> {
+    pub fn payload(&mut self, payload: GetRequestPayload) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -57,16 +54,14 @@ impl GetRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetRequest, GetRequestBuilderError> {
         self.inner_builder.build()
     }
 }
 
 /// Command Invoker for `Get`
-pub struct GetCommandInvoker<C>(
-    CommandInvoker<GetRequestPayload, GetResponsePayload, C>,
-)
+pub struct GetCommandInvoker<C>(CommandInvoker<GetRequestPayload, GetResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -80,7 +75,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandOptions,
+    ) -> Self {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -94,7 +93,10 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
         topic_token_map.insert("commandName".to_string(), "get".to_string());
 
         let invoker_options = invoker_options_builder
@@ -114,10 +116,7 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn invoke(
-        &self,
-        request: GetRequest,
-    ) -> Result<GetResponse, AIOProtocolError> {
+    pub async fn invoke(&self, request: GetRequest) -> Result<GetResponse, AIOProtocolError> {
         self.0.invoke(request).await
     }
 

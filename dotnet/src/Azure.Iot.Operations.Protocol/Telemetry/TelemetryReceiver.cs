@@ -112,6 +112,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
 
+                    if (metadata.Timestamp != null)
+                    { 
+                        HybridLogicalClock.GetInstance().Update(metadata.Timestamp);
+                    }
+
                     async Task telemFunc()
                     {
                         try
