@@ -147,7 +147,8 @@ func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
-	tr.listener.log.Info(context.Background(), "telemetry receiver closing")
+	ctx := context.Background()
+	tr.listener.log.Info(ctx, "telemetry receiver closing")
 	tr.listener.close()
 }
 
@@ -161,8 +162,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
-		tr.listener.log.Warn(ctx, "cannot parse telemetry, ignoring message",
-			slog.String("error", err.Error()))
+		tr.listener.log.Warn(ctx, err)
 		return err
 	}
 
@@ -186,12 +186,8 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
-	stringPayload := fmt.Sprintf("%v", message.Payload)
-
 	tr.listener.log.Debug(ctx, "telemetry received",
-		slog.String("topic", pub.Topic),
-		slog.String("payload", stringPayload),
-		slog.Any("metadata", msg.Metadata))
+		slog.String("topic", pub.Topic))
 
 	if err := tr.handle(handlerCtx, message); err != nil {
 		return err
@@ -199,8 +195,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	if !tr.manualAck && pub.QoS > 0 {
 		tr.listener.log.Debug(ctx, "telemetry acknowledged automatically",
-			slog.String("topic", pub.Topic),
-			slog.String("payload", stringPayload))
+			slog.String("topic", pub.Topic))
 		pub.Ack()
 	}
 	return nil

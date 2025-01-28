@@ -178,7 +178,6 @@ func NewCommandExecutor[Req, Res any](
 	}
 
 	ce.listener.register()
-	ce.listener.log.Debug(context.Background(), "command executor created")
 	return ce, nil
 }
 
@@ -195,14 +194,15 @@ func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
+	ctx := context.Background()
 	ce.listener.log.Info(
-		context.Background(),
+		ctx,
 		"unsubscribing from MQTT request topic",
 		slog.String("topic", ce.listener.topic.Filter()),
 	)
 	ce.listener.close()
 	ce.listener.log.Info(
-		context.Background(),
+		ctx,
 		"command executor shutdown complete",
 	)
 }
@@ -221,21 +221,22 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	if err := ignoreRequest(pub); err != nil {
 		ce.listener.log.Warn(
 			ctx,
-			err.Error(),
+			err,
 		)
 		return err
 	}
 
 	if pub.MessageExpiry == 0 {
-		ce.listener.log.Error(
-			ctx,
-			fmt.Errorf("command has no expiry"),
-		)
-		return &errors.Error{
+		errNoExpiry := &errors.Error{
 			Message:    "message expiry missing",
 			Kind:       errors.HeaderMissing,
 			HeaderName: constants.MessageExpiry,
 		}
+		ce.listener.log.Error(
+			ctx,
+			errNoExpiry,
+		)
+		return errNoExpiry
 	}
 
 	rpub, err := ce.cache.Exec(pub, func() (*mqtt.Message, error) {
@@ -265,7 +266,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		if err != nil {
 			ce.listener.log.Warn(
 				ctx,
-				err.Error(),
+				err,
 			)
 			return nil, err
 		}
@@ -285,12 +286,11 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer pub.Ack()
-	ce.listener.log.Debug(
-		ctx,
-		"request acked",
-		slog.String("correlationData", string(pub.CorrelationData)),
-	)
+	defer func() {
+		pub.Ack()
+		ce.logRequestAck(ctx, pub)
+	}()
+
 	if rpub == nil {
 		return nil
 	}
@@ -300,7 +300,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
 	} else {
-		ce.listener.log.Debug(ctx, "response sent", slog.String("correlationData", string(pub.CorrelationData)))
+		ce.listener.log.Debug(ctx, "response sent", slog.String("correlation_data", string(pub.CorrelationData)))
 	}
 	return nil
 }
@@ -400,6 +400,7 @@ func (ce *CommandExecutor[Req, Res]) build(
 	res *CommandResponse[Res],
 	resErr error,
 ) (*mqtt.Message, error) {
+	ctx := context.Background()
 	var msg *Message[Res]
 	if res != nil {
 		msg = &res.Message
@@ -407,7 +408,7 @@ func (ce *CommandExecutor[Req, Res]) build(
 	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
 	if err != nil {
 		ce.listener.log.Error(
-			context.Background(),
+			ctx,
 			err,
 		)
 		return nil, err
@@ -441,6 +442,18 @@ func ignoreRequest(pub *mqtt.Message) error {
 		}
 	}
 	return nil
+}
+
+// Log that the request was acked.
+func (ce *CommandExecutor[Req, Res]) logRequestAck(
+	ctx context.Context,
+	pub *mqtt.Message,
+) {
+	ce.listener.log.Debug(
+		ctx,
+		"request acked",
+		slog.String("correlation_data", string(pub.CorrelationData)),
+	)
 }
 
 // Build a timeout based on the message's expiry.

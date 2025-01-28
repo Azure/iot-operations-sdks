@@ -37,8 +37,9 @@ func (c *Client[K, V]) Set(
 	opt ...SetOption,
 ) (*Response[bool], error) {
 	if len(key) == 0 {
-		c.log.Warn(ctx, "empty key")
-		return nil, ArgumentError{Name: "key"}
+		errArg := ArgumentError{Name: "key"}
+		c.log.Error(ctx, errArg)
+		return nil, errArg
 	}
 
 	var opts SetOptions
@@ -62,11 +63,7 @@ func (c *Client[K, V]) Set(
 	}
 
 	req := resp.OpKV("SET", key, val, rest...)
-	c.log.Debug(
-		ctx,
-		"set",
-		slog.String("key", string(key)),
-	)
+	c.logK(ctx, key)
 	return invoke(ctx, c.invoker, parseOK, &opts, req, c.log)
 }
 

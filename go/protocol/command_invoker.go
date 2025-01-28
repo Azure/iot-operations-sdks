@@ -24,7 +24,6 @@ type (
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
-		logger        log.Logger
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}
@@ -116,7 +115,6 @@ func NewCommandInvoker[Req, Res any](
 				opts.ResponseTopicPrefix,
 			)
 			if err != nil {
-				ci.listener.log.Error(context.Background(), err, slog.String("message", "response topic prefix validation failed"))
 				return nil, err
 			}
 			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
@@ -128,7 +126,6 @@ func NewCommandInvoker[Req, Res any](
 				opts.ResponseTopicSuffix,
 			)
 			if err != nil {
-				ci.listener.log.Error(context.Background(), err, slog.String("message", "response topic suffix validation failed"))
 				return nil, err
 			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
@@ -142,11 +139,6 @@ func NewCommandInvoker[Req, Res any](
 		opts.TopicNamespace,
 	)
 	if err != nil {
-		ci.listener.log.Error(
-			context.Background(),
-			err,
-			slog.String("message", "request topic pattern generation failed"),
-		)
 		return nil, err
 	}
 
@@ -157,21 +149,11 @@ func NewCommandInvoker[Req, Res any](
 		opts.TopicNamespace,
 	)
 	if err != nil {
-		ci.listener.log.Error(
-			context.Background(),
-			err,
-			slog.String("message", "response topic pattern generation failed"),
-		)
 		return nil, err
 	}
 
 	resTF, err := resTP.Filter()
 	if err != nil {
-		ci.listener.log.Error(
-			context.Background(),
-			err,
-			slog.String("message", "response topic filter generation failed"),
-		)
 		return nil, err
 	}
 
@@ -227,22 +209,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	correlationData, err := errutil.NewUUID()
 	if err != nil {
-		ci.listener.log.Warn(
-			ctx,
-			err.Error(),
-			slog.String("message", "correlation data generation failed"),
-		)
 		return nil, err
-	}
-
-	for k := range opts.Metadata {
-		if len(k) >= 2 && k[0] == '_' && k[1] == '_' && !isReservedProperty(k) {
-			ci.listener.log.Warn(
-				ctx,
-				"unrecognized reserved property",
-				slog.String("propertyKey", k),
-			)
-		}
 	}
 
 	msg := &Message[Req]{
@@ -273,7 +240,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	ci.listener.log.Debug(
 		ctx,
 		"request sent",
-		slog.String("correlationData", correlationData),
+		slog.String("correlation_data", correlationData),
 	)
 
 	// If a message expiry was specified, also time out our own context, so that
@@ -318,7 +285,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 			ci.listener.log.Debug(
 				ctx,
 				"request ack received",
-				slog.String("correlationData", cdata),
+				slog.String("correlation_data", cdata),
 			)
 		case <-pending.done:
 		case <-ctx.Done():
@@ -326,7 +293,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		ci.listener.log.Debug(
 			ctx,
 			"response acked",
-			slog.String("correlationData", cdata),
+			slog.String("correlation_data", cdata),
 		)
 		return nil
 	}
@@ -334,7 +301,7 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	ci.listener.log.Debug(
 		ctx,
 		"response not for this invoker",
-		slog.String("correlationData", cdata),
+		slog.String("correlation_data", cdata),
 	)
 	return &errors.Error{
 		Message:     "unrecognized correlation data",
@@ -347,26 +314,12 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 // Start listening to the response topic(s). Must be called before any calls to
 // Invoke.
 func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
-	ci.listener.log.Info(
-		ctx,
-		"subscribing to MQTT response topic",
-		slog.String("topic", ci.listener.topic.Filter()),
-	)
 	return ci.listener.listen(ctx)
 }
 
 // Close the command invoker to free its resources.
 func (ci *CommandInvoker[Req, Res]) Close() {
-	ci.listener.log.Info(
-		context.Background(),
-		"unsubscribing from MQTT response topic",
-		slog.String("topic", ci.listener.topic.Filter()),
-	)
 	ci.listener.close()
-	ci.listener.log.Info(
-		context.Background(),
-		"command invoker shutdown complete",
-	)
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(
@@ -389,7 +342,7 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 	ci.listener.log.Debug(
 		ctx,
 		"response received",
-		slog.String("correlationData", string(pub.CorrelationData)),
+		slog.String("correlation_data", string(pub.CorrelationData)),
 	)
 	return nil
 }

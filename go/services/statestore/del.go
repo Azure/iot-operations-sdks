@@ -4,7 +4,6 @@ package statestore
 
 import (
 	"context"
-	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -32,22 +31,16 @@ func (c *Client[K, V]) Del(
 	opt ...DelOption,
 ) (*Response[int], error) {
 	if len(key) == 0 {
-		c.log.Warn(
-			ctx,
-			"empty key",
-		)
-		return nil, ArgumentError{Name: "key"}
+		errArg := ArgumentError{Name: "key"}
+		c.log.Error(ctx, errArg)
+		return nil, errArg
 	}
 
 	var opts DelOptions
 	opts.Apply(opt)
 
 	req := resp.OpK("DEL", key)
-	c.log.Debug(
-		ctx,
-		"del",
-		slog.String("key", string(key)),
-	)
+	c.logK(ctx, key)
 	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
 }
 

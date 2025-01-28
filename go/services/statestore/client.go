@@ -115,10 +115,11 @@ func New[K, V Bytes](
 		protocol.WithResponseTopicSuffix("response"),
 		tokens,
 	)
+	ctx := context.Background()
 	if err != nil {
 		c.log.Warn(
-			context.Background(),
-			err.Error(),
+			ctx,
+			err,
 		)
 		c.listeners.Close()
 		return nil, err
@@ -135,15 +136,15 @@ func New[K, V Bytes](
 	)
 	if err != nil {
 		c.log.Warn(
-			context.Background(),
-			err.Error(),
+			ctx,
+			err,
 		)
 		c.listeners.Close()
 		return nil, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 	done := client.RegisterConnectEventHandler(func(*mqtt.ConnectEvent) {
 		c.reconnect(ctx)
 	})
@@ -161,7 +162,7 @@ func (c *Client[K, V]) Start(ctx context.Context) error {
 	if err != nil {
 		c.log.Warn(
 			ctx,
-			err.Error(),
+			err,
 		)
 	}
 	return nil
@@ -169,10 +170,11 @@ func (c *Client[K, V]) Start(ctx context.Context) error {
 
 // Close all underlying MQTT topics and free resources.
 func (c *Client[K, V]) Close() {
-	c.log.Info(context.Background(), "shutting down state store client")
+	ctx := context.Background()
+	c.log.Info(ctx, "shutting down state store client")
 	c.done()
 	c.listeners.Close()
-	c.log.Info(context.Background(), "state store client shutdown complete")
+	c.log.Info(ctx, "state store client shutdown complete")
 }
 
 // ID returns the ID of the underlying MQTT client.
@@ -187,18 +189,17 @@ func invoke[T any](
 	parse func([]byte) (T, error),
 	opts invokeOptions,
 	data []byte,
-	log log.Logger,
+	logger log.Logger,
 ) (*Response[T], error) {
-	log.Debug(ctx, "Invoking", slog.String("data", string(data)))
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
-		log.Error(ctx, err)
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
-		log.Error(ctx, err)
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
@@ -233,6 +234,27 @@ func parseOK(data []byte) (bool, error) {
 
 	default:
 		return false, resp.PayloadError("wrong type %q", data[0])
+	}
+}
+
+func (c *Client[K, V]) logK(ctx context.Context, key K) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		c.log.Debug(
+			ctx,
+			"key",
+			slog.String("key", string(key)),
+		)
+	}
+}
+
+func (c *Client[K, V]) logKV(ctx context.Context, key K, value V) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		c.log.Debug(
+			ctx,
+			"kv pair",
+			slog.String("key", string(key)),
+			slog.String("value", string(value)),
+		)
 	}
 }
 
