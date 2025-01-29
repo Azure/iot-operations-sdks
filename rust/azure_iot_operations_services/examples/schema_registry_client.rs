@@ -7,6 +7,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_services::schema_registry::{
     self, Format, GetRequestBuilder, PutRequestBuilder, SchemaType,
 };
@@ -51,10 +54,14 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     // Create a channel to send the schema ID from the put task to the get task
     let (schema_id_tx, schema_id_rx) = oneshot::channel();
 
-    let schema_registry_client = schema_registry::Client::new(&session.create_managed_client());
+    let schema_registry_client =
+        schema_registry::Client::new(application_context, &session.create_managed_client());
 
     tokio::task::spawn(schema_registry_put(
         schema_registry_client.clone(),

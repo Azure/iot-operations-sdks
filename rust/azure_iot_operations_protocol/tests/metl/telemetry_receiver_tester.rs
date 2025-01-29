@@ -9,6 +9,9 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -266,7 +269,11 @@ where
 
         let receiver_options = options_result.unwrap();
 
-        match TelemetryReceiver::new(managed_client, receiver_options) {
+        match TelemetryReceiver::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            receiver_options,
+        ) {
             Ok(mut receiver) => {
                 if let Some(catch) = catch {
                     // TelemetryReceiver has no start method, so if an exception is expected, recv may be needed to trigger it.
