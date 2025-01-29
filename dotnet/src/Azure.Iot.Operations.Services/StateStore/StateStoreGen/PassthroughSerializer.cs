@@ -7,16 +7,30 @@ namespace Azure.Iot.Operations.Services.StateStore
 {
     using System;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class PassthroughSerializer : IPayloadSerializer
     {
-        public string ContentType => "application/octet-stream";
+        public const string ContentType = "application/octet-stream";
 
-        public int CharacterDataFormatIndicator => 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             if (payload == null)
             {
                 return (Array.Empty<byte>() as T)!;
@@ -31,16 +45,16 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             if (payload is byte[] payload1)
             {
-                return payload1;
+                return new(payload1, ContentType, PayloadFormatIndicator);
             }
             else
             {
-                return Array.Empty<byte>();
+                return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
             }
         }
     }

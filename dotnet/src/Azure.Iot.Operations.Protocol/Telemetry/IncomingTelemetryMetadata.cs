@@ -18,7 +18,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     /// </remarks>
     public class IncomingTelemetryMetadata
     {
-
         /// <summary>
         /// A timestamp attached to the telemetry message.
         /// </summary>
@@ -48,9 +47,23 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         public string? SenderId { get; internal set; }
 
+        /// <summary>
+        /// The content type of the received message if it was sent with a content type.
+        /// </summary>
+        public string? ContentType { get; internal set; }
+
+        /// <summary>
+        /// The payload format indicator of the received message.
+        /// </summary>
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
+
+
         internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId)
         {
             UserData = [];
+
+            ContentType = message.ContentType;
+            PayloadFormatIndicator = message.PayloadFormatIndicator;
 
             if (message.UserProperties != null)
             {
