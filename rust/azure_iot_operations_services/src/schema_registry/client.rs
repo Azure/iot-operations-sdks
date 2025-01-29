@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 //! Client for Schema Registry operations.
+//!
+//! To use this client, the `schema_registry` feature must be enabled.
 
 use std::collections::HashMap;
 use std::sync::Arc;
