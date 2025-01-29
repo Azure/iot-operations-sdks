@@ -87,7 +87,7 @@ jobs:
     - name: Build SchemaRegistry Host
       run: dotnet build eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj
  
-    - name: Run SchemaRegistry Host
+    - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
       
     # This file is created by deploy-aio.sh
