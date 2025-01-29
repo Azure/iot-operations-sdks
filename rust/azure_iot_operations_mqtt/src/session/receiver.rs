@@ -399,7 +399,6 @@ mod tests {
     // NOTE: These tests don't (currently) cover ordered acking, or the resolution of ack tokens.
     // See the tests in managed_client::ordered_acker, and managed_client::plenary_ack for those tests.
 
-    // TODO: drop tests for manager
     // TODO: duplicate publish tests
 
     #[test_case(QoS::AtMostOnce; "QoS 0")]
@@ -1615,7 +1614,7 @@ mod tests {
         let unfiltered_rx1 = manager.lock().unwrap().create_unfiltered_receiver();
         let mut unfiltered_rx2 = manager.lock().unwrap().create_unfiltered_receiver();
 
-        // Dispatch to the receiver, but do not actually receive on the receiver
+        // Dispatch to the receivers, but do not actually receive with them
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
         let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
         assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 2);
@@ -1645,5 +1644,51 @@ mod tests {
             }
             _ => panic!("Expected AcknowledgePublish"),
         }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn dispatcher_and_manager_drop(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let mut unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch to the receiver, but do not actually receive with it
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 1);
+
+        // Drop the dispatcher and manager
+        drop(dispatcher);
+        drop(manager);
+
+        // No ack has occurred for the publish yet
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Receiver can still receive and ack
+        let (r_publish, ack_token) = unfiltered_rx.try_recv().unwrap();
+        assert_eq!(r_publish, publish);
+        ack_token.unwrap().ack().await.unwrap();
+
+        // Ack has now occurred
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+
+        // Trying to receive again will return None, indicating closure
+        let r_result = unfiltered_rx.recv().await;
+        assert!(r_result.is_none());
     }
 }
