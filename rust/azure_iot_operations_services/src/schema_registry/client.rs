@@ -14,8 +14,8 @@ use derive_builder::Builder;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
 use super::schemaregistry_gen::schema_registry::client::{
-    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder,
-    PutRequestSchemaBuilder, PutCommandInvoker, PutRequestPayloadBuilder,
+    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
+    PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
 use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};

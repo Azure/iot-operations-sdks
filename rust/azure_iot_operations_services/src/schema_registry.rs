@@ -8,11 +8,7 @@ use core::fmt::Debug;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use thiserror::Error;
 
-pub use schemaregistry_gen::schema_registry::client::{
-    Format,
-    SchemaType,
-    Schema,
-};
+pub use schemaregistry_gen::schema_registry::client::{Format, Schema, SchemaType};
 
 mod client;
 mod schemaregistry_gen;
