@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 
 namespace EventDrivenApp;
 
-[TelemetryTopic("sensor/windowdata")]
+[TelemetryTopic("sensor/window_data")]
 public class WindowTelemetrySender : TelemetrySender<WindowData>
 {
     internal WindowTelemetrySender(IMqttPubSubClient mqttClient)

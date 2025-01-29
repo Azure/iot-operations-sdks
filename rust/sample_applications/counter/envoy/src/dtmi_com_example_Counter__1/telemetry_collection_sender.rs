@@ -5,6 +5,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
@@ -84,7 +85,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(client: C, options: &TelemetryOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &TelemetryOptions,
+    ) -> Self {
         let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
@@ -107,7 +112,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetrySender::new(client, sender_options)
+            TelemetrySender::new(application_context, client, sender_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

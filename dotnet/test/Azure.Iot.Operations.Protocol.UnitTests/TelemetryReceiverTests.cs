@@ -78,10 +78,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await receiver1.StartAsync();
             await receiver2.StartAsync();
 
+            SerializedPayloadContext payloadContext = serializer.ToBytes(expectedTelemetry);
             var message = new MqttApplicationMessage($"{receiver1.TopicNamespace}/{receiver1.TopicPattern}")
             {
-                PayloadSegment = serializer.ToBytes<string>(expectedTelemetry) ?? Array.Empty<byte>(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ContentType = payloadContext.ContentType,
             };
 
             await mockClient.SimulateNewMessage(message);
