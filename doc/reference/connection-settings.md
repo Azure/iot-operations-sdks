@@ -44,9 +44,9 @@ MqttConnectionSettings connSettings = new("aio-broker")
 ### Initialize from environment variables
 
 ```bash
-export MQTT_HOST_NAME=aio-broker
-export MQTT_TCP_PORT=1883
-export MQTT_USE_TLS=false
+export AIO_BROKER_HOSTNAME=aio-broker
+export AIO_BROKER_TCP_PORT=1883
+export AIO_MQTT_USE_TLS=false
 ```
 
 ```cs

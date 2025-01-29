@@ -12,20 +12,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void ProtoUsersFormatIndicatorZero()
         {
-            Assert.Equal(0, new ProtobufSerializer<Empty,Empty>().CharacterDataFormatIndicator);
+            Assert.Equal(Models.MqttPayloadFormatIndicator.Unspecified, ProtobufSerializer<Empty,Empty>.PayloadFormatIndicator);
         }
 
         [Fact]
-        public void DeserializeEmtpyAndNull()
+        public void DeserializeEmptyAndNull()
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<Empty, Empty>();
 
-            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty());
+            byte[]? nullBytes = protobufSerializer.ToBytes(new Empty()).SerializedPayload;
             Assert.Null(nullBytes);
-            Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes);
+            Empty? empty = protobufSerializer.FromBytes<Empty>(nullBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
 
-            Empty? empty2 = protobufSerializer.FromBytes<Empty>(Array.Empty<byte>());
+            Empty? empty2 = protobufSerializer.FromBytes<Empty>(Array.Empty<byte>(), null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty2);
         }
 
@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer protobufSerializer = new ProtobufSerializer<ProtoCountTelemetry, ProtoCountTelemetry>();
 
-            ProtoCountTelemetry protoCountTelemetry = protobufSerializer.FromBytes<ProtoCountTelemetry>(null);
+            ProtoCountTelemetry protoCountTelemetry = protobufSerializer.FromBytes<ProtoCountTelemetry>(null, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(protoCountTelemetry);
         }
     }

@@ -11,6 +11,7 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
+    application::{ApplicationContext, ApplicationContextOptionsBuilder},
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
@@ -86,20 +87,31 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<T, _> =
-        TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+    let telemetry_sender: TelemetrySender<T, _> = TelemetrySender::new(
+        application_context.clone(),
+        session.create_managed_client(),
+        sender_options,
+    )
+    .unwrap();
 
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(topic)
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let telemetry_receiver: TelemetryReceiver<T, _> =
-        TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+    let telemetry_receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
+        application_context,
+        session.create_managed_client(),
+        receiver_options,
+    )
+    .unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
     Ok((session, telemetry_sender, telemetry_receiver, exit_handle))

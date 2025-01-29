@@ -153,8 +153,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry {
         protected static readonly JsonSerializerOptions jsonSerializerOptions;
         public int CharacterDataFormatIndicator { get; }
         public string ContentType { get; }
-        public T FromBytes<T>(byte[]? payload) where T : class;
-        public byte[]? ToBytes<T>(T? payload) where T : class;
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null) where T : class;
+        public SerializedPayloadContext ToBytes<T>(T? payload) where T : class;
     }
 }
 namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1 {
@@ -351,8 +351,8 @@ namespace Azure.Iot.Operations.Services.StateStore {
         public PassthroughSerializer();
         public int CharacterDataFormatIndicator { get; }
         public string ContentType { get; }
-        public T FromBytes<T>(byte[]? payload) where T : class;
-        public byte[]? ToBytes<T>(T? payload) where T : class;
+        public T FromBytes<T>(byte[]? payload, string? contentType = null, int? payloadFormatIndicator = null) where T : class;
+        public SerializedPayloadContext ToBytes<T>(T? payload) where T : class;
     }
     public class StateStoreDeleteResponse {
         public int? DeletedItemsCount { get; }
