@@ -18,6 +18,8 @@ use crate::interface::{CompletionToken, MqttAck};
 pub enum PkidError {
     #[error("Pkid already in queue")]
     PkidDuplicate,
+    #[error("Pkid 0 not allowed")]
+    PkidZero,
 }
 
 // NOTE: There is probably a more efficient implementation of the OrderedAcker that uses many
@@ -134,6 +136,9 @@ impl PkidAckQueue {
     ///
     /// Returns [`PkidError`] if the PKID is already in the queue
     pub fn insert(&mut self, pkid: u16) -> Result<(), PkidError> {
+        if pkid == 0 {
+            return Err(PkidError::PkidZero);
+        }
         if self.tracked_pkids.contains(&pkid) {
             return Err(PkidError::PkidDuplicate);
         }
@@ -158,16 +163,38 @@ impl PkidAckQueue {
         }
     }
 
+    /// Returns whether the PKID is already in the queue
     pub fn contains(&mut self, pkid: u16) -> bool {
         self.tracked_pkids.contains(&pkid)
     }
 
-    // TODO: some kind of pop_if would be useful for the OrderedAcker
+    // Number of PKIDs in the queue
+    #[allow(dead_code)]
+    pub fn len(&self) -> usize {
+        self.queue.len()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{
+        control_packet::QoS,
+        interface_mocks::{MockClient, MockClientCall},
+        topic::TopicName,
+    };
+    use std::{str::FromStr, time::Duration};
+    use test_case::test_case;
+
+    fn create_publish_qos(topic_name: &TopicName, payload: &str, pkid: u16, qos: QoS) -> Publish {
+        // NOTE: We use the TopicName here for convenience. No other reason.
+        // NOTE: If QoS is 0, this WILL OVERRIDE THE PKID (since pkid 0 for QoS 0)
+        let mut publish = Publish::new(topic_name.as_str(), qos, payload.to_string(), None);
+        if qos != QoS::AtMostOnce {
+            publish.pkid = pkid;
+        }
+        publish
+    }
 
     #[test]
     fn pkid_queue() {
@@ -192,5 +219,165 @@ mod tests {
         assert_eq!(pkid_queue.insert(1).unwrap_err(), PkidError::PkidDuplicate);
     }
 
-    // TODO: ordered acking tests. Needs enhanced mocking infrastructure.
+    #[test]
+    fn pkid_queue_zero() {
+        let mut pkid_queue = PkidAckQueue::default();
+        assert_eq!(pkid_queue.insert(0).unwrap_err(), PkidError::PkidZero);
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_ordered_invokes(qos: QoS) {
+        // NOTE: This test does NOT include QoS 0 - that has separate behavior covered in other tests
+        let mut pkid_queue = PkidAckQueue::default();
+        pkid_queue.insert(1).unwrap();
+        pkid_queue.insert(2).unwrap();
+        pkid_queue.insert(3).unwrap();
+
+        let mock_client = MockClient::new();
+        let mock_client_controller = mock_client.mock_controller();
+        let acker = OrderedAcker::new(mock_client, Arc::new(Mutex::new(pkid_queue)));
+
+        let topic_name = TopicName::from_str("test").unwrap();
+        let publish1 = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        let publish2 = create_publish_qos(&topic_name, "publish 2", 2, qos);
+        let publish3 = create_publish_qos(&topic_name, "publish 3", 3, qos);
+
+        // No acks yet
+        assert_eq!(mock_client_controller.ack_count(), 0);
+
+        // Acking the publishes in the same order of the PKID queue will result in immediate acks
+        // on each publish
+        acker.ordered_ack(&publish1).await.unwrap();
+        assert_eq!(mock_client_controller.ack_count(), 1);
+        acker.ordered_ack(&publish2).await.unwrap();
+        assert_eq!(mock_client_controller.ack_count(), 2);
+        acker.ordered_ack(&publish3).await.unwrap();
+        assert_eq!(mock_client_controller.ack_count(), 3);
+
+        // Validate order
+        let calls = mock_client_controller.call_sequence();
+        assert_eq!(calls.len(), 3);
+
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 1);
+            }
+            _ => panic!("Unexpected call"),
+        }
+
+        match &calls[1] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 2);
+            }
+            _ => panic!("Unexpected call"),
+        }
+
+        match &calls[2] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 3);
+            }
+            _ => panic!("Unexpected call"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_unordered_invokes(qos: QoS) {
+        // NOTE: This test does NOT include QoS 0 - that has separate behavior covered in other tests
+        let mut pkid_queue = PkidAckQueue::default();
+        pkid_queue.insert(1).unwrap();
+        pkid_queue.insert(2).unwrap();
+        pkid_queue.insert(3).unwrap();
+
+        let mock_client = MockClient::new();
+        let mock_client_controller = mock_client.mock_controller();
+        let acker = OrderedAcker::new(mock_client, Arc::new(Mutex::new(pkid_queue)));
+
+        let topic_name = TopicName::from_str("test").unwrap();
+        let publish1 = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        let publish2 = create_publish_qos(&topic_name, "publish 2", 2, qos);
+        let publish3 = create_publish_qos(&topic_name, "publish 3", 3, qos);
+
+        // No acks yet
+        assert_eq!(mock_client_controller.ack_count(), 0);
+
+        // Acking the publishes in a different order than the PKID queue will result in the
+        // client ack being delayed until the expected ack based on ordering occurs.
+        let jh3 = tokio::task::spawn({
+            let acker = acker.clone();
+            async move {
+                acker.ordered_ack(&publish3).await.unwrap();
+            }
+        });
+        let jh2 = tokio::task::spawn({
+            let acker = acker.clone();
+            async move {
+                acker.ordered_ack(&publish2).await.unwrap();
+            }
+        });
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(!jh3.is_finished());
+        assert!(!jh2.is_finished());
+        assert_eq!(mock_client_controller.ack_count(), 0);
+
+        // Only after finally acking the first publish in the PKID queue will the acks trigger
+        acker.ordered_ack(&publish1).await.unwrap();
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(jh3.is_finished());
+        assert!(jh2.is_finished());
+        assert_eq!(mock_client_controller.ack_count(), 3);
+    }
+
+    #[tokio::test]
+    async fn qos0() {
+        let mock_client = MockClient::new();
+        let mock_client_controller = mock_client.mock_controller();
+        let pkid_queue = PkidAckQueue::default();
+        let acker = OrderedAcker::new(mock_client, Arc::new(Mutex::new(pkid_queue)));
+
+        let topic_name = TopicName::from_str("test").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 0, QoS::AtMostOnce);
+
+        assert_eq!(mock_client_controller.ack_count(), 0);
+
+        acker.ordered_ack(&publish).await.unwrap();
+
+        // Even after doing the ordered ack, no ack was actually sent (b/c QoS 0)
+        assert_eq!(mock_client_controller.ack_count(), 0);
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn failure_with_duplicate_pkid(qos: QoS) {
+        let mut pkid_queue = PkidAckQueue::default();
+        pkid_queue.insert(1).unwrap();
+        pkid_queue.insert(2).unwrap();
+        pkid_queue.insert(3).unwrap();
+
+        let mock_client = MockClient::new();
+        let mock_client_controller = mock_client.mock_controller();
+        let acker = OrderedAcker::new(mock_client, Arc::new(Mutex::new(pkid_queue)));
+
+        // Ack a publish that is not yet available for acking due to being behind another PKID in the queue
+        let topic_name = TopicName::from_str("test").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish", 2, qos);
+        let publish_copy = publish.clone();
+        let jh1 = tokio::task::spawn({
+            let acker = acker.clone();
+            async move {
+                acker.ordered_ack(&publish).await.unwrap();
+            }
+        });
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(!jh1.is_finished());
+        assert!(mock_client_controller.ack_count() == 0);
+
+        // Now ack another publish with the same PKID. This one will fail.
+        let result = acker.ordered_ack(&publish_copy).await;
+        assert!(result.is_err());
+    }
 }

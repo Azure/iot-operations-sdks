@@ -209,6 +209,7 @@ where
                     .unwrap()
                     .insert(publish.pkid)
                     .unwrap();
+                // Create an acking future for use with a PlenaryAck
                 let ack_f = {
                     let acker = self.acker.clone();
                     let publish = publish.clone();
@@ -229,7 +230,6 @@ where
         };
 
         // Dispatch the publish to all relevant receivers
-        // TODO: can this have less allocations re: ack token?
         let mut num_dispatches = 0;
         // First, dispatch to all filtered receivers that match the topic name
         num_dispatches += self.dispatch_filtered(&topic_name, publish, &plenary_ack)?;
