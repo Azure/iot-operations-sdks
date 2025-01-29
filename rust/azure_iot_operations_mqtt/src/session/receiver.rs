@@ -157,6 +157,7 @@ where
         }
     }
 
+    // Get a shared reference to the [`PublishReceiverManager`] for this dispatcher.
     pub fn get_receiver_manager(&self) -> Arc<Mutex<PublishReceiverManager>> {
         self.receiver_manager.clone()
     }
