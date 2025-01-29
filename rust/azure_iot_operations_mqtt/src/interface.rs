@@ -35,7 +35,7 @@ impl std::future::Future for CompletionToken {
         // NOTE: Need to use `unsafe` here because we need to poll the inner future, but can't get
         // a mutable reference to it, as it's in a box (at least, not without unsafe code).
         // It is safe for us to use the `unsafe` code for the following reasons:
-        // 
+        //
         // 1. This CompletionToken struct is the only reference to the boxed future that it holds
         // internally, so mutability among multiple references is not a concern. Nowhere is this
         // struct used in a way that the inner future can be accessed from multiple threads,
