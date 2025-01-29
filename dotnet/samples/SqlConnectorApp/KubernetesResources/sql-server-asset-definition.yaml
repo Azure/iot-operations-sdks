@@ -6,7 +6,7 @@ metadata:
 spec:
   displayName: My SQL Quality Analyzer Asset
   description: A sample for an Asset modeling a device with SQL endpoint
-  assetEndpointProfileRef: azure-iot-operations/my-sql-qualityanalyzer-profile # <namespace>/<assetEndpointProfile.metadata.name>
+  assetEndpointProfileRef: my-sql-qualityanalyzer-profile
   defaultDatasetsConfiguration: |-
     {
        "samplingInterval": 10000,
