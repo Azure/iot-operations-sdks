@@ -10,7 +10,9 @@
 
 <# } #>
 <# if (this.extHeaders.Any()) { #>
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 <# foreach (string header in this.extHeaders) { #>
 <#=header#>
 <# } #>
@@ -23,24 +25,32 @@ impl PayloadSerialize for <#=this.schemaClassName#> {
     type Error = <#=this.serdeLib#>::Error;
 
 <# } #>
-    fn content_type() -> &'static str {
-        "<#=this.contentType#>"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::<#=this.formatIndicator#>
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
-<# foreach (string serializeLine in this.serializeCode) { #>
+    fn serialize(self) -> Result<SerializedPayload, Self::Error> {
+let payload = <# foreach (string serializeLine in this.serializeCode) { #>
         <#=serializeLine#>
-<# } #>
+<# } #>;
+        Ok(SerializedPayload {
+            payload: payload?,
+            content_type: "<#=this.contentType#>".to_string(),
+            format_indicator: FormatIndicator::<#=this.formatIndicator#>,
+        })
     }
 
-    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error> {
+    fn deserialize(payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<Self::Error>> {
+        if let Some(content_type) = content_type {
+            if content_type != "<#=this.contentType#>" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type}'. Must be '<#=this.contentType#>'"
+                )));
+            }
+        }
 <# foreach (string deserializeLine in this.deserializeCode) { #>
         <#=deserializeLine#>
-<# } #>
+<# } #>.map_err(DeserializationError::InvalidPayload)
     }
 }
 <# if (this.schemaCode != null) { #>

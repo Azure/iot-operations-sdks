@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="commandExpirationTime">Time prior to which the command instance (identfied by <paramref name="correlationData"/>) remains valid\.</param>
         /// <param name="ttl">Time prior to which a potentially stale cached response may be returned for a matching <paramref name="requestPayload"/> but different <paramref name="correlationData"/>.</param>
         /// <param name="executionDuration">Time taken to execute the command and serialize the response into a message.</param>
-        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, DateTime ttl, TimeSpan executionDuration);
+        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
 
         /// <summary>
         /// Retrieve a promise (Task) of an <see cref="MqttApplicationMessage"/> if present in the cache.

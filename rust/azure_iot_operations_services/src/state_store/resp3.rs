@@ -5,7 +5,9 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 
 /// Request types for the State Store service, used internally for serialization
 #[derive(Clone, Debug)]
@@ -63,30 +65,33 @@ pub(crate) struct KeyNotifyOptions {
 
 impl PayloadSerialize for Request {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(match self {
-            Request::Set {
-                key,
-                value,
-                options,
-            } => serialize_set(&key, &value, &options),
-            Request::Get { key } => serialize_get(&key),
-            Request::KeyNotify { key, options } => serialize_key_notify(&key, &options),
-            Request::Del { key } => serialize_del(&key),
-            Request::VDel { key, value } => serialize_v_del(&key, &value),
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: match self {
+                Request::Set {
+                    key,
+                    value,
+                    options,
+                } => serialize_set(&key, &value, &options),
+                Request::Get { key } => serialize_get(&key),
+                Request::KeyNotify { key, options } => serialize_key_notify(&key, &options),
+                Request::Del { key } => serialize_del(&key),
+                Request::VDel { key, value } => serialize_v_del(&key, &value),
+            },
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
         })
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-        Err("Not implemented".into())
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<String>> {
+        Err(DeserializationError::InvalidPayload(
+            "Not implemented".into(),
+        ))
     }
 }
 
@@ -261,19 +266,24 @@ impl Response {
 
 impl PayloadSerialize for Response {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<SerializedPayload, String> {
         Err("Not implemented".into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<Self, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/octet-stream" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+                )));
+            }
+        }
+
         match payload {
             Self::RESPONSE_OK => Ok(Response::Ok),
             Self::GET_RESPONSE_NOT_FOUND | Self::RESPONSE_KEY_NOT_FOUND => Ok(Response::NotFound),
@@ -287,12 +297,14 @@ impl PayloadSerialize for Response {
             _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => {
                 match parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?.try_into() {
                     Ok(n) => Ok(Response::ValuesDeleted(n)),
-                    Err(e) => Err(format!(
+                    Err(e) => Err(DeserializationError::InvalidPayload(format!(
                         "Error parsing number of keys deleted: {e}. Payload: {payload:?}"
-                    )),
+                    ))),
                 }
             }
-            _ => Err(format!("Unknown response: {payload:?}")),
+            _ => Err(DeserializationError::InvalidPayload(format!(
+                "Unknown response: {payload:?}"
+            ))),
         }
     }
 }
@@ -316,25 +328,31 @@ impl Operation {
 
 impl PayloadSerialize for Operation {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<SerializedPayload, String> {
         Err("Not implemented".into())
     }
 
-    fn deserialize(payload: &[u8]) -> Result<Self, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/octet-stream" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+                )));
+            }
+        }
         match payload {
             Operation::OPERATION_DELETE => Ok(Operation::Del),
             _ if payload.starts_with(Operation::SET_WITH_VALUE_PREFIX) => Ok(Operation::Set(
                 parse_value(payload, Operation::SET_WITH_VALUE_PREFIX)?,
             )),
-            _ => Err(format!("Unknown response: {payload:?}")),
+            _ => Err(DeserializationError::InvalidPayload(format!(
+                "Unknown operation: {payload:?}"
+            ))),
         }
     }
 }
@@ -454,7 +472,23 @@ mod tests {
     #[test_case(b"-ERR \r\n", &Response::Error(b"".to_vec()); "test_empty_error_response_success")]
 
     fn test_response_deserialization_success(payload: &[u8], expected: &Response) {
-        assert_eq!(Response::deserialize(payload).unwrap(), expected.clone());
+        assert_eq!(
+            Response::deserialize(
+                payload,
+                &Some("application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes
+            )
+            .unwrap(),
+            expected.clone()
+        );
+    }
+
+    #[test]
+    fn test_response_deserialization_no_content_type_success() {
+        assert_eq!(
+            Response::deserialize(b"+OK\r\n", &None, &FormatIndicator::UnspecifiedBytes).unwrap(),
+            Response::Ok
+        );
     }
 
     #[test_case(b"1"; "too short")]
@@ -476,7 +510,22 @@ mod tests {
     #[test_case(b"+OK"; "OK response doesn't end with newline")]
 
     fn test_response_deserialization_failures(payload: &[u8]) {
-        assert!(Response::deserialize(payload).is_err());
+        assert!(Response::deserialize(
+            payload,
+            &Some("application/octet-stream".to_string()),
+            &FormatIndicator::UnspecifiedBytes
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn test_response_deserialization_content_type_failure() {
+        assert!(Response::deserialize(
+            b"+OK\r\n",
+            &Some("application/json".to_string()),
+            &FormatIndicator::UnspecifiedBytes
+        )
+        .is_err());
     }
 
     // --------------- Internal Fns tests ---------------------
@@ -509,7 +558,11 @@ mod tests {
                 options: set_options
             })
             .unwrap(),
-            expected
+            SerializedPayload {
+                payload: expected.to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
         );
     }
 
@@ -522,7 +575,11 @@ mod tests {
                 options: SetOptions::default()
             })
             .unwrap(),
-            b"*3\r\n$3\r\nSET\r\n$0\r\n\r\n$0\r\n\r\n"
+            SerializedPayload {
+                payload: b"*3\r\n$3\r\nSET\r\n$0\r\n\r\n$0\r\n\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
         );
     }
 
@@ -533,7 +590,11 @@ mod tests {
                 key: b"testkey".to_vec()
             })
             .unwrap(),
-            b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n"
+            SerializedPayload {
+                payload: b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
         );
     }
 
@@ -544,7 +605,11 @@ mod tests {
                 key: b"testkey".to_vec()
             })
             .unwrap(),
-            b"*2\r\n$3\r\nDEL\r\n$7\r\ntestkey\r\n"
+            SerializedPayload {
+                payload: b"*2\r\n$3\r\nDEL\r\n$7\r\ntestkey\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
         );
     }
 
@@ -556,7 +621,11 @@ mod tests {
                 value: b"testvalue".to_vec()
             })
             .unwrap(),
-            b"*3\r\n$4\r\nVDEL\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n"
+            SerializedPayload {
+                payload: b"*3\r\n$4\r\nVDEL\r\n$7\r\ntestkey\r\n$9\r\ntestvalue\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
         );
     }
 }
