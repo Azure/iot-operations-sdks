@@ -193,7 +193,7 @@ where
             // In fact, this is necessary for the correct acking of publishes that were
             // previously dispatched to the receivers.
 
-            //log::debug("Duplicate PUB received for PUB already owned. Discarding");
+            log::debug!("Duplicate PUB received for PUB already owned. Discarding");
             return Ok(0);
         }
 
@@ -348,8 +348,9 @@ fn create_ack_token(plenary_ack: &Option<PlenaryAck>) -> Option<AckToken> {
 mod tests {
     use super::*;
     use crate::control_packet::QoS;
-    use crate::interface_mocks::MockClient;
+    use crate::interface_mocks::{MockClient, MockClientCall};
     use std::str::FromStr;
+    use std::time::Duration;
     use test_case::test_case;
     use tokio::sync::mpsc::error::TryRecvError;
 
@@ -397,7 +398,7 @@ mod tests {
     // NOTE: These tests don't (currently) cover ordered acking, or the resolution of ack tokens.
     // See the tests in managed_client::ordered_acker, and managed_client::plenary_ack for those tests.
 
-    // TODO: drop tests for receiver/manager
+    // TODO: drop tests for manager
     // TODO: duplicate publish tests
 
     #[test_case(QoS::AtMostOnce; "QoS 0")]
@@ -451,7 +452,7 @@ mod tests {
 
         // Dispatched publish is received by all unfiltered receivers
         let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
-        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        let publish = create_publish_qos(&topic_name, "payload", 1, qos);
         assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 3);
         assert_expected_recv_value(&unfiltered_rx1.try_recv().unwrap(), &publish);
         assert_expected_recv_value(&unfiltered_rx2.try_recv().unwrap(), &publish);
@@ -1392,5 +1393,256 @@ mod tests {
         // Drop the remaining receivers
         drop(unfiltered_rx1);
         drop(unfiltered_rx3);
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_single_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let mut unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatched publish is received by the unfiltered receiver
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 1);
+        let (r_publish, ack_token) = unfiltered_rx.try_recv().unwrap();
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Acknowledge the received publish
+        ack_token.unwrap().ack().await.unwrap();
+
+        // Ack has now occurred for the publish
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_multi_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create unfiltered receivers
+        let mut unfiltered_rx1 = manager.lock().unwrap().create_unfiltered_receiver();
+        let mut unfiltered_rx2 = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatched publish is received by the unfiltered receivers
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "payload", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 2);
+        let (r_publish1, ack_token1) = unfiltered_rx1.try_recv().unwrap();
+        let (r_publish2, ack_token2) = unfiltered_rx2.try_recv().unwrap();
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Acknowledge the received publish with one of the ack tokens
+        let jh1 = tokio::task::spawn(ack_token1.unwrap().ack());
+
+        // Ack has not yet occurred on the mock client, nor has the task on the token been returned
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 0);
+        assert!(!jh1.is_finished());
+
+        // Acknowledge the received publish with the other ack token
+        let jh2 = tokio::task::spawn(ack_token2.unwrap().ack());
+
+        // Ack has now occurred for the publish and both ack tasks returned
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        assert_eq!(r_publish1, publish);
+        assert_eq!(r_publish2, publish);
+        assert!(jh1.is_finished());
+        assert!(jh2.is_finished());
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_drop_before_ack_single_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let mut unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatched publish is received by the unfiltered receiver
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 1);
+        let (r_publish, ack_token) = unfiltered_rx.try_recv().unwrap();
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Drop the ack token without explicitly invoking ack
+        drop(ack_token);
+
+        // Ack has now occurred for the publish
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_drop_before_ack_multi_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let mut unfiltered_rx1 = manager.lock().unwrap().create_unfiltered_receiver();
+        let mut unfiltered_rx2 = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatched publish is received by the unfiltered receiver
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 2);
+        let (_, ack_token1) = unfiltered_rx1.try_recv().unwrap();
+        let (_, ack_token2) = unfiltered_rx2.try_recv().unwrap();
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Drop the first ack token without explicitly invoking ack
+        drop(ack_token1);
+
+        // Ack has not yet occurred for the publish
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Ack the second ack token
+        ack_token2.unwrap().ack().await.unwrap();
+
+        // Ack has now occurred for the publish
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn receiver_drop_before_ack_single_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch to the receiver, but do not actually receive on the receiver
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 1);
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Drop the receiver before receiving/acknowledging the publish
+        drop(unfiltered_rx);
+
+        // Ack has now occurred for the publish
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn receiver_drop_before_ack_multi_dispatch(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create an unfiltered receiver
+        let unfiltered_rx1 = manager.lock().unwrap().create_unfiltered_receiver();
+        let mut unfiltered_rx2 = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch to the receiver, but do not actually receive on the receiver
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 2);
+
+        // No ack has occurred for the publish yet
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Drop the receiver before receiving/acknowledging the publish
+        drop(unfiltered_rx1);
+
+        // Still, no ack has occurred for the publish yet
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Acknowledge the other ack token normally
+        let (_, ack_token) = unfiltered_rx2.try_recv().unwrap();
+        ack_token.unwrap().ack().await.unwrap();
+
+        // Ack has now occurred for the publish
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
     }
 }
