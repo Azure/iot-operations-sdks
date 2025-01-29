@@ -11,6 +11,7 @@ namespace TestEnvoys
     using Avro.IO;
     using Avro.Specific;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class AvroSerializer<T1, T2> : IPayloadSerializer
         where T1 : class, ISpecificRecord, new()
@@ -33,13 +34,26 @@ namespace TestEnvoys
             datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
 
-        public string ContentType => "application/avro";
+        public const string ContentType = "application/avro";
 
-        public int CharacterDataFormatIndicator => 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             try
             {
                 if (payload == null)
@@ -80,14 +94,14 @@ namespace TestEnvoys
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return null;
+                    return new(null, ContentType, PayloadFormatIndicator);
                 }
 
                 using (var stream = new MemoryStream())
@@ -104,7 +118,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return Array.Empty<byte>();
+                        return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
                     }
 
                     stream.Flush();
@@ -113,7 +127,7 @@ namespace TestEnvoys
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)
