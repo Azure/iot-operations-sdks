@@ -215,7 +215,7 @@ struct CommandExecutorCacheKey {
 
 #[derive(Clone)]
 struct CommandExecutorCacheEntry {
-    payload: Vec<u8>,
+    serialized_payload: SerializedPayload,
     properties: PublishProperties,
     expiration_time: Instant,
 }
@@ -985,7 +985,7 @@ where
             response_arguments.cached_entry_status
         {
             publish_properties = entry.properties;
-            payload = entry.payload;
+            serialized_payload = entry.serialized_payload;
         } else {
             'process_response: {
                 let Some(command_expiration_time) = response_arguments.command_expiration_time
@@ -1106,7 +1106,7 @@ where
 
             // Create publish properties
             publish_properties.payload_format_indicator =
-                Some(serialized_payload.format_indicator as u8);
+                Some(serialized_payload.format_indicator.clone() as u8);
             publish_properties.topic_alias = None;
             publish_properties.response_topic = None;
             publish_properties.correlation_data = response_arguments.correlation_data;
@@ -1143,7 +1143,7 @@ where
             if let Some(cached_key) = response_arguments.cached_key {
                 let cache_entry = CommandExecutorCacheEntry {
                     properties: publish_properties.clone(),
-                    payload: payload.clone(),
+                    serialized_payload: serialized_payload.clone(),
                     expiration_time: command_expiration_time,
                 };
                 cache.set(cached_key, Some(cache_entry));
@@ -1246,6 +1246,8 @@ async fn handle_ack(
     executor_cancellation_token: CancellationToken,
     pkid: u16,
 ) {
+    log::info!("ACKING IN 10 SECONDS");
+    tokio::time::sleep(Duration::from_secs(10));
     tokio::select! {
         () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
