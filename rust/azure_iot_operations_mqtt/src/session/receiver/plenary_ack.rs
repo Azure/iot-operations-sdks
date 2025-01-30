@@ -116,8 +116,12 @@ impl Drop for PlenaryAckMember {
             tokio::task::spawn({
                 let plenary_op_f = self.plenary_op_f.clone();
                 async move {
-                    //plenary_op_f.await.unwrap();      TODO: add unwrap back
-                    let _ = plenary_op_f.await;
+                    match plenary_op_f.await {
+                        Ok(_) => {}
+                        Err(e) => {
+                            log::error!("Plenary member ack on drop reported failure: {:?}", e)
+                        }
+                    }
                 }
             });
         }

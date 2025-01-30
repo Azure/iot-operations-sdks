@@ -17,7 +17,7 @@ use crate::control_packet::{Publish, QoS};
 use crate::error::AckError;
 use crate::interface::{CompletionToken, MqttAck};
 use crate::session::receiver::{
-    ordered_acker::{OrderedAcker, PkidAckQueue},
+    ordered_acker::{OrderedAcker, PkidAckQueue, PkidError},
     plenary_ack::{PlenaryAck, PlenaryAckMember},
 };
 use crate::topic::{TopicFilter, TopicName, TopicParseError};
@@ -54,6 +54,8 @@ pub enum DispatchError {
     ClosedReceiver(#[from] SendError<(Publish, Option<AckToken>)>),
     #[error("could not get topic from publish: {0}")]
     InvalidPublishTopic(#[from] InvalidPublish),
+    #[error("packet ID for publish invalid: {0}")]
+    InvalidPublishPkid(#[from] PkidError),
 }
 
 // NOTE: if/when Publish is reimplemented, this logic should probably move there.
@@ -203,13 +205,8 @@ where
             if publish.qos == QoS::AtMostOnce {
                 None
             } else {
-                // TODO: handle this error. Should never happen in practice, but should be handled
-                // for separation of concern.
-                self.pkid_ack_queue
-                    .lock()
-                    .unwrap()
-                    .insert(publish.pkid)
-                    .unwrap();
+                // Insert the PKID into the PKID queue for ordered acking
+                self.pkid_ack_queue.lock().unwrap().insert(publish.pkid)?;
                 // Create an acking future for use with a PlenaryAck
                 let ack_f = {
                     let acker = self.acker.clone();
@@ -293,8 +290,6 @@ where
                 }
             }
         }
-
-        // TODO: is the error case really necessary here?
 
         Ok(num_dispatches)
     }
